@@ -1,6 +1,3 @@
-@php
-	$provinces = Session::get('provinces');
-@endphp
 <!-- ============================================================== -->
 <!-- Topbar header - style you can find in pages.scss -->
 <!-- ============================================================== -->

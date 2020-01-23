@@ -9,7 +9,7 @@
 	<meta name="author" content="Talek team">
 	<!-- Favicon icon -->
 	<link rel="icon" type="image/png" sizes="16x16" href="{{ URL::asset('assets/images/favicon.png') }}">
-	<title>BOE - Flu Right Size</title>
+	<title>2019-nCoV</title>
 	@yield('custom-style')
 	@include('layouts.main-style')
 	@yield('top-script')
