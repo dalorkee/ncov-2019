@@ -24,8 +24,6 @@ class ContactController extends MasterController
 		$contact_id=$req->contact_id;
 		$contact_id_day=$req->contact_id_day;
     return view('form.contact.contactfollowtable',compact(
-      'listprovince',
-      'listcountry',
 			'inv_id',
 			'contact_id_day',
 			'contact_id'
@@ -223,16 +221,49 @@ if ($data_hsc){
 	echo $url_rediect;
 }
 
+public function fetch(Request $request){
+$id=$request->get('select');
+$result=array();
+$query=DB::table('ref_province')
+->join('ref_district','ref_province.province_id','=','ref_district.province_id')
+->select('ref_district.district_name','ref_district.district_id','ref_district.district_id')
+->where('ref_province.province_id',$id)
+->get();
+$output='<option value="%">   อำเภอ   </option>';
+	foreach ($query as $row) {
+		$output.='<option value="'.$row->district_id.'">'.$row->district_name.'</option>';
+	}
+	echo $output;
+}
+public function fetchD(Request $request){
+$idD = $request->select;
+// dd($idD);
+$resultD=array();
+$queryD=DB::table('ref_sub_district')
+->select('ref_sub_district.sub_district_name','ref_sub_district.sub_district_id','ref_sub_district.sub_district_id')
+->where(DB::raw('left(ref_sub_district.sub_district_id, 4)'),'=',$idD)
+->get();
+
+$outputD='<option value="%">   ตำบล   </option>';
+foreach ($queryD as $rowD) {
+	$outputD.='<option value="'.$rowD->sub_district_id.'">'.$rowD->sub_district_name.'</option>';
+}
+echo $outputD;
+
+}
+
+
+
   public function province(){
-    $listprovince=DB::table('c_province')
-    ->orderBy('prov_name', 'ASC')
+    $listprovince=DB::table('ref_province')
+    ->orderBy('province_name', 'ASC')
     ->get();
      // return view('AEFI.Apps.form1')->with('list',$list);
      return $listprovince;
   }
   public function country(){
-    $listcountry=DB::table('country')
-    ->orderBy('national', 'ASC')
+    $listcountry=DB::table('ref_nationality')
+    ->orderBy('name_en', 'ASC')
     ->get();
      // return view('AEFI.Apps.form1')->with('list',$list);
      return $listcountry;

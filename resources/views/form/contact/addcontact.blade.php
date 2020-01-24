@@ -71,19 +71,27 @@
             <div class="col-sm-3">
             <select type="text" name="national_contact" class="form-control" placeholder="สัญชาติ">
             @foreach ($listcountry as $row)
-            <option value="{{$row->id}}">{{$row->national}}</option>
+            <option value="{{$row->name_en}}">{{$row->name_en}}</option>
             @endforeach
             </select>
             </div>
             <div class="col-sm-3">
-            <input type="text" name="province" id="province" class="form-control" placeholder="จังหวัด">
+            <select type="text" name="province" id="province" class="form-control province" placeholder="จังหวัด">
+						@foreach ($listprovince as $row)
+						<option value="{{$row->province_id}}">{{$row->province_name}}</option>
+						@endforeach
+						</select>
             </div>
             <div class="col-sm-3">
-            <input type="text" name="district" id="district" class="form-control" placeholder="อำเภอ">
-            </div>
+						<select name="district" id="district" class="form-control district" placeholder="อำเภอ">
+							<option value="">เลือกอำเภอ/เขต</option>
+						</select>
+						</div>
             <div class="col-sm-3">
-            <input type="text" name="sub_district" id="sub_district" class="form-control" placeholder="ตำบล">
-            </div>
+						<select name="sub_district" id="subdistrict" class="form-control subdistrict" placeholder="ตำบล">
+							<option value="">เลือกตำบล</option>
+						</select>
+						</div>
             </div>
             <div class="form-group row">
             <div class="col-sm-4">
@@ -103,11 +111,10 @@
                   <option value="">- เลือก -</option>
                   <option value="1">เสี่ยงสูง</option>
                   <option value="2">เสี่ยงต่ำ</option>
-                  <option value="3">เสี่ยงต่ำมาก</option>
             </select>
             </div>
             <div class="col-sm-3">
-            <input type="text" class="form-control" id="" placeholder="วันที่สัมผัส">
+            <input type="text" class="form-control" id="datepicker" placeholder="วันที่สัมผัส">
             </div>
             <div class="col-sm-3">
             <input type="text" class="form-control" placeholder="ให้ตามถึงวันที่">
@@ -144,7 +151,15 @@
             </select>
             </div>
             </div>
-            <div class="form-group row">
+						<div class="form-group row">
+						<div class="col-sm-3">
+						<button type="button" id="close" class="btn btn-xs btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
+						</div>
+						<div class="col-sm-3">
+						<button type="button" id="open" class="btn btn-xs btn-success">มีตัวอย่างและสิ่งส่งตรวจ</button>
+						</div>
+						</div>
+            <div class="form-group row" id="lab">
             <div class="col-sm-12">
               <table class="table" id="maintable">
                   <thead>
@@ -252,4 +267,63 @@
 		});
 	</script>
 
+	<script type="text/javascript">
+		$('.province').change(function() {
+			if ($(this).val() != '') {
+				var select = $(this).val();
+				var _token = $('input[name="_token"]').val();
+				$.ajax({
+					url: "{{route('dropdown.fetch')}}",
+					method: "POST",
+					data: {
+						select: select,
+						_token: _token
+					},
+					success: function(result) {
+						$('.district').html(result);
+					}
+				})
+			}
+		});
+	</script>
+	<script type="text/javascript">
+		$('.district').change(function() {
+			var selectD = $(this).val();
+			if ($(this).val() != '') {
+				console.log(selectD);
+				var _token = $('input[name="_token"]').val();
+				$.ajax({
+					url: "{{route('dropdown.fetchD')}}",
+					method: "POST",
+					data: {
+						select: selectD,
+						_token: _token
+					},
+					success: function(result) {
+						$('.subdistrict').html(result);
+					}
+				})
+			}
+		});
+	</script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$( function() {
+	$( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+} );
+</script>
+<script>
+$(function(){
+	$('#lab').hide();
+ $('#close').on('click',function(){
+   $('#lab').hide();
+ });
+ $('#open').on('click',function(){
+   $('#lab').show();
+ });
+});
+</script>
 @endsection
