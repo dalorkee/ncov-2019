@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\TitleName;
 use App\Provinces;
 
-class InvestFormController extends Controller
+class ConfirmFormController extends Controller
 {
 
 	public function index()
@@ -18,7 +18,7 @@ class InvestFormController extends Controller
 	{
 		$titleName = TitleName::all()->toArray();
 		$provinces = Provinces::all()->toArray();
-		return view('form.invest',
+		return view('form.confirmCase',
 			[
 				'titleName'=>$titleName,
 				'provinces'=>$provinces

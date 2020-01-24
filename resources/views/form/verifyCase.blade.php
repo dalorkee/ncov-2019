@@ -123,22 +123,16 @@
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
 											<label for="occupation">อาชีพ</label>
-											<select name="occupationInput" class="form-control selectpicker show-tick" id="select_occupation">
-												<option value="0">-- โปรดเลือก --</option>
-											</select>
+											<input type="text" name="occupationInput" value="{{ old('occupationInput') }}" class="form-control" placeholder="อาชีพ">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+											<div class="alert alert-danger" role="alert">
+												<h6 class="alert-heading">คำแนะนำ: "อาชีพ" ระบุลักษณะงานที่ทำและหากเป็นเจ้าหน้าที่ทางการแพทย์หรือสาธารณสุขต้องระบุให้ชัดเจนว่าเป็นบุคลากรทางการแพทย์</h6>
+											</div>
 										</div>
 									</div>
 									<div class="form-row">
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
-											<div class="alert alert-info" role="alert">
-												<h5 class="alert-heading">คำแนะนำ !</h5>
-												<hr>
-												<p class="mb-0">
-													ระบุลักษณะงานที่ทำ เช่น นักเรียน, นักบวช, ทหาร, นักโทษ เป็นต้น
-													และหากเป็นเจ้าหน้าที่ทางการแพทย์หรือสาธารณสุข ต้องระบุให้ชัดเจนว่าลักษณะการทำงานที่ต้องสัมผัสผู้ป่วยอย่างไร
-												</p>
-											</div>
-										</div>
+
 									</div>
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
@@ -305,47 +299,9 @@
 								</div><!-- card body#1 -->
 							</div><!-- card1 -->
 						</div><!-- bd-collout1 -->
-						<div class="bd-callout bd-callout-danger" style="margin-top:0;position:relative">
-							<div class="card">
-								<div class="card-body">
-									<h1 class="text-danger">2. ประวัติเสี่ยงต่อการติดเชื้อ</h1>
-									<div class="card">
-										<div class="card-body">
-											<div class="form-row">
-												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
-													<div class="form-group">
-														<label for="risk">2.1 ในช่วง 14 วันก่อนป่วย ท่านได้มีการสัมผัสสัตว์ปีก (ฟาร์ม/เลี้ยง/ในธรรมชาติ) เช่น จับ ชำแหละ ฝังกลบ หรือรับประทานสุกๆ ดิบๆ เป็นต้น</label>
-														<div>
-															<div class="custom-control custom-checkbox custom-control-inline">
-																<input type="checkbox" name="informantInput" value="patient" class="custom-control-input pt-type" id="informantChk">
-																<label for="informantChk" class="custom-control-label normal-label">ไม่มี</label>
-															</div>
-															<div class="custom-control custom-checkbox custom-control-inline">
-																<input type="checkbox" name="informantInput" value="relative" class="custom-control-input pt-type" id="relativeChk">
-																<label for="relativeChk" class="custom-control-label normal-label">มี ระบุลักษณะการสัมผัส</label>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
-													<div class="form-group">
-														<label for="relativeship">ระบุความสัมพันธ์</label>
-														<input type="text" name="relativeshipInput" value="{{ old('relativeshipInput') }}" class="form-control" placeholder="ความสัมพันธ์">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div><!-- card2 -->
-							</div><!-- bd-collout2 -->
+						<div class="bd-callout bd-callout-danger" style="margin:0;">
+
 						</div><!-- bd-collout2 -->
-
-
-
-
-
-
-
 
 
 

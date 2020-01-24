@@ -18,7 +18,8 @@ Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 
 /* Form */
-Route::get('/investForm', 'InvestFormController@create')->name('investForm');
+Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
+Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
 
 /* Auth */
 Route::group(['middleware' => ['auth']], function() {
