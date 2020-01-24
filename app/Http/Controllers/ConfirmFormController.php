@@ -18,7 +18,7 @@ class ConfirmFormController extends Controller
 	{
 		$titleName = TitleName::all()->toArray();
 		$provinces = Provinces::all()->toArray();
-		return view('form.confirmCase',
+		return view('form.confirm.index',
 			[
 				'titleName'=>$titleName,
 				'provinces'=>$provinces
