@@ -21,6 +21,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
 Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
 
+/* Invest list */
+Route::resource('/invest/list', 'InvestListController');
+
 /* Auth */
 Route::group(['middleware' => ['auth']], function() {
 	Route::resource('roles', 'RoleController');
