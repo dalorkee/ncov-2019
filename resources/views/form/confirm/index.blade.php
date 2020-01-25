@@ -46,6 +46,11 @@
 						<div class="bd-callout bd-callout-warning" style="margin-top:0;">
 							@include('form.confirm.section3')
 						</div><!-- bd-collout3 -->
+						<div class="border-top">
+							<div class="card-body">
+								<button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
+							</div>
+						</div>
 					</form>
 				</div>
 			</div>
