@@ -17,10 +17,6 @@ class HomeController extends MasterController
 	*/
 	public function __construct()
 	{
-		$this->middleware('auth');
-		$this->middleware(['role:admin|hospital|lab']);
-		//$this->middleware(['permission:manageuser']);
-		$this->middleware('page_session');
 
 	}
 
@@ -31,14 +27,7 @@ class HomeController extends MasterController
 	*/
 	public function index(Request $request)
 	{
-		/* router by permission */
-		$roleArr = auth()->user()->roles->pluck('name');
-		$userRole = $roleArr[0];
-		if ($userRole == 'admin') {
-			return redirect()->route('dashboard.index');
-		} else {
-			return redirect()->route('logout');
-		}
+		return redirect()->route('investList.index');
 	}
 
 }

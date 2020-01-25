@@ -22,7 +22,7 @@ Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
 Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
 
 /* Invest list */
-Route::resource('/invest/list', 'InvestListController');
+Route::resource('investList', 'InvestListController');
 
 /* Auth */
 Route::group(['middleware' => ['auth']], function() {

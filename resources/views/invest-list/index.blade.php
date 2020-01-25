@@ -113,24 +113,8 @@ input.valid, textarea.valid{
 			</div>
 			<form name="search_frm" class="mx-4" id="search_frm">
 				<div class="form-group row pt-4">
-					<div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 my-1">
-						<select name="province" class="form-control selectpicker show-tick" id="select_province" data-live-search="true">
-							<option value="0">-- จังหวัด --</option>
-
-						</select>
-					</div>
-					<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 my-1">
-						<select name="hospcode" class="form-control selectpicker show-tick" id="select_hospital" disabled>
-							<option value="0">-- โรงพยาบาล --</option>
-						</select>
-					</div>
-					<div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 my-1">
-						<select name="lab_status" class="form-control my-1 select-status" id="select_status" multiple="multiple" style="width:100%;">
-							<option value="new">New</option>
-							<option value="hospital">Hospital</option>
-							<option value="lab">Lab</option>
-							<option value="completed">Completed</option>
-						</select>
+					<div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 my-1">
+						<input type="text" name="listSearch" class="form-control" />
 					</div>
 					<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 mt-1">
 						<!-- <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> ค้นหา</button> -->
