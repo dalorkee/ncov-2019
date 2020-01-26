@@ -18,9 +18,18 @@ Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 
 /* Form */
+
+Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
+Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
+Route::get('/WalkinCaseForm', array(
+						'as'   => 'walkincase.create',
+						'uses' => 'WalkInCaseController@create'
+					));
+
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
 //Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
+
 
 /* Invest list */
 Route::resource('investList', 'InvestListController');
