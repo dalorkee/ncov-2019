@@ -20,6 +20,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 /* Form */
 Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
 Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
+Route::get('/WalkinCaseForm', array(
+						'as'   => 'walkincase.create',
+						'uses' => 'WalkInCaseController@create'
+					));
 
 /* Invest list */
 Route::resource('investList', 'InvestListController');
