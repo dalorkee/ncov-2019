@@ -5,13 +5,13 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="doe ddc moph">
+	<meta name="description" content="nCoV-2019">
 	<meta name="author" content="talek team">
 	<!-- CSRF Token -->
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<!-- Favicon icon -->
 	<link rel="icon" type="image/png" sizes="16x16" href="{{ URL::asset('assets/images/small-moph-logo.png') }}">
-	<title>2019-nCoV</title>
+	<title>nCoV-2019</title>
 	<!-- Custom CSS -->
 	@yield('custom-style')
 	<style>

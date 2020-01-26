@@ -5,10 +5,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Flu Right Size">
+	<meta name="description" content="nCoV-2019">
 	<meta name="author" content="Talek team">
 	<!-- Favicon icon -->
-	<link rel="icon" type="image/png" sizes="16x16" href="{{ URL::asset('assets/images/favicon.png') }}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{{ URL::asset('assets/images/small-moph-logo.png') }}">
 	<title>2019-nCoV</title>
 	@yield('custom-style')
 	@include('layouts.main-style')
