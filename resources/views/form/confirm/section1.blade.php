@@ -3,17 +3,17 @@
 		<h1 class="text-info">1. ข้อมูลทั่วไปของผู้ป่วย</h1>
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
-				<div class="form-group {{ $errors->has('titleNameInput') ? 'has-error' : '' }}">
+				<div class="form-group">
 					<label for="titleName">คำนำหน้าชื่อ</label>
+					<input type="hidden" name="pod_id" value="{{ $invest_pt[0]['poe_id'] }}">
 					<input type="text" name="titleName" value="{{ $invest_pt[0]['title_name'] }}" class="form-control" id="title_name" placeholder="คำนำหน้าชื่อ" required>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-				<div class="form-group {{ $errors->has('firstNameInput') ? 'has-error' : '' }}">
+				<div class="form-group">
 					<label for="firstName">ชื่อจริง</label>
 					<input type="text" name="firstNameInput" value="{{ $invest_pt[0]['first_name'] }}" class="form-control" id="first_name_input" placeholder="ชื่อ" required>
 				</div>
-				<span class="text-danger">{{ $errors->first('firstNameInput') }}</span>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
@@ -22,11 +22,10 @@
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-				<div class="form-group {{ $errors->has('lastNameInput') ? 'has-error' : '' }}">
+				<div class="form-group">
 					<label for="lastName">นามสกุล</label>
 					<input type="text" name="lastNameInput" value="{{ $invest_pt[0]['last_name'] }}" class="form-control" id="last_name_input" placeholder="นามสกุล" required>
 				</div>
-				<span class="text-danger">{{ $errors->first('lastNameInput') }}</span>
 			</div>
 		</div>
 		<div class="form-row">
@@ -146,7 +145,6 @@
 						<option value="">-- โปรดเลือก --</option>
 					</select>
 				</div>
-				<span class="text-danger">{{ $errors->first('districtInput') }}</span>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 				<div class="form-group">
@@ -155,7 +153,6 @@
 						<option value="">-- โปรดเลือก --</option>
 					</select>
 				</div>
-				<span class="text-danger">{{ $errors->first('subDistrictInput') }}</span>
 			</div>
 		</div>
 		<div class="form-row">
@@ -236,11 +233,11 @@
 					<label for="informant">ผู้ให้ข้อมูล</label>
 					<div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="informantInput" value="ผู้ป่วย" class="custom-control-input pt-type" id="informantChk">
+							<input type="checkbox" name="informantInput" value="ผู้ป่วย" class="custom-control-input" id="informantChk">
 							<label for="informantChk" class="custom-control-label normal-label">ผู้ป่วย</label>
 						</div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="informantInput" value="ญาติ" class="custom-control-input pt-type" id="relativeChk">
+							<input type="checkbox" name="informantInput" value="ญาติ" class="custom-control-input" id="relativeChk">
 							<label for="relativeChk" class="custom-control-label normal-label">ญาติ</label>
 						</div>
 					</div>

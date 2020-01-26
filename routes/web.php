@@ -31,12 +31,16 @@ Route::post('/WalkinCaseForm', array(
 					));
 
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
+Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
 //Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
 
 
 /* Invest list */
 Route::resource('investList', 'InvestListController');
 
+/* fetch district, fetch sub-district */
+Route::post('province/district', 'ConfirmFormController@districtFetch')->name('districtFetch');
+Route::post('province/district/sub-district', 'ConfirmFormController@subDistrictFetch')->name('subDistrictFetch');
 
 /* Auth */
 Route::group(['middleware' => ['auth']], function() {
