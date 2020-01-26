@@ -14,7 +14,7 @@ class InvestListController extends Controller
 	*/
 	public function index()
 	{
-		$invest = InvestList::all()->toArray();
+		$invest = InvestList::whereNotNull('sat_id')->get()->toArray();
 		return view('invest-list.index',
 				[
 					'invest'=>$invest

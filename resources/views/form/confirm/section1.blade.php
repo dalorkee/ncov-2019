@@ -5,7 +5,7 @@
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
 				<div class="form-group">
 					<label for="titleName">คำนำหน้าชื่อ</label>
-					<input type="hidden" name="pod_id" value="{{ $invest_pt[0]['poe_id'] }}">
+					<input type="hidden" name="id" value="{{ $invest_pt[0]['id'] }}">
 					<input type="text" name="titleName" value="{{ $invest_pt[0]['title_name'] }}" class="form-control" id="title_name" placeholder="คำนำหน้าชื่อ" required>
 				</div>
 			</div>
@@ -223,7 +223,7 @@
 				<input type="text" name="telePhoneInput" value="{{ old('telePhoneInput') }}" class="form-control" placeholder="โทรศัพท์บ้าน">
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
-				<label for="mobile">โทรศัพท์ที่ทำงาน</label>
+				<label for="mobile">โทรศัพท์มือถือ</label>
 				<input type="text" name="mobilePhoneInput" value="{{ old('mobilePhoneInput') }}" class="form-control" placeholder="โทรศัพท์มือถือ">
 			</div>
 		</div>
@@ -233,12 +233,12 @@
 					<label for="informant">ผู้ให้ข้อมูล</label>
 					<div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="informantInput" value="ผู้ป่วย" class="custom-control-input" id="informantChk">
-							<label for="informantChk" class="custom-control-label normal-label">ผู้ป่วย</label>
+							<input type="checkbox" name="informantPatientInput" value="ผู้ป่วย" class="custom-control-input" id="informantPatientInput">
+							<label for="informantPatientInput" class="custom-control-label normal-label">ผู้ป่วย</label>
 						</div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="informantInput" value="ญาติ" class="custom-control-input" id="relativeChk">
-							<label for="relativeChk" class="custom-control-label normal-label">ญาติ</label>
+							<input type="checkbox" name="informantRelativeInput" value="ญาติ" class="custom-control-input" id="informantRelativeInput">
+							<label for="informantRelativeInput" class="custom-control-label normal-label">ญาติ</label>
 						</div>
 					</div>
 				</div>
@@ -254,8 +254,8 @@
 					<label for="informant">&nbsp;</label>
 					<div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="informantInput" value="other" class="custom-control-input pt-type" id="othInformantChk">
-							<label for="othInformantChk" class="custom-control-label normal-label">อื่นๆ ระบุ</label>
+							<input type="checkbox" name="informantOthChk" value="other" class="custom-control-input pt-type" id="informantOthChk">
+							<label for="informantOthChk" class="custom-control-label normal-label">อื่นๆ ระบุ</label>
 						</div>
 					</div>
 				</div>

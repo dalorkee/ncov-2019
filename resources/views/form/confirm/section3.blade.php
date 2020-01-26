@@ -471,19 +471,21 @@
 										<thead class="bg-custom-1 text-light">
 											<tr>
 												<th scope="col">อาการ</th>
-												<th scope="col">0</th>
+												<th scope="col">#</th>
+												<!--
 												<th scope="col">1</th>
 												<th scope="col">2</th>
 												<th scope="col">3</th>
 												<th scope="col">4</th>
 												<th scope="col">5</th>
 												<th scope="col">6</th>
+												-->
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
 												<td>ไข้ (ระบุ Temp C&#176;)</td>
-												@for ($i=0; $i<=6; $i++)
+												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
 														<input type="checkbox" name="risk3_6_{{$i}}FeverChk" value="y" class="custom-control-input pt-type" id="risk3_6_{{$i}}FeverChkYes">
@@ -498,7 +500,7 @@
 											</tr>
 											<tr>
 												<td>ไอ</td>
-												@for ($i=0; $i<=6; $i++)
+												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
 														<input type="checkbox" name="risk3_6_{{$i}}CoughChk" value="y" class="custom-control-input pt-type" id="risk3_6_{{$i}}CoughChkYes">
@@ -513,7 +515,7 @@
 											</tr>
 											<tr>
 												<td>เจ็บคอ</td>
-												@for ($i=0; $i<=6; $i++)
+												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
 														<input type="checkbox" name="risk3_6_{{$i}}SoreChk" value="y" class="custom-control-input pt-type" id="risk3_6_{{$i}}SoreChkYes">
@@ -528,7 +530,7 @@
 											</tr>
 											<tr>
 												<td>มีน้ำมูก</td>
-												@for ($i=0; $i<=6; $i++)
+												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
 														<input type="checkbox" name="risk3_6_{{$i}}SnotChk" value="y" class="custom-control-input pt-type" id="risk3_6_{{$i}}SnotChkYes">
@@ -543,7 +545,7 @@
 											</tr>
 											<tr>
 												<td>มีเสมหะ</td>
-												@for ($i=0; $i<=6; $i++)
+												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
 														<input type="checkbox" name="risk3_6_{{$i}}SputumChk" value="y" class="custom-control-input pt-type" id="risk3_6_{{$i}}SputumChkYes">
@@ -558,7 +560,7 @@
 											</tr>
 											<tr>
 												<td>หายใจลำบาก</td>
-												@for ($i=0; $i<=6; $i++)
+												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
 														<input type="checkbox" name="risk3_6_{{$i}}BreatheChk" value="y" class="custom-control-input pt-type" id="risk3_6_{{$i}}BreatheChkYes">
@@ -573,7 +575,7 @@
 											</tr>
 											<tr>
 												<td>หอบเหนื่อย</td>
-												@for ($i=0; $i<=6; $i++)
+												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
 														<input type="checkbox" name="risk3_6_{{$i}}GaspChk" value="y" class="custom-control-input pt-type" id="risk3_6_{{$i}}GaspChkYes">
@@ -588,7 +590,7 @@
 											</tr>
 											<tr>
 												<td>ปวดกล้ามเนื้อ</td>
-												@for ($i=0; $i<=6; $i++)
+												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
 														<input type="checkbox" name="risk3_6_{{$i}}MuscleChk" value="y" class="custom-control-input pt-type" id="risk3_6_{{$i}}MuscleChkYes">
@@ -603,7 +605,7 @@
 											</tr>
 											<tr>
 												<td>ปวดศรีษะ</td>
-												@for ($i=0; $i<=6; $i++)
+												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
 														<input type="checkbox" name="risk3_6_{{$i}}HeadacheChk" value="y" class="custom-control-input pt-type" id="risk3_6_{{$i}}HeadacheChkYes">
@@ -618,7 +620,7 @@
 											</tr>
 											<tr>
 												<td>ถ่ายเหลว</td>
-												@for ($i=0; $i<=6; $i++)
+												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
 														<input type="checkbox" name="risk3_6_{{$i}}LiquidChk" value="y" class="custom-control-input pt-type" id="risk3_6_{{$i}}LiquidChkYes">

@@ -59,7 +59,7 @@
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
 					<div class="form-group">
 						<label for="contact">ชนิดสัตว์</label>
-						<input type="text" name="risk2_2TypeInput" class="form-control" placeholder="ชนิดสัตว์">
+						<input type="text" name="risk2_2AnimalInput" class="form-control" placeholder="ชนิดสัตว์">
 					</div>
 				</div>
 			</div>
@@ -103,7 +103,7 @@
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 					<div class="form-group">
 						<label for="contact">ชื่อตลาด</label>
-						<input type="text" name="risk2_4MaketInput" class="form-control" placeholder="ชื่อตลาด">
+						<input type="text" name="risk2_4MarketInput" class="form-control" placeholder="ชื่อตลาด">
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
@@ -134,7 +134,7 @@
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 					<div class="form-group">
 						<label for="contact">ชื่อตลาด</label>
-						<input type="text" name="risk2_5MaketInput" class="form-control" placeholder="ชื่อตลาด">
+						<input type="text" name="risk2_5MarketInput" class="form-control" placeholder="ชื่อตลาด">
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
@@ -172,20 +172,20 @@
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 												<div class="form-group">
 													<label for="contact">เมือง/จังหวัด</label>
-													<input type="text" name="risk2_6DistrictInput" class="form-control" placeholder="เมือง/จังหวัด">
+													<input type="text" name="risk2_6ProvinceInput" class="form-control" placeholder="เมือง/จังหวัด">
 												</div>
 											</div>
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 												<div class="form-group">
 													<label for="contact">อำเภอ</label>
-													<input type="text" name="risk2_6SubDistrictInput" class="form-control" placeholder="อำเภอ">
+													<input type="text" name="risk2_6DistrictInput" class="form-control" placeholder="อำเภอ">
 												</div>
 											</div>
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 												<div class="form-group">
 													<label for="date">วันที่เดินทางไปถึง</label>
-													<div class="input-group date" data-provide="datepicker" id="risk2_6TravelDate">
-														<input  type="text" name="risk2_6TravelDate" class="form-control">
+													<div class="input-group date" data-provide="datepicker" id="risk2_6DateArrive">
+														<input  type="text" name="risk2_6DateArrive" class="form-control">
 														<div class="input-group-append">
 															<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
 														</div>
@@ -273,7 +273,7 @@
 						</div>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6StudyChk" value="n" class="custom-control-input" id="risk2_6Study">
+								<input type="checkbox" name="risk2_6StudyChk" value="n" class="custom-control-input" id="risk2_6StudyChk">
 								<label for="risk2_6StudyChk" class="custom-control-label normal-label">ไปศึกษา</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
@@ -332,64 +332,127 @@
 								<ul class="list-style-none">
 									<li class="card-body">
 										<div class="row">
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="">กิจกรรมที่ทำ</label>
 													<input type="text" name="risk2_6Activity1Input" class="form-control" placeholder="กิจกรรมที่ทำ">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="">สถานที่</label>
 													<input type="text" name="risk2_6Activity1PlaceInput" class="form-control" placeholder="สถานที่">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+												<div class="form-group">
+													<label for="date">วันที่</label>
+													<div class="input-group date" data-provide="datepicker" id="risk2_6Activity1DateInput">
+														<input  type="text" name="risk2_6Activity1DateInput" class="form-control">
+														<div class="input-group-append">
+															<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="">กิจกรรมที่ทำ</label>
 													<input type="text" name="risk2_6Activity2Input" class="form-control" placeholder="กิจกรรมที่ทำ">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="">สถานที่</label>
 													<input type="text" name="risk2_6Activity2PlaceInput" class="form-control" placeholder="สถานที่">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+												<div class="form-group">
+													<label for="date">วันที่</label>
+													<div class="input-group date" data-provide="datepicker" id="risk2_6Activity2DateInput">
+														<input  type="text" name="risk2_6Activity2DateInput" class="form-control">
+														<div class="input-group-append">
+															<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="">กิจกรรมที่ทำ</label>
 													<input type="text" name="risk2_6Activity3Input" class="form-control" placeholder="กิจกรรมที่ทำ">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="">สถานที่</label>
 													<input type="text" name="risk2_6Activity3PlaceInput" class="form-control" placeholder="สถานที่">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+												<div class="form-group">
+													<label for="date">วันที่</label>
+													<div class="input-group date" data-provide="datepicker" id="risk2_6Activity3DateInput">
+														<input  type="text" name="risk2_6Activity3DateInput" class="form-control">
+														<div class="input-group-append">
+															<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="">กิจกรรมที่ทำ</label>
 													<input type="text" name="risk2_6Activity4Input" class="form-control" placeholder="กิจกรรมที่ทำ">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="">สถานที่</label>
 													<input type="text" name="risk2_6Activity4PlaceInput" class="form-control" placeholder="สถานที่">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+												<div class="form-group">
+													<label for="date">วันที่</label>
+													<div class="input-group date" data-provide="datepicker" id="risk2_6Activity4DateInput">
+														<input  type="text" name="risk2_6Activity4DateInput" class="form-control">
+														<div class="input-group-append">
+															<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="">กิจกรรมที่ทำ</label>
 													<input type="text" name="risk2_6Activity5Input" class="form-control" placeholder="กิจกรรมที่ทำ">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="">สถานที่</label>
 													<input type="text" name="risk2_6Activity5PlaceInput" class="form-control" placeholder="สถานที่">
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+												<div class="form-group">
+													<label for="date">วันที่</label>
+													<div class="input-group date" data-provide="datepicker" id="risk2_6Activity5DateInput">
+														<input  type="text" name="risk2_6Activity5DateInput" class="form-control">
+														<div class="input-group-append">
+															<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -399,7 +462,7 @@
 						</div>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6MeetingChk" value="n" class="custom-control-input" id="risk2_6MeetingChk">
+								<input type="checkbox" name="risk2_6MeetingChk" value="y" class="custom-control-input" id="risk2_6MeetingChk">
 								<label for="risk2_6MeetingChk" class="custom-control-label normal-label">อื่นๆ</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
@@ -467,8 +530,8 @@
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 												<div class="form-group">
 													<label for="date">ระบุวันที่เข้าโรงพยาบาล</label>
-													<div class="input-group date" data-provide="datepicker" id="risk2_6HistoryDate">
-														<input  type="text" name="risk2_6HistoryDate" class="form-control">
+													<div class="input-group date" data-provide="datepicker" id="risk2_6HistoryHospitalDate">
+														<input  type="text" name="risk2_6HistoryHospitalDate" class="form-control">
 														<div class="input-group-append">
 															<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
 														</div>
@@ -497,12 +560,12 @@
 						<label for="risk">2.7 ในช่วง 14 วันก่อนป่วย ท่านให้การดูแลหรือสัมผัสใกล้ชิดกับผู้ป่วยอาการคล้ายไข้หวัดใหญ่/ปอดอักเสบหรือไม่</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6Chk" value="n" class="custom-control-input pt-type" id="risk2_6ChkNo">
-								<label for="risk2_6ChkNo" class="custom-control-label normal-label">ไม่มี</label>
+								<input type="checkbox" name="risk2_7Chk" value="n" class="custom-control-input pt-type" id="risk2_7ChkNo">
+								<label for="risk2_7ChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6Chk" value="y" class="custom-control-input pt-type" id="risk2_6ChkYes">
-								<label for="risk2_6ChkYes" class="custom-control-label normal-label">มี ระบุรายละเอียดดังต่อไปนี้</label>
+								<input type="checkbox" name="risk2_7Chk" value="y" class="custom-control-input pt-type" id="risk2_7ChkYes">
+								<label for="risk2_7ChkYes" class="custom-control-label normal-label">มี ระบุรายละเอียดดังต่อไปนี้</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
 								<ul class="list-style-none">
@@ -532,11 +595,11 @@
 						<label for="">2.8 เป็นผู้ป่วยปอดอักเสบรุนแรงหรือเสียชีวิตที่หาสาเหตุไม่ได้</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6Chk" value="n" class="custom-control-input pt-type" id="risk2_8ChkNo">
+								<input type="checkbox" name="risk2_8Chk" value="n" class="custom-control-input pt-type" id="risk2_8ChkNo">
 								<label for="risk2_8ChkNo" class="custom-control-label normal-label">ไม่ใช่</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6Chk" value="y" class="custom-control-input pt-type" id="risk2_8ChkYes">
+								<input type="checkbox" name="risk2_8Chk" value="y" class="custom-control-input pt-type" id="risk2_8ChkYes">
 								<label for="risk2_8ChkYes" class="custom-control-label normal-label">ใช่</label>
 							</div>
 						</div>
@@ -561,7 +624,7 @@
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 												<div class="form-group">
 													<label for="">ระบุ</label>
-													<input type="text" name="risk2_7RelationshipInput" class="form-control" placeholder="ความสัมพันธ์">
+													<input type="text" name="risk2_9Input" class="form-control" placeholder="ระบุ">
 												</div>
 											</div>
 										</div>
@@ -576,11 +639,11 @@
 						<label for="risk">2.10 ผู้ป่วยอาการคล้ายไข้หวัดใหญ่ หรือปอดอักเสบเป็นกลุ่มก้อน</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_10Chk" value="n" class="custom-control-input pt-type" id="risk2_10ChkNo">
+								<input type="checkbox" name="risk2_10Chk" value="n" class="custom-control-input" id="risk2_10ChkNo">
 								<label for="risk2_10ChkNo" class="custom-control-label normal-label">ไม่ใช่</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_9Chk" value="y" class="custom-control-input pt-type" id="risk2_10ChkYes">
+								<input type="checkbox" name="risk2_10Chk" value="y" class="custom-control-input" id="risk2_10ChkYes">
 								<label for="risk2_10ChkYes" class="custom-control-label normal-label">ใช่ ระบุรายละเอียดของผู้ป่วยปอดอักเสบรายอื่น</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
