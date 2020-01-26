@@ -18,11 +18,12 @@ Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 
 /* Form */
-Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
-Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
+Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
+//Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
 
 /* Invest list */
 Route::resource('investList', 'InvestListController');
+
 
 /* Auth */
 Route::group(['middleware' => ['auth']], function() {
