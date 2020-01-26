@@ -51,7 +51,8 @@ input:read-only {
 							<h5 class="card-subtitle">2019-nCoV</h5>
 						</div>
 					</div>
-					<form action="#" method="POST" class="form-horizontal">
+					<form action="{{ route('confirmCase') }}" method="POST" class="form-horizontal">
+						{{ csrf_field() }}
 						<h3 class="text-primary">ส่วนที่ 1</h3>
 						<div class="bd-callout bd-callout-info" style="margin-top:0;">
 							@include('form.confirm.section1')
@@ -87,14 +88,101 @@ $(document).ready(function() {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
+
+	/* district */
+	$('#select_province').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('districtFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_district').html(response);
+					$('#select_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* sub district */
+	$('#select_district').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_sub_district').html(response);
+					$('#select_sub_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* district */
+	$('#select_patient_province').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('districtFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_patient_district').html(response);
+					$('#select_patient_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* sub district */
+	$('#select_patient_district').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_patient_sub_district').html(response);
+					$('#select_patient_sub_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* patient type */
+	$('.informant-chk').click(function() {
+		$('.informant-chk').not(this).prop('checked', false);
+	});
+
+	/* date of birth */
+	$('#risk3_1sickDateInput').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
 });
 
-/* date of birth */
-$('#risk3_1sickDateInput').datepicker({
-	format: 'dd/mm/yyyy',
-	todayHighlight: true,
-	todayBtn: true,
-	autoclose: true
-});
+
 </script>
 @endsection
