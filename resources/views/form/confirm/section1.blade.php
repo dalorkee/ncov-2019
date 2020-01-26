@@ -2,90 +2,98 @@
 	<div class="card-body">
 		<h1 class="text-info">1. ข้อมูลทั่วไปของผู้ป่วย</h1>
 		<div class="form-row">
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
 				<div class="form-group {{ $errors->has('titleNameInput') ? 'has-error' : '' }}">
 					<label for="titleName">คำนำหน้าชื่อ</label>
-					<select name="titleNameInput" class="form-control selectpicker show-tick select-title-name" id="title_name_input">
-						<option value="0">-- โปรดเลือก --</option>
-						@php
-							foreach($titleName as $key=>$val) {
-								$htm = "<option value=\"".$val['id']."\"";
-									if (old('titleNameInput') == $val['id']) {
-										$htm .= " selected=\"selected\"";
-									}
-								$htm .= ">".$val['title_name']."</option>\n";
-								echo $htm;
-							}
-						@endphp
-					</select>
+					<input type="text" name="titleName" value="{{ $invest_pt[0]['title_name'] }}" class="form-control" id="title_name" placeholder="คำนำหน้าชื่อ" required>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group {{ $errors->has('firstNameInput') ? 'has-error' : '' }}">
 					<label for="firstName">ชื่อจริง</label>
-					<input type="text" name="firstNameInput" class="form-control" id="first_name_input" placeholder="ชื่อ" required>
+					<input type="text" name="firstNameInput" value="{{ $invest_pt[0]['first_name'] }}" class="form-control" id="first_name_input" placeholder="ชื่อ" required>
 				</div>
 				<span class="text-danger">{{ $errors->first('firstNameInput') }}</span>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
 					<label for="midName">ชื่อกลาง</label>
-					<input type="text" name="midNameInput" class="form-control" id="mid_name_input" placeholder="ชื่อกลาง" required>
+					<input type="text" name="midNameInput" value="{{ $invest_pt[0]['mid_name'] }}" class="form-control" id="mid_name_input" placeholder="ชื่อกลาง">
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 				<div class="form-group {{ $errors->has('lastNameInput') ? 'has-error' : '' }}">
 					<label for="lastName">นามสกุล</label>
-					<input type="text" name="lastNameInput" class="form-control" id="last_name_input" placeholder="นามสกุล" required>
+					<input type="text" name="lastNameInput" value="{{ $invest_pt[0]['last_name'] }}" class="form-control" id="last_name_input" placeholder="นามสกุล" required>
 				</div>
 				<span class="text-danger">{{ $errors->first('lastNameInput') }}</span>
 			</div>
 		</div>
 		<div class="form-row">
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
-				<div class="form-group {{ $errors->has('sexInput') ? 'has-error' : '' }}">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-1 col-xl-1">
+				<div class="form-group">
 					<label for="sex">เพศ</label>
-					<select name="sexInput" class="form-control selectpicker show-tick">
+					<select name="sexInput" class="form-control selectpicker show-tick" id="select_sex">
+						@if (trim($invest_pt[0]['sex']) == 'ชาย')
+							<option value="ชาย" selected="selected">ชาย</option>
+						@elseif (trim($invest_pt[0]['sex']) == 'หญิง')
+							<option value="ชาย" selected="selected">หญิง</option>
+						@endif
 						<option value="">-- โปรดเลือก --</option>
-						<option value="male" @if (old('sexInput') == 'male') selected="selected" @endif>ชาย</option>
-						<option value="female" @if (old('sexInput') == 'female') selected="selected" @endif>หญิง</option>
+						<option value="ชาย">ชาย</option>
+						<option value="หญิง">หญิง</option>
 					</select>
 				</div>
-				<span class="text-danger">{{ $errors->first('sexInput') }}</span>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-1 col-xl-1 mb-3">
+			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-1 col-xl-1">
 				<div class="form-group">
 					<label for="ageYear">อายุ/ปี</label>
-					<input type="text" name="ageYearInput" value="{{ old('ageYearInput') }}" class="form-control" id="age_year_input" required>
+					<input type="text" name="ageYearInput" value="{{ $invest_pt[0]['age'] }}" class="form-control" id="age_year_input" required>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-1 col-xl-1 mb-3">
+			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-1 col-xl-1">
 				<div class="form-group">
 					<label for="ageMonth">อายุ/เดือน</label>
-					<input type="text" name="ageMonthInput" value="{{ old('ageMonthInput') }}" class="form-control" id="age_month_input" required>
+					<input type="text" name="ageMonthInput" value="{{ $invest_pt[0]['age_month'] }}" class="form-control" id="age_month_input" required>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
 				<div class="form-group">
 					<label for="nationality">สัญชาติ</label>
+					<input type="text" name="nationalityInput" value="{{ $invest_pt[0]['nation'] }}" class="form-control" id="select_nationality" required>
+					<!--
 					<select name="nationalityInput" class="form-control selectpicker show-tick" id="select_nationality">
 						<option value="0">-- โปรดเลือก --</option>
 					</select>
+					-->
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
 				<div class="form-group">
 					<label for="nationality">เชื้อชาติ</label>
+					<input type="text" name="raceInput" value="{{ $invest_pt[0]['race'] }}" class="form-control" id="select_race" required>
+					<!--
 					<select name="raceInput" class="form-control selectpicker show-tick" id="select_race">
 						<option value="0">-- โปรดเลือก --</option>
 					</select>
+					-->
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
 				<label for="occupation">อาชีพ</label>
 				<select name="occupationInput" class="form-control selectpicker show-tick" id="select_occupation">
+					@if (!empty($invest_pt[0]['occupation']))
+						<option value="{{ $invest_pt[0]['occupation'] }}" selected="selected">{{ $occupation[$invest_pt[0]['occupation']]['occu_name_th'] }}</option>
+					@endif
 					<option value="0">-- โปรดเลือก --</option>
+					@foreach ($occupation as $key => $value)
+						<option value="{{ $value['id'] }}">{{ $value['occu_name_th'] }}</option>
+					@endforeach
 				</select>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
+				<label for="occupationOth">อาชีพอื่นๆ</label>
+				<input type="text" name="occupationOthInput" value="{{ $invest_pt[0]['occupation_oth'] }}" class="form-control" id="select_occupation_oth">
 			</div>
 		</div>
 		<div class="form-row">
@@ -103,15 +111,15 @@
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
 				<label for="dowork">ลักษณะงานที่ทำ/สัมผัส</label>
-				<input type="text" name="workInput" value="{{ old('workInput') }}" class="form-control" placeholder="ลักษณะงานที่ทำ/สัมผัส">
+				<input type="text" name="workContactInput" value="{{ $invest_pt[0]['work_contact'] }}" class="form-control" placeholder="ลักษณะงานที่ทำ/สัมผัส">
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
 				<label for="workPlace">สถานที่ทำงาน</label>
-				<input type="text" name="workPlaceInput" value="{{ old('workPlaceInput') }}" class="form-control" placeholder="สถานที่ทำงาน">
+				<input type="text" name="workOfficeInput" value="{{ $invest_pt[0]['work_office'] }}" class="form-control" placeholder="สถานที่ทำงาน">
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 				<label for="workPhone">โทรศัพท์ที่ทำงาน</label>
-				<input type="text" name="workPhoneInput" value="{{ old('workPhoneInput') }}" class="form-control" placeholder="โทรศัพท์ที่ทำงาน">
+				<input type="text" name="workPhoneInput" value="{{ $invest_pt[0]['work_phone'] }}" class="form-control" placeholder="โทรศัพท์ที่ทำงาน">
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 				<div class="form-group">
@@ -228,11 +236,11 @@
 					<label for="informant">ผู้ให้ข้อมูล</label>
 					<div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="informantInput" value="patient" class="custom-control-input pt-type" id="informantChk">
+							<input type="checkbox" name="informantInput" value="ผู้ป่วย" class="custom-control-input pt-type" id="informantChk">
 							<label for="informantChk" class="custom-control-label normal-label">ผู้ป่วย</label>
 						</div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="informantInput" value="relative" class="custom-control-input pt-type" id="relativeChk">
+							<input type="checkbox" name="informantInput" value="ญาติ" class="custom-control-input pt-type" id="relativeChk">
 							<label for="relativeChk" class="custom-control-label normal-label">ญาติ</label>
 						</div>
 					</div>

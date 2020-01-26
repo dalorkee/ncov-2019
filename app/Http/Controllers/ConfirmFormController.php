@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\TitleName;
 use App\Provinces;
+use App\InvestList;
+use App\Occupation;
 
 class ConfirmFormController extends Controller
 {
@@ -14,14 +16,22 @@ class ConfirmFormController extends Controller
 	{
 		//
 	}
-	public function create()
+
+	public function create(Request $request)
 	{
+		$invest_pt = InvestList::where('poe_id', '=', $request->id)->get()->toArray();
 		$titleName = TitleName::all()->toArray();
 		$provinces = Provinces::all()->toArray();
+		$occupation = Occupation::all()->keyBy('id')->toArray();
+
+		//dd($occupation);
+
 		return view('form.confirm.index',
 			[
-				'titleName'=>$titleName,
-				'provinces'=>$provinces
+				'invest_pt' => $invest_pt,
+				'titleName' => $titleName,
+				'provinces' => $provinces,
+				'occupation' => $occupation
 			]
 		);
 	}

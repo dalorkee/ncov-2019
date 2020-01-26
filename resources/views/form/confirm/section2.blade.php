@@ -273,8 +273,8 @@
 						</div>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6MeetingChk" value="n" class="custom-control-input" id="risk2_6MeetingChk">
-								<label for="risk2_6MeetingChk" class="custom-control-label normal-label">ไปศึกษา</label>
+								<input type="checkbox" name="risk2_6StudyChk" value="n" class="custom-control-input" id="risk2_6Study">
+								<label for="risk2_6StudyChk" class="custom-control-label normal-label">ไปศึกษา</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
 								<ul class="list-style-none">
@@ -299,8 +299,8 @@
 						</div>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6MeetingChk" value="n" class="custom-control-input" id="risk2_6MeetingChk">
-								<label for="risk2_6MeetingChk" class="custom-control-label normal-label">ไปเยี่ยมญาติ</label>
+								<input type="checkbox" name="risk2_6VisitChk" value="n" class="custom-control-input" id="risk2_6VisitChk">
+								<label for="risk2_6VisitChk" class="custom-control-label normal-label">ไปเยี่ยมญาติ</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
 								<ul class="list-style-none">
@@ -309,13 +309,13 @@
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 												<div class="form-group">
 													<label for="">บ้านเลขที่</label>
-													<input type="text" name="risk2_6RelativeHouseNoInput" class="form-control" placeholder="บ้านเลขที่">
+													<input type="text" name="risk2_6VisitHouseNoInput" class="form-control" placeholder="บ้านเลขที่">
 												</div>
 											</div>
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 												<div class="form-group">
 													<label for="">ระยะเวลา</label>
-													<input type="text" name="risk2_6RelativeDurationInput" class="form-control" placeholder="ระยะเวลา">
+													<input type="text" name="risk2_6VisitDurationInput" class="form-control" placeholder="ระยะเวลา">
 												</div>
 											</div>
 										</div>
@@ -325,8 +325,8 @@
 						</div>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6MeetingChk" value="n" class="custom-control-input" id="risk2_6MeetingChk">
-								<label for="risk2_6MeetingChk" class="custom-control-label normal-label">ไปเที่ยว</label>
+								<input type="checkbox" name="risk2_6TravelChk" value="n" class="custom-control-input" id="risk2_6TravelChk">
+								<label for="risk2_6TravelChk" class="custom-control-label normal-label">ไปเที่ยว</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
 								<ul class="list-style-none">
@@ -453,12 +453,12 @@
 						<label for="">มีประวัติเข้ารับการรักษาหรือเยี่ยมผู้ป่วยในโรงพยาบาลขณะอยู่ที่ประเทศดังกล่าวหรือไม่</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6TreatChk" value="n" class="custom-control-input pt-type" id="risk2_6TreatChkNo">
-								<label for="risk2_6TreatChkNo" class="custom-control-label normal-label">ไม่มี</label>
+								<input type="checkbox" name="risk2_6HistoryChk" value="n" class="custom-control-input pt-type" id="risk2_6HistoryChkNo">
+								<label for="risk2_6HistoryChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6TreatChk" value="y" class="custom-control-input pt-type" id="risk2_6TreatChkYes">
-								<label for="risk2_6TreatChkYes" class="custom-control-label normal-label">มี ระบุรายละเอียดดังต่อไปนี้</label>
+								<input type="checkbox" name="risk2_6HistoryChk" value="y" class="custom-control-input pt-type" id="risk2_6HistoryChkYes">
+								<label for="risk2_6HistoryChkYes" class="custom-control-label normal-label">มี ระบุรายละเอียดดังต่อไปนี้</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
 								<ul class="list-style-none">
@@ -467,8 +467,8 @@
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 												<div class="form-group">
 													<label for="date">ระบุวันที่เข้าโรงพยาบาล</label>
-													<div class="input-group date" data-provide="datepicker" id="risk2_6TreatDate">
-														<input  type="text" name="risk2_6TreatDate" class="form-control">
+													<div class="input-group date" data-provide="datepicker" id="risk2_6HistoryDate">
+														<input  type="text" name="risk2_6HistoryDate" class="form-control">
 														<div class="input-group-append">
 															<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
 														</div>
@@ -478,7 +478,7 @@
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-9 col-xl-9 mb-3">
 												<div class="form-group">
 													<label for="contact">ชื่อโรงพยาบาล</label>
-													<input type="text" name="risk2_6HospitalInput" class="form-control" placeholder="โรงพยาบาล">
+													<input type="text" name="risk2_6HistoryHospitalInput" class="form-control" placeholder="โรงพยาบาล">
 												</div>
 											</div>
 										</div>
