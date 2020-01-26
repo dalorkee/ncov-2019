@@ -1,4 +1,20 @@
 @extends('layouts.index')
+@section('custom-style')
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/toastr/build/toastr.min.css') }}">
+<style>
+input:-moz-read-only { /* For Firefox */
+	background-color: #fafafa !important;
+}
+input:read-only {
+	background-color: #fafafa !important;
+}
+</style>
+@endsection
+@section('meta-token')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 @section('contents')
 <div class="page-breadcrumb">
 	<div class="row">
@@ -59,6 +75,26 @@
 </div>
 @endsection
 @section('bottom-script')
+	<script src="{{ URL::asset('assets/libs/jquery-blockUI/jquery.blockUI.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/bootstrap-validate-2.2.0/dist/bootstrap-validate.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
+$(document).ready(function() {
+	/* ajax request */
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+});
+
+/* date of birth */
+$('#risk3_1sickDateInput').datepicker({
+	format: 'dd/mm/yyyy',
+	todayHighlight: true,
+	todayBtn: true,
+	autoclose: true
+});
 </script>
 @endsection

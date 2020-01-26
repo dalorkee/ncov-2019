@@ -5,7 +5,7 @@
 <div class="page-breadcrumb">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title">Indexcase</h4>
+			<h4 class="page-title">ผู้ป่วย</h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
@@ -44,7 +44,7 @@
                 <td>2011/06/27</td>
                 <td>$183,000</td>
                 <td>
-                  <a class="btn btn-info" href="{{ route('contacttable',["index_id" => '1']) }}">
+                  <a class="btn btn-success" href="{{ route('contacttable',["index_id" => '1']) }}">
                       Contact
                   </a>
                     <a class="btn btn-info" href="{{ route('addcontact',["index_id" => '1']) }}">

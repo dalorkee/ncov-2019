@@ -24,6 +24,8 @@ class ConfirmFormController extends Controller
 		$provinces = Provinces::all()->toArray();
 		$occupation = Occupation::all()->keyBy('id')->toArray();
 
+		//dd($occupation);
+
 		return view('form.confirm.index',
 			[
 				'invest_pt' => $invest_pt,

@@ -83,7 +83,7 @@
 				<label for="occupation">อาชีพ</label>
 				<select name="occupationInput" class="form-control selectpicker show-tick" id="select_occupation">
 					@if (!empty($invest_pt[0]['occupation']))
-						<option value="{{ $invest_pt[0]['occupation'] }}" selected="selected">{{ $occupation[$invest_pt[0]['occupation']] }}</option>
+						<option value="{{ $invest_pt[0]['occupation'] }}" selected="selected">{{ $occupation[$invest_pt[0]['occupation']]['occu_name_th'] }}</option>
 					@endif
 					<option value="0">-- โปรดเลือก --</option>
 					@foreach ($occupation as $key => $value)
@@ -93,7 +93,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
 				<label for="occupationOth">อาชีพอื่นๆ</label>
-				<input type="text" name="occupationOthInput" value="{{ $invest_pt[0]['race'] }}" class="form-control" id="select_occupation_oth">
+				<input type="text" name="occupationOthInput" value="{{ $invest_pt[0]['occupation_oth'] }}" class="form-control" id="select_occupation_oth">
 			</div>
 		</div>
 		<div class="form-row">
@@ -111,15 +111,15 @@
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
 				<label for="dowork">ลักษณะงานที่ทำ/สัมผัส</label>
-				<input type="text" name="workInput" value="{{ old('workInput') }}" class="form-control" placeholder="ลักษณะงานที่ทำ/สัมผัส">
+				<input type="text" name="workContactInput" value="{{ $invest_pt[0]['work_contact'] }}" class="form-control" placeholder="ลักษณะงานที่ทำ/สัมผัส">
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
 				<label for="workPlace">สถานที่ทำงาน</label>
-				<input type="text" name="workPlaceInput" value="{{ old('workPlaceInput') }}" class="form-control" placeholder="สถานที่ทำงาน">
+				<input type="text" name="workOfficeInput" value="{{ $invest_pt[0]['work_office'] }}" class="form-control" placeholder="สถานที่ทำงาน">
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 				<label for="workPhone">โทรศัพท์ที่ทำงาน</label>
-				<input type="text" name="workPhoneInput" value="{{ old('workPhoneInput') }}" class="form-control" placeholder="โทรศัพท์ที่ทำงาน">
+				<input type="text" name="workPhoneInput" value="{{ $invest_pt[0]['work_phone'] }}" class="form-control" placeholder="โทรศัพท์ที่ทำงาน">
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 				<div class="form-group">
@@ -236,11 +236,11 @@
 					<label for="informant">ผู้ให้ข้อมูล</label>
 					<div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="informantInput" value="patient" class="custom-control-input pt-type" id="informantChk">
+							<input type="checkbox" name="informantInput" value="ผู้ป่วย" class="custom-control-input pt-type" id="informantChk">
 							<label for="informantChk" class="custom-control-label normal-label">ผู้ป่วย</label>
 						</div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="informantInput" value="relative" class="custom-control-input pt-type" id="relativeChk">
+							<input type="checkbox" name="informantInput" value="ญาติ" class="custom-control-input pt-type" id="relativeChk">
 							<label for="relativeChk" class="custom-control-label normal-label">ญาติ</label>
 						</div>
 					</div>

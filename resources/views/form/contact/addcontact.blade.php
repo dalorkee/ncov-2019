@@ -15,6 +15,9 @@
 		</div>
 	</div>
 </div>
+<?php
+	$poe_id = $_GET['poe_id'];
+ ?>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
@@ -26,9 +29,18 @@
             </div>
             <br>
             <div class="card-block">
+
             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส</h4>
             <form action="{{route('contactinsert')}}" method="post">
               			{{ csrf_field() }}
+										<div class="col-sm-3">
+										<input type="hidden" name="poe_id" value="<?php echo $poe_id ?>" class="form-control">
+										</div>
+							<div class="form-group row">
+										<div class="col-sm-3">
+										<input type="text" name="contact_id"  class="form-control" placeholder="รหัสผู้สัมผัส">
+										</div>
+							</div>
             <div class="form-group row">
             <div class="col-sm-3">
             <select type="text" name="title_contact" class="form-control" placeholder="คำนำหน้าชื่อ">
@@ -65,6 +77,9 @@
             <div class="col-sm-4">
             <input type="text" name="age_contact" class="form-control" placeholder="อายุ">
             </div>
+						<div class="col-sm-4">
+						<input type="text" name="passport_contact" class="form-control" placeholder="Passport ID">
+						</div>
             </div>
             <div class="form-group row">
 
