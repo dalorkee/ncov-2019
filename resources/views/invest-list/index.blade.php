@@ -152,7 +152,7 @@ input.valid, textarea.valid{
 													<td><span class="badge badge-pill badge-success">{{ $value['race'] }}</span></td>
 													<td>
 														<a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="View"><i class="fas fa-eye"></i></a>&nbsp;
-														<a href="#" class="btn btn-cyan btn-sm"><i class="fas fa-plus-circle"></i></a>&nbsp;
+														<a href="{{ 'contacttable' }}?poe_id={{ $value['poe_id'] }}" class="btn btn-cyan btn-sm" title="Contact"><i class="fas fa-plus-circle"></i></a>&nbsp;
 														<a href="#" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></a>&nbsp;
 														<button type="button" id="btn_delete{{ $value['poe_id'] }}" class="btn btn-danger btn-sm" value="{{ $value['poe_id'] }}"><i class="fas fa-trash"></i></button>
 													</td>

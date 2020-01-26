@@ -14,17 +14,26 @@ class ContactController extends MasterController
 		return view('form.contact.indexcasetable');
 	}
   // indexcontact table
-  public function contacttable()
+  public function contacttable(Request $req)
   {
-    return view('form.contact.contacttable');
+		$poe_id=$req->poe_id;
+		// dd($poe_id);
+		$patian_data=DB::table('invest_pt')->select('*')->where('poe_id', [$req->poe_id] )->get();
+		$contact_data=DB::table('tbl_contact')->select('*')->where('poe_id', $poe_id)->get();
+    return view('form.contact.contacttable',compact(
+			'contact_data',
+			'patian_data'
+    ));
   }
   public function contactfollowtable(Request $req)
   {
 		$inv_id=$req->inv_id;
+		$poe_id=$req->poe_id;
 		$contact_id=$req->contact_id;
 		$contact_id_day=$req->contact_id_day;
     return view('form.contact.contactfollowtable',compact(
 			'inv_id',
+			'poe_id',
 			'contact_id_day',
 			'contact_id'
     ));
@@ -58,13 +67,16 @@ class ContactController extends MasterController
   }
   public function contactinsert(Request $req)
  {
-  $inv_id = $req ->input ('inv_id');
-  $contact_id = $req ->input ('contact_id');
+	 // $contactid=uniqid();
+  $poe_id = $req ->input ('poe_id');
+  // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
+	$contact_id = $req ->input ('contact_id');
   $name_contact = $req ->input ('name_contact');
   $mname_contact = $req ->input ('mname_contact');
   $lname_contact = $req ->input ('lname_contact');
   $sex_contact = $req ->input ('sex_contact');
   $age_contact = $req ->input ('age_contact');
+	$passport_contact = $req ->input ('passport_contact');
   $national_contact = $req ->input ('national_contact');
   $province = $req ->input ('province');
   $district = $req ->input ('district');
@@ -80,13 +92,14 @@ class ContactController extends MasterController
   $available_contact = $req ->input ('available_contact');
   $date_entry = date('Y-m-d') ;
   $data = array(
-    'inv_id'=>$inv_id,
+    'poe_id'=>$poe_id,
     'contact_id'=>$contact_id,
     'name_contact'=>$name_contact,
     'mname_contact'=>$mname_contact,
     'lname_contact'=>$lname_contact,
     'sex_contact'=>$sex_contact,
     'age_contact'=>$age_contact,
+		'passport_contact'=>$passport_contact,
     'national_contact'=>$national_contact,
     'province'=>$province,
     'district'=>$district,
@@ -102,7 +115,7 @@ class ContactController extends MasterController
     'available_contact'=>$available_contact,
     'date_entry'=>$date_entry
   );
-   // dd($data);
+    // dd($data);
   $res1	= DB::table('tbl_contact')->insert($data);
   if ($res1)
   {
@@ -118,7 +131,7 @@ $x=0;
     for ($i=0; $i < count($dms_pcr_contact); $i++) {
       $data_hsc[]  = [
                  // 'no'=>$team_id[$i],
-                'inv_id'=>$inv_id,
+                'poe_id'=>$poe_id,
                 'contact_id'=>$contact_id,
                 'dms_pcr_contact'=>$dms_pcr_contact[$i],
                 'dms_time_contact'=>$dms_time_contact[$i],
@@ -136,16 +149,18 @@ $x=0;
 }
   if ($data_hsc){
     $msg = " ส่งข้อมูลสำเร็จ";
-    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable';</script> ";
+		$poe_id=$poe_id;
+    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?poe_id=$poe_id';</script> ";
   }else{
     $msg = " ส่งข้อมูลไม่สำเร็จ";
-    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable';</script> ";
+    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?poe_id=$poe_id';</script> ";
     }
     echo $url_rediect;
 }
 
 public function followupcontactinsert(Request $req)
 {
+$poe_id = $req ->input ('poe_id');
 $inv_id = $req ->input ('inv_id');
 $contact_id = $req ->input ('contact_id');
 $contact_id_day= $req ->input ('contact_id_day');
@@ -164,6 +179,7 @@ $diarrhea_mers = $req ->input ('diarrhea_mers');
 $other_symtom_mers = $req ->input ('other_symtom_mers');
 $date_entry = date('Y-m-d') ;
 $data = array(
+	'poe_id'=>$inv_id,
 	'inv_id'=>$inv_id,
 	'contact_id'=>$contact_id,
 	'contact_id_day'=>$contact_id_day,
@@ -196,6 +212,7 @@ $x=0;
 	for ($i=0; $i < count($pcr_contact); $i++) {
 		$data_hsc[]  = [
 							 // 'no'=>$team_id[$i],
+							 'poe_id'=>$inv_id,
 							'inv_id'=>$inv_id,
 							'contact_id'=>$contact_id,
 							'contact_id_day'=>$contact_id_day,
@@ -207,16 +224,16 @@ $x=0;
 						];
 						$x++;
 					}
-	// dd($data_member);
+	// dd($ddata_member);
 	// exit;
 	$res3	= DB::table('tbl_followupcontact_hsc')->insert($data_hsc);
 }
 if ($data_hsc){
 	$msg = " ส่งข้อมูลสำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='contacttable';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?poe_id=$poe_id&contact_id=$contact_id';</script> ";
 }else{
 	$msg = " ส่งข้อมูลไม่สำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='contacttable';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?poe_id=$poe_id&contact_id=$contact_id';</script> ";
 	}
 	echo $url_rediect;
 }
