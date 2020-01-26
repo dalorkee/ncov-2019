@@ -25,6 +25,10 @@ Route::get('/WalkinCaseForm', array(
 						'as'   => 'walkincase.create',
 						'uses' => 'WalkInCaseController@create'
 					));
+Route::post('/WalkinCaseForm', array(
+						'as'   => 'walkincase.store',
+						'uses' => 'WalkInCaseController@store'
+					));
 
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
 //Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
