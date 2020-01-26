@@ -173,7 +173,48 @@ class ConfirmFormController extends Controller
 		$pt->data3_3_fat_bmi = $request->risk3_3FatBmiInput;
 		$pt->data3_3chk_cancer = $request->risk3_3CancerChk;
 		$pt->data3_3chk_cancer_name = $request->risk3_3CancerInput;
+		$pt->data3_3chk_other = $request->risk3_3OtherChk;
+		$pt->data3_3input_other = $request->risk3_3OtherInput;
 
+		$pt->data3_3chk_smoking_history = $request->risk3_3SmokingHistoryChk;
+		$pt->data3_3chk_smoking_yes = $request->risk3_3SmokingChkYes;
+		$pt->data3_3chk_smokingYes_input = $request->risk3_3SmokingChkYesInput;
+		$pt->data3_3chk_smoking_no = $request->risk3_3SmokingChkNo;
+		$pt->data3_3chk_smoking_no_input = $request->risk3_3SmokingChkNoInput;
+
+		$pt->data3_3chk_drink_history = $request->risk3_3DrinkHistoryChk;
+		$pt->data3_3chk_drink_yes_chk = $request->risk3_3DrinkChkYes;
+		$pt->data3_3chk_drink_yes_input = $request->risk3_3DrinkChkYesInput;
+		$pt->data3_3chk_drink_no_chk = $request->risk3_3DrinkChkNo;
+		$pt->data3_3chk_drink_no_input = $request->risk3_3DrinkChkNoInput;
+
+		$pt->data3_4chk = $request->risk3_4influVaccineChk;
+		$pt->data3_4chk_yes_date = $request->risk3_4influVaccineChkYesInput;
+
+		$pt->data3_5_input_symptom = $request->risk3_5SymptomInput;
+
+		$pt->data3_6sick_date = $request->data3_6sickDate;
+		$pt->data3_temp = $request->data3_6TempInput;
+		$pt->data3_6fever = $request->data3_6_0FeverChk;
+		$pt->data3_6cough = $request->data3_6_0CoughChk;
+		$pt->data3_6sore = $request->data3_6_0SoreChk;
+		$pt->data3_6snot = $request->data3_6_0SnotChk;
+		$pt->data3_6sputum = $request->data3_6_0SputumChk;
+		$pt->data3_6breathe = $request->data3_6_0BreatheChk;
+		$pt->data3_6gasp = $request->data3_6_0GaspChk;
+		$pt->data3_6muscle = $request->data3_6_0MuscleChk;
+		$pt->data3_6headache = $request->data3_6_0HeadacheChk;
+		$pt->data3_6liquid = $request->data3_6_0LiquidChk;
+
+		$pt->data3_6oth_symptom = $request->data3_6SymptomOtherInput;
+		$pt->data3_6breathing_tube_chk = $request->data3_6BreathingTubeChk;
+		$pt->data3_6breathing_tube_date = $request->data3_6BreathingTubeDate;
+
+		$pt->data3_6antivirus_chk = $request->data3_6AntiVirusDrugChk;
+		$pt->data3_6antivirus_name = $request->data3_6AntiVirusDrugInput;
+		$pt->data3_6antivirus_size = $request->data3_6AntiVirusDrugSizeInput;
+		$pt->data3_6antivirus_start_date = $request->data3_6AntiVirusDrugStartDate;
+		$pt->data3_6antivirus_end_date = $request->data3_6AntiVirusDrugEndDate;
 
 
 		$pt_saved = $pt->save();
