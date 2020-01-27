@@ -109,16 +109,22 @@
 		</div>
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-				<label for="dowork">ลักษณะงานที่ทำ/สัมผัส</label>
-				<input type="text" name="workContactInput" value="{{ $invest_pt[0]['work_contact'] }}" class="form-control" placeholder="ลักษณะงานที่ทำ/สัมผัส">
+				<div class="form-group">
+					<label for="dowork">ลักษณะงานที่ทำ/สัมผัส</label>
+					<input type="text" name="workContactInput" value="{{ $invest_pt[0]['work_contact'] }}" class="form-control" placeholder="ลักษณะงานที่ทำ/สัมผัส">
+				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-				<label for="workPlace">สถานที่ทำงาน</label>
-				<input type="text" name="workOfficeInput" value="{{ $invest_pt[0]['work_office'] }}" class="form-control" placeholder="สถานที่ทำงาน">
+				<div class="form-group">
+					<label for="workPlace">สถานที่ทำงาน</label>
+					<input type="text" name="workOfficeInput" value="{{ $invest_pt[0]['work_office'] }}" class="form-control" placeholder="สถานที่ทำงาน">
+				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-				<label for="workPhone">โทรศัพท์ที่ทำงาน</label>
-				<input type="text" name="workPhoneInput" value="{{ $invest_pt[0]['work_phone'] }}" class="form-control" placeholder="โทรศัพท์ที่ทำงาน">
+				<div class="form-group">
+					<label for="workPhone">โทรศัพท์ที่ทำงาน</label>
+					<input type="text" name="workPhoneInput" value="{{ $invest_pt[0]['work_phone'] }}" class="form-control" placeholder="โทรศัพท์ที่ทำงาน">
+				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
@@ -237,12 +243,16 @@
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-				<label for="telephone">โทรศัพท์บ้าน</label>
-				<input type="text" name="telePhoneInput" value="{{ $invest_pt[0]['phone'] }}" class="form-control" placeholder="โทรศัพท์บ้าน">
+				<div class="form-group">
+					<label for="telephone">โทรศัพท์บ้าน</label>
+					<input type="text" name="telePhoneInput" value="{{ $invest_pt[0]['phone'] }}" class="form-control" placeholder="โทรศัพท์บ้าน">
+				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-				<label for="mobile">โทรศัพท์มือถือ</label>
-				<input type="text" name="mobilePhoneInput" value="{{ $invest_pt[0]['mobile'] }}" class="form-control" placeholder="โทรศัพท์มือถือ">
+				<div class="form-group">
+					<label for="mobile">โทรศัพท์มือถือ</label>
+					<input type="text" name="mobilePhoneInput" value="{{ $invest_pt[0]['mobile'] }}" class="form-control" placeholder="โทรศัพท์มือถือ">
+				</div>
 			</div>
 		</div>
 		<div class="form-row">
