@@ -11,6 +11,7 @@
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-format-list-bulleted"></i><span class="hide-menu">Data </span></a>
 					<ul aria-expanded="false" class="collapse  first-level">
 						<li class="sidebar-item"><a href="{{ route('investList.index') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> List</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('walkincase.create') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> walkincase</span></a></li>
 					</ul>
 				</li>
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-chart-line"></i><span class="hide-menu">Report </span></a>
