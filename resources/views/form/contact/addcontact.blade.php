@@ -1,4 +1,5 @@
 @extends('layouts.index')
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 @section('contents')
 <div class="page-breadcrumb">
 	<div class="row">
@@ -129,10 +130,10 @@
             </select>
             </div>
             <div class="col-sm-3">
-            <input type="text" class="form-control" id="datepicker" placeholder="วันที่สัมผัส">
+            <input type="text" class="form-control" name="datecontact" data-provide="datepicke" id="datecontact"  placeholder="วันที่สัมผัส">
             </div>
             <div class="col-sm-3">
-            <input type="text" class="form-control" placeholder="ให้ตามถึงวันที่">
+            <input type="text" class="form-control" name="datefollow" data-provide="datepicke" id="datefollow"  placeholder="ให้ตามถึงวันที่">
             </div>
             <div class="col-sm-3">
             <select type="text" name="type_contact" class="form-control" placeholder="ประเภทผู้สัมผัส">
@@ -204,7 +205,7 @@
                         <input type="text" id="dms_time_contact" name="dms_time_contact[]"  class="form-control dms_time_contact01" onkeyup="autocomplet()">
                       </td>
                       <td>
-                        <input type="text" id="dms_date_contact" name="dms_date_contact[]"  class="form-control dms_date_contact01" onkeyup="autocomplet()">
+                        <input type="text" id="date_dms_date_contact" name="dms_date_contact[]"  class="form-control dms_date_contact01" onkeyup="autocomplet()">
                       </td>
                       <td>
                         <select class="form-control" name="dms_specimen_contact[]">
@@ -256,7 +257,7 @@
                       '<option value="4">PCR for Mers ที่อื่นๆ</option>' +
                       '</select></td>'+
 									'<td><input type="text" id="dms_time_contact' + rowCount + '" name="dms_time_contact[]' + rowCount + '"  class="form-control  dms_time_contact01" onkeyup="autocomplet()" />' +
-                  '<td><input type="text" id="dms_date_contact' + rowCount + '" name="dms_date_contact[]' + rowCount + '"  class="form-control  dms_date_contact01" onkeyup="autocomplet()" />' +
+                  '<td><input type="text" id="date_dms_date_contact' + rowCount + '" name="dms_date_contact[]' + rowCount + '"  class="form-control  dms_date_contact01" onkeyup="autocomplet()" />' +
 									'<td><select class="form-control" name="dms_specimen_contact[]' + rowCount + '"">' +
                               '<option value="">- เลือก -</option>'+
                               '<option value="Nasopharyngeal swab">Nasopharyngeal swab</option>'+
@@ -274,6 +275,12 @@
 										'<button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs">Remove</button></td>' +
 								'</tr>';
 					$('#maintable').append(contactdiv); // Adding these controls to Main table class
+					$('#date_dms_date_contact' + rowCount + '').datepicker({
+						format: 'yyyy/mm/dd',
+						todayHighlight: true,
+						todayBtn: true,
+						autoclose: true
+					});
 			});
 			$(document).on("click", ".deleteContact", function () {
 				$(this).closest("tr").remove(); // closest used to remove the respective 'tr' in which I have my controls
@@ -321,15 +328,8 @@
 			}
 		});
 	</script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-$( function() {
-	$( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
-} );
-</script>
+		<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script>
 $(function(){
 	$('#lab').hide();
@@ -339,6 +339,38 @@ $(function(){
  $('#open').on('click',function(){
    $('#lab').show();
  });
+}
+);
+</script>
+<script>
+/* date of birth */
+$('#datecontact').datepicker({
+	format: 'dd/mm/yyyy',
+	todayHighlight: true,
+	todayBtn: true,
+	autoclose: true
 });
+</script>
+<script>
+/* date of birth */
+$('#datefollow').datepicker({
+	format: 'dd/mm/yyyy',
+	todayHighlight: true,
+	todayBtn: true,
+	autoclose: true
+});
+</script>
+<script>
+/* date of birth */
+$('#date_dms_date_contact').datepicker({
+	format: 'yyyy/mm/dd',
+	todayHighlight: true,
+	todayBtn: true,
+	autoclose: true
+});
+</script>
+<script>
+/* date of birth */
+
 </script>
 @endsection

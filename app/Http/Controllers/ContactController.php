@@ -85,8 +85,8 @@ class ContactController extends MasterController
   $phone_contact = $req ->input ('phone_contact');
   $patient_contact = $req ->input ('patient_contact');
   $risk_contact = $req ->input ('risk_contact');
-  $last_date = $req ->input ('last_date');
-  $date_reach_contact = $req ->input ('date_reach_contact');
+  $datecontact = $this->convertDateToMySQL($req ->input ('datecontact'));
+  $datefollow = $this->convertDateToMySQL($req ->input ('datefollow'));
   $type_contact = $req ->input ('type_contact');
   $routing_contact = $req ->input ('routing_contact');
   $available_contact = $req ->input ('available_contact');
@@ -108,20 +108,22 @@ class ContactController extends MasterController
     'phone_contact'=>$phone_contact,
     'patient_contact'=>$patient_contact,
     'risk_contact'=>$risk_contact,
-    'last_date'=>$last_date,
-    'date_reach_contact'=>$date_reach_contact,
+    'datecontact'=>$datecontact,
+    'datefollow'=>$datefollow,
     'type_contact'=>$type_contact,
     'routing_contact'=>$routing_contact,
     'available_contact'=>$available_contact,
     'date_entry'=>$date_entry
   );
-    // dd($data);
+     // dd($data);
   $res1	= DB::table('tbl_contact')->insert($data);
   if ($res1)
   {
     $dms_pcr_contact =$req ->input('dms_pcr_contact');
     $dms_time_contact =$req ->input('dms_time_contact');
-    $dms_date_contact =$req ->input('dms_date_contact');
+    $dms_date_contact =$req ->input ('dms_date_contact');
+		$dms_date_contact_s = str_replace('/', '-', $dms_date_contact);
+		// $dms_date_contact_ss = date('Y-m-d', strtotime($dms_date_contact_s));
     $dms_specimen_contact =$req ->input('dms_specimen_contact');
     $chkspec_other_contact =$req ->input('chkspec_other_contact');
     $other_pcr_result_contact =$req ->input('other_pcr_result_contact');
@@ -135,7 +137,7 @@ $x=0;
                 'contact_id'=>$contact_id,
                 'dms_pcr_contact'=>$dms_pcr_contact[$i],
                 'dms_time_contact'=>$dms_time_contact[$i],
-                'dms_date_contact'=>$dms_date_contact[$i],
+                'dms_date_contact'=>$dms_date_contact_s[$i],
                 'dms_specimen_contact'=>$dms_specimen_contact[$i],
                 'chkspec_other_contact' => $chkspec_other_contact[$i],
                 'other_pcr_result_contact' => $other_pcr_result_contact[$i],
@@ -143,7 +145,7 @@ $x=0;
               ];
               $x++;
             }
-    // dd($data_member);
+    // dd($data_hsc);
     // exit;
     $res3	= DB::table('tbl_contact_hsc')->insert($data_hsc);
 }
@@ -164,7 +166,7 @@ $poe_id = $req ->input ('poe_id');
 $inv_id = $req ->input ('inv_id');
 $contact_id = $req ->input ('contact_id');
 $contact_id_day= $req ->input ('contact_id_day');
-$date_no = $req ->input ('date_no');
+$date_no = $this->convertDateToMySQL($req ->input ('date_no'));
 $clinical_mers = $req ->input ('clinical_mers');
 $fever_mers = $req ->input ('fever_mers');
 $cough_mers = $req ->input ('cough_mers');
@@ -179,7 +181,7 @@ $diarrhea_mers = $req ->input ('diarrhea_mers');
 $other_symtom_mers = $req ->input ('other_symtom_mers');
 $date_entry = date('Y-m-d') ;
 $data = array(
-	'poe_id'=>$inv_id,
+	'poe_id'=>$poe_id,
 	'inv_id'=>$inv_id,
 	'contact_id'=>$contact_id,
 	'contact_id_day'=>$contact_id_day,
@@ -198,7 +200,7 @@ $data = array(
 	'other_symtom_mers'=>$other_symtom_mers,
 	'date_entry'=>$date_entry
 );
- // dd($data);
+  // dd($data);
 $res1	= DB::table('tbl_followupcontact')->insert($data);
 if ($res1)
 {
@@ -212,7 +214,7 @@ $x=0;
 	for ($i=0; $i < count($pcr_contact); $i++) {
 		$data_hsc[]  = [
 							 // 'no'=>$team_id[$i],
-							 'poe_id'=>$inv_id,
+							 'poe_id'=>$poe_id,
 							'inv_id'=>$inv_id,
 							'contact_id'=>$contact_id,
 							'contact_id_day'=>$contact_id_day,
@@ -360,4 +362,22 @@ echo $outputD;
     {
         //
     }
+		protected function convertDateToMySQL($date='00/00/0000') {
+			if (!is_null($date) || !empty($date)) {
+				$ep = explode("/", $date);
+				$string = $ep[2]."-".$ep[1]."-".$ep[0];
+			} else {
+				$string = NULL;
+			}
+			return $string;
+		}
+		protected function convertDatearrayToMySQL($date='00/00/0000') {
+			if (!is_null($date) || !empty($date)) {
+				$ep = explode("/", $date[]);
+				$string = $ep[2]."-".$ep[1]."-".$ep[0];
+			} else {
+				$string = NULL;
+			}
+			return $string;
+		}
 }

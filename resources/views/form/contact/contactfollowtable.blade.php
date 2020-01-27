@@ -1,5 +1,5 @@
 @extends('layouts.index')
-<link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet">
+{{-- <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet"> --}}
 <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @section('contents')
 <div class="page-breadcrumb">
@@ -64,7 +64,7 @@
 </div>
 @endsection
 @section('bottom-script')
-<script src="{{ URL::asset('assets/contact/datatable/js/jquery-3.3.1.js') }}"></script>
+{{-- <script src="{{ URL::asset('assets/contact/datatable/js/jquery-3.3.1.js') }}"></script> --}}
 <script src="{{ URL::asset('assets/contact/datatable/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ URL::asset('assets/contact/datatable/js/dataTables.bootstrap4.min.js') }}"></script>
 <script>

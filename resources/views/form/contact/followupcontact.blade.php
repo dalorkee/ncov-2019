@@ -2,6 +2,8 @@
 <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet">
 <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="../files/assets/pages/waves/css/waves.min.css" type="text/css" media="all">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+@section('contents')
 @section('contents')
 <div class="page-breadcrumb">
 	<div class="row">
@@ -57,7 +59,7 @@
 						</div>
             <div class="form-group row">
             <div class="col-sm-3">
-            <input type="text" name="date_no" class="form-control" placeholder="วันที่ติดตามอาการ">
+            <input type="text" name="date_no" id="date_no" class="form-control" placeholder="วันที่ติดตามอาการ">
             </div>
             </div>
 						<div class="form-group row">
@@ -104,6 +106,14 @@
             <textarea rows="3" name="other_symtom_mers" type="text" class="form-control" placeholder="อาการอื่นๆ "></textarea>
             </div>
             </div>
+						<div class="form-group row">
+						<div class="col-sm-3">
+						<button type="button" id="close" class="btn btn-xs btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
+						</div>
+						<div class="col-sm-3">
+						<button type="button" id="open" class="btn btn-xs btn-success">มีตัวอย่างและสิ่งส่งตรวจ</button>
+						</div>
+						</div>
             <div class="form-group row">
             <div class="col-sm-12">
               <table class="table" id="maintable">
@@ -166,6 +176,7 @@
 </div>
 @endsection
 @section('bottom-script')
+	<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script type="text/javascript">
 				$(document).ready(function () {
 					$(document).on("click", ".classAdd", function () { //
@@ -200,5 +211,27 @@
 				$(this).closest("tr").remove(); // closest used to remove the respective 'tr' in which I have my controls
 	});
 		});
+	</script>
+	<script>
+	$(function(){
+		$('#maintable').hide();
+	 $('#close').on('click',function(){
+	   $('#maintable').hide();
+	 });
+	 $('#open').on('click',function(){
+	   $('#maintable').show();
+	 });
+	}
+	);
+	</script>
+
+	<script>
+	/* date of birth */
+	$('#date_no').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
 	</script>
 @endsection
