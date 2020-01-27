@@ -53,7 +53,7 @@
 			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-1 col-xl-1">
 				<div class="form-group">
 					<label for="ageMonth">อายุ/เดือน</label>
-					<input type="text" name="ageMonthInput" value="{{ $invest_pt[0]['age_month'] }}" class="form-control" id="age_month_input" required>
+					<input type="text" name="ageMonthInput" value="{{ $invest_pt[0]['age_month'] }}" class="form-control" id="age_month_input">
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">

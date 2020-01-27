@@ -194,10 +194,172 @@ $(document).ready(function() {
 		$('.chk_risk2_5').not(this).prop('checked', false);
 	});
 
+	$('.chk_risk2_5').click(function() {
+		$('.chk_risk2_5').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk2_6_his').click(function() {
+		$('.chk_risk2_6_his').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk2_7').click(function() {
+		$('.chk_risk2_7').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk2_8').click(function() {
+		$('.chk_risk2_8').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk2_9').click(function() {
+		$('.chk_risk2_9').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk2_10').click(function() {
+		$('.chk_risk2_10').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk3_2_pt').click(function() {
+		$('.chk_risk3_2_pt').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk3_3').click(function() {
+		$('.chk_risk3_3').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk3_3_smoking').click(function() {
+		$('.chk_risk3_3_smoking').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk3_3_drink').click(function() {
+		$('.chk_risk3_3_drink').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk3_4').click(function() {
+		$('.chk_risk3_4').not(this).prop('checked', false);
+	});
+
+	/* symptom chk */
+	$('.chk_data3_6_0Fever').click(function() {
+		$('.chk_data3_6_0Fever').not(this).prop('checked', false);
+	});
+
+	$('.chk_data3_6_0Cough').click(function() {
+		$('.chk_data3_6_0Cough').not(this).prop('checked', false);
+	});
+
+	$('.chk_data3_6_0Sore').click(function() {
+		$('.chk_data3_6_0Sore').not(this).prop('checked', false);
+	});
+
+	$('.chk_data3_6_0Snot').click(function() {
+		$('.chk_data3_6_0Snot').not(this).prop('checked', false);
+	});
+
+	$('.chk_data3_6_0Sputum').click(function() {
+		$('.chk_data3_6_0Sputum').not(this).prop('checked', false);
+	});
+
+	$('.chk_data3_6_0Breate').click(function() {
+		$('.chk_data3_6_0Breate').not(this).prop('checked', false);
+	});
+
+	$('.chk_data3_6_0Gasp').click(function() {
+		$('.chk_data3_6_0Gasp').not(this).prop('checked', false);
+	});
+
+	$('.chk_data3_6_0Muscle').click(function() {
+		$('.chk_data3_6_0Muscle').not(this).prop('checked', false);
+	});
+
+	$('.chk_data3_6_0Headache').click(function() {
+		$('.chk_data3_6_0Headache').not(this).prop('checked', false);
+	});
+
+	$('.chk_data3_6_0Liquid').click(function() {
+		$('.chk_data3_6_0Liquid').not(this).prop('checked', false);
+	});
+
+	$('.chk_data3_6_Tube').click(function() {
+		$('.chk_data3_6_Tube').not(this).prop('checked', false);
+	});
+
+	$('.chk_data3_6_Antiv').click(function() {
+		$('.chk_data3_6_Antiv').not(this).prop('checked', false);
+	});
 
 
 
 	/* date picker */
+	$('#risk2_2Date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#risk2_6DateArrive').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#risk2_6Activity1DateInput').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#risk2_6Activity2DateInput').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#risk2_6Activity3DateInput').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#risk2_6Activity4DateInput').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#risk2_6Activity5DateInput').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#risk2_6ArriveDate').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#risk2_6HistoryHospitalDate').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#risk2_10Date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
 	$('#risk3_1sickDateInput').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -205,7 +367,49 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
-	$('#risk2_2Date').datepicker({
+	$('#risk3_2treatDateInput').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#risk3_2admitDateInput').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#risk3_4influVaccineChkYesInput').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#data3_6sickDate').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#data3_6BreathingTubeDate').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#data3_6AntiVirusDrugStartDate').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#data3_6AntiVirusDrugEndDate').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,

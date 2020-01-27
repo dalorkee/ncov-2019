@@ -121,23 +121,23 @@
 						<label for="risk">2.5 ในช่วง 14 วันก่อนป่วย ไปตลาดสดที่มีการค้าสัตว์ปีก/สัตว์ป่า/สัตว์เลี้ยงลูกด้วยนม/อาหารทะเล นอกเหนือจากข้อ 2.4</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_5Chk" value="n" class="custom-control-input chk_risk2_4" id="risk2_5ChkNo">
+								<input type="checkbox" name="risk2_5Chk" value="n" class="custom-control-input chk_risk2_5" id="risk2_5ChkNo">
 								<label for="risk2_5ChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_5Chk" value="y" class="custom-control-input chk_risk2_4" id="risk2_5ChkYes">
+								<input type="checkbox" name="risk2_5Chk" value="y" class="custom-control-input chk_risk2_5" id="risk2_5ChkYes">
 								<label for="risk2_5ChkYes" class="custom-control-label normal-label">มี ระบุชื่อตลาดและชนิดสัตว์</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="form-group">
 						<label for="contact">ชื่อตลาด</label>
 						<input type="text" name="risk2_5MarketInput" class="form-control" placeholder="ชื่อตลาด">
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="form-group">
 						<label for="contact">ชนิดสัตว์</label>
 						<input type="text" name="risk2_5AnimalInput" class="form-control" placeholder="ชนิดสัตว์">
@@ -147,41 +147,41 @@
 		</li>
 		<li class="card-body border-top">
 			<div class="form-row">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="risk">2.6 ในช่วง 14 วันก่อนป่วย ท่านอาศัยอยู่ หรือ มีการเดินทางมาจากพื้นที่ที่มีการระบาด</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6Chk" value="n" class="custom-control-input pt-type" id="risk2_6ChkNo">
+								<input type="checkbox" name="risk2_6Chk" value="n" class="custom-control-input chk_risk2_6" id="risk2_6ChkNo">
 								<label for="risk2_6ChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6Chk" value="y" class="custom-control-input pt-type" id="risk2_6ChkYes">
+								<input type="checkbox" name="risk2_6Chk" value="y" class="custom-control-input chk_risk2_6" id="risk2_6ChkYes">
 								<label for="risk2_6ChkYes" class="custom-control-label normal-label">มี ระบุรายละเอียดดังต่อไปนี้</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
 								<ul class="list-style-none">
 									<li class="card-body">
 										<div class="row">
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="contact">ชื่อประเทศ</label>
 													<input type="text" name="risk2_6CountryInput" class="form-control" placeholder="ชื่อประเทศ">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="contact">เมือง/จังหวัด</label>
 													<input type="text" name="risk2_6ProvinceInput" class="form-control" placeholder="เมือง/จังหวัด">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="contact">อำเภอ</label>
 													<input type="text" name="risk2_6DistrictInput" class="form-control" placeholder="อำเภอ">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
 												<div class="form-group">
 													<label for="date">วันที่เดินทางไปถึง</label>
 													<div class="input-group date" data-provide="datepicker" id="risk2_6DateArrive">
@@ -462,20 +462,20 @@
 						</div>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6MeetingChk" value="y" class="custom-control-input" id="risk2_6MeetingChk">
-								<label for="risk2_6MeetingChk" class="custom-control-label normal-label">อื่นๆ</label>
+								<input type="checkbox" name="risk2_6TravelOthChk" value="y" class="custom-control-input" id="risk2_6TravelOthChk">
+								<label for="risk2_6TravelOthChk" class="custom-control-label normal-label">อื่นๆ</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
 								<ul class="list-style-none">
 									<li class="card-body">
 										<div class="row">
-											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 												<div class="form-group">
 													<label for="">โปรดระบุ</label>
 													<input type="text" name="risk2_6OtherInput" class="form-control" placeholder="อื่นๆ โปรดระบุ">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 												<div class="form-group">
 													<label for="date">วันที่เดินทางไปถึงประเทศไทย</label>
 													<div class="input-group date" data-provide="datepicker" id="risk2_6ArriveDate">
@@ -486,19 +486,19 @@
 													</div>
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 												<div class="form-group">
 													<label for="contact">สายการบิน</label>
 													<input type="text" name="risk2_6AirlineInput" class="form-control" placeholder="สายการบิน">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 												<div class="form-group">
 													<label for="contact">เที่ยวบินที่</label>
 													<input type="text" name="risk2_6FlightNoInput" class="form-control" placeholder="เที่ยวบินที่">
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 												<div class="form-group">
 													<label for="contact">เลขที่นั่ง</label>
 													<input type="text" name="risk2_6SeatNoInput" class="form-control" placeholder="เลขที่นั่ง">
@@ -511,23 +511,23 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="">มีประวัติเข้ารับการรักษาหรือเยี่ยมผู้ป่วยในโรงพยาบาลขณะอยู่ที่ประเทศดังกล่าวหรือไม่</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6HistoryChk" value="n" class="custom-control-input pt-type" id="risk2_6HistoryChkNo">
+								<input type="checkbox" name="risk2_6HistoryChk" value="n" class="custom-control-input chk_risk2_6_his" id="risk2_6HistoryChkNo">
 								<label for="risk2_6HistoryChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_6HistoryChk" value="y" class="custom-control-input pt-type" id="risk2_6HistoryChkYes">
+								<input type="checkbox" name="risk2_6HistoryChk" value="y" class="custom-control-input chk_risk2_6_his" id="risk2_6HistoryChkYes">
 								<label for="risk2_6HistoryChkYes" class="custom-control-label normal-label">มี ระบุรายละเอียดดังต่อไปนี้</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
 								<ul class="list-style-none">
 									<li class="card-body">
 										<div class="row">
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 												<div class="form-group">
 													<label for="date">ระบุวันที่เข้าโรงพยาบาล</label>
 													<div class="input-group date" data-provide="datepicker" id="risk2_6HistoryHospitalDate">
@@ -538,7 +538,7 @@
 													</div>
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-9 col-xl-9 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-9 col-xl-9">
 												<div class="form-group">
 													<label for="contact">ชื่อโรงพยาบาล</label>
 													<input type="text" name="risk2_6HistoryHospitalInput" class="form-control" placeholder="โรงพยาบาล">
@@ -555,16 +555,16 @@
 		</li>
 		<li class="card-body border-top">
 			<div class="form-row">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="risk">2.7 ในช่วง 14 วันก่อนป่วย ท่านให้การดูแลหรือสัมผัสใกล้ชิดกับผู้ป่วยอาการคล้ายไข้หวัดใหญ่/ปอดอักเสบหรือไม่</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_7Chk" value="n" class="custom-control-input pt-type" id="risk2_7ChkNo">
+								<input type="checkbox" name="risk2_7Chk" value="n" class="custom-control-input chk_risk2_7" id="risk2_7ChkNo">
 								<label for="risk2_7ChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_7Chk" value="y" class="custom-control-input pt-type" id="risk2_7ChkYes">
+								<input type="checkbox" name="risk2_7Chk" value="y" class="custom-control-input chk_risk2_7" id="risk2_7ChkYes">
 								<label for="risk2_7ChkYes" class="custom-control-label normal-label">มี ระบุรายละเอียดดังต่อไปนี้</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
@@ -590,38 +590,38 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="">2.8 เป็นผู้ป่วยปอดอักเสบรุนแรงหรือเสียชีวิตที่หาสาเหตุไม่ได้</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_8Chk" value="n" class="custom-control-input pt-type" id="risk2_8ChkNo">
+								<input type="checkbox" name="risk2_8Chk" value="n" class="custom-control-input chk_risk2_8" id="risk2_8ChkNo">
 								<label for="risk2_8ChkNo" class="custom-control-label normal-label">ไม่ใช่</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_8Chk" value="y" class="custom-control-input pt-type" id="risk2_8ChkYes">
+								<input type="checkbox" name="risk2_8Chk" value="y" class="custom-control-input chk_risk2_8" id="risk2_8ChkYes">
 								<label for="risk2_8ChkYes" class="custom-control-label normal-label">ใช่</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="risk">2.9 เป็นบุคลากรทางการแพทย์และสาธารณสุขหรือเจ้าหน้าที่ห้องปฎิบัติการ</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_9Chk" value="n" class="custom-control-input pt-type" id="risk2_9ChkNo">
+								<input type="checkbox" name="risk2_9Chk" value="n" class="custom-control-input chk_risk2_7" id="risk2_9ChkNo">
 								<label for="risk2_9ChkNo" class="custom-control-label normal-label">ไม่ใช่</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_9Chk" value="y" class="custom-control-input pt-type" id="risk2_9ChkYes">
+								<input type="checkbox" name="risk2_9Chk" value="y" class="custom-control-input chk_risk2_7" id="risk2_9ChkYes">
 								<label for="risk2_9ChkYes" class="custom-control-label normal-label">ใช่</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
 								<ul class="list-style-none">
 									<li class="card-body">
 										<div class="row">
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 												<div class="form-group">
 													<label for="">ระบุ</label>
 													<input type="text" name="risk2_9Input" class="form-control" placeholder="ระบุ">
@@ -639,11 +639,11 @@
 						<label for="risk">2.10 ผู้ป่วยอาการคล้ายไข้หวัดใหญ่ หรือปอดอักเสบเป็นกลุ่มก้อน</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_10Chk" value="n" class="custom-control-input" id="risk2_10ChkNo">
+								<input type="checkbox" name="risk2_10Chk" value="n" class="custom-control-input chk_risk2_10" id="risk2_10ChkNo">
 								<label for="risk2_10ChkNo" class="custom-control-label normal-label">ไม่ใช่</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_10Chk" value="y" class="custom-control-input" id="risk2_10ChkYes">
+								<input type="checkbox" name="risk2_10Chk" value="y" class="custom-control-input chk_risk2_10" id="risk2_10ChkYes">
 								<label for="risk2_10ChkYes" class="custom-control-label normal-label">ใช่ ระบุรายละเอียดของผู้ป่วยปอดอักเสบรายอื่น</label>
 							</div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
@@ -682,13 +682,13 @@
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 												<div class="form-group">
 													<label for="">โรงพยาบาลที่วินิจฉัย</label>
-													<input type="text" name="risk2_10HospitalInput" class="form-control" placeholder="การวินิจฉัย">
+													<input type="text" name="risk2_10HospitalInput" class="form-control" placeholder="โรงพยาบาล">
 												</div>
 											</div>
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 												<div class="form-group">
 													<label for="">ความเกี่ยวข้องกับผู้ป่วยรายนี้</label>
-													<input type="text" name="risk2_10ConnectInput" class="form-control" placeholder="การวินิจฉัย">
+													<input type="text" name="risk2_10ConnectInput" class="form-control" placeholder="ความเกี่ยวข้อง">
 												</div>
 											</div>
 										</div>

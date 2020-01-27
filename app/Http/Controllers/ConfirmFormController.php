@@ -72,7 +72,7 @@ class ConfirmFormController extends Controller
 		$pt->risk2_1chk = $request->risk2_1Chk;
 		$pt->risk2_1input = $request->risk2_1Input;
 		$pt->risk2_2chk = $request->risk2_2Chk;
-		$pt->risk2_2date = $request->risk2_2Date;
+		$pt->risk2_2date = $this->convertDateToMySQL($request->risk2_2Date);
 		$pt->risk2_2animal = $request->risk2_2AnimalInput;
 		$pt->risk2_3chk = $request->risk2_3Chk;
 		$pt->risk2_4chk = $request->risk2_4Chk;
@@ -85,7 +85,7 @@ class ConfirmFormController extends Controller
 		$pt->risk2_6input_country = $request->risk2_6CountryInput;
 		$pt->risk2_6input_province = $request->risk2_6ProvinceInput;
 		$pt->risk2_6input_district = $request->risk2_6DistrictInput;
-		$pt->risk2_6date_arrive = $request->risk2_6DateArrive;
+		$pt->risk2_6date_arrive = $this->convertDateToMySQL($request->risk2_6DateArrive);
 		$pt->risk2_6arrive_reason = $request->risk2_6ReasonInput;
 		$pt->risk2_6workchk = $request->risk2_6WorkChk;
 		$pt->risk2_6work_type = $request->risk2_6WorkTypeInput;
@@ -93,7 +93,7 @@ class ConfirmFormController extends Controller
 		$pt->risk2_6work_duration = $request->risk2_6WorkDurationInput;
 		$pt->risk2_6meeting_chk = $request->risk2_6MeetingChk;
 		$pt->risk2_6meeting_place = $request->risk2_6MeetingPlaceInput;
-		$pt->risk2_6meeting_date = $request->risk2_6MeetingDate;
+		$pt->risk2_6meeting_date = $this->convertDateToMySQL($request->risk2_6MeetingDate);
 		$pt->risk2_6study_chk = $request->risk2_6StudyChk;
 		$pt->risk2_6study_name = $request->risk2_6StudyNameInput;
 		$pt->risk2_6study_duration = $request->risk2_6StudyDurationInput;
@@ -104,32 +104,33 @@ class ConfirmFormController extends Controller
 
 		$pt->risk2_6travel_acc1_input = $request->risk2_6Activity1Input;
 		$pt->risk2_6travel_acc1_place = $request->risk2_6Activity1PlaceInput;
-		$pt->risk2_6travel_acc1_date = $request->risk2_6Activity1DateInput;
+		$pt->risk2_6travel_acc1_date = $this->convertDateToMySQL($request->risk2_6Activity1DateInput);
 
 		$pt->risk2_6travel_acc2_input = $request->risk2_6Activity2Input;
 		$pt->risk2_6travel_acc2_place = $request->risk2_6Activity2PlaceInput;
-		$pt->risk2_6travel_acc2_date = $request->risk2_6Activity2DateInput;
+		$pt->risk2_6travel_acc2_date = $this->convertDateToMySQL($request->risk2_6Activity2DateInput);
 
 		$pt->risk2_6travel_acc3_input = $request->risk2_6Activity3Input;
 		$pt->risk2_6travel_acc3_place = $request->risk2_6Activity3PlaceInput;
-		$pt->risk2_6travel_acc3_date = $request->risk2_6Activity3DateInput;
+		$pt->risk2_6travel_acc3_date = $this->convertDateToMySQL($request->risk2_6Activity3DateInput);
 
 		$pt->risk2_6travel_acc4_input = $request->risk2_6Activity4Input;
 		$pt->risk2_6travel_acc4_place = $request->risk2_6Activity4PlaceInput;
-		$pt->risk2_6travel_acc4_date = $request->risk2_6Activity4DateInput;
+		$pt->risk2_6travel_acc4_date = $this->convertDateToMySQL($request->risk2_6Activity4DateInput);
 
 		$pt->risk2_6travel_acc5_input = $request->risk2_6Activity5Input;
 		$pt->risk2_6travel_acc5_place = $request->risk2_6Activity5PlaceInput;
-		$pt->risk2_6travel_acc5_date = $request->risk2_6Activity5DateInput;
+		$pt->risk2_6travel_acc5_date = $this->convertDateToMySQL($request->risk2_6Activity5DateInput);
 
-		$pt->risk2_6other_chk = $request->risk2_6MeetingChk;
+		$pt->risk2_6other_chk = $request->risk2_6TravelOthChk;
 		$pt->risk2_6other_input = $request->risk2_6OtherInput;
-		$pt->risk2_6arrive_date = $request->risk2_6ArriveDate;
+		$pt->risk2_6arrive_date = $this->convertDateToMySQL($request->risk2_6ArriveDate);
 		$pt->risk2_6airline_input = $request->risk2_6AirlineInput;
 		$pt->risk2_6flight_no_input = $request->risk2_6FlightNoInput;
 		$pt->risk2_6seat_no_input = $request->risk2_6SeatNoInput;
+
 		$pt->risk2_6history_chk = $request->risk2_6HistoryChk;
-		$pt->risk2_6history_hospital_date = $request->risk2_6HistoryHospitalDate;
+		$pt->risk2_6history_hospital_date = $this->convertDateToMySQL($request->risk2_6HistoryHospitalDate);
 		$pt->risk2_6history_hospital_input = $request->risk2_6HistoryHospitalInput;
 
 		$pt->risk2_7chk = $request->risk2_7Chk;
@@ -142,18 +143,18 @@ class ConfirmFormController extends Controller
 
 		$pt->risk2_10chk = $request->risk2_10Chk;
 		$pt->risk2_10input_name = $request->risk2_10NameInput;
-		$pt->risk2_10date = $request->risk2_10Date;
+		$pt->risk2_10date = $this->convertDateToMySQL($request->risk2_10Date);
 		$pt->risk2_10input_symptom = $request->risk2_10SymptomInput;
 		$pt->risk2_10input_diag = $request->risk2_10DiagInput;
 		$pt->risk2_10input_diage_hospital = $request->risk2_10HospitalInput;
 		$pt->risk2_10input_relation = $request->risk2_10ConnectInput;
 
-		$pt->data3_1date_sickdate = $request->risk3_1sickDateInput;
+		$pt->data3_1date_sickdate = $this->convertDateToMySQL($request->risk3_1sickDateInput);
 		$pt->data3_2input_treat = $request->risk3_2firstTreatInput;
-		$pt->data3_2date_treat = $request->risk3_2treatDateInput;
+		$pt->data3_2date_treat = $this->convertDateToMySQL($request->risk3_2treatDateInput);
 		$pt->data3_2chk_patient_type = $request->risk3_2patientTypeChk;
 		$pt->data3_2input_admit = $request->risk3_2admitPlaceInput;
-		$pt->data3_2date_admit = $request->risk3_2admitDateInput;
+		$pt->data3_2date_admit = $this->convertDateToMySQL($request->risk3_2admitDateInput);
 
 		$pt->data3_3chk = $request->risk3_3Chk;
 		$pt->data3_3chk_lung = $request->risk3_3LungChk;
@@ -189,11 +190,11 @@ class ConfirmFormController extends Controller
 		$pt->data3_3chk_drink_no_input = $request->risk3_3DrinkChkNoInput;
 
 		$pt->data3_4chk = $request->risk3_4influVaccineChk;
-		$pt->data3_4chk_yes_date = $request->risk3_4influVaccineChkYesInput;
+		$pt->data3_4chk_yes_date = $this->convertDateToMySQL($request->risk3_4influVaccineChkYesInput);
 
 		$pt->data3_5_input_symptom = $request->risk3_5SymptomInput;
 
-		$pt->data3_6sick_date = $request->data3_6sickDate;
+		$pt->data3_6sick_date = $this->convertDateToMySQL($request->data3_6sickDate);
 		$pt->data3_temp = $request->data3_6TempInput;
 		$pt->data3_6fever = $request->data3_6_0FeverChk;
 		$pt->data3_6cough = $request->data3_6_0CoughChk;
@@ -208,13 +209,13 @@ class ConfirmFormController extends Controller
 
 		$pt->data3_6oth_symptom = $request->data3_6SymptomOtherInput;
 		$pt->data3_6breathing_tube_chk = $request->data3_6BreathingTubeChk;
-		$pt->data3_6breathing_tube_date = $request->data3_6BreathingTubeDate;
+		$pt->data3_6breathing_tube_date = $this->convertDateToMySQL($request->data3_6BreathingTubeDate);
 
 		$pt->data3_6antivirus_chk = $request->data3_6AntiVirusDrugChk;
 		$pt->data3_6antivirus_name = $request->data3_6AntiVirusDrugInput;
 		$pt->data3_6antivirus_size = $request->data3_6AntiVirusDrugSizeInput;
-		$pt->data3_6antivirus_start_date = $request->data3_6AntiVirusDrugStartDate;
-		$pt->data3_6antivirus_end_date = $request->data3_6AntiVirusDrugEndDate;
+		$pt->data3_6antivirus_start_date = $this->convertDateToMySQL($request->data3_6AntiVirusDrugStartDate);
+		$pt->data3_6antivirus_end_date = $this->convertDateToMySQL($request->data3_6AntiVirusDrugEndDate);
 
 
 		$pt_saved = $pt->save();

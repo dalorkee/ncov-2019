@@ -24,13 +24,13 @@
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="form-group">
-						<label for="">3.2 สถานที่รักษา (ครั้งแรก)</label>
+						<label for="">3.2 สถานที่รักษาครั้งแรก</label>
 						<input type="text" name="risk3_2firstTreatInput" value="{{ old('risk3_2firstTreatInput') }}" class="form-control" placeholder="สถานที่รักษา">
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 					<div class="form-group">
-						<label for="treatDateInput">วันที่รักษา (ครั้งแรก)</label>
+						<label for="treatDateInput">วันที่รักษาครั้งแรก</label>
 						<div class="input-group date" data-provide="datepicke" id="risk3_2treatDateInput">
 							<div class="input-group">
 								<input type="text" name="risk3_2treatDateInput" value="{{ old('risk3_2treatDateInput') }}" class="form-control" readonly>
@@ -46,11 +46,11 @@
 						<label for="">เป็น</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk3_2patientTypeChk" value="opd" class="custom-control-input pt-type" id="risk3_2patientTypeChkOpd">
+								<input type="checkbox" name="risk3_2patientTypeChk" value="opd" class="custom-control-input chk_risk3_2_pt" id="risk3_2patientTypeChkOpd">
 								<label for="risk3_2patientTypeChkOpd" class="custom-control-label normal-label">ผู้ป่วยนอก</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk3_2patientTypeChk" value="ipd" class="custom-control-input pt-type" id="risk3_2patientTypeChkIpd">
+								<input type="checkbox" name="risk3_2patientTypeChk" value="ipd" class="custom-control-input chk_risk3_2_pt" id="risk3_2patientTypeChkIpd">
 								<label for="risk3_2patientTypeChkIpd" class="custom-control-label normal-label">ผู้ป่วยใน</label>
 							</div>
 						</div>
@@ -58,13 +58,13 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="form-group">
-						<label for="">สถานที่ (Admit)</label>
-						<input type="text" name="risk3_2admitPlaceInput" value="{{ old('risk3_admitInput') }}" class="form-control" placeholder="สถานที่ (Admit)">
+						<label for="">สถานที่ Admit</label>
+						<input type="text" name="risk3_2admitPlaceInput" value="{{ old('risk3_admitInput') }}" class="form-control" placeholder="สถานที่ Admit">
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 					<div class="form-group">
-						<label for="treatDateInput">วันที่ (Admit)</label>
+						<label for="treatDateInput">วันที่ Admit</label>
 						<div class="input-group date" data-provide="datepicke" id="risk3_2admitDateInput">
 							<div class="input-group">
 								<input type="text" name="risk3_2admitDateInput" value="{{ old('risk3_admitDateInput') }}" class="form-control" readonly>
@@ -84,17 +84,17 @@
 						<label for="">3.3 ประวัติการเจ็บป่วยในอดีตหรือโรคประจำตัว</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk3_3Chk" value="n" class="custom-control-input pt-type" id="risk3_3ChkNo">
+								<input type="checkbox" name="risk3_3Chk" value="n" class="custom-control-input chk_risk3_3" id="risk3_3ChkNo">
 								<label for="risk3_3ChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk3_3Chk" value="y" class="custom-control-input pt-type" id="risk3_3ChkYes">
+								<input type="checkbox" name="risk3_3Chk" value="y" class="custom-control-input chk_risk3_3" id="risk3_3ChkYes">
 								<label for="risk3_3ChkYes" class="custom-control-label normal-label">มี (กรุณาทำเครื่องหมายด้านล่าง)</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="table-responsive">
 						<table class="table">
 							</thead></thead>
@@ -277,11 +277,11 @@
 						<label for="">ประวัติการสูบบุหรี่</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk3_3SmokingHistoryChk" value="n" class="custom-control-input pt-type" id="risk3_3SmokingHistoryChkNo">
+								<input type="checkbox" name="risk3_3SmokingHistoryChk" value="n" class="custom-control-input chk_risk3_3_smoking" id="risk3_3SmokingHistoryChkNo">
 								<label for="risk3_3SmokingHistoryChkNo" class="custom-control-label normal-label">ไม่สูบ</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk3_3SmokingHistoryChk" value="y" class="custom-control-input pt-type" id="risk3_3SmokingHistoryChkYes">
+								<input type="checkbox" name="risk3_3SmokingHistoryChk" value="y" class="custom-control-input chk_risk3_3_smoking" id="risk3_3SmokingHistoryChkYes">
 								<label for="risk3_3SmokingHistoryChkYes" class="custom-control-label normal-label">สูบ  (ถ้าสูบ กรุณาทำเครื่องหมายด้านล่าง)</label>
 							</div>
 						</div>
@@ -336,11 +336,11 @@
 						<label for="">ประวัติการดื่มสุรา</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk3_3DrinkHistoryChk" value="n" class="custom-control-input pt-type" id="risk3_3DrinkHistoryChkNo">
+								<input type="checkbox" name="risk3_3DrinkHistoryChk" value="n" class="custom-control-input chk_risk3_3_drink" id="risk3_3DrinkHistoryChkNo">
 								<label for="risk3_3DrinkHistoryChkNo" class="custom-control-label normal-label">ไม่ดื่ม</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk3_3DrinkHistoryChk" value="y" class="custom-control-input pt-type" id="risk3_3DrinkHistoryYes">
+								<input type="checkbox" name="risk3_3DrinkHistoryChk" value="y" class="custom-control-input chk_risk3_3_drink" id="risk3_3DrinkHistoryYes">
 								<label for="risk3_3DrinkHistoryYes" class="custom-control-label normal-label">ดื่ม  (ถ้าดื่ม กรุณาทำเครื่องหมายด้านล่าง)</label>
 							</div>
 						</div>
@@ -399,11 +399,11 @@
 						<label for="">3.4 ประวัติการได้รับวัคซีนไข้หวัดใหญ่</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk3_4influVaccineChk" value="n" class="custom-control-input pt-type" id="risk3_4influVaccineChkNo">
+								<input type="checkbox" name="risk3_4influVaccineChk" value="n" class="custom-control-input chk_risk3_4" id="risk3_4influVaccineChkNo">
 								<label for="risk3_4influVaccineChkNo" class="custom-control-label normal-label">ไม่เคยได้รับ</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk3_4influVaccineChk" value="y" class="custom-control-input pt-type" id="risk3_4influVaccineChkYes">
+								<input type="checkbox" name="risk3_4influVaccineChk" value="y" class="custom-control-input chk_risk3_4" id="risk3_4influVaccineChkYes">
 								<label for="risk3_4influVaccineChkYes" class="custom-control-label normal-label">เคยได้รับ </label>
 							</div>
 						</div>
@@ -488,11 +488,11 @@
 												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}FeverChk" value="y" class="custom-control-input pt-type" id="data3_6_{{$i}}FeverChkYes">
+														<input type="checkbox" name="data3_6_{{$i}}FeverChk" value="y" class="custom-control-input chk_data3_6_{{$i}}Fever" id="data3_6_{{$i}}FeverChkYes">
 														<label for="data3_6_{{$i}}FeverChkYes" class="custom-control-label normal-label">มี</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}FeverChk" value="n" class="custom-control-input pt-type" id="data3_6_{{$i}}FeverChkNo">
+														<input type="checkbox" name="data3_6_{{$i}}FeverChk" value="n" class="custom-control-input chk_data3_6_{{$i}}Fever" id="data3_6_{{$i}}FeverChkNo">
 														<label for="data3_6_{{$i}}FeverChkNo" class="custom-control-label normal-label">ไม่มี</label>
 													</div>
 												</td>
@@ -503,11 +503,11 @@
 												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}CoughChk" value="y" class="custom-control-input pt-type" id="data3_6_{{$i}}CoughChkYes">
+														<input type="checkbox" name="data3_6_{{$i}}CoughChk" value="y" class="custom-control-input chk_data3_6_{{$i}}Cough" id="data3_6_{{$i}}CoughChkYes">
 														<label for="data3_6_{{$i}}CoughChkYes" class="custom-control-label normal-label">มี</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}CoughChk" value="n" class="custom-control-input pt-type" id="data3_6_{{$i}}CoughChkNo">
+														<input type="checkbox" name="data3_6_{{$i}}CoughChk" value="n" class="custom-control-input chk_data3_6_{{$i}}Cough" id="data3_6_{{$i}}CoughChkNo">
 														<label for="data3_6_{{$i}}CoughChkNo" class="custom-control-label normal-label">ไม่มี</label>
 													</div>
 												</td>
@@ -518,11 +518,11 @@
 												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}SoreChk" value="y" class="custom-control-input pt-type" id="data3_6_{{$i}}SoreChkYes">
+														<input type="checkbox" name="data3_6_{{$i}}SoreChk" value="y" class="custom-control-input chk_data3_6_{{$i}}Sore" id="data3_6_{{$i}}SoreChkYes">
 														<label for="data3_6_{{$i}}SoreChkYes" class="custom-control-label normal-label">มี</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}SoreChk" value="n" class="custom-control-input pt-type" id="data3_6_{{$i}}SoreChkNo">
+														<input type="checkbox" name="data3_6_{{$i}}SoreChk" value="n" class="custom-control-input chk_data3_6_{{$i}}Sore" id="data3_6_{{$i}}SoreChkNo">
 														<label for="data3_6_{{$i}}SoreChkNo" class="custom-control-label normal-label">ไม่มี</label>
 													</div>
 												</td>
@@ -533,11 +533,11 @@
 												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}SnotChk" value="y" class="custom-control-input pt-type" id="data3_6_{{$i}}SnotChkYes">
+														<input type="checkbox" name="data3_6_{{$i}}SnotChk" value="y" class="custom-control-input chk_data3_6_{{$i}}Snot" id="data3_6_{{$i}}SnotChkYes">
 														<label for="data3_6_{{$i}}SnotChkYes" class="custom-control-label normal-label">มี</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}SnotChk" value="n" class="custom-control-input pt-type" id="data3_6_{{$i}}SnotChkNo">
+														<input type="checkbox" name="data3_6_{{$i}}SnotChk" value="n" class="custom-control-input chk_data3_6_{{$i}}Snot" id="data3_6_{{$i}}SnotChkNo">
 														<label for="data3_6_{{$i}}SnotChkNo" class="custom-control-label normal-label">ไม่มี</label>
 													</div>
 												</td>
@@ -548,11 +548,11 @@
 												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}SputumChk" value="y" class="custom-control-input pt-type" id="data3_6_{{$i}}SputumChkYes">
+														<input type="checkbox" name="data3_6_{{$i}}SputumChk" value="y" class="custom-control-input chk_data3_6_{{$i}}Sputum" id="data3_6_{{$i}}SputumChkYes">
 														<label for="data3_6_{{$i}}SputumChkYes" class="custom-control-label normal-label">มี</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}SputumChk" value="n" class="custom-control-input pt-type" id="data3_6_{{$i}}SputumChkNo">
+														<input type="checkbox" name="data3_6_{{$i}}SputumChk" value="n" class="custom-control-input chk_data3_6_{{$i}}Sputum" id="data3_6_{{$i}}SputumChkNo">
 														<label for="data3_6_{{$i}}SputumChkNo" class="custom-control-label normal-label">ไม่มี</label>
 													</div>
 												</td>
@@ -563,11 +563,11 @@
 												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}BreatheChk" value="y" class="custom-control-input pt-type" id="data3_6_{{$i}}BreatheChkYes">
-														<label for="data3_6_{{$i}}SputumChkYes" class="custom-control-label normal-label">มี</label>
+														<input type="checkbox" name="data3_6_{{$i}}BreatheChk" value="y" class="custom-control-input chk_data3_6_{{$i}}Breate" id="data3_6_{{$i}}BreatheChkYes">
+														<label for="data3_6_{{$i}}BreatheChkYes" class="custom-control-label normal-label">มี</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}BreatheChk" value="n" class="custom-control-input pt-type" id="data3_6_{{$i}}BreatheChkNo">
+														<input type="checkbox" name="data3_6_{{$i}}BreatheChk" value="n" class="custom-control-input chk_data3_6_{{$i}}Breate" id="data3_6_{{$i}}BreatheChkNo">
 														<label for="data3_6_{{$i}}BreatheChkNo" class="custom-control-label normal-label">ไม่มี</label>
 													</div>
 												</td>
@@ -578,11 +578,11 @@
 												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}GaspChk" value="y" class="custom-control-input pt-type" id="data3_6_{{$i}}GaspChkYes">
+														<input type="checkbox" name="data3_6_{{$i}}GaspChk" value="y" class="custom-control-input chk_data3_6_{{$i}}Gasp" id="data3_6_{{$i}}GaspChkYes">
 														<label for="data3_6_{{$i}}GaspChkYes" class="custom-control-label normal-label">มี</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}GaspChk" value="n" class="custom-control-input pt-type" id="data3_6_{{$i}}GaspChkNo">
+														<input type="checkbox" name="data3_6_{{$i}}GaspChk" value="n" class="custom-control-input chk_data3_6_{{$i}}Gasp" id="data3_6_{{$i}}GaspChkNo">
 														<label for="data3_6_{{$i}}GaspChkNo" class="custom-control-label normal-label">ไม่มี</label>
 													</div>
 												</td>
@@ -593,11 +593,11 @@
 												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}MuscleChk" value="y" class="custom-control-input pt-type" id="data3_6_{{$i}}MuscleChkYes">
+														<input type="checkbox" name="data3_6_{{$i}}MuscleChk" value="y" class="custom-control-input chk_data3_6_{{$i}}Muscle" id="data3_6_{{$i}}MuscleChkYes">
 														<label for="data3_6_{{$i}}MuscleChkYes" class="custom-control-label normal-label">มี</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}MuscleChk" value="n" class="custom-control-input pt-type" id="data3_6_{{$i}}MuscleChkNo">
+														<input type="checkbox" name="data3_6_{{$i}}MuscleChk" value="n" class="custom-control-input chk_data3_6_{{$i}}Muscle" id="data3_6_{{$i}}MuscleChkNo">
 														<label for="data3_6_{{$i}}MuscleChkNo" class="custom-control-label normal-label">ไม่มี</label>
 													</div>
 												</td>
@@ -608,11 +608,11 @@
 												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}HeadacheChk" value="y" class="custom-control-input pt-type" id="data3_6_{{$i}}HeadacheChkYes">
+														<input type="checkbox" name="data3_6_{{$i}}HeadacheChk" value="y" class="custom-control-input chk_data3_6_{{$i}}Headache" id="data3_6_{{$i}}HeadacheChkYes">
 														<label for="data3_6_{{$i}}HeadacheChkYes" class="custom-control-label normal-label">มี</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}HeadacheChk" value="n" class="custom-control-input pt-type" id="data3_6_{{$i}}HeadacheChkNo">
+														<input type="checkbox" name="data3_6_{{$i}}HeadacheChk" value="n" class="custom-control-input chk_data3_6_{{$i}}Headache" id="data3_6_{{$i}}HeadacheChkNo">
 														<label for="data3_6_{{$i}}HeadacheChkNo" class="custom-control-label normal-label">ไม่มี</label>
 													</div>
 												</td>
@@ -623,11 +623,11 @@
 												@for ($i=0; $i<1; $i++)
 												<td>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}LiquidChk" value="y" class="custom-control-input pt-type" id="data3_6_{{$i}}LiquidChkYes">
+														<input type="checkbox" name="data3_6_{{$i}}LiquidChk" value="y" class="custom-control-input chk_data3_6_{{$i}}Liquid" id="data3_6_{{$i}}LiquidChkYes">
 														<label for="data3_6_{{$i}}LiquidChkYes" class="custom-control-label normal-label">มี</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="data3_6_{{$i}}LiquidChk" value="n" class="custom-control-input pt-type" id="data3_6_{{$i}}LiquidChkNo">
+														<input type="checkbox" name="data3_6_{{$i}}LiquidChk" value="n" class="custom-control-input chk_data3_6_{{$i}}Liquid" id="data3_6_{{$i}}LiquidChkNo">
 														<label for="data3_6_{{$i}}LiquidChkNo" class="custom-control-label normal-label">ไม่มี</label>
 													</div>
 												</td>
@@ -650,11 +650,11 @@
 									<label for="">ใส่ท่อช่วยหายใจ</label>
 									<div>
 										<div class="custom-control custom-checkbox custom-control-inline">
-											<input type="checkbox" name="data3_6BreathingTubeChk" value="n" class="custom-control-input pt-type" id="data3_6BreathingTubeChkNo">
+											<input type="checkbox" name="data3_6BreathingTubeChk" value="n" class="custom-control-input chk_data3_6_Tube" id="data3_6BreathingTubeChkNo">
 											<label for="data3_6BreathingTubeChkNo" class="custom-control-label normal-label">ไม่ใส่</label>
 										</div>
 										<div class="custom-control custom-checkbox custom-control-inline">
-											<input type="checkbox" name="data3_6BreathingTubeChk" value="y" class="custom-control-input pt-type" id="risk3_6BreathingTubeChkYes">
+											<input type="checkbox" name="data3_6BreathingTubeChk" value="y" class="custom-control-input chk_data3_6_Tube" id="risk3_6BreathingTubeChkYes">
 											<label for="risk3_6BreathingTubeChkYes" class="custom-control-label normal-label">ใส่</label>
 										</div>
 										<div class="card" style="margin-bottom:0;padding-bottom:0">
@@ -684,11 +684,11 @@
 									<label for="">การรักษา ได้รับย้าต้านไวรัส</label>
 									<div>
 										<div class="custom-control custom-checkbox custom-control-inline">
-											<input type="checkbox" name="data3_6AntiVirusDrugChk" value="n" class="custom-control-input pt-type" id="data3_6AntiVirusDrugChkNo">
+											<input type="checkbox" name="data3_6AntiVirusDrugChk" value="n" class="custom-control-input chk_data3_6_Antiv" id="data3_6AntiVirusDrugChkNo">
 											<label for="data3_6AntiVirusDrugChkNo" class="custom-control-label normal-label">ไม่ได้รับ</label>
 										</div>
 										<div class="custom-control custom-checkbox custom-control-inline">
-											<input type="checkbox" name="data3_6AntiVirusDrugChk" value="y" class="custom-control-input pt-type" id="data3_6AntiVirusDrugChkYes">
+											<input type="checkbox" name="data3_6AntiVirusDrugChk" value="y" class="custom-control-input chk_data3_6_Antiv" id="data3_6AntiVirusDrugChkYes">
 											<label for="data3_6AntiVirusDrugChkYes" class="custom-control-label normal-label">ได้รับ</label>
 										</div>
 										<div class="card" style="margin-bottom:0;padding-bottom:0">
