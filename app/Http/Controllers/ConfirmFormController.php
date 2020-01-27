@@ -7,7 +7,10 @@ use App\TitleName;
 use App\Provinces;
 use App\InvestList;
 use App\Occupation;
+use App\District;
+use App\SubDistrict;
 use DB;
+
 class ConfirmFormController extends Controller
 {
 
@@ -19,16 +22,66 @@ class ConfirmFormController extends Controller
 	public function create(Request $request)
 	{
 		$invest_pt = InvestList::find($request->id)->get()->toArray();
+		$data['risk2_2date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_2date']);
+		$data['risk2_6date_arrive'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6date_arrive']);
+		$data['risk2_6meeting_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6meeting_date']);
+		$data['risk2_6travel_acc1_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6travel_acc1_date']);
+		$data['risk2_6travel_acc2_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6travel_acc2_date']);
+		$data['risk2_6travel_acc3_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6travel_acc3_date']);
+		$data['risk2_6travel_acc4_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6travel_acc4_date']);
+		$data['risk2_6travel_acc5_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6travel_acc5_date']);
+		$data['risk2_6arrive_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6arrive_date']);
+		$data['risk2_6history_hospital_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6history_hospital_date']);
+		$data['risk2_10date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_10date']);
+		$data['data3_1date_sickdate'] = self::convertMySQLDateFormat($invest_pt[0]['data3_1date_sickdate']);
+		$data['data3_2date_treat'] = self::convertMySQLDateFormat($invest_pt[0]['data3_2date_treat']);
+		$data['data3_2date_admit'] = self::convertMySQLDateFormat($invest_pt[0]['data3_2date_admit']);
+		$data['data3_4chk_yes_date'] = self::convertMySQLDateFormat($invest_pt[0]['data3_4chk_yes_date']);
+		$data['data3_6sick_date'] = self::convertMySQLDateFormat($invest_pt[0]['data3_6sick_date']);
+		$data['data3_6breathing_tube_date'] = self::convertMySQLDateFormat($invest_pt[0]['data3_6breathing_tube_date']);
+		$data['data3_6antivirus_start_date'] = self::convertMySQLDateFormat($invest_pt[0]['data3_6antivirus_start_date']);
+		$data['data3_6antivirus_end_date'] = self::convertMySQLDateFormat($invest_pt[0]['data3_6antivirus_end_date']);
+
 		$titleName = TitleName::all()->toArray();
-		$provinces = Provinces::all()->toArray();
+		$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
 		$occupation = Occupation::all()->keyBy('id')->toArray();
+
+		/* work district */
+		if (!empty($invest_pt[0]['work_district'])) {
+			$pt_work_district = District::where('district_id', '=', $invest_pt[0]['work_district'])->get()->toArray();
+		} else {
+			$pt_work_district = null;
+		}
+		/* work sub district */
+		if (!empty($invest_pt[0]['work_sub_district'])) {
+			$pt_work_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['work_sub_district'])->get()->toArray();
+		} else {
+			$pt_work_sub_district = null;
+		}
+		/* sick district */
+		if (!empty($invest_pt[0]['sick_district'])) {
+			$pt_sick_district = District::where('district_id', '=', $invest_pt[0]['sick_district'])->get()->toArray();
+		} else {
+			$pt_sick_district = null;
+		}
+		/* sick sub district */
+		if (!empty($invest_pt[0]['sick_sub_district'])) {
+			$pt_sick_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['sick_sub_district'])->get()->toArray();
+		} else {
+			$pt_sick_sub_district = null;
+		}
 
 		return view('form.confirm.index',
 			[
 				'invest_pt' => $invest_pt,
+				'data' => $data,
 				'titleName' => $titleName,
 				'provinces' => $provinces,
-				'occupation' => $occupation
+				'occupation' => $occupation,
+				'pt_work_district' => $pt_work_district,
+				'pt_work_sub_district' => $pt_work_sub_district,
+				'pt_sick_district' => $pt_sick_district,
+				'pt_sick_sub_district' => $pt_sick_sub_district
 			]
 		);
 	}
@@ -93,7 +146,7 @@ class ConfirmFormController extends Controller
 		$pt->risk2_6work_duration = $request->risk2_6WorkDurationInput;
 		$pt->risk2_6meeting_chk = $request->risk2_6MeetingChk;
 		$pt->risk2_6meeting_place = $request->risk2_6MeetingPlaceInput;
-		$pt->risk2_6meeting_date = $this->convertDateToMySQL($request->risk2_6MeetingDate);
+		$pt->risk2_6meeting_date = self::convertDateToMySQL($request->risk2_6MeetingDate);
 		$pt->risk2_6study_chk = $request->risk2_6StudyChk;
 		$pt->risk2_6study_name = $request->risk2_6StudyNameInput;
 		$pt->risk2_6study_duration = $request->risk2_6StudyDurationInput;
@@ -217,10 +270,11 @@ class ConfirmFormController extends Controller
 		$pt->data3_6antivirus_start_date = $this->convertDateToMySQL($request->data3_6AntiVirusDrugStartDate);
 		$pt->data3_6antivirus_end_date = $this->convertDateToMySQL($request->data3_6AntiVirusDrugEndDate);
 
-
 		$pt_saved = $pt->save();
-
-
+		if ($pt_saved) {
+			return redirect()->route('investList.index');
+			exit;
+		}
 	}
 
 	public function store(Request $request)
@@ -287,6 +341,16 @@ class ConfirmFormController extends Controller
 		if (!is_null($date) || !empty($date)) {
 			$ep = explode("/", $date);
 			$string = $ep[2]."-".$ep[1]."-".$ep[0];
+		} else {
+			$string = NULL;
+		}
+		return $string;
+	}
+
+	protected function convertMySQLDateFormat($date='00-00-0000', $seperator="/") {
+		if (!is_null($date) || !empty($date)) {
+			$ep = explode("-", $date);
+			$string = $ep[2].$seperator.$ep[1].$seperator.$ep[0];
 		} else {
 			$string = NULL;
 		}

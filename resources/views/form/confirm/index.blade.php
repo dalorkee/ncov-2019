@@ -304,6 +304,13 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
+	$('#risk2_6MeetingDate').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
 	$('#risk2_6Activity1DateInput').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
