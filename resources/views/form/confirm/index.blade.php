@@ -169,18 +169,49 @@ $(document).ready(function() {
 		}
 	});
 
-	/* patient type */
+	/* check box */
 	$('.informant-chk').click(function() {
 		$('.informant-chk').not(this).prop('checked', false);
 	});
 
-	/* date of birth */
+	$('.chk_risk2_1').click(function() {
+		$('.chk_risk2_1').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk2_2').click(function() {
+		$('.chk_risk2_2').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk2_3').click(function() {
+		$('.chk_risk2_3').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk2_4').click(function() {
+		$('.chk_risk2_4').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk2_5').click(function() {
+		$('.chk_risk2_5').not(this).prop('checked', false);
+	});
+
+
+
+
+	/* date picker */
 	$('#risk3_1sickDateInput').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
+
+	$('#risk2_2Date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
 });
 
 

@@ -281,4 +281,14 @@ class ConfirmFormController extends Controller
 		}
 		return $htm;
 	}
+
+	protected function convertDateToMySQL($date='00/00/0000') {
+		if (!is_null($date) || !empty($date)) {
+			$ep = explode("/", $date);
+			$string = $ep[2]."-".$ep[1]."-".$ep[0];
+		} else {
+			$string = NULL;
+		}
+		return $string;
+	}
 }

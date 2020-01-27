@@ -5,22 +5,22 @@
 	<ul class="list-style-none">
 		<li class="card-body">
 			<div class="form-row">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
-						<label for="risk">2.1 ในช่วง 14 วันก่อนป่วย ท่านได้มีการสัมผัสสัตว์ปีก (ฟาร์ม/เลี้ยง/ในธรรมชาติ) เช่น จับ ชำแหละ ฝังกลบ หรือรับประทานสุกๆ ดิบๆ เป็นต้น</label>
+						<label for="">2.1 ในช่วง 14 วันก่อนป่วย ท่านได้มีการสัมผัสสัตว์ปีก (ฟาร์ม/เลี้ยง/ในธรรมชาติ) เช่น จับ ชำแหละ ฝังกลบ หรือรับประทานสุกๆ ดิบๆ เป็นต้น</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_1Chk" value="n" class="custom-control-input pt-type" id="risk2_1ChkNo">
+								<input type="checkbox" name="risk2_1Chk" value="n" class="custom-control-input chk_risk2_1" id="risk2_1ChkNo">
 								<label for="risk2_1ChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_1Chk" value="y" class="custom-control-input pt-type" id="risk2_1ChkYes">
+								<input type="checkbox" name="risk2_1Chk" value="y" class="custom-control-input chk_risk2_1" id="risk2_1ChkYes">
 								<label for="risk2_1ChkYes" class="custom-control-label normal-label">มี ระบุลักษณะการสัมผัส</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="contact">ระบุลักษณะการสัมผัส</label>
 						<input type="text" name="risk2_1Input" value="{{ old('relativeshipInput') }}" class="form-control" placeholder="ลักษณะการสัมผัส">
@@ -30,22 +30,22 @@
 		</li>
 		<li class="card-body border-top">
 			<div class="form-row">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="risk">2.2 ในช่วง 14 วันก่อนป่วย ท่านได้มีการสัมผัสโดยตรงกับสุกร หรือสัตว์เลี้ยงลูกด้วยนมอื่นๆ ที่ป่วย/ตาย ผิดปกติหรือไม่ทราบสาเหตุ</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_2Chk" value="n" class="custom-control-input pt-type" id="risk2_2ChkNo">
+								<input type="checkbox" name="risk2_2Chk" value="n" class="custom-control-input chk_risk2_2" id="risk2_2ChkNo">
 								<label for="risk2_2ChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_2Chk" value="y" class="custom-control-input pt-type" id="risk2_2ChkYes">
+								<input type="checkbox" name="risk2_2Chk" value="y" class="custom-control-input chk_risk2_2" id="risk2_2ChkYes">
 								<label for="risk2_2ChkYes" class="custom-control-label normal-label">มี ระบุลักษณะการสัมผัส</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 					<div class="form-group">
 						<label for="birthDate">ระบุ (ว/ด/ป ที่สัมผัส)</label>
 						<div class="input-group date" data-provide="datepicker" id="risk2_2Date">
@@ -56,7 +56,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="contact">ชนิดสัตว์</label>
 						<input type="text" name="risk2_2AnimalInput" class="form-control" placeholder="ชนิดสัตว์">
@@ -66,16 +66,16 @@
 		</li>
 		<li class="card-body border-top">
 			<div class="form-row">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="risk">2.3 ในช่วง 14 วันก่อนป่วย ท่านได้พักอาศัยในพื้นที่ที่มีสัตว์ปีกป่วยตายมากผิดปกติหรือพบเชื้อในสัตว์ปีกหรือสิ่งแวดล้อม</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_3Chk" value="n" class="custom-control-input pt-type" id="risk2_3ChkNo">
+								<input type="checkbox" name="risk2_3Chk" value="n" class="custom-control-input chk_risk2_3" id="risk2_3ChkNo">
 								<label for="risk2_3ChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_3Chk" value="y" class="custom-control-input pt-type" id="risk2_3ChkYes">
+								<input type="checkbox" name="risk2_3Chk" value="y" class="custom-control-input chk_risk2_3" id="risk2_3ChkYes">
 								<label for="risk2_3ChkYes" class="custom-control-label normal-label">มี</label>
 							</div>
 						</div>
@@ -85,22 +85,22 @@
 		</li>
 		<li class="card-body border-top">
 			<div class="form-row">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="risk">2.4 ในช่วง 14 วันก่อนป่วย ไปตลาดสดที่มีการค้าสัตว์ปีก/สัตว์ป่า/สัตว์เลี้ยงลูกด้วยนม/อาหารทะเล ในเมืองอู่ฮั่น (Wuhan) มณฑลหูเป่ย (Hubei) ประเทศจีน</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_4Chk" value="n" class="custom-control-input pt-type" id="risk2_4ChkNo">
+								<input type="checkbox" name="risk2_4Chk" value="n" class="custom-control-input chk_risk2_4" id="risk2_4ChkNo">
 								<label for="risk2_4ChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_4Chk" value="y" class="custom-control-input pt-type" id="risk2_4ChkYes">
+								<input type="checkbox" name="risk2_4Chk" value="y" class="custom-control-input chk_risk2_4" id="risk2_4ChkYes">
 								<label for="risk2_4ChkYes" class="custom-control-label normal-label">มี ระบุชื่อตลาดและชนิดสัตว์</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="form-group">
 						<label for="contact">ชื่อตลาด</label>
 						<input type="text" name="risk2_4MarketInput" class="form-control" placeholder="ชื่อตลาด">
@@ -116,16 +116,16 @@
 		</li>
 		<li class="card-body border-top">
 			<div class="form-row">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="risk">2.5 ในช่วง 14 วันก่อนป่วย ไปตลาดสดที่มีการค้าสัตว์ปีก/สัตว์ป่า/สัตว์เลี้ยงลูกด้วยนม/อาหารทะเล นอกเหนือจากข้อ 2.4</label>
 						<div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_5Chk" value="n" class="custom-control-input pt-type" id="risk2_5ChkNo">
+								<input type="checkbox" name="risk2_5Chk" value="n" class="custom-control-input chk_risk2_4" id="risk2_5ChkNo">
 								<label for="risk2_5ChkNo" class="custom-control-label normal-label">ไม่มี</label>
 							</div>
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="risk2_5Chk" value="y" class="custom-control-input pt-type" id="risk2_5ChkYes">
+								<input type="checkbox" name="risk2_5Chk" value="y" class="custom-control-input chk_risk2_4" id="risk2_5ChkYes">
 								<label for="risk2_5ChkYes" class="custom-control-label normal-label">มี ระบุชื่อตลาดและชนิดสัตว์</label>
 							</div>
 						</div>
