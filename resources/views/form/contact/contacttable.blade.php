@@ -31,6 +31,7 @@
 						</a>
 					</div>
 					<br>
+					<div class="table-responsive">
           <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
@@ -75,6 +76,7 @@
             </tr>
         </tfoot>
     </table>
+	</div>
 				</div>
 			</div>
 		</div>
@@ -88,6 +90,6 @@
 <script>
 $(document).ready(function() {
     $('#example').DataTable();
-} );
+			} );
 </script>
 @endsection

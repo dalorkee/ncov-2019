@@ -116,6 +116,7 @@
 						</div>
             <div class="form-group row">
             <div class="col-sm-12">
+							<div class="table-responsive">
               <table class="table" id="maintable">
                   <thead>
                     <tr>
@@ -163,6 +164,7 @@
                     </tr>
                   </tbody>
                 </table>
+							</div>
             </div>
             </div>
             <div class="col-sm-12">
@@ -173,6 +175,8 @@
 			</div>
 		</div>
 	</div>
+</div>
+</div>
 </div>
 @endsection
 @section('bottom-script')
