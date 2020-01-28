@@ -10,8 +10,7 @@ class DdcAuthController extends Controller
 {
 	public function index(Request $request)
 	{
-		echo $request->id;
-		$chk_ddc_user = DdcAuth::where('id', '=', $ddc_user_session_id)->get()->toArray();
+		$chk_ddc_user = DdcAuth::where('id', '=', $request->id)->get()->toArray();
 		dd($chk_ddc_user);
 	}
 
