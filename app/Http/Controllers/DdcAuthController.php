@@ -10,9 +10,11 @@ class DdcAuthController extends Controller
 {
 	public function index(Request $request)
 	{
-		$ddc_user_session_id = $request->session()->get('id');
+		$ddc_user_session_id = session()->get('id');
 		$chk_ddc_user = DdcAuth::where('id', '=', $ddc_user_session_id)->get()->toArray();
-		dd($chk_ddc_user);
+		var_dump($chk_ddc_user);
+
+		dd(session()->all());
 	}
 
 	public function create()
