@@ -21,7 +21,7 @@ class ConfirmFormController extends Controller
 
 	public function create(Request $request)
 	{
-		$invest_pt = InvestList::find($request->id)->get()->toArray();
+		$invest_pt = InvestList::where('id', '=', $request->id)->get()->toArray();
 		$data['risk2_2date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_2date']);
 		$data['risk2_6date_arrive'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6date_arrive']);
 		$data['risk2_6meeting_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6meeting_date']);
