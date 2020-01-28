@@ -3,20 +3,22 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Http\Controllers\DdcAuthController;
+use Session;
 
-
-
-class DdcAuth
+class DdcAuth extends DdcAuthController
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
-    public function handle($request, Closure $next)
-    {
-        return $next($request);
-    }
+	/**
+	* Handle an incoming request.
+	*
+	* @param  \Illuminate\Http\Request  $request
+	* @param  \Closure  $next
+	* @return mixed
+	*/
+	public function handle($request, Closure $next)
+	{
+		parent::index($request);
+		return $next($request);
+
+	}
 }
