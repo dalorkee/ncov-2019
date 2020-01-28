@@ -14,8 +14,8 @@
 Auth::routes();
 
 /* Home */
-Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'DdcAuthController@index');
+Route::get('/home', 'DdcAuthController@index')->name('home');
 
 /* Form */
 
@@ -59,6 +59,9 @@ Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fe
 Route::get('/followupcontact', 'ContactController@followupcontact')->name('followupcontact');
 Route::post('/followupcontactinsert', 'ContactController@followupcontactinsert')->name('followupcontactinsert');
 Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
+
+/* destroy */
+Route::resource('item', 'InvestListController');
 
 /* Logout */
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
