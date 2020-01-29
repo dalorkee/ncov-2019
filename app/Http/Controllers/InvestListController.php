@@ -12,7 +12,7 @@ class InvestListController extends Controller
 	*
 	* @return \Illuminate\Http\Response
 	*/
-	public function index()
+	public function index(Request $request)
 	{
 		$invest = InvestList::whereNotNull('sat_id')->get()->toArray();
 		return view('invest-list.index',

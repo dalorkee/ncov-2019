@@ -14,8 +14,8 @@
 Auth::routes();
 
 /* Home */
-Route::get('/', 'DdcAuthController@index');
-Route::get('/home', 'DdcAuthController@index')->name('home');
+Route::get('/', 'InvestListController@index');
+Route::get('/home', 'InvestListController@index')->name('home');
 
 /* Form */
 
