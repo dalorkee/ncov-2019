@@ -9,6 +9,7 @@ use App\Nationality;
 use App\InvestList;
 use App\LaboratoryLists;
 use App\PathogenLists;
+use App\Occupation;
 
 class WalkInCaseController extends Controller
 {
@@ -34,6 +35,7 @@ class WalkInCaseController extends Controller
       $titleName = TitleName::all()->toArray();
       $provinces = Provinces::all()->toArray();
       $nationality = Nationality::all()->toArray();
+      $occupation = Occupation::all()->toArray();
       return view('walk-in.create',
         [
           'titleName'=>$titleName,
@@ -41,6 +43,7 @@ class WalkInCaseController extends Controller
           'nationality'=>$nationality,
           'laboratorylists'=>$laboratorylists,
           'pathogenlists'=>$pathogenlists,
+          'occupation'=>$occupation
         ]
       );
     }
@@ -67,6 +70,7 @@ class WalkInCaseController extends Controller
           "nation" => (!empty($request->nation)) ? trim($request->nation) : "",
           "race" => (!empty($request->race)) ? trim($request->race) : "",
           "occupation" => (!empty($request->occupation)) ? trim($request->occupation) : "",
+          "occupation_oth" => (!empty($request->occupation_oth)) ? trim($request->occupation_oth) : "",
 
           //"congential" => (!empty($request->congential)) ? trim($request->congential) : "",
           "data3_3chk" => (!empty($request->data3_3chk)) ? trim($request->data3_3chk) : "n",

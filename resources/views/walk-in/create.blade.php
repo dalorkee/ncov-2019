@@ -128,9 +128,18 @@ input:read-only {
 												<input type="text" name="race" class="form-control" id="raceInput"  placeholder="เชื้อชาติ" required>
 											</div>
 										</div>
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
 											<label for="occupation">อาชีพ</label>
-											<input type="text" name="occupation" class="form-control" placeholder="อาชีพ">
+											<select name="occupation" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="occupation">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($occupation as $key5=>$val5) {
+														<option value="{{ $val5['id'] }}">{{ $val5['occu_name_th'] }}</option>
+													@endforeach
+											</select>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
+											<label for="occupation_oth">อาชีพอื่นๆ</label>
+											<input type="text" name="occupation_oth"  class="form-control" id="occupation_oth">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
 											<label for="occupation">โรคประจำตัว</label>
