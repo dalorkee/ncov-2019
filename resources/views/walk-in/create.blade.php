@@ -1,4 +1,17 @@
 @extends('layouts.index')
+@section('custom-style')
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/toastr/build/toastr.min.css') }}">
+<style>
+input:-moz-read-only { /* For Firefox */
+	background-color: #fafafa !important;
+}
+input:read-only {
+	background-color: #fafafa !important;
+}
+</style>
+@endsection
 @section('contents')
 <div class="page-breadcrumb">
 	<div class="row">
@@ -38,7 +51,7 @@
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group {{ $errors->has('titleNameInput') ? 'has-error' : '' }}">
 												<label for="titleName">คำนำหน้าชื่อ</label>
-												<select name="title_name" class="form-control selectpicker show-tick select-title-name" id="title_name_input">
+												<select name="title_name" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="title_name_input">
 													<option value="0">-- โปรดเลือก --</option>
 													@php
 														foreach($titleName as $key=>$val) {
@@ -94,7 +107,7 @@
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group">
 												<label for="nationality">สัญชาติ</label>
-												<select name="nation" class="form-control selectpicker show-tick" id="select_nationality">
+												<select name="nation" class="form-control selectpicker show-tick" data-live-search="true" id="select_nationality">
 													<option value="0">-- โปรดเลือก --</option>
 													@php
 														foreach($nationality as $key=>$val) {
@@ -112,7 +125,7 @@
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group">
 												<label for="nationality">เชื้อชาติ</label>
-												<input type="text" name="race" class="form-control" id="raceInput" placeholder="เชื้อชาติ" required>
+												<input type="text" name="race" class="form-control" id="raceInput"  placeholder="เชื้อชาติ" required>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
@@ -121,7 +134,170 @@
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
 											<label for="occupation">โรคประจำตัว</label>
-											<input type="text" name="congential"  class="form-control" placeholder="โรคประจำตัว">
+										</div>
+										<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+											<div class="custom-control custom-checkbox custom-control-inline">
+												<input type="checkbox" name="data3_3chk" value="n" class="custom-control-input chk_risk3_3" id="data3_3chkNo">
+												<label for="data3_3chkNo" class="custom-control-label normal-label">ไม่มี</label>
+											</div>
+											<div class="custom-control custom-checkbox custom-control-inline">
+												<input type="checkbox" name="data3_3chk" value="y" class="custom-control-input chk_risk3_3" id="data3_3chkYes">
+												<label for="data3_3chkYes" class="custom-control-label normal-label">มี (กรุณาทำเครื่องหมายด้านล่าง)</label>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+											<div class="table-responsive">
+												<table class="table">
+													</thead></thead>
+													<tfoot></tfoot>
+													<tbody>
+														<tr id="risk3_3table_tr1">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_lung" value="y" class="custom-control-input" id="data3_3chk_lung">
+																	<label for="data3_3chk_lung" class="custom-control-label normal-label">
+																		โรคปอดเรื้อรัง เช่น COPD, chronic bronchitis, chronic bronchiectasis, BPD, หรือหอบ (asthma) ที่กำลังรักษา
+																	</label>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr2">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_heart" value="y" class="custom-control-input" id="data3_3chk_heart">
+																	<label for="data3_3chk_heart" class="custom-control-label normal-label">
+																		โรคหัวใจ เช่น หัวใจพิการแต่กำเนิด, โรคหลอดเลือดหัวใจ หรือ Congestive heart failure
+																	</label>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr3">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_cirrhosis" value="y" class="custom-control-input" id="data3_3chk_cirrhosis">
+																	<label for="data3_3chk_cirrhosis" class="custom-control-label normal-label">
+																		โรคตับเรื้อรัง เช่น ตับแข็ง (Cirrhosis)
+																	</label>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr4">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_kidney" value="y" class="custom-control-input" id="data3_3chk_kidney">
+																	<label for="data3_3chk_kidney" class="custom-control-label normal-label">
+																		โรคไต, ไตวาย
+																	</label>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr5">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_diabetes" value="y" class="custom-control-input" id="data3_3chk_diabetes">
+																	<label for="data3_3chk_diabetes" class="custom-control-label normal-label">
+																		เบาหวาน
+																	</label>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr6">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_blood" value="y" class="custom-control-input" id="data3_3chk_blood">
+																	<label for="data3_3chk_blood" class="custom-control-label normal-label">
+																		ความดันโลหิตสูง
+																	</label>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr7">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_immune" value="y" class="custom-control-input" id="data3_3chk_immune">
+																	<label for="data3_3chk_immune" class="custom-control-label normal-label">
+																		ภูมิคุ้มกันบกพร่อง
+																	</label>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr8">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_anaemia" value="y" class="custom-control-input" id="data3_3chk_anaemia">
+																	<label for="data3_3chk_anaemia" class="custom-control-label normal-label">
+																		โลหิตจาง (ธาลัสซีเมีย, sickle cell anemia)
+																	</label>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr9">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_cerebral" value="y" class="custom-control-input" id="data3_3chk_cerebral">
+																	<label for="data3_3chk_cerebral" class="custom-control-label normal-label">
+																		พิการทางสมอง ช่วยเหลือตัวเองไม่ได้
+																	</label>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr10">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_pregnant" value="y" class="custom-control-input" id="data3_3chk_pregnant">
+																	<label for="data3_3chk_pregnant" class="custom-control-label normal-label">
+																		ตั้งครรภ์
+																	</label>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr11">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_fat" value="y" class="custom-control-input" id="data3_3chk_fat">
+																	<label for="data3_3chk_fat" class="custom-control-label normal-label">
+																		อ้วน
+																	</label>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr12">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_cancer" value="y" class="custom-control-input" id="data3_3chk_cancer">
+																	<label for="data3_3chk_cancer" class="custom-control-label normal-label">
+																		มะเร็ง
+																	</label>
+																	<div class="row mt-2">
+																		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+																			<div class="form-group">
+																				<input type="text" name="data3_3chk_cancer_name" class="form-control" placeholder="ประเภทมะเร็ง">
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</td>
+														</tr>
+														<tr id="risk3_3table_tr13">
+															<td>
+																<div class="custom-control custom-checkbox">
+																	<input type="checkbox" name="data3_3chk_other" value="y" class="custom-control-input" id="data3_3chk_other">
+																	<label for="data3_3chk_other" class="custom-control-label normal-label">
+																		อื่นๆ
+																	</label>
+																	<div class="row mt-2">
+																		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+																			<div class="form-group">
+																				<input type="text" name="data3_3input_other"  class="form-control" placeholder="อื่นๆ โปรดระบุ">
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
 											<div class="alert alert-danger" role="alert">
@@ -135,7 +311,7 @@
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
 											<label for="dowork">WalkIn มาที่ รพ.</label>
-											<input type="text" name="walkinpalce_hosp" class="form-control" placeholder="ชื่อ รพ.">
+											<input type="text" name="walkinplace_hosp" class="form-control" placeholder="ชื่อ รพ.">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
 											<div class="form-group">
@@ -220,27 +396,27 @@
 												<label for="informant">อาการ</label>
 												<div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="sym_cough" value="Y" class="custom-control-input pt-type" id="coughChk">
+														<input type="checkbox" name="sym_cough" value="y" class="custom-control-input pt-type" id="coughChk">
 														<label for="coughChk" class="custom-control-label normal-label">ไอ</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="sym_snot" value="Y" class="custom-control-input pt-type" id="snotChk">
+														<input type="checkbox" name="sym_snot" value="y" class="custom-control-input pt-type" id="snotChk">
 														<label for="snotChk" class="custom-control-label normal-label">น้ำมูก</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="sym_sore" value="Y" class="custom-control-input pt-type" id="soreChk">
+														<input type="checkbox" name="sym_sore" value="y" class="custom-control-input pt-type" id="soreChk">
 														<label for="soreChk" class="custom-control-label normal-label">เจ็บคอ</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="sym_dyspnea" value="Y" class="custom-control-input pt-type" id="dyspneaChk">
+														<input type="checkbox" name="sym_dyspnea" value="y" class="custom-control-input pt-type" id="dyspneaChk">
 														<label for="dyspneaChk" class="custom-control-label normal-label">หายใจเหนื่อย</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="sym_breathe" value="Y" class="custom-control-input pt-type" id="breatheChk">
+														<input type="checkbox" name="sym_breathe" value="y" class="custom-control-input pt-type" id="breatheChk">
 														<label for="breatheChk" class="custom-control-label normal-label">หายใจลำบาก</label>
 													</div>
 													<div class="custom-control custom-checkbox custom-control-inline">
-														<input type="checkbox" name="sym_stufefy" value="Y" class="custom-control-input pt-type" id="stufefyChk">
+														<input type="checkbox" name="sym_stufefy" value="y" class="custom-control-input pt-type" id="stufefyChk">
 														<label for="stufefyChk" class="custom-control-label normal-label">ซึม</label>
 													</div>
 												</div>
@@ -248,7 +424,7 @@
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 											<div class="form-group">
-												<label for="lane">RR(Rpm)</label>
+												<label for="lane">RR(ครั้ง/นาที)</label>
 												<input type="text" name="rr_rpm" class="form-control">
 											</div>
 										</div>
@@ -295,12 +471,109 @@
 								</div><!-- card body#1 -->
 							</div><!-- card1 -->
 						</div><!-- bd-collout1 -->
-
 						<h3 class="text-primary">ส่วนที่ 2</h3>
+						<div class="bd-callout bd-callout-warning" style="margin:0;">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+									<h1 class="text-info">5.การส่งตรวจ Lab</h1>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+										<div class="form-group">
+											<label for="houseNo">วันที่เก็บ(NPS+TS1)</label>
+											<input type="text" name="nps_ts1_date" class="form-control datepicker">
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+										<div class="form-group">
+											<label for="houseNo">ส่งที่(NPS+TS1)</label>
+											<select name="nps_ts1_send" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="nps_ts1_send">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($laboratorylists as $key1=>$val2) {
+														<option value="{{ $val2['id'] }}">{{ $val2['en_initials'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+										<div class="form-group">
+											<label for="houseNo">ผล(NPS+TS1)</label>
+											<select name="nps_ts1_result" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="nps_ts1_result">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($pathogenlists as $key3=>$val3) {
+														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+										<div class="form-group">
+											<label for="houseNo">วันที่เก็บ(NPS+TS2)</label>
+											<input type="text" name="nps_ts2_date" class="form-control datepicker">
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+										<div class="form-group">
+											<label for="houseNo">ส่งที่(NPS+TS2)</label>
+											<select name="nps_ts2_send" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="nps_ts1_send">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($laboratorylists as $key1=>$val2) {
+														<option value="{{ $val2['id'] }}">{{ $val2['en_initials'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+										<div class="form-group">
+											<label for="houseNo">ผล(NPS+TS2)</label>
+											<select name="nps_ts2_result" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="nps_ts1_result">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($pathogenlists as $key3=>$val3) {
+														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+										<div class="form-group">
+											<label for="houseNo">วันที่เก็บ(Clot Blood)</label>
+											<input type="text" name="cb_date" class="form-control datepicker">
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+										<div class="form-group">
+											<label for="houseNo">ส่งที่(Clot Blood)</label>
+											<select name="cb_send" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="cb_send">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($laboratorylists as $key1=>$val2) {
+														<option value="{{ $val2['id'] }}">{{ $val2['en_initials'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+										<div class="form-group">
+											<label for="cb_result">ผล(Clot Blood)</label>
+											<select name="cb_result" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="cb_result">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($pathogenlists as $key3=>$val3) {
+														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+								</div>
+						</div>
+						<div style="margin-top:20px;">
+						</div>
+						<h3 class="text-primary">ส่วนที่ 3</h3>
 						<div class="bd-callout bd-callout-danger" style="margin:0;">
 							<div class="form-row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-									<h1 class="text-info">5.การดำเนินงานเพิ่มเติม สำหรับ Sup Sat./Sat Manager</h1>
+									<h1 class="text-info">6.การดำเนินงานเพิ่มเติม สำหรับ Sup Sat./Sat Manager</h1>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 									<div class="form-group">
@@ -365,8 +638,6 @@
 
 						</div>
 						<div class="row">
-
-
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="lane">ไม่แจ้งบำราศ เนื่องจาก</label>
@@ -389,10 +660,41 @@
 										</div>
 									</div>
 								</div>
-
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+									<div class="form-group">
+										<label for="pt_status">PT Status</label>
+										<select name="pt_status" data-live-search="true" class="form-control selectpicker show-tick">
+											<option value="1">PUI</option>
+											<option value="2">Confirm</option>
+											<option value="3">Suspect</option>
+											<option value="3">Excluded</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+									<div class="form-group">
+										<label for="news_st">การแถลงข่าว</label>
+										<select name="news_st" class="form-control selectpicker show-tick">
+											<option value="1">Confirm แถลงข่าว</option>
+											<option value="2">Comfirm ยังไม่แถลง</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+									<div class="form-group">
+										<label for="disch_st">สถานะการจำหน่ายผู้ป่วย</label>
+										<select name="disch_st" class="form-control selectpicker show-tick">
+											<option value="1">Recovery</option>
+											<option value="2">Admit</option>
+											<option value="3">Death</option>
+										</select>
+									</div>
+								</div>
 
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-								 <h1 class="text-info">6. ข้อมูลผู้บันทึกข้อมูล</h1>
+								 <h1 class="text-info">7. ข้อมูลผู้บันทึกข้อมูล</h1>
 								</div>
 
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
@@ -437,6 +739,7 @@
 @endsection
 @section('bottom-script')
 	<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+		<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
 <script>
 $(document).ready(function() {
 	/* ajax request */
@@ -446,13 +749,18 @@ $(document).ready(function() {
 		}
 	});
 });
-
+$('.selectpicker').selectpicker();
 /* date of birth */
-$('#datepicker1,#datepicker2,#datepicker3').datepicker({
+$('#datepicker1,#datepicker2,#datepicker3,.datepicker').datepicker({
 	format: 'dd/mm/yyyy',
 	todayHighlight: true,
 	todayBtn: true,
 	autoclose: true
 });
+
+$('.chk_risk3_3').click(function() {
+	$('.chk_risk3_3').not(this).prop('checked', false);
+});
+
 </script>
 @endsection
