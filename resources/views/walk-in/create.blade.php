@@ -63,7 +63,7 @@
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 											<div class="form-group">
 												<label for="midName">ชื่อกลาง</label>
-												<input type="text" name="mid_name" class="form-control" id="mid_name_input" placeholder="ชื่อกลาง" required>
+												<input type="text" name="mid_name" class="form-control" id="mid_name_input" placeholder="ชื่อกลาง">
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
