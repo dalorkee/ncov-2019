@@ -61,6 +61,7 @@ class WalkInCaseController extends Controller
 
         //dd($request);
         $data = [
+          "screen_pt" => (!empty($request->screen_pt)) ? trim($request->screen_pt) : "1",
           "title_name" => (!empty($request->title_name)) ? trim($request->title_name) : "",
           "first_name" => (!empty($request->first_name)) ? trim($request->first_name) : "",
           "mid_name" => (!empty($request->mid_name)) ? trim($request->mid_name) : "",

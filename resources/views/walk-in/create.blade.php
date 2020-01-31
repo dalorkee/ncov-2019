@@ -47,6 +47,85 @@ input:read-only {
 							<div class="card">
 								<div class="card-body">
 									<h1 class="text-info">1. ข้อมูลทั่วไปของผู้ป่วย</h1>
+									<div class="form-group row">
+                                    <label class="col-md-3">ประเภทผู้ป่วย</label>
+                                    <div class="col-md-9">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" id="customControlValidation1" value="1" name="screen_pt" required="">
+                                            <label class="custom-control-label" for="customControlValidation1">คัดกรองที่สนามบิน</label>
+                                        </div>
+                                         <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" id="customControlValidation2" value="2" name="screen_pt" required="">
+                                            <label class="custom-control-label" for="customControlValidation2">walkin</label>
+                                        </div>
+                                    </div>
+                  </div>
+									<div class="form-row">
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<label for="dowork">WalkIn มาที่ รพ.</label>
+											<input type="text" name="walkinplace_hosp" class="form-control" placeholder="ชื่อ รพ.">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+											<div class="form-group">
+												<label for="informant">มีห้อง Neagtive pressure หรือไม่</label>
+												<div>
+													<div class="custom-control custom-radio custom-control-inline">
+														<input type="radio" value="Y" class="custom-control-input" id="customControlValidation1" name="negative_pressure" required="">
+														<label class="custom-control-label" for="customControlValidation1">มี</label>
+													</div>
+													 <div class="custom-control custom-radio custom-control-inline">
+															<input type="radio" value="N" class="custom-control-input" id="customControlValidation2" name="negative_pressure" required="">
+															<label class="custom-control-label" for="customControlValidation2">ไม่มี</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+											<div class="form-group">
+												<label for="informant">มีรถ Refer ผู้ป่วยหรือไม่ หรือไม่</label>
+												<div>
+													<div class="custom-control custom-radio custom-control-inline">
+														<input type="radio" value="Y" class="custom-control-input" id="customControlValidation3" name="refer_car" required="">
+														<label class="custom-control-label" for="customControlValidation3">มี</label>
+													</div>
+													 <div class="custom-control custom-radio custom-control-inline">
+															<input type="radio" value="N" class="custom-control-input" id="customControlValidation4" name="refer_car" required="">
+															<label class="custom-control-label" for="customControlValidation4">ไม่มี</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+											<label for="dowork">ผู้ป่วย Isolated ที่ รพ.</label>
+											<input type="text" name="risk2_6HistoryHospitalInput" class="form-control" placeholder="ชื่อ รพ.">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+											<label for="dowork">จังหวัด</label>
+											<input type="text" name="isolated_province" class="form-control" placeholder="จังหวัด">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+											<h1 class="text-info">2. ข้อมูลการเดินทาง</h1>
+											<div class="form-group">
+												<label for="informant">เดินทางมาจากอู่ฮั่นหรือไม่ หากเดินทางมาจากอู่ฮั่น</label>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+											<label for="workPhone">วันที่มาถึงไทย</label>
+											<input type="text" name="risk2_6ArriveDate" id="datepicker1" class="form-control">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+											<label for="workPhone">สายการบิน</label>
+											<input type="text" name="risk2_6AirlineInput" class="form-control" placeholder="สายการบิน">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+											<label for="workPhone">เที่ยวบิน</label>
+											<input type="text" name="risk2_6FlightNoInput" class="form-control" placeholder="เที่ยวบิน">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+											<label for="workPhone"><small>จำนวนผู้ร่วมเดินทางในกลุ่มเดียวกัน(คน)</small></label>
+											<input type="text" name="total_travel_in_group"  class="form-control" placeholder="จำนวนคน">
+										</div>
+									</div>
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group {{ $errors->has('titleNameInput') ? 'has-error' : '' }}">
@@ -317,72 +396,6 @@ input:read-only {
 									<div class="form-row">
 
 									</div>
-									<div class="form-row">
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
-											<label for="dowork">WalkIn มาที่ รพ.</label>
-											<input type="text" name="walkinplace_hosp" class="form-control" placeholder="ชื่อ รพ.">
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
-											<div class="form-group">
-												<label for="informant">มีห้อง Neagtive pressure หรือไม่</label>
-												<div>
-													<div class="custom-control custom-radio custom-control-inline">
-														<input type="radio" value="Y" class="custom-control-input" id="customControlValidation1" name="negative_pressure" required="">
-														<label class="custom-control-label" for="customControlValidation1">มี</label>
-													</div>
-													 <div class="custom-control custom-radio custom-control-inline">
-															<input type="radio" value="N" class="custom-control-input" id="customControlValidation2" name="negative_pressure" required="">
-															<label class="custom-control-label" for="customControlValidation2">ไม่มี</label>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
-											<div class="form-group">
-												<label for="informant">มีรถ Refer ผู้ป่วยหรือไม่ หรือไม่</label>
-												<div>
-													<div class="custom-control custom-radio custom-control-inline">
-														<input type="radio" value="Y" class="custom-control-input" id="customControlValidation3" name="refer_car" required="">
-														<label class="custom-control-label" for="customControlValidation3">มี</label>
-													</div>
-													 <div class="custom-control custom-radio custom-control-inline">
-															<input type="radio" value="N" class="custom-control-input" id="customControlValidation4" name="refer_car" required="">
-															<label class="custom-control-label" for="customControlValidation4">ไม่มี</label>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
-											<label for="dowork">ผู้ป่วย Isolated ที่ รพ.</label>
-											<input type="text" name="risk2_6HistoryHospitalInput" class="form-control" placeholder="ชื่อ รพ.">
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
-											<label for="dowork">จังหวัด</label>
-											<input type="text" name="isolated_province" class="form-control" placeholder="จังหวัด">
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-											<h1 class="text-info">2. ข้อมูลการเดินทาง</h1>
-											<div class="form-group">
-												<label for="informant">เดินทางมาจากอู่ฮั่นหรือไม่ หากเดินทางมาจากอู่ฮั่น</label>
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
-											<label for="workPhone">วันที่มาถึงไทย</label>
-											<input type="text" name="risk2_6ArriveDate" id="datepicker1" class="form-control">
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
-											<label for="workPhone">สายการบิน</label>
-											<input type="text" name="risk2_6AirlineInput" class="form-control" placeholder="สายการบิน">
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
-											<label for="workPhone">เที่ยวบิน</label>
-											<input type="text" name="risk2_6FlightNoInput" class="form-control" placeholder="เที่ยวบิน">
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
-											<label for="workPhone"><small>จำนวนผู้ร่วมเดินทางในกลุ่มเดียวกัน(คน)</small></label>
-											<input type="text" name="total_travel_in_group"  class="form-control" placeholder="จำนวนคน">
-										</div>
-									</div>
 
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
@@ -495,7 +508,7 @@ input:read-only {
 									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 										<div class="form-group">
 											<label for="houseNo">ส่งที่(NPS+TS1)</label>
-											<select name="nps_ts1_send" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="nps_ts1_send">
+											<select name="nps_ts1_send" class="form-control show-tick select-title-name" data-live-search="true" id="nps_ts1_send">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($laboratorylists as $key1=>$val2) {
 														<option value="{{ $val2['id'] }}">{{ $val2['en_initials'] }}</option>
@@ -506,7 +519,7 @@ input:read-only {
 									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 										<div class="form-group">
 											<label for="houseNo">ผล(NPS+TS1)</label>
-											<select name="nps_ts1_result" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="nps_ts1_result">
+											<select name="nps_ts1_result" class="form-control  show-tick select-title-name" data-live-search="true" id="nps_ts1_result">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($pathogenlists as $key3=>$val3) {
 														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
@@ -525,7 +538,7 @@ input:read-only {
 									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 										<div class="form-group">
 											<label for="houseNo">ส่งที่(NPS+TS2)</label>
-											<select name="nps_ts2_send" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="nps_ts1_send">
+											<select name="nps_ts2_send" class="form-control show-tick select-title-name" data-live-search="true" id="nps_ts2_send">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($laboratorylists as $key1=>$val2) {
 														<option value="{{ $val2['id'] }}">{{ $val2['en_initials'] }}</option>
@@ -536,7 +549,7 @@ input:read-only {
 									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 										<div class="form-group">
 											<label for="houseNo">ผล(NPS+TS2)</label>
-											<select name="nps_ts2_result" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="nps_ts1_result">
+											<select name="nps_ts2_result" class="form-control show-tick select-title-name" data-live-search="true" id="nps_ts2_result">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($pathogenlists as $key3=>$val3) {
 														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
@@ -555,7 +568,7 @@ input:read-only {
 									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 										<div class="form-group">
 											<label for="houseNo">ส่งที่(Clot Blood)</label>
-											<select name="cb_send" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="cb_send">
+											<select name="cb_send" class="form-control show-tick select-title-name" data-live-search="true" id="cb_send">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($laboratorylists as $key1=>$val2) {
 														<option value="{{ $val2['id'] }}">{{ $val2['en_initials'] }}</option>
@@ -566,7 +579,7 @@ input:read-only {
 									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 										<div class="form-group">
 											<label for="cb_result">ผล(Clot Blood)</label>
-											<select name="cb_result" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="cb_result">
+											<select name="cb_result" class="form-control  show-tick select-title-name" data-live-search="true" id="cb_result">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($pathogenlists as $key3=>$val3) {
 														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
@@ -758,7 +771,7 @@ $(document).ready(function() {
 		}
 	});
 });
-$('.selectpicker').selectpicker();
+$('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts2_result,#nps_ts1_send').selectpicker();
 /* date of birth */
 $('#datepicker1,#datepicker2,#datepicker3,.datepicker').datepicker({
 	format: 'dd/mm/yyyy',
