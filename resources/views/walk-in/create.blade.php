@@ -48,6 +48,16 @@ input:read-only {
 								<div class="card-body">
 									<h1 class="text-info">1. ข้อมูลทั่วไปของผู้ป่วย</h1>
 									<div class="form-group row">
+										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+											<label for="workPhone">วันที่ได้รับแจ้ง</label>
+											<input type="text" name="notify_date" id="notify_date" class="form-control" required="">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 mb-2">
+											<label for="workPhone">เวลาได้รับแจ้ง</label>
+											<input type="text" class="form-control" name="notify_time" value="" placeholder="<?php echo date('H:i'); ?>" data-timepicker>
+										</div>
+									</div>
+									<div class="form-group row">
                                     <label class="col-md-3">ประเภทผู้ป่วย</label>
                                     <div class="col-md-9">
                                         <div class="custom-control custom-radio">
@@ -204,7 +214,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group">
 												<label for="nationality">เชื้อชาติ</label>
-												<input type="text" name="race" class="form-control" id="raceInput"  placeholder="เชื้อชาติ" required>
+												<input type="text" name="race" class="form-control" id="raceInput"  placeholder="เชื้อชาติ" >
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
@@ -761,7 +771,8 @@ input:read-only {
 @endsection
 @section('bottom-script')
 	<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
-		<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
+	<script src="https://www.jqueryscript.net/demo/jQuery-Plugin-To-Auto-Format-Time-Format-timepicker-js/timepicker.js"></script>
 <script>
 $(document).ready(function() {
 	/* ajax request */
@@ -773,7 +784,7 @@ $(document).ready(function() {
 });
 $('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts2_result,#nps_ts1_send').selectpicker();
 /* date of birth */
-$('#datepicker1,#datepicker2,#datepicker3,.datepicker').datepicker({
+$('#datepicker1,#datepicker2,#datepicker3,.datepicker,#notify_date').datepicker({
 	format: 'dd/mm/yyyy',
 	todayHighlight: true,
 	todayBtn: true,

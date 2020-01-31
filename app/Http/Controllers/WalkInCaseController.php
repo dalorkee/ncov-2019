@@ -59,8 +59,10 @@ class WalkInCaseController extends Controller
 
         //dd($this->Convert_Date($request->risk2_6ArriveDate));
 
-        //dd($request);
+        //dd($request->notify_time);
         $data = [
+          "notify_date" => (!empty($request->notify_date)) ? $this->Convert_Date($request->notify_date) : date('Y-m-d'),
+          "notify_time" => (!empty($request->notify_time)) ? $request->notify_time.":00" : NULL,
           "screen_pt" => (!empty($request->screen_pt)) ? trim($request->screen_pt) : "1",
           "title_name" => (!empty($request->title_name)) ? trim($request->title_name) : "",
           "first_name" => (!empty($request->first_name)) ? trim($request->first_name) : "",
