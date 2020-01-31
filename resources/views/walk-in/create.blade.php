@@ -709,6 +709,7 @@ input:read-only {
 									<div class="form-group">
 										<label for="news_st">การแถลงข่าว</label>
 										<select name="news_st" class="form-control selectpicker show-tick">
+											<option value="">-- โปรดเลือก --</option>
 											<option value="1">Confirm แถลงข่าว</option>
 											<option value="2">Comfirm ยังไม่แถลง</option>
 										</select>
@@ -716,8 +717,9 @@ input:read-only {
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
 									<div class="form-group">
-										<label for="disch_st">สถานะการจำหน่ายผู้ป่วย</label>
+										<label for="disch_st">สถานะการรักษา</label>
 										<select name="disch_st" class="form-control selectpicker show-tick">
+											<option value="">-- โปรดเลือก --</option>
 											<option value="1">Recovery</option>
 											<option value="2">Admit</option>
 											<option value="3">Death</option>
