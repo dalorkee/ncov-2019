@@ -51,12 +51,12 @@ input:read-only {
                                     <label class="col-md-3">ประเภทผู้ป่วย</label>
                                     <div class="col-md-9">
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="customControlValidation1" value="1" name="screen_pt" required="">
-                                            <label class="custom-control-label" for="customControlValidation1">คัดกรองที่สนามบิน</label>
+                                            <input type="radio" class="custom-control-input" id="customControlValidation_rd1" value="1" name="screen_pt" required="">
+                                            <label class="custom-control-label" for="customControlValidation_rd1">คัดกรองที่สนามบิน</label>
                                         </div>
                                          <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="customControlValidation2" value="2" name="screen_pt" required="">
-                                            <label class="custom-control-label" for="customControlValidation2">walkin</label>
+                                            <input type="radio" class="custom-control-input" id="customControlValidation_rd2" value="2" name="screen_pt" required="">
+                                            <label class="custom-control-label" for="customControlValidation_rd2">walkin</label>
                                         </div>
                                     </div>
                   </div>
