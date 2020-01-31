@@ -8,11 +8,15 @@ use DB;
 
 class ContactController extends MasterController
 {
-  // indexcontact table
-	public function indexcasetable()
-	{
-		return view('form.contact.indexcasetable');
-	}
+  // allcontact table
+	public function allcasecontacttable(Request $req)
+  {
+		// dd($poe_id);
+		$contact_data=DB::table('tbl_contact')->select('*')->get();
+    return view('form.contact.allcasecontacttable',compact(
+			'contact_data'
+    ));
+  }
   // indexcontact table
   public function contacttable(Request $req)
   {

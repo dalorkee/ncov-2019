@@ -1,11 +1,11 @@
 @extends('layouts.index')
-<link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet">
+{{-- <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet"> --}}
 <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @section('contents')
 <div class="page-breadcrumb">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title">ผู้ป่วย</h4>
+			<h4 class="page-title">รายชื่อผู้สัมผัส</h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
@@ -22,50 +22,49 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-body">
-					{{ __('indexcase') }}
+					<br>
 					<div class="table-responsive">
           <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Sex</th>
-                <th>Age</th>
-                <th>Nation</th>
-                <th>Province</th>
-                <th>Status</th>
+                <th>Contact ID</th>
+                <th>ชื่อ-สกุล</th>
+								<th>Passport</th>
+                <th>อายุ</th>
+                <th>สัญชาติ</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
+					<?php foreach($contact_data as $value) : ?>
             <tr>
-                <td>Michael Bruce</td>
-                <td>Javascript Developer</td>
-                <td>Singapore</td>
-                <td>29</td>
-                <td>2011/06/27</td>
-                <td>$183,000</td>
+                <td>{{ $value->poe_id }}</td>
+                <td>{{ $value->name_contact }}</td>
+                <td>{{ $value->passport_contact }}</td>
+                <td>{{ $value->age_contact }}</td>
+                <td>{{ $value->national_contact }}</td>
                 <td>
-                  <a class="btn btn-success" href="{{ route('contacttable',["index_id" => '1']) }}">
-                      Contact
+                  <a class="btn btn-danger" href="{{ route('contactfollowtable')}}?poe_id={{ $value->poe_id }}&contact_id={{ $value->contact_id }}">
+                      ติดตามอาการ
                   </a>
-                    <a class="btn btn-info" href="{{ route('addcontact',["index_id" => '1']) }}">
+                    <a class="btn btn-info" href="{{ route('addcontact')}}">
                       Detail
                   </a>
-                  <a class="btn btn-info" href="{{ route('addcontact',["index_id" => '1']) }}">
+                  <a class="btn btn-warning" href="{{ route('addcontact')}}">
                       Edit
                   </a>
                 </td>
             </tr>
+						<?php endforeach;?>
         </tbody>
         <tfoot>
             <tr>
-              <th>ID</th>
-              <th>Sex</th>
-              <th>Age</th>
-              <th>Nation</th>
-              <th>Province</th>
-              <th>Status</th>
-              <th>Action</th>
+							<th>Contact ID</th>
+							<th>ชื่อ-สกุล</th>
+							<th>Passport</th>
+							<th>อายุ</th>
+							<th>สัญชาติ</th>
+							<th>Action</th>
             </tr>
         </tfoot>
     </table>
@@ -77,12 +76,12 @@
 </div>
 @endsection
 @section('bottom-script')
-<script src="{{ URL::asset('assets/contact/datatable/js/jquery-3.3.1.js') }}"></script>
+{{-- <script src="{{ URL::asset('assets/contact/datatable/js/jquery-3.3.1.js') }}"></script> --}}
 <script src="{{ URL::asset('assets/contact/datatable/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ URL::asset('assets/contact/datatable/js/dataTables.bootstrap4.min.js') }}"></script>
 <script>
 $(document).ready(function() {
     $('#example').DataTable();
-} );
+			} );
 </script>
 @endsection
