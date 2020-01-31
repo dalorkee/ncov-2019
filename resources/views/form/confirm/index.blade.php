@@ -74,6 +74,22 @@ input:read-only {
 		</div>
 	</div>
 </div>
+<!-- modal delete confirmation -->
+<div id="SavedModal" class="modal fade text-danger" role="dialog" aria-labelledby="SavedModal" aria-hidden="true ">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-success">
+				<h5 class="modal-title text-center text-white">nCoV 2019</h5>
+				<button type="button" class="close" data-dismiss="modal aria-label="Close"">
+					<span aria-hidden="true ">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Successfully saved.</p>
+			</div>
+		</div>
+	</div>
+</div><!-- end confirmation delte -->
 @endsection
 @section('bottom-script')
 	<script src="{{ URL::asset('assets/libs/jquery-blockUI/jquery.blockUI.js') }}"></script>

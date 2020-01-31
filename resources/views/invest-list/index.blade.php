@@ -130,8 +130,8 @@ input.valid, textarea.valid{
 								<table class="table display mb-4" id="code_table" role="table">
 									<thead>
 										<tr>
-											<th>ลำดับ</th>
-											<th>SAT ID</th>
+											<th>POE_ID</th>
+											<th>SAT_ID</th>
 											<th>ชื่อ-สกุล</th>
 											<th>พาสปอร์ต</th>
 											<th>อายุ</th>
