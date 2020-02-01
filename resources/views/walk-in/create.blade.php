@@ -587,13 +587,13 @@ input:read-only {
 									</div>
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
 										<div class="form-group">
-											<label for="subDistrict">ผลการตรวจอื่นๆ</label>
+											<label for="subDistrict">ผลการตรวจอื่นๆ(NPS+TS1)</label>
 											<textarea class="form-control" name="nps_ts1_other_result"></textarea>
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
 										<div class="form-group">
-											<label for="subDistrict">ผลอื่นๆวันที่</label>
+											<label for="subDistrict">ผลอื่นๆวันที่(NPS+TS1)</label>
 											<input type="text" class="form-control datepicker" name="nps_ts1_other_result_date">
 										</div>
 									</div>
@@ -672,13 +672,13 @@ input:read-only {
 									</div>
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
 										<div class="form-group">
-											<label for="nps_ts2_other_result">ผลการตรวจอื่นๆ</label>
+											<label for="nps_ts2_other_result">ผลการตรวจอื่นๆ(NPS+TS2)</label>
 											<textarea class="form-control" name="nps_ts2_other_result"></textarea>
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
 										<div class="form-group">
-											<label for="nps_ts2_other_result_date">ผลอื่นๆวันที่</label>
+											<label for="nps_ts2_other_result_date">ผลอื่นๆวันที่(NPS+TS2)</label>
 											<input type="text" class="form-control datepicker" name="nps_ts2_other_result_date">
 										</div>
 									</div>
@@ -757,13 +757,13 @@ input:read-only {
 									</div>
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
 										<div class="form-group">
-											<label for="nps_ts3_other_result">ผลการตรวจอื่นๆ</label>
+											<label for="nps_ts3_other_result">ผลการตรวจอื่นๆ(NPS+TS3)</label>
 											<textarea class="form-control" name="nps_ts3_other_result"></textarea>
 										</div>
 									</div>
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
 										<div class="form-group">
-											<label for="nps_ts3_other_result_date">ผลอื่นๆวันที่</label>
+											<label for="nps_ts3_other_result_date">ผลอื่นๆวันที่(NPS+TS3)</label>
 											<input type="text" class="form-control datepicker" name="nps_ts3_other_result_date">
 										</div>
 									</div>
