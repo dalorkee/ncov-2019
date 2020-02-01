@@ -58,7 +58,7 @@ class WalkInCaseController extends Controller
     {
 
         //dd($this->Convert_Date($request->risk2_6ArriveDate));
-        dd($request);
+        //dd($request);
         //dd($request->notify_time);
         $data = [
           "notify_date" => (!empty($request->notify_date)) ? $this->Convert_Date($request->notify_date) : date('Y-m-d'),
