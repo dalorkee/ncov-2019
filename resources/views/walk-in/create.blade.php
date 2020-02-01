@@ -116,7 +116,13 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 											<h1 class="text-info">2. ข้อมูลการเดินทาง</h1>
 											<div class="form-group">
-												<label for="informant">เดินทางมาจากอู่ฮั่นหรือไม่ หากเดินทางมาจากอู่ฮั่น</label>
+												<label for="informant">เดินทางมาจากเมืองที่มีการระบาดหรือไม่</label>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+											<div class="form-group">
+												<label for="informant">ชื่อเมือง</label>
+												<input type="text" name="city_from_name" id="city_from_name" class="form-control">
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
@@ -509,13 +515,13 @@ input:read-only {
 									<h1 class="text-info">5.การส่งตรวจ Lab</h1>
 								</div>
 								<div class="row">
-									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 										<div class="form-group">
 											<label for="houseNo">วันที่เก็บ(NPS+TS1)</label>
 											<input type="text" name="nps_ts1_date" class="form-control datepicker">
 										</div>
 									</div>
-									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 										<div class="form-group">
 											<label for="houseNo">ส่งที่(NPS+TS1)</label>
 											<select name="nps_ts1_send" class="form-control show-tick select-title-name" data-live-search="true" id="nps_ts1_send">
@@ -526,9 +532,11 @@ input:read-only {
 											</select>
 										</div>
 									</div>
-									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
 										<div class="form-group">
-											<label for="houseNo">ผล(NPS+TS1)</label>
+											<label for="houseNo">ผล1(NPS+TS1)</label>
 											<select name="nps_ts1_result" class="form-control  show-tick select-title-name" data-live-search="true" id="nps_ts1_result">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($pathogenlists as $key3=>$val3) {
@@ -537,15 +545,56 @@ input:read-only {
 											</select>
 										</div>
 									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผลวันที่1(NPS+TS1)</label>
+										<input type="text" name="nps_ts1_result_date" class="form-control datepicker">
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผล2(NPS+TS1)</label>
+											<select name="nps_ts1_result2" class="form-control  show-tick select-title-name" data-live-search="true" id="nps_ts1_result2">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($pathogenlists as $key3=>$val3) {
+														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผลวันที่2(NPS+TS1)</label>
+										<input type="text" name="nps_ts1_result2_date" class="form-control datepicker">
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผล3(NPS+TS1)</label>
+											<select name="nps_ts1_result3" class="form-control  show-tick select-title-name" data-live-search="true" id="nps_ts1_result3">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($pathogenlists as $key3=>$val3) {
+														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผลวันที่3(NPS+TS1)</label>
+										<input type="text" name="nps_ts1_result3_date" class="form-control datepicker">
+										</div>
+									</div>
 								</div>
+								<hr />
 								<div class="row">
-									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 										<div class="form-group">
 											<label for="houseNo">วันที่เก็บ(NPS+TS2)</label>
 											<input type="text" name="nps_ts2_date" class="form-control datepicker">
 										</div>
 									</div>
-									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 										<div class="form-group">
 											<label for="houseNo">ส่งที่(NPS+TS2)</label>
 											<select name="nps_ts2_send" class="form-control show-tick select-title-name" data-live-search="true" id="nps_ts2_send">
@@ -556,10 +605,12 @@ input:read-only {
 											</select>
 										</div>
 									</div>
-									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
 										<div class="form-group">
-											<label for="houseNo">ผล(NPS+TS2)</label>
-											<select name="nps_ts2_result" class="form-control show-tick select-title-name" data-live-search="true" id="nps_ts2_result">
+											<label for="houseNo">ผล1(NPS+TS2)</label>
+											<select name="nps_ts2_result" class="form-control  show-tick select-title-name" data-live-search="true" id="nps_ts2_result">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($pathogenlists as $key3=>$val3) {
 														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
@@ -567,7 +618,121 @@ input:read-only {
 											</select>
 										</div>
 									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผลวันที่1(NPS+TS2)</label>
+										<input type="text" name="nps_ts2_result_date" class="form-control datepicker">
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผล2(NPS+TS2)</label>
+											<select name="nps_ts2_result2" class="form-control  show-tick select-title-name" data-live-search="true" id="nps_ts2_result2">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($pathogenlists as $key3=>$val3) {
+														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผลวันที่2(NPS+TS2)</label>
+										<input type="text" name="nps_ts2_result2_date" class="form-control datepicker">
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผล3(NPS+TS2)</label>
+											<select name="nps_ts2_result3" class="form-control  show-tick select-title-name" data-live-search="true" id="nps_ts2_result3">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($pathogenlists as $key3=>$val3) {
+														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผลวันที่3(NPS+TS2)</label>
+										<input type="text" name="nps_ts2_result3_date" class="form-control datepicker">
+										</div>
+									</div>
 								</div>
+								<hr />
+								<div class="row">
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+										<div class="form-group">
+											<label for="houseNo">วันที่เก็บ(NPS+TS3)</label>
+											<input type="text" name="nps_ts3_date" class="form-control datepicker">
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+										<div class="form-group">
+											<label for="houseNo">ส่งที่(NPS+TS3)</label>
+											<select name="nps_ts3_send" class="form-control show-tick select-title-name" data-live-search="true" id="nps_ts3_send">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($laboratorylists as $key1=>$val2) {
+														<option value="{{ $val2['id'] }}">{{ $val2['en_initials'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผล1(NPS+TS3)</label>
+											<select name="nps_ts3_result" class="form-control  show-tick select-title-name" data-live-search="true" id="nps_ts3_result">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($pathogenlists as $key3=>$val3) {
+														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผลวันที่1(NPS+TS3)</label>
+										<input type="text" name="nps_ts3_result_date" class="form-control datepicker">
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผล2(NPS+TS3)</label>
+											<select name="nps_ts3_result2" class="form-control  show-tick select-title-name" data-live-search="true" id="nps_ts3_result2">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($pathogenlists as $key3=>$val3) {
+														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผลวันที่2(NPS+TS3)</label>
+										<input type="text" name="nps_ts3_result2_date" class="form-control datepicker">
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผล3(NPS+TS3)</label>
+											<select name="nps_ts3_result3" class="form-control  show-tick select-title-name" data-live-search="true" id="nps_ts3_result3">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($pathogenlists as $key3=>$val3) {
+														<option value="{{ $val3['id'] }}">{{ $val3['patho_name_en'] }}</option>
+													@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+										<div class="form-group">
+											<label for="houseNo">ผลวันที่3(NPS+TS3)</label>
+										<input type="text" name="nps_ts3_result3_date" class="form-control datepicker">
+										</div>
+									</div>
+								</div>
+								<hr />
 								<div class="row">
 									<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 										<div class="form-group">
@@ -694,7 +859,7 @@ input:read-only {
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="pt_status">PT Status</label>
 										<select name="pt_status" data-live-search="true" class="form-control selectpicker show-tick">
@@ -705,7 +870,18 @@ input:read-only {
 										</select>
 									</div>
 								</div>
-								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+									<div class="form-group">
+										<label for="pt_type">PT TYPE</label>
+										<select name="pt_type" data-live-search="true" class="form-control selectpicker show-tick">
+											<option value="1">New PUI</option>
+											<option value="2">Contact PUI</option>
+											<option value="3">PUO</option>
+											<option value="4">Confirm nCov2019</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="news_st">การแถลงข่าว</label>
 										<select name="news_st" class="form-control selectpicker show-tick">
@@ -715,7 +891,7 @@ input:read-only {
 										</select>
 									</div>
 								</div>
-								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="disch_st">สถานะการรักษา</label>
 										<select name="disch_st" class="form-control selectpicker show-tick">
@@ -784,7 +960,7 @@ $(document).ready(function() {
 		}
 	});
 });
-$('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts2_result,#nps_ts1_send').selectpicker();
+$('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
 /* date of birth */
 $('#datepicker1,#datepicker2,#datepicker3,.datepicker,#notify_date').datepicker({
 	format: 'dd/mm/yyyy',

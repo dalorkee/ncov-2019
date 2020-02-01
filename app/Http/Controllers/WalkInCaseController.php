@@ -58,7 +58,7 @@ class WalkInCaseController extends Controller
     {
 
         //dd($this->Convert_Date($request->risk2_6ArriveDate));
-
+        dd($request);
         //dd($request->notify_time);
         $data = [
           "notify_date" => (!empty($request->notify_date)) ? $this->Convert_Date($request->notify_date) : date('Y-m-d'),
@@ -119,10 +119,29 @@ class WalkInCaseController extends Controller
           "nps_ts1_date" => (!empty($request->nps_ts1_date)) ? $this->Convert_Date($request->nps_ts1_date) : NULL,
           "nps_ts1_send" => (!empty($request->nps_ts1_send)) ? trim($request->nps_ts1_send) : "0",
           "nps_ts1_result" => (!empty($request->nps_ts1_result)) ? trim($request->nps_ts1_result) : "0",
+          "nps_ts1_result_date" => (!empty($request->nps_ts1_result_date)) ? $this->Convert_Date($request->nps_ts1_result_date) : NULL,
+          "nps_ts1_result2" => (!empty($request->nps_ts1_result2)) ? $this->Convert_Date($request->nps_ts1_result2) : NULL,
+          "nps_ts1_result2_date" => (!empty($request->nps_ts1_result2_date)) ? $this->Convert_Date($request->nps_ts1_result2_date) : NULL,
+          "nps_ts1_result3" => (!empty($request->nps_ts1_result3)) ? $this->Convert_Date($request->nps_ts1_result3) : NULL,
+          "nps_ts1_result3_date" => (!empty($request->nps_ts1_result3_date)) ? $this->Convert_Date($request->nps_ts1_result3_date) : NULL,
 
           "nps_ts2_date" => (!empty($request->nps_ts2_date)) ? $this->Convert_Date($request->nps_ts2_date) : NULL,
           "nps_ts2_send" => (!empty($request->nps_ts2_send)) ? trim($request->nps_ts2_send) : "0",
           "nps_ts2_result" => (!empty($request->nps_ts2_result)) ? trim($request->nps_ts2_result) : "0",
+          "nps_ts2_result_date" => (!empty($request->nps_ts2_result_date)) ? $this->Convert_Date($request->nps_ts2_result_date) : NULL,
+          "nps_ts2_result2" => (!empty($request->nps_ts2_result2)) ? $this->Convert_Date($request->nps_ts2_result2) : NULL,
+          "nps_ts2_result2_date" => (!empty($request->nps_ts2_result2_date)) ? $this->Convert_Date($request->nps_ts2_result2_date) : NULL,
+          "nps_ts2_result3" => (!empty($request->nps_ts2_result3)) ? $this->Convert_Date($request->nps_ts2_result3) : NULL,
+          "nps_ts2_result3_date" => (!empty($request->nps_ts2_result3_date)) ? $this->Convert_Date($request->nps_ts2_result3_date) : NULL,
+
+          "nps_ts3_date" => (!empty($request->nps_ts3_date)) ? $this->Convert_Date($request->nps_ts3_date) : NULL,
+          "nps_ts3_send" => (!empty($request->nps_ts3_send)) ? trim($request->nps_ts3_send) : "0",
+          "nps_ts3_result" => (!empty($request->nps_ts3_result)) ? trim($request->nps_ts3_result) : "0",
+          "nps_ts3_result_date" => (!empty($request->nps_ts3_result_date)) ? $this->Convert_Date($request->nps_ts3_result_date) : NULL,
+          "nps_ts3_result2" => (!empty($request->nps_ts3_result2)) ? $this->Convert_Date($request->nps_ts3_result2) : NULL,
+          "nps_ts3_result2_date" => (!empty($request->nps_ts3_result2_date)) ? $this->Convert_Date($request->nps_ts3_result2_date) : NULL,
+          "nps_ts3_result3" => (!empty($request->nps_ts3_result3)) ? $this->Convert_Date($request->nps_ts3_result3) : NULL,
+          "nps_ts3_result3_date" => (!empty($request->nps_ts3_result3_date)) ? $this->Convert_Date($request->nps_ts3_result3_date) : NULL,
 
           "cb_date" => (!empty($request->cb_date)) ? $this->Convert_Date($request->cb_date) : NULL,
           "cb_send" => (!empty($request->cb_send)) ? trim($request->cb_send) : "0",
@@ -139,6 +158,7 @@ class WalkInCaseController extends Controller
           "op_opt" => (!empty($request->op_opt)) ? trim($request->op_opt) : "",
           "op_dpc" => (!empty($request->op_dpc)) ? trim($request->op_dpc) : "",
           "pt_status" => (!empty($request->pt_status)) ? trim($request->pt_status) : "1",
+          "pt_type" => (!empty($request->pt_type)) ? trim($request->pt_type) : NULL,
           "news_st" => (!empty($request->news_st)) ? trim($request->news_st) : NULL,
           "disch_st" => (!empty($request->disch_st)) ? trim($request->disch_st) : NULL,
           "coordinator_tel" => (!empty($request->coordinator_tel)) ? trim($request->coordinator_tel) : "",
