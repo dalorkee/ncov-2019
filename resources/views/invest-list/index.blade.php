@@ -219,12 +219,12 @@ input.valid, textarea.valid{
 										<div class="form-group">
 											<label for="sex">Patient</label>
 											<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
-												@if (!empty($invest[0]['occupation']))
-													<option value="{{ $invest_pt[0]['occupation'] }}" selected="selected">{{ $occupation[$invest_pt[0]['occupation']]['occu_name_th'] }}</option>
+												@if (!empty($value['pt_status']))
+													<option value="{{ $value['pt_status'] }}" selected="selected">{{ $status['pt_status'][$value['pt_status']] }}</option>
 												@endif
 												<option value="">-- โปรดเลือก --</option>
-												@foreach ($status['pt_status'] as $key => $value)
-													<option value="{{ $key }}">{{ $value }}</option>
+												@foreach ($status['pt_status'] as $pts_key => $pts_value)
+													<option value="{{ $pts_key }}">{{ $pts_value }}</option>
 												@endforeach
 											</select>
 										</div>
@@ -234,8 +234,8 @@ input.valid, textarea.valid{
 											<label for="sex">News</label>
 											<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
 												<option value="">-- โปรดเลือก --</option>
-												@foreach ($status['news_st'] as $key => $value)
-													<option value="{{ $key }}">{{ $value }}</option>
+												@foreach ($status['news_st'] as $nst_key => $nst_value)
+													<option value="{{ $nst_key }}">{{ $nst_value }}</option>
 												@endforeach
 											</select>
 										</div>
@@ -245,8 +245,8 @@ input.valid, textarea.valid{
 											<label for="sex">Discharge</label>
 											<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
 												<option value="">-- โปรดเลือก --</option>
-												@foreach ($status['disch_st'] as $key => $value)
-													<option value="{{ $key }}">{{ $value }}</option>
+												@foreach ($status['disch_st'] as $dst_key => $dst_value)
+													<option value="{{ $dst_key }}">{{ $dst_value }}</option>
 												@endforeach
 											</select>
 										</div>
