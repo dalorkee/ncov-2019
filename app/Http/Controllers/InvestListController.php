@@ -25,6 +25,10 @@ class InvestListController extends MasterController
 		);
 	}
 
+	public function updateStatus(Request $request) {
+
+	}
+
 	/**
 	* Show the form for creating a new resource.
 	*
