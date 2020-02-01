@@ -138,7 +138,7 @@ input.valid, textarea.valid{
 											<th>Discharge</th>
 											<th>เพศ</th>
 											<th>สัญชาติ</th>
-											<th>จัดการ</th>
+											<th>#</th>
 										</tr>
 									</thead>
 									<tfoot></tfoot>
@@ -155,7 +155,7 @@ input.valid, textarea.valid{
 													<td>{{ $value['sex'] }}</td>
 													<td>{{ $value['race'] }}</td>
 													<td>
-														<button type="button" class="btn btn-warning btn-sm margin-5 text-white" data-toggle="modal" title="Status" data-target="#chstatus">
+														<button type="button" class="btn btn-warning btn-sm margin-5 text-white" data-toggle="modal" title="Status" data-target="#chstatus{{ $value['id'] }}">
 															<i class="mdi mdi-table-edit"></i>
 														</button>
 														<a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="View"><i class="mdi mdi-eye"></i></a>&nbsp;
@@ -206,11 +206,11 @@ input.valid, textarea.valid{
 		@foreach ($invest as $key => $value)
 			<!-- Modal change status-->
 			<div class="form">
-				<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal fade" id="chstatus{{ $value['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Status</h5>
+								<h5 class="modal-title" id="exampleModalLabel">Status ID:{{ $value['id'] }}</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -219,8 +219,8 @@ input.valid, textarea.valid{
 								<div class="form-row">
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 										<div class="form-group">
-											<label for="sex">Patient</label>
-											<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
+											<label for="patient">Patient</label>
+											<select name="pt_status{{ $value['id'] }}" class="form-control selectpicker show-tick" id="pt_status{{ $value['id'] }}">
 												@if (!empty($value['pt_status']))
 													<option value="{{ $value['pt_status'] }}" selected="selected">{{ $status['pt_status'][$value['pt_status']] }}</option>
 												@endif
@@ -233,8 +233,8 @@ input.valid, textarea.valid{
 									</div>
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 										<div class="form-group">
-											<label for="sex">News</label>
-											<select name="news_status" class="form-control selectpicker show-tick" id="news_status">
+											<label for="news">News</label>
+											<select name="news_status{{ $value['id'] }}" class="form-control selectpicker show-tick" id="news_status{{ $value['id'] }}">
 												@if (!empty($value['news_st']))
 													<option value="{{ $value['news_st'] }}" selected="selected">{{ $status['news_st'][$value['news_st']] }}</option>
 												@endif
@@ -248,7 +248,10 @@ input.valid, textarea.valid{
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 										<div class="form-group">
 											<label for="sex">Discharge</label>
-											<select name="dis_status" class="form-control selectpicker show-tick" id="dis_status">
+												<select name="disch_st{{ $value['id'] }}" class="form-control selectpicker show-tick" id="disch_st{{ $value['id'] }}">
+													@if (!empty($value['disch_st']))
+														<option value="{{ $value['disch_st'] }}" selected="selected">{{ $status['disch_st'][$value['disch_st']] }}</option>
+													@endif
 												<option value="">-- โปรดเลือก --</option>
 												@foreach ($status['disch_st'] as $dst_key => $dst_value)
 													<option value="{{ $dst_key }}">{{ $dst_value }}</option>
