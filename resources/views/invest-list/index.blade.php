@@ -132,7 +132,7 @@ input.valid, textarea.valid{
 										<tr>
 											<th>POE_ID</th>
 											<th>SAT_ID</th>
-											<th>ชื่อ-สกุล</th>
+											<th>Patient</th>
 											<th>พาสปอร์ต</th>
 											<th>อายุ</th>
 											<th>เพศ</th>
@@ -147,16 +147,19 @@ input.valid, textarea.valid{
 												<tr>
 													<td>{{ $value['poe_id'] }}</td>
 													<td>{{ $value['sat_id'] }}</td>
-													<td>{{ $value['title_name'].$value['first_name'] }}</td>
+													<td>{{ $value['pt_status'] }}</td>
 													<td>{{ $value['passport'] }}</td>
 													<td>{{ $value['age'] }}</td>
 													<td>{{ $value['sex'] }}</td>
 													<td><span class="badge badge-pill badge-success">{{ $value['race'] }}</span></td>
 													<td>
-														<a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="View">Veiw</a>&nbsp;
+														<button type="button" class="btn btn-warning btn-sm margin-5 text-white" data-toggle="modal" title="Status" data-target="#chstatus">
+															<i class="mdi mdi-table-edit"></i>
+														</button>
+														<a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="View"><i class="mdi mdi-eye"></i></a>&nbsp;
 														<a href="{{ route("confirmForm", ["id"=>$value['id']]) }}" data-toggle="tooltip" data-placement="top" class="btn btn-warning btn-sm" title="PUI">PUI</a>&nbsp;
-														<a href="{{ 'contacttable' }}?poe_id={{ $value['poe_id'] }}" data-toggle="tooltip" data-placement="top" class="btn btn-cyan btn-sm" title="Contact">Contact</a>&nbsp;
-														<a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({{ $value['id'] }})" data-target="#DeleteModal" class="btn btn-danger btn-sm">Del</button>
+														<a href="{{ 'contacttable' }}?poe_id={{ $value['poe_id'] }}" data-toggle="tooltip" data-placement="top" class="btn btn-cyan btn-sm" title="Contact">CON</a>&nbsp;
+														<a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({{ $value['id'] }})" data-target="#DeleteModal" class="btn btn-danger btn-sm"><i class="mdi mdi-delete-empty"></i></button>
 													</td>
 												</tr>
 											@endforeach
@@ -197,6 +200,62 @@ input.valid, textarea.valid{
 			</form>
 		</div>
 	</div><!-- end confirmation delte -->
+	<!-- Modal change status-->
+	<div class="form">
+		<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Status</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-row">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+								<div class="form-group">
+									<label for="sex">Patient</label>
+									<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
+										<option value="">-- โปรดเลือก --</option>
+										@foreach ($status['pt_status'] as $key => $value)
+											<option value="{{ $key }}">{{ $value }}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+								<div class="form-group">
+									<label for="sex">News</label>
+									<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
+										<option value="">-- โปรดเลือก --</option>
+										@foreach ($status['news_st'] as $key => $value)
+											<option value="{{ $key }}">{{ $value }}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+								<div class="form-group">
+									<label for="sex">Discharge</label>
+									<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
+										<option value="">-- โปรดเลือก --</option>
+										@foreach ($status['disch_st'] as $key => $value)
+											<option value="{{ $key }}">{{ $value }}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div><!-- contrainer -->
 @endsection
 @section('bottom-script')

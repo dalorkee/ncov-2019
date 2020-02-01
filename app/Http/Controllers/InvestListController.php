@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\InvestList;
 
-class InvestListController extends Controller
+class InvestListController extends MasterController
 {
 	/**
 	* Display a listing of the resource.
@@ -14,10 +14,14 @@ class InvestListController extends Controller
 	*/
 	public function index(Request $request)
 	{
+		$status = parent::getStatus();
+		//echo $status['pt_status'];
+		//exit;
 		$invest = InvestList::whereNotNull('sat_id')->get()->toArray();
 		return view('invest-list.index',
 				[
-					'invest'=>$invest
+					'invest' => $invest,
+					'status' => $status
 				]
 		);
 	}
