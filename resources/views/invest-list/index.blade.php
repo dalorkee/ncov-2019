@@ -147,17 +147,18 @@ input.valid, textarea.valid{
 												<tr>
 													<td>{{ $value['poe_id'] }}</td>
 													<td>{{ $value['sat_id'] }}</td>
-													<td>{{ $value['pt_status'] }}</td>
-													<td>{{ $value['news_st'] }}</td>
-													<td>{{ $value['disch_st'] }}</td>
+													<td><span class="badge badge badge-danger">{{ $value['pt_status'] != "" ? $status['pt_status'][$value['pt_status']] : "" }}</span></td>
+													<td><span class="badge badge badge-primary">{{ $value['news_st'] != "" ? $status['news_st'][$value['news_st']] : "" }}</span></td>
+													<td><span class="badge badge badge-info">{{ $value['disch_st'] != "" ? $status['disch_st'][$value['disch_st']] : "" }}</span></td>
 													<td>{{ $value['sex'] }}</td>
-													<td><span class="badge badge-pill badge-success">{{ $value['race'] }}</span></td>
+													<td>{{ $value['race'] }}</span></td>
 													<td>
 														<button type="button" class="btn btn-warning btn-sm margin-5 text-white" data-toggle="modal" title="Status" data-target="#chstatus{{ $value['id'] }}">
 															<i class="mdi mdi-table-edit"></i>
 														</button>
 														<a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="View"><i class="mdi mdi-eye"></i></a>&nbsp;
-														<a href="{{ route("confirmForm", ["id"=>$value['id']]) }}" data-toggle="tooltip" data-placement="top" class="btn btn-warning btn-sm" title="PUI">PUI</a>&nbsp;
+														<button href="#" data-toggle="tooltip" data-placement="top" class="btn btn-warning btn-sm" title="Comming soon" disabled>PUI</button>&nbsp;
+														<!-- <a href="{ route("confirmForm", ["id"=>$value['id']]) }}" data-toggle="tooltip" data-placement="top" class="btn btn-warning btn-sm" title="PUI">PUI</a>&nbsp; -->
 														<a href="{{ 'contacttable' }}?id={{ $value['id'] }}&poe_id={{ $value['poe_id'] }}" data-toggle="tooltip" data-placement="top" class="btn btn-cyan btn-sm" title="Contact">CON</a>&nbsp;
 														<a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({{ $value['id'] }})" data-target="#DeleteModal" class="btn btn-danger btn-sm"><i class="mdi mdi-delete-empty"></i></button>
 													</td>
