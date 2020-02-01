@@ -60,6 +60,10 @@ Route::get('/followupcontact', 'ContactController@followupcontact')->name('follo
 Route::post('/followupcontactinsert', 'ContactController@followupcontactinsert')->name('followupcontactinsert');
 Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
 
+// excel download
+Route::get('/export_excel', 'ExportExcelController@index')->name('export_excel');
+Route::get('/export_excel/excel', 'ExportExcelController@exceldownload')->name('export_excel.excel');
+
 /* destroy */
 Route::resource('item', 'InvestListController');
 
