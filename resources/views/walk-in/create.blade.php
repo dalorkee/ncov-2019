@@ -863,21 +863,21 @@ input:read-only {
 									<div class="form-group">
 										<label for="pt_status">PT Status</label>
 										<select name="pt_status" data-live-search="true" class="form-control selectpicker show-tick">
-											<option value="1">PUI</option>
-											<option value="2">Confirm</option>
-											<option value="3">Suspect</option>
-											<option value="3">Excluded</option>
+											<option value="">-- โปรดเลือก --</option>
+											@foreach($arr['pt_status'] as $key => $val)
+											<option value="{{ $key }}">{{ $val }}</option>
+											@endforeach
 										</select>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
-										<label for="pt_type">PT TYPE</label>
+										<label for="pt_type">PUI TYPE</label>
 										<select name="pui_type" data-live-search="true" class="form-control selectpicker show-tick">
-											<option value="1">New PUI</option>
-											<option value="2">Contact PUI</option>
-											<option value="3">PUO</option>
-											<option value="4">Confirm nCov2019</option>
+											<option value="">-- โปรดเลือก --</option>
+											@foreach($arr['pui_type'] as $key => $val)
+											<option value="{{ $key }}">{{ $val }}</option>
+											@endforeach
 										</select>
 									</div>
 								</div>
@@ -886,8 +886,9 @@ input:read-only {
 										<label for="news_st">การแถลงข่าว</label>
 										<select name="news_st" class="form-control selectpicker show-tick">
 											<option value="">-- โปรดเลือก --</option>
-											<option value="1">Confirm แถลงข่าว</option>
-											<option value="2">Comfirm ยังไม่แถลง</option>
+											@foreach($arr['news_st'] as $key => $val)
+											<option value="{{ $key }}">{{ $val }}</option>
+											@endforeach
 										</select>
 									</div>
 								</div>
@@ -896,9 +897,9 @@ input:read-only {
 										<label for="disch_st">สถานะการรักษา</label>
 										<select name="disch_st" class="form-control selectpicker show-tick">
 											<option value="">-- โปรดเลือก --</option>
-											<option value="1">Recovery</option>
-											<option value="2">Admit</option>
-											<option value="3">Death</option>
+											@foreach($arr['disch_st'] as $key => $val)
+											<option value="{{ $key }}">{{ $val }}</option>
+											@endforeach
 										</select>
 									</div>
 								</div>

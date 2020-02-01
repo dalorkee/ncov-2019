@@ -11,7 +11,7 @@ use App\LaboratoryLists;
 use App\PathogenLists;
 use App\Occupation;
 
-class WalkInCaseController extends Controller
+class WalkInCaseController extends MasterController
 {
     /**
      * Display a listing of the resource.
@@ -36,14 +36,16 @@ class WalkInCaseController extends Controller
       $provinces = Provinces::all()->toArray();
       $nationality = Nationality::all()->toArray();
       $occupation = Occupation::all()->toArray();
+      $arr = parent::getStatus();
       return view('walk-in.create',
         [
-          'titleName'=>$titleName,
-          'provinces'=>$provinces,
-          'nationality'=>$nationality,
-          'laboratorylists'=>$laboratorylists,
-          'pathogenlists'=>$pathogenlists,
-          'occupation'=>$occupation
+          'titleName' => $titleName,
+          'provinces' => $provinces,
+          'nationality' => $nationality,
+          'laboratorylists' => $laboratorylists,
+          'pathogenlists' => $pathogenlists,
+          'occupation' => $occupation,
+          'arr' => $arr
         ]
       );
     }
