@@ -16,7 +16,6 @@ class InvestListController extends MasterController
 	{
 		$status = parent::getStatus();
 		$invest = InvestList::whereNotNull('sat_id')->get()->toArray();
-		dd($invest);
 
 		return view('invest-list.index',
 				[

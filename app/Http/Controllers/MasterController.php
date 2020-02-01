@@ -35,10 +35,9 @@ class MasterController extends Controller
 			],
 			'pui_type' => [
 				'1' => 'New PUI',
-				'2' => 'Contact',
-				'3' => 'PUI',
-				'4' => 'PUO',
-				'5' => 'Confirmed'
+				'2' => 'Contact PUI',
+				'3' => 'PUO',
+				'4' => 'Confirmed nCoV-2019',
 			]
 		]);
 		return $status;
