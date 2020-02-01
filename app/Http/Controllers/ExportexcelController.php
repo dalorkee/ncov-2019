@@ -106,7 +106,7 @@ $i = 1;
     );
 $i++;
      }
-           dd($invest_pt_array);
+           // dd($invest_pt_array);
      Excel::create($filename, function($excel) use ($invest_pt_array){
       $excel->setTitle('PUI Data SAT');
       $excel->sheet('PUI Data SAT', function($sheet) use ($invest_pt_array){

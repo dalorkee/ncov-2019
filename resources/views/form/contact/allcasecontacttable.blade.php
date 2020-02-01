@@ -27,6 +27,7 @@
           <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
+							<th>ID</th>
                 <th>Contact ID</th>
                 <th>ชื่อ-สกุล</th>
 								<th>Passport</th>
@@ -38,13 +39,14 @@
         <tbody>
 					<?php foreach($contact_data as $value) : ?>
             <tr>
+								<td>{{ $value->id }}</td>
                 <td>{{ $value->poe_id }}</td>
                 <td>{{ $value->name_contact }}</td>
                 <td>{{ $value->passport_contact }}</td>
                 <td>{{ $value->age_contact }}</td>
                 <td>{{ $value->national_contact }}</td>
                 <td>
-                  <a class="btn btn-danger" href="{{ route('contactfollowtable')}}?poe_id={{ $value->poe_id }}&contact_id={{ $value->contact_id }}">
+                  <a class="btn btn-danger" href="{{ route('contactfollowtable')}}?id={{ $value->id }}&poe_id={{ $value->poe_id }}&contact_id={{ $value->contact_id }}">
                       ติดตามอาการ
                   </a>
                     <a class="btn btn-info" href="{{ route('addcontact')}}">
@@ -59,6 +61,7 @@
         </tbody>
         <tfoot>
             <tr>
+							<th>ID</th>
 							<th>Contact ID</th>
 							<th>ชื่อ-สกุล</th>
 							<th>Passport</th>
