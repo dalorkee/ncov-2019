@@ -15,13 +15,13 @@ class InvestListController extends MasterController
 	public function index(Request $request)
 	{
 		$status = parent::getStatus();
-		//echo $status['pt_status'];
-		//exit;
 		$invest = InvestList::whereNotNull('sat_id')->get()->toArray();
+		dd($invest);
+
 		return view('invest-list.index',
 				[
-					'invest' => $invest,
-					'status' => $status
+					'status' => $status,
+					'invest' => $invest
 				]
 		);
 	}

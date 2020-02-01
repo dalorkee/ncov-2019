@@ -15,7 +15,7 @@ class MasterController extends Controller
 		$this->result = null;
 	}
 
-	private function setSatatus() {
+	private function setStatus() {
 		$status = collect([
 			'pt_status' => [
 				'1' => 'PUI',
@@ -25,17 +25,15 @@ class MasterController extends Controller
 				'5' => 'Excluded'
 			],
 			'news_st' => [
-				'1' => 'Confirmed',
-				'2' => 'Publish',
-				'3' => 'Probable',
-				'4' => 'Excluded'
+				'1' => 'Confirmed publish',
+				'2' => 'Confirmed not yet released',
 			],
 			'disch_st' => [
 				'1' => 'Recovery',
 				'2' => 'Admit',
 				'3' => 'Death'
 			],
-			'put_type' => [
+			'pui_type' => [
 				'1' => 'New PUI',
 				'2' => 'Contact',
 				'3' => 'PUI',
@@ -47,7 +45,7 @@ class MasterController extends Controller
 	}
 
 	protected function getStatus() {
-		$status = $this->setSatatus();
+		$status = $this->setStatus();
 		return $status;
 	}
 

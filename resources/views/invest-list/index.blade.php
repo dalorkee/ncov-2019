@@ -133,8 +133,8 @@ input.valid, textarea.valid{
 											<th>POE_ID</th>
 											<th>SAT_ID</th>
 											<th>Patient</th>
-											<th>พาสปอร์ต</th>
-											<th>อายุ</th>
+											<th>News</th>
+											<th>Discharge</th>
 											<th>เพศ</th>
 											<th>สัญชาติ</th>
 											<th>จัดการ</th>
@@ -148,8 +148,8 @@ input.valid, textarea.valid{
 													<td>{{ $value['poe_id'] }}</td>
 													<td>{{ $value['sat_id'] }}</td>
 													<td>{{ $value['pt_status'] }}</td>
-													<td>{{ $value['passport'] }}</td>
-													<td>{{ $value['age'] }}</td>
+													<td>{{ $value['news_st'] }}</td>
+													<td>{{ $value['disch_st'] }}</td>
 													<td>{{ $value['sex'] }}</td>
 													<td><span class="badge badge-pill badge-success">{{ $value['race'] }}</span></td>
 													<td>
@@ -200,6 +200,8 @@ input.valid, textarea.valid{
 			</form>
 		</div>
 	</div><!-- end confirmation delte -->
+	@if ($invest)
+		@foreach ($invest as $key => $value)
 	<!-- Modal change status-->
 	<div class="form">
 		<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -217,6 +219,9 @@ input.valid, textarea.valid{
 								<div class="form-group">
 									<label for="sex">Patient</label>
 									<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
+										@if (!empty($invest[0]['occupation']))
+											<option value="{{ $invest_pt[0]['occupation'] }}" selected="selected">{{ $occupation[$invest_pt[0]['occupation']]['occu_name_th'] }}</option>
+										@endif
 										<option value="">-- โปรดเลือก --</option>
 										@foreach ($status['pt_status'] as $key => $value)
 											<option value="{{ $key }}">{{ $value }}</option>
