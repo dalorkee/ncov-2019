@@ -54,7 +54,7 @@ input:read-only {
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 mb-2">
 											<label for="workPhone">เวลาได้รับแจ้ง</label>
-											<input type="text" class="form-control" name="notify_time" value="" placeholder="<?php echo date('H:i'); ?>" data-timepicker>
+											<input type="text" class="form-control" name="notify_time" data-timepicker>
 										</div>
 									</div>
 									<div class="form-group row">
