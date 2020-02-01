@@ -873,7 +873,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="pt_type">PT TYPE</label>
-										<select name="pt_type" data-live-search="true" class="form-control selectpicker show-tick">
+										<select name="pui_type" data-live-search="true" class="form-control selectpicker show-tick">
 											<option value="1">New PUI</option>
 											<option value="2">Contact PUI</option>
 											<option value="3">PUO</option>

@@ -158,7 +158,7 @@ class WalkInCaseController extends Controller
           "op_opt" => (!empty($request->op_opt)) ? trim($request->op_opt) : "",
           "op_dpc" => (!empty($request->op_dpc)) ? trim($request->op_dpc) : "",
           "pt_status" => (!empty($request->pt_status)) ? trim($request->pt_status) : "1",
-          "pt_type" => (!empty($request->pt_type)) ? trim($request->pt_type) : NULL,
+          "pui_type" => (!empty($request->pui_type)) ? trim($request->pui_type) : NULL,
           "news_st" => (!empty($request->news_st)) ? trim($request->news_st) : NULL,
           "disch_st" => (!empty($request->disch_st)) ? trim($request->disch_st) : NULL,
           "coordinator_tel" => (!empty($request->coordinator_tel)) ? trim($request->coordinator_tel) : "",
