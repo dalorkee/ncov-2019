@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Excel;
 
-class ExportExcelController extends Controller
+class ExportExcelController extends MasterController
 {
     function index()
     {
@@ -26,6 +26,8 @@ class ExportExcelController extends Controller
       $arr_occupation=$this->occupation();
       $arr_disch_st=$this->disch_st();
       $arr_pui_type=$this->pui_type();
+      $arr = parent::getStatus();
+      // dd($arr['news_st']['1']);
       // dd($arr);
       $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
       $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
@@ -72,9 +74,9 @@ $i = 1;
      {
       $invest_pt_array[] = array(
             'id'  => $i,
-            'notify_date'  => $value->notify_date,
+            'notify_date'  => (!empty($value->notify_date)) ? $value->notify_date : "",
             'notify_time'  => $value->notify_time,
-            'pui_type'  => $arr_pui_type[$value->pui_type],
+            'pui_type'  => (isset($arr['pui_type'][$value->pui_type])) ? $arr['pui_type'][$value->pui_type] : "",
             'sat_id'  => $value->sat_id,
             'title_name'  => $value->title_name,
             'first_name'  => $value->first_name,
@@ -104,7 +106,7 @@ $i = 1;
     );
 $i++;
      }
-          // dd($invest_pt_array);
+           dd($invest_pt_array);
      Excel::create($filename, function($excel) use ($invest_pt_array){
       $excel->setTitle('PUI Data SAT');
       $excel->sheet('PUI Data SAT', function($sheet) use ($invest_pt_array){

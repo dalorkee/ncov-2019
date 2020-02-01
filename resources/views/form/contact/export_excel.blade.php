@@ -31,7 +31,7 @@
             <div class="card-block">
 
             <h4 class="sub-title">ค้นหาข้อมูล</h4>
-            <form action="{{ route('export_excel.excel') }}" method="get">
+            <form action="{{ route('export_excel.excel') }}" method="post">
               			{{ csrf_field() }}
           <div class="form-group row">
             <div class="col-sm-6">
