@@ -130,7 +130,6 @@ input.valid, textarea.valid{
 								<table class="table display mb-4" id="code_table" role="table">
 									<thead>
 										<tr>
-											<th>ID</th>
 											<th>POE_ID</th>
 											<th>SAT_ID</th>
 											<th>Patient</th>
@@ -146,21 +145,20 @@ input.valid, textarea.valid{
 										@if ($invest)
 											@foreach ($invest as $key => $value)
 												<tr>
-													<td>{{ $value['id'] }}</td>
 													<td>{{ $value['poe_id'] }}</td>
 													<td>{{ $value['sat_id'] }}</td>
-													<td><span class="badge badge-danger">{{ $value['pt_status'] != "" ? $status['pt_status'][$value['pt_status']] : "" }}</span></td>
-													<td><span class="badge badge-info">{{ $value['news_st'] != "" ? $status['news_st'][$value['news_st']] : "" }}</span></td>
-													<td><span class="badge badge-primary">{{ $value['disch_st'] != "" ? $status['disch_st'][$value['disch_st']] : "" }}</span></td>
+													<td>{{ $value['pt_status'] }}</td>
+													<td>{{ $value['news_st'] }}</td>
+													<td>{{ $value['disch_st'] }}</td>
 													<td>{{ $value['sex'] }}</td>
-													<td>{{ $value['race'] }}</td>
+													<td><span class="badge badge-pill badge-success">{{ $value['race'] }}</span></td>
 													<td>
 														<button type="button" class="btn btn-warning btn-sm margin-5 text-white" data-toggle="modal" title="Status" data-target="#chstatus">
 															<i class="mdi mdi-table-edit"></i>
 														</button>
 														<a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="View"><i class="mdi mdi-eye"></i></a>&nbsp;
 														<a href="{{ route("confirmForm", ["id"=>$value['id']]) }}" data-toggle="tooltip" data-placement="top" class="btn btn-warning btn-sm" title="PUI">PUI</a>&nbsp;
-														<a href="{{ 'contacttable' }}?poe_id={{ $value['poe_id'] }}" data-toggle="tooltip" data-placement="top" class="btn btn-cyan btn-sm" title="Contact">CON</a>&nbsp;
+														<a href="{{ 'contacttable' }}?id={{ $value['id'] }}&poe_id={{ $value['poe_id'] }}" data-toggle="tooltip" data-placement="top" class="btn btn-cyan btn-sm" title="Contact">CON</a>&nbsp;
 														<a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({{ $value['id'] }})" data-target="#DeleteModal" class="btn btn-danger btn-sm"><i class="mdi mdi-delete-empty"></i></button>
 													</td>
 												</tr>
@@ -234,10 +232,7 @@ input.valid, textarea.valid{
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 										<div class="form-group">
 											<label for="sex">News</label>
-											<select name="news_status" class="form-control selectpicker show-tick" id="news_status">
-												@if (!empty($value['news_st']))
-													<option value="{{ $value['news_st'] }}" selected="selected">{{ $status['news_st'][$value['news_st']] }}</option>
-												@endif
+											<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
 												<option value="">-- โปรดเลือก --</option>
 												@foreach ($status['news_st'] as $nst_key => $nst_value)
 													<option value="{{ $nst_key }}">{{ $nst_value }}</option>
@@ -248,7 +243,7 @@ input.valid, textarea.valid{
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 										<div class="form-group">
 											<label for="sex">Discharge</label>
-											<select name="dis_status" class="form-control selectpicker show-tick" id="dis_status">
+											<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
 												<option value="">-- โปรดเลือก --</option>
 												@foreach ($status['disch_st'] as $dst_key => $dst_value)
 													<option value="{{ $dst_key }}">{{ $dst_value }}</option>
