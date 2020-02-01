@@ -126,6 +126,8 @@ class WalkInCaseController extends MasterController
           "nps_ts1_result2_date" => (!empty($request->nps_ts1_result2_date)) ? $this->Convert_Date($request->nps_ts1_result2_date) : NULL,
           "nps_ts1_result3" => (!empty($request->nps_ts1_result3)) ? $request->nps_ts1_result3 : NULL,
           "nps_ts1_result3_date" => (!empty($request->nps_ts1_result3_date)) ? $this->Convert_Date($request->nps_ts1_result3_date) : NULL,
+          "nps_ts1_other_result" => (!empty($request->nps_ts1_other_result)) ? $request->nps_ts1_other_result : NULL,
+          "nps_ts1_other_result_date" => (!empty($request->nps_ts1_other_result_date)) ? $this->Convert_Date($request->nps_ts1_other_result_date) : NULL,
 
           "nps_ts2_date" => (!empty($request->nps_ts2_date)) ? $this->Convert_Date($request->nps_ts2_date) : NULL,
           "nps_ts2_send" => (!empty($request->nps_ts2_send)) ? trim($request->nps_ts2_send) : NULL,
@@ -135,6 +137,8 @@ class WalkInCaseController extends MasterController
           "nps_ts2_result2_date" => (!empty($request->nps_ts2_result2_date)) ? $this->Convert_Date($request->nps_ts2_result2_date) : NULL,
           "nps_ts2_result3" => (!empty($request->nps_ts2_result3)) ? $request->nps_ts2_result3 : NULL,
           "nps_ts2_result3_date" => (!empty($request->nps_ts2_result3_date)) ? $this->Convert_Date($request->nps_ts2_result3_date) : NULL,
+          "nps_ts2_other_result" => (!empty($request->nps_ts2_other_result)) ? $request->nps_ts2_other_result : NULL,
+          "nps_ts2_other_result_date" => (!empty($request->nps_ts2_other_result_date)) ? $this->Convert_Date($request->nps_ts2_other_result_date) : NULL,
 
           "nps_ts3_date" => (!empty($request->nps_ts3_date)) ? $this->Convert_Date($request->nps_ts3_date) : NULL,
           "nps_ts3_send" => (!empty($request->nps_ts3_send)) ? trim($request->nps_ts3_send) : NULL,
@@ -144,6 +148,9 @@ class WalkInCaseController extends MasterController
           "nps_ts3_result2_date" => (!empty($request->nps_ts3_result2_date)) ? $this->Convert_Date($request->nps_ts3_result2_date) : NULL,
           "nps_ts3_result3" => (!empty($request->nps_ts3_result3)) ? $request->nps_ts3_result3 : NULL,
           "nps_ts3_result3_date" => (!empty($request->nps_ts3_result3_date)) ? $this->Convert_Date($request->nps_ts3_result3_date) : NULL,
+          "nps_ts3_other_result" => (!empty($request->nps_ts3_other_result)) ? $request->nps_ts3_other_result : NULL,
+          "nps_ts3_other_result_date" => (!empty($request->nps_ts3_other_result_date)) ? $this->Convert_Date($request->nps_ts3_other_result_date) : NULL,
+
 
           "cb_date" => (!empty($request->cb_date)) ? $this->Convert_Date($request->cb_date) : NULL,
           "cb_send" => (!empty($request->cb_send)) ? trim($request->cb_send) : NULL,
