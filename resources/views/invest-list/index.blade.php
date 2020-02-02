@@ -130,7 +130,7 @@ input.valid, textarea.valid{
 								<table class="table display mb-4" id="code_table" role="table">
 									<thead>
 										<tr>
-											<th>POE_ID</th>
+											<th>ID</th>
 											<th>SAT_ID</th>
 											<th>Patient</th>
 											<th>News</th>
@@ -145,7 +145,7 @@ input.valid, textarea.valid{
 										@if ($invest)
 											@foreach ($invest as $key => $value)
 												<tr>
-													<td>{{ $value['poe_id'] }}</td>
+													<td>{{ $value['id'] }}</td>
 													<td>{{ $value['sat_id'] }}</td>
 													<td><span class="badge badge badge-danger">{{ $value['pt_status'] != "" ? $status['pt_status'][$value['pt_status']] : "" }}</span></td>
 													<td><span class="badge badge badge-primary">{{ $value['news_st'] != "" ? $status['news_st'][$value['news_st']] : "" }}</span></td>
@@ -204,9 +204,9 @@ input.valid, textarea.valid{
 	@if ($invest)
 		@foreach ($invest as $key => $value)
 			<!-- Modal change status-->
-			<div class="form">
-				<div class="modal fade" id="chstatus{{ $value['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog" role="document">
+			<div class="modal fade" id="chstatus{{ $value['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<form name="chStatusFrm{{ $value['id'] }}" action="{{ route('chConfirmStatus') }}" method="POST">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title" id="exampleModalLabel">Status ID:{{ $value['id'] }}</h5>
@@ -215,11 +215,13 @@ input.valid, textarea.valid{
 								</button>
 							</div>
 							<div class="modal-body">
+								{{ csrf_field() }}
+								<input type="hidden" name="id" value="{{ $value['id'] }}">
 								<div class="form-row">
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 										<div class="form-group">
 											<label for="patient">Patient</label>
-											<select name="pt_status{{ $value['id'] }}" class="form-control selectpicker show-tick" id="pt_status{{ $value['id'] }}">
+											<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status{{ $value['id'] }}">
 												@if (!empty($value['pt_status']))
 													<option value="{{ $value['pt_status'] }}" selected="selected">{{ $status['pt_status'][$value['pt_status']] }}</option>
 												@endif
@@ -233,7 +235,7 @@ input.valid, textarea.valid{
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 										<div class="form-group">
 											<label for="news">News</label>
-											<select name="news_status{{ $value['id'] }}" class="form-control selectpicker show-tick" id="news_status{{ $value['id'] }}">
+											<select name="news_status" class="form-control selectpicker show-tick" id="news_status{{ $value['id'] }}">
 												@if (!empty($value['news_st']))
 													<option value="{{ $value['news_st'] }}" selected="selected">{{ $status['news_st'][$value['news_st']] }}</option>
 												@endif
@@ -247,7 +249,7 @@ input.valid, textarea.valid{
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 										<div class="form-group">
 											<label for="sex">Discharge</label>
-												<select name="disch_st{{ $value['id'] }}" class="form-control selectpicker show-tick" id="disch_st{{ $value['id'] }}">
+												<select name="disch_st" class="form-control selectpicker show-tick" id="disch_st{{ $value['id'] }}">
 													@if (!empty($value['disch_st']))
 														<option value="{{ $value['disch_st'] }}" selected="selected">{{ $status['disch_st'][$value['disch_st']] }}</option>
 													@endif
@@ -262,10 +264,10 @@ input.valid, textarea.valid{
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Save changes</button>
+								<input type="submit" class="btn btn-primary" value="Save changes">
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		@endforeach

@@ -20,7 +20,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 /* Form */
 
 Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
+Route::post('chConfirmStatus', 'ConfirmFormController@changeStatus')->name('chConfirmStatus');
 Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
+
 Route::get('/WalkinCaseForm', array(
 						'as'   => 'walkincase.create',
 						'uses' => 'WalkInCaseController@create'
