@@ -11,6 +11,8 @@ class User extends Authenticatable
 {
 	use Notifiable, HasRoles;
 
+	public $timestamps = true;
+
 	protected $table = 'users';
 
 	/**
@@ -19,7 +21,9 @@ class User extends Authenticatable
 	* @var array
 	*/
 	protected $fillable = [
-
+		'created_at',
+		'updated_at',
+		'deleted_at'
 	];
 
 	/**
