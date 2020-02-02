@@ -10,6 +10,7 @@ use App\InvestList;
 use App\LaboratoryLists;
 use App\PathogenLists;
 use App\Occupation;
+use Auth;
 
 class WalkInCaseController extends MasterController
 {
@@ -30,6 +31,8 @@ class WalkInCaseController extends MasterController
      */
     public function create()
     {
+
+      $entry_user = Auth::user()->id;
       $laboratorylists = LaboratoryLists::all()->toArray();
       $pathogenlists = PathogenLists::all()->toArray();
       $titleName = TitleName::all()->toArray();
@@ -45,7 +48,8 @@ class WalkInCaseController extends MasterController
           'laboratorylists' => $laboratorylists,
           'pathogenlists' => $pathogenlists,
           'occupation' => $occupation,
-          'arr' => $arr
+          'arr' => $arr,
+          'entry_user' => $entry_user
         ]
       );
     }
@@ -174,6 +178,8 @@ class WalkInCaseController extends MasterController
           "send_information" => (!empty($request->send_information)) ? trim($request->send_information) : "",
           "send_information_div" => (!empty($request->send_information_div)) ? trim($request->send_information_div) : "",
           "receive_information" => (!empty($request->receive_information)) ? trim($request->receive_information) : "",
+          "entry_user" => (!empty($request->entry_user)) ? trim($request->entry_user) : NULL,
+          "created_at" => date('Y-m-d H:i:s'),
         ];
 
         $result = InvestList::insert($data);

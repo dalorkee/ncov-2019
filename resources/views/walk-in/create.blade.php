@@ -567,7 +567,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="lane">ส่งมาเมื่อ</label>
-										<input type="text" name="lab_send_detail" class="form-control">
+										<input type="text" name="lab_send_detail" class="form-control" data-timepicker>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
@@ -681,6 +681,7 @@ input:read-only {
 						</div><!-- bd-collout2 -->
 						<div class="border-top">
                   <div class="card-body">
+										    <input type="hidden" name="entry_user" value="{{ $entry_user }}"  />
                         <button type="submit" class="btn btn-primary">Save</button>
                   </div>
             </div>
