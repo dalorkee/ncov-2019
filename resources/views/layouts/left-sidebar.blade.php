@@ -10,9 +10,9 @@
 				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i class="mdi mdi-speedometer"></i><span class="hide-menu"> Dashboard</span></a></li>
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-format-list-bulleted"></i><span class="hide-menu">Data </span></a>
 					<ul aria-expanded="false" class="collapse  first-level">
-						<li class="sidebar-item"><a href="{{ route('investList.index') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> List</span></a></li>
-						<li class="sidebar-item"><a href="{{ route('walkincase.create') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Walkincase</span></a></li>
-						<li class="sidebar-item"><a href="{{ route('allcasecontacttable') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> All Contact</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('investList.index') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Lists PUI</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('walkincase.create') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Screen PUI</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('allcasecontacttable') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Lists Contact</span></a></li>
 					</ul>
 				</li>
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-chart-line"></i><span class="hide-menu">Report </span></a>

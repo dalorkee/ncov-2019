@@ -58,7 +58,7 @@ input:read-only {
 										</div>
 									</div>
 									<div class="form-group row">
-                                    <label class="col-md-3">ประเภทผู้ป่วย</label>
+                                    <label class="col-md-3">การคัดกรอง</label>
                                     <div class="col-md-9">
                                         <div class="custom-control custom-radio">
                                             <input type="radio" class="custom-control-input" id="customControlValidation_rd1" value="1" name="screen_pt" required="">
@@ -66,14 +66,14 @@ input:read-only {
                                         </div>
                                          <div class="custom-control custom-radio">
                                             <input type="radio" class="custom-control-input" id="customControlValidation_rd2" value="2" name="screen_pt" required="">
-                                            <label class="custom-control-label" for="customControlValidation_rd2">walkin</label>
+                                            <label class="custom-control-label" for="customControlValidation_rd2">Walkin มาที่ รพ.</label>
                                         </div>
                                     </div>
                   </div>
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
-											<label for="dowork">WalkIn มาที่ รพ.</label>
-											<input type="text" name="walkinplace_hosp" class="form-control" placeholder="ชื่อ รพ.">
+											<label for="dowork">สถานที่ (ชื่อสนามบิน/รพ.)</label>
+											<input type="text" name="walkinplace_hosp" class="form-control" placeholder="ชื่อสนามบิน/รพ.">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
 											<div class="form-group">
