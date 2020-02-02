@@ -18,7 +18,7 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
 							</div>
-							<input id="username" type="text" class="form-control form-control-lg @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required autocomplete="Username" autofocus>
+							<input id="username" type="text" class="form-control form-control-lg @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" placeholder="Username" aria-label="E-mail" aria-describedby="basic-addon1" required autocomplete="Username" autofocus>
 							@error('user')
 								<span class="invalid-feedback" role="alert">
 									<strong>{{ $message }}</strong>

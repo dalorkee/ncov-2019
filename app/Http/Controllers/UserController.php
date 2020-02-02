@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
-use App\Http\Controllers\BoeFrsController;
 use App\User;
 use DB;
 use Hash;
@@ -15,8 +14,8 @@ class UserController extends BoeFrsController
 	public function __construct() {
 		parent::__construct();
 		$this->middleware('auth');
-		$this->middleware(['role:admin|hospital|lab']);
-		$this->middleware('permission:manageuser|list|create|edit|delete', ['only' => ['index','store']]);
+		//$this->middleware(['role:admin|hospital|lab']);
+		//$this->middleware('permission:manageuser|list|create|edit|delete', ['only' => ['index','store']]);
 	}
 
 	/**

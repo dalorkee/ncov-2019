@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Illuminate\Http\Request;
-use App\Http\Controllers\BoeFrsController;
 use Session;
 
 class LoginController extends Controller
