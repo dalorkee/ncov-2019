@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Illuminate\Http\Request;
 use Session;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -44,6 +45,18 @@ class LoginController extends Controller
 	{
 		return 'username';
 	}
+
+	/* *** *** *** */
+	/* Note *** Using md5() over bcrypt() is not recommended. *** */
+	public function login(Request $request){
+		$user = User::where('username', $request->username)
+			->where('password', md5($request->password))->first();
+		Auth::login($user);
+		return redirect('/');
+	}
+	/* Note *** if don't use md5 remove login override method at once  */
+	/* *** *** *** */
+
 
 
 	public function logout(Request $request) {

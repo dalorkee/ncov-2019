@@ -50,8 +50,6 @@ class UserController extends Controller
 	public function store(Request $request)
 	{
 		$this->validate($request, [
-			'province' => 'required',
-			'hospcode' => 'required',
 			'name' => 'required',
 			'email' => 'required|email|unique:users,email',
 			'password' => 'required|same:confirm-password',
@@ -59,16 +57,6 @@ class UserController extends Controller
 		]);
 
 		$input = $request->all();
-
-		if ($input['title_name'] != 0 && $input['title_name'] != 6) {
-			$title_name_coll = $this->title_name[$input['title_name']];
-			$title_name = $title_name_coll->title_name;
-			$input['title_name'] = $title_name;
-		} elseif (isset($input['title_name_other']) && $input['title_name'] == 6) {
-			$input['title_name'] = $input['title_name_other'];
-		} else {
-			$input['title_name'] = null;
-		}
 
 		$input['password'] = Hash::make($input['password']);
 		$user = User::create($input);
