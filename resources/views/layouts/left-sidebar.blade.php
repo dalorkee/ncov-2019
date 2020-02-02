@@ -21,7 +21,9 @@
 						<li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Report#2</span></a></li>
 					</ul>
 				</li>
-
+				@role('admin')
+				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('users.index') }}" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Users</span></a></li>
+				@endrole
 			</ul>
 		</nav>
 		<!-- End Sidebar navigation -->

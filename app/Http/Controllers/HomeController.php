@@ -5,27 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-//use Spatie\Permission\Models\Role;
-
+use Spatie\Permission\Models\Role;
 use Session;
 
 class HomeController extends Controller
 {
-	/**
-	* Create a new controller instance.
-	*
-	* @return void
-	*/
+	public function __construct() {
+		$this->middleware('auth');
+		//$this->middleware(['role:admin|hospital|lab']);
+	}
 
-	/**
-	* Show the application dashboard.
-	*
-	* @return \Illuminate\Contracts\Support\Renderable
-	*/
 	public function index()
 	{
-		//return redirect()->route('investList.index');
-		return view('home');
+		$roleArr = auth()->user()->getRoleNames();
+		Session::put('user_role', $roleArr[0]);
+		//dd(Auth::user());
+		return redirect()->route('investList.index');
 	}
 
 }

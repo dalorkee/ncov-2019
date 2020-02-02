@@ -14,8 +14,8 @@
 Auth::routes();
 
 /* Home */
-Route::get('/', 'InvestListController@index');
-Route::get('/home', 'InvestListController@index')->name('home');
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
 
 /* Form */
 

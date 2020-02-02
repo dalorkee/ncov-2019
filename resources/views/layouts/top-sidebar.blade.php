@@ -30,7 +30,7 @@
 			<!-- Right side toggle and nav items -->
 			<!-- ============================================================== -->
 			<ul class="navbar-nav float-right">
-				<li class="nav-item"><a class="nav-link"></a></li>
+				<li class="nav-item"><a class="nav-link">{{ auth()->user()->name }}&nbsp;[{{ Session::get('user_role') }}]</a></li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{{ Html::image('assets/images/users/1.jpg', 'alt=user', ['class'=>'rounded-circle', 'width'=>'31']) }}
@@ -44,8 +44,8 @@
 										<div class="d-flex no-block align-items-center p-10">
 											<span class="btn btn-success btn-circle"><i class="mdi mdi-account"></i></span>
 											<div class="m-l-10">
-												<h6 class="m-b-0"></h6>
-												<span class="mail-desc"></span>
+												<h6 class="m-b-0">{{ auth()->user()->name }}&nbsp;{{ auth()->user()->lname }}</h6>
+												<span class="mail-desc">{{ auth()->user()->email }}</span>
 											</div>
 										</div>
 									</a>
@@ -54,8 +54,8 @@
 										<div class="d-flex no-block align-items-center p-10">
 											<span class="btn btn-info btn-circle"><i class="fas fa-map-pin"></i></span>
 											<div class="m-l-10">
-												<h5 class="m-b-0"></h5>
-												<span class="mail-desc"></span>
+												<h5 class="m-b-0">หน่วยงาน</h5>
+												<span class="mail-desc">{{ auth()->user()->wposi }}</span>
 											</div>
 										</div>
 									</a>
