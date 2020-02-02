@@ -19,6 +19,20 @@ class ConfirmFormController extends Controller
 		//
 	}
 
+	public function changeStatus(Request $request) {
+		$pt = InvestList::find($request->id);
+		$pt->pt_status = $request->pt_status;
+		$pt->news_st = $request->news_status;
+		$pt->disch_st = $request->disch_st;
+		$pt->updated_at = date('Y-m-d H:i:s');
+		$pt_saved = $pt->save();
+		if ($pt_saved) {
+			return redirect()->route('investList.index');
+			exit;
+		}
+
+	}
+
 	public function create(Request $request)
 	{
 		$invest_pt = InvestList::where('id', '=', $request->id)->get()->toArray();
