@@ -6,7 +6,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
-use App\Http\Controllers\BoeFrsController;
 
 class User extends Authenticatable
 {
@@ -18,17 +17,7 @@ class User extends Authenticatable
 	* @var array
 	*/
 	protected $fillable = [
-		'province',
-		'hospcode',
-		'title_name',
-		'title_name_other',
-		'name',
-		'lastname',
-		'email',
-		'phone',
-		'fax',
-		'password',
-		'user_hospital_name'
+
 	];
 
 	/**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\InvestList;
+use Illuminate\Support\Facades\Auth;
 
 class InvestListController extends MasterController
 {
@@ -14,6 +15,7 @@ class InvestListController extends MasterController
 	*/
 	public function index(Request $request)
 	{
+		//dd(Auth::user());
 		$status = parent::getStatus();
 		$invest = InvestList::whereNotNull('sat_id')->get()->toArray();
 

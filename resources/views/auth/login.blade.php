@@ -16,10 +16,10 @@
 					<div class="col-12">
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-email"></i></span>
+								<span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
 							</div>
-							<input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="E-mail" aria-label="E-mail" aria-describedby="basic-addon1" required autocomplete="email" autofocus>
-							@error('email')
+							<input id="username" type="text" class="form-control form-control-lg @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required autocomplete="Username" autofocus>
+							@error('user')
 								<span class="invalid-feedback" role="alert">
 									<strong>{{ $message }}</strong>
 								</span>

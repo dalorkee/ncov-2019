@@ -27,6 +27,7 @@ class UserController extends BoeFrsController
 	public function index(Request $request)
 	{
 		$data = User::orderBy('id', 'DESC')->paginate(5);
+		dd($data);
 		return view('users.index', compact('data'))
 				->with('i', ($request->input('page', 1) - 1) * 5);
 	}
