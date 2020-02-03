@@ -38,6 +38,11 @@ class MasterController extends Controller
 				'2' => 'Contact PUI',
 				'3' => 'PUO',
 				'4' => 'Confirmed nCoV-2019',
+			],
+			'screen_pt' => [
+				'1' => 'คัดกรองที่สนามบิน',
+				'2' => 'Walkin มาที่ รพ.',
+
 			]
 		]);
 		return $status;

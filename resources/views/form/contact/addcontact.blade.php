@@ -18,6 +18,8 @@
 </div>
 <?php
 	$poe_id = $_GET['poe_id'];
+	$inv_id = $_GET['id'];
+
  ?>
 <div class="container-fluid">
 	<div class="row">
@@ -37,9 +39,12 @@
 										<div class="col-sm-3">
 										<input type="hidden" name="poe_id" value="<?php echo $poe_id ?>" class="form-control">
 										</div>
+										<div class="col-sm-3">
+										<input type="hidden" name="inv_id" value="<?php echo $inv_id ?>" class="form-control">
+										</div>
 							<div class="form-group row">
 										<div class="col-sm-3">
-										<input type="text" name="contact_id"  class="form-control" placeholder="รหัสผู้สัมผัส">
+										<input type="text" name="contact_id"  class="form-control" placeholder="รหัสผู้สัมผัส" required>
 										</div>
 							</div>
             <div class="form-group row">

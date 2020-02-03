@@ -4,17 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use Excel;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Excel;
 
 class ExportExcelController extends MasterController
 {
-    function index()
+  // all table
+  public function alltable(Request $req)
+  {
+    $datenow = date('Y-m-d');
+    $arr = parent::getStatus();
+    // dd($poe_id);
+    $data=DB::table('invest_pt')
+            ->select('*')
+            ->where('notify_date', $datenow)
+            ->get();
+    return view('export.export_excel',compact(
+      'data',
+      'arr'
+    ));
+  }
+    function index(Request $req)
     {
-     $invest_pt_data = DB::table('invest_pt')
-     ->get();
-     return view('form.contact.export_excel')->with('invest_pt_data', $invest_pt_data);
-    }
-
+      $arr = parent::getStatus();
+      $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
+      $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+      $data=DB::table('invest_pt')
+                      ->select('*')
+                      ->whereDate('notify_date','>=',$notify_date)
+                      ->whereDate('notify_date', '<=',$notify_date_end)
+                      ->get();
+                      return view('export.export_excel',compact(
+                        'data',
+                        'arr'
+                      ));
+   }
     function exceldownload(Request $req)
     {
       $arr_sym_cough=$this->sym_cough();
@@ -42,14 +67,14 @@ class ExportExcelController extends MasterController
      $invest_pt_array[] = array('ลำดับ',
                                 'วันที่รับแจ้ง',
                                 'เวลา',
-                                  'PUI Type',
-                                 'Code Case',
-                                  'คำนำหน้าชื่อ',
-                                  'ชื่อ',
-                                  'ชื่อกลาง',
-                                   'นามสกุล',
-                                   'อาชีพ',
-                                   'สัญชาติ',
+                                'PUI Type',
+                                'Code Case',
+                                'คำนำหน้าชื่อ',
+                                'ชื่อ',
+                                'ชื่อกลาง',
+                                'นามสกุล',
+                                'อาชีพ',
+                                'สัญชาติ',
                                     'อายุ ปี',
                                     'ชนิดผู้ป่วย',
                                     'เที่ยวบิน',
@@ -106,14 +131,17 @@ $i = 1;
     );
 $i++;
      }
+
            // dd($invest_pt_array);
-     Excel::create($filename, function($excel) use ($invest_pt_array){
-      $excel->setTitle('PUI Data SAT');
-      $excel->sheet('PUI Data SAT', function($sheet) use ($invest_pt_array){
-       $sheet->fromArray($invest_pt_array, null, 'A1', false, false);
-      });
-     })->download('xlsx');
+           Excel::raw($invest_pt_array, Excel::XLSX);
+     // Excel::create($filename, function($excel) use ($invest_pt_array){
+     //  $excel->setTitle('PUI Data SAT');
+     //  $excel->sheet('PUI Data SAT', function($sheet) use ($invest_pt_array){
+     //   $sheet->fromArray($invest_pt_array, null, 'A1', false, false);
+     //  });
+     // })->download('xlsx');
     }
+
 
     protected function convertDateToMySQL($date='00/00/0000') {
       if (!is_null($date) || !empty($date)) {

@@ -73,6 +73,7 @@ class ContactController extends MasterController
  {
 	 // $contactid=uniqid();
   $poe_id = $req ->input ('poe_id');
+	$inv_id = $req ->input ('inv_id');
   // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
 	$contact_id = $req ->input ('contact_id');
   $name_contact = $req ->input ('name_contact');
@@ -97,6 +98,7 @@ class ContactController extends MasterController
   $date_entry = date('Y-m-d') ;
   $data = array(
     'poe_id'=>$poe_id,
+		'inv_id'=>$inv_id,
     'contact_id'=>$contact_id,
     'name_contact'=>$name_contact,
     'mname_contact'=>$mname_contact,
