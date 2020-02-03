@@ -31,7 +31,7 @@ class ExportExcelController extends MasterController
       // dd($arr);
       $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
       $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
-            $filename="SAT_report_".$notify_date."_".$notify_date_end;
+      $filename="SAT_report_".$notify_date."_".$notify_date_end;
       // dd($notify_date_end);
      $invest_pt_data = DB::table('invest_pt')
                       ->select('*')
@@ -75,7 +75,7 @@ $i = 1;
       $invest_pt_array[] = array(
             'id'  => $i,
             'notify_date'  => (!empty($value->notify_date)) ? $value->notify_date : "",
-            'notify_time'  => $value->notify_time,
+            'notify_time'  => (!empty($value->notify_time)) ? $value->notify_time : "",
             'pui_type'  => (isset($arr['pui_type'][$value->pui_type])) ? $arr['pui_type'][$value->pui_type] : "",
             'sat_id'  =>  (!empty($value->sat_id)) ? $value->sat_id : "",
             'title_name'  => (!empty($value->title_name)) ? $value->title_name : "",
@@ -85,7 +85,7 @@ $i = 1;
             'occupation'  => $arr_occupation[$value->occupation],
             'nation'  =>(!empty($value->nation)) ? $value->nation : "",
             'age'  => (!empty($value->age)) ? $value->age : "",
-            'patian_type'  => "",
+            'pt_status'  => (isset($arr['pt_status'][$value->pt_status])) ? $arr['pt_status'][$value->pt_status] : "",
             'flight_number'  => (!empty($value->flight_number)) ? $value->flight_number : "",
             'arrive_from'  => "",
             'risk2_6arrive_date'  => (!empty($value->risk2_6arrive_date)) ? $value->risk2_6arrive_date : "",
@@ -93,7 +93,7 @@ $i = 1;
             'data3_1date_sickdate'  =>(!empty($value->data3_1date_sickdate)) ? $value->data3_1date_sickdate : "",
             'fever_current'  => (!empty($value->fever_current)) ? $value->fever_current : "",
             'symptom'  =>$arr_sym_cough[$value ->sym_cough].', '.$arr_sym_snot[$value ->sym_snot].', '.$arr_sym_sore[$value ->sym_sore].', '.$arr_sym_dyspnea[$value ->sym_dyspnea].', '.$arr_sym_breathe[$value ->sym_breathe].', '.$arr_sym_stufefy[$value ->sym_stufefy],
-            'xray_result'  => (!empty($value->fever_current)) ? $value->fever_current : "",
+            'xray_result'  => (!empty($value->xray_result)) ? $value->xray_result : "",
             'RP33'=>"",
             'Coronavirus_family_sequencing_cu'  => "",
             'Coronavirus_family_sequencing_dmsc'  => "",
