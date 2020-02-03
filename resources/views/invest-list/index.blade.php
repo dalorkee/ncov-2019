@@ -199,7 +199,7 @@ input.valid, textarea.valid{
 					<form name="chStatusFrm{{ $value['id'] }}" action="{{ route('chConfirmStatus') }}" method="POST">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Status ID:{{ $value['id'] }}</h5>
+								<h5 class="modal-title" id="exampleModalLabel">Change Status ID:{{ $value['id'] }}</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -211,7 +211,7 @@ input.valid, textarea.valid{
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 										<div class="form-group">
 											<label for="patient">Patient</label>
-											<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status{{ $value['id'] }}">
+											<select name="pt_status" class="form-control selectpicker show-tick" data-style="btn-danger" id="pt_status{{ $value['id'] }}">
 												@if (!empty($value['pt_status']))
 													<option value="{{ $value['pt_status'] }}" selected="selected">{{ $status['pt_status'][$value['pt_status']] }}</option>
 												@endif
@@ -225,7 +225,7 @@ input.valid, textarea.valid{
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 										<div class="form-group">
 											<label for="news">News</label>
-											<select name="news_status" class="form-control selectpicker show-tick" id="news_status{{ $value['id'] }}">
+											<select name="news_status" class="form-control selectpicker show-tick" data-style="btn-info" id="news_status{{ $value['id'] }}">
 												@if (!empty($value['news_st']))
 													<option value="{{ $value['news_st'] }}" selected="selected">{{ $status['news_st'][$value['news_st']] }}</option>
 												@endif
@@ -239,7 +239,7 @@ input.valid, textarea.valid{
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 										<div class="form-group">
 											<label for="sex">Discharge</label>
-												<select name="disch_st" class="form-control selectpicker show-tick" id="disch_st{{ $value['id'] }}">
+												<select name="disch_st" class="form-control selectpicker show-tick" data-style="btn-success" id="disch_st{{ $value['id'] }}">
 													@if (!empty($value['disch_st']))
 														<option value="{{ $value['disch_st'] }}" selected="selected">{{ $status['disch_st'][$value['disch_st']] }}</option>
 													@endif
