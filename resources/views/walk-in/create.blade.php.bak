@@ -122,7 +122,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
 												<label for="informant">ชื่อเมือง</label>
-												<input type="text" name="city_from_name" id="city_from_name" class="form-control">
+												<input type="text" name="travel_from" id="travel_from" class="form-control">
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
