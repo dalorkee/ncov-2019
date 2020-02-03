@@ -16,7 +16,7 @@
 					<div class="col-12">
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
+								<span class="input-group-text bg-primary text-white" id="basic-addon1"><i class="ti-user"></i></span>
 							</div>
 							<input id="username" type="text" class="form-control form-control-lg @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" placeholder="Username" aria-label="E-mail" aria-describedby="basic-addon1" required autocomplete="Username" autofocus>
 							@error('user')
@@ -27,7 +27,7 @@
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text bg-warning text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
+								<span class="input-group-text bg-cyan text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
 							</div>
 							<input id="password" type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" name="password"  placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required autocomplete="current-password">
 							@error('password')
@@ -42,8 +42,8 @@
 					<div class="col-12">
 						<div class="form-group">
 							<div class="p-t-20">
-								<button  type="button" class="btn btn-info" id="to-recover"><i class="fa fa-lock m-r-5"></i> Lost password?</button>
-								<button type="submit" class="btn btn-success float-right" >{{ __('Login') }}</button>
+								<button  type="button" class="btn btn-success" id="to-recover"><i class="fa fa-lock m-r-5"></i> Lost password?</button>
+								<button type="submit" class="btn btn-danger float-right" >{{ __('Sign in') }}</button>
 							</div>
 						</div>
 					</div>

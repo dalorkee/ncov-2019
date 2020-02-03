@@ -41,53 +41,13 @@
 							</div>
 						@endif
 						{!! Form::open(array('route'=>'users.store', 'method'=>'POST', 'class'=>'mt-4 mb-3')) !!}
-						<!-- form method="POST" action="{ route('users.store') }" class="mt-4 mb-3"> -->
-							<div class="row">
-								<div class="col-sm-12 col-md-4 col-lg-3 col-xl-3">
-									<div class="form-group">
-										<label for="province">จังหวัด</label>
-										<select name="province" class="form-control select-province" style="width:100%">
-											<option value="0">-- เลือกจังหวัด --</option>
-											@php
-												$provinces = Session::get('provinces');
-												$provinces->each(function ($item, $key) {
-													echo "<option value=\"".$item->province_id."\">".$item->province_name."</option>";
-												});
-											@endphp
-										</select>
-									</div>
-								</div>
-								<div class="col-sm-12 col-md-4 col-lg-3 col-xl-3">
-									<div class="form-group">
-										<label for="hospital">โรงพยาบาล</label>
-										<select name="hospcode" class="form-control select-hospital" disabled style="width:100%">
-											<option value="0">-- เลือกโรงพยาบาล --</option>
-										</select>
-									</div>
-								</div>
-							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
 									<div class="form-group">
 										<label for="titleName">คำนำหน้าชื่อ</label>
-										<select name="title_name" class="form-control select-title-name" style="width:100%">
-											<option value="0">-- โปรดเลือก --</option>
-											@php
-												$titleName->each(function ($item, $key) {
-													echo "<option value=\"".$item->id."\">".$item->title_name."</option>";
-												});
-											@endphp
-										</select>
+										<input type="text" name="title_name" class="form-control other-title-name" placeholder="คำนำหน้าชื่อ">
 									</div>
 								</div>
-								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
-									<div class="form-group">
-										<label for="otherTitleNameInput">อื่นๆ ระบุ</label>
-										<input type="text" name="otname" class="form-control other-title-name" placeholder="คำนำหน้าชื่ออื่นๆ" disabled>
-									</div>
-								</div>
-							</div>
-							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
 									<div class="form-group">
 										<label for="fname">ชื่อจริง:</label>
@@ -108,8 +68,6 @@
 										{!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
 									</div>
 								</div>
-							</div>
-							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
 									<div class="form-group">
 										<label>รหัสผ่าน:</label>
@@ -147,41 +105,5 @@
 </div>
 @endsection
 @section('bottom-script')
-<script src="{{ URL::asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
-<script>
-$(document).ready(function() {
-	$('.select-province,.select-hospital,.select-title-name,.role').select2();
-	$('.select-province').change(function() {
-		var prov_id = $('.select-province').val();
-		if (prov_id > 0) {
-			$('.select-hospital').prop('disabled', false);
-			$.ajax({
-				type: "GET",
-				url: "{{ route('ajaxGetHospByProv') }}",
-				dataType: 'html',
-				data: {prov_id: prov_id},
-				success: function(data) {
-					$('.select-hospital').html(data);
-				},
-				error: function(data) {
-					alert(data.status);
-				}
-			});
-		} else {
-			$('.select-hospital').val('');
-			$('.select-hospital').prop('disabled', true);
-		}
-	});
-});
-</script>
-<script>
-$('.select-title-name').change(function() {
-	if ($('.select-title-name').val() === '6') {
-		$('.other-title-name').prop('disabled', false);
-	} else {
-		$('.other-title-name').val('');
-		$('.other-title-name').prop('disabled', true);
-	}
-});
-</script>
+	<script src="{{ URL::asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
 @endsection
