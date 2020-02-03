@@ -80,6 +80,7 @@ class WalkInCaseController extends MasterController
           "race" => (!empty($request->race)) ? trim($request->race) : "",
           "occupation" => (!empty($request->occupation)) ? trim($request->occupation) : "",
           "occupation_oth" => (!empty($request->occupation_oth)) ? trim($request->occupation_oth) : "",
+          "travel_from" => (!empty($request->city_from_name)) ? trim($request->city_from_name) : NULL,
 
           //"congential" => (!empty($request->congential)) ? trim($request->congential) : "",
           "data3_3chk" => (!empty($request->data3_3chk)) ? trim($request->data3_3chk) : "n",
