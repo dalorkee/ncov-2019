@@ -16,12 +16,12 @@ input:read-only {
 <div class="page-breadcrumb">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title">WalkIN</h4>
+			<h4 class="page-title">ScreenPUI</h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Home</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Form WalkIN</li>
+						<li class="breadcrumb-item active" aria-current="page">ScreenPUI</li>
 					</ol>
 				</nav>
 			</div>
@@ -29,6 +29,19 @@ input:read-only {
 	</div>
 </div>
 <div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+				@if(session()->has('message'))
+		    <div class="alert alert-success" role="alert">
+		        <p class="text-center">{{ session()->get('message') }}</p>
+		    </div>
+				@endif
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 			<div class="card">
@@ -107,11 +120,16 @@ input:read-only {
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
 											<label for="dowork">ผู้ป่วย Isolated ที่ รพ.</label>
-											<input type="text" name="risk2_6HistoryHospitalInput" class="form-control" placeholder="ชื่อ รพ.">
+											<input type="text" name="risk2_6history_hospital_input" class="form-control" placeholder="ชื่อ รพ.">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
 											<label for="dowork">จังหวัด</label>
-											<input type="text" name="isolated_province" class="form-control" placeholder="จังหวัด">
+											<select name="isolated_province" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="occupation">
+												<option value="0">-- โปรดเลือก --</option>
+													@foreach($provinces as $key5=>$val5) {
+														<option value="{{ $val5['province_name'] }}">{{ $val5['province_name'] }}</option>
+													@endforeach
+											</select>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 											<h1 class="text-info">2. ข้อมูลการเดินทาง</h1>
@@ -131,11 +149,11 @@ input:read-only {
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">สายการบิน</label>
-											<input type="text" name="risk2_6AirlineInput" class="form-control" placeholder="สายการบิน">
+											<input type="text" name="risk2_6airline_input" class="form-control" placeholder="สายการบิน">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">เที่ยวบิน</label>
-											<input type="text" name="risk2_6FlightNoInput" class="form-control" placeholder="เที่ยวบิน">
+											<input type="text" name="risk2_6flight_no_input" class="form-control" placeholder="เที่ยวบิน">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone"><small>จำนวนผู้ร่วมเดินทางในกลุ่มเดียวกัน(คน)</small></label>
@@ -420,7 +438,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
 												<label for="houseNo">วันที่เริ่มป่วย</label>
-												<input type="text" id="datepicker2" name="risk3_1sickDateInput" class="form-control">
+												<input type="text" id="datepicker2" name="data3_1date_sickdate" class="form-control">
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-1 col-xl-1 mb-3">
