@@ -23,13 +23,25 @@ Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('chConfirmStatus', 'ConfirmFormController@changeStatus')->name('chConfirmStatus');
 Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
 
-Route::get('/WalkinCaseForm', array(
-						'as'   => 'walkincase.create',
-						'uses' => 'WalkInCaseController@create'
+Route::get('/screen-pui', array(
+						'as'   => 'screenpui.create',
+						'uses' => 'ScreenPUIController@create'
 					));
-Route::post('/WalkinCaseForm', array(
-						'as'   => 'walkincase.store',
-						'uses' => 'WalkInCaseController@store'
+Route::post('/screen-pui', array(
+						'as'   => 'screenpui.store',
+						'uses' => 'ScreenPUIController@store'
+					));
+Route::get('/screen-pui{id}', array(
+						'as'   => 'screenpui.edit',
+						'uses' => 'ScreenPUIController@edit'
+					));
+Route::post('/screen-pui', array(
+						'as'   => 'screenpui.update',
+						'uses' => 'ScreenPUIController@update'
+					));
+Route::get('/del-screen-pui/{id}', array(
+						'as'   => 'screenpui.delete',
+						'uses' => 'ScreenPUIController@destroy'
 					));
 
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
