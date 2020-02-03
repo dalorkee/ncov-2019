@@ -7,11 +7,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\BoeFrsController;
 use App\User;
-use DB;
 
-class RegisterController extends BoefrsController
+class RegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -101,14 +99,11 @@ class RegisterController extends BoefrsController
 
 	protected function register(Request $request)
 	{
-		$this->validate($request, [
-			'province' => 'required|numeric|min:0|not_in:0',
-			'hospcode' => 'required|numeric|min:0|not_in:0',
-			'title_name' => 'required|numeric|min:0|not_in:0',
+	/*	$this->validate($request, [
+			'username' => 'required|string|max:255',
 			'name' => 'required|string|max:255',
 			'email' => 'required|email|max:255|unique:users,email',
 			'password' => 'required|same:confirm-password',
-			'captcha' => 'required|captcha',
 		]);
 		$input = $request->all();
 		if (!isset($input['title_name_other'])) {
@@ -118,15 +113,6 @@ class RegisterController extends BoefrsController
 		$user = User::create($input);
 		$user->assignRole($request->input('roles'));
 		return redirect()->route('register')->with('success', 'User created successfully');
-	}
-
-	public function getHospByProv(Request $request)
-	{
-		$this->result = parent::hospitalByProv($request->prov_id);
-		$htm = "<option value=\"0\">-- โปรดเลือก --</option>\n";
-		foreach($this->result as $key=>$value) {
-				$htm .= "<option value=\"".$value->hospcode."\">".$value->hosp_name."</option>\n";
-		}
-		return $htm;
-	}
+	}*/
+	return redirect::to('http://viral.ddc.moph.go.th/viral/index.php');
 }

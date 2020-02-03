@@ -101,17 +101,18 @@ class UserController extends Controller
 	public function update(Request $request, $id)
 	{
 		$this->validate($request, [
-			//'province' => 'required',
-			//'hospcode' => 'required',
 			'name' => 'required',
-			'email' => 'required|email|unique:users,email,'.$id,
+			'lname' => 'required',
 			'password' => 'same:confirm-password',
+			'email' => 'required|email|unique:users,email,'.$id,
 			'roles' => 'required'
 		]);
 
 		$input = $request->all();
 		if (!empty($input['password'])) {
-			$input['password'] = Hash::make($input['password']);
+			/* $input['password'] = Hash::make($input['password']); */
+			$md5pwd = md5($input['password']);
+			$input['password'] = $md5pwd;
 		} else {
 			$input = array_except($input, array('password'));
 		}
@@ -119,7 +120,6 @@ class UserController extends Controller
 		$user = User::find($id);
 		$user->update($input);
 		DB::table('model_has_roles')->where('model_id',$id)->delete();
-
 		$user->assignRole($request->input('roles'));
 
 		return redirect()->route('users.index')->with('success', 'User updated successfully');
