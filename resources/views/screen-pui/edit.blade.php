@@ -659,7 +659,7 @@ input:read-only {
 								</div>
 
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-								 <h1 class="text-info">7. ข้อมูลผู้บันทึกข้อมูล</h1>
+								 <h1 class="text-info">6. ข้อมูลผู้บันทึกข้อมูล</h1>
 								</div>
 
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
