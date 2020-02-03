@@ -20,10 +20,10 @@ class InvestListController extends MasterController
 		$role = $user->getRoleNames()->toArray();
 		switch($role[0]) {
 			case 'admin':
-				$invest = InvestList::whereNotNull('sat_id')->get()->toArray();
+				$invest = InvestList::whereNull('deleted_at')->get()->toArray();
 				break;
 			case 'sat':
-				$invest = InvestList::whereNotNull('sat_id')->get()->toArray();
+				$invest = InvestList::whereNull('deleted_at')->get()->toArray();
 				break;
 			default :
 				return redirect()->route('logout');
