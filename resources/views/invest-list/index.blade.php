@@ -95,7 +95,7 @@ input.valid, textarea.valid{
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Data</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Invest</li>
+						<li class="breadcrumb-item active" aria-current="page">Lists PUI</li>
 					</ol>
 				</nav>
 			</div>
@@ -111,17 +111,6 @@ input.valid, textarea.valid{
 					<h5 class="card-subtitle">2019-nCoV</h5>
 				</div>
 			</div>
-			<form name="search_frm" class="mx-4" id="search_frm">
-				<div class="form-group row pt-4">
-					<div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 my-1">
-						<input type="text" name="listSearch" class="form-control" />
-					</div>
-					<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 mt-1">
-						<!-- <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> ค้นหา</button> -->
-						<a href="#" class="btn btn-primary" id="btn_search" style="height:38px;"><i class="fas fa-search"></i> ค้นหา</a>
-					</div>
-				</div>
-			</form>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="card">
@@ -146,12 +135,12 @@ input.valid, textarea.valid{
 											@foreach ($invest as $key => $value)
 												<tr>
 													<td>{{ $value['id'] }}</td>
-													<td>{{ $value['sat_id'] }}</td>
-													<td><span class="badge badge badge-danger">{{ $value['pt_status'] != "" ? $status['pt_status'][$value['pt_status']] : "" }}</span></td>
-													<td><span class="badge badge badge-primary">{{ $value['news_st'] != "" ? $status['news_st'][$value['news_st']] : "" }}</span></td>
-													<td><span class="badge badge badge-info">{{ $value['disch_st'] != "" ? $status['disch_st'][$value['disch_st']] : "" }}</span></td>
-													<td>{{ $value['sex'] }}</td>
-													<td>{{ $value['race'] }}</span></td>
+													<td>{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</td>
+													<td><span class="text-danger">{{ $value['pt_status'] != "" ? $status['pt_status'][$value['pt_status']] : "-" }}</span></td>
+													<td><span class="text-info">{{ $value['news_st'] != "" ? $status['news_st'][$value['news_st']] : "-" }}</span></td>
+													<td><span class="text-success">{{ $value['disch_st'] != "" ? $status['disch_st'][$value['disch_st']] : "-" }}</span></td>
+													<td>{{ $value['sex'] != "" ? $value['sex'] : "-" }}</td>
+													<td>{{ $value['race'] != "" ? $value['race'] : "-" }}</span></td>
 													<td>
 														<button type="button" class="btn btn-warning btn-sm margin-5 text-white" data-toggle="modal" title="Status" data-target="#chstatus{{ $value['id'] }}">
 															<i class="mdi mdi-table-edit"></i>
@@ -293,7 +282,7 @@ $(document).ready(function() {
 
 	/* data table */
 	$('#code_table').DataTable({
-		"searching": false,
+		"searching": true,
 		"paging": true,
 		"pageLength": 25,
 		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
