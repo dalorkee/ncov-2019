@@ -12,7 +12,7 @@ use App\PathogenLists;
 use App\Occupation;
 use Auth;
 
-class WalkInCaseController extends MasterController
+class ScreenPUIController extends MasterController
 {
     /**
      * Display a listing of the resource.
@@ -105,7 +105,7 @@ class WalkInCaseController extends MasterController
           "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : "",
           "risk2_6history_hospital_input" => (!empty($request->risk2_6HistoryHospitalInput)) ? trim($request->risk2_6HistoryHospitalInput) : "",
           "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : "",
-          "risk2_6arrive_date" => (!empty($request->risk2_6ArriveDate)) ? $this->Convert_Date($request->risk2_6ArriveDate) : NULL,
+          "risk2_6arrive_date" => (!empty($request->risk2_6arrive_date)) ? $this->Convert_Date($request->risk2_6arrive_date) : NULL,
           "risk2_6airline_input" => (!empty($request->risk2_6AirlineInput)) ? trim($request->risk2_6AirlineInput) : "",
           "risk2_6flight_no_input" => (!empty($request->risk2_6FlightNoInput)) ? trim($request->risk2_6FlightNoInput) : "",
           "total_travel_in_group" => (!empty($request->total_travel_in_group)) ? trim($request->total_travel_in_group) : "",
@@ -209,7 +209,7 @@ class WalkInCaseController extends MasterController
      */
     public function edit($id)
     {
-        //
+        dd(App\InvestList::find($id));
     }
 
     /**

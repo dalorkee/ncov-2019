@@ -31,11 +31,11 @@ Route::post('/screen-pui', array(
 						'as'   => 'screenpui.store',
 						'uses' => 'ScreenPUIController@store'
 					));
-Route::get('/screen-pui{id}', array(
+Route::get('/screen-pui/edit/{id}', array(
 						'as'   => 'screenpui.edit',
 						'uses' => 'ScreenPUIController@edit'
 					));
-Route::post('/screen-pui', array(
+Route::post('/screen-pui/update', array(
 						'as'   => 'screenpui.update',
 						'uses' => 'ScreenPUIController@update'
 					));
