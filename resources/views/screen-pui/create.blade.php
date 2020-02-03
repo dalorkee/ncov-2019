@@ -254,6 +254,11 @@ input:read-only {
 											<label for="occupation_oth">อาชีพอื่นๆ</label>
 											<input type="text" name="occupation_oth"  class="form-control" id="occupation_oth">
 										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+											<div class="alert alert-danger" role="alert">
+												<h6 class="alert-heading">คำแนะนำ: "อาชีพ" ระบุลักษณะงานที่ทำและหากเป็นเจ้าหน้าที่ทางการแพทย์หรือสาธารณสุขต้องระบุให้ชัดเจนว่าเป็นบุคลากรทางการแพทย์</h6>
+											</div>
+										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
 											<label for="occupation">โรคประจำตัว</label>
 										</div>
@@ -419,11 +424,6 @@ input:read-only {
 														</tr>
 													</tbody>
 												</table>
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
-											<div class="alert alert-danger" role="alert">
-												<h6 class="alert-heading">คำแนะนำ: "อาชีพ" ระบุลักษณะงานที่ทำและหากเป็นเจ้าหน้าที่ทางการแพทย์หรือสาธารณสุขต้องระบุให้ชัดเจนว่าเป็นบุคลากรทางการแพทย์</h6>
 											</div>
 										</div>
 									</div>
