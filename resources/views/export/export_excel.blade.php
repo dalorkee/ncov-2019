@@ -1,10 +1,7 @@
 @extends('layouts.index')
-<link type="text/css" href="{{ URL::asset('https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css') }}" rel="stylesheet">
-{{-- <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet"> --}}
-{{-- <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"> --}}
-{{-- <link type="text/css" href="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css') }}" rel="stylesheet"> --}}
-{{-- <link type="text/css" href="{{ URL::asset('https://cdn.datatables.net/1.10.20/css/dataTables.foundation.min.css') }}" rel="stylesheet"> --}}
-{{-- <link rel="stylesheet" href="../files/assets/pages/waves/css/waves.min.css" type="text/css" media="all"> --}}
+<link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet">
+<link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="../files/assets/pages/waves/css/waves.min.css" type="text/css" media="all">
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 {{-- <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet"> --}}
 {{-- <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"> --}}
@@ -37,10 +34,10 @@
         <form action="{{ route('export_excel') }}" method="post">
                 {{ csrf_field() }}
       <div class="form-group row">
-        <div class="col-sm-3">
+        <div class="col-sm-6">
         <input type="text" class="form-control" name="notify_date" data-provide="datepicke" id="datecontact"  placeholder="วันที่รับแจ้งเริ่มต้น" required>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-6">
         <input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด" required>
         </div>
       </div>
@@ -58,7 +55,7 @@
 				<div class="card-body">
 					<br>
 					<div class="table-responsive">
-          <table id="example" class="striped" style="width:100%">
+          <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
 							<th>ID</th>
@@ -124,12 +121,9 @@
 @section('bottom-script')
   <script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 {{-- <script src="{{ URL::asset('assets/contact/datatable/js/jquery-3.3.1.js') }}"></script> --}}
-{{-- <script src="{{ URL::asset('assets/contact/datatable/js/jquery.dataTables.min.js') }}"></script> --}}
-{{-- <script src="{{ URL::asset('https://cdn.datatables.net/1.10.20/js/dataTables.foundation.min.js') }}"></script> --}}
-{{-- <script src="{{ URL::asset('assets/contact/datatable/js/dataTables.bootstrap4.min.js') }}"></script> --}}
+<script src="{{ URL::asset('assets/contact/datatable/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ URL::asset('assets/contact/datatable/js/dataTables.bootstrap4.min.js') }}"></script>
 {{-- <script src="{{ URL::asset('https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js') }}"></script> --}}
-<script src="{{ URL::asset('https://code.jquery.com/jquery-3.3.1.js') }}"></script>
-<script src="{{ URL::asset('https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ URL::asset('https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js') }}"></script>
 <script src="{{ URL::asset('https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js') }}"></script>
 <script src="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js') }}"></script>
