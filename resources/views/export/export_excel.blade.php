@@ -73,11 +73,11 @@
             </tr>
         </thead>
         <tbody>
-
 					<?php
-          $i = 1;
-          foreach($data as $value) : ?>
-            <tr><td>{{ $i }}</td>
+          foreach($data as $value) :
+
+						?>
+            <tr><?php	$i = 1; ?><td>{{ $i }}</td> <?php $i++;?>
 								<td>{{ (!empty($value->notify_date)) ? $value->notify_date : "" }}</td>
                 <td>{{ (!empty($value->sex)) ? $value->sex : "" }}</td>
                 <td>{{ (!empty($value->nation)) ? $value->nation : "" }}</td>
@@ -90,8 +90,10 @@
                 <td>{{ (isset($arr['pui_type'][$value->pui_type])) ? $arr['pui_type'][$value->pui_type] : "" }}</td>
                 <td>{{ (!empty($value->pt_status)) ? $value->pt_status : "" }}</td>
             </tr>
-						<?php endforeach;
-$i++;
+						<?php
+
+					 endforeach;
+
             ?>
         </tbody>
         <tfoot>
