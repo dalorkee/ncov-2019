@@ -551,7 +551,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 									<div class="form-group">
 										<label for="subDistrict">เลขหนังสือ</label>
-										<input type="text" name="letter_code" value="@if($data->letter_code) {{ $data->letter_code }}" @endif class="form-control">
+										<input type="text" name="letter_code" value="@if($data->letter_code) {{ $data->letter_code }} @endif" class="form-control">
 									</div>
 								</div>
 
