@@ -12,13 +12,13 @@ input:read-only {
 }
 </style>
 <?php
-$config = [
-    'table' => 'todos',
-    'length' => 11,
-		'field' => 's_id',
-    'prefix' => "01"."B".date('d').date('m')
-];
-$id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
+// $config = [
+//     'table' => 'todos',
+//     'length' => 11,
+// 		'field' => 's_id',
+//     'prefix' => "01"."B".date('d').date('m')
+// ];
+// $id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 
 //dd($id);
 ?>
