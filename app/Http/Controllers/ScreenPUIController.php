@@ -12,6 +12,7 @@ use App\PathogenLists;
 use App\Occupation;
 use App\GlobalCountry;
 use Auth;
+use Carbon\Carbon;
 
 class ScreenPUIController extends MasterController
 {
@@ -183,7 +184,8 @@ class ScreenPUIController extends MasterController
           "send_information_div" => (!empty($request->send_information_div)) ? trim($request->send_information_div) : "",
           "receive_information" => (!empty($request->receive_information)) ? trim($request->receive_information) : "",
           "entry_user" => (!empty($request->entry_user)) ? trim($request->entry_user) : NULL,
-          "created_at" => date('Y-m-d H:i:s'),
+          //"created_at" => date('Y-m-d H:i:s'),
+          "created_at" => Carbon::now(),
         ];
 
         $result = InvestList::insert($data);
