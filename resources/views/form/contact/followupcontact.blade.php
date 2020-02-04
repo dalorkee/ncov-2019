@@ -64,41 +64,39 @@
             </div>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="checkbox" name="clinical_mers"  value="1" > ไม่มีอาการ
+						<input type="checkbox" name="clinical_mers"  value="" > ไม่มีอาการ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="fever_mers"  value="2" > ไข้
+						<input type="checkbox" name="fever_mers"  value="1" > ไข้
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="cough_mers"  value="3" > ไอ
+						<input type="checkbox" name="cough_mers"  value="2" > ไอ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="sore_throat_mers"  value="4" > เจ็บคอ
+						<input type="checkbox" name="sore_throat_mers"  value="3" > เจ็บคอ
 						</div>
 						</div>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="checkbox" name="mucous_mers"  value="5" > มีน้ำมูก
+						<input type="checkbox" name="mucous_mers"  value="4" > มีน้ำมูก
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="sputum_mers"  value="6" > มีเสมหะ
+						<input type="checkbox" name="sputum_mers"  value="5" > มีเสมหะ
 						</div>
+
 						<div class="col-sm-3">
-						<input type="checkbox" name="breath_labored_mers"  value="7" > หายใจลำบาก
-						</div>
-						<div class="col-sm-3">
-						<input type="checkbox" name="suffocate_mers"  value="8" > หอบเหนื่อย
+						<input type="checkbox" name="suffocate_mers"  value="9" > หอบเหนื่อย
 						</div>
 						</div>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="checkbox" name="muscle_aches_mers"  value="9" > ปวดกล้ามเนื้อ
+						<input type="checkbox" name="muscle_aches_mers"  value="7" > ปวดกล้ามเนื้อ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="headache_mers"  value="10" > ปวดศีรษะ
+						<input type="checkbox" name="headache_mers"  value="6" > ปวดศีรษะ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="diarrhea_mers"  value="11" > ถ่ายเหลว
+						<input type="checkbox" name="diarrhea_mers"  value="14" > ถ่ายเหลว
 						</div>
 						</div>
             <div class="form-group row">
@@ -142,9 +140,9 @@
                       <td>
                         <select class="form-control" name="specimen_contact[]">
                           <option value="">- เลือก -</option>
-      							      <option value="Nasopharyngeal swab">Nasopharyngeal swab</option>
-      							      <option value="Throat swab">Throat swab</option>
-      							      <option value="Sputum">Sputum</option>
+													@foreach ($ref_specimen as $row)
+													<option value="{{$row->id}}">{{$row->name_en}}</option>
+													@endforeach
                         </select>
                       </td>
 											<td>
@@ -195,9 +193,9 @@
                       '</select></td>'+
 									'<td><select class="form-control" name="specimen_contact[]' + rowCount + '"">' +
                               '<option value="">- เลือก -</option>'+
-                              '<option value="Nasopharyngeal swab">Nasopharyngeal swab</option>'+
-                              '<option value="Throat swab">Throat swab</option>'+
-                              '<option value="Sputum">Sputum</option>'+
+															@foreach ($ref_specimen as $row)
+															'<option value="{{$row->id}}">{{$row->name_en}}</option>'+
+															@endforeach
 														'</select></td>'+
                             '<td><input type="text" id="chkspec_other_contact' + rowCount + '" name="chkspec_other_contact[]' + rowCount + '"  class="form-control  chkspec_other_contact01" onkeyup="autocomplet()" />' +
                             '<td><select class="form-control" name="other_pcr_result_contact[]' + rowCount + '>' +

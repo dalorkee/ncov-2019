@@ -1,5 +1,7 @@
 @extends('layouts.index')
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+{{-- <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}"> --}}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 @section('contents')
 <div class="page-breadcrumb">
 	<div class="row">
@@ -49,16 +51,10 @@
 							</div>
             <div class="form-group row">
             <div class="col-sm-3">
-            <select type="text" name="title_contact" class="form-control" placeholder="คำนำหน้าชื่อ">
-                <option value="">คำนำหน้าชื่อ</option>
-                  <option value="">- เลือก -</option>
-                  <option value="นาย">นาย</option>
-                  <option value="นาง">นาง</option>
-                  <option value="น.ส">น.ส</option>
-                  <option value="ด.ช">ด.ช</option>
-                  <option value="ด.ญ">ด.ญ</option>
-                  <option value="Mr">Mr</option>
-                  <option value="Mrs">Mrs</option>
+            <select type="text" name="title_contact" class="form-control js-select-basic-single" placeholder="คำนำหน้าชื่อ">
+							@foreach ($ref_title_name as $row)
+							<option value="{{$row->id}}">{{$row->title_name}}</option>
+							@endforeach
             </select>
             </div>
             <div class="col-sm-3">
@@ -76,8 +72,8 @@
             <select type="text" name="sex_contact" class="form-control" placeholder="col-sm-2">
                 <option value="">เพศ</option>
                   <option value="">- เลือก -</option>
-                  <option value="M">ชาย</option>
-                <option value="F">หญิง</option>
+                  <option value="ชาย">ชาย</option>
+                <option value="ชาย">หญิง</option>
             </select>
             </div>
             <div class="col-sm-4">
@@ -90,26 +86,26 @@
             <div class="form-group row">
 
             <div class="col-sm-3">
-            <select type="text" name="national_contact" class="form-control" placeholder="สัญชาติ">
-            @foreach ($listcountry as $row)
-            <option value="{{$row->name_en}}">{{$row->name_en}}</option>
+            <select type="text" name="national_contact" class="form-control js-select-basic-single" placeholder="สัญชาติ">
+            @foreach ($ref_global_country as $row)
+            <option value="{{$row->country_id}}">{{$row->country_name}}</option>
             @endforeach
             </select>
             </div>
             <div class="col-sm-3">
-            <select type="text" name="province" id="province" class="form-control province" placeholder="จังหวัด">
+            <select type="text" name="province" id="province" class="form-control province js-select-basic-single" placeholder="จังหวัด">
 						@foreach ($listprovince as $row)
 						<option value="{{$row->province_id}}">{{$row->province_name}}</option>
 						@endforeach
 						</select>
             </div>
             <div class="col-sm-3">
-						<select name="district" id="district" class="form-control district" placeholder="อำเภอ">
+						<select name="district" id="district" class="form-control district js-select-basic-single" placeholder="อำเภอ">
 							<option value="">เลือกอำเภอ/เขต</option>
 						</select>
 						</div>
             <div class="col-sm-3">
-						<select name="sub_district" id="subdistrict" class="form-control subdistrict" placeholder="ตำบล">
+						<select name="sub_district" id="subdistrict" class="form-control subdistrict js-select-basic-single" placeholder="ตำบล">
 							<option value="">เลือกตำบล</option>
 						</select>
 						</div>
@@ -127,7 +123,7 @@
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
-            <select type="text" name="risk_contact" class="form-control" placeholder="ระดับความเสี่ยง">
+            <select type="text" name="risk_contact" class="form-control js-select-basic-single" placeholder="ระดับความเสี่ยง">
                 <option value="">ระดับความเสี่ยง</option>
                   <option value="">- เลือก -</option>
                   <option value="1">เสี่ยงสูง</option>
@@ -141,7 +137,7 @@
             <input type="text" class="form-control" name="datefollow" data-provide="datepicke" id="datefollow"  placeholder="ให้ตามถึงวันที่">
             </div>
             <div class="col-sm-3">
-            <select type="text" name="type_contact" class="form-control" placeholder="ประเภทผู้สัมผัส">
+            <select type="text" name="type_contact" class="form-control js-select-basic-single" placeholder="ประเภทผู้สัมผัส">
                 <option value="">ประเภทผู้สัมผัส</option>
                   <option value="">- เลือก -</option>
                   <option value="1">บุคลากรทางการแพทย์</option>
@@ -156,7 +152,7 @@
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
-            <select type="text" name="routing_contact" class="form-control" placeholder="การค้นหาผู้สัมผัส">
+            <select type="text" name="routing_contact" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
               <option value="">การค้นหาผู้สัมผัส</option>
                 <option value="">- เลือก -</option>
                 <option value="1">พบ</option>
@@ -164,7 +160,7 @@
             </select>
             </div>
             <div class="col-sm-3">
-            <select type="text" name="available_contact" class="form-control" placeholder="การติดตามผู้สัมผัส">
+            <select type="text" name="available_contact" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
               <option value="">การติดตามผู้สัมผัส</option>
                 <option value="">- เลือก -</option>
                 <option value="1">อยู่ในประเทศ</option>
@@ -216,9 +212,9 @@
                       <td>
                         <select class="form-control" name="dms_specimen_contact[]">
                           <option value="">- เลือก -</option>
-      							      <option value="Nasopharyngeal swab">Nasopharyngeal swab</option>
-      							      <option value="Throat swab">Throat swab</option>
-      							      <option value="Sputum">Sputum</option>
+													@foreach ($ref_specimen as $row)
+													<option value="{{$row->id}}">{{$row->name_en}}</option>
+													@endforeach
                         </select>
                       </td>
                       <td>
@@ -269,9 +265,9 @@
                   '<td><input type="text" id="date_dms_date_contact' + rowCount + '" name="dms_date_contact[]' + rowCount + '"  class="form-control  dms_date_contact01" onkeyup="autocomplet()" />' +
 									'<td><select class="form-control" name="dms_specimen_contact[]' + rowCount + '"">' +
                               '<option value="">- เลือก -</option>'+
-                              '<option value="Nasopharyngeal swab">Nasopharyngeal swab</option>'+
-                              '<option value="Throat swab">Throat swab</option>'+
-                              '<option value="Sputum">Sputum</option>'+
+															@foreach ($ref_specimen as $row)
+															'<option value="{{$row->id}}">{{$row->name_en}}</option>'+
+															@endforeach
 														'</select></td>'+
                             '<td><input type="text" id="chkspec_other_contact' + rowCount + '" name="chkspec_other_contact[]' + rowCount + '"  class="form-control  chkspec_other_contact01" onkeyup="autocomplet()" />' +
                             '<td><select class="form-control" name="other_pcr_result_contact[]' + rowCount + '"  title="ตำแหน่งในทีม" >' +
@@ -337,8 +333,11 @@
 			}
 		});
 	</script>
+		{{-- <script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script> --}}
+
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 		<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		{{-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> --}}
 <script>
 $(function(){
 	$('#lab').hide();
@@ -350,6 +349,7 @@ $(function(){
  });
 }
 );
+// $('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
 </script>
 <script>
 /* date of birth */
@@ -379,7 +379,9 @@ $('#date_dms_date_contact').datepicker({
 });
 </script>
 <script>
-/* date of birth */
-
+// In your Javascript (external .js resource or <script> tag)
+$(document).ready(function() {
+    $('.js-select-basic-single').select2();
+});
 </script>
 @endsection

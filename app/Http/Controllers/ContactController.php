@@ -45,17 +45,26 @@ class ContactController extends MasterController
   // form contact add
   public function addcontact(Request $req)
 	{
+		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
+		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
+		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$inv_id=$req->inv_id;
     $listprovince=$this->province();
     $listcountry=$this->country();
 		return view('form.contact.addcontact',compact(
       'listprovince',
       'listcountry',
+			'ref_title_name',
+			'ref_specimen',
+			'ref_global_country',
 			'inv_id'
     ));
 	}
   public function followupcontact(Request $req)
   {
+		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
+		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
+		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$inv_id=$req->inv_id;
 		$contact_id=$req->contact_id;
 		$contact_id_day=$req->contact_id_day;
@@ -64,6 +73,9 @@ class ContactController extends MasterController
     return view('form.contact.followupcontact',compact(
       'listprovince',
       'listcountry',
+			'ref_title_name',
+			'ref_specimen',
+			'ref_global_country',
 			'inv_id',
 			'contact_id_day',
 			'contact_id'
@@ -286,6 +298,13 @@ echo $outputD;
      // return view('AEFI.Apps.form1')->with('list',$list);
      return $listprovince;
   }
+	public function ref_title_name(){
+		$ref_title_name=DB::table('ref_title_name')
+		->orderBy('id', 'ASC')
+		->get();
+		 // return view('AEFI.Apps.form1')->with('list',$list);
+		 return $ref_title_name;
+	}
   public function country(){
     $listcountry=DB::table('ref_nationality')
     ->orderBy('name_en', 'ASC')
