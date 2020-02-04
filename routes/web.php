@@ -43,6 +43,9 @@ Route::get('/del-screen-pui/{id}', array(
 						'as'   => 'screenpui.delete',
 						'uses' => 'ScreenPUIController@destroy'
 					));
+Route::get('/time-test', function(){
+					    return date('Y-m-d H:i:s');
+					});
 
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
