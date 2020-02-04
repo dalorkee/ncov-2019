@@ -135,7 +135,7 @@ input:read-only {
 											<select name="isolated_province" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="occupation">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($provinces as $key5=>$val5) {
-														<option value="{{ $val5['province_name'] }}" @if($data->isolated_province==$val5['province_name']) selected @endif>{{ $val5['province_name'] }}</option>
+														<option value="{{ $val5['province_id'] }}" @if($data->isolated_province==$val5['province_id']) selected @endif>{{ $val5['province_name'] }}</option>
 													@endforeach
 											</select>
 										</div>
@@ -174,7 +174,7 @@ input:read-only {
 												<label for="titleName">คำนำหน้าชื่อ</label>
 												<select name="title_name" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="title_name_input">
 													@foreach($titleName as $key5=>$val5) {
-														<option value="{{ $val5['title_name'] }}" @if($data->title_name==$val5['title_name']) selected @endif>{{ $val5['title_name'] }}</option>
+														<option value="{{ $val5['id'] }}" @if($data->title_name==$val5['id']) selected @endif>{{ $val5['title_name'] }}</option>
 													@endforeach
 												</select>
 											</div>
@@ -222,7 +222,7 @@ input:read-only {
 												<select name="nation" class="form-control selectpicker show-tick" data-live-search="true" id="select_nationality">
 													<option value="0">-- โปรดเลือก --</option>
 														@foreach($nationality as $key=>$val) {
-															<option value="{{ $val['name_th'] }}" @if($data->nation==$val['name_th']) selected @endif>{{ $val['name_th'] }}</option>
+															<option value="{{ $val['id'] }}" @if($data->nation==$val['name_th']) selected @endif>{{ $val['name_th'] }}</option>
 														@endforeach
 												</select>
 											</div>
@@ -238,7 +238,7 @@ input:read-only {
 											<select name="occupation" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="occupation">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($occupation as $key=>$val) {
-														<option value="{{ $val['occu_name_th'] }}" @if($data->occupation==$val['occu_name_th']) selected @endif >{{ $val['occu_name_th'] }}</option>
+														<option value="{{ $val['id'] }}" @if($data->occupation==$val['id']) selected @endif >{{ $val['occu_name_th'] }}</option>
 													@endforeach
 											</select>
 										</div>

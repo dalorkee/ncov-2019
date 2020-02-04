@@ -138,7 +138,7 @@ input:read-only {
 											<select name="isolated_province" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="occupation">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($provinces as $key5=>$val5) {
-														<option value="{{ $val5['province_name'] }}">{{ $val5['province_name'] }}</option>
+														<option value="{{ $val5['province_id'] }}">{{ $val5['province_name'] }}</option>
 													@endforeach
 											</select>
 										</div>
@@ -179,7 +179,7 @@ input:read-only {
 													<option value="0">-- โปรดเลือก --</option>
 													@php
 														foreach($titleName as $key=>$val) {
-															$htm = "<option value=\"".$val['title_name']."\"";
+															$htm = "<option value=\"".$val['id']."\"";
 																if (old('titleNameInput') == $val['id']) {
 																	$htm .= " selected=\"selected\"";
 																}
@@ -235,7 +235,7 @@ input:read-only {
 													<option value="0">-- โปรดเลือก --</option>
 													@php
 														foreach($nationality as $key=>$val) {
-															$htm = "<option value=\"".$val['name_th']."\"";
+															$htm = "<option value=\"".$val['id']."\"";
 																if (old('nationalityInput') == $val['id']) {
 																	$htm .= " selected=\"selected\"";
 																}
