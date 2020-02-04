@@ -140,7 +140,7 @@ input.valid, textarea.valid{
 													<td><span class="text-info">{{ $value['news_st'] != "" ? $status['news_st'][$value['news_st']] : "-" }}</span></td>
 													<td><span class="text-success">{{ $value['disch_st'] != "" ? $status['disch_st'][$value['disch_st']] : "-" }}</span></td>
 													<td>{{ $value['sex'] != "" ? $value['sex'] : "-" }}</td>
-													<td>{{ $value['race'] != "" ? $value['race'] : "-" }}</span></td>
+													<td>@if(!empty($globalcountry[$value['nation']])) {{ $globalcountry[$value['nation']] }} @else - @endif</span></td>
 													<td>
 														<!-- <a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="View"><i class="mdi mdi-eye"></i></a>&nbsp; -->
 														<button type="button" class="btn btn-success btn-sm margin-5 text-white" data-toggle="modal" title="Status" data-target="#chstatus{{ $value['id'] }}">

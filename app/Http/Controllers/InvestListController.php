@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\InvestList;
+use App\GlobalCountry;
 use Illuminate\Support\Facades\Auth;
 
 class InvestListController extends MasterController
@@ -16,8 +17,14 @@ class InvestListController extends MasterController
 	public function index(Request $request)
 	{
 		$status = parent::getStatus();
+		$query_globalcountry = GlobalCountry::all();
+		foreach ($query_globalcountry as $value) {
+			$globalcountry[$value->country_id] = $value->country_name;
+		}
+		//$globalcountry->keyBy('country_id');
 		$user = Auth::user();
 		$role = $user->getRoleNames()->toArray();
+
 		switch($role[0]) {
 			case 'admin':
 				$invest = InvestList::whereNull('deleted_at')->get()->toArray();
@@ -33,7 +40,8 @@ class InvestListController extends MasterController
 		return view('invest-list.index',
 				[
 					'status' => $status,
-					'invest' => $invest
+					'invest' => $invest,
+					'globalcountry' => $globalcountry,
 				]
 		);
 	}
