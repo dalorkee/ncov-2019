@@ -15,9 +15,20 @@ class InvestListController extends MasterController
 	*/
 	public function index(Request $request)
 	{
-		//dd(Auth::user());
 		$status = parent::getStatus();
-		$invest = InvestList::whereNotNull('sat_id')->get()->toArray();
+		$user = Auth::user();
+		$role = $user->getRoleNames()->toArray();
+		switch($role[0]) {
+			case 'admin':
+				$invest = InvestList::whereNull('deleted_at')->get()->toArray();
+				break;
+			case 'sat':
+				$invest = InvestList::whereNull('deleted_at')->get()->toArray();
+				break;
+			default :
+				return redirect()->route('logout');
+				break;
+		}
 
 		return view('invest-list.index',
 				[

@@ -36,9 +36,10 @@ class UserController extends Controller
 	*/
 	public function create()
 	{
+		echo "Comming soon";
+		exit;
 		$roles = Role::pluck('name', 'name')->all();
-		return view('users.create', compact('roles'))
-				->with('titleName', $this->title_name);
+		return view('users.create', compact('roles'));
 	}
 
 	/**

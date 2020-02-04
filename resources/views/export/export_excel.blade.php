@@ -75,9 +75,8 @@
         <tbody>
 					<?php
           foreach($data as $value) :
-
 						?>
-            <tr><?php	$i = 1; ?><td>{{ $i }}</td> <?php $i++;?>
+            <tr><td>{{ (!empty($value->id)) ? $value->id : "" }}</td>
 								<td>{{ (!empty($value->notify_date)) ? $value->notify_date : "" }}</td>
                 <td>{{ (!empty($value->sex)) ? $value->sex : "" }}</td>
                 <td>{{ (!empty($value->nation)) ? $value->nation : "" }}</td>
@@ -93,7 +92,6 @@
 						<?php
 
 					 endforeach;
-
             ?>
         </tbody>
         <tfoot>
