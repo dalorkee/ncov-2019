@@ -220,17 +220,22 @@ input:read-only {
 											<div class="form-group">
 												<label for="nationality">สัญชาติ</label>
 												<select name="nation" class="form-control selectpicker show-tick" data-live-search="true" id="select_nationality">
-													<option value="0">-- โปรดเลือก --</option>
-														@foreach($nationality as $key=>$val) {
-															<option value="{{ $val['id'] }}" @if($data->nation==$val['name_th']) selected @endif>{{ $val['name_th'] }}</option>
-														@endforeach
+													<option value="">-- โปรดเลือก --</option>
+													@foreach($globalcountry as $val)
+													<option value="{{ $val->country_id }}" @if($data->nation==$val->country_id) selected @endif >{{ $val->country_name }}</option>
+													@endforeach
 												</select>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group">
 												<label for="nationality">เชื้อชาติ</label>
-												<input type="text" name="race" class="form-control" value="@if($data->race) {{ $data->race }} @endif" id="raceInput"  placeholder="เชื้อชาติ" >
+												<select name="race" class="form-control selectpicker show-tick" data-live-search="true" id="select_race">
+													<option value="">-- โปรดเลือก --</option>
+													@foreach($globalcountry as $val)
+													<option value="{{ $val->country_id }}" @if($data->race==$val->country_id) selected @endif >{{ $val->country_name }}</option>
+													@endforeach
+												</select>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">

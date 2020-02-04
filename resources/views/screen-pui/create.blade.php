@@ -12,6 +12,8 @@ input:read-only {
 }
 </style>
 <?php
+
+//dd($globalcountry);
 // $config = [
 //     'table' => 'todos',
 //     'length' => 11,
@@ -232,29 +234,27 @@ input:read-only {
 											<div class="form-group">
 												<label for="nationality">สัญชาติ</label>
 												<select name="nation" class="form-control selectpicker show-tick" data-live-search="true" id="select_nationality">
-													<option value="0">-- โปรดเลือก --</option>
-													@php
-														foreach($nationality as $key=>$val) {
-															$htm = "<option value=\"".$val['id']."\"";
-																if (old('nationalityInput') == $val['id']) {
-																	$htm .= " selected=\"selected\"";
-																}
-															$htm .= ">".$val['name_th']."</option>\n";
-															echo $htm;
-														}
-													@endphp
+													<option value="">-- โปรดเลือก --</option>
+													@foreach($globalcountry as $val)
+													<option value="{{ $val->country_id }}">{{ $val->country_name }}</option>
+													@endforeach
 												</select>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group">
 												<label for="nationality">เชื้อชาติ</label>
-												<input type="text" name="race" class="form-control" id="raceInput"  placeholder="เชื้อชาติ" >
+												<select name="race" class="form-control selectpicker show-tick" data-live-search="true" id="select_race">
+													<option value="">-- โปรดเลือก --</option>
+													@foreach($globalcountry as $val)
+													<option value="{{ $val->country_id }}">{{ $val->country_name }}</option>
+													@endforeach
+												</select>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
 											<label for="occupation">อาชีพ</label>
-											<select name="occupation" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="occupation">
+											<select name="occupation" class="form-control selectpicker show-tick select-title-name" data-live-search="true" >
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($occupation as $key5=>$val5) {
 														<option value="{{ $val5['id'] }}">{{ $val5['occu_name_th'] }}</option>

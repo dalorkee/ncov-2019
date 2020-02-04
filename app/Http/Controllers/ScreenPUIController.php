@@ -10,6 +10,7 @@ use App\InvestList;
 use App\LaboratoryLists;
 use App\PathogenLists;
 use App\Occupation;
+use App\GlobalCountry;
 use Auth;
 
 class ScreenPUIController extends MasterController
@@ -39,6 +40,7 @@ class ScreenPUIController extends MasterController
       $provinces = Provinces::all()->toArray();
       $nationality = Nationality::all()->toArray();
       $occupation = Occupation::all()->toArray();
+      $globalcountry = GlobalCountry::all();
       $arr = parent::getStatus();
       return view('screen-pui.create',
         [
@@ -49,7 +51,8 @@ class ScreenPUIController extends MasterController
           'pathogenlists' => $pathogenlists,
           'occupation' => $occupation,
           'arr' => $arr,
-          'entry_user' => $entry_user
+          'entry_user' => $entry_user,
+          'globalcountry' => $globalcountry,
         ]
       );
     }
@@ -217,12 +220,13 @@ class ScreenPUIController extends MasterController
         $provinces = Provinces::all()->toArray();
         $nationality = Nationality::all()->toArray();
         $occupation = Occupation::all()->toArray();
+        $globalcountry = GlobalCountry::all();
         $arr = parent::getStatus();
         $data = InvestList::find($id);
         if($data==null){
           return abort(404);  //404 page
         }else{
-          return view('screen-pui.edit',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data'));
+          return view('screen-pui.edit',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry'));
         }
     }
 
