@@ -435,13 +435,13 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
 												<label for="houseNo">วันที่เริ่มป่วย</label>
-												<input type="text" id="datepicker2" @if($data->data3_1date_sickdate) {{ $data->data3_1date_sickdate }} @endif name="data3_1date_sickdate" class="form-control">
+												<input type="text" id="datepicker2" value="@if($data->data3_1date_sickdate) {{ $data->data3_1date_sickdate }} @endif" name="data3_1date_sickdate" class="form-control">
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-1 col-xl-1 mb-3">
 											<div class="form-group">
 												<label for="villageNo">ไข้(องศา)</label>
-												<input type="text" name="fever" @if($data->fever) {{ $data->fever }} @endif  class="form-control">
+												<input type="text" name="fever" value="@if($data->fever) {{ $data->fever }} @endif"  class="form-control">
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
@@ -478,7 +478,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 											<div class="form-group">
 												<label for="lane">RR(ครั้ง/นาที)</label>
-												<input type="text" name="rr_rpm" @if($data->rr_rpm) {{ $data->rr_rpm }} @endif class="form-control">
+												<input type="text" name="rr_rpm" value="@if($data->rr_rpm) {{ $data->rr_rpm }} @endif" class="form-control">
 											</div>
 										</div>
 
@@ -490,7 +490,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
 											<div class="form-group">
 												<label for="district">ผลการฉายรังสี(ถ้ามี)</label>
-												<textarea class="form-control" @if($data->xray_result) {{ $data->xray_result }} @endif name="xray_result"></textarea>
+												<textarea class="form-control" name="xray_result">@if($data->xray_result) {{ $data->xray_result }} @endif</textarea>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
@@ -502,7 +502,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
 											<div class="form-group">
 												<label for="subDistrict">Rapid Test</label>
-												<textarea class="form-control" name="rapid_test_result" @if($data->rapid_test_result) {{ $data->rapid_test_result }} @endif></textarea>
+												<textarea class="form-control" name="rapid_test_result" value="@if($data->rapid_test_result) {{ $data->rapid_test_result }} @endif"></textarea>
 											</div>
 										</div>
 
@@ -534,7 +534,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 									<div class="form-group">
 										<label for="houseNo">PUI Code</label>
-										<input type="text" name="sat_id" @if($data->sat_id) {{ $data->sat_id }} @endif class="form-control">
+										<input type="text" name="sat_id" value="@if($data->sat_id) {{ $data->sat_id }}" @endif class="form-control">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
@@ -551,7 +551,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 									<div class="form-group">
 										<label for="subDistrict">เลขหนังสือ</label>
-										<input type="text" name="letter_code" @if($data->letter_code) {{ $data->letter_code }} @endif class="form-control">
+										<input type="text" name="letter_code" value="@if($data->letter_code) {{ $data->letter_code }} @endif" class="form-control">
 									</div>
 								</div>
 
@@ -582,13 +582,13 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="lane">ส่งมาเมื่อ</label>
-										<input type="text" name="lab_send_detail" @if($data->letter_code) {{ $data->lab_send_detail }} @endif class="form-control" data-timepicker>
+										<input type="text" name="lab_send_detail" value="@if($data->letter_code) {{ $data->lab_send_detail }} @endif" class="form-control" data-timepicker>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="lane">วันที่</label>
-										<input type="text" id="datepicker3" name="lab_send_date" @if($lab_send_date) {{ $lab_send_date }} @endif class="form-control">
+										<input type="text" id="datepicker3" name="lab_send_date" value="@if($lab_send_date) {{ $lab_send_date }} @endif" class="form-control">
 									</div>
 								</div>
 
