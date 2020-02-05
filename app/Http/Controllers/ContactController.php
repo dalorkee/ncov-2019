@@ -20,10 +20,10 @@ class ContactController extends MasterController
   // indexcontact table
   public function contacttable(Request $req)
   {
-		$poe_id=$req->poe_id;
+		$id=$req->id;
 		// dd($poe_id);
-		$patian_data=DB::table('invest_pt')->select('*')->where('poe_id', [$req->poe_id] )->get();
-		$contact_data=DB::table('tbl_contact')->select('*')->where('poe_id', $poe_id)->get();
+		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
+		$contact_data=DB::table('tbl_contact')->select('*')->where('id', $id)->get();
     return view('form.contact.contacttable',compact(
 			'contact_data',
 			'patian_data'
@@ -32,12 +32,12 @@ class ContactController extends MasterController
   public function contactfollowtable(Request $req)
   {
 		$inv_id=$req->inv_id;
-		$poe_id=$req->poe_id;
+		// $poe_id=$req->poe_id;
 		$contact_id=$req->contact_id;
 		$contact_id_day=$req->contact_id_day;
     return view('form.contact.contactfollowtable',compact(
 			'inv_id',
-			'poe_id',
+			// 'poe_id',
 			'contact_id_day',
 			'contact_id'
     ));
@@ -102,7 +102,7 @@ class ContactController extends MasterController
   public function contactinsert(Request $req)
  {
 	 // $contactid=uniqid();
-  $poe_id = $req ->input ('poe_id');
+  // $poe_id = $req ->input ('poe_id');
 	$inv_id = $req ->input ('inv_id');
   // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
 	$contact_id = $req ->input ('contact_id');
@@ -127,7 +127,7 @@ class ContactController extends MasterController
   $available_contact = $req ->input ('available_contact');
   $date_entry = date('Y-m-d') ;
   $data = array(
-    'poe_id'=>$poe_id,
+    // 'poe_id'=>$poe_id,
 		'inv_id'=>$inv_id,
     'contact_id'=>$contact_id,
     'name_contact'=>$name_contact,
@@ -169,7 +169,7 @@ $x=0;
     for ($i=0; $i < count($dms_pcr_contact); $i++) {
       $data_hsc[]  = [
                  // 'no'=>$team_id[$i],
-                'poe_id'=>$poe_id,
+                // 'poe_id'=>$poe_id,
                 'contact_id'=>$contact_id,
                 'dms_pcr_contact'=>$dms_pcr_contact[$i],
                 'dms_time_contact'=>$dms_time_contact[$i],
@@ -187,18 +187,18 @@ $x=0;
 }
   if ($data_hsc){
     $msg = " ส่งข้อมูลสำเร็จ";
-		$poe_id=$poe_id;
-    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?poe_id=$poe_id';</script> ";
+		// $poe_id=$poe_id;
+    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?id=$id';</script> ";
   }else{
     $msg = " ส่งข้อมูลไม่สำเร็จ";
-    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?poe_id=$poe_id';</script> ";
+    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?id=$id';</script> ";
     }
     echo $url_rediect;
 }
 
 public function followupcontactinsert(Request $req)
 {
-$poe_id = $req ->input ('poe_id');
+// $poe_id = $req ->input ('poe_id');
 $inv_id = $req ->input ('inv_id');
 $contact_id = $req ->input ('contact_id');
 $contact_id_day= $req ->input ('contact_id_day');
@@ -217,7 +217,7 @@ $diarrhea_mers = $req ->input ('diarrhea_mers');
 $other_symtom_mers = $req ->input ('other_symtom_mers');
 $date_entry = date('Y-m-d') ;
 $data = array(
-	'poe_id'=>$poe_id,
+	// 'poe_id'=>$poe_id,
 	'inv_id'=>$inv_id,
 	'contact_id'=>$contact_id,
 	'contact_id_day'=>$contact_id_day,
@@ -250,7 +250,7 @@ $x=0;
 	for ($i=0; $i < count($pcr_contact); $i++) {
 		$data_hsc[]  = [
 							 // 'no'=>$team_id[$i],
-							 'poe_id'=>$poe_id,
+							 // 'poe_id'=>$poe_id,
 							'inv_id'=>$inv_id,
 							'contact_id'=>$contact_id,
 							'contact_id_day'=>$contact_id_day,
@@ -268,10 +268,10 @@ $x=0;
 }
 if ($data_hsc){
 	$msg = " ส่งข้อมูลสำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?poe_id=$poe_id&contact_id=$contact_id';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?id=$id&contact_id=$contact_id';</script> ";
 }else{
 	$msg = " ส่งข้อมูลไม่สำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?poe_id=$poe_id&contact_id=$contact_id';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?id=$id&contact_id=$contact_id';</script> ";
 	}
 	echo $url_rediect;
 }

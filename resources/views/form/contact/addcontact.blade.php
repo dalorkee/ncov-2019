@@ -19,7 +19,7 @@
 	</div>
 </div>
 <?php
-	$poe_id = $_GET['poe_id'];
+	// $poe_id = $_GET['poe_id'];
 	$inv_id = $_GET['id'];
 
  ?>
@@ -38,9 +38,7 @@
             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส</h4>
             <form action="{{route('contactinsert')}}" method="post">
               			{{ csrf_field() }}
-										<div class="col-sm-3">
-										<input type="hidden" name="poe_id" value="<?php echo $poe_id ?>" class="form-control">
-										</div>
+
 										<div class="col-sm-3">
 										<input type="hidden" name="inv_id" value="<?php echo $inv_id ?>" class="form-control">
 										</div>

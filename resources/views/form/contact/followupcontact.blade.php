@@ -34,9 +34,7 @@
             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส</h4>
             <form action="{{route('followupcontactinsert')}}" method="post">
               			{{ csrf_field() }}
-										<?php
-											$poe_id = $_GET['poe_id'];
-										 ?>
+
 										 <?php
 											 $inv_id = $_GET['inv_id'];
 											?>
@@ -44,9 +42,6 @@
 												$contact_id = $_GET['contact_id'];
 											 ?>
 						<div class="form-group row">
-							<div class="col-sm-3">
-							<input type="hidden" name="poe_id" value="{{$poe_id}}" class="form-control">
-							</div>
 						<div class="col-sm-3">
 						<input type="hidden" name="inv_id" value="{{$inv_id}}" class="form-control">
 						</div>

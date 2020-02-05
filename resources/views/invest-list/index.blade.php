@@ -310,9 +310,9 @@ $(document).ready(function() {
 		$htm = "";
 			foreach ($invest as $key => $value) {
 				$htm .= "
-				$('#btn_delete".$value['poe_id']."').click(function(e) {
+				$('#btn_delete').click(function(e) {
 					toastr.warning(
-						'Are you sure to delete? <br><br><button class=\"btn btn-cyan btc\" value=\"0\">Cancel</button> <button class=\"btn btn-danger btk\" value=\"".$value['poe_id']."\">Delete</button>',
+						'Are you sure to delete? <br><br><button class=\"btn btn-cyan btc\" value=\"0\">Cancel</button> <button class=\"btn btn-danger btk\" value=\"\">Delete</button>',
 						'Flu Right Size',
 						{
 							'closeButton': true,
