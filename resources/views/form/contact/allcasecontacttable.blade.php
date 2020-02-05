@@ -49,7 +49,7 @@
                   <a class="btn btn-danger" href="{{ route('contactfollowtable')}}?id={{ $value->id }}&poe_id={{ $value->poe_id }}&contact_id={{ $value->contact_id }}">
                       ติดตามอาการ
                   </a>
-                    <a class="btn btn-info" href="{{ route('addcontact')}}">
+                    <a class="btn btn-info" href="{{ route('detailcontact')}}">
                       Detail
                   </a>
                   <a class="btn btn-warning" href="{{ route('addcontact')}}">
@@ -77,6 +77,7 @@
 		</div>
 	</div>
 </div>
+
 @endsection
 @section('bottom-script')
 {{-- <script src="{{ URL::asset('assets/contact/datatable/js/jquery-3.3.1.js') }}"></script> --}}
@@ -86,5 +87,26 @@
 $(document).ready(function() {
     $('#example').DataTable();
 			} );
+</script>
+<script>
+document.getElementById("btnPrint").onclick = function () {
+    printElement(document.getElementById("printThis"));
+}
+
+function printElement(elem) {
+    var domClone = elem.cloneNode(true);
+
+    var $printSection = document.getElementById("printSection");
+
+    if (!$printSection) {
+        var $printSection = document.createElement("div");
+        $printSection.id = "printSection";
+        document.body.appendChild($printSection);
+    }
+
+    $printSection.innerHTML = "";
+    $printSection.appendChild(domClone);
+    window.print();
+}
 </script>
 @endsection

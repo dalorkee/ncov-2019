@@ -87,7 +87,8 @@
 
             <div class="col-sm-3">
             <select type="text" name="national_contact" class="form-control js-select-basic-single" placeholder="สัญชาติ">
-            @foreach ($ref_global_country as $row)
+							<option value="">เลือกสัญชาติ</option>
+						@foreach ($ref_global_country as $row)
             <option value="{{$row->country_id}}">{{$row->country_name}}</option>
             @endforeach
             </select>

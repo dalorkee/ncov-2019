@@ -1,7 +1,7 @@
 @extends('layouts.index')
 <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet">
 <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="../files/assets/pages/waves/css/waves.min.css" type="text/css" media="all">
+{{-- <link rel="stylesheet" href="../files/assets/pages/waves/css/waves.min.css" type="text/css" media="all"> --}}
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 {{-- <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet"> --}}
 {{-- <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"> --}}
@@ -96,7 +96,7 @@
         </tbody>
         <tfoot>
             <tr>
-              <th>ID</th>
+							<th>ID</th>
                 <th>ว/ด/ป ที่ได้รับแจ้ง</th>
                 <th>เพศ</th>
                 <th>สัญชาติ</th>
@@ -137,7 +137,13 @@ $(document).ready(function() {
         dom: 'Bfrtip',
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
+        ],
+				"columnDefs": [
+    { "width": "80px","targets": 1 },
+		{ "width": "150px","targets": 4 },
+		{ "width": "90px","targets": 5 }
+  ]
+
     } );
 } );
 </script>

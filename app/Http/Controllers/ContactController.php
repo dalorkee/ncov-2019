@@ -42,6 +42,24 @@ class ContactController extends MasterController
 			'contact_id'
     ));
   }
+	// form contact add
+	public function detailcontact(Request $req)
+	{
+		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
+		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
+		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
+		$inv_id=$req->inv_id;
+		$listprovince=$this->province();
+		$listcountry=$this->country();
+		return view('form.contact.detailcontact',compact(
+			'listprovince',
+			'listcountry',
+			'ref_title_name',
+			'ref_specimen',
+			'ref_global_country',
+			'inv_id'
+		));
+	}
   // form contact add
   public function addcontact(Request $req)
 	{

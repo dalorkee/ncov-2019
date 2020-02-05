@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 /* Contact */
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
+Route::get('/detailcontact', 'ContactController@detailcontact')->name('detailcontact');
 Route::get('/contacttable', 'ContactController@contacttable')->name('contacttable');
 Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
 Route::get('/addcontact', 'ContactController@addcontact')->name('addcontact');
@@ -80,6 +81,8 @@ Route::post('/contactinsert', 'ContactController@contactinsert')->name('contacti
 // excel download
 Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');
+Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
+Route::post('/allexport', 'ExportExcelController@indexallexcel')->name('allexport');
 // Route::get('/export_excel', 'ExportExcelController@index')->name('export_excel');
 // Route::post('/export_excel/excel', 'ExportExcelController@export')->name('export_excel.excel');
 

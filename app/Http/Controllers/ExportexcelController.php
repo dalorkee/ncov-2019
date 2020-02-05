@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Excel;
 
 class ExportExcelController extends MasterController
 {
+
   // all table
   public function alltable(Request $req)
   {
@@ -25,6 +26,22 @@ class ExportExcelController extends MasterController
       'arr'
     ));
   }
+  public function alltableexport(Request $req)
+  {
+    $datenow = date('Y-m-d');
+    $arr = parent::getStatus();
+    // dd($poe_id);
+    $data=DB::table('invest_pt')
+            ->select('*')
+            ->where('notify_date', $datenow)
+            ->get();
+    return view('export.allexport',compact(
+      'data',
+      'arr'
+    ));
+  }
+
+
     function index(Request $req)
     {
       $arr = parent::getStatus();
@@ -40,6 +57,21 @@ class ExportExcelController extends MasterController
                         'arr'
                       ));
    }
+   function indexallexcel(Request $req)
+   {
+     $arr = parent::getStatus();
+     $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
+     $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+     $data=DB::table('invest_pt')
+                     ->select('*')
+                     ->whereDate('notify_date','>=',$notify_date)
+                     ->whereDate('notify_date', '<=',$notify_date_end)
+                     ->get();
+                     return view('export.allexport',compact(
+                       'data',
+                       'arr'
+                     ));
+  }
     function exceldownload(Request $req)
     {
       $arr_sym_cough=$this->sym_cough();
