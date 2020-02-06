@@ -13,7 +13,6 @@ use App\Occupation;
 use App\GlobalCountry;
 use Auth;
 use Carbon\Carbon;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class ScreenPUIController extends MasterController
 {
@@ -36,7 +35,6 @@ class ScreenPUIController extends MasterController
     {
 
       $entry_user = Auth::user()->id;
-      $prefix_sat_id = Auth::user()->prefix_sat_id;
       $laboratorylists = LaboratoryLists::all()->toArray();
       $pathogenlists = PathogenLists::all()->toArray();
       $titleName = TitleName::all()->toArray();
@@ -57,7 +55,6 @@ class ScreenPUIController extends MasterController
           'arr' => $arr,
           'entry_user' => $entry_user,
           'globalcountry' => $globalcountry,
-          'prefix_sat_id' => $prefix_sat_id,
         ]
       );
     }
@@ -71,28 +68,9 @@ class ScreenPUIController extends MasterController
     public function store(Request $request)
     {
 
-      if (InvestList::where('sat_id_temp', '=', $request->sat_id)->exists()) {
-           // dup
-           //dd('dup');
-           $config = [
-               'table' => 'invest_pt',
-               'length' => 11,
-              'field' => 'sat_id_temp',
-               'prefix' => "01"."X".date('d').date('m'),
-           ];
-           $sat_id_gen = IdGenerator::generate($config);
-           $tmp = trim($sat_id_gen);
-           //dd('dup>>'.$sat_id);
-           $tmp_sat_id = explode("X",$sat_id_gen);
-           $patient_type_sat_id = trim($request->patient_type_sat_id);
-           $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
-      }else{
-           $tmp = trim($request->sat_id);
-           $tmp_sat_id = explode("X",$request->sat_id);
-           $patient_type_sat_id = trim($request->patient_type_sat_id);
-           $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
-      }
-
+        //dd($this->Convert_Date($request->risk2_6ArriveDate));
+        //dd($request);
+        //dd($request->notify_time);
         $data = [
           "notify_date" => (!empty($request->notify_date)) ? $this->Convert_Date($request->notify_date) : date('Y-m-d'),
           "notify_time" => (!empty($request->notify_time)) ? $request->notify_time.":00" : NULL,
@@ -109,6 +87,7 @@ class ScreenPUIController extends MasterController
           "occupation_oth" => (!empty($request->occupation_oth)) ? trim($request->occupation_oth) : "",
           "travel_from" => (!empty($request->travel_from)) ? trim($request->travel_from) : NULL,
 
+          //"congential" => (!empty($request->congential)) ? trim($request->congential) : "",
           "data3_3chk" => (!empty($request->data3_3chk)) ? trim($request->data3_3chk) : "n",
           "data3_3chk_lung" => (!empty($request->data3_3chk_lung)) ? trim($request->data3_3chk_lung) : "n",
           "data3_3chk_heart" => (!empty($request->data3_3chk_heart)) ? trim($request->data3_3chk_heart) : "n",
@@ -131,9 +110,9 @@ class ScreenPUIController extends MasterController
           "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : "",
           "risk2_6history_hospital_input" => (!empty($request->risk2_6history_hospital_input)) ? trim($request->risk2_6history_hospital_input) : "",
           "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : "",
-          "risk_stay_outbreak_arrive_date" => (!empty($request->risk2_6arrive_date)) ? $this->Convert_Date($request->risk2_6arrive_date) : NULL,
-          "risk_stay_outbreak_airline" => (!empty($request->risk2_6airline_input)) ? trim($request->risk2_6airline_input) : "",
-          "risk_stay_outbreak_flight_no" => (!empty($request->risk2_6flight_no_input)) ? trim($request->risk2_6flight_no_input) : "",
+          "risk2_6arrive_date" => (!empty($request->risk2_6arrive_date)) ? $this->Convert_Date($request->risk2_6arrive_date) : NULL,
+          "risk2_6airline_input" => (!empty($request->risk2_6airline_input)) ? trim($request->risk2_6airline_input) : "",
+          "risk2_6flight_no_input" => (!empty($request->risk2_6flight_no_input)) ? trim($request->risk2_6flight_no_input) : "",
           "total_travel_in_group" => (!empty($request->total_travel_in_group)) ? trim($request->total_travel_in_group) : "",
           "data3_1date_sickdate" => (!empty($request->data3_1date_sickdate)) ? $this->Convert_Date($request->data3_1date_sickdate) : NULL,
           "fever_current" => (!empty($request->fever)) ? trim($request->fever) : "",
@@ -149,9 +128,45 @@ class ScreenPUIController extends MasterController
           "lab_test_result_other" => (!empty($request->lab_test_result_other)) ? trim($request->lab_test_result_other) : "",
           "first_diag" => (!empty($request->first_diag)) ? trim($request->first_diag) : "",
 
-          "sat_id" => (!empty($sat_id)) ? trim($sat_id) : NULL,
-          "sat_id_temp" => (!empty($tmp)) ? trim($tmp) : NULL,
-          "sat_id_class" => "Q",
+          // "nps_ts1_date" => (!empty($request->nps_ts1_date)) ? $this->Convert_Date($request->nps_ts1_date) : NULL,
+          // "nps_ts1_send" => (!empty($request->nps_ts1_send)) ? trim($request->nps_ts1_send) : NULL,
+          // "nps_ts1_result" => (!empty($request->nps_ts1_result)) ? trim($request->nps_ts1_result) : NULL,
+          // "nps_ts1_result_date" => (!empty($request->nps_ts1_result_date)) ? $this->Convert_Date($request->nps_ts1_result_date) : NULL,
+          // "nps_ts1_result2" => (!empty($request->nps_ts1_result2)) ? $request->nps_ts1_result2 : NULL,
+          // "nps_ts1_result2_date" => (!empty($request->nps_ts1_result2_date)) ? $this->Convert_Date($request->nps_ts1_result2_date) : NULL,
+          // "nps_ts1_result3" => (!empty($request->nps_ts1_result3)) ? $request->nps_ts1_result3 : NULL,
+          // "nps_ts1_result3_date" => (!empty($request->nps_ts1_result3_date)) ? $this->Convert_Date($request->nps_ts1_result3_date) : NULL,
+          // "nps_ts1_other_result" => (!empty($request->nps_ts1_other_result)) ? $request->nps_ts1_other_result : NULL,
+          // "nps_ts1_other_result_date" => (!empty($request->nps_ts1_other_result_date)) ? $this->Convert_Date($request->nps_ts1_other_result_date) : NULL,
+          //
+          // "nps_ts2_date" => (!empty($request->nps_ts2_date)) ? $this->Convert_Date($request->nps_ts2_date) : NULL,
+          // "nps_ts2_send" => (!empty($request->nps_ts2_send)) ? trim($request->nps_ts2_send) : NULL,
+          // "nps_ts2_result" => (!empty($request->nps_ts2_result)) ? trim($request->nps_ts2_result) : NULL,
+          // "nps_ts2_result_date" => (!empty($request->nps_ts2_result_date)) ? $this->Convert_Date($request->nps_ts2_result_date) : NULL,
+          // "nps_ts2_result2" => (!empty($request->nps_ts2_result2)) ? $request->nps_ts2_result2 : NULL,
+          // "nps_ts2_result2_date" => (!empty($request->nps_ts2_result2_date)) ? $this->Convert_Date($request->nps_ts2_result2_date) : NULL,
+          // "nps_ts2_result3" => (!empty($request->nps_ts2_result3)) ? $request->nps_ts2_result3 : NULL,
+          // "nps_ts2_result3_date" => (!empty($request->nps_ts2_result3_date)) ? $this->Convert_Date($request->nps_ts2_result3_date) : NULL,
+          // "nps_ts2_other_result" => (!empty($request->nps_ts2_other_result)) ? $request->nps_ts2_other_result : NULL,
+          // "nps_ts2_other_result_date" => (!empty($request->nps_ts2_other_result_date)) ? $this->Convert_Date($request->nps_ts2_other_result_date) : NULL,
+          //
+          // "nps_ts3_date" => (!empty($request->nps_ts3_date)) ? $this->Convert_Date($request->nps_ts3_date) : NULL,
+          // "nps_ts3_send" => (!empty($request->nps_ts3_send)) ? trim($request->nps_ts3_send) : NULL,
+          // "nps_ts3_result" => (!empty($request->nps_ts3_result)) ? trim($request->nps_ts3_result) : NULL,
+          // "nps_ts3_result_date" => (!empty($request->nps_ts3_result_date)) ? $this->Convert_Date($request->nps_ts3_result_date) : NULL,
+          // "nps_ts3_result2" => (!empty($request->nps_ts3_result2)) ? $request->nps_ts3_result2 : NULL,
+          // "nps_ts3_result2_date" => (!empty($request->nps_ts3_result2_date)) ? $this->Convert_Date($request->nps_ts3_result2_date) : NULL,
+          // "nps_ts3_result3" => (!empty($request->nps_ts3_result3)) ? $request->nps_ts3_result3 : NULL,
+          // "nps_ts3_result3_date" => (!empty($request->nps_ts3_result3_date)) ? $this->Convert_Date($request->nps_ts3_result3_date) : NULL,
+          // "nps_ts3_other_result" => (!empty($request->nps_ts3_other_result)) ? $request->nps_ts3_other_result : NULL,
+          // "nps_ts3_other_result_date" => (!empty($request->nps_ts3_other_result_date)) ? $this->Convert_Date($request->nps_ts3_other_result_date) : NULL,
+          //
+          //
+          // "cb_date" => (!empty($request->cb_date)) ? $this->Convert_Date($request->cb_date) : NULL,
+          // "cb_send" => (!empty($request->cb_send)) ? trim($request->cb_send) : NULL,
+          // "cb_result" => (!empty($request->cb_result)) ? trim($request->cb_result) : NULL,
+
+          "sat_id" => (!empty($request->sat_id)) ? trim($request->sat_id) : NULL,
           "letter_division_code" => (!empty($request->letter_division_code)) ? trim($request->letter_division_code) : NULL,
           "letter_code" => (!empty($request->letter_code)) ? trim($request->letter_code) : NULL,
           "refer_bidi" => (!empty($request->refer_bidi)) ? trim($request->refer_bidi) : "",
