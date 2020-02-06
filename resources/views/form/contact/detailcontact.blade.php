@@ -26,16 +26,23 @@
 						<div class="card card-body printableArea">
 								{{-- <h4><b>ข้อมูลผู้สัมผัส</b> <span class="pull-right"></span></h4>
 								<hr> --}}
+								<?php
+									$sat_id = $_GET['sat_id'];
+								 ?>
+								 <?php
+									 $contact_id = $_GET['contact_id'];
+									?>
 								<div class="row">
 									<div class="col-md-12">
 											<div class="pull-left">
 															<h4> &nbsp;<b class="text-danger">ข้อมูลผู้ป่วย</b></h4>
 															<p class="text-muted m-l-5">
-																	ชื่อ - นามสกุล : E 104, Dharti-2 เพศ : .............. อายุ :
-
-																	<br/> Passport ID : สัญชาติ :
-																	<br/> Talaja Road,
-																	<br/> Bhavnagar - 364002</p>
+																	ชื่อ - นามสกุล :	 {{ $ref_detail_pt[0]->first_name }} {{ $ref_detail_pt[0]->mid_name }} {{ $ref_detail_pt[0]->last_name }}
+																 	</br> เพศ : {{ $ref_detail_pt[0]->sex }}
+																 	</br>อายุ : {{ $ref_detail_pt[0]->age }}
+																	<br/>สัญชาติ : {{ $ref_detail_pt[0]->nation }}
+																	</br>อาชีพ : {{ $ref_detail_pt[0]->occupation }}
+																	<br/>ผู้ป่วย Isolated ที่ รพ. : {{ $ref_detail_pt[0]->isolated_province }}</p>
 																													<hr>
 											</div>
 									</div>
@@ -43,11 +50,16 @@
 												<div class="pull-left">
 																<h4> &nbsp;<b class="text-danger">ข้อมูลผู้สัมผัส</b></h4>
 																<p class="text-muted m-l-5">
-																		ชื่อ - นามสกุล : E 104, Dharti-2 เพศ : .............. อายุ :
-
-																		<br/> Passport ID : สัญชาติ :
-																		<br/> ที่อยู่ : เบอร์โทร :
-																		<br/> การสัมผัสผู้ป่วย : วันที่สัมผัส : ประเภทผู้สัมผัส :</p>
+																		ชื่อ - นามสกุล : {{ $ref_detail_contact[0]->name_contact }} {{ $ref_detail_contact[0]->mname_contact }} {{ $ref_detail_contact[0]->lname_contact }}
+																		<br/>เพศ : {{ $ref_detail_contact[0]->sex_contact }}
+																		<br/>อายุ :{{ $ref_detail_contact[0]->age_contact }}
+																		<br/> Passport ID : {{ $ref_detail_contact[0]->passport_contact }}
+																		<br/>สัญชาติ :{{ $ref_detail_contact[0]->national_contact }}
+																		<br/>ที่อยู่ : {{ $ref_detail_contact[0]->address_contact }}
+																		<br/>เบอร์โทร :{{ $ref_detail_contact[0]->phone_contact }}
+																		<br/>การสัมผัสผู้ป่วย : {{ $ref_detail_contact[0]->patient_contact }}
+																		<br/>วันที่สัมผัส : {{ $ref_detail_contact[0]->datecontact }}
+																		<br/>ประเภทผู้สัมผัส : {{ $ref_detail_contact[0]->type_contact }}</p>
 																														<hr>
 												</div>
 										</div>
@@ -56,21 +68,41 @@
 														<table class="table table-hover">
 																<thead>
 																		<tr>
-																				<th class="text-center">#</th>
-																				<th>Description</th>
-																				<th class="text-right">Quantity</th>
-																				<th class="text-right">Unit Cost</th>
-																				<th class="text-right">Total</th>
+																				<th>ติดตามอาการ</th>
+																				<th>วันที่ติดตามอาการ</th>
+																				<th>อาการ</th>
+																				<th>สถานที่ส่งตรวจ PCR</th>
+																				<th>ตัวอย่างสิ่งส่งตรวจ</th>
+																				<th>ผล PCR</th>
 																		</tr>
 																</thead>
 																<tbody>
+																	<?php foreach($ref_detail_follow as $value) : ?>
 																		<tr>
-																				<td class="text-center">1</td>
-																				<td>Milk Powder</td>
-																				<td class="text-right">2 </td>
-																				<td class="text-right"> $24 </td>
-																				<td class="text-right"> $48 </td>
+																				<td>ครั้งที่ {{ $value->contact_id_day }}</td>
+																				<td>{{ $value->date_no }}</td>
+																				<td>
+																					{{ $value->clinical }}
+																					{{ $value->fever }}
+																					{{ $value->cough }}
+																					{{ $value->sore_throat }}
+																					{{ $value->mucous }}
+																					{{ $value->sputum }}
+																					{{ $value->breath_labored }}
+																					{{ $value->suffocate }}
+																					{{ $value->muscle_aches }}
+																					{{ $value->headache }}
+																					{{ $value->diarrhea }}
+																					{{ $value->other_symtom }}
+																				</td>
+																				<td>{{ $value->pcr_contact }}</td>
+																				<td>
+																					{{ $value->specimen_contact }}
+																					{{ $value->chkspec_other_contact }}
+																				</td>
+																				<td>{{ $value->other_pcr_result_contact }}</td>
 																		</tr>
+																		<?php endforeach;?>
 																</tbody>
 														</table>
 												</div>

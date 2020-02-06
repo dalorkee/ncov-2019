@@ -20,7 +20,7 @@
 </div>
 <?php
 	// $poe_id = $_GET['poe_id'];
-	$inv_id = $_GET['id'];
+	$sat_id = $_GET['sat_id'];
 
  ?>
 <div class="container-fluid">
@@ -38,10 +38,11 @@
             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส</h4>
             <form action="{{route('contactinsert')}}" method="post">
               			{{ csrf_field() }}
-
+								<div class="form-group row">
 										<div class="col-sm-3">
-										<input type="hidden" name="inv_id" value="<?php echo $inv_id ?>" class="form-control">
+										<input type="text" name="sat_id" value="<?php echo $sat_id ?>" class="form-control" readonly>
 										</div>
+								</div>
 							<div class="form-group row">
 										<div class="col-sm-3">
 										<input type="text" name="contact_id"  class="form-control" placeholder="รหัสผู้สัมผัส" required>
@@ -93,6 +94,7 @@
             </div>
             <div class="col-sm-3">
             <select type="text" name="province" id="province" class="form-control province js-select-basic-single" placeholder="จังหวัด">
+							<option value="">เลือกจังหวัด</option>
 						@foreach ($listprovince as $row)
 						<option value="{{$row->province_id}}">{{$row->province_name}}</option>
 						@endforeach
@@ -111,13 +113,13 @@
             </div>
             <div class="form-group row">
             <div class="col-sm-4">
-            <textarea rows="3" type="text" class="form-control" placeholder="ที่อยู่"></textarea>
+            <textarea rows="3" name="address_contact" type="text" class="form-control" placeholder="ที่อยู่"></textarea>
             </div>
             <div class="col-sm-4">
-            <input  type="text" class="form-control" placeholder="เบอร์โทร">
+            <input  type="text" name="phone_contact" class="form-control" placeholder="เบอร์โทร">
             </div>
             <div class="col-sm-4">
-            <textarea rows="3" type="text" class="form-control" placeholder="การสัมผัสผู้ป่วย"></textarea>
+            <textarea rows="3" type="text" name="patient_contact" class="form-control" placeholder="การสัมผัสผู้ป่วย"></textarea>
             </div>
             </div>
             <div class="form-group row">
@@ -150,22 +152,7 @@
             </div>
             </div>
             <div class="form-group row">
-            <div class="col-sm-3">
-            <select type="text" name="routing_contact" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
-              <option value="">การค้นหาผู้สัมผัส</option>
-                <option value="">- เลือก -</option>
-                <option value="1">พบ</option>
-                <option value="2">ไม่พบ</option>
-            </select>
-            </div>
-            <div class="col-sm-3">
-            <select type="text" name="available_contact" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
-              <option value="">การติดตามผู้สัมผัส</option>
-                <option value="">- เลือก -</option>
-                <option value="1">อยู่ในประเทศ</option>
-                <option value="2">ออกนอกประเทศ</option>
-            </select>
-            </div>
+
             </div>
 						<div class="form-group row">
 						<div class="col-sm-3">

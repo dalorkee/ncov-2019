@@ -36,14 +36,14 @@
               			{{ csrf_field() }}
 
 										 <?php
-											 $inv_id = $_GET['inv_id'];
+											 $sat_id = $_GET['sat_id'];
 											?>
 											<?php
 												$contact_id = $_GET['contact_id'];
 											 ?>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="hidden" name="inv_id" value="{{$inv_id}}" class="form-control">
+						<input type="hidden" name="sat_id" value="{{$sat_id}}" class="form-control">
 						</div>
 						<div class="col-sm-3">
 						<input type="hidden" name="contact_id" value="{{$contact_id}}" class="form-control">
@@ -59,46 +59,69 @@
             </div>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="checkbox" name="clinical_mers"  value="" > ไม่มีอาการ
+						<input type="checkbox" name="clinical"  value="" > ไม่มีอาการ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="fever_mers"  value="1" > ไข้
+						<input type="checkbox" name="fever"  value="1" > ไข้
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="cough_mers"  value="2" > ไอ
+						<input type="checkbox" name="cough"  value="2" > ไอ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="sore_throat_mers"  value="3" > เจ็บคอ
+						<input type="checkbox" name="sore_throat"  value="3" > เจ็บคอ
 						</div>
 						</div>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="checkbox" name="mucous_mers"  value="4" > มีน้ำมูก
+						<input type="checkbox" name="mucous"  value="4" > มีน้ำมูก
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="sputum_mers"  value="5" > มีเสมหะ
+						<input type="checkbox" name="sputum"  value="5" > มีเสมหะ
 						</div>
 
 						<div class="col-sm-3">
-						<input type="checkbox" name="suffocate_mers"  value="9" > หอบเหนื่อย
+						<input type="checkbox" name="suffocate"  value="9" > หอบเหนื่อย
 						</div>
 						</div>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="checkbox" name="muscle_aches_mers"  value="7" > ปวดกล้ามเนื้อ
+						<input type="checkbox" name="muscle_aches"  value="7" > ปวดกล้ามเนื้อ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="headache_mers"  value="6" > ปวดศีรษะ
+						<input type="checkbox" name="headache"  value="6" > ปวดศีรษะ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="diarrhea_mers"  value="14" > ถ่ายเหลว
+						<input type="checkbox" name="diarrhea"  value="14" > ถ่ายเหลว
 						</div>
 						</div>
             <div class="form-group row">
             <div class="col-sm-4">
-            <textarea rows="3" name="other_symtom_mers" type="text" class="form-control" placeholder="อาการอื่นๆ "></textarea>
+            <textarea rows="3" name="other_symtom" type="text" class="form-control" placeholder="อาการอื่นๆ "></textarea>
             </div>
             </div>
+						<div class="form-group row">
+						<div class="col-sm-3">
+						<select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
+							<option value="">สถานะการติดตาม</option>
+								<option value="1">จบการติดตาม</option>
+								<option value="2">ยังต้องติดตาม</option>
+						</select>
+						</div>
+						<div class="col-sm-3">
+						<select type="text" name="available_contact" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
+							<option value="">การติดตามผู้สัมผัส</option>
+								<option value="1">ติดตามได้</option>
+								<option value="2">ติดตามไม่ได้</option>
+						</select>
+						</div>
+						<div class="col-sm-3">
+						<select type="text" name="follow_results" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
+							<option value="">ผลการติดตามผู้สัมผัส</option>
+								<option value="1">อาการปกติ</option>
+								<option value="2">ผิดปกติ</option>
+						</select>
+						</div>
+						</div>
 						<div class="form-group row">
 						<div class="col-sm-3">
 						<button type="button" id="close" class="btn btn-xs btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>

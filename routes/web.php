@@ -77,7 +77,6 @@ Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fe
 Route::get('/followupcontact', 'ContactController@followupcontact')->name('followupcontact');
 Route::post('/followupcontactinsert', 'ContactController@followupcontactinsert')->name('followupcontactinsert');
 Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
-
 // excel download
 Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');

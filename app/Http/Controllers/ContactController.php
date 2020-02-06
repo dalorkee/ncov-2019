@@ -17,13 +17,25 @@ class ContactController extends MasterController
 			'contact_data'
     ));
   }
+	// allcontact table
+	public function editstatus(Request $req)
+	{
+		$sat_id=$req->sat_id;
+		// $poe_id=$req->poe_id;
+		$contact_id=$req->contact_id;
+		// dd($poe_id);
+		$contact_data=DB::table('tbl_contact')->select('*')->get();
+		return view('form.contact.editstatus',compact(
+			'contact_data'
+		));
+	}
   // indexcontact table
   public function contacttable(Request $req)
   {
-		$id=$req->id;
+		$sat_id=$req->sat_id;
 		// dd($poe_id);
-		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
-		$contact_data=DB::table('tbl_contact')->select('*')->where('id', $id)->get();
+		$patian_data=DB::table('invest_pt')->select('*')->where('sat_id', [$req->sat_id] )->get();
+		$contact_data=DB::table('tbl_contact')->select('*')->where('sat_id', $sat_id)->get();
     return view('form.contact.contacttable',compact(
 			'contact_data',
 			'patian_data'
@@ -31,12 +43,12 @@ class ContactController extends MasterController
   }
   public function contactfollowtable(Request $req)
   {
-		$inv_id=$req->inv_id;
+		$sat_id=$req->sat_id;
 		// $poe_id=$req->poe_id;
 		$contact_id=$req->contact_id;
 		$contact_id_day=$req->contact_id_day;
     return view('form.contact.contactfollowtable',compact(
-			'inv_id',
+			'sat_id',
 			// 'poe_id',
 			'contact_id_day',
 			'contact_id'
@@ -45,10 +57,47 @@ class ContactController extends MasterController
 	// form contact add
 	public function detailcontact(Request $req)
 	{
+		$contact_id=$req->contact_id;
+		$sat_id=$req->sat_id;
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
+		$ref_detail_contact=DB::table('tbl_contact')
+												->select('name_contact',
+																 'mname_contact',
+																 'lname_contact',
+																 'passport_contact',
+																 'sex_contact',
+																 'age_contact',
+																 'passport_contact',
+																 'national_contact',
+																 'address_contact',
+																 'phone_contact',
+																 'patient_contact',
+																 'datecontact',
+																 'type_contact',)
+												->where('contact_id',$contact_id)
+												->get();
+		$ref_detail_pt=DB::table('invest_pt')
+														->select('first_name',
+																			'mid_name',
+																			'last_name',
+																			'sex',
+																			'age',
+																			'nation',
+																			'occupation',
+																			'isolated_province')
+														  ->where('sat_id',$sat_id)
+															->get();
+		$ref_detail_follow=DB::table('tbl_followupcontact')
+            					->join('tbl_followupcontact_hsc', 'tbl_followupcontact.contact_id', '=', 'tbl_followupcontact_hsc.contact_id')
+            					->select('tbl_followupcontact.*'
+											, 'tbl_followupcontact_hsc.pcr_contact'
+											, 'tbl_followupcontact_hsc.specimen_contact'
+											, 'tbl_followupcontact_hsc.other_pcr_result_contact'
+											, 'tbl_followupcontact_hsc.chkspec_other_contact')
+            					->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
-		$inv_id=$req->inv_id;
+		$sat_id=$req->sat_id;
 		$listprovince=$this->province();
 		$listcountry=$this->country();
 		return view('form.contact.detailcontact',compact(
@@ -57,16 +106,21 @@ class ContactController extends MasterController
 			'ref_title_name',
 			'ref_specimen',
 			'ref_global_country',
-			'inv_id'
+			'ref_detail_contact',
+			'ref_detail_pt',
+			'ref_detail_follow',
+			'sat_id'
 		));
 	}
+
+
   // form contact add
   public function addcontact(Request $req)
 	{
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
-		$inv_id=$req->inv_id;
+		$sat_id=$req->sat_id;
     $listprovince=$this->province();
     $listcountry=$this->country();
 		return view('form.contact.addcontact',compact(
@@ -75,7 +129,7 @@ class ContactController extends MasterController
 			'ref_title_name',
 			'ref_specimen',
 			'ref_global_country',
-			'inv_id'
+			'sat_id'
     ));
 	}
   public function followupcontact(Request $req)
@@ -83,7 +137,7 @@ class ContactController extends MasterController
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
-		$inv_id=$req->inv_id;
+		$sat_id=$req->sat_id;
 		$contact_id=$req->contact_id;
 		$contact_id_day=$req->contact_id_day;
     $listprovince=$this->province();
@@ -94,16 +148,18 @@ class ContactController extends MasterController
 			'ref_title_name',
 			'ref_specimen',
 			'ref_global_country',
-			'inv_id',
+			'sat_id',
 			'contact_id_day',
 			'contact_id'
     ));
   }
+
+
   public function contactinsert(Request $req)
  {
 	 // $contactid=uniqid();
   // $poe_id = $req ->input ('poe_id');
-	$inv_id = $req ->input ('inv_id');
+	$sat_id = $req ->input ('sat_id');
   // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
 	$contact_id = $req ->input ('contact_id');
   $name_contact = $req ->input ('name_contact');
@@ -123,12 +179,10 @@ class ContactController extends MasterController
   $datecontact = $this->convertDateToMySQL($req ->input ('datecontact'));
   $datefollow = $this->convertDateToMySQL($req ->input ('datefollow'));
   $type_contact = $req ->input ('type_contact');
-  $routing_contact = $req ->input ('routing_contact');
-  $available_contact = $req ->input ('available_contact');
   $date_entry = date('Y-m-d') ;
   $data = array(
     // 'poe_id'=>$poe_id,
-		'inv_id'=>$inv_id,
+		'sat_id'=>$sat_id,
     'contact_id'=>$contact_id,
     'name_contact'=>$name_contact,
     'mname_contact'=>$mname_contact,
@@ -147,8 +201,6 @@ class ContactController extends MasterController
     'datecontact'=>$datecontact,
     'datefollow'=>$datefollow,
     'type_contact'=>$type_contact,
-    'routing_contact'=>$routing_contact,
-    'available_contact'=>$available_contact,
     'date_entry'=>$date_entry
   );
      // dd($data);
@@ -188,10 +240,10 @@ $x=0;
   if ($data_hsc){
     $msg = " ส่งข้อมูลสำเร็จ";
 		// $poe_id=$poe_id;
-    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?id=$id';</script> ";
+    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id';</script> ";
   }else{
     $msg = " ส่งข้อมูลไม่สำเร็จ";
-    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?id=$id';</script> ";
+    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id';</script> ";
     }
     echo $url_rediect;
 }
@@ -199,41 +251,47 @@ $x=0;
 public function followupcontactinsert(Request $req)
 {
 // $poe_id = $req ->input ('poe_id');
-$inv_id = $req ->input ('inv_id');
+$sat_id = $req ->input ('sat_id');
 $contact_id = $req ->input ('contact_id');
 $contact_id_day= $req ->input ('contact_id_day');
 $date_no = $this->convertDateToMySQL($req ->input ('date_no'));
-$clinical_mers = $req ->input ('clinical_mers');
-$fever_mers = $req ->input ('fever_mers');
-$cough_mers = $req ->input ('cough_mers');
-$sore_throat_mers = $req ->input ('sore_throat_mers');
-$mucous_mers = $req ->input ('mucous_mers');
-$sputum_mers = $req ->input ('sputum_mers');
-$breath_labored_mers = $req ->input ('breath_labored_mers');
-$suffocate_mers = $req ->input ('suffocate_mers');
-$muscle_aches_mers = $req ->input ('muscle_aches_mers');
-$headache_mers = $req ->input ('headache_mers');
-$diarrhea_mers = $req ->input ('diarrhea_mers');
-$other_symtom_mers = $req ->input ('other_symtom_mers');
+$clinical = $req ->input ('clinical');
+$fever = $req ->input ('fever');
+$cough = $req ->input ('cough');
+$sore_throat = $req ->input ('sore_throat');
+$mucous = $req ->input ('mucous');
+$sputum = $req ->input ('sputum');
+$breath_labored = $req ->input ('breath_labored');
+$suffocate = $req ->input ('suffocate');
+$muscle_aches = $req ->input ('muscle_aches');
+$headache = $req ->input ('headache');
+$diarrhea = $req ->input ('diarrhea');
+$other_symtom = $req ->input ('other_symtom');
+$status_followup = $req ->input ('status_followup');
+$available_contact = $req ->input ('available_contact');
+$follow_results = $req ->input ('follow_results');
 $date_entry = date('Y-m-d') ;
 $data = array(
 	// 'poe_id'=>$poe_id,
-	'inv_id'=>$inv_id,
+	'sat_id'=>$sat_id,
 	'contact_id'=>$contact_id,
 	'contact_id_day'=>$contact_id_day,
 	'date_no'=>$date_no,
-	'clinical_mers'=>$clinical_mers,
-	'fever_mers'=>$fever_mers,
-	'cough_mers'=>$cough_mers,
-	'sore_throat_mers'=>$sore_throat_mers,
-	'mucous_mers'=>$mucous_mers,
-	'sputum_mers'=>$sputum_mers,
-	'breath_labored_mers'=>$breath_labored_mers,
-	'suffocate_mers'=>$suffocate_mers,
-	'muscle_aches_mers'=>$muscle_aches_mers,
-	'headache_mers'=>$headache_mers,
-	'diarrhea_mers'=>$diarrhea_mers,
-	'other_symtom_mers'=>$other_symtom_mers,
+	'clinical'=>$clinical,
+	'fever'=>$fever,
+	'cough'=>$cough,
+	'sore_throat'=>$sore_throat,
+	'mucous'=>$mucous,
+	'sputum'=>$sputum,
+	'breath_labored'=>$breath_labored,
+	'suffocate'=>$suffocate,
+	'muscle_aches'=>$muscle_aches,
+	'headache'=>$headache,
+	'diarrhea'=>$diarrhea,
+	'other_symtom'=>$other_symtom,
+	'status_followup'=>$status_followup,
+	'available_contact'=>$available_contact,
+	'follow_results'=>$follow_results,
 	'date_entry'=>$date_entry
 );
   // dd($data);
@@ -251,7 +309,7 @@ $x=0;
 		$data_hsc[]  = [
 							 // 'no'=>$team_id[$i],
 							 // 'poe_id'=>$poe_id,
-							'inv_id'=>$inv_id,
+							'sat_id'=>$sat_id,
 							'contact_id'=>$contact_id,
 							'contact_id_day'=>$contact_id_day,
 							'pcr_contact'=>$pcr_contact[$i],
@@ -268,10 +326,10 @@ $x=0;
 }
 if ($data_hsc){
 	$msg = " ส่งข้อมูลสำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?id=$id&contact_id=$contact_id';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?sat_id=$sat_id&contact_id=$contact_id';</script> ";
 }else{
 	$msg = " ส่งข้อมูลไม่สำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?id=$id&contact_id=$contact_id';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?sat_id=$sat_id&contact_id=$contact_id';</script> ";
 	}
 	echo $url_rediect;
 }
