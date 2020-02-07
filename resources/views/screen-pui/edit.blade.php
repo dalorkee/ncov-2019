@@ -6,8 +6,10 @@
 <?php
 use App\Http\Controllers\ScreenPUIController as ScreenPUIController;
 
+//dd($data->risk_stay_outbreak_arrive_date);
+
 $notify_date = (!empty($data->notify_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->notify_date) : "" ;
-$risk2_6arrive_date = (!empty($data->risk2_6arrive_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->risk2_6arrive_date) : "" ;
+$risk2_6arrive_date = (!empty($data->risk_stay_outbreak_arrive_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->risk_stay_outbreak_arrive_date) : "" ;
 $data3_1date_sickdate = (!empty($data->data3_1date_sickdate)) ? ScreenPUIController::Convert_Date_To_Picker($data->data3_1date_sickdate) : "" ;
 $lab_send_date = (!empty($data->lab_send_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->lab_send_date) : "" ;
 ?>
@@ -726,7 +728,7 @@ $(document).ready(function() {
 });
 $('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
 /* date of birth */
-$('#datepicker1,#datepicker2,#datepicker3,.datepicker,#notify_date').datepicker({
+$('#datepicker1,#datepicker2,#datepicker3,#notify_date,#risk2_6arrive_date').datepicker({
 	format: 'dd/mm/yyyy',
 	todayHighlight: true,
 	todayBtn: true,
