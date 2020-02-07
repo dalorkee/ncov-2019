@@ -153,15 +153,15 @@ input:read-only {
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่มาถึงไทย</label>
-											<input type="text" name="risk2_6arrive_date" value="@if($data->$risk2_6arrive_date) {{ $data->risk2_6arrive_date }} @endif" id="datepicker1" class="form-control">
+											<input type="text" name="risk2_6arrive_date" value="@if($data->risk_stay_outbreak_arrive_date) {{ $data->risk_stay_outbreak_arrive_date }} @endif" id="datepicker1" class="form-control">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">สายการบิน</label>
-											<input type="text" name="risk2_6airline_input" value="@if($data->risk2_6airline_input) {{ $data->risk2_6airline_input }} @endif" class="form-control" placeholder="สายการบิน">
+											<input type="text" name="risk2_6airline_input" value="@if($data->risk_stay_outbreak_airline) {{ $data->risk_stay_outbreak_airline }} @endif" class="form-control" placeholder="สายการบิน">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">เที่ยวบิน</label>
-											<input type="text" name="risk2_6flight_no_input" value="@if($data->risk2_6flight_no_input) {{ $data->risk2_6flight_no_input }} @endif" class="form-control" placeholder="เที่ยวบิน">
+											<input type="text" name="risk2_6flight_no_input" value="@if($data->risk_stay_outbreak_flight_no) {{ $data->risk_stay_outbreak_flight_no }} @endif" class="form-control" placeholder="เที่ยวบิน">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone"><small>จำนวนผู้ร่วมเดินทางในกลุ่มเดียวกัน(คน)</small></label>
@@ -396,7 +396,7 @@ input:read-only {
 																	<div class="row mt-2">
 																		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 																			<div class="form-group">
-																				<input type="text" name="data3_3chk_cancer_name" @if($data->data3_3chk_cancer_name) {{ $data->data3_3chk_cancer_name }} @endif class="form-control" placeholder="ประเภทมะเร็ง">
+																				<input type="text" name="data3_3chk_cancer_name" value="@if($data->data3_3chk_cancer_name) {{ $data->data3_3chk_cancer_name }} @endif" class="form-control" placeholder="ประเภทมะเร็ง">
 																			</div>
 																		</div>
 																	</div>
@@ -442,7 +442,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-1 col-xl-1 mb-3">
 											<div class="form-group">
 												<label for="villageNo">ไข้(องศา)</label>
-												<input type="text" name="fever" value="@if($data->fever) {{ $data->fever }} @endif"  class="form-control">
+												<input type="text" name="fever" value="@if($data->fever_current) {{ $data->fever_current }} @endif"  class="form-control">
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
@@ -503,7 +503,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
 											<div class="form-group">
 												<label for="subDistrict">Rapid Test</label>
-												<textarea class="form-control" name="rapid_test_result" value="@if($data->rapid_test_result) {{ $data->rapid_test_result }} @endif"></textarea>
+												<textarea class="form-control" name="rapid_test_result" value="@if($data->lab_rapid_test_result) {{ $data->lab_rapid_test_result }} @endif"></textarea>
 											</div>
 										</div>
 
