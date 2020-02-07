@@ -5,18 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Auth;
+use Carbon\Carbon;
 
 class ContactController extends MasterController
 {
   // allcontact table
 	public function allcasecontacttable(Request $req)
   {
-		// dd($poe_id);
 		$contact_data=DB::table('tbl_contact')->select('*')->get();
     return view('form.contact.allcasecontacttable',compact(
 			'contact_data'
     ));
   }
+
+
 	// allcontact table
 	public function editstatus(Request $req)
 	{
@@ -29,6 +32,8 @@ class ContactController extends MasterController
 			'contact_data'
 		));
 	}
+
+
   // indexcontact table
   public function contacttable(Request $req)
   {
@@ -41,6 +46,8 @@ class ContactController extends MasterController
 			'patian_data'
     ));
   }
+
+
   public function contactfollowtable(Request $req)
   {
 		$sat_id=$req->sat_id;
@@ -54,12 +61,19 @@ class ContactController extends MasterController
 			'contact_id'
     ));
   }
+
+
 	// form contact add
 	public function detailcontact(Request $req)
 	{
 		$contact_id=$req->contact_id;
 		$sat_id=$req->sat_id;
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
+		$nation_list = $this->arrnation();
+		$arr_occu = $this->arroccu();
+		$arrprov = $this->arrprov();
+		$arrsymptoms = $this->arrsymptoms();
+		$arrspecimen = $this->arrspecimen();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$ref_detail_contact=DB::table('tbl_contact')
 												->select('name_contact',
@@ -98,18 +112,19 @@ class ContactController extends MasterController
             					->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$sat_id=$req->sat_id;
-		$listprovince=$this->province();
-		$listcountry=$this->country();
 		return view('form.contact.detailcontact',compact(
-			'listprovince',
-			'listcountry',
 			'ref_title_name',
 			'ref_specimen',
 			'ref_global_country',
 			'ref_detail_contact',
 			'ref_detail_pt',
 			'ref_detail_follow',
-			'sat_id'
+			'sat_id',
+			'nation_list',
+			'arr_occu',
+			'arrprov',
+			'arrsymptoms',
+			'arrspecimen'
 		));
 	}
 
@@ -123,13 +138,17 @@ class ContactController extends MasterController
 		$sat_id=$req->sat_id;
     $listprovince=$this->province();
     $listcountry=$this->country();
+		$entry_user = Auth::user()->id;
+		$prefix_sat_id = Auth::user()->prefix_sat_id;
 		return view('form.contact.addcontact',compact(
       'listprovince',
       'listcountry',
 			'ref_title_name',
 			'ref_specimen',
 			'ref_global_country',
-			'sat_id'
+			'sat_id',
+			'prefix_sat_id',
+			'entry_user'
     ));
 	}
   public function followupcontact(Request $req)
@@ -140,17 +159,19 @@ class ContactController extends MasterController
 		$sat_id=$req->sat_id;
 		$contact_id=$req->contact_id;
 		$contact_id_day=$req->contact_id_day;
-    $listprovince=$this->province();
-    $listcountry=$this->country();
+		$listprovince=$this->province();
+		$entry_user = Auth::user()->id;
+		$prefix_sat_id = Auth::user()->prefix_sat_id;
     return view('form.contact.followupcontact',compact(
-      'listprovince',
-      'listcountry',
+			'listprovince',
 			'ref_title_name',
 			'ref_specimen',
 			'ref_global_country',
 			'sat_id',
+			'prefix_sat_id',
 			'contact_id_day',
-			'contact_id'
+			'contact_id',
+			'entry_user'
     ));
   }
 
@@ -161,6 +182,7 @@ class ContactController extends MasterController
   // $poe_id = $req ->input ('poe_id');
 	$sat_id = $req ->input ('sat_id');
   // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
+		$user_id = $req ->input ('user_id');
 	$contact_id = $req ->input ('contact_id');
   $name_contact = $req ->input ('name_contact');
   $mname_contact = $req ->input ('mname_contact');
@@ -179,6 +201,9 @@ class ContactController extends MasterController
   $datecontact = $this->convertDateToMySQL($req ->input ('datecontact'));
   $datefollow = $this->convertDateToMySQL($req ->input ('datefollow'));
   $type_contact = $req ->input ('type_contact');
+	$province_follow_contact = $req ->input ('province_follow_contact');
+	$division_follow_contact = $req ->input ('division_follow_contact');
+	$sat_id_class = $req ->input ('sat_id_class');
   $date_entry = date('Y-m-d') ;
   $data = array(
     // 'poe_id'=>$poe_id,
@@ -201,43 +226,47 @@ class ContactController extends MasterController
     'datecontact'=>$datecontact,
     'datefollow'=>$datefollow,
     'type_contact'=>$type_contact,
+		'user_id'=>$user_id,
+		'province_follow_contact'=>$province_follow_contact,
+		'division_follow_contact'=>$division_follow_contact,
+		'sat_id_class'=>$sat_id_class,
     'date_entry'=>$date_entry
   );
-     // dd($data);
+      // dd($data);
   $res1	= DB::table('tbl_contact')->insert($data);
-  if ($res1)
-  {
-    $dms_pcr_contact =$req ->input('dms_pcr_contact');
-    $dms_time_contact =$req ->input('dms_time_contact');
-    $dms_date_contact =$req ->input ('dms_date_contact');
-		$dms_date_contact_s = str_replace('/', '-', $dms_date_contact);
-		// $dms_date_contact_ss = date('Y-m-d', strtotime($dms_date_contact_s));
-    $dms_specimen_contact =$req ->input('dms_specimen_contact');
-    $chkspec_other_contact =$req ->input('chkspec_other_contact');
-    $other_pcr_result_contact =$req ->input('other_pcr_result_contact');
-     // exit;
-    // $date_entry =date('Y-m-d') ;
-$x=0;
-    for ($i=0; $i < count($dms_pcr_contact); $i++) {
-      $data_hsc[]  = [
-                 // 'no'=>$team_id[$i],
-                // 'poe_id'=>$poe_id,
-                'contact_id'=>$contact_id,
-                'dms_pcr_contact'=>$dms_pcr_contact[$i],
-                'dms_time_contact'=>$dms_time_contact[$i],
-                'dms_date_contact'=>$dms_date_contact_s[$i],
-                'dms_specimen_contact'=>$dms_specimen_contact[$i],
-                'chkspec_other_contact' => $chkspec_other_contact[$i],
-                'other_pcr_result_contact' => $other_pcr_result_contact[$i],
-                'date_entry' => $date_entry
-              ];
-              $x++;
-            }
+//   if ($res1)
+//   {
+//     $dms_pcr_contact =$req ->input('dms_pcr_contact');
+//     $dms_time_contact =$req ->input('dms_time_contact');
+//     $dms_date_contact =$req ->input ('dms_date_contact');
+// 		$dms_date_contact_s = str_replace('/', '-', $dms_date_contact);
+// 		// $dms_date_contact_ss = date('Y-m-d', strtotime($dms_date_contact_s));
+//     $dms_specimen_contact =$req ->input('dms_specimen_contact');
+//     $chkspec_other_contact =$req ->input('chkspec_other_contact');
+//     $other_pcr_result_contact =$req ->input('other_pcr_result_contact');
+//      // exit;
+//     // $date_entry =date('Y-m-d') ;
+// $x=0;
+//     for ($i=0; $i < count($dms_pcr_contact); $i++) {
+//       $data_hsc[]  = [
+//                  // 'no'=>$team_id[$i],
+//                 // 'poe_id'=>$poe_id,
+//                 'contact_id'=>$contact_id,
+//                 'dms_pcr_contact'=>$dms_pcr_contact[$i],
+//                 'dms_time_contact'=>$dms_time_contact[$i],
+//                 'dms_date_contact'=>$dms_date_contact_s[$i],
+//                 'dms_specimen_contact'=>$dms_specimen_contact[$i],
+//                 'chkspec_other_contact' => $chkspec_other_contact[$i],
+//                 'other_pcr_result_contact' => $other_pcr_result_contact[$i],
+//                 'date_entry' => $date_entry
+//               ];
+//               $x++;
+//             }
     // dd($data_hsc);
     // exit;
-    $res3	= DB::table('tbl_contact_hsc')->insert($data_hsc);
-}
-  if ($data_hsc){
+    // $res3	= DB::table('tbl_contact_hsc')->insert($data_hsc);
+// }
+  if ($res1){
     $msg = " ส่งข้อมูลสำเร็จ";
 		// $poe_id=$poe_id;
     $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id';</script> ";
@@ -270,6 +299,10 @@ $other_symtom = $req ->input ('other_symtom');
 $status_followup = $req ->input ('status_followup');
 $available_contact = $req ->input ('available_contact');
 $follow_results = $req ->input ('follow_results');
+$user_id = $req ->input ('user_id');
+$province_follow_contact = $req ->input ('province_follow_contact');
+$division_follow_contact = $req ->input ('division_follow_contact');
+$sat_id_class = $req ->input ('sat_id_class');
 $date_entry = date('Y-m-d') ;
 $data = array(
 	// 'poe_id'=>$poe_id,
@@ -292,39 +325,43 @@ $data = array(
 	'status_followup'=>$status_followup,
 	'available_contact'=>$available_contact,
 	'follow_results'=>$follow_results,
+	'user_id'=>$user_id,
+	'province_follow_contact'=>$province_follow_contact,
+	'division_follow_contact'=>$division_follow_contact,
+	'sat_id_class'=>$sat_id_class,
 	'date_entry'=>$date_entry
 );
-  // dd($data);
+   // dd($data);
 $res1	= DB::table('tbl_followupcontact')->insert($data);
-if ($res1)
-{
-	$pcr_contact =$req ->input('pcr_contact');
-	$specimen_contact =$req ->input('specimen_contact');
-	$chkspec_other_contact =$req ->input('chkspec_other_contact');
-	$other_pcr_result_contact =$req ->input('other_pcr_result_contact');
-	 // exit;
-	// $date_entry =date('Y-m-d') ;
-$x=0;
-	for ($i=0; $i < count($pcr_contact); $i++) {
-		$data_hsc[]  = [
-							 // 'no'=>$team_id[$i],
-							 // 'poe_id'=>$poe_id,
-							'sat_id'=>$sat_id,
-							'contact_id'=>$contact_id,
-							'contact_id_day'=>$contact_id_day,
-							'pcr_contact'=>$pcr_contact[$i],
-							'specimen_contact'=>$specimen_contact[$i],
-							'chkspec_other_contact'=>$chkspec_other_contact[$i],
-							'other_pcr_result_contact'=>$other_pcr_result_contact[$i],
-							'date_entry' => $date_entry
-						];
-						$x++;
-					}
-	// dd($ddata_member);
-	// exit;
-	$res3	= DB::table('tbl_followupcontact_hsc')->insert($data_hsc);
-}
-if ($data_hsc){
+// if ($res1)
+// {
+// 	$pcr_contact =$req ->input('pcr_contact');
+// 	$specimen_contact =$req ->input('specimen_contact');
+// 	$chkspec_other_contact =$req ->input('chkspec_other_contact');
+// 	$other_pcr_result_contact =$req ->input('other_pcr_result_contact');
+// 	 // exit;
+// 	// $date_entry =date('Y-m-d') ;
+// $x=0;
+// 	for ($i=0; $i < count($pcr_contact); $i++) {
+// 		$data_hsc[]  = [
+// 							 // 'no'=>$team_id[$i],
+// 							 // 'poe_id'=>$poe_id,
+// 							'sat_id'=>$sat_id,
+// 							'contact_id'=>$contact_id,
+// 							'contact_id_day'=>$contact_id_day,
+// 							'pcr_contact'=>$pcr_contact[$i],
+// 							'specimen_contact'=>$specimen_contact[$i],
+// 							'chkspec_other_contact'=>$chkspec_other_contact[$i],
+// 							'other_pcr_result_contact'=>$other_pcr_result_contact[$i],
+// 							'date_entry' => $date_entry
+// 						];
+// 						$x++;
+// 					}
+// 	// dd($ddata_member);
+// 	// exit;
+// 	$res3	= DB::table('tbl_followupcontact_hsc')->insert($data_hsc);
+// }
+if ($res1){
 	$msg = " ส่งข้อมูลสำเร็จ";
 	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?sat_id=$sat_id&contact_id=$contact_id';</script> ";
 }else{
@@ -364,9 +401,6 @@ foreach ($queryD as $rowD) {
 echo $outputD;
 
 }
-
-
-
   public function province(){
     $listprovince=DB::table('ref_province')
     ->orderBy('province_name', 'ASC')
@@ -374,6 +408,13 @@ echo $outputD;
      // return view('AEFI.Apps.form1')->with('list',$list);
      return $listprovince;
   }
+	public function country(){
+		$listprovince=DB::table('ref_global_country')
+		->orderBy('country_name', 'ASC')
+		->get();
+		 // return view('AEFI.Apps.form1')->with('list',$list);
+		 return $listprovince;
+	}
 	public function ref_title_name(){
 		$ref_title_name=DB::table('ref_title_name')
 		->orderBy('id', 'ASC')
@@ -381,13 +422,48 @@ echo $outputD;
 		 // return view('AEFI.Apps.form1')->with('list',$list);
 		 return $ref_title_name;
 	}
-  public function country(){
-    $listcountry=DB::table('ref_nationality')
-    ->orderBy('name_en', 'ASC')
-    ->get();
-     // return view('AEFI.Apps.form1')->with('list',$list);
-     return $listcountry;
-  }
+	protected function arrnation(){
+		$arrnation = DB::table('ref_global_country')->select('country_id','country_name')->get();
+		foreach ($arrnation as  $value) {
+			$arrnation[$value->country_id] =trim($value->country_name);
+		}
+		// dd($province_arr);
+		return $arrnation;
+	}
+	protected function arroccu(){
+		$arroccu = DB::table('ref_occupation')->select('id','occu_name_th')->get();
+		foreach ($arroccu as  $value) {
+			$arroccu[$value->id] =trim($value->occu_name_th);
+		}
+		// dd($province_arr);
+		return $arroccu;
+	}
+
+
+	protected function arrsymptoms(){
+		$arrsymptoms = DB::table('ref_symptoms')->select('id','symptom_name_en')->get();
+		foreach ($arrsymptoms as  $value) {
+			$arrsymptoms[$value->id] =trim($value->symptom_name_en);
+		}
+		// dd($province_arr);
+		return $arrsymptoms;
+	}
+	protected function arrprov(){
+		$arrprov = DB::table('ref_province')->select('province_id','province_name')->get();
+		foreach ($arrprov as  $value) {
+			$arrprov[$value->province_id] =trim($value->province_name);
+		}
+		// dd($province_arr);
+		return $arrprov;
+	}
+	protected function arrspecimen(){
+		$arrspecimen = DB::table('ref_specimen')->select('id','name_en')->get();
+		foreach ($arrspecimen as  $value) {
+			$arrspecimen[$value->id] =trim($value->name_en);
+		}
+		// dd($province_arr);
+		return $arrspecimen;
+	}
     /**
      * Display a listing of the resource.
      *

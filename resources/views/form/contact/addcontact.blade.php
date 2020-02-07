@@ -1,4 +1,13 @@
 @extends('layouts.index')
+<?php
+$config = [
+    'table' => 'tbl_contact',
+    'length' => 11,
+		'field' => 'contact_id',
+    'prefix' => $prefix_sat_id."B".date('d').date('m'),
+];
+$contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
+?>
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 {{-- <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}"> --}}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
@@ -45,9 +54,14 @@
 								</div>
 							<div class="form-group row">
 										<div class="col-sm-3">
-										<input type="text" name="contact_id"  class="form-control" placeholder="รหัสผู้สัมผัส" required>
+										<input type="text" name="contact_id" value="{{$contact_id}}"  class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
 										</div>
 							</div>
+              <div class="form-group row">
+                    <div class="col-sm-3">
+                    <input type="hidden" name="user_id" value="{{$entry_user}}"  class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
+                    </div>
+              </div>
             <div class="form-group row">
             <div class="col-sm-3">
             <select type="text" name="title_contact" class="form-control js-select-basic-single" placeholder="คำนำหน้าชื่อ">
@@ -152,17 +166,82 @@
             </div>
             </div>
             <div class="form-group row">
-
+            <div class="col-sm-3">
+            <input type="text" name="date_no" id="date_no" class="form-control" placeholder="วันที่ติดตามอาการ">
             </div>
-						<div class="form-group row">
+            </div>
+            <div class="form-group row">
+            <div class="col-sm-3">
+            <select type="text" name="province_follow_contact" id="province_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+            <option value="">พื้นที่จังหวัดที่ติดตามผู้ป่วย</option>
+            @foreach ($listprovince as $row)
+            <option value="{{$row->province_id}}">{{$row->province_name}} {{$row->zone_name}}</option>
+            @endforeach
+            </select>
+            </div>
+            </div>
+            <br>
+            <h5 class="sub-title">อาการปัจจุบันของผู้สัมผัส</h5>
+            <div class="form-group row">
+            <div class="col-sm-3">
+            <input type="checkbox" name="clinical"  value="" > ไม่มีอาการ
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="fever"  value="1" > ไข้
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="cough"  value="2" > ไอ
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="sore_throat"  value="3" > เจ็บคอ
+            </div>
+            </div>
+            <div class="form-group row">
+            <div class="col-sm-3">
+            <input type="checkbox" name="mucous"  value="4" > มีน้ำมูก
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="sputum"  value="5" > มีเสมหะ
+            </div>
+
+            <div class="col-sm-3">
+            <input type="checkbox" name="suffocate"  value="9" > หอบเหนื่อย
+            </div>
+            </div>
+            <div class="form-group row">
+            <div class="col-sm-3">
+            <input type="checkbox" name="muscle_aches"  value="7" > ปวดกล้ามเนื้อ
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="headache"  value="6" > ปวดศีรษะ
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="diarrhea"  value="14" > ถ่ายเหลว
+            </div>
+            </div>
+            <br>
+            <h6 class="sub-title">ผู้ป่วยมีอาการเข้าได้กับนิยามผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (PUI 2019-nCoV)</h6>
+            <div class="form-group row">
+            <div class="col-sm-3">
+              <div class="col-sm-6">
+              <input type="radio" name="sat_id_class"  value="Q" checked> ไม่ใช่
+              </div>
+              <div class="col-sm-6">
+              <input type="radio" name="sat_id_class"  value="A" > ใช่
+              </div>
+            </div>
+            </div>
+            <h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6>
+            <br>
+						{{-- <div class="form-group row">
 						<div class="col-sm-3">
-						<button type="button" id="close" class="btn btn-xs btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
+						<button type="button" id="close" class="btn btn-s btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
 						</div>
 						<div class="col-sm-3">
-						<button type="button" id="open" class="btn btn-xs btn-success">มีตัวอย่างและสิ่งส่งตรวจ</button>
+						<button type="button" id="open" class="btn btn-s btn-success">มีตัวอย่างและสิ่งส่งตรวจ</button>
 						</div>
-						</div>
-            <div class="form-group row" id="lab">
+						</div> --}}
+            {{-- <div class="form-group row" id="lab">
             <div class="col-sm-12">
 							<div class="table-responsive">
               <table class="table" id="maintable">
@@ -221,7 +300,7 @@
                 </table>
 							</div>
             </div>
-            </div>
+            </div> --}}
             <div class="col-sm-12">
               <button type="submit" class="btn btn-success">บันทึกข้อมูล</button>
             </div>

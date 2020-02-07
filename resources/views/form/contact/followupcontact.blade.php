@@ -51,6 +51,11 @@
 						<div class="col-sm-3">
 						<input type="hidden" name="contact_id_day" value="{{$contact_id_day}}" class="form-control">
 						</div>
+						<div class="form-group row">
+									<div class="col-sm-3">
+									<input type="hidden" name="user_id" value="{{$entry_user}}"  class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
+									</div>
+						</div>
 						</div>
             <div class="form-group row">
             <div class="col-sm-3">
@@ -59,7 +64,7 @@
             </div>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="checkbox" name="clinical"  value="" > ไม่มีอาการ
+						<input type="checkbox" name="clinical"  value="1" > ไม่มีอาการ
 						</div>
 						<div class="col-sm-3">
 						<input type="checkbox" name="fever"  value="1" > ไข้
@@ -101,6 +106,30 @@
             </div>
 						<div class="form-group row">
 						<div class="col-sm-3">
+						<select type="text" name="province_follow_contact" id="province_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+						<option value="">พื้นที่จังหวัดที่ติดตามผู้ป่วย</option>
+						@foreach ($listprovince as $row)
+						<option value="{{$row->province_id}}">{{$row->province_name}} {{$row->zone_name}}</option>
+						@endforeach
+						</select>
+						</div>
+						</div>
+						<br>
+						<h6 class="sub-title">ผู้ป่วยมีอาการเข้าได้กับนิยามผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (PUI 2019-nCoV)</h6>
+						<div class="form-group row">
+						<div class="col-sm-3">
+							<div class="col-sm-6">
+							<input type="radio" name="sat_id_class"  value="Q" checked> ไม่ใช่
+							</div>
+							<div class="col-sm-6">
+							<input type="radio" name="sat_id_class"  value="A" > ใช่
+							</div>
+						</div>
+						</div>
+						<h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6>
+						<br>
+						<div class="form-group row">
+						<div class="col-sm-3">
 						<select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
 							<option value="">สถานะการติดตาม</option>
 								<option value="1">จบการติดตาม</option>
@@ -122,15 +151,15 @@
 						</select>
 						</div>
 						</div>
-						<div class="form-group row">
+						{{-- <div class="form-group row">
 						<div class="col-sm-3">
 						<button type="button" id="close" class="btn btn-xs btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
 						</div>
 						<div class="col-sm-3">
 						<button type="button" id="open" class="btn btn-xs btn-success">มีตัวอย่างและสิ่งส่งตรวจ</button>
 						</div>
-						</div>
-            <div class="form-group row">
+						</div> --}}
+            {{-- <div class="form-group row">
             <div class="col-sm-12">
 							<div class="table-responsive">
               <table class="table" id="maintable">
@@ -182,7 +211,7 @@
                 </table>
 							</div>
             </div>
-            </div>
+            </div> --}}
             <div class="col-sm-12">
               <button type="submit" class="btn btn-success">บันทึกข้อมูล</button>
             </div>
