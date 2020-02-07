@@ -503,7 +503,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
 											<div class="form-group">
 												<label for="subDistrict">Rapid Test</label>
-												<textarea class="form-control" name="rapid_test_result" value="@if($data->lab_rapid_test_result) {{ $data->lab_rapid_test_result }} @endif"></textarea>
+												<textarea class="form-control" name="rapid_test_result" >@if($data->lab_rapid_test_result) {{ $data->lab_rapid_test_result }} @endif</textarea>
 											</div>
 										</div>
 
