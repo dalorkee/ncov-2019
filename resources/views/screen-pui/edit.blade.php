@@ -10,6 +10,8 @@ use App\Http\Controllers\ScreenPUIController as ScreenPUIController;
 
 $notify_date = (!empty($data->notify_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->notify_date) : "" ;
 $risk2_6arrive_date = (!empty($data->risk_stay_outbreak_arrive_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->risk_stay_outbreak_arrive_date) : "" ;
+//$risk2_6arrive_date = $data->risk_stay_outbreak_arrive_date."ds";
+//dd($risk2_6arrive_date);
 $data3_1date_sickdate = (!empty($data->data3_1date_sickdate)) ? ScreenPUIController::Convert_Date_To_Picker($data->data3_1date_sickdate) : "" ;
 $lab_send_date = (!empty($data->lab_send_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->lab_send_date) : "" ;
 ?>
@@ -155,7 +157,7 @@ input:read-only {
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่มาถึงไทย</label>
-											<input type="text" name="risk2_6arrive_date" value="@if($data->risk_stay_outbreak_arrive_date) {{ $data->risk_stay_outbreak_arrive_date }} @endif" id="datepicker1" class="form-control">
+											<input type="text" name="risk2_6arrive_date" value="@if($data->risk_stay_outbreak_arrive_date) {{ $risk2_6arrive_date }} @endif" id="datepicker1" class="form-control">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">สายการบิน</label>
@@ -728,7 +730,7 @@ $(document).ready(function() {
 });
 $('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
 /* date of birth */
-$('#datepicker1,#datepicker2,#datepicker3,#notify_date,#risk2_6arrive_date').datepicker({
+$('#datepicker1,#datepicker2,#datepicker3,#notify_date').datepicker({
 	format: 'dd/mm/yyyy',
 	todayHighlight: true,
 	todayBtn: true,
