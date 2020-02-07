@@ -157,7 +157,7 @@ input:read-only {
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่มาถึงไทย</label>
-											<input type="text" name="risk2_6arrive_date" value="@if($data->risk_stay_outbreak_arrive_date) {{ $risk2_6arrive_date }} @endif" id="datepicker1" class="form-control">
+											<input type="text" name="risk2_6arrive_date" value="@if($risk2_6arrive_date) {{ $risk2_6arrive_date }} @endif" id="datepicker1" class="form-control">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">สายการบิน</label>
@@ -440,7 +440,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
 												<label for="houseNo">วันที่เริ่มป่วย</label>
-												<input type="text" id="datepicker2" value="@if($data->data3_1date_sickdate) {{ $data->data3_1date_sickdate }} @endif" name="data3_1date_sickdate" class="form-control">
+												<input type="text" id="datepicker2" value="@if($data3_1date_sickdate) {{ $data3_1date_sickdate }} @endif" name="data3_1date_sickdate" class="form-control">
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-1 col-xl-1 mb-3">
