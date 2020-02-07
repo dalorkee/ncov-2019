@@ -146,10 +146,10 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </select>
             </div>
             <div class="col-sm-3">
-            <input type="text" class="form-control" name="datecontact" data-provide="datepicke" id="datecontact"  placeholder="วันที่สัมผัส">
+            <input type="text" class="form-control" name="datecontact" data-provide="datepicke" id="datecontact"  placeholder="วันที่สัมผัส" autocomplete="off" >
             </div>
             <div class="col-sm-3">
-            <input type="text" class="form-control" name="datefollow" data-provide="datepicke" id="datefollow"  placeholder="ให้ตามถึงวันที่">
+            <input type="text" class="form-control" name="datefollow" data-provide="datepicke" id="datefollow"  placeholder="ให้ตามถึงวันที่" autocomplete="off" >
             </div>
             <div class="col-sm-3">
             <select type="text" name="type_contact" class="form-control js-select-basic-single" placeholder="ประเภทผู้สัมผัส">
@@ -167,7 +167,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
-            <input type="text" name="date_no" id="date_no" class="form-control" placeholder="วันที่ติดตามอาการ">
+            <input type="text" name="date_no" id="date_no" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off" >
             </div>
             </div>
             <div class="form-group row">
@@ -175,16 +175,41 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             <select type="text" name="province_follow_contact" id="province_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
             <option value="">พื้นที่จังหวัดที่ติดตามผู้ป่วย</option>
             @foreach ($listprovince as $row)
-            <option value="{{$row->province_id}}">{{$row->province_name}} {{$row->zone_name}}</option>
+            <option value="{{$row->province_id}}">{{$row->province_name}}</option>
             @endforeach
             </select>
+            </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-3">
+              <select type="text" name="division_follow_contact" id="division_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+              <option value="">หน่วยงานที่ติดตามผู้ป่วย</option>
+              <option value="99">ส่วนกลาง</option>
+              <option value="13">สปคม.</option>
+              <option value="1">สคร.1</option>
+              <option value="2">สคร.2</option>
+              <option value="3">สคร.3</option>
+              <option value="4">สคร.4</option>
+              <option value="5">สคร.5</option>
+              <option value="6">สคร.6</option>
+              <option value="7">สคร.7</option>
+              <option value="8">สคร.8</option>
+              <option value="9">สคร.9</option>
+              <option value="10">สคร.10</option>
+              <option value="11">สคร.11</option>
+              <option value="12">สคร.12</option>
+              <option value="999">อื่นๆ</option>
+              </select>
+              </div>
+            <div class="col-sm-3">
+            <input type="text" class="form-control" name="division_follow_contact_other"   placeholder="หน่วยงานอื่นๆ" autocomplete="off" >
             </div>
             </div>
             <br>
             <h5 class="sub-title">อาการปัจจุบันของผู้สัมผัส</h5>
             <div class="form-group row">
             <div class="col-sm-3">
-            <input type="checkbox" name="clinical"  value="" > ไม่มีอาการ
+            <input type="checkbox" name="clinical"  value="1" > ไม่มีอาการ
             </div>
             <div class="col-sm-3">
             <input type="checkbox" name="fever"  value="1" > ไข้

@@ -203,6 +203,7 @@ class ContactController extends MasterController
   $type_contact = $req ->input ('type_contact');
 	$province_follow_contact = $req ->input ('province_follow_contact');
 	$division_follow_contact = $req ->input ('division_follow_contact');
+	$division_follow_contact_other = $req ->input ('division_follow_contact_other');
 	$sat_id_class = $req ->input ('sat_id_class');
   $date_entry = date('Y-m-d') ;
   $data = array(
@@ -229,10 +230,11 @@ class ContactController extends MasterController
 		'user_id'=>$user_id,
 		'province_follow_contact'=>$province_follow_contact,
 		'division_follow_contact'=>$division_follow_contact,
+		'division_follow_contact_other'=>$division_follow_contact_other,
 		'sat_id_class'=>$sat_id_class,
     'date_entry'=>$date_entry
   );
-      // dd($data);
+       // dd($data);
   $res1	= DB::table('tbl_contact')->insert($data);
 //   if ($res1)
 //   {
@@ -302,6 +304,7 @@ $follow_results = $req ->input ('follow_results');
 $user_id = $req ->input ('user_id');
 $province_follow_contact = $req ->input ('province_follow_contact');
 $division_follow_contact = $req ->input ('division_follow_contact');
+$division_follow_contact_other = $req ->input ('division_follow_contact_other');
 $sat_id_class = $req ->input ('sat_id_class');
 $date_entry = date('Y-m-d') ;
 $data = array(
@@ -328,6 +331,7 @@ $data = array(
 	'user_id'=>$user_id,
 	'province_follow_contact'=>$province_follow_contact,
 	'division_follow_contact'=>$division_follow_contact,
+	'division_follow_contact_other'=>$division_follow_contact_other,
 	'sat_id_class'=>$sat_id_class,
 	'date_entry'=>$date_entry
 );
@@ -456,6 +460,7 @@ echo $outputD;
 		// dd($province_arr);
 		return $arrprov;
 	}
+
 	protected function arrspecimen(){
 		$arrspecimen = DB::table('ref_specimen')->select('id','name_en')->get();
 		foreach ($arrspecimen as  $value) {
