@@ -70,28 +70,35 @@ class ScreenPUIController extends MasterController
      */
     public function store(Request $request)
     {
-
-      if (InvestList::where('sat_id_temp', '=', $request->sat_id)->exists()) {
-           // dup
-           //dd('dup');
-           $config = [
-               'table' => 'invest_pt',
-               'length' => 11,
-              'field' => 'sat_id_temp',
-               'prefix' => "01"."X".date('d').date('m'),
-           ];
-           $sat_id_gen = IdGenerator::generate($config);
-           $tmp = trim($sat_id_gen);
-           //dd('dup>>'.$sat_id);
-           $tmp_sat_id = explode("X",$sat_id_gen);
-           $patient_type_sat_id = trim($request->patient_type_sat_id);
-           $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
-      }else{
-           $tmp = trim($request->sat_id);
-           $tmp_sat_id = explode("X",$request->sat_id);
-           $patient_type_sat_id = trim($request->patient_type_sat_id);
-           $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
+      //Auto
+      if($request->pui_code_gen==1){
+        if (InvestList::where('sat_id_temp', '=', $request->sat_id)->exists()) {
+             // dup
+             //dd('dup');
+             $config = [
+                 'table' => 'invest_pt',
+                 'length' => 11,
+                'field' => 'sat_id_temp',
+                 'prefix' => "01"."X".date('d').date('m'),
+             ];
+             $sat_id_gen = IdGenerator::generate($config);
+             $tmp = trim($sat_id_gen);
+             //dd('dup>>'.$sat_id);
+             $tmp_sat_id = explode("X",$sat_id_gen);
+             $patient_type_sat_id = trim($request->patient_type_sat_id);
+             $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
+        }else{
+             $tmp = trim($request->sat_id);
+             $tmp_sat_id = explode("X",$request->sat_id);
+             $patient_type_sat_id = trim($request->patient_type_sat_id);
+             $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
+        }
+      //Manual
+      }elseif($request->pui_code_gen==2){
+          $sat_id = trim($request->sat_id);
       }
+
+      //dd($sat_id);
 
         $data = [
           "notify_date" => (!empty($request->notify_date)) ? $this->Convert_Date($request->notify_date) : date('Y-m-d'),
@@ -177,7 +184,9 @@ class ScreenPUIController extends MasterController
         $result = InvestList::insert($data);
 
         if($result){
-          return redirect()->route('screenpui.create')->with('message','Insert Success!');;
+          return redirect()->route('screenpui.create')->with('message','Insert Success SATID: '.$sat_id);
+        }else{
+          return redirect()->route('screenpui.create')->with('message','Error');
         }
     }
 

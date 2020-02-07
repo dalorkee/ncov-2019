@@ -74,6 +74,45 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<div class="card-body">
 									<h1 class="text-info">1. ข้อมูลทั่วไปของผู้ป่วย</h1>
 									<div class="form-group row">
+                                    <!-- <label class="col-md-3">PUI Code</label> -->
+                                    <div class="col-md-9">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input check-auto" id="pui_code_gen_rd1" value="1" name="pui_code_gen" required="">
+                                            <label class="custom-control-label" for="pui_code_gen_rd1">PUI Code(Auto Generate)</label>
+                                        </div>
+                                         <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input check-manual" id="pui_code_gen_rd2" value="2" name="pui_code_gen" required="">
+                                            <label class="custom-control-label" for="pui_code_gen_rd2">PUI Code(Manual)</label>
+                                        </div>
+                                    </div>
+                  </div>
+									<div class="form-group row" id="pui_gen_auto">
+										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+											<div class="form-group">
+												<label for="houseNo">PUI Code(Auto Generate)</label>
+												<input type="text" name="sat_id" class="form-control" value="{{ $sat_id }}" readonly>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+											<div class="form-group">
+												<label for="houseNo">ชนิดผู้ป่วย</label>
+												<select name="patient_type_sat_id" class="form-control selectpicker show-tick" id="patient_type_sat_id">
+													<option value="">-- โปรดเลือก --</option>
+													<option value="A">PUI</option>
+													<option value="S">Special</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="form-group row" id="pui_gen_manual">
+										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+											<div class="form-group">
+												<label for="houseNo">PUI Code(Manual)</label>
+												<input type="text" name="sat_id" class="form-control" value="{{ old('sat_id') }}">
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่ได้รับแจ้ง</label>
 											<input type="text" name="notify_date" id="notify_date" value="{{ old('notify_date') }}" class="form-control" required="">
@@ -177,7 +216,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group {{ $errors->has('titleNameInput') ? 'has-error' : '' }}">
 												<label for="titleName">คำนำหน้าชื่อ</label>
-												<select name="title_name" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="title_name_input">
+												<select name="title_name" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="title_name_input" required>
 													<option value="0">-- โปรดเลือก --</option>
 													@php
 														foreach($titleName as $key=>$val) {
@@ -216,7 +255,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group {{ $errors->has('sexInput') ? 'has-error' : '' }}">
 												<label for="sex">เพศ</label>
-												<select name="sex" class="form-control selectpicker show-tick">
+												<select name="sex" class="form-control selectpicker show-tick" required="">
 													<option value="">-- โปรดเลือก --</option>
 													<option value="ชาย">ชาย</option>
 													<option value="หญิง">หญิง</option>
@@ -547,22 +586,6 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
-										<label for="houseNo">PUI Code(Auto Generate)</label>
-										<input type="text" name="sat_id" class="form-control" value="{{ $sat_id }}" readonly>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
-									<div class="form-group">
-										<label for="houseNo">ชนิดผู้ป่วย</label>
-										<select name="patient_type_sat_id" class="form-control selectpicker show-tick" id="patient_type_sat_id" required="">
-											<option value="">-- โปรดเลือก --</option>
-											<option value="A">PUI</option>
-											<option value="S">Special</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
-									<div class="form-group">
 										<label for="subDistrict">หน่วยงานที่จะส่งหนังสือ</label>
 										<select name="letter_division_code" class="form-control selectpicker show-tick" id="division_code">
 											<option value="">-- โปรดเลือก --</option>
@@ -694,25 +717,25 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="subDistrict">เบอร์ติดต่อ</label>
-										<input type="text" name="coordinator_tel" class="form-control">
+										<input type="text" name="coordinator_tel" id="coordinator_tel" class="form-control" placeholder="เบอร์ติดต่อ">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="subDistrict">ชื่อผู้แจ้งข้อมูล</label>
-										<input type="text" name="send_information" class="form-control">
+										<input type="text" name="send_information" class="form-control" placeholder="ชื่อผู้แจ้งข้อมูล">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="subDistrict">หน่วยงาน</label>
-										<input type="text" name="send_information_div" class="form-control">
+										<input type="text" name="send_information_div" class="form-control" placeholder="หน่วยงาน">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="subDistrict">ชื่อผู้รับแจ้ง</label>
-										<input type="text" name="receive_information" class="form-control">
+										<input type="text" name="receive_information" class="form-control" placeholder="ชื่อผู้รับแจ้ง">
 									</div>
 								</div>
 
@@ -737,6 +760,23 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
 	<script src="https://www.jqueryscript.net/demo/jQuery-Plugin-To-Auto-Format-Time-Format-timepicker-js/timepicker.js"></script>
 <script>
+(function($) {
+	$.fn.inputFilter = function(inputFilter) {
+		return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+			if (inputFilter(this.value)) {
+				this.oldValue = this.value;
+				this.oldSelectionStart = this.selectionStart;
+				this.oldSelectionEnd = this.selectionEnd;
+			} else if (this.hasOwnProperty("oldValue")) {
+				this.value = this.oldValue;
+				this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+			} else {
+				this.value = "";
+			}
+		});
+	};
+}(jQuery));
+
 $(document).ready(function() {
 	/* ajax request */
 	$.ajaxSetup({
@@ -754,9 +794,34 @@ $('#datepicker1,#datepicker2,#datepicker3,.datepicker,#notify_date').datepicker(
 	autoclose: true
 });
 
+$("#age_year_input,#coordinator_tel").inputFilter(function(value) {
+    return /^\d*$/.test(value);    // Allow digits only, using a RegExp
+  });
+
 $('.chk_risk3_3').click(function() {
 	$('.chk_risk3_3').not(this).prop('checked', false);
 });
+
+
+$('#pui_gen_auto').hide();
+$('#pui_gen_manual').hide();
+
+$(".check-auto").click(function(){
+        $("#pui_code_gen_rd1").prop("checked", true);
+				$("#patient_type_sat_id").prop('required',true);
+				$('#pui_gen_auto').show();
+				$('#pui_gen_manual').hide();
+				$('#sat_id').val('');
+});
+$(".check-manual").click(function(){
+        $("#pui_code_gen_rd2").prop("checked", true);
+				$("#patient_type_sat_id").prop('required',false);
+				$('#sat_id').val('');
+				$('#pui_gen_auto').hide();
+				$('#pui_gen_manual').show();
+});
+
+
 
 </script>
 @endsection

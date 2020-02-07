@@ -173,6 +173,7 @@ input:read-only {
 											<div class="form-group">
 												<label for="titleName">คำนำหน้าชื่อ</label>
 												<select name="title_name" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="title_name_input">
+													<option value="0">-- โปรดเลือก --</option>
 													@foreach($titleName as $key5=>$val5) {
 														<option value="{{ $val5['id'] }}" @if($data->title_name==$val5['id']) selected @endif>{{ $val5['title_name'] }}</option>
 													@endforeach
@@ -412,7 +413,7 @@ input:read-only {
 																	<div class="row mt-2">
 																		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 																			<div class="form-group">
-																				<input type="text" name="data3_3input_other"  class="form-control" @if($data->data3_3input_other) {{ $data->data3_3input_other }} @endif placeholder="อื่นๆ โปรดระบุ">
+																				<input type="text" name="data3_3input_other"  class="form-control" value="@if($data->data3_3input_other) {{ $data->data3_3input_other }} @endif" placeholder="อื่นๆ โปรดระบุ">
 																			</div>
 																		</div>
 																	</div>
