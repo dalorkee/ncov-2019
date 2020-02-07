@@ -79,17 +79,17 @@ class ScreenPUIController extends MasterController
                  'table' => 'invest_pt',
                  'length' => 11,
                 'field' => 'sat_id_temp',
-                 'prefix' => "01"."X".date('d').date('m'),
+                 'prefix' => "01"."O".date('d').date('m'),
              ];
              $sat_id_gen = IdGenerator::generate($config);
              $tmp = trim($sat_id_gen);
              //dd('dup>>'.$sat_id);
-             $tmp_sat_id = explode("X",$sat_id_gen);
+             $tmp_sat_id = explode("O",$sat_id_gen);
              $patient_type_sat_id = trim($request->patient_type_sat_id);
              $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
         }else{
              $tmp = trim($request->sat_id);
-             $tmp_sat_id = explode("X",$request->sat_id);
+             $tmp_sat_id = explode("O",$request->sat_id);
              $patient_type_sat_id = trim($request->patient_type_sat_id);
              $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
         }

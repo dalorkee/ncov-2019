@@ -18,7 +18,7 @@ $config = [
     'table' => 'invest_pt',
     'length' => 11,
 		'field' => 'sat_id_temp',
-    'prefix' => $prefix_sat_id."X".date('d').date('m'),
+    'prefix' => $prefix_sat_id."O".date('d').date('m'),
 ];
 $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 
