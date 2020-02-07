@@ -40,35 +40,25 @@
 					<?php foreach($contact_data as $value) : ?>
             <tr>
 								<td>{{ $value->id }}</td>
+                <td>{{ $value->contact_id }}</td>
                 <td>{{ $value->name_contact }}</td>
                 <td>{{ $value->passport_contact }}</td>
                 <td>{{ $value->age_contact }}</td>
-                <td>{{ $value->national_contact }}</td>
+								<td>{{ $value->national_contact }}</td>
                 <td>
-                  <a class="btn btn-danger" href="{{ route('contactfollowtable')}}?id={{ $value->id }}&contact_id={{ $value->contact_id }}">
+                  <a class="btn btn-danger" href="{{ route('contactfollowtable')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
                       ติดตามอาการ
                   </a>
-                    <a class="btn btn-info" href="{{ route('detailcontact')}}">
-                      Detail
+                    <a class="btn btn-info" href="{{ route('detailcontact')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
+                      รายละเอียด
                   </a>
-                  <a class="btn btn-warning" href="{{ route('addcontact')}}">
-                      Edit
+                  <a class="btn btn-warning" href="#">
+                      แก้ไขข้อมูล
                   </a>
                 </td>
             </tr>
 						<?php endforeach;?>
         </tbody>
-        <tfoot>
-            <tr>
-							<th>ID</th>
-							<th>Contact ID</th>
-							<th>ชื่อ-สกุล</th>
-							<th>Passport</th>
-							<th>อายุ</th>
-							<th>สัญชาติ</th>
-							<th>Action</th>
-            </tr>
-        </tfoot>
     </table>
 	</div>
 				</div>

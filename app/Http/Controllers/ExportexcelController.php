@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Excel;
-
+use App\GlobalCountry;
 class ExportExcelController extends MasterController
 {
 
@@ -60,6 +57,9 @@ class ExportExcelController extends MasterController
    function indexallexcel(Request $req)
    {
      $arr = parent::getStatus();
+     $nation_list = $this->arrnation();
+     $occu_list = $this->arroccu();
+     $sym_cough = $this->sym_cough();
      $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
      $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
      $data=DB::table('invest_pt')
@@ -69,112 +69,12 @@ class ExportExcelController extends MasterController
                      ->get();
                      return view('export.allexport',compact(
                        'data',
-                       'arr'
+                       'arr',
+                       'nation_list',
+                       'occu_list',
+                       'sym_cough'
                      ));
   }
-    function exceldownload(Request $req)
-    {
-      $arr_sym_cough=$this->sym_cough();
-      $arr_sym_snot=$this->sym_snot();
-      $arr_sym_sore=$this->sym_sore();
-      $arr_sym_dyspnea=$this->sym_dyspnea();
-      $arr_sym_breathe=$this->sym_breathe();
-      $arr_sym_stufefy=$this->sym_stufefy();
-      $arr_occupation=$this->occupation();
-      $arr_disch_st=$this->disch_st();
-      $arr_pui_type=$this->pui_type();
-      $arr = parent::getStatus();
-      // dd($arr['news_st']['1']);
-      // dd($arr);
-      $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
-      $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
-      $filename="SAT_report_".$notify_date."_".$notify_date_end;
-      // dd($notify_date_end);
-     $invest_pt_data = DB::table('invest_pt')
-                      ->select('*')
-                      ->whereDate('notify_date','>=',$notify_date)
-                      ->whereDate('notify_date', '<=',$notify_date_end)
-                      ->get()
-                      ->toArray();
-     $invest_pt_array[] = array('ลำดับ',
-                                'วันที่รับแจ้ง',
-                                'เวลา',
-                                'PUI Type',
-                                'Code Case',
-                                'คำนำหน้าชื่อ',
-                                'ชื่อ',
-                                'ชื่อกลาง',
-                                'นามสกุล',
-                                'อาชีพ',
-                                'สัญชาติ',
-                                    'อายุ ปี',
-                                    'ชนิดผู้ป่วย',
-                                    'เที่ยวบิน',
-                                    'ผู้ป่วยมาจาก',
-                                     'เดินทางมาถึงประเทศไทย',
-                                     'ผู้ร่วมเดินทาง (จำนวนคน)',
-                                      'วันเริ่มป่วย',
-                                      'อุณหภูมิสูงสุด',
-                                      'อาการ',
-                                       'cxr',
-                                       'RP33 จากสถาบันบำราศ',
-                                        'Coronavirus family sequencing จาก รพ.จุฬา',
-                                        'Coronavirus family sequencingจากกรมวิทย์',
-                                        'Coronavirus family sequencingจากศูนย์วิทย์',
-                                        'Discharge Status',
-                                        'Discharge Date',
-                                      'วินิจฉัยสุดท้าย',
-                                    'แจ้งผล lab ไปสคร./สปคม.');
-                                        // dd($invest_pt_array);
-$i = 1;
-     foreach($invest_pt_data as $value)
-     {
-      $invest_pt_array[] = array(
-            'id'  => $i,
-            'notify_date'  => (!empty($value->notify_date)) ? $value->notify_date : "",
-            'notify_time'  => (!empty($value->notify_time)) ? $value->notify_time : "",
-            'pui_type'  => (isset($arr['pui_type'][$value->pui_type])) ? $arr['pui_type'][$value->pui_type] : "",
-            'sat_id'  =>  (!empty($value->sat_id)) ? $value->sat_id : "",
-            'title_name'  => (!empty($value->title_name)) ? $value->title_name : "",
-            'first_name'  => (!empty($value->first_name)) ? $value->first_name : "",
-            'mid_name'  => (!empty($value->mid_name)) ? $value->mid_name : "",
-            'last_name'  => (!empty($value->last_name)) ? $value->last_name : "",
-            'occupation'  => $arr_occupation[$value->occupation],
-            'nation'  =>(!empty($value->nation)) ? $value->nation : "",
-            'age'  => (!empty($value->age)) ? $value->age : "",
-            'pt_status'  => (isset($arr['pt_status'][$value->pt_status])) ? $arr['pt_status'][$value->pt_status] : "",
-            'flight_number'  => (!empty($value->flight_number)) ? $value->flight_number : "",
-            'travel_from'  => (!empty($value->travel_from)) ? $value->travel_from : "",
-            'risk2_6arrive_date'  => (!empty($value->risk2_6arrive_date)) ? $value->risk2_6arrive_date : "",
-            'total_travel_in_group'  =>(!empty($value->total_travel_in_group)) ? $value->total_travel_in_group : "",
-            'data3_1date_sickdate'  =>(!empty($value->data3_1date_sickdate)) ? $value->data3_1date_sickdate : "",
-            'fever_current'  => (!empty($value->fever_current)) ? $value->fever_current : "",
-            'symptom'  =>$arr_sym_cough[$value ->sym_cough].', '.$arr_sym_snot[$value ->sym_snot].', '.$arr_sym_sore[$value ->sym_sore].', '.$arr_sym_dyspnea[$value ->sym_dyspnea].', '.$arr_sym_breathe[$value ->sym_breathe].', '.$arr_sym_stufefy[$value ->sym_stufefy],
-            'xray_result'  => (!empty($value->xray_result)) ? $value->xray_result : "",
-            'RP33'=>"",
-            'Coronavirus_family_sequencing_cu'  => "",
-            'Coronavirus_family_sequencing_dmsc'  => "",
-            'Coronavirus_family_sequencing_rmsc'  => "",
-            'disch_st'  =>(isset($arr['disch_st'][$value->disch_st])) ? $arr['disch_st'][$value->disch_st] : "",
-            'disch_date'   => "",
-            'last_diagnose'=>"",
-            'result_lab_to_odpc'=>""
-
-    );
-$i++;
-     }
-
-           // dd($invest_pt_array);
-           Excel::raw($invest_pt_array, Excel::XLSX);
-     // Excel::create($filename, function($excel) use ($invest_pt_array){
-     //  $excel->setTitle('PUI Data SAT');
-     //  $excel->sheet('PUI Data SAT', function($sheet) use ($invest_pt_array){
-     //   $sheet->fromArray($invest_pt_array, null, 'A1', false, false);
-     //  });
-     // })->download('xlsx');
-    }
-
-
     protected function convertDateToMySQL($date='00/00/0000') {
       if (!is_null($date) || !empty($date)) {
         $ep = explode("/", $date);
@@ -289,6 +189,22 @@ $i++;
           );
         // dd($list_sym_cough);
         return $list_occupation;
+      }
+      protected function arrnation(){
+    		$arrnation = DB::table('ref_global_country')->select('country_id','country_name')->get();
+    		foreach ($arrnation as  $value) {
+    			$arrnation[$value->country_id] =trim($value->country_name);
+    		}
+    		// dd($province_arr);
+    		return $arrnation;
+    	}
+      protected function arroccu(){
+        $arroccu = DB::table('ref_occupation')->select('id','occu_name_th')->get();
+        foreach ($arroccu as  $value) {
+          $arroccu[$value->id] =trim($value->occu_name_th);
+        }
+        // dd($province_arr);
+        return $arroccu;
       }
 }
 ?>
