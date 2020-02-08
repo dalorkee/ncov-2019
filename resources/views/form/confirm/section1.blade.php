@@ -146,7 +146,7 @@
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="country" class="text-danger">ประเทศ</label>
 							<select name="workCountryInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-danger" id="select_work_country">
@@ -160,7 +160,24 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+						<div class="form-group">
+							<label for="country" class="text-danger">เมือง</label>
+							<select name="workCityInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="select_work_city">
+								@if (!empty($invest_pt[0]['work_city']))
+									<option value="{{ $work_city[0]['city_id'] }}" selected="selected">{{ $work_city[0]['city_name'] }}</option>
+								@endif
+								<option value="">-- โปรดเลือก --</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+						<div class="form-group">
+							<label for="city_other" class="text-danger">เมืองอื่นๆ ระบุ</label>
+							<input type="text" name="workCityOtherInput" value="{{ $invest_pt[0]['work_city_other'] }}" class="form-control border-danger text-danger" placeholder="เมืองอื่นๆ">
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="province" class="text-danger">จังหวัด</label>
 							<select name="workProvinceInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="select_work_province">
@@ -181,7 +198,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="district" class="text-danger">อำเภอ</label>
 							<select name="workDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="select_work_district">
@@ -192,7 +209,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="subDistrict" class="text-danger">ตำบล</label>
 							<select name="workSubDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="select_work_sub_district">
@@ -201,21 +218,6 @@
 								@endif
 								<option value="">-- โปรดเลือก --</option>
 							</select>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-						<div class="form-group">
-							<select name="workCityInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="select_work_city">
-								@if (!empty($invest_pt[0]['work_city']))
-									<option value="{{ $work_city[0]['city_id'] }}" selected="selected">{{ $work_city[0]['city_name'] }}</option>
-								@endif
-								<option value="">-- โปรดเลือก --</option>
-							</select>
-
-							<!--
-							<label for="city" class="text-danger">ชื่อเมือง (กรณีอยู่ต่างประเทศ)</label>
-							<input type="text" name="workCityInput" value="{ $invest_pt[0]['work_city'] }}" class="form-control" placeholder="ชื่อเมือง">
-						-->
 						</div>
 					</div>
 				</div>
@@ -254,10 +256,10 @@
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
-							<label for="country">ประเทศ</label>
-							<select name="curCountryInput" class="form-control selectpicker show-tick" data-style="btn-primary" id="select_cur_country">
+							<label for="country" class="text-primary">ประเทศ</label>
+							<select name="curCountryInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-primary" id="select_cur_country">
 								@if (!empty($invest_pt[0]['cur_country']))
 									<option value="{{ $invest_pt[0]['cur_country'] }}" selected="selected">{{ $globalCountry[$invest_pt[0]['cur_country']]['country_name'] }}</option>
 								@endif
@@ -268,9 +270,27 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
-							<label for="province">จังหวัด</label>
+							<label for="country" class="text-primary">เมือง</label>
+							<select name="curCityInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-primary" id="select_cur_city">
+								@if (!empty($invest_pt[0]['cur_city']))
+									<option value="{{ $cur_city[0]['city_id'] }}" selected="selected">{{ $cur_city[0]['city_name'] }}</option>
+								@endif
+								<option value="">-- โปรดเลือก --</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+						<div class="form-group">
+							<label for="city_other" class="text-primary">เมืองอื่นๆ ระบุ</label>
+							<input type="text" name="curCityOtherInput" value="{{ $invest_pt[0]['cur_city_other'] }}" class="form-control border-primary text-primary" placeholder="เมืองอื่นๆ">
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+						<div class="form-group">
+							<label for="province" class="text-primary">จังหวัด</label>
 							<select name="curProvinceInput" class="form-control selectpicker show-tick" data-style="btn-outline-primary" id="select_cur_province">
 								@if (!empty($invest_pt[0]['cur_province']))
 									<option value="{{ $invest_pt[0]['cur_province'] }}" selected="selected">{{ $provinces[$invest_pt[0]['cur_province']]['province_name'] }}</option>
@@ -289,9 +309,9 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
-							<label for="district">อำเภอ</label>
+							<label for="district" class="text-primary">อำเภอ</label>
 							<select name="curDistrictInput" class="form-control selectpicker show-tick" data-style="btn-outline-primary" id="select_cur_district">
 								@if (!empty($invest_pt[0]['cur_district']))
 									<option value="{{ $cur_district[0]['district_id'] }}" selected="selected">{{ $cur_district[0]['district_name'] }}</option>
@@ -300,21 +320,15 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
-							<label for="subDistrict">ตำบล</label>
+							<label for="subDistrict" class="text-primary">ตำบล</label>
 							<select name="curSubDistrictInput" class="form-control selectpicker show-tick" data-style="btn-outline-primary" id="select_cur_sub_district">
 								@if (!empty($invest_pt[0]['cur_sub_district']))
 									<option value="{{ $cur_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $cur_sub_district[0]['sub_district_name'] }}</option>
 								@endif
 								<option value="">-- โปรดเลือก --</option>
 							</select>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 col-xl-8">
-						<div class="form-group">
-							<label for="city">ชื่อเมือง (กรณีอยู่ต่างประเทศ)</label>
-							<input type="text" name="cityInput" value="{{ $invest_pt[0]['cur_city'] }}" class="form-control" placeholder="ชื่อเมือง">
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
@@ -359,7 +373,7 @@
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="country">ประเทศ</label>
 							<select name="sickCountryInput" class="form-control selectpicker show-tick" data-style="btn-success" id="select_sick_country">
@@ -373,7 +387,24 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+						<div class="form-group">
+							<label for="country" class="text-success">เมือง</label>
+							<select name="sickCityInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-success" id="select_sick_city">
+								@if (!empty($invest_pt[0]['work_city']))
+									<option value="{{ $sick_city[0]['city_id'] }}" selected="selected">{{ $sick_city[0]['city_name'] }}</option>
+								@endif
+								<option value="">-- โปรดเลือก --</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+						<div class="form-group">
+							<label for="city_other" class="text-danger">เมืองอื่นๆ ระบุ</label>
+							<input type="text" name="sickCityOtherInput" value="{{ $invest_pt[0]['sick_city_other'] }}" class="form-control border-danger text-danger" placeholder="เมืองอื่นๆ">
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="province">จังหวัด</label>
 							<select name="sickProvinceInput" class="form-control selectpicker show-tick" data-style="btn-outline-success" id="select_sick_province">
@@ -387,7 +418,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="district">อำเภอ</label>
 							<select name="sickDistrictInput" class="form-control selectpicker show-tick" data-style="btn-outline-success" id="select_sick_district">
@@ -398,7 +429,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="subDistrict">ตำบล</label>
 							<select name="sickSubDistrictInput" class="form-control selectpicker show-tick" data-style="btn-outline-success" id="select_sick_sub_district">
@@ -407,12 +438,6 @@
 								@endif
 								<option value="">-- โปรดเลือก --</option>
 							</select>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 col-xl-8">
-						<div class="form-group">
-							<label for="city">ชื่อเมือง (กรณีอยู่ต่างประเทศ)</label>
-							<input type="text" name="cityInput" value="{{ $invest_pt[0]['sick_city'] }}" class="form-control" placeholder="ชื่อเมือง">
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">

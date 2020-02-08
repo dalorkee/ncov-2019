@@ -105,7 +105,7 @@ $(document).ready(function() {
 		}
 	});
 
-	/* district */
+	/* work city */
 	$('#select_work_country').change(function() {
 		if ($(this).val() != '') {
 			var id = $(this).val();
@@ -117,6 +117,46 @@ $(document).ready(function() {
 				success: function(response) {
 					$('#select_work_city').html(response);
 					$('#select_work_city').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* current city */
+	$('#select_cur_country').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('cityFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_cur_city').html(response);
+					$('#select_cur_city').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* sick city */
+	$('#select_sick_country').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('cityFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_cur_city').html(response);
+					$('#select_cur_city').selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);

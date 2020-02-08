@@ -44,9 +44,8 @@ class ConfirmFormController extends Controller
 		$globalCountry = $globalCountry->keyBy('country_id')->toArray();
 		$invest_pt = InvestList::where('id', '=', $request->id)->get()->toArray();
 		$work_city = GlobalCity::where('city_id', '=', $invest_pt[0]['work_city'])->get()->toArray();
-		//dd($work_city);
-
-		//dd($invest_pt);
+		$cur_city = GlobalCity::where('city_id', '=', $invest_pt[0]['cur_city'])->get()->toArray();
+		$sick_city = GlobalCity::where('city_id', '=', $invest_pt[0]['sick_city'])->get()->toArray();
 
 		$data['flu_vaccine_chk_date'] = self::convertMySQLDateFormat($invest_pt[0]['flu_vaccine_chk_date']);
 		$data['breathing_tube_date'] = self::convertMySQLDateFormat($invest_pt[0]['breathing_tube_date']);
@@ -133,6 +132,8 @@ class ConfirmFormController extends Controller
 				'globalCountry' => $globalCountry,
 				'invest_pt' => $invest_pt,
 				'work_city' => $work_city,
+				'cur_city' => $cur_city,
+				'sick_city' => $sick_city,
 				'data' => $data,
 				'titleName' => $titleName,
 				'provinces' => $provinces,
@@ -390,7 +391,7 @@ class ConfirmFormController extends Controller
 		return $htm;
 	}
 
-	public function cityFetch(Request $request) {
+	public static function cityFetch(Request $request) {
 		$coll = GlobalCity::where('country_id', '=', $request->id)->get();
 		$htm = "<option value=\"0\">-- โปรดเลือก --</option>";
 		foreach ($coll as $key => $val) {
