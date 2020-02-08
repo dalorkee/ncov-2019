@@ -56,6 +56,7 @@ Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confir
 Route::resource('investList', 'InvestListController');
 
 /* fetch district, fetch sub-district */
+Route::post('country/city', 'ConfirmFormController@cityFetch')->name('cityFetch');
 Route::post('province/district', 'ConfirmFormController@districtFetch')->name('districtFetch');
 Route::post('province/district/sub-district', 'ConfirmFormController@subDistrictFetch')->name('subDistrictFetch');
 

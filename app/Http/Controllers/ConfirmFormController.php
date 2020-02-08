@@ -9,6 +9,8 @@ use App\InvestList;
 use App\Occupation;
 use App\District;
 use App\SubDistrict;
+use App\GlobalCity;
+use App\GlobalCountry;
 use DB;
 
 class ConfirmFormController extends Controller
@@ -35,67 +37,114 @@ class ConfirmFormController extends Controller
 
 	public function create(Request $request)
 	{
-		$invest_pt = InvestList::where('id', '=', $request->id)->get()->toArray();
-		$data['risk2_2date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_2date']);
-		$data['risk2_6date_arrive'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6date_arrive']);
-		$data['risk2_6meeting_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6meeting_date']);
-		$data['risk2_6travel_acc1_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6travel_acc1_date']);
-		$data['risk2_6travel_acc2_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6travel_acc2_date']);
-		$data['risk2_6travel_acc3_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6travel_acc3_date']);
-		$data['risk2_6travel_acc4_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6travel_acc4_date']);
-		$data['risk2_6travel_acc5_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6travel_acc5_date']);
-		$data['risk2_6arrive_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6arrive_date']);
-		$data['risk2_6history_hospital_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_6history_hospital_date']);
-		$data['risk2_10date'] = self::convertMySQLDateFormat($invest_pt[0]['risk2_10date']);
-		$data['data3_1date_sickdate'] = self::convertMySQLDateFormat($invest_pt[0]['data3_1date_sickdate']);
-		$data['data3_2date_treat'] = self::convertMySQLDateFormat($invest_pt[0]['data3_2date_treat']);
-		$data['data3_2date_admit'] = self::convertMySQLDateFormat($invest_pt[0]['data3_2date_admit']);
-		$data['data3_4chk_yes_date'] = self::convertMySQLDateFormat($invest_pt[0]['data3_4chk_yes_date']);
-		$data['data3_6sick_date'] = self::convertMySQLDateFormat($invest_pt[0]['data3_6sick_date']);
-		$data['data3_6breathing_tube_date'] = self::convertMySQLDateFormat($invest_pt[0]['data3_6breathing_tube_date']);
-		$data['data3_6antivirus_start_date'] = self::convertMySQLDateFormat($invest_pt[0]['data3_6antivirus_start_date']);
-		$data['data3_6antivirus_end_date'] = self::convertMySQLDateFormat($invest_pt[0]['data3_6antivirus_end_date']);
-
 		$titleName = TitleName::all()->toArray();
 		$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
 		$occupation = Occupation::all()->keyBy('id')->toArray();
+		$globalCountry = GlobalCountry::all();
+		$globalCountry = $globalCountry->keyBy('country_id')->toArray();
+		$invest_pt = InvestList::where('id', '=', $request->id)->get()->toArray();
+		$work_city = GlobalCity::where('city_id', '=', $invest_pt[0]['work_city'])->get()->toArray();
+		//dd($work_city);
+
+		//dd($invest_pt);
+
+		$data['flu_vaccine_chk_date'] = self::convertMySQLDateFormat($invest_pt[0]['flu_vaccine_chk_date']);
+		$data['breathing_tube_date'] = self::convertMySQLDateFormat($invest_pt[0]['breathing_tube_date']);
+		$data['antivirus_1_start_date'] = self::convertMySQLDateFormat($invest_pt[0]['antivirus_1_start_date']);
+		$data['antivirus_1_end_date'] = self::convertMySQLDateFormat($invest_pt[0]['antivirus_1_end_date']);
+		$data['antivirus_2_start_date'] = self::convertMySQLDateFormat($invest_pt[0]['antivirus_2_start_date']);
+		$data['antivirus_2_end_date'] = self::convertMySQLDateFormat($invest_pt[0]['antivirus_2_end_date']);
+		$data['antivirus_3_start_date'] = self::convertMySQLDateFormat($invest_pt[0]['antivirus_3_start_date']);
+		$data['antivirus_3_end_date'] = self::convertMySQLDateFormat($invest_pt[0]['antivirus_3_end_date']);
+		$data['antivirus_4_start_date'] = self::convertMySQLDateFormat($invest_pt[0]['antivirus_4_start_date']);
+		$data['antivirus_4_end_date'] = self::convertMySQLDateFormat($invest_pt[0]['antivirus_4_end_date']);
+
+		$data['risk_stay_outbreak_arrive_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk_stay_outbreak_arrive_date']);
+		$data['risk_stay_outbreak_arrive_thai_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk_stay_outbreak_arrive_thai_date']);
+		$data['risk_treat_or_visit_patient_hospital_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk_treat_or_visit_patient_hospital_date']);
+		$data['lab_cbc_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_cbc_date']);
+		$data['lab_chemistry_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_chemistry_date']);
+		$data['lab_liver_function_test_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_liver_function_test_date']);
+		$data['lab_sputum_afb_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_sputum_afb_date']);
+		$data['lab_sputum_culture_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_sputum_culture_date']);
+		$data['lab_hemoculture_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_hemoculture_date']);
+		$data['lab_cxr1_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_cxr1_date']);
+		$data['lab_cxr2_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_cxr2_date']);
+		$data['lab_rapid_test_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_rapid_test_date']);
+		$data['lab_other_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_other_date']);
+
+
 
 		/* work district */
 		if (!empty($invest_pt[0]['work_district'])) {
-			$pt_work_district = District::where('district_id', '=', $invest_pt[0]['work_district'])->get()->toArray();
+			$work_district = District::where('district_id', '=', $invest_pt[0]['work_district'])->get()->toArray();
 		} else {
-			$pt_work_district = null;
+			$work_district = null;
 		}
 		/* work sub district */
 		if (!empty($invest_pt[0]['work_sub_district'])) {
-			$pt_work_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['work_sub_district'])->get()->toArray();
+			$work_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['work_sub_district'])->get()->toArray();
 		} else {
-			$pt_work_sub_district = null;
+			$work_sub_district = null;
 		}
+
+		/* current district */
+		if (!empty($invest_pt[0]['cur_district'])) {
+			$cur_district = District::where('district_id', '=', $invest_pt[0]['cur_district'])->get()->toArray();
+		} else {
+			$cur_district = null;
+		}
+
+		/* sub district */
+		if (!empty($invest_pt[0]['cur_sub_district'])) {
+			$cur_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['cur_sub_district'])->get()->toArray();
+		} else {
+			$cur_sub_district = null;
+		}
+
 		/* sick district */
 		if (!empty($invest_pt[0]['sick_district'])) {
-			$pt_sick_district = District::where('district_id', '=', $invest_pt[0]['sick_district'])->get()->toArray();
+			$sick_district = District::where('district_id', '=', $invest_pt[0]['sick_district'])->get()->toArray();
 		} else {
-			$pt_sick_district = null;
+			$sick_district = null;
 		}
 		/* sick sub district */
 		if (!empty($invest_pt[0]['sick_sub_district'])) {
-			$pt_sick_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['sick_sub_district'])->get()->toArray();
+			$sick_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['sick_sub_district'])->get()->toArray();
 		} else {
-			$pt_sick_sub_district = null;
+			$sick_sub_district = null;
+		}
+
+		/* risk district */
+		if (!empty($invest_pt[0]['risk_stay_outbreak_district'])) {
+			$risk_district = District::where('district_id', '=', $invest_pt[0]['risk_stay_outbreak_district'])->get()->toArray();
+		} else {
+			$risk_district = null;
+		}
+		/* risk sub district */
+		if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district'])) {
+			$risk_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['risk_stay_outbreak_sub_district'])->get()->toArray();
+		} else {
+			$risk_sub_district = null;
 		}
 
 		return view('form.confirm.index',
 			[
+				'globalCountry' => $globalCountry,
 				'invest_pt' => $invest_pt,
+				'work_city' => $work_city,
 				'data' => $data,
 				'titleName' => $titleName,
 				'provinces' => $provinces,
 				'occupation' => $occupation,
-				'pt_work_district' => $pt_work_district,
-				'pt_work_sub_district' => $pt_work_sub_district,
-				'pt_sick_district' => $pt_sick_district,
-				'pt_sick_sub_district' => $pt_sick_sub_district
+				'work_district' => $work_district,
+				'work_sub_district' => $work_sub_district,
+				'cur_district' => $cur_district,
+				'cur_sub_district' => $cur_sub_district,
+				'sick_district' => $sick_district,
+				'sick_sub_district' => $sick_sub_district,
+				'risk_district' => $risk_district,
+				'risk_sub_district' => $risk_sub_district
 			]
 		);
 	}
@@ -337,6 +386,15 @@ class ConfirmFormController extends Controller
 		$htm = "<option value=\"0\">-- โปรดเลือก --</option>";
 		foreach ($districts as $key => $val) {
 			$htm .= "<option value=\"".$val->district_id."\">".$val->district_name."</option>";
+		}
+		return $htm;
+	}
+
+	public function cityFetch(Request $request) {
+		$coll = GlobalCity::where('country_id', '=', $request->id)->get();
+		$htm = "<option value=\"0\">-- โปรดเลือก --</option>";
+		foreach ($coll as $key => $val) {
+			$htm .= "<option value=\"".$val->city_id."\">".$val->city_name."</option>";
 		}
 		return $htm;
 	}

@@ -57,10 +57,10 @@ input:read-only {
 						<div class="bd-callout bd-callout-info" style="margin-top:0;">
 							@include('form.confirm.section1')
 						</div><!-- bd-collout1 -->
-						<div class="bd-callout bd-callout-danger" style="margin-top:0;">
+						<div class="bd-callout bd-callout-warning" style="margin-top:0;">
 							@include('form.confirm.section2')
 						</div><!-- bd-collout2 -->
-						<div class="bd-callout bd-callout-warning" style="margin-top:0;">
+						<div class="bd-callout bd-callout-danger" style="margin-top:0;">
 							@include('form.confirm.section3')
 						</div><!-- bd-collout3 -->
 						<div class="border-top">
@@ -102,6 +102,26 @@ $(document).ready(function() {
 	$.ajaxSetup({
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+
+	/* district */
+	$('#select_work_country').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('cityFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_work_city').html(response);
+					$('#select_work_city').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
 		}
 	});
 
@@ -186,253 +206,228 @@ $(document).ready(function() {
 	});
 
 	/* check box */
-	$('.informant-chk').click(function() {
-		$('.informant-chk').not(this).prop('checked', false);
+	$('.flu-vaccine-chk').click(function() {
+		$('.flu-vaccine-chk').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk2_1').click(function() {
-		$('.chk_risk2_1').not(this).prop('checked', false);
+	$('.chk_breathing_Tube').click(function() {
+		$('.chk_breathing_Tube').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk2_2').click(function() {
-		$('.chk_risk2_2').not(this).prop('checked', false);
+	$('.chk_complication').click(function() {
+		$('.chk_complication').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk2_3').click(function() {
-		$('.chk_risk2_3').not(this).prop('checked', false);
+	$('.chk_antivirus').click(function() {
+		$('.chk_antivirus').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk2_4').click(function() {
-		$('.chk_risk2_4').not(this).prop('checked', false);
+	$('.chk_risk_stay_outbreak').click(function() {
+		$('.chk_risk_stay_outbreak').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk2_5').click(function() {
-		$('.chk_risk2_5').not(this).prop('checked', false);
+	$('.risk_history_human_contact_symptom').click(function() {
+		$('.risk_history_human_contact_symptom').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk2_5').click(function() {
-		$('.chk_risk2_5').not(this).prop('checked', false);
+	$('.risk_patient_pneumonia_dead').click(function() {
+		$('.risk_patient_pneumonia_dead').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk2_6_his').click(function() {
-		$('.chk_risk2_6_his').not(this).prop('checked', false);
+	$('.risk_closeup_flu_or_pneumonia').click(function() {
+		$('.risk_closeup_flu_or_pneumonia').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk2_7').click(function() {
-		$('.chk_risk2_7').not(this).prop('checked', false);
+	$('.lab_sputum_culture_result').click(function() {
+		$('.lab_sputum_culture_result').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk2_8').click(function() {
-		$('.chk_risk2_8').not(this).prop('checked', false);
+	$('.lab_hemoculture_result').click(function() {
+		$('.lab_hemoculture_result').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk2_9').click(function() {
-		$('.chk_risk2_9').not(this).prop('checked', false);
+	$('.lab_cxr1_result').click(function() {
+		$('.lab_cxr1_result').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk2_10').click(function() {
-		$('.chk_risk2_10').not(this).prop('checked', false);
+	$('.lab_cxr2_result').click(function() {
+		$('.lab_cxr2_result').not(this).prop('checked', false);
 	});
 
-	$('.chk_risk3_2_pt').click(function() {
-		$('.chk_risk3_2_pt').not(this).prop('checked', false);
+	$('.lab_rapid_test_result').click(function() {
+		$('.lab_rapid_test_result').not(this).prop('checked', false);
 	});
-
-	$('.chk_risk3_3').click(function() {
-		$('.chk_risk3_3').not(this).prop('checked', false);
-	});
-
-	$('.chk_risk3_3_smoking').click(function() {
-		$('.chk_risk3_3_smoking').not(this).prop('checked', false);
-	});
-
-	$('.chk_risk3_3_drink').click(function() {
-		$('.chk_risk3_3_drink').not(this).prop('checked', false);
-	});
-
-	$('.chk_risk3_4').click(function() {
-		$('.chk_risk3_4').not(this).prop('checked', false);
-	});
-
-	/* symptom chk */
-	$('.chk_data3_6_0Fever').click(function() {
-		$('.chk_data3_6_0Fever').not(this).prop('checked', false);
-	});
-
-	$('.chk_data3_6_0Cough').click(function() {
-		$('.chk_data3_6_0Cough').not(this).prop('checked', false);
-	});
-
-	$('.chk_data3_6_0Sore').click(function() {
-		$('.chk_data3_6_0Sore').not(this).prop('checked', false);
-	});
-
-	$('.chk_data3_6_0Snot').click(function() {
-		$('.chk_data3_6_0Snot').not(this).prop('checked', false);
-	});
-
-	$('.chk_data3_6_0Sputum').click(function() {
-		$('.chk_data3_6_0Sputum').not(this).prop('checked', false);
-	});
-
-	$('.chk_data3_6_0Breate').click(function() {
-		$('.chk_data3_6_0Breate').not(this).prop('checked', false);
-	});
-
-	$('.chk_data3_6_0Gasp').click(function() {
-		$('.chk_data3_6_0Gasp').not(this).prop('checked', false);
-	});
-
-	$('.chk_data3_6_0Muscle').click(function() {
-		$('.chk_data3_6_0Muscle').not(this).prop('checked', false);
-	});
-
-	$('.chk_data3_6_0Headache').click(function() {
-		$('.chk_data3_6_0Headache').not(this).prop('checked', false);
-	});
-
-	$('.chk_data3_6_0Liquid').click(function() {
-		$('.chk_data3_6_0Liquid').not(this).prop('checked', false);
-	});
-
-	$('.chk_data3_6_Tube').click(function() {
-		$('.chk_data3_6_Tube').not(this).prop('checked', false);
-	});
-
-	$('.chk_data3_6_Antiv').click(function() {
-		$('.chk_data3_6_Antiv').not(this).prop('checked', false);
-	});
-
-
 
 	/* date picker */
-	$('#risk2_2Date').datepicker({
+	$('#flu_vaccine_chk_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk2_6DateArrive').datepicker({
+	$('#flu_vaccine_chk_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk2_6MeetingDate').datepicker({
+	$('#breathing_tube_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk2_6Activity1DateInput').datepicker({
+	$('#antivirus_1_start_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk2_6Activity2DateInput').datepicker({
+	$('#antivirus_1_end_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk2_6Activity3DateInput').datepicker({
+	$('#antivirus_2_start_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk2_6Activity4DateInput').datepicker({
+	$('#antivirus_2_end_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk2_6Activity5DateInput').datepicker({
+	$('#antivirus_3_start_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk2_6ArriveDate').datepicker({
+	$('#antivirus_3_end_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk2_6HistoryHospitalDate').datepicker({
+	$('#antivirus_4_start_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk2_10Date').datepicker({
+	$('#antivirus_4_end_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk3_1sickDateInput').datepicker({
+	$('#risk_treat_or_visit_patient_hospital_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk3_2treatDateInput').datepicker({
+	$('#cbcDateInput').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk3_2admitDateInput').datepicker({
+	$('#riskStayOutbreakArriveDate').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#risk3_4influVaccineChkYesInput').datepicker({
+	$('#riskStayOutbreakArriveThaiDate').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#data3_6sickDate').datepicker({
+	$('#lab_cbc_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#data3_6BreathingTubeDate').datepicker({
+	$('#lab_chemistry_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#data3_6AntiVirusDrugStartDate').datepicker({
+	$('#lab_liver_function_test_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
 	});
 
-	$('#data3_6AntiVirusDrugEndDate').datepicker({
+	$('#lab_sputum_afb_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#lab_sputum_culture_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#lab_hemoculture_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#lab_cxr1_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#lab_cxr2_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#lab_rapid_test_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#lab_other_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
