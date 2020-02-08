@@ -46,6 +46,7 @@ class ConfirmFormController extends Controller
 		$work_city = GlobalCity::where('city_id', '=', $invest_pt[0]['work_city'])->get()->toArray();
 		$cur_city = GlobalCity::where('city_id', '=', $invest_pt[0]['cur_city'])->get()->toArray();
 		$sick_city = GlobalCity::where('city_id', '=', $invest_pt[0]['sick_city'])->get()->toArray();
+		$risk_stay_outbreak_city = GlobalCity::where('city_id', '=', $invest_pt[0]['risk_stay_outbreak_city'])->get()->toArray();
 
 		$data['flu_vaccine_chk_date'] = self::convertMySQLDateFormat($invest_pt[0]['flu_vaccine_chk_date']);
 		$data['breathing_tube_date'] = self::convertMySQLDateFormat($invest_pt[0]['breathing_tube_date']);
@@ -134,6 +135,7 @@ class ConfirmFormController extends Controller
 				'work_city' => $work_city,
 				'cur_city' => $cur_city,
 				'sick_city' => $sick_city,
+				'risk_stay_outbreak_city' => $risk_stay_outbreak_city,
 				'data' => $data,
 				'titleName' => $titleName,
 				'provinces' => $provinces,

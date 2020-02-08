@@ -165,6 +165,26 @@ $(document).ready(function() {
 		}
 	});
 
+	/* risk_stay_outbreak_city */
+	$('#risk_stay_outbreak_country').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('cityFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_risk_stay_outbreak_city').html(response);
+					$('#select_risk_stay_outbreak_city').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
 	/* district */
 	$('#select_province').change(function() {
 		if ($(this).val() != '') {

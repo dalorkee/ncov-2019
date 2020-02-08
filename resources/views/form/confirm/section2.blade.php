@@ -376,66 +376,83 @@
 						</div>
 					</div>
 					<div class="card" style="margin-bottom:0;padding-bottom:0">
-
-								<div class="form-row">
-									<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-										<div class="form-group">
-											<label for="outbreakCountry">ประเทศ</label>
-											<select name="riskStayOutbreakCountryInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_country">
-												@if (!empty($invest_pt[0]['risk_stay_outbreak_country']))
-													<option value="{{ $invest_pt[0]['risk_stay_outbreak_country'] }}" selected="selected">{{ $globalCountry[$invest_pt[0]['risk_stay_outbreak_country']]['country_name'] }}</option>
-												@endif
-												<option value="">-- เลือกประเทศ --</option>
-												@foreach ($globalCountry as $key => $value)
-													<option value="{{ $value['country_id'] }}">{{ $value['country_name'] }}</option>
-												@endforeach
-											</select>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-										<div class="form-group">
-											<label for="province">จังหวัด</label>
-											<select name="riskStayOutbreakProvinceInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_province">
-												@if (!empty($invest_pt[0]['risk_stay_outbreak_province']))
-													<option value="{{ $invest_pt[0]['risk_stay_outbreak_province'] }}" selected="selected">{{ $provinces[$invest_pt[0]['risk_stay_outbreak_province']]['province_name'] }}</option>
-												@endif
-												<option value="">-- เลือกจังหวัด --</option>
-												@php
-													foreach($provinces as $key=>$val) {
-														$htm = "<option value=\"".$val['province_id']."\"";
-															if (old('provinceInput') == $val['province_id']) {
-																$htm .= " selected=\"selected\"";
-															}
-														$htm .= ">".$val['province_name']."</option>\n";
-														echo $htm;
-													}
-												@endphp
-											</select>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-										<div class="form-group">
-											<label for="district">อำเภอx</label>
-											<select name="riskStayOutbreakDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_district">
-												@if (!empty($invest_pt[0]['risk_stay_outbreak_district']))
-													<option value="{{ $risk_district[0]['district_id'] }}" selected="selected">{{ $risk_district[0]['district_name'] }}</option>
-												@endif
-												<option value="">-- โปรดเลือก --</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-										<div class="form-group">
-											<label for="subDistrict">ตำบล</label>
-											<select name="riskStayOutbreakSubDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_sub_district">
-												@if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district']))
-													<option value="{{ $risk_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $risk_sub_district[0]['sub_district_name'] }}</option>
-												@endif
-												<option value="">-- โปรดเลือก --</option>
-											</select>
-										</div>
-									</div>
+						<div class="form-row">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+								<div class="form-group">
+									<label for="outbreakCountry" class="tex-danger">ประเทศ</label>
+									<select name="riskStayOutbreakCountryInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_country">
+										@if (!empty($invest_pt[0]['risk_stay_outbreak_country']))
+											<option value="{{ $invest_pt[0]['risk_stay_outbreak_country'] }}" selected="selected">{{ $globalCountry[$invest_pt[0]['risk_stay_outbreak_country']]['country_name'] }}</option>
+										@endif
+										<option value="">-- เลือกประเทศ --</option>
+										@foreach ($globalCountry as $key => $value)
+											<option value="{{ $value['country_id'] }}">{{ $value['country_name'] }}</option>
+										@endforeach
+									</select>
 								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+								<div class="form-group">
+									<label for="country" class="text-success">เมือง</label>
+									<select name="riskStayOutbreakCityInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-success" id="select_risk_stay_outbreak_city">
+										@if (!empty($invest_pt[0]['risk_stay_outbreak_city']))
+											<option value="{{ $sick_city[0]['risk_stay_outbreak_city'] }}" selected="selected">{{ $sick_city[0]['risk_stay_outbreak_city'] }}</option>
+										@endif
+										<option value="">-- โปรดเลือก --</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+								<div class="form-group">
+									<label for="city_other" class="text-danger">เมืองอื่นๆ ระบุ</label>
+									<input type="text" name="riskStayOutbreakCityOtherInput" value="{{ $invest_pt[0]['risk_stay_outbreak_city_other'] }}" class="form-control border-danger text-danger" placeholder="เมืองอื่นๆ">
+								</div>
+							</div>
+
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+								<div class="form-group">
+									<label for="province">จังหวัด</label>
+									<select name="riskStayOutbreakProvinceInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_province">
+										@if (!empty($invest_pt[0]['risk_stay_outbreak_province']))
+											<option value="{{ $invest_pt[0]['risk_stay_outbreak_province'] }}" selected="selected">{{ $provinces[$invest_pt[0]['risk_stay_outbreak_province']]['province_name'] }}</option>
+										@endif
+										<option value="">-- เลือกจังหวัด --</option>
+										@php
+											foreach($provinces as $key=>$val) {
+												$htm = "<option value=\"".$val['province_id']."\"";
+													if (old('provinceInput') == $val['province_id']) {
+														$htm .= " selected=\"selected\"";
+													}
+													$htm .= ">".$val['province_name']."</option>\n";
+												echo $htm;
+											}
+										@endphp
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+								<div class="form-group">
+									<label for="district">อำเภอx</label>
+									<select name="riskStayOutbreakDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_district">
+										@if (!empty($invest_pt[0]['risk_stay_outbreak_district']))
+											<option value="{{ $risk_district[0]['district_id'] }}" selected="selected">{{ $risk_district[0]['district_name'] }}</option>
+										@endif
+										<option value="">-- โปรดเลือก --</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+								<div class="form-group">
+									<label for="subDistrict">ตำบล</label>
+									<select name="riskStayOutbreakSubDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_sub_district">
+										@if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district']))
+											<option value="{{ $risk_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $risk_sub_district[0]['sub_district_name'] }}</option>
+										@endif
+										<option value="">-- โปรดเลือก --</option>
+									</select>
+								</div>
+							</div>
+						</div>
 								<div class="form-row">
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
 										<div class="form-group">
