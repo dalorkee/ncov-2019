@@ -734,19 +734,20 @@ $(document).ready(function() {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
-});
-$('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
-/* date of birth */
-$('#datepicker1,#datepicker2,#datepicker3,.datepicker,#notify_date').datepicker({
-	format: 'dd/mm/yyyy',
-	todayHighlight: true,
-	todayBtn: true,
-	autoclose: true
-});
 
-$('.chk_risk3_3').click(function() {
-	$('.chk_risk3_3').not(this).prop('checked', false);
-});
+	$('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
+	/* date of birth */
+	$('#datepicker1,#datepicker2,#datepicker3,.datepicker,#notify_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
 
+	$('.chk_risk3_3').click(function() {
+		$('.chk_risk3_3').not(this).prop('checked', false);
+	});
+
+});
 </script>
 @endsection

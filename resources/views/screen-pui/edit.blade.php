@@ -14,6 +14,9 @@ $risk2_6arrive_date = (!empty($data->risk_stay_outbreak_arrive_date)) ? ScreenPU
 //dd($risk2_6arrive_date);
 $data3_1date_sickdate = (!empty($data->data3_1date_sickdate)) ? ScreenPUIController::Convert_Date_To_Picker($data->data3_1date_sickdate) : "" ;
 $lab_send_date = (!empty($data->lab_send_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->lab_send_date) : "" ;
+
+
+//dd($data->travel_from_country);
 ?>
 <style>
 input:-moz-read-only { /* For Firefox */
@@ -23,6 +26,9 @@ input:read-only {
 	background-color: #fafafa !important;
 }
 </style>
+@endsection
+@section('meta-token')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('contents')
 <div class="page-breadcrumb">
@@ -143,6 +149,8 @@ input:read-only {
 													@endforeach
 											</select>
 										</div>
+									</div>
+									<div class="row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 											<h1 class="text-info">2. ข้อมูลการเดินทาง</h1>
 											<div class="form-group">
@@ -150,15 +158,32 @@ input:read-only {
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
-											<div class="form-group">
-												<label for="informant">ชื่อเมือง</label>
-												<input type="text" name="travel_from" value="@if($data->travel_from) {{ $data->travel_from }} @endif" id="travel_from" class="form-control">
-											</div>
+												<label for="country">ประเทศที่เดินทาง</label>
+												<select name="travel_from_country" class="form-control selectpicker show-tick" data-live-search="true" id="select_travel_from_country">
+													@if (!empty($data->travel_from_country))
+														<option value="{{ $data->travel_from_country }}" selected="selected">{{ $globalcountry[$data->travel_from_country]['country_name'] }}</option>
+													@endif
+													<option value="">-- เลือกประเทศ --</option>
+													@foreach ($globalcountry as $key => $value)
+														<option value="{{ $value['country_id'] }}">{{ $value['country_name'] }}</option>
+													@endforeach
+												</select>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+												<label for="country">เมืองที่เดินทาง</label>
+												<select name="travel_from_city" class="form-control selectpicker show-tick" data-live-search="true" id="select_travel_from_city">
+													@if (!empty($data->travel_from_country))
+														<option value="{{ $work_city[0]['city_id'] }}" selected="selected">{{ $work_city[0]['city_name'] }}</option>
+													@endif
+													<option value="">-- โปรดเลือก --</option>
+												</select>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่มาถึงไทย</label>
 											<input type="text" name="risk2_6arrive_date" value="@if($risk2_6arrive_date) {{ $risk2_6arrive_date }} @endif" id="datepicker1" class="form-control">
 										</div>
+									</div>
+									<div class="row">
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">สายการบิน</label>
 											<input type="text" name="risk2_6airline_input" value="@if($data->risk_stay_outbreak_airline) {{ $data->risk_stay_outbreak_airline }} @endif" class="form-control" placeholder="สายการบิน">
@@ -727,18 +752,41 @@ $(document).ready(function() {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
-});
-$('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
-/* date of birth */
-$('#datepicker1,#datepicker2,#datepicker3,#notify_date').datepicker({
-	format: 'dd/mm/yyyy',
-	todayHighlight: true,
-	todayBtn: true,
-	autoclose: true
-});
 
-$('.chk_risk3_3').click(function() {
-	$('.chk_risk3_3').not(this).prop('checked', false);
+	$('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
+	/* date of birth */
+	$('#datepicker1,#datepicker2,#datepicker3,#notify_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('.chk_risk3_3').click(function() {
+		$('.chk_risk3_3').not(this).prop('checked', false);
+	});
+
+	$('#select_travel_from_country').change(function() {
+		//alert('fdfdfd');
+		 console.log($('#select_travel_from_country').val());
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('cityFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_travel_from_city').html(response);
+					$('#select_travel_from_city').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
 });
 
 </script>
