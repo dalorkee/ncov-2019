@@ -155,8 +155,8 @@ $(document).ready(function() {
 				dataType: "HTML",
 				data: {id:id},
 				success: function(response) {
-					$('#select_cur_city').html(response);
-					$('#select_cur_city').selectpicker("refresh");
+					$('#select_sick_city').html(response);
+					$('#select_sick_city').selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);
@@ -185,8 +185,8 @@ $(document).ready(function() {
 		}
 	});
 
-	/* district */
-	$('#select_province').change(function() {
+	/* work district */
+	$('#select_work_province').change(function() {
 		if ($(this).val() != '') {
 			var id = $(this).val();
 			$.ajax({
@@ -195,8 +195,8 @@ $(document).ready(function() {
 				dataType: "HTML",
 				data: {id:id},
 				success: function(response) {
-					$('#select_district').html(response);
-					$('#select_district').selectpicker("refresh");
+					$('#select_work_district').html(response);
+					$('#select_work_district').selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);
@@ -205,8 +205,8 @@ $(document).ready(function() {
 		}
 	});
 
-	/* sub district */
-	$('#select_district').change(function() {
+	/* work sub district */
+	$('#select_work_district').change(function() {
 		if ($(this).val() != '') {
 			var id = $(this).val();
 			$.ajax({
@@ -215,8 +215,8 @@ $(document).ready(function() {
 				dataType: "HTML",
 				data: {id:id},
 				success: function(response) {
-					$('#select_sub_district').html(response);
-					$('#select_sub_district').selectpicker("refresh");
+					$('#select_work_sub_district').html(response);
+					$('#select_work_sub_district').selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);
@@ -225,8 +225,8 @@ $(document).ready(function() {
 		}
 	});
 
-	/* district */
-	$('#select_patient_province').change(function() {
+	/* current district */
+	$('#select_cur_province').change(function() {
 		if ($(this).val() != '') {
 			var id = $(this).val();
 			$.ajax({
@@ -235,8 +235,8 @@ $(document).ready(function() {
 				dataType: "HTML",
 				data: {id:id},
 				success: function(response) {
-					$('#select_patient_district').html(response);
-					$('#select_patient_district').selectpicker("refresh");
+					$('#select_cur_district').html(response);
+					$('#select_cur_district').selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);
@@ -245,8 +245,8 @@ $(document).ready(function() {
 		}
 	});
 
-	/* sub district */
-	$('#select_patient_district').change(function() {
+	/* current sub district */
+	$('#select_cur_district').change(function() {
 		if ($(this).val() != '') {
 			var id = $(this).val();
 			$.ajax({
@@ -255,8 +255,8 @@ $(document).ready(function() {
 				dataType: "HTML",
 				data: {id:id},
 				success: function(response) {
-					$('#select_patient_sub_district').html(response);
-					$('#select_patient_sub_district').selectpicker("refresh");
+					$('#select_cur_sub_district').html(response);
+					$('#select_cur_sub_district').selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);
@@ -264,6 +264,94 @@ $(document).ready(function() {
 			});
 		}
 	});
+
+	/* sick district */
+	$('#select_sick_province').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('districtFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_sick_district').html(response);
+					$('#select_sick_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* sick sub district */
+	$('#select_sick_district').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_sick_sub_district').html(response);
+					$('#select_sick_sub_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* outbreak district */
+	$('#risk_stay_outbreak_province').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('districtFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#risk_stay_outbreak_district').html(response);
+					$('#risk_stay_outbreak_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* outbreak sub district */
+	$('#risk_stay_outbreak_district').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#risk_stay_outbreak_sub_district').html(response);
+					$('#risk_stay_outbreak_sub_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+
+
+
+
+
+
+
 
 	/* check box */
 	$('.flu-vaccine-chk').click(function() {

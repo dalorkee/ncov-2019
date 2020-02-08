@@ -376,7 +376,7 @@
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="country">ประเทศ</label>
-							<select name="sickCountryInput" class="form-control selectpicker show-tick" data-style="btn-success" id="select_sick_country">
+							<select name="sickCountryInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-success" id="select_sick_country">
 								@if (!empty($invest_pt[0]['sick_country']))
 									<option value="{{ $invest_pt[0]['sick_country'] }}" selected="selected">{{ $globalCountry[$invest_pt[0]['sick_country']]['country_name'] }}</option>
 								@endif
@@ -391,7 +391,7 @@
 						<div class="form-group">
 							<label for="country" class="text-success">เมือง</label>
 							<select name="sickCityInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-success" id="select_sick_city">
-								@if (!empty($invest_pt[0]['work_city']))
+								@if (!empty($invest_pt[0]['sick_city']))
 									<option value="{{ $sick_city[0]['city_id'] }}" selected="selected">{{ $sick_city[0]['city_name'] }}</option>
 								@endif
 								<option value="">-- โปรดเลือก --</option>
@@ -407,13 +407,13 @@
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="province">จังหวัด</label>
-							<select name="sickProvinceInput" class="form-control selectpicker show-tick" data-style="btn-outline-success" id="select_sick_province">
+							<select name="sickProvinceInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-success" id="select_sick_province">
 								@if (!empty($invest_pt[0]['sick_province']))
 									<option value="{{ $invest_pt[0]['sick_province'] }}" selected="selected">{{ $provinces[$invest_pt[0]['sick_province']]['province_name'] }}</option>
 								@endif
 								<option value="">-- เลือกจังหวัด --</option>
 								@foreach($provinces as $key => $val)
-									<option value="{{ $val['province_id'] }}" @if (old('sickProvinceInput') == $val['province_id']) selected @endif>{{ $val['province_name'] }}</option>
+									<option value="{{ $val['province_id'] }}" @if ($invest_pt[0]['sick_province'] == $val['province_id']) selected @endif>{{ $val['province_name'] }}</option>
 								@endforeach
 							</select>
 						</div>

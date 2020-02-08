@@ -12,13 +12,15 @@ use App\SubDistrict;
 use App\GlobalCity;
 use App\GlobalCountry;
 use DB;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class ConfirmFormController extends Controller
 {
-
-	public function index()
-	{
-		//
+	public function __construct() {
+		$this->middleware('auth');
+		$this->middleware(['role:admin']);
 	}
 
 	public function changeStatus(Request $request) {
@@ -72,8 +74,6 @@ class ConfirmFormController extends Controller
 		$data['lab_cxr2_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_cxr2_date']);
 		$data['lab_rapid_test_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_rapid_test_date']);
 		$data['lab_other_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_other_date']);
-
-
 
 		/* work district */
 		if (!empty($invest_pt[0]['work_district'])) {
@@ -155,7 +155,6 @@ class ConfirmFormController extends Controller
 	public function addConfirmCase(Request $request)
 	{
 		$pt = InvestList::find($request->id);
-
 		$pt->title_name = $request->titleName;
 		$pt->first_name = $request->firstNameInput;
 		$pt->mid_name = $request->midNameInput;
