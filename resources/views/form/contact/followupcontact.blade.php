@@ -1,7 +1,8 @@
 @extends('layouts.index')
 <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet">
 <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="../files/assets/pages/waves/css/waves.min.css" type="text/css" media="all">
+{{-- <link rel="stylesheet" href="../files/assets/pages/waves/css/waves.min.css" type="text/css" media="all"> --}}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 @section('contents')
 @section('contents')
@@ -36,20 +37,25 @@
               			{{ csrf_field() }}
 
 										 <?php
-											 $inv_id = $_GET['inv_id'];
+											 $sat_id = $_GET['sat_id'];
 											?>
 											<?php
 												$contact_id = $_GET['contact_id'];
 											 ?>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="hidden" name="inv_id" value="{{$inv_id}}" class="form-control">
+						<input type="hidden" name="sat_id" value="{{$sat_id}}" class="form-control">
 						</div>
 						<div class="col-sm-3">
 						<input type="hidden" name="contact_id" value="{{$contact_id}}" class="form-control">
 						</div>
 						<div class="col-sm-3">
 						<input type="hidden" name="contact_id_day" value="{{$contact_id_day}}" class="form-control">
+						</div>
+						<div class="form-group row">
+									<div class="col-sm-3">
+									<input type="hidden" name="user_id" value="{{$entry_user}}"  class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
+									</div>
 						</div>
 						</div>
             <div class="form-group row">
@@ -59,55 +65,133 @@
             </div>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="checkbox" name="clinical_mers"  value="" > ไม่มีอาการ
+						<input type="checkbox" name="clinical"  value="1" > ไม่มีอาการ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="fever_mers"  value="1" > ไข้
+						<input type="checkbox" name="fever"  value="1" > ไข้
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="cough_mers"  value="2" > ไอ
+						<input type="checkbox" name="cough"  value="2" > ไอ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="sore_throat_mers"  value="3" > เจ็บคอ
+						<input type="checkbox" name="sore_throat"  value="3" > เจ็บคอ
 						</div>
 						</div>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="checkbox" name="mucous_mers"  value="4" > มีน้ำมูก
+						<input type="checkbox" name="mucous"  value="4" > มีน้ำมูก
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="sputum_mers"  value="5" > มีเสมหะ
+						<input type="checkbox" name="sputum"  value="5" > มีเสมหะ
 						</div>
 
 						<div class="col-sm-3">
-						<input type="checkbox" name="suffocate_mers"  value="9" > หอบเหนื่อย
+						<input type="checkbox" name="suffocate"  value="9" > หอบเหนื่อย
 						</div>
 						</div>
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="checkbox" name="muscle_aches_mers"  value="7" > ปวดกล้ามเนื้อ
+						<input type="checkbox" name="muscle_aches"  value="7" > ปวดกล้ามเนื้อ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="headache_mers"  value="6" > ปวดศีรษะ
+						<input type="checkbox" name="headache"  value="6" > ปวดศีรษะ
 						</div>
 						<div class="col-sm-3">
-						<input type="checkbox" name="diarrhea_mers"  value="14" > ถ่ายเหลว
+						<input type="checkbox" name="diarrhea"  value="14" > ถ่ายเหลว
 						</div>
 						</div>
             <div class="form-group row">
             <div class="col-sm-4">
-            <textarea rows="3" name="other_symtom_mers" type="text" class="form-control" placeholder="อาการอื่นๆ "></textarea>
+            <textarea rows="3" name="other_symtom" type="text" class="form-control" placeholder="อาการอื่นๆ "></textarea>
             </div>
             </div>
 						<div class="form-group row">
+            <div class="col-sm-3">
+            <input type="text" name="date_no" id="date_no" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off" >
+            </div>
+            </div>
+
+						<div class="form-group row">
+						<div class="col-sm-3">
+						<select type="text" name="province_follow_contact" id="province_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+						<option value="">พื้นที่จังหวัดที่ติดตามผู้ป่วย</option>
+						@foreach ($listprovince as $row)
+						<option value="{{$row->province_id}}">{{$row->province_name}}</option>
+						@endforeach
+						</select>
+						</div>
+						</div>
+						<div class="form-group row">
+            <div class="col-sm-3">
+            <select type="text" name="division_follow_contact" id="division_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+            <option value="">หน่วยงานที่ติดตามผู้ป่วย</option>
+            <option value="99">ส่วนกลาง</option>
+            <option value="13">สปคม.</option>
+            <option value="1">สคร.1</option>
+            <option value="2">สคร.2</option>
+            <option value="3">สคร.3</option>
+            <option value="4">สคร.4</option>
+            <option value="5">สคร.5</option>
+            <option value="6">สคร.6</option>
+            <option value="7">สคร.7</option>
+            <option value="8">สคร.8</option>
+            <option value="9">สคร.9</option>
+            <option value="10">สคร.10</option>
+            <option value="11">สคร.11</option>
+            <option value="12">สคร.12</option>
+            <option value="999">อื่นๆ</option>
+            </select>
+            </div>
+            <div class="col-sm-3">
+            <input type="text" class="form-control" name="division_follow_contact_other"   placeholder="หน่วยงานอื่นๆ" autocomplete="off" >
+            </div>
+            </div>
+						<br>
+						<h6 class="sub-title">ผู้ป่วยมีอาการเข้าได้กับนิยามผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (PUI 2019-nCoV)</h6>
+						<div class="form-group row">
+						<div class="col-sm-3">
+							<div class="col-sm-6">
+							<input type="radio" name="sat_id_class"  value="Q" checked> ไม่ใช่
+							</div>
+							<div class="col-sm-6">
+							<input type="radio" name="sat_id_class"  value="A" > ใช่
+							</div>
+						</div>
+						</div>
+						<h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6>
+						<br>
+						<div class="form-group row">
+						<div class="col-sm-3">
+						<select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
+							<option value="">สถานะการติดตาม</option>
+								<option value="1">จบการติดตาม</option>
+								<option value="2">ยังต้องติดตาม</option>
+						</select>
+						</div>
+						<div class="col-sm-3">
+						<select type="text" name="available_contact" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
+							<option value="">การติดตามผู้สัมผัส</option>
+								<option value="1">ติดตามได้</option>
+								<option value="2">ติดตามไม่ได้</option>
+						</select>
+						</div>
+						<div class="col-sm-3">
+						<select type="text" name="follow_results" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
+							<option value="">ผลการติดตามผู้สัมผัส</option>
+								<option value="1">อาการปกติ</option>
+								<option value="2">ผิดปกติ</option>
+						</select>
+						</div>
+						</div>
+						{{-- <div class="form-group row">
 						<div class="col-sm-3">
 						<button type="button" id="close" class="btn btn-xs btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
 						</div>
 						<div class="col-sm-3">
 						<button type="button" id="open" class="btn btn-xs btn-success">มีตัวอย่างและสิ่งส่งตรวจ</button>
 						</div>
-						</div>
-            <div class="form-group row">
+						</div> --}}
+            {{-- <div class="form-group row">
             <div class="col-sm-12">
 							<div class="table-responsive">
               <table class="table" id="maintable">
@@ -159,7 +243,7 @@
                 </table>
 							</div>
             </div>
-            </div>
+            </div> --}}
             <div class="col-sm-12">
               <button type="submit" class="btn btn-success">บันทึกข้อมูล</button>
             </div>
@@ -173,6 +257,7 @@
 </div>
 @endsection
 @section('bottom-script')
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 	<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script type="text/javascript">
 				$(document).ready(function () {
@@ -229,6 +314,12 @@
 		todayHighlight: true,
 		todayBtn: true,
 		autoclose: true
+	});
+	</script>
+	<script>
+	// In your Javascript (external .js resource or <script> tag)
+	$(document).ready(function() {
+	    $('.js-select-basic-single').select2();
 	});
 	</script>
 @endsection

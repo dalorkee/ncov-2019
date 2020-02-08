@@ -35,7 +35,7 @@
         </thead>
         <tbody>
 					<?php
-						$id = $_GET['id'];
+						$sat_id = $_GET['sat_id'];
 					 ?>
 					<?php for ($x = 1; $x <= 14; $x++) { ?>
             <tr>
@@ -44,7 +44,7 @@
 								</a>
 							</td>
                 <td>
-                  <a class="btn btn-warning" href="{{ route('followupcontact')}}?contact_id_day={{ $x }}&inv_id={{ $id }}&contact_id={{ $contact_id }}">
+                  <a class="btn btn-warning" href="{{ route('followupcontact')}}?contact_id_day={{ $x }}&sat_id={{ $sat_id }}&contact_id={{ $contact_id }}">
                       กรอกข่อมูลการติดตามอาการ
                   </a>
                 </td>

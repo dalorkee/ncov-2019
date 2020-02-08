@@ -24,9 +24,9 @@
 				<div class="card-body">
 					<div class="col-md-12">
 						<?php
-						$id = $_GET['id'];
+						$sat_id = $_GET['sat_id'];
 						 ?>
-						<a class="btn btn-success" href="{{ route('addcontact')}}?id=<?php echo $id ;?>">
+						<a class="btn btn-success" href="{{ route('addcontact')}}?sat_id=<?php echo $sat_id ;?>">
 							+	เพิ่มผู้สัมผัส
 						</a>
 					</div>
@@ -52,15 +52,15 @@
                 <td>{{ $value->age_contact }}</td>
                 <td>{{ $value->national_contact }}</td>
                 <td>
-                  <a class="btn btn-danger" href="{{ route('contactfollowtable')}}?id={{ $value->id }}&contact_id={{ $value->contact_id }}">
+                  <a class="btn btn-danger" href="{{ route('contactfollowtable')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
                       ติดตามอาการ
                   </a>
-                    <a class="btn btn-info" href="{{ route('addcontact')}}">
-                      Detail
-                  </a>
-                  <a class="btn btn-warning" href="{{ route('addcontact')}}">
-                      Edit
-                  </a>
+									<a class="btn btn-info" href="{{ route('detailcontact')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
+										รายละเอียด
+								</a>
+								<a class="btn btn-warning" href="">
+										แก้ไขข้อมูล
+								</a>
                 </td>
             </tr>
 						<?php endforeach;?>
