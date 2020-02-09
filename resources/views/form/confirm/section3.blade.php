@@ -389,11 +389,11 @@
 					<label for="result">ผล</label>
 					<div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="labRapidTestResult" value="negative" @if ($invest_pt[0]['lab_rapid_test_result'] == 'negative') checked @endif class="custom-control-input lab_rapid_test_result" id="labRapidTestResultNagative">
+							<input type="checkbox" name="labRapidTestResult" value="normal" @if ($invest_pt[0]['lab_rapid_test_result'] == 'normal') checked @endif class="custom-control-input lab_rapid_test_result" id="labRapidTestResultNagative">
 							<label for="labRapidTestResultNagative" class="custom-control-label normal-label">ปกติ</label>
 						</div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="labRapidTestResult" value="y" @if ($invest_pt[0]['lab_rapid_test_result'] == 'positive') checked @endif class="custom-control-input lab_rapid_test_result" id="labRapidTestResultPositive">
+							<input type="checkbox" name="labRapidTestResult" value="unusual" @if ($invest_pt[0]['lab_rapid_test_result'] == 'unusual') checked @endif class="custom-control-input lab_rapid_test_result" id="labRapidTestResultPositive">
 							<label for="labRapidTestResultPositive" class="custom-control-label normal-label">ผิดปกติ</label>
 						</div>
 					</div>
@@ -456,7 +456,5 @@
 				</div>
 			</div>
 		</li>
-
-
 	</ul>
 </div><!-- card -->

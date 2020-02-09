@@ -334,7 +334,7 @@
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="telephone">โทรศัพท์</label>
-							<input type="text" name="telePhoneInput" value="{{ $invest_pt[0]['cur_phone'] }}" class="form-control" placeholder="โทรศัพท์บ้าน">
+							<input type="text" name="curPhoneInput" value="{{ $invest_pt[0]['cur_phone'] }}" class="form-control" placeholder="โทรศัพท์บ้าน">
 						</div>
 					</div>
 				</div>

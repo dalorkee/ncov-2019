@@ -4,11 +4,14 @@
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/toastr/build/toastr.min.css') }}">
 <style>
-input:-moz-read-only { /* For Firefox */
-	background-color: #fafafa !important;
-}
-input:read-only {
-	background-color: #fafafa !important;
+	input:-moz-read-only { /* For Firefox */
+		background-color: #fafafa !important;
+	}
+	input:read-only {
+		background-color: #fafafa !important;
+	}
+	.select-custom select option {
+		padding: 18px!important;
 }
 </style>
 @endsection
@@ -583,7 +586,12 @@ $(document).ready(function() {
 	});
 
 });
-
-
+</script>
+<script>
+/* files input */
+$(".custom-file-input").on("change", function() {
+	var fileName = $(this).val().split("\\").pop();
+	$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
 </script>
 @endsection

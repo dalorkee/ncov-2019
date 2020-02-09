@@ -172,41 +172,52 @@
 			</div>
 		</li>
 		<li class="card-body border-top">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-				<div class="form-group">
-					<label for="">2.4 การรักษา ได้รับย้าต้านไวรัส</label>
-					<div class="card">
-						<div class="custom-control custom-checkbox custom-control">
-							<input type="checkbox" name="antiVirusChk" value="n" @if ($invest_pt[0]['antivirus_chk'] == 'n') checked @endif class="custom-control-input chk_antivirus" id="antiVirusChkNo">
-							<label for="antiVirusChkNo" class="custom-control-label normal-label">ไม่ได้รับ</label>
+			<div class="form-row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					<div class="form-group">
+						<label for="">2.4 การรักษา ได้รับย้าต้านไวรัส</label>
+						<div class="card">
+							<div class="custom-control custom-checkbox custom-control">
+								<input type="checkbox" name="antiVirusChk" value="n" @if ($invest_pt[0]['antivirus_chk'] == 'n') checked @endif class="custom-control-input chk_antivirus" id="antiVirusChkNo">
+								<label for="antiVirusChkNo" class="custom-control-label normal-label">ไม่ได้รับ</label>
+							</div>
+							<div class="custom-control custom-checkbox custom-control-inline">
+								<input type="checkbox" name="antiVirusChk" value="y" @if ($invest_pt[0]['antivirus_chk'] == 'y') checked @endif class="custom-control-input chk_antivirus" id="antiVirusChkYes">
+								<label for="antiVirusChkYes" class="custom-control-label normal-label">ได้รับ</label>
+							</div>
 						</div>
-						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="antiVirusChk" value="y" @if ($invest_pt[0]['antivirus_chk'] == 'y') checked @endif class="custom-control-input chk_antivirus" id="antiVirusChkYes">
-							<label for="antiVirusChkYes" class="custom-control-label normal-label">ได้รับ</label>
-						</div>
-						<div class="card" style="margin-bottom:0;padding-bottom:0">
-							<ul class="list-style-none">
-								<li class="card-body" style="margin:0;padding:10px 0;">
-									<div class="row">
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					<div class="form-group">
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered">
+								<thead class="bg-info text-light">
+									<tr>
+										<th scope="col">ลำดับ</th>
+										<th scope="col">ชื่อยา</th>
+										<th scope="col">ขนาดที่ได้รับ</th>
+										<th scope="col">วันที่ให้ยา</th>
+										<th scope="col">วันที่หยุดให้ยา</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>
 											<div class="form-group">
-												<label for="date">ระบุชื่อยา</label>
 												<div class="input-group">
 													<input type="text" name="antivirus1Name" value="{{ $invest_pt[0]['antivirus_1_name'] }}" class="form-control">
 												</div>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-											<div class="form-group">
-												<label for="date">ขนาดที่ได้รับ</label>
-												<div class="input-group">
-													<input type="text" name="antivirus1Dose" value="{{ $invest_pt[0]['antivirus_1_dose'] }}" class="form-control">
-												</div>
+										</td>
+										<td>
+											<div class="input-group">
+												<input type="text" name="antivirus1Dose" value="{{ $invest_pt[0]['antivirus_1_dose'] }}" class="form-control">
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3" >
+										</td>
+										<td>
 											<div class="form-group">
-												<label for="date">วันที่ให้ยา</label>
 												<div class="input-group date" data-provide="datepicker" id="antivirus_1_start_date">
 													<input  type="text" name="antivirus1StartDate" value="{{ $data['antivirus_1_start_date'] }}" class="form-control" readonly>
 													<div class="input-group-append">
@@ -214,10 +225,9 @@
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+										</td>
+										<td>
 											<div class="form-group">
-												<label for="date">วันที่หยุดให้ยา</label>
 												<div class="input-group date" data-provide="datepicker" id="antivirus_1_end_date">
 													<input  type="text" name="antivirus1EndDate" value="{{ $data['antivirus_1_end_date'] }}" class="form-control" readonly>
 													<div class="input-group-append">
@@ -225,31 +235,26 @@
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</li>
-
-								<li class="card-body border-top" style="margin:0;padding:10px 0;">
-									<div class="row">
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+										</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>
 											<div class="form-group">
-												<label for="date">ระบุชื่อยา</label>
 												<div class="input-group">
 													<input type="text" name="antivirus2Name" value="{{ $invest_pt[0]['antivirus_2_name'] }}" class="form-control">
 												</div>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+										</td>
+										<td>
 											<div class="form-group">
-												<label for="date">ขนาดที่ได้รับ</label>
 												<div class="input-group">
 													<input type="text" name="antivirus2Dose" value="{{ $invest_pt[0]['antivirus_2_dose'] }}" class="form-control">
 												</div>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3" >
+										</td>
+										<td>
 											<div class="form-group">
-												<label for="date">วันที่ให้ยา</label>
 												<div class="input-group date" data-provide="datepicker" id="antivirus_2_start_date">
 													<input  type="text" name="antivirus2StartDate" value="{{ $data['antivirus_2_start_date'] }}" class="form-control" readonly>
 													<div class="input-group-append">
@@ -257,10 +262,9 @@
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+										</td>
+										<td>
 											<div class="form-group">
-												<label for="date">วันที่หยุดให้ยา</label>
 												<div class="input-group date" data-provide="datepicker" id="antivirus_2_end_date">
 													<input  type="text" name="antivirus2EndDate" value="{{ $data['antivirus_2_end_date'] }}" class="form-control" readonly>
 													<div class="input-group-append">
@@ -268,31 +272,26 @@
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</li>
-
-								<li class="card-body border-top" style="margin:0;padding:10px 0;">
-									<div class="row">
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+										</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>
 											<div class="form-group">
-												<label for="date">ระบุชื่อยา</label>
 												<div class="input-group">
 													<input type="text" name="antivirus3Name" value="{{ $invest_pt[0]['antivirus_3_name'] }}" class="form-control">
 												</div>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+										</td>
+										<td>
 											<div class="form-group">
-												<label for="date">ขนาดที่ได้รับ</label>
 												<div class="input-group">
 													<input type="text" name="antivirus3Dose" value="{{ $invest_pt[0]['antivirus_3_dose'] }}" class="form-control">
 												</div>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3" >
+										</td>
+										<td>
 											<div class="form-group">
-												<label for="date">วันที่ให้ยา</label>
 												<div class="input-group date" data-provide="datepicker" id="antivirus_3_start_date">
 													<input  type="text" name="antivirus3StartDate" value="{{ $data['antivirus_3_start_date'] }}" class="form-control" readonly>
 													<div class="input-group-append">
@@ -300,10 +299,9 @@
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+										</td>
+										<td>
 											<div class="form-group">
-												<label for="date">วันที่หยุดให้ยา</label>
 												<div class="input-group date" data-provide="datepicker" id="antivirus_3_end_date">
 													<input  type="text" name="antivirus3EndDate" value="{{ $data['antivirus_3_end_date'] }}" class="form-control" readonly>
 													<div class="input-group-append">
@@ -311,31 +309,26 @@
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</li>
-
-								<li class="card-body border-top" style="margin:0;padding:10px 0;">
-									<div class="row">
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+										</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>
 											<div class="form-group">
-												<label for="date">ระบุชื่อยา</label>
 												<div class="input-group">
 													<input type="text" name="antivirus4Name" value="{{ $invest_pt[0]['antivirus_4_name'] }}" class="form-control">
 												</div>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+										</td>
+										<td>
 											<div class="form-group">
-												<label for="date">ขนาดที่ได้รับ</label>
 												<div class="input-group">
 													<input type="text" name="antivirus4Dose" value="{{ $invest_pt[0]['antivirus_4_dose'] }}" class="form-control">
 												</div>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3" >
+										</td>
+										<td>
 											<div class="form-group">
-												<label for="date">วันที่ให้ยา</label>
 												<div class="input-group date" data-provide="datepicker" id="antivirus_4_start_date">
 													<input  type="text" name="antivirus4StartDate" value="{{ $data['antivirus_4_start_date'] }}" class="form-control" readonly>
 													<div class="input-group-append">
@@ -343,10 +336,9 @@
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+										</td>
+										<td>
 											<div class="form-group">
-												<label for="date">วันที่หยุดให้ยา</label>
 												<div class="input-group date" data-provide="datepicker" id="antivirus_4_end_date">
 													<input  type="text" name="antivirus4EndDate" value="{{ $data['antivirus_4_end_date'] }}" class="form-control" readonly>
 													<div class="input-group-append">
@@ -354,156 +346,151 @@
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</li>
-
-
-							</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
 			</div>
 		</li>
 		<li class="card-body border-top">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-				<div class="form-group">
-					<label for="risk">2.5 ในช่วง 14 วันก่อนป่วย ท่านอาศัยอยู่ หรือ มีการเดินทางมาจากพื้นที่ที่มีการระบาด</label>
-					<div class="card">
-						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="riskStayOutbreakChk" value="y" @if ($invest_pt[0]['risk_stay_outbreak_chk'] == 'y') checked @endif class="custom-control-input chk_risk_stay_outbreak" id="riskStayOutbreakChkYes">
-							<label for="riskStayOutbreakChkYes" class="custom-control-label normal-label">มี ระบุรายละเอียดดังต่อไปนี้</label>
+			<div class="form-row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					<div class="form-group">
+						<label for="risk">2.5 ในช่วง 14 วันก่อนป่วย ท่านอาศัยอยู่ หรือ มีการเดินทางมาจากพื้นที่ที่มีการระบาด</label>
+						<div class="card">
+							<div class="custom-control custom-checkbox custom-control-inline">
+								<input type="checkbox" name="riskStayOutbreakChk" value="y" @if ($invest_pt[0]['risk_stay_outbreak_chk'] == 'y') checked @endif class="custom-control-input chk_risk_stay_outbreak" id="riskStayOutbreakChkYes">
+								<label for="riskStayOutbreakChkYes" class="custom-control-label normal-label">มี ระบุรายละเอียดดังต่อไปนี้</label>
+							</div>
 						</div>
 					</div>
-					<div class="card" style="margin-bottom:0;padding-bottom:0">
-						<div class="form-row">
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-								<div class="form-group">
-									<label for="outbreakCountry" class="tex-danger">ประเทศ</label>
-									<select name="riskStayOutbreakCountryInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_country">
-										@if (!empty($invest_pt[0]['risk_stay_outbreak_country']))
-											<option value="{{ $invest_pt[0]['risk_stay_outbreak_country'] }}" selected="selected">{{ $globalCountry[$invest_pt[0]['risk_stay_outbreak_country']]['country_name'] }}</option>
-										@endif
-										<option value="">-- เลือกประเทศ --</option>
-										@foreach ($globalCountry as $key => $value)
-											<option value="{{ $value['country_id'] }}">{{ $value['country_name'] }}</option>
-										@endforeach
-									</select>
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-								<div class="form-group">
-									<label for="country" class="text-success">เมือง</label>
-									<select name="riskStayOutbreakCityInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-success" id="select_risk_stay_outbreak_city">
-										@if (!empty($invest_pt[0]['risk_stay_outbreak_city']))
-											<option value="{{ $sick_city[0]['risk_stay_outbreak_city'] }}" selected="selected">{{ $sick_city[0]['risk_stay_outbreak_city'] }}</option>
-										@endif
-										<option value="">-- โปรดเลือก --</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-								<div class="form-group">
-									<label for="city_other" class="text-danger">เมืองอื่นๆ ระบุ</label>
-									<input type="text" name="riskStayOutbreakCityOtherInput" value="{{ $invest_pt[0]['risk_stay_outbreak_city_other'] }}" class="form-control border-danger text-danger" placeholder="เมืองอื่นๆ">
-								</div>
-							</div>
-
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-								<div class="form-group">
-									<label for="province">จังหวัด</label>
-									<select name="riskStayOutbreakProvinceInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_province">
-										@if (!empty($invest_pt[0]['risk_stay_outbreak_province']))
-											<option value="{{ $invest_pt[0]['risk_stay_outbreak_province'] }}" selected="selected">{{ $provinces[$invest_pt[0]['risk_stay_outbreak_province']]['province_name'] }}</option>
-										@endif
-										<option value="">-- เลือกจังหวัด --</option>
-										@php
-											foreach($provinces as $key=>$val) {
-												$htm = "<option value=\"".$val['province_id']."\"";
-													if (old('provinceInput') == $val['province_id']) {
-														$htm .= " selected=\"selected\"";
-													}
-													$htm .= ">".$val['province_name']."</option>\n";
-												echo $htm;
-											}
-										@endphp
-									</select>
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-								<div class="form-group">
-									<label for="district">อำเภอx</label>
-									<select name="riskStayOutbreakDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_district">
-										@if (!empty($invest_pt[0]['risk_stay_outbreak_district']))
-											<option value="{{ $risk_district[0]['district_id'] }}" selected="selected">{{ $risk_district[0]['district_name'] }}</option>
-										@endif
-										<option value="">-- โปรดเลือก --</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-								<div class="form-group">
-									<label for="subDistrict">ตำบล</label>
-									<select name="riskStayOutbreakSubDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" id="risk_stay_outbreak_sub_district">
-										@if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district']))
-											<option value="{{ $risk_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $risk_sub_district[0]['sub_district_name'] }}</option>
-										@endif
-										<option value="">-- โปรดเลือก --</option>
-									</select>
-								</div>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+					<div class="form-group">
+						<label for="country" class="text-info">ประเทศ</label>
+						<select name="riskStayOutbreakCountryInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-info" id="risk_stay_outbreak_country">
+							@if (!empty($invest_pt[0]['risk_stay_outbreak_country']))
+								<option value="{{ $invest_pt[0]['risk_stay_outbreak_country'] }}" selected="selected">{{ $globalCountry[$invest_pt[0]['risk_stay_outbreak_country']]['country_name'] }}</option>
+							@endif
+							<option value="">-- เลือกประเทศ --</option>
+							@foreach ($globalCountry as $key => $value)
+								<option value="{{ $value['country_id'] }}">{{ $value['country_name'] }}</option>
+							@endforeach
+						</select>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+					<div class="form-group">
+						<label for="country" class="text-info">เมือง</label>
+						<select name="riskStayOutbreakCityInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="select_risk_stay_outbreak_city">
+							@if (!empty($invest_pt[0]['risk_stay_outbreak_city']))
+								<option value="{{ $risk_stay_outbreak_city[0]['city_id'] }}" selected="selected">{{ $risk_stay_outbreak_city[0]['city_name'] }}</option>
+							@endif
+							<option value="">-- โปรดเลือก --</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+					<div class="form-group">
+						<label for="city_other" class="text-info">เมืองอื่นๆ ระบุ</label>
+						<input type="text" name="riskStayOutbreakCityOtherInput" value="{{ $invest_pt[0]['risk_stay_outbreak_city_other'] }}" class="form-control border-info text-info" placeholder="เมืองอื่นๆ">
+					</div>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+					<div class="form-group">
+						<label for="province" class="text-info">จังหวัด</label>
+						<select name="riskStayOutbreakProvinceInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="risk_stay_outbreak_province">
+							@if (!empty($invest_pt[0]['risk_stay_outbreak_province']))
+								<option value="{{ $invest_pt[0]['risk_stay_outbreak_province'] }}" selected="selected">{{ $provinces[$invest_pt[0]['risk_stay_outbreak_province']]['province_name'] }}</option>
+							@endif
+							<option value="">-- เลือกจังหวัด --</option>
+							@foreach($provinces as $key=>$val)
+								<option value="{{ $val['province_id'] }}" @if (old('riskStayOutbreakProvinceInput') == $val['province_id']) selected @endif>{{ $val['province_name'] }}</option>
+							@endforeach
+							@php
+							/*
+								foreach($provinces as $key=>$val) {
+									$htm = "<option value=\"".$val['province_id']."\"";
+										if (old('provinceInput') == $val['province_id']) {
+											$htm .= " selected=\"selected\"";
+										}
+										$htm .= ">".$val['province_name']."</option>\n";
+									echo $htm;
+								}
+								*/
+							@endphp
+						</select>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+					<div class="form-group">
+						<label for="district" class="text-info">อำเภอ</label>
+						<select name="riskStayOutbreakDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="risk_stay_outbreak_district">
+							@if (!empty($invest_pt[0]['risk_stay_outbreak_district']))
+								<option value="{{ $risk_district[0]['district_id'] }}" selected="selected">{{ $risk_district[0]['district_name'] }}</option>
+							@endif
+							<option value="">-- โปรดเลือก --</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+					<div class="form-group">
+						<label for="subDistrict" class="text-info">ตำบล</label>
+						<select name="riskStayOutbreakSubDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="risk_stay_outbreak_sub_district">
+							@if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district']))
+								<option value="{{ $risk_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $risk_sub_district[0]['sub_district_name'] }}</option>
+							@endif
+							<option value="">-- โปรดเลือก --</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+					<div class="form-group">
+						<label for="date">วันที่เดินทางไปถึง</label>
+						<div class="input-group date" data-provide="datepicker" id="riskStayOutbreakArriveDate">
+							<input  type="text" name="riskStayOutbreakArriveDate" value="{{ $data['risk_stay_outbreak_arrive_date'] }}" class="form-control" readonly>
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
 							</div>
 						</div>
-								<div class="form-row">
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
-										<div class="form-group">
-											<label for="city">ชื่อเมือง (กรณีอยู่ต่างประเทศ)</label>
-											<input type="text" name="riskStayOutbreakCityInput" value="{{ $invest_pt[0]['risk_stay_outbreak_city'] }}" class="form-control" placeholder="ชื่อเมือง">
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
-										<div class="form-group">
-											<label for="date">วันที่เดินทางไปถึง</label>
-											<div class="input-group date" data-provide="datepicker" id="riskStayOutbreakArriveDate">
-												<input  type="text" name="riskStayOutbreakArriveDate" value="{{ $data['risk_stay_outbreak_arrive_date'] }}" class="form-control" readonly>
-												<div class="input-group-append">
-													<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
-										<div class="form-group">
-											<label for="date">วันที่เดินทางมาถึงไทย</label>
-											<div class="input-group date" data-provide="datepicker" id="riskStayOutbreakArriveThaiDate">
-												<input  type="text" name="riskStayOutbreakArriveThaiDate" value="{{ $data['risk_stay_outbreak_arrive_thai_date'] }}" class="form-control" readonly>
-												<div class="input-group-append">
-													<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-										<div class="form-group">
-											<label for="contact">สายการบิน</label>
-											<input type="text" name="riskStayOutbreakAirline" value="{{ $invest_pt[0]['risk_stay_outbreak_airline'] }}" class="form-control" placeholder="สายการบิน">
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-										<div class="form-group">
-											<label for="contact">เที่ยวบินที่</label>
-											<input type="text" name="riskStayOutbreakFlightNoInput" value="{{ $invest_pt[0]['risk_stay_outbreak_flight_no'] }}" class="form-control" placeholder="เที่ยวบินที่">
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-										<div class="form-group">
-											<label for="contact">เลขที่นั่ง</label>
-											<input type="text" name="riskStayOutbreakSeatNoInput" value="{{ $invest_pt[0]['risk_stay_outbreak_seat_no'] }}" class="form-control" placeholder="เลขที่นั่ง">
-										</div>
-									</div>
-								</div>
-
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+					<div class="form-group">
+						<label for="date">วันที่เดินทางมาถึงไทย</label>
+						<div class="input-group date" data-provide="datepicker" id="riskStayOutbreakArriveThaiDate">
+							<input  type="text" name="riskStayOutbreakArriveThaiDate" value="{{ $data['risk_stay_outbreak_arrive_thai_date'] }}" class="form-control" readonly>
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+					<div class="form-group">
+						<label for="contact">สายการบิน</label>
+						<input type="text" name="riskStayOutbreakAirline" value="{{ $invest_pt[0]['risk_stay_outbreak_airline'] }}" class="form-control" placeholder="สายการบิน">
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+					<div class="form-group">
+						<label for="contact">เที่ยวบินที่</label>
+						<input type="text" name="riskStayOutbreakFlightNoInput" value="{{ $invest_pt[0]['risk_stay_outbreak_flight_no'] }}" class="form-control" placeholder="เที่ยวบินที่">
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+					<div class="form-group">
+						<label for="contact">เลขที่นั่ง</label>
+						<input type="text" name="riskStayOutbreakSeatNoInput" value="{{ $invest_pt[0]['risk_stay_outbreak_seat_no'] }}" class="form-control" placeholder="เลขที่นั่ง">
 					</div>
 				</div>
 			</div>
@@ -696,7 +683,7 @@
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 					<div class="form-group">
 						<label for="contact">ชื่อโรงพยาบาล</label>
-						<input type="text" name="riskTreatOrVisitPatientHospitalName" value="{{ $invest_pt[0]['risk_treat_or_visit_patient_hospital_name'] }}" class="form-control" placeholder="ชนิดสัตว์">
+						<input type="text" name="riskTreatOrVisitPatientHospitalName" value="{{ $invest_pt[0]['risk_treat_or_visit_patient_hospital_name'] }}" class="form-control" placeholder="ชื่อโรงพยาบาล">
 					</div>
 				</div>
 			</div>
