@@ -7,7 +7,7 @@
 	<div class="auth-box bg-dark border-top border-secondary">
 		<div id="loginform">
 			<div class="text-center p-t-20 p-b-20">
-				<span class="db" style="font-size: 2em;color:white;">Novel Coronavirus 2019</span>
+				<span class="db" style="font-size: 1.5em;color:white;">2019-nCoV Acute Respiratory Disease</span>
 			</div>
 			<!-- Form -->
 			<form method="POST" action="{{ route('login') }}" class="form-horizontal m-t-20" id="loginform">

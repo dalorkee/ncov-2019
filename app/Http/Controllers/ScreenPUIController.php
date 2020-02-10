@@ -102,8 +102,8 @@ class ScreenPUIController extends MasterController
       //dd($sat_id);
 
         $data = [
-          "notify_date" => (!empty($request->notify_date)) ? $this->Convert_Date($request->notify_date) : date('Y-m-d'),
-          "notify_time" => (!empty($request->notify_time)) ? $request->notify_time.":00" : NULL,
+          "notify_date" => (!empty($request->notify_date)) ? trim($this->Convert_Date($request->notify_date)) : date('Y-m-d'),
+          "notify_time" => (!empty($request->notify_time)) ? trim($request->notify_time.":00") : NULL,
           "screen_pt" => (!empty($request->screen_pt)) ? trim($request->screen_pt) : "1",
           "title_name" => (!empty($request->title_name)) ? trim($request->title_name) : NULL,
           "first_name" => (!empty($request->first_name)) ? trim($request->first_name) : NULL,
@@ -140,11 +140,11 @@ class ScreenPUIController extends MasterController
           "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : "",
           "risk2_6history_hospital_input" => (!empty($request->risk2_6history_hospital_input)) ? trim($request->risk2_6history_hospital_input) : NULL,
           "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
-          "risk_stay_outbreak_arrive_date" => (!empty($request->risk2_6arrive_date)) ? $this->Convert_Date($request->risk2_6arrive_date) : NULL,
+          "risk_stay_outbreak_arrive_date" => (!empty($request->risk2_6arrive_date)) ? trim($this->Convert_Date($request->risk2_6arrive_date)) : NULL,
           "risk_stay_outbreak_airline" => (!empty($request->risk2_6airline_input)) ? trim($request->risk2_6airline_input) : NULL,
           "risk_stay_outbreak_flight_no" => (!empty($request->risk2_6flight_no_input)) ? trim($request->risk2_6flight_no_input) : NULL,
           "total_travel_in_group" => (!empty($request->total_travel_in_group)) ? trim($request->total_travel_in_group) : NULL,
-          "data3_1date_sickdate" => (!empty($request->data3_1date_sickdate)) ? $this->Convert_Date($request->data3_1date_sickdate) : NULL,
+          "data3_1date_sickdate" => (!empty($request->data3_1date_sickdate)) ? trim($this->Convert_Date($request->data3_1date_sickdate)) : NULL,
           "fever_current" => (!empty($request->fever)) ? trim($request->fever) : NULL,
           "sym_cough" => (!empty($request->sym_cough)) ? trim($request->sym_cough) : "n",
           "sym_snot" => (!empty($request->sym_snot)) ? trim($request->sym_snot) : "n",
@@ -166,7 +166,7 @@ class ScreenPUIController extends MasterController
           "refer_bidi" => (!empty($request->refer_bidi)) ? trim($request->refer_bidi) : NULL,
           "refer_lab" => (!empty($request->refer_lab)) ? trim($request->refer_lab) : NULL,
           "lab_send_detail" => (!empty($request->lab_send_detail)) ? trim($request->lab_send_detail) : NULL,
-          "lab_send_date" => (!empty($request->lab_send_date)) ? $this->Convert_Date($request->lab_send_date) : NULL,
+          "lab_send_date" => (!empty($request->lab_send_date)) ? trim($this->Convert_Date($request->lab_send_date)) : NULL,
           "not_send_bidi" => (!empty($request->not_send_bidi)) ? trim($request->not_send_bidi) : NULL,
           "op_opt" => (!empty($request->op_opt)) ? trim($request->op_opt) : NULL,
           "op_dpc" => (!empty($request->op_dpc)) ? trim($request->op_dpc) : NULL,
@@ -219,14 +219,20 @@ class ScreenPUIController extends MasterController
         $provinces = Provinces::all()->toArray();
         $nationality = Nationality::all()->toArray();
         $occupation = Occupation::all()->toArray();
-        $globalcountry = GlobalCountry::all();
+        $arr_globalcountry = GlobalCountry::select('country_id','country_name')->get()->toArray();
+        foreach($arr_globalcountry as $val){
+            $globalcountry[$val['country_id']] = $val['country_name'];
+        }
+
         $arr = parent::getStatus();
         $data = InvestList::find($id);
+
         $work_city = GlobalCity::where('city_id', '=', $data->travel_from_city)->get()->toArray();
+
         if($data==null){
           return abort(404);  //404 page
         }else{
-          return view('screen-pui.edit',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city'));
+          return view('screen-pui.edit100263',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city'));
         }
     }
 
@@ -242,22 +248,26 @@ class ScreenPUIController extends MasterController
         //
       //dd($request);
 
+      //dd($request->travel_from_country);
+
       $update = InvestList::where('id', $request->id)
               ->update([
                 "notify_date" => (!empty($request->notify_date)) ? $this->Convert_Date($request->notify_date) : date('Y-m-d'),
                 "notify_time" => (!empty($request->notify_time)) ? $request->notify_time : NULL,
                 "screen_pt" => (!empty($request->screen_pt)) ? trim($request->screen_pt) : "1",
-                "title_name" => (!empty($request->title_name)) ? trim($request->title_name) : "",
-                "first_name" => (!empty($request->first_name)) ? trim($request->first_name) : "",
-                "mid_name" => (!empty($request->mid_name)) ? trim($request->mid_name) : "",
-                "last_name" => (!empty($request->last_name)) ? trim($request->last_name) : "",
-                "sex" => (!empty($request->sex)) ? trim($request->sex) : "",
-                "age" => (!empty($request->age)) ? trim($request->age) : "",
-                "nation" => (!empty($request->nation)) ? trim($request->nation) : "",
-                "race" => (!empty($request->race)) ? trim($request->race) : "",
-                "occupation" => (!empty($request->occupation)) ? trim($request->occupation) : "",
-                "occupation_oth" => (!empty($request->occupation_oth)) ? trim($request->occupation_oth) : "",
-                "travel_from" => (!empty($request->travel_from)) ? trim($request->travel_from) : NULL,
+                "title_name" => (!empty($request->title_name)) ? trim($request->title_name) : NULL,
+                "first_name" => (!empty($request->first_name)) ? trim($request->first_name) : NULL,
+                "mid_name" => (!empty($request->mid_name)) ? trim($request->mid_name) : NULL,
+                "last_name" => (!empty($request->last_name)) ? trim($request->last_name) : NULL,
+                "sex" => (!empty($request->sex)) ? trim($request->sex) : NULL,
+                "age" => (!empty($request->age)) ? trim($request->age) : NULL,
+                "nation" => (!empty($request->nation)) ? trim($request->nation) : NULL,
+                "race" => (!empty($request->race)) ? trim($request->race) : NULL,
+                "occupation" => (!empty($request->occupation)) ? trim($request->occupation) : NULL,
+                "occupation_oth" => (!empty($request->occupation_oth)) ? trim($request->occupation_oth) : NULL,
+                //"travel_from" => (!empty($request->travel_from)) ? trim($request->travel_from) : NULL,
+                "travel_from_country" => (!empty($request->travel_from_country)) ? trim($request->travel_from_country) : NULL,
+                "travel_from_city" => (!empty($request->travel_from_city)) ? trim($request->travel_from_city) : NULL,
                 "data3_3chk" => (!empty($request->data3_3chk)) ? trim($request->data3_3chk) : "n",
                 "data3_3chk_lung" => (!empty($request->data3_3chk_lung)) ? trim($request->data3_3chk_lung) : "n",
                 "data3_3chk_heart" => (!empty($request->data3_3chk_heart)) ? trim($request->data3_3chk_heart) : "n",
@@ -271,20 +281,20 @@ class ScreenPUIController extends MasterController
                 "data3_3chk_pregnant" => (!empty($request->data3_3chk_pregnant)) ? trim($request->data3_3chk_pregnant) : "n",
                 "data3_3chk_fat" => (!empty($request->data3_3chk_fat)) ? trim($request->data3_3chk_fat) : "n",
                 "data3_3chk_cancer" => (!empty($request->data3_3chk_cancer)) ? trim($request->data3_3chk_cancer) : "n",
-                "data3_3chk_cancer_name" => (!empty($request->data3_3chk_cancer_name)) ? trim($request->data3_3chk_cancer_name) : "",
+                "data3_3chk_cancer_name" => (!empty($request->data3_3chk_cancer_name)) ? trim($request->data3_3chk_cancer_name) : NULL,
                 "data3_3chk_other" => (!empty($request->data3_3chk_other)) ? trim($request->data3_3chk_other) : "n",
-                "data3_3input_other" => (!empty($request->data3_3input_other)) ? trim($request->data3_3input_other) : "",
-                "walkinplace_hosp" => (!empty($request->walkinplace_hosp)) ? trim($request->walkinplace_hosp) : "",
-                "negative_pressure" => (!empty($request->negative_pressure)) ? trim($request->negative_pressure) : "",
-                "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : "",
-                "risk2_6history_hospital_input" => (!empty($request->risk2_6history_hospital_input)) ? trim($request->risk2_6history_hospital_input) : "",
-                "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : "",
+                "data3_3input_other" => (!empty($request->data3_3input_other)) ? trim($request->data3_3input_other) : NULL,
+                "walkinplace_hosp" => (!empty($request->walkinplace_hosp)) ? trim($request->walkinplace_hosp) : NULL,
+                "negative_pressure" => (!empty($request->negative_pressure)) ? trim($request->negative_pressure) : NULL,
+                "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : NULL,
+                "risk2_6history_hospital_input" => (!empty($request->risk2_6history_hospital_input)) ? trim($request->risk2_6history_hospital_input) : NULL,
+                "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
                 "risk_stay_outbreak_arrive_date" => (!empty($request->risk2_6arrive_date)) ? $this->Convert_Date($request->risk2_6arrive_date) : NULL,
-                "risk_stay_outbreak_airline" => (!empty($request->risk2_6airline_input)) ? trim($request->risk2_6airline_input) : "",
-                "risk_stay_outbreak_flight_no" => (!empty($request->risk2_6flight_no_input)) ? trim($request->risk2_6flight_no_input) : "",
-                "total_travel_in_group" => (!empty($request->total_travel_in_group)) ? trim($request->total_travel_in_group) : "",
+                "risk_stay_outbreak_airline" => (!empty($request->risk2_6airline_input)) ? trim($request->risk2_6airline_input) : NULL,
+                "risk_stay_outbreak_flight_no" => (!empty($request->risk2_6flight_no_input)) ? trim($request->risk2_6flight_no_input) : NULL,
+                "total_travel_in_group" => (!empty($request->total_travel_in_group)) ? trim($request->total_travel_in_group) : NULL,
                 "data3_1date_sickdate" => (!empty($request->data3_1date_sickdate)) ? $this->Convert_Date($request->data3_1date_sickdate) : NULL,
-                "fever_current" => (!empty($request->fever)) ? trim($request->fever) : "",
+                "fever_current" => (!empty($request->fever)) ? trim($request->fever) : NULL,
                 "sym_cough" => (!empty($request->sym_cough)) ? trim($request->sym_cough) : "n",
                 "sym_snot" => (!empty($request->sym_snot)) ? trim($request->sym_snot) : "n",
                 "sym_sore" => (!empty($request->sym_sore)) ? trim($request->sym_sore) : "n",
@@ -292,28 +302,28 @@ class ScreenPUIController extends MasterController
                 "sym_breathe" => (!empty($request->sym_breathe)) ? trim($request->sym_breathe) : "n",
                 "sym_stufefy" => (!empty($request->sym_stufefy)) ? trim($request->sym_stufefy) : "n",
                 "rr_rpm" => (!empty($request->rr_rpm)) ? trim($request->rr_rpm) : "",
-                "xray_result" => (!empty($request->xray_result)) ? trim($request->xray_result) : "",
-                "lab_rapid_test_result" => (!empty($request->rapid_test_result)) ? trim($request->rapid_test_result) : "",
-                "lab_test_result_other" => (!empty($request->lab_test_result_other)) ? trim($request->lab_test_result_other) : "",
-                "first_diag" => (!empty($request->first_diag)) ? trim($request->first_diag) : "",
+                "xray_result" => (!empty($request->xray_result)) ? trim($request->xray_result) : NULL,
+                "lab_rapid_test_result" => (!empty($request->rapid_test_result)) ? trim($request->rapid_test_result) : NULL,
+                "lab_test_result_other" => (!empty($request->lab_test_result_other)) ? trim($request->lab_test_result_other) : NULL,
+                "first_diag" => (!empty($request->first_diag)) ? trim($request->first_diag) : NULL,
                 "sat_id" => (!empty($request->sat_id)) ? trim($request->sat_id) : NULL,
                 "letter_division_code" => (!empty($request->letter_division_code)) ? trim($request->letter_division_code) : NULL,
                 "letter_code" => (!empty($request->letter_code)) ? trim($request->letter_code) : NULL,
-                "refer_bidi" => (!empty($request->refer_bidi)) ? trim($request->refer_bidi) : "",
-                "refer_lab" => (!empty($request->refer_lab)) ? trim($request->refer_lab) : "",
+                "refer_bidi" => (!empty($request->refer_bidi)) ? trim($request->refer_bidi) : NULL,
+                "refer_lab" => (!empty($request->refer_lab)) ? trim($request->refer_lab) : NULL,
                 "lab_send_detail" => (!empty($request->lab_send_detail)) ? trim($request->lab_send_detail) : NULL,
                 "lab_send_date" => (!empty($request->lab_send_date)) ? $this->Convert_Date($request->lab_send_date) : NULL,
-                "not_send_bidi" => (!empty($request->not_send_bidi)) ? trim($request->not_send_bidi) : "",
-                "op_opt" => (!empty($request->op_opt)) ? trim($request->op_opt) : "",
-                "op_dpc" => (!empty($request->op_dpc)) ? trim($request->op_dpc) : "",
+                "not_send_bidi" => (!empty($request->not_send_bidi)) ? trim($request->not_send_bidi) : NULL,
+                "op_opt" => (!empty($request->op_opt)) ? trim($request->op_opt) : NULL,
+                "op_dpc" => (!empty($request->op_dpc)) ? trim($request->op_dpc) : NULL,
                 "pt_status" => (!empty($request->pt_status)) ? trim($request->pt_status) : "1",
                 "pui_type" => (!empty($request->pui_type)) ? trim($request->pui_type) : NULL,
                 "news_st" => (!empty($request->news_st)) ? trim($request->news_st) : NULL,
                 "disch_st" => (!empty($request->disch_st)) ? trim($request->disch_st) : NULL,
-                "coordinator_tel" => (!empty($request->coordinator_tel)) ? trim($request->coordinator_tel) : "",
-                "send_information" => (!empty($request->send_information)) ? trim($request->send_information) : "",
-                "send_information_div" => (!empty($request->send_information_div)) ? trim($request->send_information_div) : "",
-                "receive_information" => (!empty($request->receive_information)) ? trim($request->receive_information) : "",
+                "coordinator_tel" => (!empty($request->coordinator_tel)) ? trim($request->coordinator_tel) : NULL,
+                "send_information" => (!empty($request->send_information)) ? trim($request->send_information) : NULL,
+                "send_information_div" => (!empty($request->send_information_div)) ? trim($request->send_information_div) : NULL,
+                "receive_information" => (!empty($request->receive_information)) ? trim($request->receive_information) : NULL,
                 "entry_user" => (!empty($request->entry_user)) ? trim($request->entry_user) : NULL,
                       ]);
 
