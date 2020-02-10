@@ -100,6 +100,15 @@ class ScreenPUIController extends MasterController
       }
 
       //dd($sat_id);
+      $check_duplicate_record = InvestList::where('sat_id', '=', $request->sat_id)->exists();
+      if($check_duplicate_record){
+        //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
+        return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$sat_id);
+      }
+
+
+      $dd('dddd');
+
 
         $data = [
           "notify_date" => (!empty($request->notify_date)) ? trim($this->Convert_Date($request->notify_date)) : date('Y-m-d'),
