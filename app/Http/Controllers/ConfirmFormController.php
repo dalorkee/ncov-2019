@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\File;
+use Storage;
 use App\TitleName;
 use App\Provinces;
 use App\InvestList;
@@ -12,9 +18,7 @@ use App\SubDistrict;
 use App\GlobalCity;
 use App\GlobalCountry;
 use DB;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+
 
 class ConfirmFormController extends Controller
 {
@@ -302,11 +306,33 @@ class ConfirmFormController extends Controller
 		$pt->lab_cxr1_date = $this->convertDateToMySQL($request->labCxr1Date);
 		$pt->lab_cxr1_result = $request->labCxr1Result;
 		$pt->lab_cxr1_detail = $request->labCxr1Detail;
-		$pt->lab_cxr1_file = $request->labCxr1File;
+
+		/* lab :: file 1 */
+		if (Input::hasFile('labCxr1File')) {
+			$lab_file1_new_name = 'cxr1_file_cid'.$request->id;
+			$lab_file1_extension = Input::file('labCxr1File')->getClientOriginalExtension();
+			$fileName1 = $lab_file1_new_name.'.'.$lab_file1_extension;
+			$pt->lab_cxr1_file = $fileName1;
+			Storage::disk('invest')->put($fileName1, File::get(Input::file('labCxr1File')));
+		} else {
+			$pt->lab_cxr1_file = NULL;
+		}
+
 		$pt->lab_cxr2_date = $this->convertDateToMySQL($request->labCxr2Date);
 		$pt->lab_cxr2_result = $request->labCxr2Result;
 		$pt->lab_cxr2_detail = $request->labCxr2Detail;
-		$pt->lab_cxr2_file = $request->labCxr2File;
+
+		/* lab :: file 2 */
+		if (Input::hasFile('labCxr2File')) {
+			$lab_file2_new_name = 'cxr2_file_cid'.$request->id;
+			$lab_file2_extension = Input::file('labCxr2File')->getClientOriginalExtension();
+			$fileName2 = $lab_file2_new_name.'.'.$lab_file2_extension;
+			$pt->lab_cxr2_file = $fileName2;
+			Storage::disk('invest')->put($fileName2, File::get(Input::file('labCxr2File')));
+		} else {
+			$pt->lab_cxr2_file = NULL;
+		}
+
 		$pt->lab_rapid_test_name = $request->labRapidTestName;
 		$pt->lab_rapid_test_date = $this->convertDateToMySQL($request->labRapidTestDate);
 		$pt->lab_rapid_test_result = $request->labRapidTestResult;

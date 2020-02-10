@@ -54,8 +54,9 @@
 							<h5 class="card-subtitle">2019-nCoV</h5>
 						</div>
 					</div>
-					<form action="{{ route('confirmCase') }}" method="POST" class="form-horizontal">
+					<form action="{{ route('confirmCase') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 						{{ csrf_field() }}
+						{{ method_field('POST') }}
 						<h3 class="text-primary">ส่วนที่ 1</h3>
 						<div class="bd-callout bd-callout-info" style="margin-top:0;">
 							@include('form.confirm.section1')
@@ -593,5 +594,6 @@ $(".custom-file-input").on("change", function() {
 	var fileName = $(this).val().split("\\").pop();
 	$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
+
 </script>
 @endsection

@@ -55,9 +55,9 @@ return [
             'visibility' => 'public',
         ],
 
-		'qrcode' => [
+		'invest' => [
 			'driver' => 'local',
-			'root' => public_path(). '/qrcode',
+			'root' => public_path(). '/files/invest',
 		],
 
         's3' => [
