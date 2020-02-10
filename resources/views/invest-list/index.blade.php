@@ -113,7 +113,7 @@ input.valid, textarea.valid{
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
 					<div class="card">
 						<div class="card-body">
 							<div id="patient_data">
@@ -136,18 +136,19 @@ input.valid, textarea.valid{
 											@foreach ($invest as $key => $value)
 												<tr>
 													<td>{{ $value['id'] }}</td>
-													<td>{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</td>
+													<td><span class="text-bold">{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</span></td>
 													<td><span class="text-danger">{{ $value['pt_status'] != "" ? $status['pt_status'][$value['pt_status']] : "-" }}</span></td>
 													<td><span class="text-info">{{ $value['news_st'] != "" ? $status['news_st'][$value['news_st']] : "-" }}</span></td>
 													<td><span class="text-success">{{ $value['disch_st'] != "" ? $status['disch_st'][$value['disch_st']] : "-" }}</span></td>
 													<td>{{ $value['sex'] != "" ? $value['sex'] : "-" }}</td>
 													<td>@if(!empty($globalcountry[$value['nation']])) {{ $globalcountry[$value['nation']] }} @else - @endif</span></td>
 													<td>
-														<button type="button" class="btn btn-primary btn-sm margin-5 text-white" data-toggle="modal" title="Status" data-target="#chstatus{{ $value['id'] }}">ST</button>
-														<a href="{{ route('screenpui.edit',$value['id'])}}" class="btn btn-warning btn-sm">Edit</a>
-														<a href="{{ route('confirmForm',$value['id'])}}" data-toggle="tooltip" data-placement="top" title="Invest" class="btn btn-success btn-sm">Inv</a>
-														<a href="{{ 'contacttable' }}?sat_id={{ $value['sat_id'] }}" data-toggle="tooltip" data-placement="top" class="btn btn-cyan btn-sm" title="Contact">CON</a>
-														<a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({{ $value['id'] }})" data-target="#DeleteModal" title="Delete" class="btn btn-danger btn-sm"></i><i class="mdi mdi-close"></i></a>
+														<button type="button" class="btn btn-primary btn-sm margin-5 text-white" data-toggle="modal" title="Change status" data-target="#chstatus{{ $value['id'] }}">ST</button>
+														<a href="{{ route('screenpui.edit',$value['id'])}}" data-toggle="tooltip" data-placement="top" title="Edit this case" class="btn btn-warning btn-sm">Edit</a>
+														<a href="{{ route('confirmForm',$value['id'])}}" data-toggle="tooltip" data-placement="top" title="Invest form" class="btn btn-success btn-sm">Inv</a>
+														<a href="{{ 'contacttable' }}?sat_id={{ $value['sat_id'] }}" data-toggle="tooltip" data-placement="top" title="Contact" class="btn btn-cyan btn-sm">CON</a>
+														<a href="{{ route('live-site') }}" data-toggle="tooltip" data-placement="top" title="Laboratory" class="btn btn-info btn-sm">LAB</a>
+														<!-- <a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({ $value['id'] }})" data-target="#DeleteModal" title="Delete" class="btn btn-danger btn-sm"></i><i class="mdi mdi-close"></i></a> -->
 													</td>
 												</tr>
 											@endforeach
