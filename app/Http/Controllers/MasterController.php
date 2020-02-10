@@ -31,7 +31,8 @@ class MasterController extends Controller
 			'disch_st' => [
 				'1' => 'Recovery',
 				'2' => 'Admit',
-				'3' => 'Death'
+				'3' => 'Death',
+				'4' => 'Selt quarantine'
 			],
 			'pui_type' => [
 				'1' => 'New PUI',
