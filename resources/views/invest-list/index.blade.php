@@ -47,13 +47,14 @@
 		white-space: nowrap !important;
 	}
 	/* Label the data */
-	td:nth-of-type(1):before { content: "ลำดับ";margin-top:10px;font-weight:600;}
-	td:nth-of-type(2):before { content: "ชื่อ-สกุล";margin-top:10px;font-weight:600;}
-	td:nth-of-type(3):before { content: "HN";margin-top:10px;font-weight:600;}
-	td:nth-of-type(4):before { content: "รหัส";margin-top:10px;font-weight:600;}
-	td:nth-of-type(5):before { content: "รหัส รพ.";margin-top:10px;font-weight:600;}
-	td:nth-of-type(6):before { content: "สถานะ";margin-top:10px;font-weight:600;}
-	td:nth-of-type(7):before { content: "จัดการ";margin-top:10px;text-align:left!important;font-weight:600;}
+	td:nth-of-type(1):before { content: "ID";margin-top:10px;font-weight:600;}
+	td:nth-of-type(2):before { content: "SAT_ID";margin-top:10px;font-weight:600;}
+	td:nth-of-type(3):before { content: "Patient";margin-top:10px;font-weight:600;}
+	td:nth-of-type(4):before { content: "News";margin-top:10px;font-weight:600;}
+	td:nth-of-type(5):before { content: "Discharge";margin-top:10px;font-weight:600;}
+	td:nth-of-type(6):before { content: "Sex";margin-top:10px;font-weight:600;}
+	td:nth-of-type(7):before { content: "Nationality";margin-top:10px;text-align:left!important;font-weight:600;}
+	td:nth-of-type(8):before { content: "#";margin-top:10px;text-align:left!important;font-weight:600;}
 }
 /* end media */
 
@@ -124,8 +125,8 @@ input.valid, textarea.valid{
 											<th>Patient</th>
 											<th>News</th>
 											<th>Discharge</th>
-											<th>เพศ</th>
-											<th>สัญชาติ</th>
+											<th>Sex</th>
+											<th>Nationality</th>
 											<th>#</th>
 										</tr>
 									</thead>
@@ -142,17 +143,11 @@ input.valid, textarea.valid{
 													<td>{{ $value['sex'] != "" ? $value['sex'] : "-" }}</td>
 													<td>@if(!empty($globalcountry[$value['nation']])) {{ $globalcountry[$value['nation']] }} @else - @endif</span></td>
 													<td>
-														<!-- <a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="View"><i class="mdi mdi-eye"></i></a>&nbsp; -->
-														<button type="button" class="btn btn-success btn-sm margin-5 text-white" data-toggle="modal" title="Status" data-target="#chstatus{{ $value['id'] }}">
-															ST
-														</button>
-														<!-- <button href="#" data-toggle="tooltip" data-placement="top" class="btn btn-warning btn-sm" title="Comming soon" disabled>PUI</button>&nbsp; -->
+														<button type="button" class="btn btn-primary btn-sm margin-5 text-white" data-toggle="modal" title="Status" data-target="#chstatus{{ $value['id'] }}">ST</button>
 														<a href="{{ route('screenpui.edit',$value['id'])}}" class="btn btn-warning btn-sm">Edit</a>
 														<a href="{{ route('confirmForm',$value['id'])}}" data-toggle="tooltip" data-placement="top" title="Invest" class="btn btn-success btn-sm">Inv</a>
-														<!-- <a href="{ route('screenpui.edit',$value['id'])}}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-warning btn-sm" ><i class="mdi mdi-pencil"></i></a> -->
-														<!-- <a href="{ route("confirmForm", ["id"=>$value['id']]) }}" data-toggle="tooltip" data-placement="top" class="btn btn-warning btn-sm" title="PUI">PUI</a>&nbsp; -->
-														<a href="{{ 'contacttable' }}?sat_id={{ $value['sat_id'] }}" data-toggle="tooltip" data-placement="top" class="btn btn-cyan btn-sm" title="Contact">CON</a>&nbsp;
-														<a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({{ $value['id'] }})" data-target="#DeleteModal" title="Delete" class="btn btn-danger btn-sm"></i><i class="mdi mdi-close"></i></button>
+														<a href="{{ 'contacttable' }}?sat_id={{ $value['sat_id'] }}" data-toggle="tooltip" data-placement="top" class="btn btn-cyan btn-sm" title="Contact">CON</a>
+														<a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({{ $value['id'] }})" data-target="#DeleteModal" title="Delete" class="btn btn-danger btn-sm"></i><i class="mdi mdi-close"></i></a>
 													</td>
 												</tr>
 											@endforeach
@@ -329,19 +324,15 @@ $(document).ready(function() {
 });
 </script>
 <script type="text/javascript">
-   function deleteData(id)
-   {
-	   var id = id;
-	   var url = '{{ route("item.destroy", ":id") }}';
-	   url = url.replace(':id', id);
-	   $("#deleteForm").attr('action', url);
-   }
+	function deleteData(id) {
+		var id = id;
+		var url = '{{ route("item.destroy", ":id") }}';
+		url = url.replace(':id', id);
+		$("#deleteForm").attr('action', url);
+	}
 
-   function formSubmit()
-   {
-	   $("#deleteForm").submit();
-   }
+	function formSubmit() {
+		$("#deleteForm").submit();
+	}
 </script>
-
-
 @endsection

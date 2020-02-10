@@ -111,7 +111,7 @@
 								<tr id="risk3_3table_tr3">
 									<td>
 										<div class="custom-control custom-checkbox">
-											<input type="checkbox" name="complicationLiverFailure" value="y" @if ($invest_pt[0]['complication_liver_failure'] == 'y') checked @endif class="custom-control-input" id="risk3_3CirrhosisChk">
+											<input type="checkbox" name="complicationLiverFailure" value="y" @if ($invest_pt[0]['complication_liver_failure'] == 'y') checked @endif class="custom-control-input" id="complication_liver_failure">
 											<label for="complication_liver_failure" class="custom-control-label normal-label">
 												Liver Failure
 											</label>
