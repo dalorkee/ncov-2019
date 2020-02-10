@@ -106,10 +106,6 @@ class ScreenPUIController extends MasterController
         return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$sat_id);
       }
 
-
-      $dd('dddd');
-
-
         $data = [
           "notify_date" => (!empty($request->notify_date)) ? trim($this->Convert_Date($request->notify_date)) : date('Y-m-d'),
           "notify_time" => (!empty($request->notify_time)) ? trim($request->notify_time.":00") : NULL,
