@@ -142,7 +142,7 @@ class ScreenPUIController extends MasterController
 
           "walkinplace_hosp" => (!empty($request->walkinplace_hosp)) ? trim($request->walkinplace_hosp) : NULL,
           "negative_pressure" => (!empty($request->negative_pressure)) ? trim($request->negative_pressure) : NULL,
-          "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : "",
+          "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : NULL,
           "risk2_6history_hospital_input" => (!empty($request->risk2_6history_hospital_input)) ? trim($request->risk2_6history_hospital_input) : NULL,
           "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
           "risk_stay_outbreak_arrive_date" => (!empty($request->risk2_6arrive_date)) ? trim($this->Convert_Date($request->risk2_6arrive_date)) : NULL,
@@ -161,7 +161,7 @@ class ScreenPUIController extends MasterController
           "xray_result" => (!empty($request->xray_result)) ? trim($request->xray_result) : NULL,
           "lab_rapid_test_result" => (!empty($request->rapid_test_result)) ? trim($request->rapid_test_result) : NULL,
           "lab_test_result_other" => (!empty($request->lab_test_result_other)) ? trim($request->lab_test_result_other) : NULL,
-          "first_diag" => (!empty($request->first_diag)) ? trim($request->first_diag) : "",
+          "first_diag" => (!empty($request->first_diag)) ? trim($request->first_diag) : NULL,
 
           "sat_id" => (!empty($sat_id)) ? trim($sat_id) : NULL,
           "sat_id_temp" => (!empty($tmp)) ? trim($tmp) : NULL,
@@ -306,7 +306,7 @@ class ScreenPUIController extends MasterController
                 "sym_dyspnea" => (!empty($request->sym_dyspnea)) ? trim($request->sym_dyspnea) : "n",
                 "sym_breathe" => (!empty($request->sym_breathe)) ? trim($request->sym_breathe) : "n",
                 "sym_stufefy" => (!empty($request->sym_stufefy)) ? trim($request->sym_stufefy) : "n",
-                "rr_rpm" => (!empty($request->rr_rpm)) ? trim($request->rr_rpm) : "",
+                "rr_rpm" => (!empty($request->rr_rpm)) ? trim($request->rr_rpm) : NULL,
                 "xray_result" => (!empty($request->xray_result)) ? trim($request->xray_result) : NULL,
                 "lab_rapid_test_result" => (!empty($request->rapid_test_result)) ? trim($request->rapid_test_result) : NULL,
                 "lab_test_result_other" => (!empty($request->lab_test_result_other)) ? trim($request->lab_test_result_other) : NULL,
