@@ -33,12 +33,12 @@ input:read-only {
 <div class="page-breadcrumb">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title">ScreenPUI</h4>
+			<h4 class="page-title">Edit ScreenPUI : {{ $data->sat_id }}</h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Home</a></li>
-						<li class="breadcrumb-item active" aria-current="page">ScreenPUI</li>
+						<li class="breadcrumb-item active" aria-current="page">Edit ScreenPUI</li>
 					</ol>
 				</nav>
 			</div>
@@ -74,6 +74,9 @@ input:read-only {
 						{{ csrf_field() }}
 						<h3 class="text-primary">ส่วนที่ 1</h3>
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
+							<div style="position:absolute;top:10px;right:10px;z-index:1">
+								<span class="btn btn-primary font-weight-bold">SAT ID : {{ $data->sat_id }}</span>
+							</div>
 							<div class="card">
 								<div class="card-body">
 									<h1 class="text-info">1. ข้อมูลทั่วไปของผู้ป่วย</h1>
