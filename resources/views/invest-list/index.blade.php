@@ -9,60 +9,10 @@
 @endsection
 @section('internal-style')
 <style>
-@media
-	only screen
-	and (max-width: 760px), (min-device-width: 768px)
-	and (max-device-width: 1024px)  {
-	/* Force table to not be like tables anymore */
-	table, thead, tbody, th, td, tr {
-		display: block !important;
-	}
-	/* Hide table headers (but not display: none;, for accessibility) */
-	thead tr {
-		position: absolute !important;
-		top: -9999px !important;
-		left: -9999px !important;
-	}
-	tr {
-		margin: 0 0 1rem 0 !important;
-	}
-	tr:nth-child(odd) {
-		background: #eee;
-	}
-	td {
-		/* Behave like a "row" */
-		/* border: none; */
-		border-bottom: 1px solid #eee;
-		position: relative !important;
-		padding-left: 50% !important;
-	}
-	td:before {
-		/* Now like a table header */
-		position: absolute !important;
-		/* Top/left values mimic padding */
-		top: 0 !important;
-		left: 6px !important;
-		width: 45% !important;
-		padding-right: 10px !important;
-		white-space: nowrap !important;
-	}
-	/* Label the data */
-	td:nth-of-type(1):before { content: "ID";margin-top:10px;font-weight:600;}
-	td:nth-of-type(2):before { content: "SAT_ID";margin-top:10px;font-weight:600;}
-	td:nth-of-type(3):before { content: "Patient";margin-top:10px;font-weight:600;}
-	td:nth-of-type(4):before { content: "News";margin-top:10px;font-weight:600;}
-	td:nth-of-type(5):before { content: "Discharge";margin-top:10px;font-weight:600;}
-	td:nth-of-type(6):before { content: "Sex";margin-top:10px;font-weight:600;}
-	td:nth-of-type(7):before { content: "Nationality";margin-top:10px;text-align:left!important;font-weight:600;}
-	td:nth-of-type(8):before { content: "#";margin-top:10px;text-align:left!important;font-weight:600;}
-}
-/* end media */
-
 .error{
 	display: none;
 	margin-left: 10px;
 }
-
 .error_show{
 	color: red;
 	margin-left: 10px;
@@ -70,12 +20,11 @@
 input.invalid, textarea.invalid{
 	border: 2px solid red;
 }
-
 input.valid, textarea.valid{
 	border: 2px solid green;
 }
 .dataTables_wrapper {
-	font-family: tahoma !important;
+	font-family: 'tahoma' !important;
 }
 </style>
 @endsection
@@ -118,7 +67,7 @@ input.valid, textarea.valid{
 					<div class="card">
 						<div class="card-body">
 							<div id="patient_data">
-								<table class="table display mb-4" id="code_table" role="table">
+								<table class="display responsive nowrap mb-3" id="code_table" role="table" style="width:100%" cellspacing="0">
 									<thead>
 										<tr>
 											<th>ID</th>
@@ -291,18 +240,22 @@ $(document).ready(function() {
 		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		"ordering": true,
 		"info": false,
-		responsive: false,
+		rowReorder: {
+			selector: 'td:nth-child(2)'
+		},
+		responsive: true,
 		columnDefs: [{
 			targets: -1,
 			className: 'dt-head-right dt-body-right'
 		}],
-		dom: 'frti"<bottom"Bp>',
+		dom: 'frti"<bottom Bp>"',
 		buttons: [
 			{extend: 'copy', text: '<i class="far fa-copy"></i>', titleAttr: 'Copy', className: 'btn btn-outline-primary'},
 			{extend: 'csv', text: '<i class="far fa-file-alt"></i>', titleAttr: 'CSV', className: 'btn btn-outline-primary'},
 			{extend: 'excel', text: '<i class="far fa-file-excel"></i>', titleAttr: 'Excel', className: 'btn btn-outline-primary'},
 			/*{extend: 'pdf', text: '<i class="far fa-file-pdf"></i>', titleAttr: 'PDF', className: 'btn btn-outline-danger'}, */
 			{extend: 'print', text: '<i class="fas fa-print"></i>', titleAttr: 'Print', className: 'btn btn-outline-primary'}
+
 		]
 	});
 
