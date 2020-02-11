@@ -84,7 +84,9 @@
 						<div class="col-sm-3">
 						<input type="checkbox" name="sputum"  value="5" > มีเสมหะ
 						</div>
-
+						<div class="col-sm-3">
+            <input type="checkbox" name="breath_labored"  value="" > หายใจลำบาก
+            </div>
 						<div class="col-sm-3">
 						<input type="checkbox" name="suffocate"  value="9" > หอบเหนื่อย
 						</div>
@@ -112,15 +114,30 @@
             </div>
 
 						<div class="form-group row">
-						<div class="col-sm-3">
-						<select type="text" name="province_follow_contact" id="province_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-						<option value="">พื้นที่จังหวัดที่ติดตามผู้ป่วย</option>
-						@foreach ($listprovince as $row)
-						<option value="{{$row->province_id}}">{{$row->province_name}}</option>
-						@endforeach
-						</select>
-						</div>
-						</div>
+              <div class="col-sm-3">
+              <select type="text"  name="followup_address" id="followup_address" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+              <option value="">สถานที่ที่ติดตามผู้สัมผัส</option>
+              <option value="1">บ้าน</option>
+              <option value="2">โรงแรม</option>
+              <option value="3">โรงพยาบาล</option>
+              <option value="4">สถานที่กักกัน</option>
+              <option value="5">อื่นๆ</option>
+              </select>
+              </div>
+            <div class="col-sm-3">
+            <select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+            <option value="">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</option>
+            @foreach ($listprovince as $row)
+            <option value="{{$row->province_id}}">{{$row->province_name}}</option>
+            @endforeach
+            </select>
+            </div>
+            <div class="col-sm-3">
+              <select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="อำเภอ">
+  							<option value="">เลือกโรงพยาบาลที่รักษาตัว</option>
+  						</select>
+            </div>
+          </div>
 						<div class="form-group row">
             <div class="col-sm-3">
             <select type="text" name="division_follow_contact" id="division_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
@@ -178,8 +195,10 @@
 						<div class="col-sm-3">
 						<select type="text" name="follow_results" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
 							<option value="">ผลการติดตามผู้สัมผัส</option>
-								<option value="1">อาการปกติ</option>
-								<option value="2">ผิดปกติ</option>
+							<option value="1">ไม่มี</option>
+							<option value="2">เล็กน้อย</option>
+							<option value="3">หนัก</option>
+							<option value="5">สาหัส</option>
 						</select>
 						</div>
 						</div>
@@ -294,6 +313,28 @@
 	});
 		});
 	</script>
+
+	<script type="text/javascript">
+		$('.provincehos').change(function() {
+			if ($(this).val() != '') {
+				var select = $(this).val();
+				var _token = $('input[name="_token"]').val();
+				$.ajax({
+					url: "{{route('dropdown.fetchos')}}",
+					method: "POST",
+					data: {
+						select: select,
+						_token: _token
+					},
+					success: function(result) {
+						$('.chospital_new').html(result);
+					}
+				})
+			}
+		});
+	</script>
+
+
 	<script>
 	$(function(){
 		$('#maintable').hide();

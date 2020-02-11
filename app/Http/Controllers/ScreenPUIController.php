@@ -160,7 +160,7 @@ class ScreenPUIController extends MasterController
           "rr_rpm" => (!empty($request->rr_rpm)) ? trim($request->rr_rpm) : NULL,
           "xray_result" => (!empty($request->xray_result)) ? trim($request->xray_result) : NULL,
           "lab_rapid_test_result" => (!empty($request->rapid_test_result)) ? trim($request->rapid_test_result) : NULL,
-          "lab_test_result_other" => (!empty($request->lab_test_result_other)) ? trim($request->lab_test_result_other) : NULL,
+          "lab_other_result" => (!empty($request->lab_test_result_other)) ? trim($request->lab_test_result_other) : NULL,
           "first_diag" => (!empty($request->first_diag)) ? trim($request->first_diag) : NULL,
 
           "sat_id" => (!empty($sat_id)) ? trim($sat_id) : NULL,
@@ -309,7 +309,7 @@ class ScreenPUIController extends MasterController
                 "rr_rpm" => (!empty($request->rr_rpm)) ? trim($request->rr_rpm) : NULL,
                 "xray_result" => (!empty($request->xray_result)) ? trim($request->xray_result) : NULL,
                 "lab_rapid_test_result" => (!empty($request->rapid_test_result)) ? trim($request->rapid_test_result) : NULL,
-                "lab_test_result_other" => (!empty($request->lab_test_result_other)) ? trim($request->lab_test_result_other) : NULL,
+                "lab_other_result" => (!empty($request->lab_test_result_other)) ? trim($request->lab_test_result_other) : NULL,
                 "first_diag" => (!empty($request->first_diag)) ? trim($request->first_diag) : NULL,
                 "sat_id" => (!empty($request->sat_id)) ? trim($request->sat_id) : NULL,
                 "letter_division_code" => (!empty($request->letter_division_code)) ? trim($request->letter_division_code) : NULL,

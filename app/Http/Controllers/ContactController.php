@@ -103,12 +103,7 @@ class ContactController extends MasterController
 														  ->where('sat_id',$sat_id)
 															->get();
 		$ref_detail_follow=DB::table('tbl_followupcontact')
-            					->join('tbl_followupcontact_hsc', 'tbl_followupcontact.contact_id', '=', 'tbl_followupcontact_hsc.contact_id')
-            					->select('tbl_followupcontact.*'
-											, 'tbl_followupcontact_hsc.pcr_contact'
-											, 'tbl_followupcontact_hsc.specimen_contact'
-											, 'tbl_followupcontact_hsc.other_pcr_result_contact'
-											, 'tbl_followupcontact_hsc.chkspec_other_contact')
+            					->select('*')
             					->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$sat_id=$req->sat_id;
@@ -151,6 +146,35 @@ class ContactController extends MasterController
 			'entry_user'
     ));
 	}
+
+
+	public function editcontact(Request $req)
+	{
+		$contact_id=$req->contact_id;
+		$getdata_contact=DB::table('tbl_contact')->select('*')->where('contact_id',$contact_id)->get();
+		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
+		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
+		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
+		$sat_id=$req->sat_id;
+    $listprovince=$this->province();
+    $listcountry=$this->country();
+		$entry_user = Auth::user()->id;
+		$prefix_sat_id = Auth::user()->prefix_sat_id;
+		return view('form.contact.editcontact',compact(
+      'listprovince',
+      'listcountry',
+			'ref_title_name',
+			'ref_specimen',
+			'ref_global_country',
+			'sat_id',
+			'prefix_sat_id',
+			'entry_user',
+			'getdata_contact'
+
+    ));
+	}
+
+
   public function followupcontact(Request $req)
   {
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
@@ -184,6 +208,7 @@ class ContactController extends MasterController
   // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
 		$user_id = $req ->input ('user_id');
 	$contact_id = $req ->input ('contact_id');
+	$title_contact = $req ->input ('title_contact');
   $name_contact = $req ->input ('name_contact');
   $mname_contact = $req ->input ('mname_contact');
   $lname_contact = $req ->input ('lname_contact');
@@ -200,16 +225,33 @@ class ContactController extends MasterController
   $risk_contact = $req ->input ('risk_contact');
   $datecontact = $this->convertDateToMySQL($req ->input ('datecontact'));
   $datefollow = $this->convertDateToMySQL($req ->input ('datefollow'));
+	$date_followup = $this->convertDateToMySQL($req ->input ('date_followup'));
   $type_contact = $req ->input ('type_contact');
 	$province_follow_contact = $req ->input ('province_follow_contact');
 	$division_follow_contact = $req ->input ('division_follow_contact');
 	$division_follow_contact_other = $req ->input ('division_follow_contact_other');
 	$sat_id_class = $req ->input ('sat_id_class');
+	$hospcode = $req ->input ('hospcode');
+	$clinical = $req ->input ('clinical');
+	$fever = $req ->input ('fever');
+	$cough = $req ->input ('cough');
+	$sore_throat = $req ->input ('sore_throat');
+	$mucous = $req ->input ('mucous');
+	$sputum = $req ->input ('sputum');
+	$breath_labored = $req ->input ('breath_labored');
+	$suffocate = $req ->input ('suffocate');
+	$muscle_aches = $req ->input ('muscle_aches');
+	$headache = $req ->input ('headache');
+	$diarrhea = $req ->input ('diarrhea');
+	$status_followup = $req ->input ('status_followup');
+	$available_contact = $req ->input ('available_contact');
+	$follow_results = $req ->input ('follow_results');
   $date_entry = date('Y-m-d') ;
   $data = array(
     // 'poe_id'=>$poe_id,
 		'sat_id'=>$sat_id,
     'contact_id'=>$contact_id,
+		'title_contact'=>$title_contact,
     'name_contact'=>$name_contact,
     'mname_contact'=>$mname_contact,
     'lname_contact'=>$lname_contact,
@@ -226,12 +268,28 @@ class ContactController extends MasterController
     'risk_contact'=>$risk_contact,
     'datecontact'=>$datecontact,
     'datefollow'=>$datefollow,
+		'date_followup'=>$date_followup,
     'type_contact'=>$type_contact,
 		'user_id'=>$user_id,
 		'province_follow_contact'=>$province_follow_contact,
 		'division_follow_contact'=>$division_follow_contact,
 		'division_follow_contact_other'=>$division_follow_contact_other,
 		'sat_id_class'=>$sat_id_class,
+		'hospcode'=>$hospcode,
+		'clinical'=>$clinical,
+		'fever'=>$fever,
+		'cough'=>$cough,
+		'sore_throat'=>$sore_throat,
+		'mucous'=>$mucous,
+		'sputum'=>$sputum,
+		'breath_labored'=>$breath_labored,
+		'suffocate'=>$suffocate,
+		'muscle_aches'=>$muscle_aches,
+		'headache'=>$headache,
+		'diarrhea'=>$diarrhea,
+		'status_followup'=>$status_followup,
+		'available_contact'=>$available_contact,
+		'follow_results'=>$follow_results,
     'date_entry'=>$date_entry
   );
        // dd($data);
@@ -279,7 +337,10 @@ class ContactController extends MasterController
     echo $url_rediect;
 }
 
-public function followupcontactinsert(Request $req)
+public function followupcontactinsert(Request $req){
+$delete1 = DB::table('tbl_contact')->where('contact_id','=', $req->contact_id)->delete();
+
+if ($delete1)
 {
 // $poe_id = $req ->input ('poe_id');
 $sat_id = $req ->input ('sat_id');
@@ -367,12 +428,147 @@ $res1	= DB::table('tbl_followupcontact')->insert($data);
 // }
 if ($res1){
 	$msg = " ส่งข้อมูลสำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?sat_id=$sat_id&contact_id=$contact_id';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id&contact_id=$contact_id';</script> ";
 }else{
 	$msg = " ส่งข้อมูลไม่สำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='contactfollowtable?sat_id=$sat_id&contact_id=$contact_id';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id&contact_id=$contact_id';</script> ";
 	}
 	echo $url_rediect;
+}
+}
+
+public function contactedit(Request $req){
+	// dd($req->contact_id);
+$delete1 = DB::table('tbl_contact')->where('contact_id','=', $req->contact_id)->delete();
+// dd($delete1);
+if ($delete1)
+{
+	// $contactid=uniqid();
+ // $poe_id = $req ->input ('poe_id');
+ $sat_id = $req ->input ('sat_id');
+ // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
+	 $user_id = $req ->input ('user_id');
+ $contact_id = $req ->input ('contact_id');
+ $title_contact = $req ->input ('title_contact');
+ $name_contact = $req ->input ('name_contact');
+ $mname_contact = $req ->input ('mname_contact');
+ $lname_contact = $req ->input ('lname_contact');
+ $sex_contact = $req ->input ('sex_contact');
+ $age_contact = $req ->input ('age_contact');
+ $passport_contact = $req ->input ('passport_contact');
+ $national_contact = $req ->input ('national_contact');
+ $province = $req ->input ('province');
+ $district = $req ->input ('district');
+ $sub_district = $req ->input ('sub_district');
+ $address_contact = $req ->input ('address_contact');
+ $phone_contact = $req ->input ('phone_contact');
+ $patient_contact = $req ->input ('patient_contact');
+ $risk_contact = $req ->input ('risk_contact');
+ $datecontact = $this->convertDateToMySQL($req ->input ('datecontact'));
+ $datefollow = $this->convertDateToMySQL($req ->input ('datefollow'));
+ $date_followup = $this->convertDateToMySQL($req ->input ('date_followup'));
+ $type_contact = $req ->input ('type_contact');
+ $province_follow_contact = $req ->input ('province_follow_contact');
+ $division_follow_contact = $req ->input ('division_follow_contact');
+ $division_follow_contact_other = $req ->input ('division_follow_contact_other');
+ $sat_id_class = $req ->input ('sat_id_class');
+ $clinical = $req ->input ('clinical');
+ $fever = $req ->input ('fever');
+ $cough = $req ->input ('cough');
+ $sore_throat = $req ->input ('sore_throat');
+ $mucous = $req ->input ('mucous');
+ $sputum = $req ->input ('sputum');
+ $breath_labored = $req ->input ('breath_labored');
+ $suffocate = $req ->input ('suffocate');
+ $muscle_aches = $req ->input ('muscle_aches');
+ $headache = $req ->input ('headache');
+ $diarrhea = $req ->input ('diarrhea');
+ $date_entry = date('Y-m-d') ;
+ $data = array(
+	 // 'poe_id'=>$poe_id,
+	 'sat_id'=>$sat_id,
+	 'contact_id'=>$contact_id,
+	 'title_contact'=>$title_contact,
+	 'name_contact'=>$name_contact,
+	 'mname_contact'=>$mname_contact,
+	 'lname_contact'=>$lname_contact,
+	 'sex_contact'=>$sex_contact,
+	 'age_contact'=>$age_contact,
+	 'passport_contact'=>$passport_contact,
+	 'national_contact'=>$national_contact,
+	 'province'=>$province,
+	 'district'=>$district,
+	 'sub_district'=>$sub_district,
+	 'address_contact'=>$address_contact,
+	 'phone_contact'=>$phone_contact,
+	 'patient_contact'=>$patient_contact,
+	 'risk_contact'=>$risk_contact,
+	 'datecontact'=>$datecontact,
+	 'datefollow'=>$datefollow,
+	 'date_followup'=>$date_followup,
+	 'type_contact'=>$type_contact,
+	 'user_id'=>$user_id,
+	 'province_follow_contact'=>$province_follow_contact,
+	 'division_follow_contact'=>$division_follow_contact,
+	 'division_follow_contact_other'=>$division_follow_contact_other,
+	 'sat_id_class'=>$sat_id_class,
+	 'clinical'=>$clinical,
+	 'fever'=>$fever,
+	 'cough'=>$cough,
+	 'sore_throat'=>$sore_throat,
+	 'mucous'=>$mucous,
+	 'sputum'=>$sputum,
+	 'breath_labored'=>$breath_labored,
+	 'suffocate'=>$suffocate,
+	 'muscle_aches'=>$muscle_aches,
+	 'headache'=>$headache,
+	 'diarrhea'=>$diarrhea,
+	 'date_entry'=>$date_entry
+ );
+			// dd($data);
+ $res1	= DB::table('tbl_contact')->insert($data);
+//   if ($res1)
+//   {
+//     $dms_pcr_contact =$req ->input('dms_pcr_contact');
+//     $dms_time_contact =$req ->input('dms_time_contact');
+//     $dms_date_contact =$req ->input ('dms_date_contact');
+// 		$dms_date_contact_s = str_replace('/', '-', $dms_date_contact);
+// 		// $dms_date_contact_ss = date('Y-m-d', strtotime($dms_date_contact_s));
+//     $dms_specimen_contact =$req ->input('dms_specimen_contact');
+//     $chkspec_other_contact =$req ->input('chkspec_other_contact');
+//     $other_pcr_result_contact =$req ->input('other_pcr_result_contact');
+//      // exit;
+//     // $date_entry =date('Y-m-d') ;
+// $x=0;
+//     for ($i=0; $i < count($dms_pcr_contact); $i++) {
+//       $data_hsc[]  = [
+//                  // 'no'=>$team_id[$i],
+//                 // 'poe_id'=>$poe_id,
+//                 'contact_id'=>$contact_id,
+//                 'dms_pcr_contact'=>$dms_pcr_contact[$i],
+//                 'dms_time_contact'=>$dms_time_contact[$i],
+//                 'dms_date_contact'=>$dms_date_contact_s[$i],
+//                 'dms_specimen_contact'=>$dms_specimen_contact[$i],
+//                 'chkspec_other_contact' => $chkspec_other_contact[$i],
+//                 'other_pcr_result_contact' => $other_pcr_result_contact[$i],
+//                 'date_entry' => $date_entry
+//               ];
+//               $x++;
+//             }
+	 // dd($data_hsc);
+	 // exit;
+	 // $res3	= DB::table('tbl_contact_hsc')->insert($data_hsc);
+// }
+ if ($res1){
+	 $msg = " ส่งข้อมูลสำเร็จ";
+	 // $poe_id=$poe_id;
+	 $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id';</script> ";
+ }else{
+	 $msg = " ส่งข้อมูลไม่สำเร็จ";
+	 $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id';</script> ";
+	 }
+	 echo $url_rediect;
+}
 }
 
 public function fetch(Request $request){
@@ -561,5 +757,22 @@ echo $outputD;
 				$string = NULL;
 			}
 			return $string;
+		}
+
+
+		public function fetchos(Request $request){
+		$id=$request->get('select');
+		$result=array();
+		$query=DB::table('ref_province')
+		->join('chospital_new','ref_province.province_id','=','chospital_new.prov_code')
+		->select('chospital_new.new_hospcode','chospital_new.hosp_name','chospital_new.prov_code')
+		->where('ref_province.province_id',$id)
+		->where('chospital_new.status_code','=',1)
+		->get();
+		$output='<option value="%">   โรงพยาบาล   </option>';
+			foreach ($query as $row) {
+				$output.='<option value="'.$row->new_hospcode.'">'.$row->hosp_name.'</option>';
+			}
+			echo $output;
 		}
 }
