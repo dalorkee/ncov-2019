@@ -14,7 +14,7 @@ $risk2_6arrive_date = (!empty($data->risk_stay_outbreak_arrive_date)) ? ScreenPU
 $data3_1date_sickdate = (!empty($data->data3_1date_sickdate)) ? ScreenPUIController::Convert_Date_To_Picker($data->data3_1date_sickdate) : "" ;
 $lab_send_date = (!empty($data->lab_send_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->lab_send_date) : "" ;
 
-//dd($data->travel_from_country);
+//dd($data->travel_from_city);
 //dd($globalcountry[$data->travel_from_country]);
 ?>
 <style>
@@ -87,7 +87,7 @@ input:read-only {
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 mb-2">
 											<label for="workPhone">เวลาได้รับแจ้ง</label>
-											<input type="text" class="form-control" name="notify_time" value="@if(isset($data->notify_time)) {{ $data->notify_time }} @endif" data-timepicker>
+											<input type="text" class="form-control" name="notify_time" value="@if(isset($data->notify_time)) {{ $data->notify_time }} @endif" placeholder="10:15">
 										</div>
 									</div>
 									<div class="form-group row">
@@ -174,7 +174,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 												<label for="country">เมืองที่เดินทาง</label>
 												<select name="travel_from_city" class="form-control selectpicker show-tick" data-live-search="true" id="select_travel_from_city">
-													@if (!empty($data->travel_from_country))
+													@if (!empty($data->travel_from_city))
 														<option value="{{ $work_city[0]['city_id'] }}" selected="selected">{{ $work_city[0]['city_name'] }}</option>
 													@endif
 													<option value="">-- โปรดเลือก --</option>
@@ -620,7 +620,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="lane">ส่งมาเมื่อ</label>
-										<input type="text" name="lab_send_detail" value="@if($data->letter_code) {{ $data->lab_send_detail }} @endif" class="form-control" data-timepicker>
+										<input type="text" name="lab_send_detail" value="@if($data->letter_code) {{ $data->lab_send_detail }} @endif" class="form-control" placeholder="10:15">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
@@ -700,7 +700,16 @@ input:read-only {
 										</select>
 									</div>
 								</div>
-
+							</div>
+							<div class="row confirm_order">
+								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+									<div class="form-group">
+										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่</label>
+										<input type="text" name="order_pt" value="@if($data->order_pt) {{ $data->order_pt }} @endif" id="order_pt" class="form-control" placeholder="ลำดับผู้ป่วย">
+									</div>
+								</div>
+							</div>
+							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 								 <h1 class="text-info">6. ข้อมูลผู้บันทึกข้อมูล</h1>
 								</div>
@@ -793,6 +802,27 @@ $(document).ready(function() {
 				}
 			});
 		}
+	});
+
+	var pt_status_from_db = <?php echo $data->pt_status; ?>;
+	if(pt_status_from_db==2){
+		$('.confirm_order').show();
+	}else{
+		$('.confirm_order').hide();
+	}
+
+	//$('.confirm_order').hide();
+	$('#pt_status').change(function() {
+	 var pt_status = $('#pt_status').val();
+	 //console.log(pt_status);
+	 if(pt_status==2){
+		 $('.confirm_order').show();
+		 $("#order_pt").prop('required',true);
+	 }else{
+		 $('.confirm_order').hide();
+		 $("#order_pt").prop('required',false);
+		 $("#order_pt").val('');
+	 }
 	});
 
 });

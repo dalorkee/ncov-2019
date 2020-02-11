@@ -111,7 +111,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
 												<label for="houseNo">PUI Code(Manual)</label>
-												<input type="text" name="sat_id" class="form-control" value="{{ old('sat_id') }}">
+												<input type="text" name="sat_id" id="sat_id_manual" class="form-control" value="{{ old('sat_id') }}">
 											</div>
 										</div>
 									</div>
@@ -122,7 +122,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 mb-2">
 											<label for="workPhone">เวลาได้รับแจ้ง</label>
-											<input type="text" class="form-control" name="notify_time" value="{{ old('notify_time') }}" data-timepicker>
+											<input type="text" class="form-control" name="notify_time" value="{{ old('notify_time') }}" placeholder="10:15">
 										</div>
 									</div>
 									<div class="form-group row">
@@ -647,7 +647,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="lane">ส่งมาเมื่อ</label>
-										<input type="text" name="lab_send_detail" class="form-control" value="{{ old('lab_send_detail') }}" data-timepicker>
+										<input type="text" name="lab_send_detail" class="form-control" value="{{ old('lab_send_detail') }}" placeholder="10:15">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
@@ -686,7 +686,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="pt_status">PT Status</label>
-										<select name="pt_status" data-live-search="true" class="form-control selectpicker show-tick">
+										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control selectpicker show-tick">
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['pt_status'] as $key => $val)
 											<option value="{{ $key }}" {{ old('pt_status') == $key ? 'selected' : ''}}>{{ $val }}</option>
@@ -727,7 +727,16 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										</select>
 									</div>
 								</div>
-
+							</div>
+							<div class="row confirm_order">
+								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+									<div class="form-group">
+										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่</label>
+										<input type="text" name="order_pt" value="{{ old('order_pt') }}" id="order_pt" class="form-control" placeholder="ลำดับผู้ป่วย">
+									</div>
+								</div>
+							</div>
+							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 								 <h1 class="text-info">6. ข้อมูลผู้แจ้ง</h1>
 								</div>
@@ -834,7 +843,8 @@ $(document).ready(function() {
 	$(".check-manual").click(function(){
 	        $("#pui_code_gen_rd2").prop("checked", true);
 					$("#patient_type_sat_id").prop('required',false);
-					$('#sat_id').val('');
+					$("#sat_id_manual").prop('required',true);
+					$('#sat_id_manual').val('');
 					$('#pui_gen_auto').hide();
 					$('#pui_gen_manual').show();
 	});
@@ -860,6 +870,18 @@ $(document).ready(function() {
 		}
 	});
 
+	$('.confirm_order').hide();
+	$('#pt_status').change(function() {
+	 var pt_status = $('#pt_status').val();
+	 //console.log(pt_status);
+	 if(pt_status==2){
+		 $('.confirm_order').show();
+		 $("#order_pt").prop('required',true);
+	 }else{
+		 $('.confirm_order').hide();
+		 $("#order_pt").prop('required',false);
+	 }
+	});
 
 });
 </script>
