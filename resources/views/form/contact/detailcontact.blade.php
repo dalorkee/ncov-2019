@@ -62,50 +62,7 @@
 																														<hr>
 												</div>
 										</div>
-										<div class="col-md-12">
-												<div class="table-responsive m-t-40" style="clear: both;">
-													<h4> &nbsp;<b class="text-danger">ข้อมูลการติดตาม</b></h4>
-														<table class="table table-hover">
-																<thead>
-																		<tr>
-																				<th>ติดตามอาการ</th>
-																				<th>วันที่ติดตามอาการ</th>
-																				<th>อาการ</th>
-																				<th>ตัวอย่างสิ่งส่งตรวจ</th>
-																				<th>ผล PCR</th>
-																		</tr>
-																</thead>
-																<tbody>
-																	<?php foreach($ref_detail_follow as $value) : ?>
-																		<tr>
-																				<td>ครั้งที่ {{ $value->contact_id_day }}</td>
-																				<td>{{ $value->date_no }}</td>
-																				<td>
-																					{{ (isset($arrsymptoms[$value->clinical])) ? $nation_list[$value->clinical] : "" }}
-																					{{ (isset($arrsymptoms[$value->fever])) ? $nation_list[$value->fever] : "" }}
-																					{{ (isset($arrsymptoms[$value->cough])) ? $nation_list[$value->cough] : "" }}
-																					{{ (isset($arrsymptoms[$value->sore_throat])) ? $nation_list[$value->sore_throat] : "" }}
-																					{{ (isset($arrsymptoms[$value->mucous])) ? $nation_list[$value->mucous] : "" }}
-																					{{ (isset($arrsymptoms[$value->sputum])) ? $nation_list[$value->sputum] : "" }}
-																					{{ (isset($arrsymptoms[$value->breath_labored])) ? $nation_list[$value->breath_labored] : "" }}
-																					{{ (isset($arrsymptoms[$value->suffocate])) ? $nation_list[$value->suffocate] : "" }}
-																					{{ (isset($arrsymptoms[$value->muscle_aches])) ? $nation_list[$value->muscle_aches] : "" }}
-																					{{ (isset($arrsymptoms[$value->headache])) ? $nation_list[$value->headache] : "" }}
-																					{{ (isset($arrsymptoms[$value->diarrhea])) ? $nation_list[$value->diarrhea] : "" }}
-																					{{ $value->other_symtom }}
-																				</td>
-																				<td>
-																					{{ (isset($arrspecimen[$value->specimen_contact])) ? $nation_list[$value->specimen_contact] : "" }}
-																					{{ $value->chkspec_other_contact }}
-																				</td>
-																				<td>{{ $value->other_pcr_result_contact }}</td>
-																		</tr>
-																		<?php endforeach;?>
-																</tbody>
-														</table>
-												</div>
-										</div>
-																						<hr>
+
 										<div class="col-md-12">
 												<div class="clearfix"></div>
 												<hr>

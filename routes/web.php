@@ -73,11 +73,15 @@ Route::get('/detailcontact', 'ContactController@detailcontact')->name('detailcon
 Route::get('/contacttable', 'ContactController@contacttable')->name('contacttable');
 Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
 Route::get('/addcontact', 'ContactController@addcontact')->name('addcontact');
+Route::get('/editcontact', 'ContactController@editcontact')->name('editcontact');
 Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetch');
 Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
+Route::post('/addcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
 Route::get('/followupcontact', 'ContactController@followupcontact')->name('followupcontact');
+Route::post('/followupcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
 Route::post('/followupcontactinsert', 'ContactController@followupcontactinsert')->name('followupcontactinsert');
 Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
+Route::post('/contactedit', 'ContactController@contactedit')->name('contactedit');
 // excel download
 Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');

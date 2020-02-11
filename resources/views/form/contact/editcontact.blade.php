@@ -1,12 +1,12 @@
 @extends('layouts.index')
 <?php
-$config = [
-    'table' => 'tbl_contact',
-    'length' => 11,
-		'field' => 'contact_id',
-    'prefix' => $prefix_sat_id."B".date('d').date('m'),
-];
-$contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
+// $config = [
+//     'table' => 'tbl_contact',
+//     'length' => 11,
+// 		'field' => 'contact_id',
+//     'prefix' => $prefix_sat_id."B".date('d').date('m'),
+// ];
+// $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 ?>
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 {{-- <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}"> --}}
@@ -45,20 +45,16 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             <div class="card-block">
 
             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส</h4>
-            <form action="{{route('contactinsert')}}" method="post">
+            <form action="{{route('contactedit')}}" method="post">
               			{{ csrf_field() }}
-                    <br><label>SAT ID : </label>
 								<div class="form-group row">
 										<div class="col-sm-3">
 										<input type="text" name="sat_id" value="<?php echo $sat_id ?>" class="form-control" readonly>
 										</div>
 								</div>
-                <label>Contact ID : </label>
-
 							<div class="form-group row">
 										<div class="col-sm-3">
-                      <input type="checkbox" id="cuscontactid" name="cuscontactid"/> : กรณีกรอกรหัสผู้สัมผัสด้วยตนเอง
-										<input type="text" id="inputcontact" name="contact_id" value="{{$contact_id}}"  class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
+										<input type="text" name="contact_id" value="{{ $getdata_contact[0]->contact_id }}"  class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
 										</div>
 							</div>
               <div class="form-group row">
@@ -69,49 +65,50 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             <div class="form-group row">
             <div class="col-sm-3">
             <select type="text" name="title_contact" class="form-control js-select-basic-single" placeholder="คำนำหน้าชื่อ">
-							@foreach ($ref_title_name as $row)
+              <option value="{{ $getdata_contact[0]->title_contact }}">{{ $getdata_contact[0]->title_contact }}</option>
+              @foreach ($ref_title_name as $row)
 							<option value="{{$row->id}}">{{$row->title_name}}</option>
 							@endforeach
             </select>
             </div>
             <div class="col-sm-3">
-            <input type="text" name="name_contact" class="form-control" placeholder="ชื่อต้นผู้สัมผัส">
+            <input type="text" name="name_contact" value="{{ $getdata_contact[0]->name_contact }}" class="form-control" placeholder="ชื่อต้นผู้สัมผัส">
+          </div>
+            <div class="col-sm-3">
+            <input type="text" name="mname_contact" value="{{ $getdata_contact[0]->mname_contact }}" class="form-control" placeholder="ชื่อกลางผู้สัมผัส">
             </div>
             <div class="col-sm-3">
-            <input type="text" name="mname_contact" class="form-control" placeholder="ชื่อกลางผู้สัมผัส">
-            </div>
-            <div class="col-sm-3">
-            <input type="text" name="lname_contact" class="form-control" placeholder="นามสกุลผู้สัมผัส">
+            <input type="text" name="lname_contact" value="{{ $getdata_contact[0]->lname_contact }}" class="form-control" placeholder="นามสกุลผู้สัมผัส">
             </div>
             </div>
             <div class="form-group row">
             <div class="col-sm-4">
             <select type="text" name="sex_contact" class="form-control" placeholder="col-sm-2">
-                <option value="">เพศ</option>
+                <option value="{{ $getdata_contact[0]->sex_contact }}">{{ $getdata_contact[0]->sex_contact }}</option>
                   <option value="ชาย">ชาย</option>
-                <option value="หญิง">หญิง</option>
+                <option value="ชาย">หญิง</option>
             </select>
             </div>
             <div class="col-sm-4">
-            <input type="text" name="age_contact" class="form-control" placeholder="อายุ">
+            <input type="text" name="age_contact" value="{{ $getdata_contact[0]->age_contact }}" class="form-control" placeholder="อายุ">
             </div>
 						<div class="col-sm-4">
-						<input type="text" name="passport_contact" class="form-control" placeholder="Passport ID">
+						<input type="text" name="passport_contact" value="{{ $getdata_contact[0]->passport_contact }}" class="form-control" placeholder="Passport ID">
 						</div>
             </div>
             <div class="form-group row">
 
             <div class="col-sm-3">
             <select type="text" name="national_contact" class="form-control js-select-basic-single" placeholder="สัญชาติ">
-							<option value="">เลือกสัญชาติ</option>
+							<option value="{{ $getdata_contact[0]->national_contact }}">{{ $getdata_contact[0]->national_contact }}</option>
 						@foreach ($ref_global_country as $row)
             <option value="{{$row->country_id}}">{{$row->country_name}}</option>
             @endforeach
             </select>
             </div>
             <div class="col-sm-3">
-            <select type="text" name="province" id="province" class="form-control province js-select-basic-single" placeholder="จังหวัด">
-							<option value="">เลือกจังหวัดที่อยู่ในประเทศไทย</option>
+            <select type="text" name="province" id="province"  class="form-control province js-select-basic-single" placeholder="จังหวัด">
+							<option value="{{ $getdata_contact[0]->province }}">{{ $getdata_contact[0]->province }}</option>
 						@foreach ($listprovince as $row)
 						<option value="{{$row->province_id}}">{{$row->province_name}}</option>
 						@endforeach
@@ -119,44 +116,44 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </div>
             <div class="col-sm-3">
 						<select name="district" id="district" class="form-control district js-select-basic-single" placeholder="อำเภอ">
-							<option value="">เลือกอำเภอ/เขตที่อยู่ในประเทศไทย</option>
+							<option value="{{ $getdata_contact[0]->district }}">{{ $getdata_contact[0]->district }}</option>
 						</select>
 						</div>
             <div class="col-sm-3">
 						<select name="sub_district" id="subdistrict" class="form-control subdistrict js-select-basic-single" placeholder="ตำบล">
-							<option value="">เลือกตำบลที่อยู่ในประเทศไทย</option>
+							<option value="{{ $getdata_contact[0]->sub_district }}">{{ $getdata_contact[0]->sub_district }}</option>
 						</select>
 						</div>
             </div>
             <div class="form-group row">
             <div class="col-sm-4">
-            <textarea rows="3" name="address_contact" type="text" class="form-control" placeholder="ที่อยู่"></textarea>
+            <textarea rows="3" name="address_contact" value="{{ $getdata_contact[0]->address_contact }}" type="text" class="form-control" placeholder="ที่อยู่"></textarea>
             </div>
             <div class="col-sm-4">
-            <input  type="text" name="phone_contact" class="form-control" placeholder="เบอร์โทร">
+            <input  type="text" name="phone_contact" value="{{ $getdata_contact[0]->phone_contact }}" class="form-control" placeholder="เบอร์โทร">
             </div>
             <div class="col-sm-4">
-            <textarea rows="3" type="text" name="patient_contact" class="form-control" placeholder="การสัมผัสผู้ป่วย"></textarea>
+            <textarea rows="3" type="text" name="patient_contact" value="{{ $getdata_contact[0]->patient_contact }}" class="form-control" placeholder="การสัมผัสผู้ป่วย"></textarea>
             </div>
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
             <select type="text" name="risk_contact" class="form-control js-select-basic-single" placeholder="ระดับความเสี่ยง">
-                <option value="">ระดับความเสี่ยง</option>
+                <option value="{{ $getdata_contact[0]->risk_contact }}">{{ $getdata_contact[0]->risk_contact }}</option>
                   <option value="">- เลือก -</option>
                   <option value="1">เสี่ยงสูง</option>
                   <option value="2">เสี่ยงต่ำ</option>
             </select>
             </div>
             <div class="col-sm-3">
-            <input type="text" class="form-control" name="datecontact" data-provide="datepicke" id="datecontact"  placeholder="วันที่สัมผัส" autocomplete="off" >
+            <input type="text" class="form-control" name="datecontact" value="{{ $getdata_contact[0]->datecontact }}" data-provide="datepicke" id="datecontact"  placeholder="วันที่สัมผัส" autocomplete="off" >
             </div>
             <div class="col-sm-3">
-            <input type="text" class="form-control" name="datefollow" data-provide="datepicke" id="datefollow"  placeholder="ให้ตามถึงวันที่" autocomplete="off" >
+            <input type="text" class="form-control" name="datefollow" value="{{ $getdata_contact[0]->datefollow }}" data-provide="datepicke" id="datefollow"  placeholder="ให้ตามถึงวันที่" autocomplete="off" >
             </div>
             <div class="col-sm-3">
             <select type="text" name="type_contact" class="form-control js-select-basic-single" placeholder="ประเภทผู้สัมผัส">
-                <option value="">ประเภทผู้สัมผัส</option>
+                <option value="{{ $getdata_contact[0]->type_contact }}">{{ $getdata_contact[0]->type_contact }}</option>
                   <option value="">- เลือก -</option>
                   <option value="1">บุคลากรทางการแพทย์</option>
                   <option value="2">ผู้สัมผัสร่วมบ้าน</option>
@@ -164,47 +161,29 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                   <option value="4">พนักงานโรงแรม</option>
                   <option value="5">คนขับแท๊กซี่/ยานพาหนะ</option>
                   <option value="6">พนักงานสนามบิน</option>
-                  <option value="7">อื่นๆ</option>
+                  <option value="8">อื่นๆ</option>
               </select>
             </div>
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
-            <input type="text" name="date_followup" id="date_followup" data-provide="datepicke" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off" >
+            <input type="text" name="date_followup" id="date_followup" value="{{ $getdata_contact[0]->date_followup }}" data-provide="datepicke" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off" >
             </div>
             </div>
             <div class="form-group row">
-              <div class="col-sm-3">
-              <select type="text"  name="followup_address" id="followup_address" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-              <option value="">สถานที่ที่ติดตามผู้สัมผัส</option>
-              <option value="1">บ้าน</option>
-              <option value="2">โรงแรม</option>
-              <option value="3">โรงพยาบาล</option>
-              <option value="4">สถานที่กักกัน</option>
-              <option value="5">อื่นๆ</option>
-              </select>
-              </div>
             <div class="col-sm-3">
-            <select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-            <option value="">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</option>
+            <select type="text" name="province_follow_contact" id="province_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+            <option value="{{ $getdata_contact[0]->province_follow_contact }}">{{ $getdata_contact[0]->province_follow_contact }}</option>
             @foreach ($listprovince as $row)
             <option value="{{$row->province_id}}">{{$row->province_name}}</option>
             @endforeach
             </select>
             </div>
-            <div class="col-sm-3">
-              <select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="อำเภอ">
-  							<option value="">เลือกโรงพยาบาลที่รักษาตัว</option>
-  						</select>
             </div>
-            <div class="col-sm-3">
-              <input  type="text" name="phone_contact" class="form-control" placeholder="สถานที่อื่นๆ">
-            </div>
-          </div>
             <div class="form-group row">
               <div class="col-sm-3">
-              <select type="text" name="division_follow_contact" id="input_followup_address" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย" readonly>
-              <option value="">หน่วยงานที่ติดตามผู้สัมผัส</option>
+              <select type="text" name="division_follow_contact" id="division_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+              <option value="{{ $getdata_contact[0]->division_follow_contact }}">{{ $getdata_contact[0]->division_follow_contact }}</option>
               <option value="99">ส่วนกลาง</option>
               <option value="13">สปคม.</option>
               <option value="1">สคร.1</option>
@@ -223,7 +202,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
               </select>
               </div>
             <div class="col-sm-3">
-            <input type="text" class="form-control" name="division_follow_contact_other"   placeholder="หน่วยงานอื่นๆ" autocomplete="off" >
+            <input type="text" class="form-control" name="division_follow_contact_other" value="{{ $getdata_contact[0]->division_follow_contact_other }}"   placeholder="หน่วยงานอื่นๆ" autocomplete="off" >
             </div>
             </div>
             <br>
@@ -281,31 +260,6 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </div>
             <h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6>
             <br>
-            <div class="form-group row">
-						<div class="col-sm-3">
-						<select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
-							<option value="">สถานะการติดตาม</option>
-								<option value="1">จบการติดตาม</option>
-								<option value="2">ยังต้องติดตาม</option>
-						</select>
-						</div>
-						<div class="col-sm-3">
-						<select type="text" name="available_contact" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
-							<option value="">การติดตามผู้สัมผัส</option>
-								<option value="1">ติดตามได้</option>
-								<option value="2">ติดตามไม่ได้</option>
-						</select>
-						</div>
-						<div class="col-sm-3">
-						<select type="text" name="follow_results" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
-							<option value="">ผลการติดตามผู้สัมผัส</option>
-								<option value="1">ไม่มี</option>
-								<option value="2">เล็กน้อย</option>
-                <option value="3">หนัก</option>
-                <option value="5">สาหัส</option>
-						</select>
-						</div>
-						</div>
 						{{-- <div class="form-group row">
 						<div class="col-sm-3">
 						<button type="button" id="close" class="btn btn-s btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
@@ -471,27 +425,6 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 			}
 		});
 	</script>
-
-
-  <script type="text/javascript">
-    $('.provincehos').change(function() {
-      if ($(this).val() != '') {
-        var select = $(this).val();
-        var _token = $('input[name="_token"]').val();
-        $.ajax({
-          url: "{{route('dropdown.fetchos')}}",
-          method: "POST",
-          data: {
-            select: select,
-            _token: _token
-          },
-          success: function(result) {
-            $('.chospital_new').html(result);
-          }
-        })
-      }
-    });
-  </script>
 		{{-- <script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script> --}}
 
 		<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
@@ -550,14 +483,4 @@ $(document).ready(function() {
     $('.js-select-basic-single').select2();
 });
 </script>
-<script>
-$('#cuscontactid').change(function(){
-   $("#inputcontact").prop("readonly", !$(this).is(':checked'));
-});
-$('#followup_address').change(function(){
-   $("#followup_address_hos").prop("readonly", !$(this).is(':checked'));
-});
-</script>
-
-
 @endsection

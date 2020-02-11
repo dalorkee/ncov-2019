@@ -58,7 +58,7 @@
 									<a class="btn btn-info" href="{{ route('detailcontact')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
 										รายละเอียด
 								</a>
-								<a class="btn btn-warning" href="">
+								<a class="btn btn-warning" href="{{ route('editcontact')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
 										แก้ไขข้อมูล
 								</a>
                 </td>
