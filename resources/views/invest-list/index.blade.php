@@ -47,13 +47,14 @@
 		white-space: nowrap !important;
 	}
 	/* Label the data */
-	td:nth-of-type(1):before { content: "ลำดับ";margin-top:10px;font-weight:600;}
-	td:nth-of-type(2):before { content: "ชื่อ-สกุล";margin-top:10px;font-weight:600;}
-	td:nth-of-type(3):before { content: "HN";margin-top:10px;font-weight:600;}
-	td:nth-of-type(4):before { content: "รหัส";margin-top:10px;font-weight:600;}
-	td:nth-of-type(5):before { content: "รหัส รพ.";margin-top:10px;font-weight:600;}
-	td:nth-of-type(6):before { content: "สถานะ";margin-top:10px;font-weight:600;}
-	td:nth-of-type(7):before { content: "จัดการ";margin-top:10px;text-align:left!important;font-weight:600;}
+	td:nth-of-type(1):before { content: "ID";margin-top:10px;font-weight:600;}
+	td:nth-of-type(2):before { content: "SAT_ID";margin-top:10px;font-weight:600;}
+	td:nth-of-type(3):before { content: "Patient";margin-top:10px;font-weight:600;}
+	td:nth-of-type(4):before { content: "News";margin-top:10px;font-weight:600;}
+	td:nth-of-type(5):before { content: "Discharge";margin-top:10px;font-weight:600;}
+	td:nth-of-type(6):before { content: "Sex";margin-top:10px;font-weight:600;}
+	td:nth-of-type(7):before { content: "Nationality";margin-top:10px;text-align:left!important;font-weight:600;}
+	td:nth-of-type(8):before { content: "#";margin-top:10px;text-align:left!important;font-weight:600;}
 }
 /* end media */
 
@@ -112,7 +113,7 @@ input.valid, textarea.valid{
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
 					<div class="card">
 						<div class="card-body">
 							<div id="patient_data">
@@ -124,8 +125,8 @@ input.valid, textarea.valid{
 											<th>Patient</th>
 											<th>News</th>
 											<th>Discharge</th>
-											<th>เพศ</th>
-											<th>สัญชาติ</th>
+											<th>Sex</th>
+											<th>Nationality</th>
 											<th>#</th>
 										</tr>
 									</thead>
@@ -135,24 +136,19 @@ input.valid, textarea.valid{
 											@foreach ($invest as $key => $value)
 												<tr>
 													<td>{{ $value['id'] }}</td>
-													<td>{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</td>
+													<td><span class="text-bold">{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</span></td>
 													<td><span class="text-danger">{{ $value['pt_status'] != "" ? $status['pt_status'][$value['pt_status']] : "-" }}</span></td>
 													<td><span class="text-info">{{ $value['news_st'] != "" ? $status['news_st'][$value['news_st']] : "-" }}</span></td>
 													<td><span class="text-success">{{ $value['disch_st'] != "" ? $status['disch_st'][$value['disch_st']] : "-" }}</span></td>
 													<td>{{ $value['sex'] != "" ? $value['sex'] : "-" }}</td>
 													<td>@if(!empty($globalcountry[$value['nation']])) {{ $globalcountry[$value['nation']] }} @else - @endif</span></td>
 													<td>
-														<!-- <a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="View"><i class="mdi mdi-eye"></i></a>&nbsp; -->
-														<button type="button" class="btn btn-success btn-sm margin-5 text-white" data-toggle="modal" title="Status" data-target="#chstatus{{ $value['id'] }}">
-															ST
-														</button>
-														<!-- <button href="#" data-toggle="tooltip" data-placement="top" class="btn btn-warning btn-sm" title="Comming soon" disabled>PUI</button>&nbsp; -->
-														<a href="{{ route('screenpui.edit',$value['id'])}}" class="btn btn-warning btn-sm">Edit</a>
-														<a href="{{ route('confirmForm',$value['id'])}}" data-toggle="tooltip" data-placement="top" title="Invest" class="btn btn-success btn-sm">Inv</a>
-														<!-- <a href="{ route('screenpui.edit',$value['id'])}}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-warning btn-sm" ><i class="mdi mdi-pencil"></i></a> -->
-														<!-- <a href="{ route("confirmForm", ["id"=>$value['id']]) }}" data-toggle="tooltip" data-placement="top" class="btn btn-warning btn-sm" title="PUI">PUI</a>&nbsp; -->
-														<a href="{{ 'contacttable' }}?sat_id={{ $value['sat_id'] }}" data-toggle="tooltip" data-placement="top" class="btn btn-cyan btn-sm" title="Contact">CON</a>&nbsp;
-														<a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({{ $value['id'] }})" data-target="#DeleteModal" title="Delete" class="btn btn-danger btn-sm"></i><i class="mdi mdi-close"></i></button>
+														<button type="button" class="btn btn-primary btn-sm margin-5 text-white" data-toggle="modal" title="Change status" data-target="#chstatus{{ $value['id'] }}">ST</button>
+														<a href="{{ route('screenpui.edit',$value['id'])}}" data-toggle="tooltip" data-placement="top" title="Edit this case" class="btn btn-warning btn-sm">Edit</a>
+														<a href="{{ route('confirmForm',$value['id'])}}" data-toggle="tooltip" data-placement="top" title="Invest form" class="btn btn-success btn-sm">Inv</a>
+														<a href="{{ 'contacttable' }}?sat_id={{ $value['sat_id'] }}" data-toggle="tooltip" data-placement="top" title="Contact" class="btn btn-cyan btn-sm">CON</a>
+														<a href="{{ route('live-site') }}" data-toggle="tooltip" data-placement="top" title="Laboratory" class="btn btn-info btn-sm">LAB</a>
+														<!-- <a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({ $value['id'] }})" data-target="#DeleteModal" title="Delete" class="btn btn-danger btn-sm"></i><i class="mdi mdi-close"></i></a> -->
 													</td>
 												</tr>
 											@endforeach
@@ -297,11 +293,11 @@ $(document).ready(function() {
 		}],
 		dom: 'frti"<bottom"Bp>',
 		buttons: [
-			{extend: 'copy', text: '<i class="far fa-copy"></i>', titleAttr: 'Copy', className: 'btn btn-outline-danger'},
-			{extend: 'csv', text: '<i class="far fa-file-alt"></i>', titleAttr: 'CSV', className: 'btn btn-outline-danger'},
-			{extend: 'excel', text: '<i class="far fa-file-excel"></i>', titleAttr: 'Excel', className: 'btn btn-outline-danger'},
-			{extend: 'pdf', text: '<i class="far fa-file-pdf"></i>', titleAttr: 'PDF', className: 'btn btn-outline-danger'},
-			{extend: 'print', text: '<i class="fas fa-print"></i>', titleAttr: 'Print', className: 'btn btn-outline-danger'}
+			{extend: 'copy', text: '<i class="far fa-copy"></i>', titleAttr: 'Copy', className: 'btn btn-outline-primary'},
+			{extend: 'csv', text: '<i class="far fa-file-alt"></i>', titleAttr: 'CSV', className: 'btn btn-outline-primary'},
+			{extend: 'excel', text: '<i class="far fa-file-excel"></i>', titleAttr: 'Excel', className: 'btn btn-outline-primary'},
+			/*{extend: 'pdf', text: '<i class="far fa-file-pdf"></i>', titleAttr: 'PDF', className: 'btn btn-outline-danger'}, */
+			{extend: 'print', text: '<i class="fas fa-print"></i>', titleAttr: 'Print', className: 'btn btn-outline-primary'}
 		]
 	});
 
@@ -329,19 +325,15 @@ $(document).ready(function() {
 });
 </script>
 <script type="text/javascript">
-   function deleteData(id)
-   {
-	   var id = id;
-	   var url = '{{ route("item.destroy", ":id") }}';
-	   url = url.replace(':id', id);
-	   $("#deleteForm").attr('action', url);
-   }
+	function deleteData(id) {
+		var id = id;
+		var url = '{{ route("item.destroy", ":id") }}';
+		url = url.replace(':id', id);
+		$("#deleteForm").attr('action', url);
+	}
 
-   function formSubmit()
-   {
-	   $("#deleteForm").submit();
-   }
+	function formSubmit() {
+		$("#deleteForm").submit();
+	}
 </script>
-
-
 @endsection

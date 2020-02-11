@@ -304,11 +304,11 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
-						<label for="fileInput">โปรดระบุ</label>
+						<label for="fileInput" class="text-danger">CXR1: File</label>
 						<div class="input-group">
 							<div class="custom-file">
 								<input type="file" name="labCxr1File" class="custom-file-input" id="lab_cxr1_file">
-								<label class="custom-file-label" for="customFile">Choose file</label>
+								<label class="custom-file-label border-warning" for="customFile">Choose file</label>
 							</div>
 						</div>
 					</div>
@@ -352,11 +352,11 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
-						<label for="result">โปรดระบุ</label>
+						<label for="result" class="text-danger">CXR2: File</label>
 						<div class="input-group">
 							<div class="custom-file">
 								<input type="file" name="labCxr2File" class="custom-file-input" id="lab_cxr2_file">
-								<label class="custom-file-label" for="customFile">Choose file</label>
+								<label class="custom-file-label border-warning" for="customFile">Choose file</label>
 							</div>
 						</div>
 					</div>

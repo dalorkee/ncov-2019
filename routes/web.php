@@ -91,3 +91,10 @@ Route::resource('item', 'InvestListController');
 
 /* Logout */
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+/* Route to under construction page */
+Route::group(['middleware' => 'under-construction'], function () {
+	Route::get('/live-site', function() {
+		echo 'content!';
+	})->name('live-site');
+});
