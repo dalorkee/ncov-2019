@@ -52,13 +52,19 @@ class ContactController extends MasterController
   {
 		$sat_id=$req->sat_id;
 		// $poe_id=$req->poe_id;
+		$patian_data=DB::table('invest_pt')->select('*')->where('sat_id', [$req->sat_id] )->get();
+		$contact_data=DB::table('tbl_contact')->select('*')->where('sat_id', $sat_id)->get();
+		$fucontact_data=DB::table('tbl_followupcontact')->select('*')->where('contact_id', $req->contact_id)->orderBy('contact_id_day')->get();
 		$contact_id=$req->contact_id;
 		$contact_id_day=$req->contact_id_day;
     return view('form.contact.contactfollowtable',compact(
 			'sat_id',
 			// 'poe_id',
 			'contact_id_day',
-			'contact_id'
+			'contact_id',
+			'fucontact_data',
+			'contact_data',
+			'patian_data'
     ));
   }
 

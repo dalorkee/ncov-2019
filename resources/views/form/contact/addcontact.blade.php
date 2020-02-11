@@ -198,7 +198,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
   						</select>
             </div>
             <div class="col-sm-3">
-              <input  type="text" name="phone_contact" class="form-control" placeholder="สถานที่อื่นๆ">
+              <input  type="text" name="province_follow_contact_other" class="form-control" placeholder="สถานที่อื่นๆ">
             </div>
           </div>
             <div class="form-group row">
