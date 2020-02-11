@@ -98,3 +98,6 @@ Route::group(['middleware' => 'under-construction'], function () {
 		echo 'content!';
 	})->name('live-site');
 });
+
+/* test for test by talek team */
+Route::get('/test', 'TestController@store')->name('test');

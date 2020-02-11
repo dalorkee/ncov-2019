@@ -314,8 +314,6 @@ class ConfirmFormController extends Controller
 			$fileName1 = $lab_file1_new_name.'.'.$lab_file1_extension;
 			$pt->lab_cxr1_file = $fileName1;
 			Storage::disk('invest')->put($fileName1, File::get(Input::file('labCxr1File')));
-		} else {
-			$pt->lab_cxr1_file = NULL;
 		}
 
 		$pt->lab_cxr2_date = $this->convertDateToMySQL($request->labCxr2Date);
@@ -329,8 +327,6 @@ class ConfirmFormController extends Controller
 			$fileName2 = $lab_file2_new_name.'.'.$lab_file2_extension;
 			$pt->lab_cxr2_file = $fileName2;
 			Storage::disk('invest')->put($fileName2, File::get(Input::file('labCxr2File')));
-		} else {
-			$pt->lab_cxr2_file = NULL;
 		}
 
 		$pt->lab_rapid_test_name = $request->labRapidTestName;
@@ -346,6 +342,7 @@ class ConfirmFormController extends Controller
 
 		$pt_saved = $pt->save();
 		if ($pt_saved) {
+			flash()->overlay('Successfully saved.', 'nCoV 2019');
 			return redirect()->route('investList.index');
 			exit;
 		}

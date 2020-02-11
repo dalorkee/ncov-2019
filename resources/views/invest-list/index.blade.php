@@ -104,6 +104,7 @@ input.valid, textarea.valid{
 	</div>
 </div>
 <div class="container-fluid">
+	@include('flash::message')
 	<div class="card">
 		<div class="card-body">
 			<div class="d-md-flex align-items-center mb-2">
@@ -144,8 +145,8 @@ input.valid, textarea.valid{
 													<td>@if(!empty($globalcountry[$value['nation']])) {{ $globalcountry[$value['nation']] }} @else - @endif</span></td>
 													<td>
 														<button type="button" class="btn btn-primary btn-sm margin-5 text-white" data-toggle="modal" title="Change status" data-target="#chstatus{{ $value['id'] }}">ST</button>
-														<a href="{{ route('screenpui.edit',$value['id'])}}" data-toggle="tooltip" data-placement="top" title="Edit this case" class="btn btn-warning btn-sm">Edit</a>
-														<a href="{{ route('confirmForm',$value['id'])}}" data-toggle="tooltip" data-placement="top" title="Invest form" class="btn btn-success btn-sm">Inv</a>
+														<a href="{{ route('screenpui.edit',$value['id']) }}" data-toggle="tooltip" data-placement="top" title="Edit this case" class="btn btn-warning btn-sm">Edit</a>
+														<a href="{{ route('confirmForm',$value['id']) }}" data-toggle="tooltip" data-placement="top" title="Invest form" class="btn btn-success btn-sm">Inv</a>
 														<a href="{{ 'contacttable' }}?sat_id={{ $value['sat_id'] }}" data-toggle="tooltip" data-placement="top" title="Contact" class="btn btn-cyan btn-sm">CON</a>
 														<a href="{{ route('live-site') }}" data-toggle="tooltip" data-placement="top" title="Laboratory" class="btn btn-info btn-sm">LAB</a>
 														<!-- <a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({ $value['id'] }})" data-target="#DeleteModal" title="Delete" class="btn btn-danger btn-sm"></i><i class="mdi mdi-close"></i></a> -->
@@ -269,6 +270,10 @@ input.valid, textarea.valid{
 <script src="{{ URL::asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
+<script>
+/* flash message */
+$('#flash-overlay-modal').modal();
+</script>
 <script>
 $(document).ready(function() {
 	/* ajax request */

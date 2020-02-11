@@ -35,19 +35,11 @@
 	</div>
 </div>
 <div class="container-fluid">
+	@include('flash::message')
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 			<div class="card">
 				<div class="card-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<ul>
-							@foreach ($errors->all() as $error)
-								<li>{{ $error }}</li>
-							@endforeach
-							</ul>
-						</div>
-					@endif
 					<div class="d-md-flex align-items-center mb-2">
 						<div>
 							<h4 class="card-title">แบบสอบสวนของผู้ป่วยโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
@@ -57,8 +49,10 @@
 					<form action="{{ route('confirmCase') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 						{{ csrf_field() }}
 						{{ method_field('POST') }}
-						<h3 class="text-primary">ส่วนที่ 1</h3>
-						<div class="bd-callout bd-callout-info" style="margin-top:0;">
+						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
+							<div style="position:absolute;top:10px;right:10px;z-index:1">
+								<span class="btn btn-primary font-weight-bold">{{ $invest_pt[0]['sat_id'] }}</span>
+							</div>
 							@include('form.confirm.section1')
 						</div><!-- bd-collout1 -->
 						<div class="bd-callout bd-callout-warning" style="margin-top:0;">
@@ -79,12 +73,12 @@
 	</div>
 </div>
 <!-- modal delete confirmation -->
-<div id="SavedModal" class="modal fade text-danger" role="dialog" aria-labelledby="SavedModal" aria-hidden="true ">
+<div id="SavedModal" class="modal fade text-danger" role="dialog" aria-labelledby="SavedModal" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-success">
 				<h5 class="modal-title text-center text-white">nCoV 2019</h5>
-				<button type="button" class="close" data-dismiss="modal aria-label="Close"">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true ">&times;</span>
 				</button>
 			</div>
@@ -96,10 +90,14 @@
 </div><!-- end confirmation delte -->
 @endsection
 @section('bottom-script')
-	<script src="{{ URL::asset('assets/libs/jquery-blockUI/jquery.blockUI.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/bootstrap-validate-2.2.0/dist/bootstrap-validate.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/jquery-blockUI/jquery.blockUI.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-validate-2.2.0/dist/bootstrap-validate.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+<script>
+/* flash message */
+$('#flash-overlay-modal').modal();
+</script>
 <script>
 $(document).ready(function() {
 	/* ajax request */
@@ -348,13 +346,6 @@ $(document).ready(function() {
 			});
 		}
 	});
-
-
-
-
-
-
-
 
 
 	/* check box */
