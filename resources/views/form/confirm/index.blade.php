@@ -22,12 +22,12 @@
 <div class="page-breadcrumb">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title">Form 001</h4>
+			<h4 class="page-title">Invest Form</h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Home</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Form 001</li>
+						<li class="breadcrumb-item"><a href="{{ route('investList.index') }}">Invest</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Form</li>
 					</ol>
 				</nav>
 			</div>
@@ -51,7 +51,7 @@
 						{{ method_field('POST') }}
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
 							<div style="position:absolute;top:10px;right:10px;z-index:1">
-								<span class="btn btn-primary font-weight-bold">{{ $invest_pt[0]['sat_id'] }}</span>
+								<span class="btn btn-danger font-weight-bold">{{ $invest_pt[0]['sat_id'] }}</span>
 							</div>
 							@include('form.confirm.section1')
 						</div><!-- bd-collout1 -->

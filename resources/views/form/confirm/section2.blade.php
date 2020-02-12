@@ -710,7 +710,7 @@
 							</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 col-xl-8">
 					<div class="form-group">
 						<label for="contact">ชื่อโรงพยาบาล</label>
 						<input type="text" name="riskTreatOrVisitPatientHospitalName" value="{{ $invest_pt[0]['risk_treat_or_visit_patient_hospital_name'] }}" class="form-control" placeholder="ชื่อโรงพยาบาล">
@@ -718,7 +718,6 @@
 				</div>
 			</div>
 		</li>
-
 		<li class="card-body border-top">
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -734,28 +733,18 @@
 								<label for="risk_care_flu_patient_yes" class="custom-control-label normal-label">ใช่</label>
 							</div>
 						</div>
-						<div>
-							<div class="card" style="margin-bottom:0;padding-bottom:0">
-								<ul class="list-style-none">
-									<li class="card-body">
-										<div class="row">
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-												<div class="form-group">
-													<label for="">ระบุความสัมพันธ์</label>
-													<input type="text" name="riskCareFluPatientRelation" value="{{ $invest_pt[0]['risk_care_flu_patient_relation'] }}" class="form-control" placeholder="ความสัมพันธ์">
-												</div>
-											</div>
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-												<div class="form-group">
-													<label for="contact">ระบุชื่อ (หากสามารถระบุได้)</label>
-													<input type="text" name="riskCareFluPatientRelationName" value="{{ $invest_pt[0]['risk_care_flu_patient_relation_name'] }}" class="form-control" placeholder="ระบุชื่อ">
-												</div>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+					<div class="form-group">
+						<label for="">ระบุความสัมพันธ์</label>
+						<input type="text" name="riskCareFluPatientRelation" value="{{ $invest_pt[0]['risk_care_flu_patient_relation'] }}" class="form-control" placeholder="ความสัมพันธ์">
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+					<div class="form-group">
+						<label for="contact">ระบุชื่อ (หากสามารถระบุได้)</label>
+						<input type="text" name="riskCareFluPatientRelationName" value="{{ $invest_pt[0]['risk_care_flu_patient_relation_name'] }}" class="form-control" placeholder="ระบุชื่อ">
 					</div>
 				</div>
 			</div>
