@@ -27,11 +27,6 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 		</div>
 	</div>
 </div>
-<?php
-	// $poe_id = $_GET['poe_id'];
-	$sat_id = $_GET['sat_id'];
-
- ?>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
@@ -47,18 +42,23 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส</h4>
             <form action="{{route('contactinsert')}}" method="post">
               			{{ csrf_field() }}
-                    <br><label>SAT ID : </label>
+                    {{-- <br><label>SAT ID : </label> --}}
 								<div class="form-group row">
 										<div class="col-sm-3">
-										<input type="text" name="sat_id" value="<?php echo $sat_id ?>" class="form-control" readonly>
+										<input type="hidden" name="sat_idx" value="{{$sat_idx}}" class="form-control" readonly>
 										</div>
 								</div>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <input type="hidden" name="sat_id" value="{{$sat_id}}" class="form-control" readonly>
+                    </div>
+                </div>
                 <label>Contact ID : </label>
 
 							<div class="form-group row">
 										<div class="col-sm-3">
                       <input type="checkbox" id="cuscontactid" name="cuscontactid"/> : กรณีกรอกรหัสผู้สัมผัสด้วยตนเอง
-										<input type="text" id="inputcontact" name="contact_id" value="{{$contact_id}}"  class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
+										<input type="text" id="inputcontact" name="contact_id" value="{{$contact_id}}"  class="form-control" placeholder="รหัสผู้สัมผัส">
 										</div>
 							</div>
               <div class="form-group row">

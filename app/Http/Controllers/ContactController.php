@@ -49,17 +49,19 @@ class ContactController extends MasterController
   // indexcontact table
   public function contacttable(Request $req)
   {
-		$sat_id=$req->sat_id;
+		// $sat_id=$req->sat_id;
+		$id=$req->id;
 		$nation_list = $this->arrnation();
 		$arr_occu = $this->arroccu();
 		$arrprov = $this->arrprov();
 		$arrdistrict = $this->arrdistrict();
 		$arr_sub_district = $this->arr_sub_district();
 		// dd($poe_id);
-		$patian_data=DB::table('invest_pt')->select('*')->where('sat_id', [$req->sat_id] )->get();
-		$contact_data=DB::table('tbl_contact')->select('*')->where('sat_id', $sat_id)->get();
+		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
+		$contact_data=DB::table('tbl_contact')->select('*')->where('sat_idx', $id)->get();
     return view('form.contact.contacttable',compact(
 			'contact_data',
+			'id',
 			'patian_data',
 			'nation_list',
 			'arr_occu',
@@ -121,7 +123,7 @@ class ContactController extends MasterController
 																 'phone_contact',
 																 'patient_contact',
 																 'datecontact',
-																 'type_contact',)
+																 'type_contact')
 												->where('contact_id',$contact_id)
 												->get();
 		$ref_detail_pt=DB::table('invest_pt')
@@ -160,6 +162,7 @@ class ContactController extends MasterController
   // form contact add
   public function addcontact(Request $req)
 	{
+		$sat_idx=$req->id;
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
@@ -176,7 +179,8 @@ class ContactController extends MasterController
 			'ref_global_country',
 			'sat_id',
 			'prefix_sat_id',
-			'entry_user'
+			'entry_user',
+			'sat_idx'
     ));
 	}
 
@@ -240,6 +244,7 @@ class ContactController extends MasterController
 	 // $contactid=uniqid();
   // $poe_id = $req ->input ('poe_id');
 	$sat_id = $req ->input ('sat_id');
+		$sat_idx = $req ->input ('sat_idx');
   // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
 		$user_id = $req ->input ('user_id');
 	$contact_id = $req ->input ('contact_id');
@@ -285,6 +290,7 @@ class ContactController extends MasterController
   $data = array(
     // 'poe_id'=>$poe_id,
 		'sat_id'=>$sat_id,
+		'sat_idx'=>$sat_idx,
     'contact_id'=>$contact_id,
 		'title_contact'=>$title_contact,
     'name_contact'=>$name_contact,
@@ -364,10 +370,10 @@ class ContactController extends MasterController
   if ($res1){
     $msg = " ส่งข้อมูลสำเร็จ";
 		// $poe_id=$poe_id;
-    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id';</script> ";
+    $url_rediect = "<script>alert('".$msg."'); window.location='/contacttable/id/$sat_idx';</script> ";
   }else{
     $msg = " ส่งข้อมูลไม่สำเร็จ";
-    $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id';</script> ";
+    $url_rediect = "<script>alert('".$msg."'); window.location='/contacttable/id/$sat_idx';</script> ";
     }
     echo $url_rediect;
 }

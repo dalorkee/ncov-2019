@@ -108,51 +108,49 @@ input.valid, textarea.valid{
 						</div>
 					</div>
 					<div class="col-md-12">
-						<?php
-						$sat_id = $_GET['sat_id'];
-						 ?>
-						<a class="btn btn-success" href="{{ route('addcontact') }}?sat_id=<?php echo $sat_id ;?>">
+						<a class="btn btn-success" href="{{ route('addcontact',$id) }}">
 							+	เพิ่มผู้สัมผัส
 						</a>
 					</div>
 					<br>
 					<div class="table-responsive">
-          <table id="example" class="table display mb-4" role="table">
-        <thead>
-            <tr>
-							<th>ID</th>
-                <th>Contact ID</th>
-								<th>อายุ</th>
-                <th>ที่อยู่ในประเทศไทย</th>
-                <th>สัญชาติ</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-					<?php foreach($contact_data as $value) : ?>
-            <tr>
-							<td>{{ $value->id }}</td>
-							<td>{{ $value->contact_id }}</td>
-							<td>{{ $value->age_contact }}</td>
-							<td>{{ $arrprov[$value->province] }}
-								{{ $arrdistrict[$value->district] }}
-								{{ $arr_sub_district[$value->sub_district] }}</td>
-							<td>{{ $nation_list[$value->national_contact] }}</td>
-                <td>
-                  <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
-                      ติดตามอาการ
-                  </a>
-									<a class="btn btn-info btn-sm" href="{{ route('detailcontact')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
-										รายละเอียด
-								</a>
-								<a class="btn btn-warning btn-sm" href="{{ route('editcontact')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
-										แก้ไขข้อมูล
-								</a>
-                </td>
-            </tr>
-						<?php endforeach;?>
-        </tbody>
-    </table>
+						<table id="example" class="table display mb-4" role="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+									<th>Contact ID</th>
+									<th>อายุ</th>
+									<th>ที่อยู่ในประเทศไทย</th>
+									<th>สัญชาติ</th>
+									<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php foreach($contact_data as $value) : ?>
+							<tr>
+								<td>{{ $value->id }}</td>
+                <td>{{ $value->contact_id }}</td>
+                <td>{{ $value->age_contact }}</td>
+                <td>{{ (isset($arrprov[$value->province])) ? $arrprov[$value->province] : "" }}
+										{{ (isset($arrdistrict[$value->district])) ? $arrdistrict[$value->district] : "" }}
+										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}
+								</td>
+								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
+									<td>
+										<a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$id)}}">
+												ติดตามอาการ
+										</a>
+										<a class="btn btn-info btn-sm" href="{{ route('detailcontact',$id)}}">
+											รายละเอียด
+									</a>
+									<a class="btn btn-warning btn-sm" href="{{ route('editcontact',$id)}}">
+											แก้ไขข้อมูล
+									</a>
+									</td>
+							</tr>
+							<?php endforeach;?>
+						</tbody>
+						</table>
 	</div>
 				</div>
 			</div>
