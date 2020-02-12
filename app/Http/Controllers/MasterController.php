@@ -44,6 +44,14 @@ class MasterController extends Controller
 				'1' => 'คัดกรองที่สนามบิน',
 				'2' => 'Walkin มาที่ รพ.',
 
+			],
+			'arrfollowup_address' => [
+				'1' => 'บ้าน',
+				'2' => 'โรงแรม',
+				'3' => 'โรงพยาบาล',
+				'4' => 'สถานที่กักกัน',
+				'5' => 'อื่นๆ'
+
 			]
 		]);
 		return $status;

@@ -17,8 +17,8 @@
 				</li>
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-chart-line"></i><span class="hide-menu">Report </span></a>
 					<ul aria-expanded="false" class="collapse  first-level">
-						<li class="sidebar-item"><a href="{{ route('export_excel') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Download PUI (For SAT)</span></a></li>
-						<li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Report#2</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('export_excel') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Download PUI (For DA)</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('allexport') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Download PUI (For SAT)</span></a></li>
 					</ul>
 				</li>
 				@role('admin')

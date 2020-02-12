@@ -106,6 +106,9 @@ input.valid, textarea.valid{
 						</div>
 					</div>
 					<div class="col-md-12">
+						<a class="btn btn-cyan" href="{{ route('followupcontact')}}?sat_id=<?php echo $sat_id ;?>&contact_id=<?php echo $contact_id ;?>">
+							+	เพิ่มการติดตามผู้สัมผัส
+						</a>
 					</div>
 					<br>
 					<div class="table-responsive">
@@ -115,21 +118,20 @@ input.valid, textarea.valid{
                 <th>ครั้งที่</th>
 								<th>Contact ID</th>
 								<th>วันที่ติดตามผู้สัมผัส</th>
-								<th>สถานที่ติดตามผู้สัมผัส</th>
-                <th>Action</th>
+								<th>หน่วยงานที่ติดตามผู้ป่วย</th>
+                <th>สถานที่ติดตามผู้สัมผัส</th>
             </tr>
         </thead>
         <tbody>
 					<?php
 						$sat_id = $_GET['sat_id'];
-						echo $sat_id;
+						// echo $sat_id;
 					 ?>
 					 <?php foreach($fucontact_data as $value) : ?>
-             <tr>
-					<?php for ($x = 1; $x <= 14; $x++) { ?>
             <tr>
+
 							<td>
-								<?php echo $x; ?>
+								{{ $value->contact_id_day }}
 							</td>
 							<td>
 								{{ $value->contact_id }}
@@ -138,16 +140,33 @@ input.valid, textarea.valid{
 									{{ $value->date_no }}
 							</td>
 							<td>
-									{{ $value->followup_address }}
+										{{ (isset($arr_division_follow_contact[$value->division_follow_contact])) ? $arr_division_follow_contact[$value->division_follow_contact] : "" }}
 							</td>
-                <td>
-                  <a class="btn btn-warning btn-sm" href="{{ route('followupcontact')}}?contact_id_day={{ $x }}&sat_id={{ $sat_id }}&contact_id={{ $contact_id }}">
-                      กรอกข้อมูลการติดตามอาการ
+							@if ( $value->followup_address==3)
+							<td bgcolor="#A3E4D7">
+									{{ (isset($arr['arrfollowup_address'][$value->followup_address])) ? $arr['arrfollowup_address'][$value->followup_address] : "" }}
+
+							</td>
+							@else
+								<td bgcolor="#F9E79F">
+										{{ (isset($arr['arrfollowup_address'][$value->followup_address])) ? $arr['arrfollowup_address'][$value->followup_address] : "" }}
+
+								</td>
+								@endif
+                {{-- <td>
+									@if ( $value->followup_address==3)
+									<a class="btn btn-success btn-sm" href="{{ route('followupcontact')}}?contact_id_day=&sat_id={{ $sat_id }}&contact_id={{ $contact_id }}">
+                      {{ (isset($arr['arrfollowup_address'][$value->followup_address])) ? $arr['arrfollowup_address'][$value->followup_address] : "" }}
                   </a>
-                </td>
+									@else
+										<a class="btn btn-warning btn-sm" href="{{ route('followupcontact')}}?contact_id_day=&sat_id={{ $sat_id }}&contact_id={{ $contact_id }}">
+												{{ (isset($arr['arrfollowup_address'][$value->followup_address])) ? $arr['arrfollowup_address'][$value->followup_address] : "" }}
+										</a>
+                @endif
+
+                </td> --}}
             </tr>
-					<?php }?>
-					<?php endforeach;?>
+						<?php endforeach;?>
         </tbody>
     </table>
 	</div>

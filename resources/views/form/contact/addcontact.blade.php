@@ -68,6 +68,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
               </div>
             <div class="form-group row">
             <div class="col-sm-3">
+              <label for="name_contact">คำนำหน้าชื่อ</label>
             <select type="text" name="title_contact" class="form-control js-select-basic-single" placeholder="คำนำหน้าชื่อ">
 							@foreach ($ref_title_name as $row)
 							<option value="{{$row->id}}">{{$row->title_name}}</option>
@@ -75,17 +76,21 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </select>
             </div>
             <div class="col-sm-3">
+            <label for="name_contact">ชื่อต้นผู้สัมผัส</label>
             <input type="text" name="name_contact" class="form-control" placeholder="ชื่อต้นผู้สัมผัส">
             </div>
             <div class="col-sm-3">
+              <label for="mname_contact">ชื่อกลางผู้สัมผัส</label>
             <input type="text" name="mname_contact" class="form-control" placeholder="ชื่อกลางผู้สัมผัส">
             </div>
             <div class="col-sm-3">
+              <label for="lname_contact">นามสกุลผู้สัมผัส</label>
             <input type="text" name="lname_contact" class="form-control" placeholder="นามสกุลผู้สัมผัส">
             </div>
             </div>
             <div class="form-group row">
             <div class="col-sm-4">
+              <label for="sex_contact">เพศ</label>
             <select type="text" name="sex_contact" class="form-control" placeholder="col-sm-2">
                 <option value="">เพศ</option>
                   <option value="ชาย">ชาย</option>
@@ -93,15 +98,18 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </select>
             </div>
             <div class="col-sm-4">
+              <label for="age_contact">อายุ</label>
             <input type="text" name="age_contact" class="form-control" placeholder="อายุ">
             </div>
 						<div class="col-sm-4">
+              <label for="passport_contact">Passport ID</label>
 						<input type="text" name="passport_contact" class="form-control" placeholder="Passport ID">
 						</div>
             </div>
             <div class="form-group row">
 
             <div class="col-sm-3">
+              <label for="national_contact">สัญชาติผู้สัมผัส</label>
             <select type="text" name="national_contact" class="form-control js-select-basic-single" placeholder="สัญชาติ">
 							<option value="">เลือกสัญชาติ</option>
 						@foreach ($ref_global_country as $row)
@@ -110,6 +118,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </select>
             </div>
             <div class="col-sm-3">
+              <label for="province">จังหวัดที่อยู่ในประเทศไทย</label>
             <select type="text" name="province" id="province" class="form-control province js-select-basic-single" placeholder="จังหวัด">
 							<option value="">เลือกจังหวัดที่อยู่ในประเทศไทย</option>
 						@foreach ($listprovince as $row)
@@ -118,11 +127,13 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 						</select>
             </div>
             <div class="col-sm-3">
+              <label for="district">อำเภอ/เขตที่อยู่ในประเทศไทย</label>
 						<select name="district" id="district" class="form-control district js-select-basic-single" placeholder="อำเภอ">
 							<option value="">เลือกอำเภอ/เขตที่อยู่ในประเทศไทย</option>
 						</select>
 						</div>
             <div class="col-sm-3">
+              <label for="subdistrict">ตำบลที่อยู่ในประเทศไทย</label>
 						<select name="sub_district" id="subdistrict" class="form-control subdistrict js-select-basic-single" placeholder="ตำบล">
 							<option value="">เลือกตำบลที่อยู่ในประเทศไทย</option>
 						</select>
@@ -130,31 +141,37 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </div>
             <div class="form-group row">
             <div class="col-sm-4">
+              <label for="address_contact">ที่อยู่</label>
             <textarea rows="3" name="address_contact" type="text" class="form-control" placeholder="ที่อยู่"></textarea>
             </div>
             <div class="col-sm-4">
+              <label for="phone_contact">เบอร์โทร</label>
             <input  type="text" name="phone_contact" class="form-control" placeholder="เบอร์โทร">
             </div>
             <div class="col-sm-4">
+              <label for="patient_contact">การสัมผัสผู้ป่วย</label>
             <textarea rows="3" type="text" name="patient_contact" class="form-control" placeholder="การสัมผัสผู้ป่วย"></textarea>
             </div>
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
+              <label for="risk_contact">ระดับความเสี่ยง</label>
             <select type="text" name="risk_contact" class="form-control js-select-basic-single" placeholder="ระดับความเสี่ยง">
                 <option value="">ระดับความเสี่ยง</option>
-                  <option value="">- เลือก -</option>
                   <option value="1">เสี่ยงสูง</option>
                   <option value="2">เสี่ยงต่ำ</option>
             </select>
             </div>
             <div class="col-sm-3">
+              <label for="datecontact">วันที่สัมผัส</label>
             <input type="text" class="form-control" name="datecontact" data-provide="datepicke" id="datecontact"  placeholder="วันที่สัมผัส" autocomplete="off" >
             </div>
             <div class="col-sm-3">
+              <label for="datefollow">ให้ตามถึงวันที่</label>
             <input type="text" class="form-control" name="datefollow" data-provide="datepicke" id="datefollow"  placeholder="ให้ตามถึงวันที่" autocomplete="off" >
             </div>
             <div class="col-sm-3">
+              <label for="type_contact">ประเภทผู้สัมผัส</label>
             <select type="text" name="type_contact" class="form-control js-select-basic-single" placeholder="ประเภทผู้สัมผัส">
                 <option value="">ประเภทผู้สัมผัส</option>
                   <option value="">- เลือก -</option>
@@ -170,11 +187,13 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
+              <label for="date_followup">วันที่ติดตามอาการ</label>
             <input type="text" name="date_followup" id="date_followup" data-provide="datepicke" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off" >
             </div>
             </div>
             <div class="form-group row">
               <div class="col-sm-3">
+                <label for="followup_address">สถานที่ที่ติดตามผู้สัมผัส</label>
               <select type="text"  name="followup_address" id="followup_address" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
               <option value="">สถานที่ที่ติดตามผู้สัมผัส</option>
               <option value="1">บ้าน</option>
@@ -185,6 +204,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
               </select>
               </div>
             <div class="col-sm-3">
+              <label for="province_follow_contact">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</label>
             <select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
             <option value="">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</option>
             @foreach ($listprovince as $row)
@@ -193,16 +213,19 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </select>
             </div>
             <div class="col-sm-3">
+              <label for="chospital_new">โรงพยาบาลที่รักษาตัว</label>
               <select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="อำเภอ">
   							<option value="">เลือกโรงพยาบาลที่รักษาตัว</option>
   						</select>
             </div>
             <div class="col-sm-3">
+              <label for="province_follow_contact_other">สถานที่อื่นๆ</label>
               <input  type="text" name="province_follow_contact_other" class="form-control" placeholder="สถานที่อื่นๆ">
             </div>
           </div>
             <div class="form-group row">
               <div class="col-sm-3">
+                <label for="division_follow_contact">หน่วยงานที่ติดตามผู้สัมผัส</label>
               <select type="text" name="division_follow_contact" id="input_followup_address" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย" readonly>
               <option value="">หน่วยงานที่ติดตามผู้สัมผัส</option>
               <option value="99">ส่วนกลาง</option>
@@ -223,6 +246,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
               </select>
               </div>
             <div class="col-sm-3">
+              <label for="division_follow_contact_other">หน่วยงานอื่นๆ</label>
             <input type="text" class="form-control" name="division_follow_contact_other"   placeholder="หน่วยงานอื่นๆ" autocomplete="off" >
             </div>
             </div>
@@ -283,6 +307,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             <br>
             <div class="form-group row">
 						<div class="col-sm-3">
+              <label for="status_followup">สถานะการติดตาม</label>
 						<select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
 							<option value="">สถานะการติดตาม</option>
 								<option value="1">จบการติดตาม</option>
@@ -290,6 +315,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 						</select>
 						</div>
 						<div class="col-sm-3">
+              <label for="available_contact">การติดตามผู้สัมผัส</label>
 						<select type="text" name="available_contact" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
 							<option value="">การติดตามผู้สัมผัส</option>
 								<option value="1">ติดตามได้</option>
@@ -297,7 +323,8 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 						</select>
 						</div>
 						<div class="col-sm-3">
-						<select type="text" name="follow_results" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
+              <label for="follow_results">ผลการติดตามผู้สัมผัส</label>
+						<select type="text" name="follow_results" class="form-control js-select-basic-single" placeholder="ผลการติดตามผู้สัมผัส">
 							<option value="">ผลการติดตามผู้สัมผัส</option>
 								<option value="1">ไม่มี</option>
 								<option value="2">เล็กน้อย</option>

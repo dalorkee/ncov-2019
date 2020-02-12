@@ -43,6 +43,8 @@
 												$contact_id = $_GET['contact_id'];
 											 ?>
 						<div class="form-group row">
+							<div class="col-sm-3">
+							</div>
 						<div class="col-sm-3">
 						<input type="hidden" name="sat_id" value="{{$sat_id}}" class="form-control">
 						</div>
@@ -50,7 +52,7 @@
 						<input type="hidden" name="contact_id" value="{{$contact_id}}" class="form-control">
 						</div>
 						<div class="col-sm-3">
-						<input type="hidden" name="contact_id_day" value="{{$contact_id_day}}" class="form-control">
+						<input type="hidden" name="contact_id_day" value="{{$followup_date}}" class="form-control">
 						</div>
 						<div class="form-group row">
 									<div class="col-sm-3">
@@ -60,6 +62,7 @@
 						</div>
             <div class="form-group row">
             <div class="col-sm-3">
+						<label for="date_no">วันที่ติดตามอาการ</label>
             <input type="text" name="date_no" id="date_no" class="form-control" placeholder="วันที่ติดตามอาการ">
             </div>
             </div>
@@ -107,14 +110,10 @@
             <textarea rows="3" name="other_symtom" type="text" class="form-control" placeholder="อาการอื่นๆ "></textarea>
             </div>
             </div>
-						<div class="form-group row">
-            <div class="col-sm-3">
-            <input type="text" name="date_no" id="date_no" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off" >
-            </div>
-            </div>
 
 						<div class="form-group row">
               <div class="col-sm-3">
+						 <label for="followup_address">สถานที่ที่ติดตามผู้สัมผัส</label>
               <select type="text"  name="followup_address" id="followup_address" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
               <option value="">สถานที่ที่ติดตามผู้สัมผัส</option>
               <option value="1">บ้าน</option>
@@ -125,14 +124,16 @@
               </select>
               </div>
             <div class="col-sm-3">
+			<label for="province_follow_contact">จังหวัดที่ติดตามผู้สัมผัส</label>
             <select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-            <option value="">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</option>
+						<option value="">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</option>
             @foreach ($listprovince as $row)
             <option value="{{$row->province_id}}">{{$row->province_name}}</option>
             @endforeach
             </select>
             </div>
             <div class="col-sm-3">
+              <label for="hospcode">โรงพยาบาลที่รักษาตัว</label>
               <select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="อำเภอ">
   							<option value="">เลือกโรงพยาบาลที่รักษาตัว</option>
   						</select>
@@ -140,8 +141,9 @@
           </div>
 						<div class="form-group row">
             <div class="col-sm-3">
+              <label for="division_follow_contact">หน่วยงานที่ติดตามผู้สัมผัส</label>
             <select type="text" name="division_follow_contact" id="division_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-            <option value="">หน่วยงานที่ติดตามผู้ป่วย</option>
+            <option value="">หน่วยงานที่ติดตามผู้สัมผัส</option>
             <option value="99">ส่วนกลาง</option>
             <option value="13">สปคม.</option>
             <option value="1">สคร.1</option>
@@ -160,6 +162,7 @@
             </select>
             </div>
             <div class="col-sm-3">
+	              <label for="name_contact">คำนำหน้าชื่อ</label>
             <input type="text" class="form-control" name="division_follow_contact_other"   placeholder="หน่วยงานอื่นๆ" autocomplete="off" >
             </div>
             </div>
@@ -179,6 +182,7 @@
 						<br>
 						<div class="form-group row">
 						<div class="col-sm-3">
+              <label for="status_followup">สถานะการติดตาม</label>
 						<select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
 							<option value="">สถานะการติดตาม</option>
 								<option value="1">จบการติดตาม</option>
@@ -186,6 +190,7 @@
 						</select>
 						</div>
 						<div class="col-sm-3">
+              <label for="available_contact">การติดตามผู้สัมผัส</label>
 						<select type="text" name="available_contact" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
 							<option value="">การติดตามผู้สัมผัส</option>
 								<option value="1">ติดตามได้</option>
@@ -193,6 +198,7 @@
 						</select>
 						</div>
 						<div class="col-sm-3">
+              <label for="follow_results">ผลการติดตามผู้สัมผัส</label>
 						<select type="text" name="follow_results" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
 							<option value="">ผลการติดตามผู้สัมผัส</option>
 							<option value="1">ไม่มี</option>
