@@ -278,6 +278,8 @@ class ScreenPUIController extends MasterController
       }
 
 
+      //dd($request->sat_id);
+
 
       $update = InvestList::where('id', $request->id)
               ->update([
