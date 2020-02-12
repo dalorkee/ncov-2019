@@ -111,7 +111,7 @@ input.valid, textarea.valid{
 						<?php
 						$sat_id = $_GET['sat_id'];
 						 ?>
-						<a class="btn btn-success" href="{{ route('addcontact')}}?sat_id=<?php echo $sat_id ;?>">
+						<a class="btn btn-success" href="{{ route('addcontact') }}?sat_id=<?php echo $sat_id ;?>">
 							+	เพิ่มผู้สัมผัส
 						</a>
 					</div>
@@ -134,8 +134,10 @@ input.valid, textarea.valid{
 							<td>{{ $value->id }}</td>
 							<td>{{ $value->contact_id }}</td>
 							<td>{{ $value->age_contact }}</td>
-							<td>{{ $value->province }} {{ $value->district }} {{ $value->sub_district }}</td>
-							<td>{{ $value->national_contact }}</td>
+							<td>{{ $arrprov[$value->province] }}
+								{{ $arrdistrict[$value->district] }}
+								{{ $arr_sub_district[$value->sub_district] }}</td>
+							<td>{{ $nation_list[$value->national_contact] }}</td>
                 <td>
                   <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
                       ติดตามอาการ
@@ -150,16 +152,6 @@ input.valid, textarea.valid{
             </tr>
 						<?php endforeach;?>
         </tbody>
-        <tfoot>
-            <tr>
-							<th>ID</th>
-							<th>ชื่อ-สกุล</th>
-							<th>Passport</th>
-							<th>อายุ</th>
-							<th>สัญชาติ</th>
-							<th>Action</th>
-            </tr>
-        </tfoot>
     </table>
 	</div>
 				</div>

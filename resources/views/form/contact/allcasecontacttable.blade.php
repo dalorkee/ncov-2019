@@ -124,16 +124,19 @@ input.valid, textarea.valid{
 								<td>{{ $value->id }}</td>
                 <td>{{ $value->contact_id }}</td>
                 <td>{{ $value->age_contact }}</td>
-                <td>{{ $value->province }} {{ $value->district }} {{ $value->sub_district }}</td>
-								<td>{{ $value->national_contact }}</td>
+                <td>{{ (isset($arrprov[$value->province])) ? $arrprov[$value->province] : "" }}
+										{{ (isset($arrdistrict[$value->district])) ? $arrdistrict[$value->district] : "" }}
+										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}
+								</td>
+								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
                 <td>
-                  <a class="btn btn-danger" href="{{ route('contactfollowtable')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
+                  <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
                       ติดตามอาการ
                   </a>
-                    <a class="btn btn-info" href="{{ route('detailcontact')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
+                    <a class="btn btn-info btn-sm" href="{{ route('detailcontact')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
                       รายละเอียด
                   </a>
-                  <a class="btn btn-warning" href="#">
+                  <a class="btn btn-warning btn-sm" href="#">
                       แก้ไขข้อมูล
                   </a>
                 </td>

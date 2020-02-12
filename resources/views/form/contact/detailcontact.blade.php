@@ -37,9 +37,9 @@
 											<div class="pull-left">
 															<h4> &nbsp;<b class="text-danger">ข้อมูลผู้ป่วย</b></h4>
 															<p class="text-muted m-l-5">
-																	ชื่อ - นามสกุล :	 {{ $ref_detail_pt[0]->first_name }} {{ $ref_detail_pt[0]->mid_name }} {{ $ref_detail_pt[0]->last_name }}
-																 	</br> เพศ : {{ $ref_detail_pt[0]->sex }}
-																 	</br>อายุ : {{ $ref_detail_pt[0]->age }}
+																	ชื่อ - นามสกุล :	{{ (!empty($ref_detail_pt[0]->first_name)) ? $ref_detail_pt[0]->first_name : "" }} {{ (!empty($ref_detail_pt[0]->mid_name)) ? $ref_detail_pt[0]->mid_name : "" }} {{ (!empty($ref_detail_pt[0]->last_name)) ? $ref_detail_pt[0]->last_name : "" }}
+																 	</br> เพศ : {{ (!empty($ref_detail_pt[0]->sex)) ? $ref_detail_pt[0]->sex : "" }}
+																 	</br>อายุ : {{ (!empty($ref_detail_pt[0]->age)) ? $ref_detail_pt[0]->age : "" }}
 																	<br/>สัญชาติ : {{ $nation_list[$ref_detail_pt[0]->nation] }}
 																</br>อาชีพ : {{ $arr_occu[$ref_detail_pt[0]->occupation] }}
 																	<br/>ผู้ป่วย Isolated ที่ รพ. : {{ $arrprov[$ref_detail_pt[0]->isolated_province] }}</p>

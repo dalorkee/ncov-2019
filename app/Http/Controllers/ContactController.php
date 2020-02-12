@@ -14,8 +14,20 @@ class ContactController extends MasterController
 	public function allcasecontacttable(Request $req)
   {
 		$contact_data=DB::table('tbl_contact')->select('*')->get();
+		$nation_list = $this->arrnation();
+		$arr_occu = $this->arroccu();
+		$arrprov = $this->arrprov();
+		$arrdistrict = $this->arrdistrict();
+		$arr_sub_district = $this->arr_sub_district();
+		$arr_division_follow_contact = $this->arr_division_follow_contact();
     return view('form.contact.allcasecontacttable',compact(
-			'contact_data'
+			'contact_data',
+			'nation_list',
+			'arr_occu',
+			'arrprov',
+			'arrdistrict',
+			'arr_division_follow_contact',
+			'arr_sub_district'
     ));
   }
 
@@ -38,25 +50,37 @@ class ContactController extends MasterController
   public function contacttable(Request $req)
   {
 		$sat_id=$req->sat_id;
+		$nation_list = $this->arrnation();
+		$arr_occu = $this->arroccu();
+		$arrprov = $this->arrprov();
+		$arrdistrict = $this->arrdistrict();
+		$arr_sub_district = $this->arr_sub_district();
 		// dd($poe_id);
 		$patian_data=DB::table('invest_pt')->select('*')->where('sat_id', [$req->sat_id] )->get();
 		$contact_data=DB::table('tbl_contact')->select('*')->where('sat_id', $sat_id)->get();
     return view('form.contact.contacttable',compact(
 			'contact_data',
-			'patian_data'
+			'patian_data',
+			'nation_list',
+			'arr_occu',
+			'arrprov',
+			'arrdistrict',
+			'arr_sub_district'
     ));
   }
 
 
   public function contactfollowtable(Request $req)
   {
+		$arr = parent::getStatus();
 		$sat_id=$req->sat_id;
-		// $poe_id=$req->poe_id;
+		$patian_date=DB::table('tbl_followupcontact')->where('contact_id', \DB::raw("(select max(`contact_id_day`) from tbl_followupcontact)"))->get();
 		$patian_data=DB::table('invest_pt')->select('*')->where('sat_id', [$req->sat_id] )->get();
 		$contact_data=DB::table('tbl_contact')->select('*')->where('sat_id', $sat_id)->get();
-		$fucontact_data=DB::table('tbl_followupcontact')->select('*')->where('contact_id', $req->contact_id)->orderBy('contact_id_day')->get();
+		$fucontact_data=DB::table('tbl_followupcontact')->select('*')->where('contact_id', $req->contact_id)->get();
 		$contact_id=$req->contact_id;
 		$contact_id_day=$req->contact_id_day;
+		$arr_division_follow_contact = $this->arr_division_follow_contact();
     return view('form.contact.contactfollowtable',compact(
 			'sat_id',
 			// 'poe_id',
@@ -64,7 +88,10 @@ class ContactController extends MasterController
 			'contact_id',
 			'fucontact_data',
 			'contact_data',
-			'patian_data'
+			'patian_date',
+			'patian_data',
+			'arr_division_follow_contact',
+			'arr'
     ));
   }
 
@@ -138,7 +165,7 @@ class ContactController extends MasterController
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$sat_id=$req->sat_id;
     $listprovince=$this->province();
-    $listcountry=$this->country();
+    $listcountry=$this->arrnation();
 		$entry_user = Auth::user()->id;
 		$prefix_sat_id = Auth::user()->prefix_sat_id;
 		return view('form.contact.addcontact',compact(
@@ -163,7 +190,7 @@ class ContactController extends MasterController
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$sat_id=$req->sat_id;
     $listprovince=$this->province();
-    $listcountry=$this->country();
+    $listcountry=$this->arrnation();
 		$entry_user = Auth::user()->id;
 		$prefix_sat_id = Auth::user()->prefix_sat_id;
 		return view('form.contact.editcontact',compact(
@@ -185,6 +212,7 @@ class ContactController extends MasterController
   {
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
+		$followup_date=DB::table('tbl_followupcontact')->where('contact_id', $req->contact_id)->max('contact_id_day');
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$sat_id=$req->sat_id;
 		$contact_id=$req->contact_id;
@@ -198,6 +226,7 @@ class ContactController extends MasterController
 			'ref_specimen',
 			'ref_global_country',
 			'sat_id',
+			'followup_date',
 			'prefix_sat_id',
 			'contact_id_day',
 			'contact_id',
@@ -343,11 +372,9 @@ class ContactController extends MasterController
     echo $url_rediect;
 }
 
-public function followupcontactinsert(Request $req){
-$delete1 = DB::table('tbl_contact')->where('contact_id','=', $req->contact_id)->delete();
-
-if ($delete1)
+public function followupcontactinsert(Request $req)
 {
+
 // $poe_id = $req ->input ('poe_id');
 $sat_id = $req ->input ('sat_id');
 $contact_id = $req ->input ('contact_id');
@@ -370,6 +397,7 @@ $available_contact = $req ->input ('available_contact');
 $follow_results = $req ->input ('follow_results');
 $user_id = $req ->input ('user_id');
 $province_follow_contact = $req ->input ('province_follow_contact');
+$followup_address = $req ->input ('followup_address');
 $division_follow_contact = $req ->input ('division_follow_contact');
 $division_follow_contact_other = $req ->input ('division_follow_contact_other');
 $sat_id_class = $req ->input ('sat_id_class');
@@ -378,7 +406,8 @@ $data = array(
 	// 'poe_id'=>$poe_id,
 	'sat_id'=>$sat_id,
 	'contact_id'=>$contact_id,
-	'contact_id_day'=>$contact_id_day,
+	'contact_id_day'=>$contact_id_day + '1',
+	'followup_address'=>$followup_address,
 	'date_no'=>$date_no,
 	'clinical'=>$clinical,
 	'fever'=>$fever,
@@ -402,7 +431,7 @@ $data = array(
 	'sat_id_class'=>$sat_id_class,
 	'date_entry'=>$date_entry
 );
-   // dd($data);
+    // dd($data);
 $res1	= DB::table('tbl_followupcontact')->insert($data);
 // if ($res1)
 // {
@@ -441,7 +470,7 @@ if ($res1){
 	}
 	echo $url_rediect;
 }
-}
+
 
 public function contactedit(Request $req){
 	// dd($req->contact_id);
@@ -614,12 +643,21 @@ echo $outputD;
      // return view('AEFI.Apps.form1')->with('list',$list);
      return $listprovince;
   }
-	public function country(){
-		$listprovince=DB::table('ref_global_country')
-		->orderBy('country_name', 'ASC')
-		->get();
-		 // return view('AEFI.Apps.form1')->with('list',$list);
-		 return $listprovince;
+	protected function arrdistrict(){
+		$arrdistrict = DB::table('ref_district')->select('district_id','district_name')->get();
+		foreach ($arrdistrict as  $value) {
+			$arrdistrict[$value->district_id] =trim($value->district_name);
+		}
+		// dd($province_arr);
+		return $arrdistrict;
+	}
+	protected function arr_sub_district(){
+		$arr_sub_district = DB::table('ref_sub_district')->select('sub_district_id','sub_district_name')->get();
+		foreach ($arr_sub_district as  $value) {
+			$arr_sub_district[$value->sub_district_id] =trim($value->sub_district_name);
+		}
+		// dd($province_arr);
+		return $arr_sub_district;
 	}
 	public function ref_title_name(){
 		$ref_title_name=DB::table('ref_title_name')
@@ -670,6 +708,36 @@ echo $outputD;
 		}
 		// dd($province_arr);
 		return $arrspecimen;
+	}
+	protected function arrfollowup_address(){
+		$arrfollowup_address = DB::table('ref_specimen')->select('id','name_en')->get();
+		foreach ($arrfollowup_address as  $value) {
+			$arrfollowup_address[$value->id] =trim($value->name_en);
+		}
+		// dd($province_arr);
+		return $arrspecimen;
+	}
+	protected function arr_division_follow_contact(){
+		$arr_division_follow_contact = array(
+			'99'=>'ส่วนกลาง',
+			'13'=>'สปคม.',
+			'1'=>'สคร.1',
+			'2'=>'สคร.2',
+			'3'=>'สคร.3',
+			'4'=>'สคร.4',
+			'5'=>'สคร.5',
+			'6'=>'สคร.6',
+			'7'=>'สคร.7',
+			'8'=>'สคร.8',
+			'9'=>'สคร.9',
+			'10'=>'สคร.10',
+			'11'=>'สคร.11',
+			'12'=>'สคร.12',
+			'999'=>'อื่นๆ',
+			''=>''
+			);
+		// dd($list_sym_cough);
+		return $arr_division_follow_contact;
 	}
     /**
      * Display a listing of the resource.
@@ -781,4 +849,5 @@ echo $outputD;
 			}
 			echo $output;
 		}
+
 }
