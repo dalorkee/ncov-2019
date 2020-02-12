@@ -745,7 +745,6 @@ input:read-only {
                   <div class="card-body">
 										    <input type="hidden" name="entry_user" value="{{ $entry_user }}"  />
 												<input type="hidden" name="id" value="{{ $data->id }}"  />
-												<input type="hidden" name="sat_id" value="{{ $data->sat_id }}"  />
                         <button type="submit" class="btn btn-primary">Edit</button>
                   </div>
             </div>
