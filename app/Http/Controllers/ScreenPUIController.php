@@ -71,6 +71,7 @@ class ScreenPUIController extends MasterController
      */
     public function store(Request $request)
     {
+      $prefix_sat_id = Auth::user()->prefix_sat_id;
       //Auto
       if($request->pui_code_gen==1){
         if (InvestList::where('sat_id_temp', '=', $request->sat_id)->exists()) {
@@ -80,7 +81,7 @@ class ScreenPUIController extends MasterController
                  'table' => 'invest_pt',
                  'length' => 11,
                 'field' => 'sat_id_temp',
-                 'prefix' => "01"."O".date('d').date('m'),
+                 'prefix' => $prefix_sat_id."O".date('d').date('m'),
              ];
              $sat_id_gen = IdGenerator::generate($config);
              $tmp = trim($sat_id_gen);
@@ -99,7 +100,9 @@ class ScreenPUIController extends MasterController
           $sat_id = trim($request->sat_id);
       }
 
-      if(!is_null($request->order_pt)){
+      $order_pt = (!empty($request->order_pt)) ? trim($request->order_pt) : NULL;
+
+      if(!is_null($order_pt)){
         $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
         if($check_duplicate_record_order_pt){
           //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
@@ -183,7 +186,7 @@ class ScreenPUIController extends MasterController
           "op_opt" => (!empty($request->op_opt)) ? trim($request->op_opt) : NULL,
           "op_dpc" => (!empty($request->op_dpc)) ? trim($request->op_dpc) : NULL,
           "pt_status" => (!empty($request->pt_status)) ? trim($request->pt_status) : "1",
-          "order_pt" => (!empty($request->order_pt)) ? trim($request->order_pt) : NULL,
+          "order_pt" => $order_pt,
           "pui_type" => (!empty($request->pui_type)) ? trim($request->pui_type) : NULL,
           "news_st" => (!empty($request->news_st)) ? trim($request->news_st) : NULL,
           "disch_st" => (!empty($request->disch_st)) ? trim($request->disch_st) : NULL,

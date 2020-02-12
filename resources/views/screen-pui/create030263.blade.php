@@ -838,7 +838,7 @@ $(document).ready(function() {
 					$("#patient_type_sat_id").prop('required',true);
 					$('#pui_gen_auto').show();
 					$('#pui_gen_manual').hide();
-					$('#sat_id').val('');
+					//$('#sat_id').val('');
 	});
 	$(".check-manual").click(function(){
 	        $("#pui_code_gen_rd2").prop("checked", true);
