@@ -7,19 +7,19 @@
 		<!-- Sidebar navigation-->
 		<nav class="sidebar-nav">
 			<ul id="sidebarnav" class="p-t-30">
-				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('home') }}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
-				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('satList') }}" aria-expanded="false"><i class="mdi mdi-folder-multiple-outline"></i><span class="hide-menu"> SAT</span></a></li>
-				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('investList.index') }}" aria-expanded="false"><i class="mdi mdi-ambulance"></i><span class="hide-menu"> Invest</span></a></li>
-
 				<!--
-				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-format-list-bulleted"></i><span class="hide-menu">Data </span></a>
+				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{ route('home') }}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
+				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{ route('satList') }}" aria-expanded="false"><i class="mdi mdi-folder-multiple-outline"></i><span class="hide-menu"> SAT</span></a></li>
+				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{ route('investList.index') }}" aria-expanded="false"><i class="mdi mdi-ambulance"></i><span class="hide-menu"> Invest</span></a></li>
+				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{ route('allcasecontacttable') }}" aria-expanded="false"><i class="mdi mdi-ambulance"></i><span class="hide-menu"> Contact</span></a></li>
+				-->
+				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-database"></i><span class="hide-menu">Data </span></a>
 					<ul aria-expanded="false" class="collapse  first-level">
-						<li class="sidebar-item"><a href="{ route('investList.index') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Lists PUI</span></a></li>
-						<li class="sidebar-item"><a href="{ route('screenpui.create') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Screen PUI</span></a></li>
-						<li class="sidebar-item"><a href="{ route('allcasecontacttable') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Lists Contact</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('satList') }}" class="sidebar-link"><i class="mdi mdi-folder-multiple-outline"></i><span class="hide-menu"> SAT</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('investList.index') }}" class="sidebar-link"><i class="mdi mdi-ambulance"></i><span class="hide-menu"> Invest</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('allcasecontacttable') }}" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Contact</span></a></li>
 					</ul>
 				</li>
-				-->
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-chart-line"></i><span class="hide-menu">Report </span></a>
 					<ul aria-expanded="false" class="collapse  first-level">
 						<li class="sidebar-item"><a href="{{ route('export_excel') }}" class="sidebar-link"><i class="mdi mdi-plus"></i><span class="hide-menu"> Download PUI (For DA)</span></a></li>

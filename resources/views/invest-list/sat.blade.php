@@ -258,7 +258,7 @@ $(document).ready(function() {
 				className: 'btn btn-info btn-sm',
 				titleAttr: 'New patient',
 				action: function(e, dt, node, config) {
-					window.location.href = '{{ route('screenpui.edit',$value['id']) }}';
+					window.location.href = '{{ route('screenpui.create') }}';
 				}
 			},
 			/*{extend: 'copy', text: '<i class="far fa-copy"></i>', titleAttr: 'Copy', className: 'btn btn-outline-primary'},
