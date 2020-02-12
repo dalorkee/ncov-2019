@@ -55,7 +55,7 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 					<div class="form-group">
-						<label for="lmpInput">Lmphocte</label>
+						<label for="lmpInput">Lymphocyte</label>
 						<div class="input-group">
 							<input type="text" name="labCbcLymphocyte" value="{{ $invest_pt[0]['lab_cbc_lymphocyte'] }}" class="form-control">
 							<div class="input-group-append">
@@ -368,14 +368,16 @@
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 					<div class="form-group">
-						<label for="rapidtest">3.9 Rapid test สำหรับไข้หวัด</label>
-						<div class="input-group">
-							<input type="text" name="labRapidTestName" value="{{ $invest_pt[0]['lab_rapid_test_name'] }}" class="form-control" placeholder="ระบุชื่อชุดทดสอบ">
+						<label for="rapidtest">3.9 Rapid test สำหรับไข้หวัด วันที่</label>
+						<!--<div class="input-group">
+							<input type="text" name="labRapidTestName" value="{ $invest_pt[0]['lab_rapid_test_name'] }}" class="form-control" placeholder="ระบุชื่อชุดทดสอบ">
 						</div>
+
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 					<label for="dateInput">วันที่</label>
+					-->
 					<div class="input-group date" data-provide="datepicke" id="lab_rapid_test_date">
 						<div class="input-group">
 							<input type="text" name="labRapidTestDate" value="{{ $data['lab_rapid_test_date'] }}" class="form-control" readonly>
@@ -400,9 +402,9 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 col-xl-8">
 					<div class="form-group">
-						<label for="other">อื่นๆ โปรดระบุ</label>
+						<label for="other">ถ้าผิดปกติโปรดระบุเชื้อ</label>
 						<div class="input-group">
-							<input type="text" name="labRapidTestOther" value="{{ $invest_pt[0]['lab_rapid_test_other'] }}" class="form-control">
+							<input type="text" name="labRapidTestOther" value="{{ $invest_pt[0]['lab_rapid_test_other'] }}" class="form-control" placeholder="โปรดระบุเชื้อ">
 						</div>
 					</div>
 				</div>
