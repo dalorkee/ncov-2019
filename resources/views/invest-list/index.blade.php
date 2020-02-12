@@ -45,7 +45,7 @@ input.valid, textarea.valid{
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Data</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Lists PUI</li>
+						<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('investList.index') }}">Invest</a></li>
 					</ol>
 				</nav>
 			</div>
@@ -62,7 +62,7 @@ input.valid, textarea.valid{
 					<h5 class="card-subtitle">2019-nCoV</h5>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row border-top">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
 					<div class="card">
 						<div class="card-body">

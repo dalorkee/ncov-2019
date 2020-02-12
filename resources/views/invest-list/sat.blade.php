@@ -62,7 +62,7 @@ input.valid, textarea.valid{
 					<h5 class="card-subtitle">2019-nCoV</h5>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row border-top">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
 					<div class="card">
 						<div class="card-body">

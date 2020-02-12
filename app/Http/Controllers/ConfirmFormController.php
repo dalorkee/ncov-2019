@@ -329,10 +329,9 @@ class ConfirmFormController extends Controller
 			Storage::disk('invest')->put($fileName2, File::get(Input::file('labCxr2File')));
 		}
 
-		$pt->lab_rapid_test_name = $request->labRapidTestName;
 		$pt->lab_rapid_test_date = $this->convertDateToMySQL($request->labRapidTestDate);
+		/* $pt->lab_rapid_test_name = $request->labRapidTestName; */
 		$pt->lab_rapid_test_result = $request->labRapidTestResult;
-
 		$pt->lab_rapid_test_other = $request->labRapidTestOther;
 		$pt->lab_other_name = $request->labOtherName;
 		$pt->lab_other_specimen = $request->labOtherSpecimen;

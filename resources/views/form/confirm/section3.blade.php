@@ -369,25 +369,20 @@
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 					<div class="form-group">
 						<label for="rapidtest">3.9 Rapid test สำหรับไข้หวัด วันที่</label>
-						<!--<div class="input-group">
-							<input type="text" name="labRapidTestName" value="{ $invest_pt[0]['lab_rapid_test_name'] }}" class="form-control" placeholder="ระบุชื่อชุดทดสอบ">
-						</div>
-
-					</div>
-				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-					<label for="dateInput">วันที่</label>
-					-->
-					<div class="input-group date" data-provide="datepicke" id="lab_rapid_test_date">
-						<div class="input-group">
-							<input type="text" name="labRapidTestDate" value="{{ $data['lab_rapid_test_date'] }}" class="form-control" readonly>
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+						<div class="input-group date" data-provide="datepicke" id="lab_rapid_test_date">
+							<div class="input-group">
+								<input type="text" name="labRapidTestDate" value="{{ $data['lab_rapid_test_date'] }}" class="form-control" readonly>
+								<div class="input-group-append">
+									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+				<!--<div class="input-group">
+						<input type="text" name="labRapidTestName" value="{ $invest_pt[0]['lab_rapid_test_name'] }}" class="form-control" placeholder="ระบุชื่อชุดทดสอบ">
+				</div>-->
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 					<label for="result">ผล</label>
 					<div>
 						<div class="custom-control custom-checkbox custom-control-inline">
@@ -400,9 +395,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 col-xl-8">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
-						<label for="other">ถ้าผิดปกติโปรดระบุเชื้อ</label>
+						<label for="other">ถ้าผิดปกติ โปรดระบุเชื้อ</label>
 						<div class="input-group">
 							<input type="text" name="labRapidTestOther" value="{{ $invest_pt[0]['lab_rapid_test_other'] }}" class="form-control" placeholder="โปรดระบุเชื้อ">
 						</div>

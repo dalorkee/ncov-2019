@@ -362,6 +362,10 @@
 						<label for="risk">2.5 ในช่วง 14 วันก่อนป่วย ท่านอาศัยอยู่ หรือ มีการเดินทางมาจากพื้นที่ที่มีการระบาด</label>
 						<div class="card">
 							<div class="custom-control custom-checkbox custom-control-inline">
+								<input type="checkbox" name="riskStayOutbreakChk" value="n" @if ($invest_pt[0]['risk_stay_outbreak_chk'] == 'n') checked @endif class="custom-control-input chk_risk_stay_outbreak" id="riskStayOutbreakChkNo">
+								<label for="riskStayOutbreakChkNo" class="custom-control-label normal-label">ไม่มี</label>
+							</div>
+							<div class="custom-control custom-checkbox custom-control-inline">
 								<input type="checkbox" name="riskStayOutbreakChk" value="y" @if ($invest_pt[0]['risk_stay_outbreak_chk'] == 'y') checked @endif class="custom-control-input chk_risk_stay_outbreak" id="riskStayOutbreakChkYes">
 								<label for="riskStayOutbreakChkYes" class="custom-control-label normal-label">มี ระบุรายละเอียดดังต่อไปนี้</label>
 							</div>
@@ -386,7 +390,7 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="form-group">
-						<label for="country" class="text-info">เมือง</label>
+						<label for="country" class="text-info">เมือง (กรณี ตปท.)</label>
 						<select name="riskStayOutbreakCityInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="select_risk_stay_outbreak_city">
 							@if (!empty($invest_pt[0]['risk_stay_outbreak_city']))
 								<option value="{{ $risk_stay_outbreak_city[0]['city_id'] }}" selected="selected">{{ $risk_stay_outbreak_city[0]['city_name'] }}</option>
@@ -397,7 +401,7 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="form-group">
-						<label for="city_other" class="text-info">เมืองอื่นๆ ระบุ</label>
+						<label for="city_other" class="text-info">เมืองอื่นๆ (กรณี ตปท.)</label>
 						<input type="text" name="riskStayOutbreakCityOtherInput" value="{{ $invest_pt[0]['risk_stay_outbreak_city_other'] }}" class="form-control border-info text-info" placeholder="เมืองอื่นๆ">
 					</div>
 				</div>
@@ -405,7 +409,7 @@
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="form-group">
-						<label for="province" class="text-info">จังหวัด</label>
+						<label for="province" class="text-info">จังหวัด (กรณี ประเทศไทย)</label>
 						<select name="riskStayOutbreakProvinceInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="risk_stay_outbreak_province">
 							@if (!empty($invest_pt[0]['risk_stay_outbreak_province']))
 								<option value="{{ $invest_pt[0]['risk_stay_outbreak_province'] }}" selected="selected">{{ $provinces[$invest_pt[0]['risk_stay_outbreak_province']]['province_name'] }}</option>
@@ -431,7 +435,7 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="form-group">
-						<label for="district" class="text-info">อำเภอ</label>
+						<label for="district" class="text-info">อำเภอ (กรณี ประเทศไทย)</label>
 						<select name="riskStayOutbreakDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="risk_stay_outbreak_district">
 							@if (!empty($invest_pt[0]['risk_stay_outbreak_district']))
 								<option value="{{ $risk_district[0]['district_id'] }}" selected="selected">{{ $risk_district[0]['district_name'] }}</option>
@@ -442,7 +446,7 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="form-group">
-						<label for="subDistrict" class="text-info">ตำบล</label>
+						<label for="subDistrict" class="text-info">ตำบล (กรณี ประเทศไทย)</label>
 						<select name="riskStayOutbreakSubDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="risk_stay_outbreak_sub_district">
 							@if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district']))
 								<option value="{{ $risk_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $risk_sub_district[0]['sub_district_name'] }}</option>
@@ -502,8 +506,12 @@
 						<label for="risk">2.6 ในช่วง 14 วันก่อนป่วย ท่านมีประวัติสัมผัสกับบุคคลที่มาจากพื้นที่ระบาดเช่น ประเทศจีน โปรดระบุรายละเอียดของผู้ที่ท่านมีประวัติสัมผัส</label>
 						<div class="card">
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="riskHistoryHumanContact" value="y" @if ($invest_pt[0]['risk_history_human_contact'] == 'y') checked @endif class="custom-control-input risk_history_human_contact" id="risk_history_human_contact">
-								<label for="risk_history_human_contact" class="custom-control-label normal-label">มี ระบุรายละเอียด</label>
+								<input type="checkbox" name="riskHistoryHumanContact" value="n" @if ($invest_pt[0]['risk_history_human_contact'] == 'n') checked @endif class="custom-control-input risk_history_human_contact" id="risk_history_human_contact_no">
+								<label for="risk_history_human_contact_no" class="custom-control-label normal-label">ไม่มี</label>
+							</div>
+							<div class="custom-control custom-checkbox custom-control-inline">
+								<input type="checkbox" name="riskHistoryHumanContact" value="y" @if ($invest_pt[0]['risk_history_human_contact'] == 'y') checked @endif class="custom-control-input risk_history_human_contact" id="risk_history_human_contact_yes">
+								<label for="risk_history_human_contact_yes" class="custom-control-label normal-label">มี ระบุรายละเอียด</label>
 							</div>
 						</div>
 					</div>
@@ -550,8 +558,12 @@
 						<label for="risk">2.7 ในช่วง 14 วันก่อนป่วย ท่านได้รับประทานหรือปรุงอาหารที่ประกอบด้วยสัตว์ป่า เช่น งูหรือค้างคาวหรือไม่</label>
 						<div class="card">
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="riskEatCookAnimal" value="y" @if ($invest_pt[0]['risk_eat_cook_animal'] == 'y') checked @endif class="custom-control-input risk_eat_cook_animal" id="risk_eat_cook_animal">
-								<label for="risk_eat_cook_animal" class="custom-control-label normal-label">มี ระบุรายละเอียด</label>
+								<input type="checkbox" name="riskEatCookAnimal" value="n" @if ($invest_pt[0]['risk_eat_cook_animal'] == 'n') checked @endif class="custom-control-input risk_eat_cook_animal" id="risk_eat_cook_animal_no">
+								<label for="risk_eat_cook_animal_no" class="custom-control-label normal-label">ไม่มี</label>
+							</div>
+							<div class="custom-control custom-checkbox custom-control-inline">
+								<input type="checkbox" name="riskEatCookAnimal" value="y" @if ($invest_pt[0]['risk_eat_cook_animal'] == 'y') checked @endif class="custom-control-input risk_eat_cook_animal" id="risk_eat_cook_animal_yes">
+								<label for="risk_eat_cook_animal_yes" class="custom-control-label normal-label">มี ระบุรายละเอียด</label>
 							</div>
 						</div>
 					</div>
@@ -571,8 +583,12 @@
 						<label for="risk">2.8 ในช่วง 14 วันก่อนป่วย ท่านได้มีการสัมผัสสัตว์ปีก โดยการจับ ชำแหละ ฝังกลบ หรือรับประทานสุกๆ ดิบๆ เป็นต้น</label>
 						<div class="card">
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="riskContactPoultry" value="y" @if ($invest_pt[0]['risk_contact_poultry'] == 'y') checked @endif class="custom-control-input risk_contact_poultry" id="risk_contact_poultry">
-								<label for="risk_contact_poultry" class="custom-control-label normal-label">มี ระบุรายละเอียด</label>
+								<input type="checkbox" name="riskContactPoultry" value="n" @if ($invest_pt[0]['risk_contact_poultry'] == 'n') checked @endif class="custom-control-input risk_contact_poultry" id="risk_contact_poultry_no">
+								<label for="risk_contact_poultry_no" class="custom-control-label normal-label">ไม่มี</label>
+							</div>
+							<div class="custom-control custom-checkbox custom-control-inline">
+								<input type="checkbox" name="riskContactPoultry" value="y" @if ($invest_pt[0]['risk_contact_poultry'] == 'y') checked @endif class="custom-control-input risk_contact_poultry" id="risk_contact_poultry_yes">
+								<label for="risk_contact_poultry_yes" class="custom-control-label normal-label">มี ระบุรายละเอียด</label>
 							</div>
 						</div>
 					</div>
@@ -592,8 +608,12 @@
 						<label for="risk">2.9 ในช่วง 14 วันก่อนป่วย ท่านพักอาศัยในพื้นที่ที่มีสัตว์ปีกป่วยตายมากผิดปกติ หรือพบเชื้อในสัตว์ปีกหรือสิ่งแวดล้อม</label>
 						<div class="card">
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="riskPoultryDead" value="y" @if ($invest_pt[0]['risk_poultry_dead'] == 'y') checked @endif class="custom-control-input risk_poultry_dead" id="risk_poultry_dead">
-								<label for="risk_poultry_dead" class="custom-control-label normal-label">ใช่</label>
+								<input type="checkbox" name="riskPoultryDead" value="n" @if ($invest_pt[0]['risk_poultry_dead'] == 'n') checked @endif class="custom-control-input risk_poultry_dead" id="risk_poultry_dead_no">
+								<label for="risk_poultry_dead_no" class="custom-control-label normal-label">ไม่ใช่</label>
+							</div>
+							<div class="custom-control custom-checkbox custom-control-inline">
+								<input type="checkbox" name="riskPoultryDead" value="y" @if ($invest_pt[0]['risk_poultry_dead'] == 'y') checked @endif class="custom-control-input risk_poultry_dead" id="risk_poultry_dead_yes">
+								<label for="risk_poultry_dead_yes" class="custom-control-label normal-label">ใช่</label>
 							</div>
 						</div>
 					</div>
@@ -607,8 +627,12 @@
 						<label for="risk">2.10 ในช่วง 14 วันก่อนป่วย ไปตลาดสดที่มีการค้าสัตว์ปีก/สัตว์ป่า/สัตว์เลี้ยงลูกด้วยนม/อาหารทะเล ในเมืองอู่ฮั่น (Wuhan) มณฑลหูเป่ย (Hubei) ประเทศจีน</label>
 						<div class="card">
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="riskPoultryMarket" value="y" @if ($invest_pt[0]['risk_poultry_market'] == 'y') checked @endif class="custom-control-input risk_poultry_market" id="risk_poultry_market">
-								<label for="risk_poultry_market" class="custom-control-label normal-label">มี ระบุชื่อตลาดและชนิดสัตว์</label>
+								<input type="checkbox" name="riskPoultryMarket" value="n" @if ($invest_pt[0]['risk_poultry_market'] == 'n') checked @endif class="custom-control-input risk_poultry_market" id="risk_poultry_market_no">
+								<label for="risk_poultry_market_no" class="custom-control-label normal-label">ไม่มี</label>
+							</div>
+							<div class="custom-control custom-checkbox custom-control-inline">
+								<input type="checkbox" name="riskPoultryMarket" value="y" @if ($invest_pt[0]['risk_poultry_market'] == 'y') checked @endif class="custom-control-input risk_poultry_market" id="risk_poultry_market_yes">
+								<label for="risk_poultry_market_yes" class="custom-control-label normal-label">มี ระบุชื่อตลาดและชนิดสัตว์</label>
 							</div>
 						</div>
 					</div>
@@ -634,8 +658,12 @@
 						<label for="risk">2.11 ในช่วง 14 วันก่อนป่วย ไปตลาดสดที่มีการค้าสัตว์ปีก/สัตว์ป่า/สัตว์เลี้ยงลูกด้วยนม/อาหารทะเล นอกเหนือจากข้อ 2.10</label>
 						<div class="card">
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="riskPoultryMarketII" value="y" @if ($invest_pt[0]['risk_poultry_market_ii'] == 'y') checked @endif class="custom-control-input risk_poultry_market_ii" id="risk_poultry_market_ii">
-								<label for="risk_poultry_market_ii" class="custom-control-label normal-label">มี ระบุชื่อตลาดและชนิดสัตว์</label>
+								<input type="checkbox" name="riskPoultryMarketII" value="n" @if ($invest_pt[0]['risk_poultry_market_ii'] == 'n') checked @endif class="custom-control-input risk_poultry_market_ii" id="risk_poultry_market_ii_no">
+								<label for="risk_poultry_market_ii_no" class="custom-control-label normal-label">ไม่มี</label>
+							</div>
+							<div class="custom-control custom-checkbox custom-control-inline">
+								<input type="checkbox" name="riskPoultryMarketII" value="y" @if ($invest_pt[0]['risk_poultry_market_ii'] == 'y') checked @endif class="custom-control-input risk_poultry_market_ii" id="risk_poultry_market_ii_yes">
+								<label for="risk_poultry_market_ii_yes" class="custom-control-label normal-label">มี ระบุชื่อตลาดและชนิดสัตว์</label>
 							</div>
 						</div>
 					</div>
@@ -654,8 +682,6 @@
 				</div>
 			</div>
 		</li>
-
-
 		<li class="card-body border-top">
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -663,8 +689,12 @@
 						<label for="risk">2.12 ท่านมีประวัติเข้ารับการรักษาหรือเยี่ยมผู้ป่วยในโรงพยาบาลขณะอยู่ที่ประเทศดังกล่าวหรือไม่</label>
 						<div class="card">
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="riskTreatOrVisitPatient" value="y" @if ($invest_pt[0]['risk_treat_or_visit_patient'] == 'y') checked @endif class="custom-control-input risk_treat_or_visit_patient" id="risk_treat_or_visit_patient">
-								<label for="risk_treat_or_visit_patient" class="custom-control-label normal-label">ใช่</label>
+								<input type="checkbox" name="riskTreatOrVisitPatient" value="n" @if ($invest_pt[0]['risk_treat_or_visit_patient'] == 'n') checked @endif class="custom-control-input risk_treat_or_visit_patient" id="risk_treat_or_visit_patient_no">
+								<label for="risk_treat_or_visit_patient_no" class="custom-control-label normal-label">ไม่ใช่</label>
+							</div>
+							<div class="custom-control custom-checkbox custom-control-inline">
+								<input type="checkbox" name="riskTreatOrVisitPatient" value="y" @if ($invest_pt[0]['risk_treat_or_visit_patient'] == 'y') checked @endif class="custom-control-input risk_treat_or_visit_patient" id="risk_treat_or_visit_patient_yes">
+								<label for="risk_treat_or_visit_patient_yes" class="custom-control-label normal-label">ใช่</label>
 							</div>
 						</div>
 					</div>
@@ -694,11 +724,17 @@
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="form-group">
 						<label for="risk">2.13 ในช่วง 14 วันก่อนป่วย ท่านให้การดูแลหรือสัมผัสใกล้ชิดกับผู้ป่วยอาการคล้ายไข้หวัดใหญ่/ปอดอักเสบหรือไม่</label>
-						<div>
+						<div class="card">
 							<div class="custom-control custom-checkbox custom-control-inline">
-								<input type="checkbox" name="riskCareFluPatient" value="n" @if ($invest_pt[0]['risk_care_flu_patient'] == 'y') checked @endif class="custom-control-input risk_care_flu_patient" id="risk_care_flu_patient">
-								<label for="risk_care_flu_patient" class="custom-control-label normal-label">ใช่</label>
+								<input type="checkbox" name="riskCareFluPatient" value="n" @if ($invest_pt[0]['risk_care_flu_patient'] == 'n') checked @endif class="custom-control-input risk_care_flu_patient" id="risk_care_flu_patient_no">
+								<label for="risk_care_flu_patient_no" class="custom-control-label normal-label">ไม่ใช่</label>
 							</div>
+							<div class="custom-control custom-checkbox custom-control-inline">
+								<input type="checkbox" name="riskCareFluPatient" value="y" @if ($invest_pt[0]['risk_care_flu_patient'] == 'y') checked @endif class="custom-control-input risk_care_flu_patient" id="risk_care_flu_patient_yes">
+								<label for="risk_care_flu_patient_yes" class="custom-control-label normal-label">ใช่</label>
+							</div>
+						</div>
+						<div>
 							<div class="card" style="margin-bottom:0;padding-bottom:0">
 								<ul class="list-style-none">
 									<li class="card-body">
@@ -732,12 +768,12 @@
 						<label for="">2.14 ในช่วง 14 วันก่อนป่วย ท่านมีประวัติสัมผัสผู้ป่วยปอดอักเสบรุนแรงหรือเสียชีวิตที่หาสาเหตุไม่ได้</label>
 						<div class="card">
 							<div class="custom-control custom-checkbox custom-control">
-								<input type="checkbox" name="riskPatientPneumoniaDead" value="y" @if ($invest_pt[0]['risk_patient_pneumonia_dead'] == 'y') checked @endif class="custom-control-input risk_patient_pneumonia_dead" id="risk_patient_pneumonia_dead_yes">
-								<label for="risk_patient_pneumonia_dead_yes" class="custom-control-label normal-label">ใช่</label>
-							</div>
-							<div class="custom-control custom-checkbox custom-control">
 								<input type="checkbox" name="riskPatientPneumoniaDead" value="n" @if ($invest_pt[0]['risk_patient_pneumonia_dead'] == 'n') checked @endif class="custom-control-input risk_patient_pneumonia_dead" id="risk_patient_pneumonia_dead_no">
 								<label for="risk_patient_pneumonia_dead_no" class="custom-control-label normal-label">ไม่ใช่</label>
+							</div>
+							<div class="custom-control custom-checkbox custom-control">
+								<input type="checkbox" name="riskPatientPneumoniaDead" value="y" @if ($invest_pt[0]['risk_patient_pneumonia_dead'] == 'y') checked @endif class="custom-control-input risk_patient_pneumonia_dead" id="risk_patient_pneumonia_dead_yes">
+								<label for="risk_patient_pneumonia_dead_yes" class="custom-control-label normal-label">ใช่</label>
 							</div>
 						</div>
 					</div>
@@ -752,12 +788,12 @@
 						<label for="">2.15 ในช่วง 14 วันก่อนป่วย ท่านมีบุคคลใกล้ชิดป่วยอาการคล้ายไข้หวัดใหญ่ หรือมีการระบาดของปอดอักเสบในชุมชน</label>
 						<div class="card">
 							<div class="custom-control custom-checkbox custom-control">
-								<input type="checkbox" name="riskCloseupFluOrPneumonia" value="y" @if ($invest_pt[0]['risk_closeup_flu_or_pneumonia'] == 'y') checked @endif class="custom-control-input risk_closeup_flu_or_pneumonia" id="risk_closeup_flu_or_pneumonia_yes">
-								<label for="risk_closeup_flu_or_pneumonia_yes" class="custom-control-label normal-label">ใช่</label>
-							</div>
-							<div class="custom-control custom-checkbox custom-control">
 								<input type="checkbox" name="riskCloseupFluOrPneumonia" value="n" @if ($invest_pt[0]['risk_closeup_flu_or_pneumonia'] == 'n') checked @endif class="custom-control-input risk_closeup_flu_or_pneumonia" id="risk_closeup_flu_or_pneumonia_no">
 								<label for="risk_closeup_flu_or_pneumonia_no" class="custom-control-label normal-label">ไม่ใช่</label>
+							</div>
+							<div class="custom-control custom-checkbox custom-control">
+								<input type="checkbox" name="riskCloseupFluOrPneumonia" value="y" @if ($invest_pt[0]['risk_closeup_flu_or_pneumonia'] == 'y') checked @endif class="custom-control-input risk_closeup_flu_or_pneumonia" id="risk_closeup_flu_or_pneumonia_yes">
+								<label for="risk_closeup_flu_or_pneumonia_yes" class="custom-control-label normal-label">ใช่</label>
 							</div>
 						</div>
 					</div>

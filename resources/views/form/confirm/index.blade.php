@@ -401,6 +401,38 @@ $(document).ready(function() {
 		$('.lab_rapid_test_result').not(this).prop('checked', false);
 	});
 
+	$('.risk_history_human_contact').click(function() {
+		$('.risk_history_human_contact').not(this).prop('checked', false);
+	});
+
+	$('.risk_eat_cook_animal').click(function() {
+		$('.risk_eat_cook_animal').not(this).prop('checked', false);
+	});
+
+	$('.risk_contact_poultry').click(function() {
+		$('.risk_contact_poultry').not(this).prop('checked', false);
+	});
+
+	$('.risk_poultry_dead').click(function() {
+		$('.risk_poultry_dead').not(this).prop('checked', false);
+	});
+
+	$('.risk_poultry_market').click(function() {
+		$('.risk_poultry_market').not(this).prop('checked', false);
+	});
+
+	$('.risk_poultry_market_ii').click(function() {
+		$('.risk_poultry_market_ii').not(this).prop('checked', false);
+	});
+
+	$('.risk_treat_or_visit_patient').click(function() {
+		$('.risk_treat_or_visit_patient').not(this).prop('checked', false);
+	});
+
+	$('.risk_care_flu_patient').click(function() {
+		$('.risk_care_flu_patient').not(this).prop('checked', false);
+	});
+
 	/* date picker */
 	$('#flu_vaccine_chk_date').datepicker({
 		format: 'dd/mm/yyyy',
