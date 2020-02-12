@@ -26,12 +26,7 @@
 						<div class="card card-body printableArea">
 								{{-- <h4><b>ข้อมูลผู้สัมผัส</b> <span class="pull-right"></span></h4>
 								<hr> --}}
-								<?php
-									$sat_id = $_GET['sat_id'];
-								 ?>
-								 <?php
-									 $contact_id = $_GET['contact_id'];
-									?>
+
 								<div class="row" id="DivIdToPrint">
 									<div class="col-md-12" >
 											<div class="pull-left">

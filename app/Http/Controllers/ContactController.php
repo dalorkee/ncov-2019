@@ -124,7 +124,7 @@ class ContactController extends MasterController
 																 'patient_contact',
 																 'datecontact',
 																 'type_contact')
-												->where('contact_id',$contact_id)
+												->where('contact_id',$req->contact_id)
 												->get();
 		$ref_detail_pt=DB::table('invest_pt')
 														->select('first_name',
@@ -135,7 +135,7 @@ class ContactController extends MasterController
 																			'nation',
 																			'occupation',
 																			'isolated_province')
-														  ->where('sat_id',$sat_id)
+														  ->where('id',$req->sat_idx)
 															->get();
 		$ref_detail_follow=DB::table('tbl_followupcontact')
             					->select('*')
@@ -166,7 +166,7 @@ class ContactController extends MasterController
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
-		$sat_id=$req->sat_id;
+		$sat_id=DB::table('invest_pt')->select('sat_id')->where('id', $sat_idx )->get();
     $listprovince=$this->province();
     $listcountry=$this->arrnation();
 		$entry_user = Auth::user()->id;
@@ -218,7 +218,7 @@ class ContactController extends MasterController
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$followup_date=DB::table('tbl_followupcontact')->where('contact_id', $req->contact_id)->max('contact_id_day');
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
-		$sat_id=$req->sat_id;
+		$sat_id=DB::table('tbl_contact')->select('sat_idx','sat_id')->where('contact_id', $req->contact_id )->get();
 		$contact_id=$req->contact_id;
 		$contact_id_day=$req->contact_id_day;
 		$listprovince=$this->province();
@@ -383,6 +383,7 @@ public function followupcontactinsert(Request $req)
 
 // $poe_id = $req ->input ('poe_id');
 $sat_id = $req ->input ('sat_id');
+$sat_idx = $req ->input ('sat_idx');
 $contact_id = $req ->input ('contact_id');
 $contact_id_day= $req ->input ('contact_id_day');
 $date_no = $this->convertDateToMySQL($req ->input ('date_no'));
@@ -411,6 +412,7 @@ $date_entry = date('Y-m-d') ;
 $data = array(
 	// 'poe_id'=>$poe_id,
 	'sat_id'=>$sat_id,
+	'sat_idx'=>$sat_idx,
 	'contact_id'=>$contact_id,
 	'contact_id_day'=>$contact_id_day + '1',
 	'followup_address'=>$followup_address,
@@ -469,10 +471,10 @@ $res1	= DB::table('tbl_followupcontact')->insert($data);
 // }
 if ($res1){
 	$msg = " ส่งข้อมูลสำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id&contact_id=$contact_id';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='/contactfollowtable/contact_id/$contact_id';</script> ";
 }else{
 	$msg = " ส่งข้อมูลไม่สำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id&contact_id=$contact_id';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='/contactfollowtable/contact_id/$contact_id';</script> ";
 	}
 	echo $url_rediect;
 }

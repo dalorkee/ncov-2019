@@ -106,7 +106,7 @@ input.valid, textarea.valid{
 						</div>
 					</div>
 					<div class="col-md-12">
-						<a class="btn btn-cyan" href="{{ route('followupcontact')}}?sat_id=<?php echo $sat_id ;?>&contact_id=<?php echo $contact_id ;?>">
+						<a class="btn btn-cyan" href="{{ route('followupcontact',$contact_id)}}">
 							+	เพิ่มการติดตามผู้สัมผัส
 						</a>
 					</div>
@@ -123,10 +123,7 @@ input.valid, textarea.valid{
             </tr>
         </thead>
         <tbody>
-					<?php
-						$sat_id = $_GET['sat_id'];
-						// echo $sat_id;
-					 ?>
+
 					 <?php foreach($fucontact_data as $value) : ?>
             <tr>
 

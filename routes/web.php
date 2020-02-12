@@ -70,15 +70,15 @@ Route::group(['middleware' => ['auth']], function() {
 
 /* Contact */
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
-Route::get('/detailcontact', 'ContactController@detailcontact')->name('detailcontact');
+Route::get('/detailcontact/contact_id/{contact_id}', 'ContactController@detailcontact')->name('detailcontact');
 Route::get('/contacttable/id/{id}', 'ContactController@contacttable')->name('contacttable');
-Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
-Route::get('/addcontact', 'ContactController@addcontact')->name('addcontact');
+Route::get('/contactfollowtable/contact_id/{contact_id}', 'ContactController@contactfollowtable')->name('contactfollowtable');
+Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
 Route::get('/editcontact', 'ContactController@editcontact')->name('editcontact');
 Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetch');
 Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
 Route::post('/addcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
-Route::get('/followupcontact', 'ContactController@followupcontact')->name('followupcontact');
+Route::get('/followupcontact/contact_id/{contact_id}', 'ContactController@followupcontact')->name('followupcontact');
 Route::post('/followupcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
 Route::post('/followupcontactinsert', 'ContactController@followupcontactinsert')->name('followupcontactinsert');
 Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');

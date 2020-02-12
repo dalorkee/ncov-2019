@@ -36,17 +36,12 @@
             <form action="{{route('followupcontactinsert')}}" method="post">
               			{{ csrf_field() }}
 
-										 <?php
-											 $sat_id = $_GET['sat_id'];
-											?>
-											<?php
-												$contact_id = $_GET['contact_id'];
-											 ?>
 						<div class="form-group row">
-							<div class="col-sm-3">
-							</div>
 						<div class="col-sm-3">
-						<input type="hidden" name="sat_id" value="{{$sat_id}}" class="form-control">
+						<input type="hidden" name="sat_id" value="{{$sat_id[0]->sat_id}}" class="form-control">
+						</div>
+						<div class="col-sm-3">
+						<input type="hidden" name="sat_idx" value="{{$sat_id[0]->sat_idx}}" class="form-control">
 						</div>
 						<div class="col-sm-3">
 						<input type="hidden" name="contact_id" value="{{$contact_id}}" class="form-control">

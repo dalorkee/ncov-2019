@@ -129,17 +129,20 @@ input.valid, textarea.valid{
 										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}
 								</td>
 								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
-                <td>
-                  <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
-                      ติดตามอาการ
-                  </a>
-                    <a class="btn btn-info btn-sm" href="{{ route('detailcontact')}}?sat_id={{ $value->sat_id }}&contact_id={{ $value->contact_id }}">
-                      รายละเอียด
-                  </a>
-                  <a class="btn btn-warning btn-sm" href="#">
-                      แก้ไขข้อมูล
-                  </a>
-                </td>
+								<td>
+									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
+										<a class="btn btn-danger btn-sm"  href="#">
+											ติดตามอาการ
+									</a>
+									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}
+										<a class="btn btn-info btn-sm"  href="#">
+										รายละเอียด
+								</a>
+								{{-- <a class="btn btn-warning btn-sm" href="{{ route('editcontact',$value->contact_id)}}"> --}}
+									<a class="btn btn-warning btn-sm" href="#">
+										แก้ไขข้อมูล
+								</a>
+								</td>
             </tr>
 						<?php endforeach;?>
         </tbody>
