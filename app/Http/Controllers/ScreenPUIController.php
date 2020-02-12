@@ -99,10 +99,12 @@ class ScreenPUIController extends MasterController
           $sat_id = trim($request->sat_id);
       }
 
-      $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
-      if($check_duplicate_record_order_pt){
-        //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
-        return redirect()->back()->withInput()->with('message','ลำดับผู้ป่วย Confirm ซ้ำ ที่ SATID :'.$sat_id);
+      if(!is_null($request->order_pt)){
+        $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
+        if($check_duplicate_record_order_pt){
+          //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
+          return redirect()->back()->withInput()->with('message','ลำดับผู้ป่วย Confirm ซ้ำ ที่ SATID :'.$sat_id);
+        }
       }
 
       $check_duplicate_record = InvestList::where('sat_id', '=', $request->sat_id)->exists();
@@ -261,15 +263,14 @@ class ScreenPUIController extends MasterController
 
 
       if($request->pt_status!=2){
-        //"order_pt" => (!empty($request->order_pt)) ? trim($request->order_pt) : NULL,
         $order_pt = NULL;
       }else{
         $order_pt = (!empty($request->order_pt)) ? trim($request->order_pt) : NULL;
-
-        $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
-        if($check_duplicate_record_order_pt){
-          //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
-          return redirect()->back()->withInput()->with('message','ลำดับผู้ป่วย Confirm ซ้ำ SATID '.$request->sat_id);
+        if(!is_null($order_pt)){
+          $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
+          if($check_duplicate_record_order_pt){
+            return redirect()->back()->withInput()->with('message','ลำดับผู้ป่วย Confirm ซ้ำ SATID '.$request->sat_id);
+          }
         }
       }
 
