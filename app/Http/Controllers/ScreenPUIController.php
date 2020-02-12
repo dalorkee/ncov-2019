@@ -259,19 +259,21 @@ class ScreenPUIController extends MasterController
         //
       //dd($request);
 
-      //dd($request->travel_from_country);
+
       if($request->pt_status!=2){
         //"order_pt" => (!empty($request->order_pt)) ? trim($request->order_pt) : NULL,
         $order_pt = NULL;
       }else{
         $order_pt = (!empty($request->order_pt)) ? trim($request->order_pt) : NULL;
+
+        $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
+        if($check_duplicate_record_order_pt){
+          //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
+          return redirect()->back()->withInput()->with('message','ลำดับผู้ป่วย Confirm ซ้ำ SATID '.$request->sat_id);
+        }
       }
 
-      $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
-      if($check_duplicate_record_order_pt){
-        //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
-        return redirect()->back()->withInput()->with('message','ลำดับผู้ป่วย Confirm ซ้ำ SATID '.$request->sat_id);
-      }
+
 
       $update = InvestList::where('id', $request->id)
               ->update([
@@ -339,7 +341,7 @@ class ScreenPUIController extends MasterController
                 "not_send_bidi" => (!empty($request->not_send_bidi)) ? trim($request->not_send_bidi) : NULL,
                 "op_opt" => (!empty($request->op_opt)) ? trim($request->op_opt) : NULL,
                 "op_dpc" => (!empty($request->op_dpc)) ? trim($request->op_dpc) : NULL,
-                "pt_status" => (!empty($request->pt_status)) ? trim($request->pt_status) : "1",
+                "pt_status" => (!empty($request->pt_status)) ? trim($request->pt_status) : NULL,
                 "order_pt" => $order_pt,
                 "pui_type" => (!empty($request->pui_type)) ? trim($request->pui_type) : NULL,
                 "news_st" => (!empty($request->news_st)) ? trim($request->news_st) : NULL,
