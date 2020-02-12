@@ -14,8 +14,8 @@
 Auth::routes();
 
 /* Home */
-Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'DashboardController@index');
+Route::get('/home', 'DashboardController@index')->name('home');
 
 /* Form */
 
@@ -52,7 +52,8 @@ Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confir
 //Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
 
 
-/* Invest list */
+/*List the data */
+Route::get('/sat/list', 'InvestListController@satListData')->name('satList');
 Route::resource('investList', 'InvestListController');
 
 /* fetch district, fetch sub-district */

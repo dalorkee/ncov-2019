@@ -9,13 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class InvestListController extends MasterController
 {
+	public function __construct() {
+		$this->middleware('auth');
+		$this->middleware(['role:admin']);
+	}
+
 	/**
 	* Display a listing of the resource.
 	*
 	* @return \Illuminate\Http\Response
 	*/
-	public function index(Request $request)
-	{
+	public function index(Request $request) {
 		$status = parent::getStatus();
 		$query_globalcountry = GlobalCountry::all();
 		foreach ($query_globalcountry as $value) {
@@ -38,6 +42,23 @@ class InvestListController extends MasterController
 		}
 
 		return view('invest-list.index',
+				[
+					'status' => $status,
+					'invest' => $invest,
+					'globalcountry' => $globalcountry,
+				]
+		);
+	}
+
+	public function satListData(Request $request) {
+		$status = parent::getStatus();
+		$query_globalcountry = GlobalCountry::all();
+		foreach ($query_globalcountry as $value) {
+			$globalcountry[$value->country_id] = $value->country_name;
+		}
+		$invest = InvestList::whereNull('deleted_at')->get()->toArray();
+
+		return view('invest-list.sat',
 				[
 					'status' => $status,
 					'invest' => $invest,

@@ -162,7 +162,7 @@
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
-							<label for="country" class="text-danger">เมือง</label>
+							<label for="country" class="text-danger">เมือง (กรณี ตปท.)</label>
 							<select name="workCityInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="select_work_city">
 								@if (!empty($invest_pt[0]['work_city']))
 									<option value="{{ $work_city[0]['city_id'] }}" selected="selected">{{ $work_city[0]['city_name'] }}</option>
@@ -173,13 +173,13 @@
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
-							<label for="city_other" class="text-danger">เมืองอื่นๆ ระบุ</label>
+							<label for="city_other" class="text-danger">เมืองอื่นๆ ระบุ (กรณี ตปท.)</label>
 							<input type="text" name="workCityOtherInput" value="{{ $invest_pt[0]['work_city_other'] }}" class="form-control border-danger text-danger" placeholder="เมืองอื่นๆ">
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
-							<label for="province" class="text-danger">จังหวัด</label>
+							<label for="province" class="text-danger">จังหวัด (กรณี ประเทศไทย)</label>
 							<select name="workProvinceInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="select_work_province">
 								@if (!empty($invest_pt[0]['work_province']))
 									<option value="{{ $invest_pt[0]['work_province'] }}" selected="selected">{{ $provinces[$invest_pt[0]['work_province']]['province_name'] }}</option>

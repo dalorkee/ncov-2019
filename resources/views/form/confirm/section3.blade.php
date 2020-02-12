@@ -368,9 +368,9 @@
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 					<div class="form-group">
-						<label for="rapidtest">3.9 Rapid test (สำหรับไข้หวัด)</label>
+						<label for="rapidtest">3.9 Rapid test สำหรับไข้หวัด</label>
 						<div class="input-group">
-							<input type="text" name="labRapidTestName" value="{{ $invest_pt[0]['lab_rapid_test_name'] }}" class="form-control">
+							<input type="text" name="labRapidTestName" value="{{ $invest_pt[0]['lab_rapid_test_name'] }}" class="form-control" placeholder="ระบุชื่อชุดทดสอบ">
 						</div>
 					</div>
 				</div>

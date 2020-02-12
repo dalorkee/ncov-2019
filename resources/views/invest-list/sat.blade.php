@@ -40,12 +40,12 @@ input.valid, textarea.valid{
 <div class="page-breadcrumb bg-light">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title"><span style="display:none;">Invest List</span></h4>
+			<h4 class="page-title"><span style="display:none;">SAT List</span></h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Data</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Lists PUI</li>
+						<li class="breadcrumb-item"><a href="#">SAT</a></li>
+						<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('satList') }}">Lists</a></li>
 					</ol>
 				</nav>
 			</div>
@@ -67,11 +67,12 @@ input.valid, textarea.valid{
 					<div class="card">
 						<div class="card-body">
 							<div id="patient_data">
-								<table class="display responsive nowrap mb-3" id="code_table" role="table" style="width:100%" cellspacing="0">
+								<table class="display responsive nowrap mt-0 mb-3" id="code_table" role="table" style="width:100%" cellspacing="0">
 									<thead>
 										<tr>
 											<th>ID</th>
-											<th>SAT_ID</th>
+											<th>SatID</th>
+											<th>OrderID</th>
 											<th>Patient</th>
 											<th>News</th>
 											<th>Discharge</th>
@@ -86,7 +87,8 @@ input.valid, textarea.valid{
 											@foreach ($invest as $key => $value)
 												<tr>
 													<td>{{ $value['id'] }}</td>
-													<td>{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</td>
+													<td><span class="text-primary">{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</span></td>
+													<td>{{ $value['order_pt'] != "" ? $value['order_pt'] : "-" }}</td>
 													<td><span class="text-danger">{{ $value['pt_status'] != "" ? $status['pt_status'][$value['pt_status']] : "-" }}</span></td>
 													<td><span class="text-info">{{ $value['news_st'] != "" ? $status['news_st'][$value['news_st']] : "-" }}</span></td>
 													<td><span class="text-success">{{ $value['disch_st'] != "" ? $status['disch_st'][$value['disch_st']] : "-" }}</span></td>
@@ -94,9 +96,9 @@ input.valid, textarea.valid{
 													<td>@if(!empty($globalcountry[$value['nation']])) {{ $globalcountry[$value['nation']] }} @else - @endif</span></td>
 													<td>
 														<button type="button" class="btn btn-success btn-sm margin-5 text-white" data-toggle="modal" title="Change status" data-target="#chstatus{{ $value['id'] }}">ST</button>
-														<!--<a href="{ route('screenpui.edit',$value['id']) }}" data-toggle="tooltip" data-placement="top" title="Edit this case" class="btn btn-warning btn-sm">Edit</a> -->
-														<a href="{{ route('confirmForm',$value['id']) }}" data-toggle="tooltip" data-placement="top" title="Invest form" class="btn btn-warning btn-sm">Edit</a>
-														<a href="{{ 'contacttable' }}?sat_id={{ $value['sat_id'] }}" data-toggle="tooltip" data-placement="top" title="Contact" class="btn btn-cyan btn-sm">CON</a>
+														<a href="{{ route('screenpui.edit',$value['id']) }}" data-toggle="tooltip" data-placement="top" title="Edit this case" class="btn btn-warning btn-sm">Edit</a>
+														<!--<a href="{ route('confirmForm',$value['id']) }}" data-toggle="tooltip" data-placement="top" title="Invest form" class="btn btn-success btn-sm">Inv</a> -->
+														<!-- <a href="{ 'contacttable' }}?sat_id={ $value['sat_id'] }}" data-toggle="tooltip" data-placement="top" title="Contact" class="btn btn-cyan btn-sm">CON</a> -->
 														<a href="{{ route('live-site') }}" data-toggle="tooltip" data-placement="top" title="Laboratory" class="btn btn-secondary btn-sm">LAB</a>
 														<!-- <a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({ $value['id'] }})" data-target="#DeleteModal" title="Delete" class="btn btn-danger btn-sm"></i><i class="mdi mdi-close"></i></a> -->
 													</td>
@@ -248,13 +250,23 @@ $(document).ready(function() {
 			targets: -1,
 			className: 'dt-head-right dt-body-right'
 		}],
-		dom: 'frti"<bottom Bp>"',
+		//dom: 'frti"<bottom Bp>"',
+		dom: 'Bfrtip',
 		buttons: [
-			{extend: 'copy', text: '<i class="far fa-copy"></i>', titleAttr: 'Copy', className: 'btn btn-outline-primary'},
+			{
+				text: '<i class="fas fa-user-plus"></i> New patient',
+				className: 'btn btn-info btn-sm',
+				titleAttr: 'New patient',
+				action: function(e, dt, node, config) {
+					window.location.href = '{{ route('screenpui.edit',$value['id']) }}';
+				}
+			},
+			/*{extend: 'copy', text: '<i class="far fa-copy"></i>', titleAttr: 'Copy', className: 'btn btn-outline-primary'},
 			{extend: 'csv', text: '<i class="far fa-file-alt"></i>', titleAttr: 'CSV', className: 'btn btn-outline-primary'},
 			{extend: 'excel', text: '<i class="far fa-file-excel"></i>', titleAttr: 'Excel', className: 'btn btn-outline-primary'},
-			/*{extend: 'pdf', text: '<i class="far fa-file-pdf"></i>', titleAttr: 'PDF', className: 'btn btn-outline-danger'}, */
+			{extend: 'pdf', text: '<i class="far fa-file-pdf"></i>', titleAttr: 'PDF', className: 'btn btn-outline-danger'},
 			{extend: 'print', text: '<i class="fas fa-print"></i>', titleAttr: 'Print', className: 'btn btn-outline-primary'}
+			*/
 
 		]
 	});
