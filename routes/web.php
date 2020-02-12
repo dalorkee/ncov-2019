@@ -71,7 +71,7 @@ Route::group(['middleware' => ['auth']], function() {
 /* Contact */
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
 Route::get('/detailcontact', 'ContactController@detailcontact')->name('detailcontact');
-Route::get('/contacttable', 'ContactController@contacttable')->name('contacttable');
+Route::get('/contacttable/id/{id}', 'ContactController@contacttable')->name('contacttable');
 Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
 Route::get('/addcontact', 'ContactController@addcontact')->name('addcontact');
 Route::get('/editcontact', 'ContactController@editcontact')->name('editcontact');

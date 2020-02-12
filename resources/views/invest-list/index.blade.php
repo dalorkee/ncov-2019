@@ -96,7 +96,7 @@ input.valid, textarea.valid{
 														<button type="button" class="btn btn-success btn-sm margin-5 text-white" data-toggle="modal" title="Change status" data-target="#chstatus{{ $value['id'] }}">ST</button>
 														<!--<a href="{ route('screenpui.edit',$value['id']) }}" data-toggle="tooltip" data-placement="top" title="Edit this case" class="btn btn-warning btn-sm">Edit</a> -->
 														<a href="{{ route('confirmForm',$value['id']) }}" data-toggle="tooltip" data-placement="top" title="Invest form" class="btn btn-warning btn-sm">Edit</a>
-														<a href="{{ 'contacttable' }}?sat_id={{ $value['sat_id'] }}" data-toggle="tooltip" data-placement="top" title="Contact" class="btn btn-cyan btn-sm">CON</a>
+														<a href="{{ route('contacttable',$value['id']) }}" data-toggle="tooltip" data-placement="top" title="Contact" class="btn btn-cyan btn-sm">CON</a>
 														<a href="{{ route('live-site') }}" data-toggle="tooltip" data-placement="top" title="Laboratory" class="btn btn-secondary btn-sm">LAB</a>
 														<!-- <a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({ $value['id'] }})" data-target="#DeleteModal" title="Delete" class="btn btn-danger btn-sm"></i><i class="mdi mdi-close"></i></a> -->
 													</td>
