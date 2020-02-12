@@ -659,7 +659,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="pt_status">PT Status</label>
-										<select name="pt_status" data-live-search="true" class="form-control selectpicker show-tick">
+										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control selectpicker show-tick">
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['pt_status'] as $key => $val)
 											<option value="{{ $key }}" @if($data->pt_status==$key) selected @endif >{{ $val }}</option>
@@ -745,6 +745,7 @@ input:read-only {
                   <div class="card-body">
 										    <input type="hidden" name="entry_user" value="{{ $entry_user }}"  />
 												<input type="hidden" name="id" value="{{ $data->id }}"  />
+												<input type="hidden" name="sat_id" value="{{ $data->sat_id }}"  />
                         <button type="submit" class="btn btn-primary">Edit</button>
                   </div>
             </div>
@@ -814,7 +815,7 @@ $(document).ready(function() {
 	//$('.confirm_order').hide();
 	$('#pt_status').change(function() {
 	 var pt_status = $('#pt_status').val();
-	 //console.log(pt_status);
+	 console.log(pt_status);
 	 if(pt_status==2){
 		 $('.confirm_order').show();
 		 $("#order_pt").prop('required',true);

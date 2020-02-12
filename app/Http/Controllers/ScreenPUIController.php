@@ -99,7 +99,6 @@ class ScreenPUIController extends MasterController
           $sat_id = trim($request->sat_id);
       }
 
-      //dd($sat_id);
       $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
       if($check_duplicate_record_order_pt){
         //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
@@ -266,6 +265,12 @@ class ScreenPUIController extends MasterController
         $order_pt = NULL;
       }else{
         $order_pt = (!empty($request->order_pt)) ? trim($request->order_pt) : NULL;
+      }
+
+      $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
+      if($check_duplicate_record_order_pt){
+        //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
+        return redirect()->back()->withInput()->with('message','ลำดับผู้ป่วย Confirm ซ้ำ SATID '.$request->sat_id);
       }
 
       $update = InvestList::where('id', $request->id)
