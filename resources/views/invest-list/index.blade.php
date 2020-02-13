@@ -59,7 +59,7 @@ input.valid, textarea.valid{
 			<div class="d-md-flex align-items-center mb-2">
 				<div>
 					<h4 class="card-title">แบบสอบสวนของผู้ป่วยโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
-					<h5 class="card-subtitle">2019-nCoV</h5>
+					<h5 class="card-subtitle">COVID-19</h5>
 				</div>
 			</div>
 			<div class="row border-top">
@@ -67,16 +67,16 @@ input.valid, textarea.valid{
 					<div class="card">
 						<div class="card-body">
 							<div id="patient_data">
-								<table class="display responsive nowrap mb-3" id="code_table" role="table" style="width:100%" cellspacing="0">
+								<table class="display responsive nowrap mb-3" id="code_table" role="table" style="width:100%;" cellspacing="0">
 									<thead>
 										<tr>
 											<th>ID</th>
-											<th>SAT_ID</th>
-											<th>Patient</th>
+											<th>SatID</th>
+											<th>Patients</th>
 											<th>News</th>
 											<th>Discharge</th>
 											<th>Sex</th>
-											<th>Nationality</th>
+											<th>Nation</th>
 											<th>#</th>
 										</tr>
 									</thead>
@@ -85,8 +85,8 @@ input.valid, textarea.valid{
 										@if ($invest)
 											@foreach ($invest as $key => $value)
 												<tr>
-													<td>{{ $value['id'] }}</td>
-													<td>{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</td>
+													<td style="font-family:'Fira-code';">{{ $value['id'] }}</td>
+													<td style="font-family:'Fira-code';">{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</td>
 													<td><span class="text-danger">{{ $value['pt_status'] != "" ? $status['pt_status'][$value['pt_status']] : "-" }}</span></td>
 													<td><span class="text-info">{{ $value['news_st'] != "" ? $status['news_st'][$value['news_st']] : "-" }}</span></td>
 													<td><span class="text-success">{{ $value['disch_st'] != "" ? $status['disch_st'][$value['disch_st']] : "-" }}</span></td>

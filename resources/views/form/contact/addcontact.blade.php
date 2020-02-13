@@ -3,7 +3,7 @@
 $config = [
     'table' => 'tbl_contact',
     'length' => 11,
-		'field' => 'contact_id',
+		'field' => 'contact_id_temp',
     'prefix' => $prefix_sat_id."B".date('d').date('m'),
 ];
 $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
@@ -54,7 +54,11 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                     </div>
                 </div>
                 <label>Contact ID : </label>
-
+                <div class="form-group row">
+  										<div class="col-sm-3">
+  										<input type="hidden" id="contact_id_temp" name="contact_id_temp" value="{{$contact_id}}"  class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
+  										</div>
+  							</div>
 							<div class="form-group row">
 										<div class="col-sm-3">
                       <input type="checkbox" id="cuscontactid" name="cuscontactid"/> : กรณีกรอกรหัสผู้สัมผัสด้วยตนเอง

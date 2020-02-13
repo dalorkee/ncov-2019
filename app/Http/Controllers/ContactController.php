@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use Carbon\Carbon;
-
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 class ContactController extends MasterController
 {
   // allcontact table
@@ -139,6 +139,7 @@ class ContactController extends MasterController
 															->get();
 		$ref_detail_follow=DB::table('tbl_followupcontact')
             					->select('*')
+											->where('contact_id',$req->contact_id)
             					->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$sat_id=$req->sat_id;
@@ -241,13 +242,20 @@ class ContactController extends MasterController
 
   public function contactinsert(Request $req)
  {
-	 // $contactid=uniqid();
+	 $contact_id = $req ->input ('contact_id');
+	 $contact_id_temp = $req ->input ('contact_id_temp');
+	 if ($contact_id == $contact_id_temp) {
+		 $contact_id_temp = $req ->input ('contact_id_temp');
+	 }else {
+		 $contact_id_temp = "";
+	 }
+	// $contactid=uniqid();
   // $poe_id = $req ->input ('poe_id');
 	$sat_id = $req ->input ('sat_id');
-		$sat_idx = $req ->input ('sat_idx');
+	$sat_idx = $req ->input ('sat_idx');
   // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
-		$user_id = $req ->input ('user_id');
-	$contact_id = $req ->input ('contact_id');
+	$user_id = $req ->input ('user_id');
+
 	$title_contact = $req ->input ('title_contact');
   $name_contact = $req ->input ('name_contact');
   $mname_contact = $req ->input ('mname_contact');
@@ -292,6 +300,7 @@ class ContactController extends MasterController
 		'sat_id'=>$sat_id,
 		'sat_idx'=>$sat_idx,
     'contact_id'=>$contact_id,
+		'contact_id_temp'=>$contact_id_temp,
 		'title_contact'=>$title_contact,
     'name_contact'=>$name_contact,
     'mname_contact'=>$mname_contact,
@@ -333,7 +342,7 @@ class ContactController extends MasterController
 		'follow_results'=>$follow_results,
     'date_entry'=>$date_entry
   );
-       // dd($data);
+      // dd($data);
   $res1	= DB::table('tbl_contact')->insert($data);
 //   if ($res1)
 //   {

@@ -8,12 +8,10 @@
 			<a class="navbar-brand" href="#">
 				<!-- Logo icon -->
 				<b class="logo-icon p-l-10">
-					{{ Html::image('assets/images/small-moph-logo.png', 'alt=logo', ['class'=>'light-logo']) }}
+					<img src="{{ URL::asset('assets/images/small-moph-logo.png') }}" alt="BOE" class="light-logo" style="width:95%;">
 				</b>
 				<!-- Logo text -->
-				<span class="logo-text">
-					{{ Html::image('assets/images/logo2.png', 'alt=logo-text', ['class'=>'light-logo']) }}
-				</span>
+				<span class="logo-text text-white">COVID-19</span>
 			</a>
 			<a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="ti-more"></i></a>
 		</div>

@@ -14,8 +14,8 @@
 Auth::routes();
 
 /* Home */
-Route::get('/', 'DashboardController@index');
-Route::get('/home', 'DashboardController@index')->name('home');
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
 
 /* Form */
 

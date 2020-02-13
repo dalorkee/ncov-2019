@@ -109,7 +109,7 @@ input.valid, textarea.valid{
 					</div>
 					<div class="col-md-12">
 						<a class="btn btn-success" href="{{ route('addcontact',$id) }}">
-							+	เพิ่มผู้สัมผัส
+							+	Add Contact
 						</a>
 					</div>
 					<br>
@@ -137,14 +137,14 @@ input.valid, textarea.valid{
 								</td>
 								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
 									<td>
-										<a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}">
-												ติดตามอาการ
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" href="{{ route('contactfollowtable',$value->contact_id)}}">
+												FUC
 										</a>
-										<a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}">
-											รายละเอียด
+										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" href="{{ route('detailcontact',$value->contact_id)}}">
+											Info
 									</a>
-									<a class="btn btn-warning btn-sm" href="{{ route('editcontact',$value->contact_id)}}">
-											แก้ไขข้อมูล
+									<a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" href="{{ route('editcontact',$value->contact_id)}}">
+											Edit
 									</a>
 									</td>
 							</tr>
