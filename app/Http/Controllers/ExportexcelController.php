@@ -13,6 +13,7 @@ class ExportExcelController extends MasterController
   {
     $datenow = date('Y-m-d');
     $arr = parent::getStatus();
+    $nation_list = $this->arrnation();
     // dd($poe_id);
     $data=DB::table('invest_pt')
             ->select('*')
@@ -20,13 +21,15 @@ class ExportExcelController extends MasterController
             ->get();
     return view('export.export_excel',compact(
       'data',
-      'arr'
+      'arr',
+      'nation_list'
     ));
   }
   public function alltableexport(Request $req)
   {
     $datenow = date('Y-m-d');
     $arr = parent::getStatus();
+    $nation_list = $this->arrnation();
     // dd($poe_id);
     $data=DB::table('invest_pt')
             ->select('*')
@@ -34,7 +37,8 @@ class ExportExcelController extends MasterController
             ->get();
     return view('export.allexport',compact(
       'data',
-      'arr'
+      'arr',
+      'nation_list'
     ));
   }
 
@@ -44,6 +48,7 @@ class ExportExcelController extends MasterController
       $arr = parent::getStatus();
       $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
       $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+      $nation_list = $this->arrnation();
       $data=DB::table('invest_pt')
                       ->select('*')
                       ->whereDate('notify_date','>=',$notify_date)
@@ -51,7 +56,8 @@ class ExportExcelController extends MasterController
                       ->get();
                       return view('export.export_excel',compact(
                         'data',
-                        'arr'
+                        'arr',
+                        'nation_list'
                       ));
    }
    function indexallexcel(Request $req)

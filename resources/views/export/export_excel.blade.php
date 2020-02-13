@@ -155,7 +155,7 @@ input.valid, textarea.valid{
             <tr><td>{{ (!empty($value->id)) ? $value->id : "" }}</td>
 								<td>{{ (!empty($value->notify_date)) ? $value->notify_date : "" }}</td>
                 <td>{{ (!empty($value->sex)) ? $value->sex : "" }}</td>
-                <td>{{ (!empty($value->nation)) ? $value->nation : "" }}</td>
+                <td>{{ (isset($nation_list[$value->nation])) ? $nation_list[$value->nation] : "" }}</td>
                 <td>{{ (isset($arr['screen_pt'][$value->screen_pt])) ? $arr['screen_pt'][$value->screen_pt] : "" }}</td>
                 <td>{{ (!empty($value->isolated_province)) ? $value->isolated_province : ""  }}</td>
                 <td>{{ (!empty($value->travel_from)) ? $value->travel_from : "" }}</td>
@@ -163,7 +163,7 @@ input.valid, textarea.valid{
                 <td>{{ (!empty($value->data3_1date_sickdate)) ? $value->data3_1date_sickdate : "" }}</td>
                 <td>{{ (!empty($value->sat_id)) ? $value->sat_id : "" }}</td>
                 <td>{{ (isset($arr['pui_type'][$value->pui_type])) ? $arr['pui_type'][$value->pui_type] : "" }}</td>
-                <td>{{ (!empty($value->pt_status)) ? $value->pt_status : "" }}</td>
+                <td>{{(isset($arr['pt_status'][$value->pt_status])) ? $arr['pt_status'][$value->pt_status] : "" }}</td>
             </tr>
 						<?php
 

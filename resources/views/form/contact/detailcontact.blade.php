@@ -28,7 +28,7 @@
 								<hr> --}}
 
 								<div class="row" id="DivIdToPrint">
-									<div class="col-md-12" >
+									{{-- <div class="col-md-12" >
 											<div class="pull-left">
 															<h4> &nbsp;<b class="text-danger">ข้อมูลผู้ป่วย</b></h4>
 															<p class="text-muted m-l-5">
@@ -40,7 +40,7 @@
 																	<br/>ผู้ป่วย Isolated ที่ รพ. : {{ $arrprov[$ref_detail_pt[0]->isolated_province] }}</p>
 																													<hr>
 											</div>
-									</div>
+									</div> --}}
 										<div class="col-md-12">
 												<div class="pull-left">
 																<h4> &nbsp;<b class="text-danger">ข้อมูลผู้สัมผัส</b></h4>
@@ -57,7 +57,30 @@
 																														<hr>
 												</div>
 										</div>
-
+										<div class="col-md-12">
+											<table class="table display mb-4" role="table">
+											        <thead>
+											          <tr>
+											            <th>ครั้งที่</th>
+											            <th>วันที่ติดตาม</th>
+																	<th>สถานที่ที่ติดตามผู้สัมผัส</th>
+											            <th>หน่วยงานที่ติดตามผู้สัมผัส</th>
+											            <th>สถานะการติดตาม</th>
+																	<th>การติดตามผู้สัมผัส</th>
+											          </tr>
+											        </thead>
+											        <tbody>
+											          <tr>
+											            <td>{{ $ref_detail_follow[0]->contact_id_day }}</td>
+											            <td>{{ $ref_detail_follow[0]->date_no }}</td>
+											            <td>{{ $ref_detail_follow[0]->followup_address }}</td>
+											            <td>{{ $ref_detail_follow[0]->division_follow_contact }}</td>
+																	<td>{{ $ref_detail_follow[0]->status_followup }}</td>
+																	<td>{{ $ref_detail_follow[0]->follow_results }}</td>
+											          </tr>
+											        </tbody>
+											      </table>
+										</div>
 										<div class="col-md-12">
 												<div class="clearfix"></div>
 												<hr>
