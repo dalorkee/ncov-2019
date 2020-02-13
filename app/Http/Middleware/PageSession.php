@@ -3,10 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Http\Controllers\BoeFrsController;
 use Session;
+use Auth;
 
-class PageSession extends BoeFrsController
+class PageSession
 {
     /**
      * Handle an incoming request.
@@ -17,12 +17,6 @@ class PageSession extends BoeFrsController
      */
     public function handle($request, Closure $next)
 	{
-		/* set thai province to session */
-		if (!Session::has('provinces')) {
-			$provinces = parent::provinceList();
-			Session::put('provinces', $provinces);
-		}
-
 		/* set role name to session */
 		if (!Session::has('user_role_name')) {
 			$roleArr = auth()->user()->roles->pluck('name');
@@ -30,13 +24,6 @@ class PageSession extends BoeFrsController
 			Session::put('user_role_name', $userRole);
 		}
 
-		/* set user hospital to session */
-		if (!Session::has('user_hospital_name')) {
-			$user_hosp = parent::hospitalByCode(auth()->user()->hospcode);
-			$user_hosp = $user_hosp->pluck('hosp_name')->all();
-			$user_hosp_name = $user_hosp[0];
-			Session::put('user_hospital_name', $user_hosp_name);
-		}
 		return $next($request);
 	}
 }

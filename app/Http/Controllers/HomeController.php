@@ -13,6 +13,8 @@ class HomeController extends Controller
 	public function __construct() {
 		$this->middleware('auth');
 		//$this->middleware(['role:admin|hospital|lab']);
+		//$this->middleware(['page_session']);
+
 	}
 
 	public function index()
@@ -20,7 +22,7 @@ class HomeController extends Controller
 		$roleArr = auth()->user()->getRoleNames();
 		Session::put('user_role', $roleArr[0]);
 		//dd(Auth::user());
-		return redirect()->route('investList.index');
+		return redirect()->route('satList');
 	}
 
 }

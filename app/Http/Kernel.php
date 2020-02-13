@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
 		'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
 		'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
 		'under-construction' => \LarsJanssen\UnderConstruction\UnderConstruction::class,
+		//'page_session' => \App\Http\Middleware\PageSession::class,
 	];
 
     /**

@@ -43,11 +43,11 @@ class ConfirmFormController extends Controller
 
 	public function create(Request $request)
 	{
-		$titleName = TitleName::all()->toArray();
+		$titleName = TitleName::all()->keyBy('id')->toArray();
 		$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
 		$occupation = Occupation::all()->keyBy('id')->toArray();
-		$globalCountry = GlobalCountry::all();
-		$globalCountry = $globalCountry->keyBy('country_id')->toArray();
+		$globalCountry = GlobalCountry::all()->keyBy('country_id')->toArray();
+		//$globalCountry = $globalCountry->keyBy('country_id')->toArray();
 		$invest_pt = InvestList::where('id', '=', $request->id)->get()->toArray();
 		$work_city = GlobalCity::where('city_id', '=', $invest_pt[0]['work_city'])->get()->toArray();
 		$cur_city = GlobalCity::where('city_id', '=', $invest_pt[0]['cur_city'])->get()->toArray();
