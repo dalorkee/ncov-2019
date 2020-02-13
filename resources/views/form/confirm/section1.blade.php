@@ -43,10 +43,10 @@
 						<div class="form-group">
 							<label for="sex">เพศ</label>
 							<select name="sexInput" class="form-control selectpicker show-tick" id="select_sex">
-								@if (trim($invest_pt[0]['sex']) == 'ชาย')
+								@if ($invest_pt[0]['sex'] == 'ชาย')
 									<option value="ชาย" selected="selected">ชาย</option>
-								@elseif (trim($invest_pt[0]['sex']) == 'หญิง')
-									<option value="ชาย" selected="selected">หญิง</option>
+								@elseif ($invest_pt[0]['sex'] == 'หญิง')
+									<option value="หญิง" selected="selected">หญิง</option>
 								@endif
 								<option value="">-- โปรดเลือก --</option>
 								<option value="ชาย">ชาย</option>

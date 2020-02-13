@@ -2,7 +2,7 @@
 <!-- footer -->
 <!-- ============================================================== -->
 <footer class="footer text-center">
-	<div>กรมควบคุมโรค [nCoV-2019]</div>
+	<div>กรมควบคุมโรค [COVID-19]</div>
 	<div>All Rights Reserved. <a href="https://talekteam.io">Talek team</a></div>
 </footer>
 <!-- ============================================================== -->

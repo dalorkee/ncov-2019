@@ -59,7 +59,7 @@ input.valid, textarea.valid{
 			<div class="d-md-flex align-items-center mb-2">
 				<div>
 					<h4 class="card-title">แบบสอบสวนของผู้ป่วยโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
-					<h5 class="card-subtitle">2019-nCoV</h5>
+					<h5 class="card-subtitle">COVID-19</h5>
 				</div>
 			</div>
 			<div class="row border-top">
@@ -67,17 +67,17 @@ input.valid, textarea.valid{
 					<div class="card">
 						<div class="card-body">
 							<div id="patient_data">
-								<table class="display responsive nowrap mt-0 mb-3" id="code_table" role="table" style="width:100%" cellspacing="0">
+								<table class="display responsive nowrap mt-0 mb-3" id="code_table" role="table" style="width:100%;" cellspacing="0">
 									<thead>
 										<tr>
 											<th>ID</th>
 											<th>SatID</th>
 											<th>OrderID</th>
-											<th>Patient</th>
+											<th>Patients</th>
 											<th>News</th>
 											<th>Discharge</th>
 											<th>Sex</th>
-											<th>Nationality</th>
+											<th>Nation</th>
 											<th>#</th>
 										</tr>
 									</thead>
@@ -86,8 +86,8 @@ input.valid, textarea.valid{
 										@if ($invest)
 											@foreach ($invest as $key => $value)
 												<tr>
-													<td>{{ $value['id'] }}</td>
-													<td><span class="text-primary">{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</span></td>
+													<td style="font-family:'Fira-code';">{{ $value['id'] }}</td>
+													<td style="font-family:'Fira-code';"><span class="text-primary">{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</span></td>
 													<td>{{ $value['order_pt'] != "" ? $value['order_pt'] : "-" }}</td>
 													<td><span class="text-danger">{{ $value['pt_status'] != "" ? $status['pt_status'][$value['pt_status']] : "-" }}</span></td>
 													<td><span class="text-info">{{ $value['news_st'] != "" ? $status['news_st'][$value['news_st']] : "-" }}</span></td>
@@ -246,10 +246,12 @@ $(document).ready(function() {
 			selector: 'td:nth-child(2)'
 		},
 		responsive: true,
-		columnDefs: [{
-			targets: -1,
-			className: 'dt-head-right dt-body-right'
-		}],
+		columnDefs: [
+			{
+				targets: -1,
+				className: 'dt-head-right dt-body-right'
+			}
+		],
 		//dom: 'frti"<bottom Bp>"',
 		dom: 'Bfrtip',
 		buttons: [

@@ -43,7 +43,7 @@
 					<div class="d-md-flex align-items-center mb-2">
 						<div>
 							<h4 class="card-title">แบบสอบสวนของผู้ป่วยโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
-							<h5 class="card-subtitle">2019-nCoV</h5>
+							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
 					<form action="{{ route('confirmCase') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
@@ -51,7 +51,7 @@
 						{{ method_field('POST') }}
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
 							<div style="position:absolute;top:10px;right:10px;z-index:1">
-								<span class="btn btn-danger font-weight-bold">{{ $invest_pt[0]['sat_id'] }}</span>
+								<span class="btn btn-danger font-weight-bold" style="font-family: 'Fira-code';">{{ $invest_pt[0]['sat_id'] }}</span>
 							</div>
 							@include('form.confirm.section1')
 						</div><!-- bd-collout1 -->

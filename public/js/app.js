@@ -49507,8 +49507,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! Z:\htdocs\boefrs\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! Z:\htdocs\boefrs\resources\sass\boefrs.scss */"./resources/sass/boefrs.scss");
+__webpack_require__(/*! D:\htdocs\ncov-2019\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\htdocs\ncov-2019\resources\sass\boefrs.scss */"./resources/sass/boefrs.scss");
 
 
 /***/ })
