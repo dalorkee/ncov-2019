@@ -12,7 +12,9 @@ use App\PathogenLists;
 use App\Occupation;
 use App\GlobalCountry;
 use App\GlobalCity;
+use App\AirportLists;
 use Auth;
+use DB;
 use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 
@@ -45,9 +47,10 @@ class ScreenPUIController extends MasterController
       $nationality = Nationality::all()->toArray();
       $occupation = Occupation::all()->toArray();
       $globalcountry = GlobalCountry::all();
+      $airportlists = AirportLists::all()->toArray();
       $arr = parent::getStatus();
       //return view('screen-pui.create',
-      return view('screen-pui.create030263',
+      return view('screen-pui.create120263',
         [
           'titleName' => $titleName,
           'provinces' => $provinces,
@@ -59,6 +62,7 @@ class ScreenPUIController extends MasterController
           'entry_user' => $entry_user,
           'globalcountry' => $globalcountry,
           'prefix_sat_id' => $prefix_sat_id,
+          'airportlists' => $airportlists,
         ]
       );
     }
@@ -120,6 +124,11 @@ class ScreenPUIController extends MasterController
           "notify_date" => (!empty($request->notify_date)) ? trim($this->Convert_Date($request->notify_date)) : date('Y-m-d'),
           "notify_time" => (!empty($request->notify_time)) ? trim($request->notify_time.":00") : NULL,
           "screen_pt" => (!empty($request->screen_pt)) ? trim($request->screen_pt) : "1",
+          "airports_code" => (!empty($request->airports_code)) ? trim($request->airports_code) : NULL,
+          "walkinplace_hosp_province" => (!empty($request->walkinplace_hosp_province)) ? trim($request->walkinplace_hosp_province) : NULL,
+          "walkinplace_hosp_code" => (!empty($request->walkinplace_hosp_code)) ? trim($request->walkinplace_hosp_code) : NULL,
+          "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
+          "isolated_hosp_code" => (!empty($request->isolated_hosp_code)) ? trim($request->isolated_hosp_code) : NULL,
           "title_name" => (!empty($request->title_name)) ? trim($request->title_name) : NULL,
           "first_name" => (!empty($request->first_name)) ? trim($request->first_name) : NULL,
           "mid_name" => (!empty($request->mid_name)) ? trim($request->mid_name) : NULL,
@@ -161,6 +170,7 @@ class ScreenPUIController extends MasterController
           "total_travel_in_group" => (!empty($request->total_travel_in_group)) ? trim($request->total_travel_in_group) : NULL,
           "data3_1date_sickdate" => (!empty($request->data3_1date_sickdate)) ? trim($this->Convert_Date($request->data3_1date_sickdate)) : NULL,
           "fever_current" => (!empty($request->fever)) ? trim($request->fever) : NULL,
+          "fever_history" => (!empty($request->fever_history)) ? trim($request->fever_history) : "n",
           "sym_cough" => (!empty($request->sym_cough)) ? trim($request->sym_cough) : "n",
           "sym_snot" => (!empty($request->sym_snot)) ? trim($request->sym_snot) : "n",
           "sym_sore" => (!empty($request->sym_sore)) ? trim($request->sym_sore) : "n",
@@ -235,6 +245,7 @@ class ScreenPUIController extends MasterController
         $provinces = Provinces::all()->toArray();
         $nationality = Nationality::all()->toArray();
         $occupation = Occupation::all()->toArray();
+        $airportlists = AirportLists::all()->toArray();
         $arr_globalcountry = GlobalCountry::select('country_id','country_name')->get()->toArray();
         foreach($arr_globalcountry as $val){
             $globalcountry[$val['country_id']] = $val['country_name'];
@@ -244,11 +255,13 @@ class ScreenPUIController extends MasterController
         $data = InvestList::find($id);
 
         $work_city = GlobalCity::where('city_id', '=', $data->travel_from_city)->get()->toArray();
+        $walkinplace_hosp_name = DB::table('chospital_new')->where('hospcode',$data->walkinplace_hosp_code)->first();
+        $isolated_hosp_name = DB::table('chospital_new')->where('hospcode',$data->isolated_hosp_code)->first();
 
         if($data==null){
           return abort(404);  //404 page
         }else{
-          return view('screen-pui.edit100263',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city'));
+          return view('screen-pui.edit120263',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city','airportlists','walkinplace_hosp_name','isolated_hosp_name'));
         }
     }
 
@@ -278,7 +291,7 @@ class ScreenPUIController extends MasterController
       }
 
 
-      //dd($request->sat_id);
+      //dd($request->pt_status);
 
 
       $update = InvestList::where('id', $request->id)
@@ -286,6 +299,11 @@ class ScreenPUIController extends MasterController
                 "notify_date" => (!empty($request->notify_date)) ? $this->Convert_Date($request->notify_date) : date('Y-m-d'),
                 "notify_time" => (!empty($request->notify_time)) ? $request->notify_time : NULL,
                 "screen_pt" => (!empty($request->screen_pt)) ? trim($request->screen_pt) : "1",
+                "airports_code" => (!empty($request->airports_code)) ? trim($request->airports_code) : NULL,
+                "walkinplace_hosp_province" => (!empty($request->walkinplace_hosp_province)) ? trim($request->walkinplace_hosp_province) : NULL,
+                "walkinplace_hosp_code" => (!empty($request->walkinplace_hosp_code)) ? trim($request->walkinplace_hosp_code) : NULL,
+                "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
+                "isolated_hosp_code" => (!empty($request->isolated_hosp_code)) ? trim($request->isolated_hosp_code) : NULL,
                 "title_name" => (!empty($request->title_name)) ? trim($request->title_name) : NULL,
                 "first_name" => (!empty($request->first_name)) ? trim($request->first_name) : NULL,
                 "mid_name" => (!empty($request->mid_name)) ? trim($request->mid_name) : NULL,
@@ -315,7 +333,7 @@ class ScreenPUIController extends MasterController
                 "data3_3chk_cancer_name" => (!empty($request->data3_3chk_cancer_name)) ? trim($request->data3_3chk_cancer_name) : NULL,
                 "data3_3chk_other" => (!empty($request->data3_3chk_other)) ? trim($request->data3_3chk_other) : "n",
                 "data3_3input_other" => (!empty($request->data3_3input_other)) ? trim($request->data3_3input_other) : NULL,
-                "walkinplace_hosp" => (!empty($request->walkinplace_hosp)) ? trim($request->walkinplace_hosp) : NULL,
+                //"walkinplace_hosp" => (!empty($request->walkinplace_hosp)) ? trim($request->walkinplace_hosp) : NULL,
                 "negative_pressure" => (!empty($request->negative_pressure)) ? trim($request->negative_pressure) : NULL,
                 "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : NULL,
                 "risk2_6history_hospital_input" => (!empty($request->risk2_6history_hospital_input)) ? trim($request->risk2_6history_hospital_input) : NULL,
@@ -326,6 +344,7 @@ class ScreenPUIController extends MasterController
                 "total_travel_in_group" => (!empty($request->total_travel_in_group)) ? trim($request->total_travel_in_group) : NULL,
                 "data3_1date_sickdate" => (!empty($request->data3_1date_sickdate)) ? $this->Convert_Date($request->data3_1date_sickdate) : NULL,
                 "fever_current" => (!empty($request->fever)) ? trim($request->fever) : NULL,
+                "fever_history" => (!empty($request->fever_history)) ? trim($request->fever_history) : "n",
                 "sym_cough" => (!empty($request->sym_cough)) ? trim($request->sym_cough) : "n",
                 "sym_snot" => (!empty($request->sym_snot)) ? trim($request->sym_snot) : "n",
                 "sym_sore" => (!empty($request->sym_sore)) ? trim($request->sym_sore) : "n",
@@ -347,7 +366,7 @@ class ScreenPUIController extends MasterController
                 "not_send_bidi" => (!empty($request->not_send_bidi)) ? trim($request->not_send_bidi) : NULL,
                 "op_opt" => (!empty($request->op_opt)) ? trim($request->op_opt) : NULL,
                 "op_dpc" => (!empty($request->op_dpc)) ? trim($request->op_dpc) : NULL,
-                "pt_status" => (!empty($request->pt_status)) ? trim($request->pt_status) : NULL,
+                "pt_status" => trim($request->pt_status),
                 "order_pt" => $order_pt,
                 "pui_type" => (!empty($request->pui_type)) ? trim($request->pui_type) : NULL,
                 "news_st" => (!empty($request->news_st)) ? trim($request->news_st) : NULL,
@@ -393,4 +412,20 @@ class ScreenPUIController extends MasterController
       $strFullThaiDate = $day.'/'.$month.'/'.$year;
       return $strFullThaiDate;
     }
+    public function Sat_FetcHos(Request $request){
+		$id=$request->get('select');
+		$result=array();
+		$query=DB::table('ref_province')
+		->join('chospital_new','ref_province.province_id','=','chospital_new.prov_code')
+		->select('chospital_new.hospcode','chospital_new.hosp_name','chospital_new.prov_code')
+		->where('ref_province.province_id',$id)
+		->where('chospital_new.status_code','=',1)
+		->get();
+    //$output = "";
+		$output='<option value=""> -- กรุณาเลือก -- </option>';
+			foreach ($query as $row) {
+				$output.='<option value="'.$row->hospcode.'">'.$row->hosp_name.'</option>';
+			}
+			echo $output;
+		}
 }
