@@ -58,7 +58,7 @@
             <div class="form-group row">
             <div class="col-sm-3">
 						<label for="date_no">วันที่ติดตามอาการ</label>
-            <input type="text" name="date_no" id="date_no" class="form-control" placeholder="วันที่ติดตามอาการ">
+            <input type="text" name="date_no" id="date_no" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off">
             </div>
             </div>
 						<div class="form-group row">

@@ -236,7 +236,7 @@ input.valid, textarea.valid{
 		        <td>{{   (!empty($value->risk2_6flight_no_input)) ? $value->risk2_6flight_no_input : ""  }}</td>
 		        <td>{{   (!empty($value->total_travel_in_group)) ? $value->total_travel_in_group : ""  }}</td>
 		        <td>{{   (!empty($value->data3_1date_sickdate)) ? ($value->data3_1date_sickdate) : ""  }}</td>
-		        <td>{{   (!empty($value->fever)) ? $value->fever : ""  }}</td>
+		        <td>{{   (!empty($value->fever_current)) ? $value->fever_current : ""  }}</td>
 		      	<td>{{   (!empty($value->sym_cough)) ? $value->sym_cough : ""  }}</td>
 							<td>{{   (!empty($value->sym_snot)) ? $value->sym_snot : ""  }}</td>
 							<td>	{{   (!empty($value->sym_sore)) ? $value->sym_sore : ""  }}</td>
