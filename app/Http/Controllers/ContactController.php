@@ -856,13 +856,13 @@ echo $outputD;
 		$result=array();
 		$query=DB::table('ref_province')
 		->join('chospital_new','ref_province.province_id','=','chospital_new.prov_code')
-		->select('chospital_new.new_hospcode','chospital_new.hosp_name','chospital_new.prov_code')
+		->select('chospital_new.hospcode','chospital_new.hosp_name','chospital_new.prov_code')
 		->where('ref_province.province_id',$id)
 		->where('chospital_new.status_code','=',1)
 		->get();
 		$output='<option value="%">   โรงพยาบาล   </option>';
 			foreach ($query as $row) {
-				$output.='<option value="'.$row->new_hospcode.'">'.$row->hosp_name.'</option>';
+				$output.='<option value="'.$row->hospcode.'">'.$row->hosp_name.'</option>';
 			}
 			echo $output;
 		}

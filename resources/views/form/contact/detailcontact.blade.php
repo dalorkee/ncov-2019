@@ -45,15 +45,17 @@
 												<div class="pull-left">
 																<h4> &nbsp;<b class="text-danger">ข้อมูลผู้สัมผัส</b></h4>
 																<p class="text-muted m-l-5">
-																		ชื่อ - นามสกุล : {{ $ref_detail_contact[0]->name_contact }} {{ $ref_detail_contact[0]->mname_contact }} {{ $ref_detail_contact[0]->lname_contact }}
-																		<br/>เพศ : {{ $ref_detail_contact[0]->sex_contact }}
-																		<br/>อายุ :{{ $ref_detail_contact[0]->age_contact }}
-																		<br/> Passport ID : {{ $ref_detail_contact[0]->passport_contact }}
-																		<br/>สัญชาติ :{{ $nation_list[$ref_detail_contact[0]->national_contact] }}
-																		<br/>ที่อยู่ : {{ $ref_detail_contact[0]->address_contact }}
-																		<br/>เบอร์โทร :{{ $ref_detail_contact[0]->phone_contact }}
-																		<br/>การสัมผัสผู้ป่วย : {{ $ref_detail_contact[0]->patient_contact }}
-																		<br/>วันที่สัมผัส : {{ $ref_detail_contact[0]->datecontact }}</p>
+																		ชื่อ - นามสกุล : {{ (!empty($ref_detail_contact[0]->name_contact)) ? $ref_detail_contact[0]->name_contact : "" }}
+																		{{ (!empty($ref_detail_contact[0]->mname_contact)) ? $ref_detail_contact[0]->mname_contact : "" }}
+																		 {{ (!empty($ref_detail_contact[0]->lname_contact)) ? $ref_detail_contact[0]->lname_contact : "" }}
+																		<br/>เพศ : {{ (!empty($ref_detail_contact[0]->sex_contact)) ? $ref_detail_contact[0]->sex_contact : "" }}
+																		<br/>อายุ : {{ (!empty($ref_detail_contact[0]->age_contact)) ? $ref_detail_contact[0]->age_contact : "" }}
+																		<br/>Passport ID : {{ (!empty($ref_detail_contact[0]->passport_contact)) ? $ref_detail_contact[0]->passport_contact : "" }}
+																		{{-- <br/>สัญชาติ :{{ (isset($nation_list($ref_detail_contact->national_contact))) ? $nation_list($ref_detail_contact->national_contact) : "" }} --}}
+																		<br/>ที่อยู่ : {{ (!empty($ref_detail_contact[0]->address_contact)) ? $ref_detail_contact[0]->address_contact : "" }}
+																		<br/>เบอร์โทร :{{ (!empty($ref_detail_contact[0]->phone_contact)) ? $ref_detail_contact[0]->phone_contact : "" }}
+																		<br/>การสัมผัสผู้ป่วย : {{ (!empty($ref_detail_contact[0]->patient_contact)) ? $ref_detail_contact[0]->patient_contact : "" }}
+																		<br/>วันที่สัมผัส : {{ (!empty($ref_detail_contact[0]->datecontact)) ? $ref_detail_contact[0]->datecontact : "" }}</p>
 																														<hr>
 												</div>
 										</div>
@@ -71,12 +73,12 @@
 											        </thead>
 											        <tbody>
 											          <tr>
-											            <td>{{ $ref_detail_follow[0]->contact_id_day }}</td>
-											            <td>{{ $ref_detail_follow[0]->date_no }}</td>
-											            <td>{{ $ref_detail_follow[0]->followup_address }}</td>
-											            <td>{{ $ref_detail_follow[0]->division_follow_contact }}</td>
-																	<td>{{ $ref_detail_follow[0]->status_followup }}</td>
-																	<td>{{ $ref_detail_follow[0]->follow_results }}</td>
+											            <td>{{ (!empty($ref_detail_contact[0]->contact_id_day)) ? $ref_detail_contact[0]->contact_id_day : "" }}</td>
+											            <td>{{ (!empty($ref_detail_contact[0]->date_no)) ? $ref_detail_contact[0]->date_no : "" }}</td>
+											            <td>{{ (!empty($ref_detail_contact[0]->followup_address)) ? $ref_detail_contact[0]->followup_address : "" }}</td>
+											            <td>{{ (!empty($ref_detail_contact[0]->division_follow_contact)) ? $ref_detail_contact[0]->division_follow_contact : "" }}</td>
+																	<td>{{ (!empty($ref_detail_contact[0]->status_followup)) ? $ref_detail_contact[0]->status_followup : "" }}</td>
+																	<td>{{ (!empty($ref_detail_contact[0]->follow_results)) ? $ref_detail_contact[0]->follow_results : "" }}</td>
 											          </tr>
 											        </tbody>
 											      </table>
