@@ -603,8 +603,6 @@ input:read-only {
 												<textarea class="form-control" name="first_diag">@if($data->first_diag) {{ $data->first_diag }} @endif</textarea>
 											</div>
 										</div>
-
-									</div>
 								</div><!-- card body#1 -->
 							</div><!-- card1 -->
 						</div><!-- bd-collout1 -->

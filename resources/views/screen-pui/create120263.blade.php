@@ -521,9 +521,6 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 											</div>
 										</div>
 									</div>
-									<div class="form-row">
-
-									</div>
 
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
@@ -626,7 +623,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 											</div>
 										</div>
 									</div>
-									</div>
+						
 								</div><!-- card body#1 -->
 							</div><!-- card1 -->
 						</div><!-- bd-collout1 -->
@@ -810,7 +807,6 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                   </div>
             </div>
 					</form>
-
 				</div>
 			</div>
 		</div>
