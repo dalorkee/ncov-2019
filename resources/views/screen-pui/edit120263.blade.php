@@ -170,7 +170,7 @@ input:read-only {
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
-											<label for="dowork">จังหวัด</label>
+											<label for="dowork">จังหวัด ที่ผู้ป่วย Isolated</label>
 											<select name="isolated_province" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="isolated_province">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($provinces as $key5=>$val5) {
