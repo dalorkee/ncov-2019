@@ -41,7 +41,7 @@
 						<input type="hidden" name="sat_id" value="{{$sat_id[0]->sat_id}}" class="form-control">
 						</div>
 						<div class="col-sm-3">
-						<input type="hidden" name="sat_idx" value="{{$sat_id[0]->sat_idx}}" class="form-control">
+						<input type="hidden" name="pui_id" value="{{$sat_id[0]->pui_id}}" class="form-control">
 						</div>
 						<div class="col-sm-3">
 						<input type="hidden" name="contact_id" value="{{$contact_id}}" class="form-control">
