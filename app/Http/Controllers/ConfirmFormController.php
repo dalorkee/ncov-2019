@@ -53,6 +53,8 @@ class ConfirmFormController extends Controller
 		$cur_city = GlobalCity::where('city_id', '=', $invest_pt[0]['cur_city'])->get()->toArray();
 		$sick_city = GlobalCity::where('city_id', '=', $invest_pt[0]['sick_city'])->get()->toArray();
 		$risk_stay_outbreak_city = GlobalCity::where('city_id', '=', $invest_pt[0]['risk_stay_outbreak_city'])->get()->toArray();
+		$treat_first_city = GlobalCity::where('city_id', '=', $invest_pt[0]['treat_first_city'])->get()->toArray();
+		$treat_place_city = GlobalCity::where('city_id', '=', $invest_pt[0]['treat_place_city'])->get()->toArray();
 
 		$data['flu_vaccine_chk_date'] = self::convertMySQLDateFormat($invest_pt[0]['flu_vaccine_chk_date']);
 		$data['breathing_tube_date'] = self::convertMySQLDateFormat($invest_pt[0]['breathing_tube_date']);
@@ -78,7 +80,9 @@ class ConfirmFormController extends Controller
 		$data['lab_cxr2_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_cxr2_date']);
 		$data['lab_rapid_test_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_rapid_test_date']);
 		$data['lab_other_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_other_date']);
-
+		$data['data3_1date_sickdate'] = self::convertMySQLDateFormat($invest_pt[0]['data3_1date_sickdate']);
+		$data['treat_first_date'] = self::convertMySQLDateFormat($invest_pt[0]['treat_first_date']);
+		$data['treat_place_date'] = self::convertMySQLDateFormat($invest_pt[0]['treat_place_date']);
 		/* work district */
 		if (!empty($invest_pt[0]['work_district'])) {
 			$work_district = District::where('district_id', '=', $invest_pt[0]['work_district'])->get()->toArray();
@@ -125,11 +129,40 @@ class ConfirmFormController extends Controller
 		} else {
 			$risk_district = null;
 		}
+
 		/* risk sub district */
 		if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district'])) {
 			$risk_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['risk_stay_outbreak_sub_district'])->get()->toArray();
 		} else {
 			$risk_sub_district = null;
+		}
+
+		/* treaf first district */
+		if (!empty($invest_pt[0]['treat_first_district'])) {
+			$treat_first_district = District::where('district_id', '=', $invest_pt[0]['treat_first_district'])->get()->toArray();
+		} else {
+			$treat_first_district = null;
+		}
+
+		/* treaf first sub district */
+		if (!empty($invest_pt[0]['treat_first_sub_district'])) {
+			$treat_first_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['treat_first_sub_district'])->get()->toArray();
+		} else {
+			$treat_first_sub_district = null;
+		}
+
+		/* treaf place district */
+		if (!empty($invest_pt[0]['treat_place_district'])) {
+			$treat_place_district = District::where('district_id', '=', $invest_pt[0]['treat_place_district'])->get()->toArray();
+		} else {
+			$treat_place_district = null;
+		}
+
+		/* treaf place sub district */
+		if (!empty($invest_pt[0]['treat_place_sub_district'])) {
+			$treat_place_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['treat_place_sub_district'])->get()->toArray();
+		} else {
+			$treat_place_sub_district = null;
 		}
 
 		return view('form.confirm.index',
@@ -140,6 +173,8 @@ class ConfirmFormController extends Controller
 				'cur_city' => $cur_city,
 				'sick_city' => $sick_city,
 				'risk_stay_outbreak_city' => $risk_stay_outbreak_city,
+				'treat_first_city' => $treat_first_city,
+				'treat_place_city' => $treat_place_city,
 				'data' => $data,
 				'titleName' => $titleName,
 				'provinces' => $provinces,
@@ -151,7 +186,12 @@ class ConfirmFormController extends Controller
 				'sick_district' => $sick_district,
 				'sick_sub_district' => $sick_sub_district,
 				'risk_district' => $risk_district,
-				'risk_sub_district' => $risk_sub_district
+				'risk_sub_district' => $risk_sub_district,
+				'treat_first_district' => $treat_first_district,
+				'treat_first_sub_district' => $treat_first_sub_district,
+				'treat_place_district' => $treat_place_district,
+				'treat_place_sub_district' => $treat_place_sub_district
+
 			]
 		);
 	}
@@ -338,6 +378,50 @@ class ConfirmFormController extends Controller
 		$pt->lab_other_date = $this->convertDateToMySQL($request->labOtherDate);
 		$pt->lab_other_place = $request->labOtherPlace;
 		$pt->lab_other_result = $request->labOtherResult;
+
+		$pt->fever_history = $request->fever_history;
+		$pt->fever_current = $request->fever;
+		$pt->data3_1date_sickdate = $this->convertDateToMySQL($request->data3_1date_sickdate);
+		$pt->rr_rpm = $request->rr_rpm;
+		$pt->sym_cough = $request->sym_cough;
+		$pt->sym_snot = $request->sym_sore;
+		$pt->sym_sore = $request->sym_sore;
+		$pt->sym_dyspnea = $request->sym_dyspnea;
+		$pt->sym_breathe = $request->sym_breathe;
+		$pt->sym_stufefy = $request->sym_stufefy;
+		$pt->treat_first_country = $request->treatFirstCountryInput;
+		$pt->treat_first_city = $request->treatFirstCityInput;
+		$pt->treat_first_city_other = $request->treatFirstCityOtherInput;
+		$pt->treat_first_province = $request->treatFirstProvinceInput;
+		$pt->treat_first_district = $request->treatFirstDistrictInput;
+		$pt->treat_first_sub_district = $request->treatFirstSubDistrictInput;
+		$pt->treat_first_date = $this->convertDateToMySQL($request->treat_first_date);
+		$pt->treat_patient_type = $request->treat_patient_type;
+		$pt->treat_place_country = $request->treatPlaceCountryInput;
+		$pt->treat_place_city = $request->treatPlaceCityInput;
+		$pt->treat_place_city_other = $request->treatPlaceCityOtherInput;
+		$pt->treat_place_province = $request->treatPlaceProvinceInput;
+		$pt->treat_place_district = $request->treatPlaceDistrictInput;
+		$pt->treat_place_sub_district = $request->treatPlaceSubDistrictInput;
+		$pt->treat_place_date = $this->convertDateToMySQL($request->treat_place_date);
+
+		$pt->data3_3chk = $request->data3_3chk;
+		$pt->data3_3chk_lung = $request->data3_3chk_lung;
+		$pt->data3_3chk_heart = $request->data3_3chk_heart;
+		$pt->data3_3chk_cirrhosis = $request->data3_3chk_cirrhosis;
+		$pt->data3_3chk_kidney = $request->data3_3chk_kidney;
+		$pt->data3_3chk_diabetes = $request->data3_3chk_diabetes;
+		$pt->data3_3chk_blood = $request->data3_3chk_blood;
+		$pt->data3_3chk_immune = $request->data3_3chk_immune;
+		$pt->data3_3chk_anaemia = $request->data3_3chk_anaemia;
+		$pt->data3_3chk_cerebral = $request->data3_3chk_cerebral;
+		$pt->data3_3chk_pregnant = $request->data3_3chk_pregnant;
+		$pt->data3_3chk_fat = $request->data3_3chk_fat;
+		$pt->data3_3chk_cancer = $request->data3_3chk_cancer;
+		$pt->data3_3chk_cancer_name = $request->data3_3chk_cancer_name;
+		$pt->data3_3chk_other = $request->data3_3chk_other;
+		$pt->data3_3chk_other = $request->data3_3chk_other;
+		$pt->data3_3input_other = $request->data3_3input_other;
 
 		$pt_saved = $pt->save();
 		if ($pt_saved) {

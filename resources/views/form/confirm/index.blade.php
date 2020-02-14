@@ -55,12 +55,15 @@
 							</div>
 							@include('form.confirm.section1')
 						</div><!-- bd-collout1 -->
-						<div class="bd-callout bd-callout-warning" style="margin-top:0;">
+						<div class="bd-callout bd-callout-custom-2" style="margin-top:0;">
 							@include('form.confirm.section2')
 						</div><!-- bd-collout2 -->
-						<div class="bd-callout bd-callout-danger" style="margin-top:0;">
+						<div class="bd-callout bd-callout-custom-1" style="margin-top:0;">
 							@include('form.confirm.section3')
 						</div><!-- bd-collout3 -->
+						<div class="bd-callout bd-callout-danger" style="margin-top:0;">
+							@include('form.confirm.section4')
+						</div><!-- bd-collout4 -->
 						<div class="border-top">
 							<div class="card-body">
 								<button type="submit" class="btn btn-info">บันทึกข้อมูล</button>
@@ -179,6 +182,66 @@ $(document).ready(function() {
 				success: function(response) {
 					$('#select_risk_stay_outbreak_city').html(response);
 					$('#select_risk_stay_outbreak_city').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* risk_stay_outbreak_city */
+	$('#treat_first_country').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('cityFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#treat_first_city').html(response);
+					$('#treat_first_city').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* treat first_city */
+	$('#treat_first_country').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('cityFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#treat_first_city').html(response);
+					$('#treat_first_city').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* treat place city */
+	$('#treat_place_country').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('cityFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#treat_place_city').html(response);
+					$('#treat_place_city').selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);
@@ -347,6 +410,86 @@ $(document).ready(function() {
 		}
 	});
 
+	/* treat first district */
+	$('#treat_first_province').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('districtFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#treat_first_district').html(response);
+					$('#treat_first_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* treat first sub district */
+	$('#treat_first_district').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#treat_first_sub_district').html(response);
+					$('#treat_first_sub_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* treat place district */
+	$('#treat_place_province').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('districtFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#treat_place_district').html(response);
+					$('#treat_place_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* treat place sub district */
+	$('#treat_place_district').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#treat_place_sub_district').html(response);
+					$('#treat_place_sub_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
 
 	/* check box */
 	$('.flu-vaccine-chk').click(function() {
@@ -431,6 +574,18 @@ $(document).ready(function() {
 
 	$('.risk_care_flu_patient').click(function() {
 		$('.risk_care_flu_patient').not(this).prop('checked', false);
+	});
+
+	$('.fever_history').click(function() {
+		$('.fever_history').not(this).prop('checked', false);
+	});
+
+	$('.treat_patient_type').click(function() {
+		$('.treat_patient_type').not(this).prop('checked', false);
+	});
+
+	$('.chk_risk3_3').click(function() {
+		$('.chk_risk3_3').not(this).prop('checked', false);
 	});
 
 	/* date picker */
@@ -603,6 +758,27 @@ $(document).ready(function() {
 	});
 
 	$('#lab_other_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#data3_1date_sickdate').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#treat_first_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#treat_place_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
