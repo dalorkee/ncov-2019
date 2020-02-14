@@ -73,12 +73,12 @@
 											        </thead>
 											        <tbody>
 											          <tr>
-											            <td>{{ (!empty($ref_detail_contact[0]->contact_id_day)) ? $ref_detail_contact[0]->contact_id_day : "" }}</td>
-											            <td>{{ (!empty($ref_detail_contact[0]->date_no)) ? $ref_detail_contact[0]->date_no : "" }}</td>
-											            <td>{{ (!empty($ref_detail_contact[0]->followup_address)) ? $ref_detail_contact[0]->followup_address : "" }}</td>
-											            <td>{{ (!empty($ref_detail_contact[0]->division_follow_contact)) ? $ref_detail_contact[0]->division_follow_contact : "" }}</td>
-																	<td>{{ (!empty($ref_detail_contact[0]->status_followup)) ? $ref_detail_contact[0]->status_followup : "" }}</td>
-																	<td>{{ (!empty($ref_detail_contact[0]->follow_results)) ? $ref_detail_contact[0]->follow_results : "" }}</td>
+											            <td>{{ (!empty($ref_detail_follow[0]->contact_id_day)) ? $ref_detail_follow[0]->contact_id_day : "" }}</td>
+											            <td>{{ (!empty($ref_detail_follow[0]->date_no)) ? $ref_detail_follow[0]->date_no : "" }}</td>
+											            <td>{{ (!empty($ref_detail_follow[0]->followup_address)) ? $ref_detail_follow[0]->followup_address : "" }}</td>
+											            <td>{{ (!empty($ref_detail_follow[0]->division_follow_contact)) ? $ref_detail_follow[0]->division_follow_contact : "" }}</td>
+																	<td>{{ (!empty($ref_detail_follow[0]->status_followup)) ? $ref_detail_follow[0]->status_followup : "" }}</td>
+																	<td>{{ (!empty($ref_detail_follow[0]->follow_results)) ? $ref_detail_follow[0]->follow_results : "" }}</td>
 											          </tr>
 											        </tbody>
 											      </table>

@@ -45,7 +45,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                     <br><label>SAT ID : </label>
 								<div class="form-group row">
 										<div class="col-sm-3">
-										<input type="hidden" name="sat_idx" value="{{$sat_idx}}" class="form-control" readonly>
+										<input type="hidden" name="pui_id" value="{{$pui_id}}" class="form-control" readonly>
 										</div>
 								</div>
                 <div class="form-group row">
