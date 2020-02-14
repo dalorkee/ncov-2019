@@ -718,7 +718,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="pt_status">PT Status</label>
-										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control  show-tick">
+										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control  show-tick" required>
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['pt_status'] as $key => $val)
 											<option value="{{ $key }}" {{ old('pt_status') == $key ? 'selected' : ''}}>{{ $val }}</option>
