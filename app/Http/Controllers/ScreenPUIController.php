@@ -207,6 +207,7 @@ class ScreenPUIController extends MasterController
           "entry_user" => (!empty($request->entry_user)) ? trim($request->entry_user) : NULL,
           //"created_at" => date('Y-m-d H:i:s'),
           "created_at" => Carbon::now(),
+          "sat" => "y",
         ];
 
         $result = InvestList::insert($data);

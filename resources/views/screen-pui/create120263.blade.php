@@ -623,7 +623,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 											</div>
 										</div>
 									</div>
-						
+
 								</div><!-- card body#1 -->
 							</div><!-- card1 -->
 						</div><!-- bd-collout1 -->
@@ -950,7 +950,6 @@ $(document).ready(function() {
 	});
 
 	$('#isolated_province').change(function() {
-		alert('fdfdfd');
 		if ($(this).val() != '') {
 			var select = $(this).val();
 			var _token = $('input[name="_token"]').val();
