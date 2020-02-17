@@ -157,7 +157,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										<div class="row">
 											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 												<label for="dowork">จังหวัดที่เข้ารับการคัดกรอง</label>
-													<select name="walkinplace_hosp_province" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="walkinplace_hosp_province">
+													<select name="walkinplace_hosp_province" class="form-control selectpicker " data-live-search="true" id="walkinplace_hosp_province">
 														<option value="">-- โปรดเลือก --</option>
 															@foreach($provinces as $key5=>$val5) {
 																<option value="{{ $val5['province_id'] }}" {{ old('walkinplace_hosp_province') == $val5['province_id'] ? 'selected' : ''}}>{{ $val5['province_name'] }}</option>
@@ -165,8 +165,8 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 													</select>
 											</div>
 											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
-												<label for="chospital_new">โรงพยาบาลที่เข้ารับการคัดกรอง</label>
-					              <select name="walkinplace_hosp_code" id="walkinplace_hosp_code" class="form-control chospital_new js-select-basic-single">
+												<label for="chospital_new_label">โรงพยาบาลที่เข้ารับการคัดกรอง</label>
+					              <select name="walkinplace_hosp_code" id="walkinplace_hosp_code" class="form-control selectpicker" data-live-search="true" >
 					  							<option value="">เลือกโรงพยาบาลที่เข้ารับการคัดกรอง</option>
 					  						</select>
 										 </div>
@@ -215,7 +215,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
 											<label for="dowork">ผู้ป่วย Isolated ที่ รพ.</label>
-											<select name="isolated_hosp_code" id="isolated_hosp_code" class="form-control isolated_hosp_code js-select-basic-single">
+											<select name="isolated_hosp_code" id="isolated_hosp_code" class="form-control selectpicker" data-live-search="true">
 												<option value="">เลือกโรงพยาบาลที่ผู้ป่วย Isolated</option>
 											</select>
 										</div>
@@ -845,7 +845,7 @@ $(document).ready(function() {
 	});
 	$('.time').mask('00:00');
 
-	$('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
+	$('.selectpicker').selectpicker();
 	/* date of birth */
 	$('#datepicker1,#datepicker2,#datepicker3,.datepicker,#notify_date').datepicker({
 		format: 'dd/mm/yyyy',
@@ -943,7 +943,8 @@ $(document).ready(function() {
 					_token: _token
 				},
 				success: function(result) {
-					$('.chospital_new').html(result);
+					$('#walkinplace_hosp_code').html(result);
+					$('#walkinplace_hosp_code').selectpicker("refresh");
 				}
 			})
 		}
@@ -961,7 +962,8 @@ $(document).ready(function() {
 					_token: _token
 				},
 				success: function(result) {
-					$('.isolated_hosp_code').html(result);
+					$('#isolated_hosp_code').html(result);
+					$('#isolated_hosp_code').selectpicker("refresh");
 				}
 			})
 		}

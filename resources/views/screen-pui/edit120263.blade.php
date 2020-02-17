@@ -129,7 +129,7 @@ input:read-only {
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
 													<label for="chospital_new">โรงพยาบาลที่เข้ารับการคัดกรอง</label>
-						              <select name="walkinplace_hosp_code" id="walkinplace_hosp_code" class="form-control chospital_new js-select-basic-single">
+						              <select name="walkinplace_hosp_code" id="walkinplace_hosp_code" class="form-control selectpicker" data-live-search="true">
 														@if (!empty($data->walkinplace_hosp_code))
 															<option value="{{ $walkinplace_hosp_name->hospcode }}" selected="selected">{{ $walkinplace_hosp_name->hosp_name }}</option>
 														@endif
@@ -180,7 +180,7 @@ input:read-only {
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
 											<label for="dowork">ผู้ป่วย Isolated ที่ รพ.</label>
-											<select name="isolated_hosp_code" id="isolated_hosp_code" class="form-control isolated_hosp_code js-select-basic-single">
+											<select name="isolated_hosp_code" id="isolated_hosp_code" class="form-control selectpicker" data-live-search="true">
 												@if (!empty($data->isolated_hosp_code))
 													<option value="{{ $isolated_hosp_name->hospcode }}" selected="selected">{{ $isolated_hosp_name->hosp_name }}</option>
 												@endif
@@ -907,7 +907,8 @@ $(document).ready(function() {
 					_token: _token
 				},
 				success: function(result) {
-					$('.chospital_new').html(result);
+					$('#walkinplace_hosp_code').html(result);
+					$('#walkinplace_hosp_code').selectpicker("refresh");
 				}
 			})
 		}
@@ -925,7 +926,8 @@ $(document).ready(function() {
 					_token: _token
 				},
 				success: function(result) {
-					$('.isolated_hosp_code').html(result);
+					$('#isolated_hosp_code').html(result);
+					$('#isolated_hosp_code').selectpicker("refresh");
 				}
 			})
 		}
