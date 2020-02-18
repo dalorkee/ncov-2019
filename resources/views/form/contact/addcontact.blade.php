@@ -217,8 +217,8 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </select>
             </div>
             <div class="col-sm-3">
-              <label for="chospital_new">โรงพยาบาลที่รักษาตัว</label>
-              <select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="อำเภอ">
+              <label for="">โรงพยาบาลที่รักษาตัว</label>
+              <select name="hospcode" id="" class="form-control chospital_new js-select-basic-single" placeholder="อำเภอ">
   							<option value="">เลือกโรงพยาบาลที่รักษาตัว</option>
   						</select>
             </div>

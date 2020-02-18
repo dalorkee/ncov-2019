@@ -193,7 +193,9 @@ class ContactController extends MasterController
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
-		$sat_id=$req->sat_id;
+		$arrtitlename = $this->arrtitlename();
+		// $sat_id=$req->sat_id;
+		$contact_id=$req->contact_id;
     $listprovince=$this->province();
     $listcountry=$this->arrnation();
 		$entry_user = Auth::user()->id;
@@ -204,10 +206,11 @@ class ContactController extends MasterController
 			'ref_title_name',
 			'ref_specimen',
 			'ref_global_country',
-			'sat_id',
+			'contact_id',
 			'prefix_sat_id',
 			'entry_user',
-			'getdata_contact'
+			'getdata_contact',
+			'arrtitlename'
 
     ));
 	}
@@ -251,17 +254,17 @@ class ContactController extends MasterController
 		 $contact_id_temp = "";
 	 }
 
-	$update_pt = DB::table('invest_pt')
-							->where('id', $req ->input ('pui_id'))
-							->update(['cont' => "y"]);
-	if ($update_pt) {
+	// $update_pt = DB::table('invest_pt')
+	// 						->where('id', $req ->input ('pui_id'))
+	// 						->update(['cont' => "y"]);
+	// if ($update_pt)
+	{
 	// $contactid=uniqid();
   // $poe_id = $req ->input ('poe_id');
 	$sat_id = $req ->input ('sat_id');
 	$pui_id = $req ->input ('pui_id');
   // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
 	$user_id = $req ->input ('user_id');
-
 	$title_contact = $req ->input ('title_contact');
   $name_contact = $req ->input ('name_contact');
   $mname_contact = $req ->input ('mname_contact');
@@ -385,10 +388,10 @@ class ContactController extends MasterController
   if ($res1){
     $msg = " ส่งข้อมูลสำเร็จ";
 		// $poe_id=$poe_id;
-    $url_rediect = "<script>alert('".$msg."'); window.location='/contacttable/id/$pui_id';</script> ";
+    $url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contacttable/id/$pui_id';</script> ";
   }else{
     $msg = " ส่งข้อมูลไม่สำเร็จ";
-    $url_rediect = "<script>alert('".$msg."'); window.location='/contacttable/id/$pui_id';</script> ";
+    $url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contacttable/id/$pui_id';</script> ";
     }
     echo $url_rediect;
 }
@@ -487,10 +490,10 @@ $res1	= DB::table('tbl_followupcontact')->insert($data);
 // }
 if ($res1){
 	$msg = " ส่งข้อมูลสำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='/contactfollowtable/contact_id/$contact_id';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contactfollowtable/contact_id/$contact_id';</script> ";
 }else{
 	$msg = " ส่งข้อมูลไม่สำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='/contactfollowtable/contact_id/$contact_id';</script> ";
+	$url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contactfollowtable/contact_id/$contact_id';</script> ";
 	}
 	echo $url_rediect;
 }
@@ -502,12 +505,17 @@ $delete1 = DB::table('tbl_contact')->where('contact_id','=', $req->contact_id)->
 // dd($delete1);
 if ($delete1)
 {
-	// $contactid=uniqid();
- // $poe_id = $req ->input ('poe_id');
+	$contact_id = $req ->input ('contact_id');
+	$contact_id_temp = $req ->input ('contact_id_temp');
+	if ($contact_id == $contact_id_temp) {
+		$contact_id_temp = $req ->input ('contact_id_temp');
+	}else {
+		$contact_id_temp = "";
+	}
  $sat_id = $req ->input ('sat_id');
- // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
-	 $user_id = $req ->input ('user_id');
+ $pui_id = $req ->input ('pui_id');
  $contact_id = $req ->input ('contact_id');
+ $user_id = $req ->input ('user_id');
  $title_contact = $req ->input ('title_contact');
  $name_contact = $req ->input ('name_contact');
  $mname_contact = $req ->input ('mname_contact');
@@ -531,6 +539,7 @@ if ($delete1)
  $division_follow_contact = $req ->input ('division_follow_contact');
  $division_follow_contact_other = $req ->input ('division_follow_contact_other');
  $sat_id_class = $req ->input ('sat_id_class');
+ $hospcode = $req ->input ('hospcode');
  $clinical = $req ->input ('clinical');
  $fever = $req ->input ('fever');
  $cough = $req ->input ('cough');
@@ -542,11 +551,16 @@ if ($delete1)
  $muscle_aches = $req ->input ('muscle_aches');
  $headache = $req ->input ('headache');
  $diarrhea = $req ->input ('diarrhea');
+ $status_followup = $req ->input ('status_followup');
+ $available_contact = $req ->input ('available_contact');
+ $follow_results = $req ->input ('follow_results');
  $date_entry = date('Y-m-d') ;
  $data = array(
 	 // 'poe_id'=>$poe_id,
 	 'sat_id'=>$sat_id,
+	 'pui_id'=>$pui_id,
 	 'contact_id'=>$contact_id,
+	 'contact_id_temp'=>$contact_id_temp,
 	 'title_contact'=>$title_contact,
 	 'name_contact'=>$name_contact,
 	 'mname_contact'=>$mname_contact,
@@ -571,6 +585,7 @@ if ($delete1)
 	 'division_follow_contact'=>$division_follow_contact,
 	 'division_follow_contact_other'=>$division_follow_contact_other,
 	 'sat_id_class'=>$sat_id_class,
+	 'hospcode'=>$hospcode,
 	 'clinical'=>$clinical,
 	 'fever'=>$fever,
 	 'cough'=>$cough,
@@ -582,6 +597,9 @@ if ($delete1)
 	 'muscle_aches'=>$muscle_aches,
 	 'headache'=>$headache,
 	 'diarrhea'=>$diarrhea,
+	 'status_followup'=>$status_followup,
+	 'available_contact'=>$available_contact,
+	 'follow_results'=>$follow_results,
 	 'date_entry'=>$date_entry
  );
 			// dd($data);
@@ -621,10 +639,10 @@ if ($delete1)
  if ($res1){
 	 $msg = " ส่งข้อมูลสำเร็จ";
 	 // $poe_id=$poe_id;
-	 $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id';</script> ";
+	 $url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contacttable/id/$pui_id';</script> ";
  }else{
 	 $msg = " ส่งข้อมูลไม่สำเร็จ";
-	 $url_rediect = "<script>alert('".$msg."'); window.location='contacttable?sat_id=$sat_id';</script> ";
+	 $url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contacttable/id/$pui_id';</script> ";
 	 }
 	 echo $url_rediect;
 }
@@ -732,6 +750,14 @@ echo $outputD;
 		}
 		// dd($province_arr);
 		return $arrspecimen;
+	}
+	protected function arrtitlename(){
+		$arrtitlename = DB::table('ref_title_name')->select('id','title_name')->get();
+		foreach ($arrtitlename as  $value) {
+			$arrtitlename[$value->id] =trim($arrtitlename->title_name);
+		}
+		// dd($province_arr);
+		return $arrtitlename;
 	}
 	protected function arrfollowup_address(){
 		$arrfollowup_address = DB::table('ref_specimen')->select('id','name_en')->get();

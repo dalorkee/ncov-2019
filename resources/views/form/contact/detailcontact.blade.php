@@ -51,7 +51,7 @@
 																		<br/>เพศ : {{ (!empty($ref_detail_contact[0]->sex_contact)) ? $ref_detail_contact[0]->sex_contact : "" }}
 																		<br/>อายุ : {{ (!empty($ref_detail_contact[0]->age_contact)) ? $ref_detail_contact[0]->age_contact : "" }}
 																		<br/>Passport ID : {{ (!empty($ref_detail_contact[0]->passport_contact)) ? $ref_detail_contact[0]->passport_contact : "" }}
-																		{{-- <br/>สัญชาติ :{{ (isset($nation_list($ref_detail_contact->national_contact))) ? $nation_list($ref_detail_contact->national_contact) : "" }} --}}
+																		{{-- <br/>สัญชาติ :{{ (isset($nation_list[$ref_detail_contact->$national_contact])) ? $nation_list[$ref_detail_contact->$national_contact] : "" }} --}}
 																		<br/>ที่อยู่ : {{ (!empty($ref_detail_contact[0]->address_contact)) ? $ref_detail_contact[0]->address_contact : "" }}
 																		<br/>เบอร์โทร :{{ (!empty($ref_detail_contact[0]->phone_contact)) ? $ref_detail_contact[0]->phone_contact : "" }}
 																		<br/>การสัมผัสผู้ป่วย : {{ (!empty($ref_detail_contact[0]->patient_contact)) ? $ref_detail_contact[0]->patient_contact : "" }}
