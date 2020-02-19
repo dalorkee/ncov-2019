@@ -333,7 +333,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<option value="1">ไม่มี</option>
 								<option value="2">เล็กน้อย</option>
                 <option value="3">หนัก</option>
-                <option value="5">สาหัส</option>
+                <option value="4">วิกฤต</option>
 						</select>
 						</div>
 						</div>

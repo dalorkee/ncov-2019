@@ -113,7 +113,7 @@
 							<option value="{{ $getdata_contact[0]->national_contact }}">{{ $listcountry[$getdata_contact[0]->national_contact] }}</option>
 						@foreach ($ref_global_country as $row)
             <option value="{{$row->country_id}}">{{$row->country_name}}</option>
-            @endforeach
+					@endforeach
             </select>
             </div>
             <div class="col-sm-3">
@@ -156,44 +156,44 @@
             <div class="col-sm-3">
 							<label for="risk_contact">ระดับความเสี่ยง</label>
             <select type="text" name="risk_contact" class="form-control js-select-basic-single" placeholder="ระดับความเสี่ยง">
-                <option value="{{ $getdata_contact[0]->risk_contact }}">{{ $getdata_contact[0]->risk_contact }}</option>
+                <option value="{{ $getdata_contact[0]->risk_contact }}">{{ $arr_risk_contact[$getdata_contact[0]->risk_contact] }}</option>
                   <option value="1">เสี่ยงสูง</option>
                   <option value="2">เสี่ยงต่ำ</option>
             </select>
             </div>
             <div class="col-sm-3">
 							<label for="datecontact">วันที่สัมผัส</label>
-            <input type="text" class="form-control" name="datecontact" value="{{ $getdata_contact[0]->datecontact }}" data-provide="datepicke" id="datecontact"  placeholder="วันที่สัมผัส" autocomplete="off" >
+            <input type="text" class="form-control" name="datecontact" value="" data-provide="datepicke" id="datecontact"  placeholder="วันที่สัมผัส" autocomplete="off" >
             </div>
             <div class="col-sm-3">
 							<label for="datefollow">ให้ตามถึงวันที่</label>
-            <input type="text" class="form-control" name="datefollow" value="{{ $getdata_contact[0]->datefollow }}" data-provide="datepicke" id="datefollow"  placeholder="ให้ตามถึงวันที่" autocomplete="off" >
+            <input type="text" class="form-control" name="datefollow" value="" data-provide="datepicke" id="datefollow"  placeholder="ให้ตามถึงวันที่" autocomplete="off" >
             </div>
             <div class="col-sm-3">
 							<label for="type_contact">ประเภทผู้สัมผัส</label>
             <select type="text" name="type_contact" class="form-control js-select-basic-single" placeholder="ประเภทผู้สัมผัส">
-                <option value="{{ $getdata_contact[0]->type_contact }}">{{ $getdata_contact[0]->type_contact }}</option>
+                <option value="{{ $getdata_contact[0]->type_contact }}">{{ $arr_type_contact[$getdata_contact[0]->type_contact] }}</option>
                   <option value="1">บุคลากรทางการแพทย์</option>
                   <option value="2">ผู้สัมผัสร่วมบ้าน</option>
                   <option value="3">ผู้ร่วมเดินทาง</option>
                   <option value="4">พนักงานโรงแรม</option>
                   <option value="5">คนขับแท๊กซี่/ยานพาหนะ</option>
                   <option value="6">พนักงานสนามบิน</option>
-                  <option value="8">อื่นๆ</option>
+                  <option value="7">อื่นๆ</option>
               </select>
             </div>
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
 							<label for="date_followup">วันที่ติดตามอาการ</label>
-            <input type="text" name="date_followup" id="date_followup" value="{{ $getdata_contact[0]->date_followup }}" data-provide="datepicke" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off" >
+            <input type="text" name="date_followup" id="date_followup" value="" data-provide="datepicke" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off" >
             </div>
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
 							<label for="followup_address">สถานที่ที่ติดตามผู้สัมผัส</label>
             <select type="text" name="province_follow_contact" id="province_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-            <option value="{{ $getdata_contact[0]->province_follow_contact }}">{{ $getdata_contact[0]->province_follow_contact }}</option>
+            <option value="{{ $getdata_contact[0]->province_follow_contact }}">{{ $arr_province[$getdata_contact[0]->province_follow_contact] }}</option>
             @foreach ($listprovince as $row)
             <option value="{{$row->province_id}}">{{$row->province_name}}</option>
             @endforeach
@@ -202,9 +202,9 @@
             </div>
             <div class="form-group row">
               <div class="col-sm-3">
-								<label for="province_follow_contact">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</label>
+								<label for="province_follow_contact">หน่วยงานที่ติดตามผู้สัมผัส</label>
               <select type="text" name="division_follow_contact" id="division_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-              <option value="{{ $getdata_contact[0]->division_follow_contact }}">{{ $getdata_contact[0]->division_follow_contact }}</option>
+              <option value="{{ $getdata_contact[0]->division_follow_contact }}">{{ $arr_division_follow_contact[$getdata_contact[0]->division_follow_contact] }}</option>
               <option value="99">ส่วนกลาง</option>
               <option value="13">สปคม.</option>
               <option value="1">สคร.1</option>
@@ -225,7 +225,7 @@
 							<div class="col-sm-3">
 								<label for="province_follow_contact">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</label>
 							<select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-							<option value="{{ $getdata_contact[0]->province_follow_contact }}">{{ $getdata_contact[0]->province_follow_contact }}</option>
+							<option value="{{ $getdata_contact[0]->province_follow_contact }}">{{ $arr_province[$getdata_contact[0]->province_follow_contact] }}</option>
 							@foreach ($listprovince as $row)
 							<option value="{{$row->province_id}}">{{$row->province_name}}</option>
 							@endforeach
@@ -234,7 +234,7 @@
 							<div class="col-sm-3">
 								<label for="chospital_new">โรงพยาบาลที่รักษาตัว</label>
 								<select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="อำเภอ">
-									<option value="{{ $getdata_contact[0]->hospcode }}">{{ $getdata_contact[0]->hospcode }}</option>
+									<option value="{{ $getdata_contact[0]->hospcode }}">{{ $arr_hos[$getdata_contact[0]->hospcode] }}</option>
 								</select>
 							</div>
             <div class="col-sm-3">
@@ -301,7 +301,7 @@
 						<div class="col-sm-3">
               <label for="status_followup">สถานะการติดตาม</label>
 						<select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
-							<option value="{{ $getdata_contact[0]->status_followup }}">{{ $getdata_contact[0]->status_followup }}</option>
+							<option value="{{ $getdata_contact[0]->status_followup }}">{{ $arr_status_followup[$getdata_contact[0]->status_followup] }}</option>
 								<option value="1">จบการติดตาม</option>
 								<option value="2">ยังต้องติดตาม</option>
 						</select>
@@ -309,7 +309,7 @@
 						<div class="col-sm-3">
               <label for="available_contact">การติดตามผู้สัมผัส</label>
 						<select type="text" name="available_contact" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
-							<option value="{{ $getdata_contact[0]->available_contact }}">{{ $getdata_contact[0]->available_contact }}</option>
+							<option value="{{ $getdata_contact[0]->available_contact }}">{{ $arr_available_contact[$getdata_contact[0]->available_contact] }}</option>
 								<option value="1">ติดตามได้</option>
 								<option value="2">ติดตามไม่ได้</option>
 						</select>
@@ -317,11 +317,11 @@
 						<div class="col-sm-3">
               <label for="follow_results">ผลการติดตามผู้สัมผัส</label>
 						<select type="text" name="follow_results" class="form-control js-select-basic-single"  placeholder="ผลการติดตามผู้สัมผัส">
-							<option value="{{ $getdata_contact[0]->follow_results }}">{{ $getdata_contact[0]->follow_results }}</option>
+							<option value="{{ $getdata_contact[0]->follow_results }}">{{ $arr_follow_results[$getdata_contact[0]->follow_results] }}</option>
 								<option value="1">ไม่มี</option>
 								<option value="2">เล็กน้อย</option>
                 <option value="3">หนัก</option>
-                <option value="5">สาหัส</option>
+                <option value="4">วิกฤต</option>
 						</select>
 						</div>
 						</div>

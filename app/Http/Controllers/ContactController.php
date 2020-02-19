@@ -12,8 +12,15 @@ class ContactController extends MasterController
 {
   // allcontact table
 	public function allcasecontacttable(Request $req)
-  {
-		$contact_data=DB::table('tbl_contact')->select('*')->get();
+
+{
+  if(auth()->user()->id==Auth::user()->id){
+		$contact_data=
+									DB::table('tbl_contact')
+												->join('users','tbl_contact.user_id','=','users.id')
+												->select('tbl_contact.*','users.id','users.prefix_sat_id')
+												->where('users.prefix_sat_id',Auth::user()->prefix_sat_id)
+												->get();
 		$nation_list = $this->arrnation();
 		$arr_occu = $this->arroccu();
 		$arrprov = $this->arrprov();
@@ -30,8 +37,7 @@ class ContactController extends MasterController
 			'arr_sub_district'
     ));
   }
-
-
+}
 	// allcontact table
 	public function editstatus(Request $req)
 	{
@@ -194,12 +200,19 @@ class ContactController extends MasterController
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$arrtitlename=$this->arrtitlename();
+		$arr_type_contact = $this->arr_type_contact();
+		$arr_division_follow_contact = $this->arr_division_follow_contact();
+		$arr_hos = $this->arr_hos();
+		$arr_status_followup = $this->arr_status_followup();
+		$arr_available_contact = $this->arr_available_contact();
+		$arr_follow_results = $this->arr_follow_results();
 		// $arrtitlename = $this->arrtitlename();
 		// $sat_id=$req->sat_id;
 		$contact_id=$req->contact_id;
     $listprovince=$this->province();
 		$arr_province=$this->arr_province();
 		$arrdistrict=$this->arrdistrict();
+		$arr_risk_contact=$this->arr_risk_contact();
 		$arr_sub_district=$this->arr_sub_district();
     $listcountry=$this->arrnation();
 		$entry_user = Auth::user()->id;
@@ -218,6 +231,13 @@ class ContactController extends MasterController
 			'arr_province',
 			'arrdistrict',
 			'arr_sub_district',
+			'arr_risk_contact',
+			'arr_type_contact',
+			'arr_division_follow_contact',
+			'arr_hos',
+			'arr_status_followup',
+			'arr_available_contact',
+			'arr_follow_results'
     ));
 	}
 
@@ -392,14 +412,10 @@ class ContactController extends MasterController
     // $res3	= DB::table('tbl_contact_hsc')->insert($data_hsc);
 // }
   if ($res1){
-    $msg = " ส่งข้อมูลสำเร็จ";
-		// $poe_id=$poe_id;
-    $url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contacttable/id/$pui_id';</script> ";
+		return redirect()->route('contacttable',[$pui_id])->with('message','Insert Success : '.$pui_id);
   }else{
-    $msg = " ส่งข้อมูลไม่สำเร็จ";
-    $url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contacttable/id/$pui_id';</script> ";
+		return redirect()->route('contacttable',[$pui_id])->with('message','ERROR : '.$pui_id);
     }
-    echo $url_rediect;
 }
 }
 
@@ -495,13 +511,11 @@ $res1	= DB::table('tbl_followupcontact')->insert($data);
 // 	$res3	= DB::table('tbl_followupcontact_hsc')->insert($data_hsc);
 // }
 if ($res1){
-	$msg = " ส่งข้อมูลสำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contactfollowtable/contact_id/$contact_id';</script> ";
+
+	return redirect()->route('contactfollowtable',[$contact_id])->with('message','Insert Success : '.$pui_id);
 }else{
-	$msg = " ส่งข้อมูลไม่สำเร็จ";
-	$url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contactfollowtable/contact_id/$contact_id';</script> ";
+	return redirect()->route('contactfollowtable',[$contact_id])->with('message','ERROR : '.$pui_id);
 	}
-	echo $url_rediect;
 }
 
 
@@ -643,14 +657,11 @@ if ($delete1)
 	 // $res3	= DB::table('tbl_contact_hsc')->insert($data_hsc);
 // }
  if ($res1){
-	 $msg = " ส่งข้อมูลสำเร็จ";
-	 // $poe_id=$poe_id;
-	 $url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contacttable/id/$pui_id';</script> ";
- }else{
-	 $msg = " ส่งข้อมูลไม่สำเร็จ";
-	 $url_rediect = "<script>alert('".$msg."'); window.location='/ncov-2019/contacttable/id/$pui_id';</script> ";
+
+	 return redirect()->route('contacttable',[$pui_id])->with('message','Insert Success : '.$pui_id);
+	}else{
+	 return redirect()->route('contacttable',[$pui_id])->with('message','ERROR : '.$pui_id);
 	 }
-	 echo $url_rediect;
 }
 }
 
@@ -714,6 +725,14 @@ echo $outputD;
 		}
 		// dd($province_arr);
 		return $arr_sub_district;
+	}
+	protected function arr_hos(){
+		$arr_hos = DB::table('chospital_new')->select('hospcode','hosp_name')->get();
+		foreach ($arr_hos as  $value) {
+			$arr_hos[$value->hospcode] =trim($value->hosp_name);
+		}
+		// dd($province_arr);
+		return $arr_hos;
 	}
 	// public function ref_title_name(){
 	// 	$ref_title_name=DB::table('ref_title_name')
@@ -803,7 +822,59 @@ echo $outputD;
 		// dd($list_sym_cough);
 		return $arr_division_follow_contact;
 	}
-
+	protected function arr_risk_contact(){
+		$arr_risk_contact = array(
+			'1'=>'เสี่ยงสูง',
+			'2'=>'เสี่ยงต่ำ',
+			'0'=>'',
+			''=>''
+			);
+		// dd($list_sym_cough);
+		return $arr_risk_contact;
+	}
+	protected function arr_type_contact(){
+		$arr_type_contact = array(
+			'1'=>'บุคลากรทางการแพทย์',
+			'2'=>'ผู้สัมผัสร่วมบ้าน',
+			'3'=>'ผู้ร่วมเดินทาง',
+			'4'=>'พนักงานโรงแรม',
+			'5'=>'คนขับแท๊กซี่/ยานพาหนะ',
+			'6'=>'พนักงานสนามบิน',
+			'7'=>'อื่นๆ',
+			''=>''
+			);
+		// dd($list_sym_cough);
+		return $arr_type_contact;
+	}
+	protected function arr_status_followup(){
+		$arr_status_followup = array(
+			'1'=>'จบการติดตาม',
+			'2'=>'ยังต้องติดตาม',
+			''=>''
+			);
+		// dd($list_sym_cough);
+		return $arr_status_followup;
+	}
+	protected function arr_available_contact(){
+		$arr_available_contact= array(
+			'1'=>'ติดตามได้',
+			'2'=>'ติดตามไม่ได้',
+			''=>''
+			);
+		// dd($list_sym_cough);
+		return $arr_available_contact;
+	}
+	protected function arr_follow_results(){
+		$arr_follow_results= array(
+			'1'=>'ไม่มี',
+			'2'=>'เล็กน้อย',
+			'3'=>'หนัก',
+			'4'=>'วิกฤต',
+			''=>''
+			);
+		// dd($list_sym_cough);
+		return $arr_follow_results;
+	}
 	protected function arrtitlename(){
 			$arrtitlename = DB::table('ref_title_name')->select('id','title_name')->get();
 			foreach ($arrtitlename as  $value) {
@@ -812,6 +883,7 @@ echo $outputD;
 			 // dd($disease_arr_eventbase);
 			return $arrtitlename;
 		}
+
     /**
      * Display a listing of the resource.
      *
