@@ -193,10 +193,14 @@ class ContactController extends MasterController
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
-		$arrtitlename = $this->arrtitlename();
+		$arrtitlename=$this->arrtitlename();
+		// $arrtitlename = $this->arrtitlename();
 		// $sat_id=$req->sat_id;
 		$contact_id=$req->contact_id;
     $listprovince=$this->province();
+		$arr_province=$this->arr_province();
+		$arrdistrict=$this->arrdistrict();
+		$arr_sub_district=$this->arr_sub_district();
     $listcountry=$this->arrnation();
 		$entry_user = Auth::user()->id;
 		$prefix_sat_id = Auth::user()->prefix_sat_id;
@@ -210,8 +214,10 @@ class ContactController extends MasterController
 			'prefix_sat_id',
 			'entry_user',
 			'getdata_contact',
-			'arrtitlename'
-
+			'arrtitlename',
+			'arr_province',
+			'arrdistrict',
+			'arr_sub_district',
     ));
 	}
 
@@ -685,6 +691,14 @@ echo $outputD;
      // return view('AEFI.Apps.form1')->with('list',$list);
      return $listprovince;
   }
+	protected function arr_province(){
+		$arr_province = DB::table('ref_province')->select('province_id','province_name')->get();
+		foreach ($arr_province as  $value) {
+			$arr_province[$value->province_id] =trim($value->province_name);
+		}
+		// dd($province_arr);
+		return $arr_province;
+	}
 	protected function arrdistrict(){
 		$arrdistrict = DB::table('ref_district')->select('district_id','district_name')->get();
 		foreach ($arrdistrict as  $value) {
@@ -701,13 +715,13 @@ echo $outputD;
 		// dd($province_arr);
 		return $arr_sub_district;
 	}
-	public function ref_title_name(){
-		$ref_title_name=DB::table('ref_title_name')
-		->orderBy('id', 'ASC')
-		->get();
-		 // return view('AEFI.Apps.form1')->with('list',$list);
-		 return $ref_title_name;
-	}
+	// public function ref_title_name(){
+	// 	$ref_title_name=DB::table('ref_title_name')
+	// 	->orderBy('id', 'ASC')
+	// 	->get();
+	// 	 // return view('AEFI.Apps.form1')->with('list',$list);
+	// 	 return $ref_title_name;
+	// }
 	protected function arrnation(){
 		$arrnation = DB::table('ref_global_country')->select('country_id','country_name')->get();
 		foreach ($arrnation as  $value) {
@@ -751,14 +765,14 @@ echo $outputD;
 		// dd($province_arr);
 		return $arrspecimen;
 	}
-	protected function arrtitlename(){
-		$arrtitlename = DB::table('ref_title_name')->select('id','title_name')->get();
-		foreach ($arrtitlename as  $value) {
-			$arrtitlename[$value->id] =trim($arrtitlename->title_name);
-		}
-		// dd($province_arr);
-		return $arrtitlename;
-	}
+	// protected function arrtitlename(){
+	// 	$arrtitlename = DB::table('ref_title_name')->select('id','title_name')->get();
+	// 	foreach ($arrtitlename as  $value) {
+	// 		$arrtitlename[$value->id] =trim($arrtitlename->title_name);
+	// 	}
+	// 	// dd($province_arr);
+	// 	return $arrtitlename;
+	// }
 	protected function arrfollowup_address(){
 		$arrfollowup_address = DB::table('ref_specimen')->select('id','name_en')->get();
 		foreach ($arrfollowup_address as  $value) {
@@ -789,6 +803,15 @@ echo $outputD;
 		// dd($list_sym_cough);
 		return $arr_division_follow_contact;
 	}
+
+	protected function arrtitlename(){
+			$arrtitlename = DB::table('ref_title_name')->select('id','title_name')->get();
+			foreach ($arrtitlename as  $value) {
+				$arrtitlename[$value->id] = trim($value->title_name);
+			}
+			 // dd($disease_arr_eventbase);
+			return $arrtitlename;
+		}
     /**
      * Display a listing of the resource.
      *

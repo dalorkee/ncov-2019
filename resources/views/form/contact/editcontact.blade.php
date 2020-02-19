@@ -68,9 +68,9 @@
             <div class="col-sm-3">
 							<label for="name_contact">คำนำหน้าชื่อ</label>
             <select type="text" name="title_contact" class="form-control js-select-basic-single" placeholder="คำนำหน้าชื่อ">
-              <option value="{{ $getdata_contact[0]->title_contact }}">{$getdata_contact->title_contact}}</option>
+              <option value="{{ $getdata_contact[0]->title_contact }}">{{$arrtitlename[$getdata_contact[0]->title_contact] }}</option>
               @foreach ($ref_title_name as $row)
-							<option value="{{$row[0]->id}}">{{$row[0]->title_name}}</option>
+							<option value="{{$row->id}}">{{$row->title_name}}</option>
 							@endforeach
             </select>
             </div>
@@ -110,7 +110,7 @@
             <div class="col-sm-3">
 							<label for="national_contact">สัญชาติผู้สัมผัส</label>
             <select type="text" name="national_contact" class="form-control js-select-basic-single" placeholder="สัญชาติ">
-							<option value="{{ $getdata_contact[0]->national_contact }}">{{ $getdata_contact[0]->national_contact }}</option>
+							<option value="{{ $getdata_contact[0]->national_contact }}">{{ $listcountry[$getdata_contact[0]->national_contact] }}</option>
 						@foreach ($ref_global_country as $row)
             <option value="{{$row->country_id}}">{{$row->country_name}}</option>
             @endforeach
@@ -119,7 +119,7 @@
             <div class="col-sm-3">
 							<label for="province">จังหวัดที่อยู่ในประเทศไทย</label>
             <select type="text" name="province" id="province"  class="form-control province js-select-basic-single" placeholder="จังหวัด">
-							<option value="{{ $getdata_contact[0]->province }}">{{ $getdata_contact[0]->province }}</option>
+							<option value="{{ $getdata_contact[0]->province }}">{{ $arr_province[$getdata_contact[0]->province] }}</option>
 						@foreach ($listprovince as $row)
 						<option value="{{$row->province_id}}">{{$row->province_name}}</option>
 						@endforeach
@@ -128,13 +128,13 @@
             <div class="col-sm-3">
 							<label for="district">อำเภอ/เขตที่อยู่ในประเทศไทย</label>
 						<select name="district" id="district" class="form-control district js-select-basic-single" placeholder="อำเภอ">
-							<option value="{{ $getdata_contact[0]->district }}">{{ $getdata_contact[0]->district }}</option>
+							<option value="{{ $getdata_contact[0]->district }}">{{ $arrdistrict[$getdata_contact[0]->district] }}</option>
 						</select>
 						</div>
             <div class="col-sm-3">
 							<label for="subdistrict">ตำบลที่อยู่ในประเทศไทย</label>
 						<select name="sub_district" id="subdistrict" class="form-control subdistrict js-select-basic-single" placeholder="ตำบล">
-							<option value="{{ $getdata_contact[0]->sub_district }}">{{ $getdata_contact[0]->sub_district }}</option>
+							<option value="{{ $getdata_contact[0]->sub_district }}">{{ $arr_sub_district[$getdata_contact[0]->sub_district] }}</option>
 						</select>
 						</div>
             </div>

@@ -197,62 +197,69 @@ input.valid, textarea.valid{
             </tr>
         </thead>
         <tbody>
-					<?php
-					// dd($query_globalcountry);
-          foreach($data as $value) :
 
-						?>
-            <tr>
-						<td>{{ 	(!empty($value->notify_date)) ? ($value->notify_date) : date('Y-m-d')}}</td>
-						<td>{{ (!empty($value->notify_time)) ? $value->notify_time.":00" : ""  }}</td>
-						<td>{{ (isset($arr['screen_pt'][$value->screen_pt])) ? $arr['screen_pt'][$value->screen_pt] : "" }}</td>
-						<td>{{ (!empty($value->sex)) ? $value->sex : "" }}</td>
-						<td>{{ (!empty($value->age)) ? $value->age : "" }}</td>
-						<td>{{ (isset($nation_list[$value->nation])) ? $nation_list[$value->nation] : "" }}</td>
-						<td>{{ (isset($nation_list[$value->race])) ? $nation_list[$value->race] : "" }}</td>
-						<td>{{ (isset($occu_list[$value->occupation])) ? $occu_list[$value->occupation] : "" }} {{ 	(!empty($value->occupation_oth)) ? $value->occupation_oth : ""  }}</td>
-						<td>{{ (!empty($value->travel_from)) ? $value->travel_from : ""  }}</td>
-		        <td>{{   (!empty($value->data3_3chk_lung)) ? $value->data3_3chk_lung : ""  }} </td>
-							<td>{{   (!empty($value->data3_3chk_heart)) ? $value->data3_3chk_heart : ""  }}</td>
-							<td>{{   (!empty($value->data3_3chk_cirrhosis)) ? $value->data3_3chk_cirrhosis :""  }}</td>
-							<td>{{   (!empty($value->data3_3chk_kidney)) ? $value->data3_3chk_kidney : "" }}</td>
-							<td>{{   (!empty($value->data3_3chk_diabetes)) ? $value->data3_3chk_diabetes : ""  }}</td>
-							<td>{{   (!empty($value->data3_3chk_blood)) ? $value->data3_3chk_blood : ""  }}</td>
-							<td>{{   (!empty($value->data3_3chk_immune)) ? $value->data3_3chk_immune : ""  }}</td>
-							<td>{{   (!empty($value->data3_3chk_anaemia)) ? $value->data3_3chk_anaemia : ""  }}</td>
-							<td>{{   (!empty($value->data3_3chk_cerebral)) ? $value->data3_3chk_cerebral : ""  }}</td>
-							<td>{{   (!empty($value->data3_3chk_cerebral)) ? $value->data3_3chk_cerebral : ""  }}</td>
-							<td>{{   (!empty($value->data3_3chk_pregnant)) ? $value->data3_3chk_pregnant : ""  }}</td>
-							<td>{{   (!empty($value->data3_3chk_fat)) ? $value->data3_3chk_fat : ""  }}</td>
-		        <td>{{   (!empty($value->data3_3chk_cancer_name)) ? $value->data3_3chk_cancer_name : ""  }}
-								{{   (!empty($value->data3_3input_other)) ? $value->data3_3input_other : ""	  }}
+
+					@foreach($data as $value)
+
+						<tr>
+							<td>{{ (!empty($value->notify_date)) ? ($value->notify_date) : date('Y-m-d')}}</td>
+							<td>{{ (!empty($value->notify_time)) ? $value->notify_time.":00" : ""  }}</td>
+							<td>{{ (isset($arr['screen_pt'][$value->screen_pt])) ? $arr['screen_pt'][$value->screen_pt] : "" }}</td>
+							<td>{{ (!empty($value->sex)) ? $value->sex : "" }}</td>
+							<td>{{ (!empty($value->age)) ? $value->age : "" }}</td>
+							<td>{{ (isset($nation_list[$value->nation])) ? $nation_list[$value->nation] : "" }}</td>
+							<td>{{ (isset($nation_list[$value->race])) ? $nation_list[$value->race] : "" }}</td>
+							<td>
+							{{ (isset($arr_occupation[$value->occupation])) ? $arr_occupation[$value->occupation] : "" }}
+							{{ (isset($arr_occupation[$value->occupation])) ? $arr_occupation[$value->occupation] : ""}}
+							 {{(!empty($value->occupation_oth)) ? $value->occupation_oth : ""}}
+							</td>
+							<td>{{ (!empty($value->travel_from)) ? $value->travel_from : ""  }}</td>
+							<td>{{ (!empty($value->data3_3chk_lung)) ? $value->data3_3chk_lung : ""  }} </td>
+							<td>{{ (!empty($value->data3_3chk_heart)) ? $value->data3_3chk_heart : ""  }}</td>
+							<td>{{ (!empty($value->data3_3chk_cirrhosis)) ? $value->data3_3chk_cirrhosis :""  }}</td>
+							<td>{{ (!empty($value->data3_3chk_kidney)) ? $value->data3_3chk_kidney : "" }}</td>
+							<td>{{ (!empty($value->data3_3chk_diabetes)) ? $value->data3_3chk_diabetes : ""  }}</td>
+							<td>{{ (!empty($value->data3_3chk_blood)) ? $value->data3_3chk_blood : ""  }}</td>
+							<td>{{ (!empty($value->data3_3chk_immune)) ? $value->data3_3chk_immune : ""  }}</td>
+							<td>{{ (!empty($value->data3_3chk_anaemia)) ? $value->data3_3chk_anaemia : ""  }}</td>
+							<td>{{ (!empty($value->data3_3chk_cerebral)) ? $value->data3_3chk_cerebral : ""  }}</td>
+							<td>{{ (!empty($value->data3_3chk_cerebral)) ? $value->data3_3chk_cerebral : ""  }}</td>
+							<td>{{ (!empty($value->data3_3chk_pregnant)) ? $value->data3_3chk_pregnant : ""  }}</td>
+							<td>{{ (!empty($value->data3_3chk_fat)) ? $value->data3_3chk_fat : ""  }}</td>
+							<td>
+								{{ (!empty($value->data3_3chk_cancer_name)) ? $value->data3_3chk_cancer_name : ""  }}
+								{{ (!empty($value->data3_3input_other)) ? $value->data3_3input_other : ""	  }}
 						</td>
-		        <td>{{   (!empty($value->walkinplace_hosp)) ? $value->walkinplace_hosp : ""  }}</td>
-		        <td>{{   (!empty($value->negative_pressure)) ? $value->negative_pressure : ""  }}</td>
-		      	<td>{{   (!empty($value->refer_car)) ? $value->refer_car : ""  }}</td>
-		        <td>{{   (!empty($value->risk2_6history_hospital_input)) ? $value->risk2_6history_hospital_input : ""  }}</td>
-		        <td>{{   (!empty($value->risk2_6arrive_date)) ? ($value->risk2_6arrive_date) : ""  }}</td>
-		        <td>{{   (!empty($value->risk2_6airline_input)) ? $value->risk2_6airline_input : ""  }}</td>
-		        <td>{{   (!empty($value->risk2_6flight_no_input)) ? $value->risk2_6flight_no_input : ""  }}</td>
-		        <td>{{   (!empty($value->total_travel_in_group)) ? $value->total_travel_in_group : ""  }}</td>
-		        <td>{{   (!empty($value->data3_1date_sickdate)) ? ($value->data3_1date_sickdate) : ""  }}</td>
-		        <td>{{   (!empty($value->fever_current)) ? $value->fever_current : ""  }}</td>
-		      	<td>{{   (!empty($value->sym_cough)) ? $value->sym_cough : ""  }}</td>
-							<td>{{   (!empty($value->sym_snot)) ? $value->sym_snot : ""  }}</td>
-							<td>	{{   (!empty($value->sym_sore)) ? $value->sym_sore : ""  }}</td>
-							<td> 	{{   (!empty($value->sym_dyspnea)) ? $value->sym_dyspnea : ""  }}</td>
-							<td>	{{   (!empty($value->sym_breathe)) ? $value->sym_breathe : ""  }}</td>
-							<td>	{{   (!empty($value->sym_stufefy)) ? $value->sym_stufefy : ""  }}</td>
-		        <td>{{   (!empty($value->rr_rpm)) ? $value->rr_rpm : ""  }}</td>
-		        <td>{{   (!empty($value->xray_result)) ? $value->xray_result : ""  }}</td>
-		       	<td>{{   (!empty($value->rapid_test_result)) ? $value->rapid_test_result : ""  }} {{   (!empty($value->lab_test_result_other)) ? $value->lab_test_result_other : ""  }}</td>
-		        <td>{{   (!empty($value->first_diag)) ? $value->first_diag : ""  }}</td>
-						<td>{{ 	(!empty($value->sat_id)) ? $value->sat_id : ""  }}</td>
-						<td>{{ 	(!empty($value->letter_division_code)) ? $value->letter_division_code : ""  }}</td>
-						<td>{{ 	(!empty($value->letter_code)) ? $value->letter_code : ""  }}</td>
-						<td>{{ 	(!empty($value->refer_bidi)) ? $value->refer_bidi : ""  }}</td>
-					 	<td>{{ 	(!empty($value->refer_lab)) ? $value->refer_lab : ""  }}</td>
-						<td>{{ 	(!empty($value->lab_send_detail)) ? $value->lab_send_detail : ""  }}</td>
+						<td>{{ (!empty($value->walkinplace_hosp)) ? $value->walkinplace_hosp : ""  }}</td>
+		        <td>{{ (!empty($value->negative_pressure)) ? $value->negative_pressure : ""  }}</td>
+		      	<td>{{ (!empty($value->refer_car)) ? $value->refer_car : ""  }}</td>
+		        <td>{{ (!empty($value->risk2_6history_hospital_input)) ? $value->risk2_6history_hospital_input : ""  }}</td>
+		        <td>{{ (!empty($value->risk2_6arrive_date)) ? ($value->risk2_6arrive_date) : ""  }}</td>
+		        <td>{{ (!empty($value->risk2_6airline_input)) ? $value->risk2_6airline_input : ""  }}</td>
+		        <td>{{ (!empty($value->risk2_6flight_no_input)) ? $value->risk2_6flight_no_input : ""  }}</td>
+		        <td>{{ (!empty($value->total_travel_in_group)) ? $value->total_travel_in_group : ""  }}</td>
+		        <td>{{ (!empty($value->data3_1date_sickdate)) ? ($value->data3_1date_sickdate) : ""  }}</td>
+		        <td>{{ (!empty($value->fever_current)) ? $value->fever_current : ""  }}</td>
+		      	<td>{{ (!empty($value->sym_cough)) ? $value->sym_cough : ""  }}</td>
+						<td>{{ (!empty($value->sym_snot)) ? $value->sym_snot : ""  }}</td>
+						<td>{{ (!empty($value->sym_sore)) ? $value->sym_sore : ""  }}</td>
+						<td>{{ (!empty($value->sym_dyspnea)) ? $value->sym_dyspnea : ""  }}</td>
+						<td>{{ (!empty($value->sym_breathe)) ? $value->sym_breathe : ""  }}</td>
+						<td>{{ (!empty($value->sym_stufefy)) ? $value->sym_stufefy : ""  }}</td>
+		        <td>{{ (!empty($value->rr_rpm)) ? $value->rr_rpm : ""  }}</td>
+		        <td>{{ (!empty($value->xray_result)) ? $value->xray_result : ""  }}</td>
+		       	<td>
+							{{ (!empty($value->rapid_test_result)) ? $value->rapid_test_result : ""  }}
+							{{ (!empty($value->lab_test_result_other)) ? $value->lab_test_result_other : ""  }}
+						</td>
+		        <td>{{ (!empty($value->first_diag)) ? $value->first_diag : ""  }}</td>
+						<td>{{ (!empty($value->sat_id)) ? $value->sat_id : ""  }}</td>
+						<td>{{ (!empty($value->letter_division_code)) ? $value->letter_division_code : ""  }}</td>
+						<td>{{ (!empty($value->letter_code)) ? $value->letter_code : ""  }}</td>
+						<td>{{ (!empty($value->refer_bidi)) ? $value->refer_bidi : ""  }}</td>
+					 	<td>{{ (!empty($value->refer_lab)) ? $value->refer_lab : ""  }}</td>
+						<td>{{ (!empty($value->lab_send_detail)) ? $value->lab_send_detail : ""  }}</td>
 						<td>{{ 	(!empty($value->lab_send_date)) ? ($value->lab_send_date) : ""  }}</td>
 						<td>{{ 	(!empty($value->not_send_bidi)) ? $value->not_send_bidi : ""  }}</td>
 						<td>{{ 	(!empty($value->op_opt)) ? $value->op_opt : ""  }}</td>
@@ -266,10 +273,7 @@ input.valid, textarea.valid{
 						<td>{{ 	(!empty($value->send_information_div)) ? $value->send_information_div : ""  }}</td>
 						<td>{{ 	(!empty($value->receive_information)) ? $value->receive_information : ""  }}</td>
             </tr>
-						<?php
-
-					 endforeach;
-            ?>
+					@endforeach
         </tbody>
 
     </table>
