@@ -2,7 +2,6 @@
 @section('custom-style')
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/toastr/build/toastr.min.css') }}">
 <?php
 use App\Http\Controllers\ScreenPUIController as ScreenPUIController;
 
@@ -803,9 +802,7 @@ input:read-only {
 @section('bottom-script')
 	<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
-	<!-- <script src="https://www.jqueryscript.net/demo/jQuery-Plugin-To-Auto-Format-Time-Format-timepicker-js/timepicker.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/toastr/build/toastr.min.css') }}">
 <script>
 $(document).ready(function() {
 	/* ajax request */
