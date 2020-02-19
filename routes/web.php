@@ -47,6 +47,10 @@ Route::post('/ListHosp', array(
 						'as'   => 'screenpui.fetchHos',
 						'uses' => 'ScreenPUIController@Sat_FetcHos'
 					));
+Route::get('/sat-delete/{id}', array(
+						'as'   => 'screenpui.satdel',
+						'uses' => 'ScreenPUIController@Delete_Sat'
+					));
 
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
