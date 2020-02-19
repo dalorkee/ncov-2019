@@ -27,11 +27,6 @@
 		</div>
 	</div>
 </div>
-<?php
-	// $poe_id = $_GET['poe_id'];
-	$sat_id = $_GET['sat_id'];
-
- ?>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
@@ -47,14 +42,21 @@
             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส</h4>
             <form action="{{route('contactedit')}}" method="post">
               			{{ csrf_field() }}
-								<div class="form-group row">
-										<div class="col-sm-3">
-										<input type="text" name="sat_id" value="<?php echo $sat_id ?>" class="form-control" readonly>
+										<div class="form-group row">
+												<div class="col-sm-3">
+												<input type="hidden" name="pui_id" value="{{ $getdata_contact[0]->pui_id }}" class="form-control" readonly>
+												</div>
 										</div>
-								</div>
+		                <div class="form-group row">
+		                    <div class="col-sm-3">
+													<label>SAT ID : </label>
+		                    <input type="text" name="sat_id" value="{{ $getdata_contact[0]->sat_id }}" class="form-control" readonly>
+		                    </div>
+		                </div>
 							<div class="form-group row">
 										<div class="col-sm-3">
-										<input type="text" name="contact_id" value="{{ $getdata_contact[0]->contact_id }}"  class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
+											<label>Contact ID : </label>
+										<input type="text" name="contact_id" value="{{$contact_id}}"  class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
 										</div>
 							</div>
               <div class="form-group row">
@@ -64,25 +66,30 @@
               </div>
             <div class="form-group row">
             <div class="col-sm-3">
+							<label for="name_contact">คำนำหน้าชื่อ</label>
             <select type="text" name="title_contact" class="form-control js-select-basic-single" placeholder="คำนำหน้าชื่อ">
-              <option value="{{ $getdata_contact[0]->title_contact }}">{{ $getdata_contact[0]->title_contact }}</option>
+              <option value="{{ $getdata_contact[0]->title_contact }}">{{$arrtitlename[$getdata_contact[0]->title_contact] }}</option>
               @foreach ($ref_title_name as $row)
 							<option value="{{$row->id}}">{{$row->title_name}}</option>
 							@endforeach
             </select>
             </div>
             <div class="col-sm-3">
+							<label for="name_contact">ชื่อต้นผู้สัมผัส</label>
             <input type="text" name="name_contact" value="{{ $getdata_contact[0]->name_contact }}" class="form-control" placeholder="ชื่อต้นผู้สัมผัส">
           </div>
             <div class="col-sm-3">
+							<label for="mname_contact">ชื่อกลางผู้สัมผัส</label>
             <input type="text" name="mname_contact" value="{{ $getdata_contact[0]->mname_contact }}" class="form-control" placeholder="ชื่อกลางผู้สัมผัส">
             </div>
             <div class="col-sm-3">
+							<label for="lname_contact">นามสกุลผู้สัมผัส</label>
             <input type="text" name="lname_contact" value="{{ $getdata_contact[0]->lname_contact }}" class="form-control" placeholder="นามสกุลผู้สัมผัส">
             </div>
             </div>
             <div class="form-group row">
             <div class="col-sm-4">
+							<label for="sex_contact">เพศ</label>
             <select type="text" name="sex_contact" class="form-control" placeholder="col-sm-2">
                 <option value="{{ $getdata_contact[0]->sex_contact }}">{{ $getdata_contact[0]->sex_contact }}</option>
                   <option value="ชาย">ชาย</option>
@@ -90,71 +97,82 @@
             </select>
             </div>
             <div class="col-sm-4">
+							<label for="age_contact">อายุ</label>
             <input type="text" name="age_contact" value="{{ $getdata_contact[0]->age_contact }}" class="form-control" placeholder="อายุ">
             </div>
 						<div class="col-sm-4">
+							<label for="passport_contact">Passport ID</label>
 						<input type="text" name="passport_contact" value="{{ $getdata_contact[0]->passport_contact }}" class="form-control" placeholder="Passport ID">
 						</div>
             </div>
             <div class="form-group row">
 
             <div class="col-sm-3">
+							<label for="national_contact">สัญชาติผู้สัมผัส</label>
             <select type="text" name="national_contact" class="form-control js-select-basic-single" placeholder="สัญชาติ">
-							<option value="{{ $getdata_contact[0]->national_contact }}">{{ $getdata_contact[0]->national_contact }}</option>
+							<option value="{{ $getdata_contact[0]->national_contact }}">{{ $listcountry[$getdata_contact[0]->national_contact] }}</option>
 						@foreach ($ref_global_country as $row)
             <option value="{{$row->country_id}}">{{$row->country_name}}</option>
             @endforeach
             </select>
             </div>
             <div class="col-sm-3">
+							<label for="province">จังหวัดที่อยู่ในประเทศไทย</label>
             <select type="text" name="province" id="province"  class="form-control province js-select-basic-single" placeholder="จังหวัด">
-							<option value="{{ $getdata_contact[0]->province }}">{{ $getdata_contact[0]->province }}</option>
+							<option value="{{ $getdata_contact[0]->province }}">{{ $arr_province[$getdata_contact[0]->province] }}</option>
 						@foreach ($listprovince as $row)
 						<option value="{{$row->province_id}}">{{$row->province_name}}</option>
 						@endforeach
 						</select>
             </div>
             <div class="col-sm-3">
+							<label for="district">อำเภอ/เขตที่อยู่ในประเทศไทย</label>
 						<select name="district" id="district" class="form-control district js-select-basic-single" placeholder="อำเภอ">
-							<option value="{{ $getdata_contact[0]->district }}">{{ $getdata_contact[0]->district }}</option>
+							<option value="{{ $getdata_contact[0]->district }}">{{ $arrdistrict[$getdata_contact[0]->district] }}</option>
 						</select>
 						</div>
             <div class="col-sm-3">
+							<label for="subdistrict">ตำบลที่อยู่ในประเทศไทย</label>
 						<select name="sub_district" id="subdistrict" class="form-control subdistrict js-select-basic-single" placeholder="ตำบล">
-							<option value="{{ $getdata_contact[0]->sub_district }}">{{ $getdata_contact[0]->sub_district }}</option>
+							<option value="{{ $getdata_contact[0]->sub_district }}">{{ $arr_sub_district[$getdata_contact[0]->sub_district] }}</option>
 						</select>
 						</div>
             </div>
             <div class="form-group row">
             <div class="col-sm-4">
+							<label for="address_contact">ที่อยู่</label>
             <textarea rows="3" name="address_contact" value="{{ $getdata_contact[0]->address_contact }}" type="text" class="form-control" placeholder="ที่อยู่"></textarea>
             </div>
             <div class="col-sm-4">
+							<label for="phone_contact">เบอร์โทร</label>
             <input  type="text" name="phone_contact" value="{{ $getdata_contact[0]->phone_contact }}" class="form-control" placeholder="เบอร์โทร">
             </div>
             <div class="col-sm-4">
+							<label for="patient_contact">การสัมผัสผู้ป่วย</label>
             <textarea rows="3" type="text" name="patient_contact" value="{{ $getdata_contact[0]->patient_contact }}" class="form-control" placeholder="การสัมผัสผู้ป่วย"></textarea>
             </div>
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
+							<label for="risk_contact">ระดับความเสี่ยง</label>
             <select type="text" name="risk_contact" class="form-control js-select-basic-single" placeholder="ระดับความเสี่ยง">
                 <option value="{{ $getdata_contact[0]->risk_contact }}">{{ $getdata_contact[0]->risk_contact }}</option>
-                  <option value="">- เลือก -</option>
                   <option value="1">เสี่ยงสูง</option>
                   <option value="2">เสี่ยงต่ำ</option>
             </select>
             </div>
             <div class="col-sm-3">
+							<label for="datecontact">วันที่สัมผัส</label>
             <input type="text" class="form-control" name="datecontact" value="{{ $getdata_contact[0]->datecontact }}" data-provide="datepicke" id="datecontact"  placeholder="วันที่สัมผัส" autocomplete="off" >
             </div>
             <div class="col-sm-3">
+							<label for="datefollow">ให้ตามถึงวันที่</label>
             <input type="text" class="form-control" name="datefollow" value="{{ $getdata_contact[0]->datefollow }}" data-provide="datepicke" id="datefollow"  placeholder="ให้ตามถึงวันที่" autocomplete="off" >
             </div>
             <div class="col-sm-3">
+							<label for="type_contact">ประเภทผู้สัมผัส</label>
             <select type="text" name="type_contact" class="form-control js-select-basic-single" placeholder="ประเภทผู้สัมผัส">
                 <option value="{{ $getdata_contact[0]->type_contact }}">{{ $getdata_contact[0]->type_contact }}</option>
-                  <option value="">- เลือก -</option>
                   <option value="1">บุคลากรทางการแพทย์</option>
                   <option value="2">ผู้สัมผัสร่วมบ้าน</option>
                   <option value="3">ผู้ร่วมเดินทาง</option>
@@ -167,11 +185,13 @@
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
+							<label for="date_followup">วันที่ติดตามอาการ</label>
             <input type="text" name="date_followup" id="date_followup" value="{{ $getdata_contact[0]->date_followup }}" data-provide="datepicke" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off" >
             </div>
             </div>
             <div class="form-group row">
             <div class="col-sm-3">
+							<label for="followup_address">สถานที่ที่ติดตามผู้สัมผัส</label>
             <select type="text" name="province_follow_contact" id="province_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
             <option value="{{ $getdata_contact[0]->province_follow_contact }}">{{ $getdata_contact[0]->province_follow_contact }}</option>
             @foreach ($listprovince as $row)
@@ -182,6 +202,7 @@
             </div>
             <div class="form-group row">
               <div class="col-sm-3">
+								<label for="province_follow_contact">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</label>
               <select type="text" name="division_follow_contact" id="division_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
               <option value="{{ $getdata_contact[0]->division_follow_contact }}">{{ $getdata_contact[0]->division_follow_contact }}</option>
               <option value="99">ส่วนกลาง</option>
@@ -201,7 +222,23 @@
               <option value="999">อื่นๆ</option>
               </select>
               </div>
+							<div class="col-sm-3">
+								<label for="province_follow_contact">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</label>
+							<select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+							<option value="{{ $getdata_contact[0]->province_follow_contact }}">{{ $getdata_contact[0]->province_follow_contact }}</option>
+							@foreach ($listprovince as $row)
+							<option value="{{$row->province_id}}">{{$row->province_name}}</option>
+							@endforeach
+							</select>
+							</div>
+							<div class="col-sm-3">
+								<label for="chospital_new">โรงพยาบาลที่รักษาตัว</label>
+								<select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="อำเภอ">
+									<option value="{{ $getdata_contact[0]->hospcode }}">{{ $getdata_contact[0]->hospcode }}</option>
+								</select>
+							</div>
             <div class="col-sm-3">
+							<label for="province_follow_contact_other">สถานที่อื่นๆ</label>
             <input type="text" class="form-control" name="division_follow_contact_other" value="{{ $getdata_contact[0]->division_follow_contact_other }}"   placeholder="หน่วยงานอื่นๆ" autocomplete="off" >
             </div>
             </div>
@@ -259,7 +296,35 @@
             </div>
             </div>
             <h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6>
-            <br>
+						<br>
+            <div class="form-group row">
+						<div class="col-sm-3">
+              <label for="status_followup">สถานะการติดตาม</label>
+						<select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
+							<option value="{{ $getdata_contact[0]->status_followup }}">{{ $getdata_contact[0]->status_followup }}</option>
+								<option value="1">จบการติดตาม</option>
+								<option value="2">ยังต้องติดตาม</option>
+						</select>
+						</div>
+						<div class="col-sm-3">
+              <label for="available_contact">การติดตามผู้สัมผัส</label>
+						<select type="text" name="available_contact" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
+							<option value="{{ $getdata_contact[0]->available_contact }}">{{ $getdata_contact[0]->available_contact }}</option>
+								<option value="1">ติดตามได้</option>
+								<option value="2">ติดตามไม่ได้</option>
+						</select>
+						</div>
+						<div class="col-sm-3">
+              <label for="follow_results">ผลการติดตามผู้สัมผัส</label>
+						<select type="text" name="follow_results" class="form-control js-select-basic-single"  placeholder="ผลการติดตามผู้สัมผัส">
+							<option value="{{ $getdata_contact[0]->follow_results }}">{{ $getdata_contact[0]->follow_results }}</option>
+								<option value="1">ไม่มี</option>
+								<option value="2">เล็กน้อย</option>
+                <option value="3">หนัก</option>
+                <option value="5">สาหัส</option>
+						</select>
+						</div>
+						</div>
 						{{-- <div class="form-group row">
 						<div class="col-sm-3">
 						<button type="button" id="close" class="btn btn-s btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
