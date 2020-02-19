@@ -140,8 +140,8 @@ input.valid, textarea.valid{
                 <th>เพศ</th>
                 <th>อายุ/ปี</th>
                 <th>สัญชาติ</th>
-                <th>เชื้อชาติ</th>
-                <th>อาชีพ</th>
+                {{-- <th>เชื้อชาติ</th> --}}
+                {{-- <th>อาชีพ</th> --}}
                 <th>ชื่อเมือง</th>
 								<th>โรคประจำตัว</th>
 								<th>โรคปอดเรื้อรัง</th>
@@ -208,12 +208,13 @@ input.valid, textarea.valid{
 							<td>{{ (!empty($value->sex)) ? $value->sex : "" }}</td>
 							<td>{{ (!empty($value->age)) ? $value->age : "" }}</td>
 							<td>{{ (isset($nation_list[$value->nation])) ? $nation_list[$value->nation] : "" }}</td>
-							<td>{{ (isset($nation_list[$value->race])) ? $nation_list[$value->race] : "" }}</td>
-							<td>
-							{{ (isset($arr_occupation[$value->occupation])) ? $arr_occupation[$value->occupation] : "" }}
-							{{ (isset($arr_occupation[$value->occupation])) ? $arr_occupation[$value->occupation] : ""}}
-							 {{(!empty($value->occupation_oth)) ? $value->occupation_oth : ""}}
-							</td>
+							{{-- <td>{{ (isset($nation_list[$value->race])) ? $nation_list[$value->race] : "" }}</td> --}}
+							{{-- <td> --}}
+							{{-- {{ (isset($arr_occupation[$value->occupation])) ? $arr_occupation[$value->occupation] : "" }} --}}
+							{{-- {{ (isset($value->occupation)) ? $value->occupation : ""}} --}}
+							{{-- <td>{{ (!empty($value->occupation)) ? $value->occupation : "" }}</td> --}}
+							 {{-- {{(!empty($value->occupation_oth)) ? $value->occupation_oth : ""}} --}}
+							{{-- </td> --}}
 							<td>{{ (!empty($value->travel_from)) ? $value->travel_from : ""  }}</td>
 							<td>{{ (!empty($value->data3_3chk_lung)) ? $value->data3_3chk_lung : ""  }} </td>
 							<td>{{ (!empty($value->data3_3chk_heart)) ? $value->data3_3chk_heart : ""  }}</td>
