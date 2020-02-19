@@ -31,10 +31,24 @@ class InvestListController extends MasterController
 
 		switch($role[0]) {
 			case 'admin':
-				$invest = InvestList::whereNull('deleted_at')->get()->toArray();
+				$invest = InvestList::select(
+					'id',
+					'sat_id',
+					'pt_status',
+					'news_st',
+					'disch_st',
+					'sex',
+					'nation')->whereNull('deleted_at')->get()->toArray();
 				break;
 			case 'sat':
-				$invest = InvestList::whereNull('deleted_at')->get()->toArray();
+				$invest = InvestList::select(
+					'id',
+					'sat_id',
+					'pt_status',
+					'news_st',
+					'disch_st',
+					'sex',
+					'nation')->whereNull('deleted_at')->get()->toArray();
 				break;
 			default :
 				return redirect()->route('logout');

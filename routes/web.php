@@ -107,3 +107,7 @@ Route::group(['middleware' => 'under-construction'], function () {
 
 /* test for test by talek team */
 Route::get('/test', 'TestController@store')->name('test');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

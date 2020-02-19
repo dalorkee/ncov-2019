@@ -183,6 +183,11 @@ return [
 		/* simple-qrcode */
 		SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
+		/* yajra data-table */
+		Yajra\DataTables\FractalServiceProvider::class,
+		Yajra\DataTables\DataTablesServiceProvider::class,
+		Yajra\DataTables\ButtonsServiceProvider::class,
+
     ],
 
     /*
