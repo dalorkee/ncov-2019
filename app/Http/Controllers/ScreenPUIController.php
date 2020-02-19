@@ -429,4 +429,11 @@ class ScreenPUIController extends MasterController
 			}
 			echo $output;
 		}
+    public function Delete_Sat(Request $request){
+      if(empty($request->id)) return abort(500);  //404 page
+      //dd($request->id);
+      $update = InvestList::where('id', $request->id)
+              ->update(["deleted_at" => Carbon::now(),]);
+      return redirect()->back()->withInput()->with('message','ลบข้อมูลแล้ว');
+    }
 }

@@ -2,7 +2,6 @@
 @section('custom-style')
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/toastr/build/toastr.min.css') }}">
 <?php
 use App\Http\Controllers\ScreenPUIController as ScreenPUIController;
 
@@ -129,7 +128,7 @@ input:read-only {
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
 													<label for="chospital_new">โรงพยาบาลที่เข้ารับการคัดกรอง</label>
-						              <select name="walkinplace_hosp_code" id="walkinplace_hosp_code" class="form-control chospital_new js-select-basic-single">
+						              <select name="walkinplace_hosp_code" id="walkinplace_hosp_code" class="form-control selectpicker" data-live-search="true">
 														@if (!empty($data->walkinplace_hosp_code))
 															<option value="{{ $walkinplace_hosp_name->hospcode }}" selected="selected">{{ $walkinplace_hosp_name->hosp_name }}</option>
 														@endif
@@ -170,7 +169,7 @@ input:read-only {
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
-											<label for="dowork">จังหวัด</label>
+											<label for="dowork">จังหวัด ที่ผู้ป่วย Isolated</label>
 											<select name="isolated_province" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="isolated_province">
 												<option value="0">-- โปรดเลือก --</option>
 													@foreach($provinces as $key5=>$val5) {
@@ -180,7 +179,7 @@ input:read-only {
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
 											<label for="dowork">ผู้ป่วย Isolated ที่ รพ.</label>
-											<select name="isolated_hosp_code" id="isolated_hosp_code" class="form-control isolated_hosp_code js-select-basic-single">
+											<select name="isolated_hosp_code" id="isolated_hosp_code" class="form-control selectpicker" data-live-search="true">
 												@if (!empty($data->isolated_hosp_code))
 													<option value="{{ $isolated_hosp_name->hospcode }}" selected="selected">{{ $isolated_hosp_name->hosp_name }}</option>
 												@endif
@@ -803,9 +802,7 @@ input:read-only {
 @section('bottom-script')
 	<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
-	<!-- <script src="https://www.jqueryscript.net/demo/jQuery-Plugin-To-Auto-Format-Time-Format-timepicker-js/timepicker.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/toastr/build/toastr.min.css') }}">
 <script>
 $(document).ready(function() {
 	/* ajax request */
@@ -907,7 +904,8 @@ $(document).ready(function() {
 					_token: _token
 				},
 				success: function(result) {
-					$('.chospital_new').html(result);
+					$('#walkinplace_hosp_code').html(result);
+					$('#walkinplace_hosp_code').selectpicker("refresh");
 				}
 			})
 		}
@@ -925,7 +923,8 @@ $(document).ready(function() {
 					_token: _token
 				},
 				success: function(result) {
-					$('.isolated_hosp_code').html(result);
+					$('#isolated_hosp_code').html(result);
+					$('#isolated_hosp_code').selectpicker("refresh");
 				}
 			})
 		}

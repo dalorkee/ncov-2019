@@ -138,8 +138,8 @@ input.valid, textarea.valid{
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="{{ 'detailcontact'}}/contact_id/{{ $value->contact_id }}">
 										Info
 								</a>
-								{{-- <a class="btn btn-warning btn-sm" href="{{ route('editcontact',$value->contact_id)}}"> --}}
-									<a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#">
+								<a class="btn btn-warning btn-sm" href="{{'editcontact'}}/contact_id/{{ $value->contact_id }}">
+									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#"> --}}
 										Edit
 								</a>
 								</td>

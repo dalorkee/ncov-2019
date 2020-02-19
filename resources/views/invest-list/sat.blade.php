@@ -70,7 +70,7 @@ input.valid, textarea.valid{
 								<table class="display responsive nowrap mt-0 mb-3" id="code_table" role="table" style="width:100%;" cellspacing="0">
 									<thead>
 										<tr>
-											<th>ID</th>
+
 											<th>SatID</th>
 											<th>OrderID</th>
 											<th>Patients</th>
@@ -86,7 +86,7 @@ input.valid, textarea.valid{
 										@if ($invest)
 											@foreach ($invest as $key => $value)
 												<tr>
-													<td style="font-family:'Fira-code';">{{ $value['id'] }}</td>
+
 													<td style="font-family:'Fira-code';"><span class="text-primary">{{ $value['sat_id'] != "" ? $value['sat_id'] : "-" }}</span></td>
 													<td>{{ $value['order_pt'] != "" ? $value['order_pt'] : "-" }}</td>
 													<td><span class="text-danger">{{ $value['pt_status'] != "" ? $status['pt_status'][$value['pt_status']] : "-" }}</span></td>
@@ -100,6 +100,7 @@ input.valid, textarea.valid{
 														<!--<a href="{ route('confirmForm',$value['id']) }}" data-toggle="tooltip" data-placement="top" title="Invest form" class="btn btn-success btn-sm">Inv</a> -->
 														<!-- <a href="{ 'contacttable' }}?sat_id={ $value['sat_id'] }}" data-toggle="tooltip" data-placement="top" title="Contact" class="btn btn-cyan btn-sm">CON</a> -->
 														<a href="{{ route('live-site') }}" data-toggle="tooltip" data-placement="top" title="Laboratory" class="btn btn-secondary btn-sm">LAB</a>
+														@if(auth()->user()->id=='535' || auth()->user()->id=='405') <a href="{{ route('screenpui.satdel',$value['id']) }}" class="btn btn-danger btn-sm">DEL</a> @endif
 														<!-- <a href="javascript:" type="button" data-toggle="modal" onclick="deleteData({ $value['id'] }})" data-target="#DeleteModal" title="Delete" class="btn btn-danger btn-sm"></i><i class="mdi mdi-close"></i></a> -->
 													</td>
 												</tr>
@@ -236,11 +237,12 @@ $(document).ready(function() {
 
 	/* data table */
 	$('#code_table').DataTable({
+		"ordering": false,
 		"searching": true,
 		"paging": true,
 		"pageLength": 25,
 		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-		"ordering": true,
+		//"ordering": true,
 		"info": false,
 		rowReorder: {
 			selector: 'td:nth-child(2)'

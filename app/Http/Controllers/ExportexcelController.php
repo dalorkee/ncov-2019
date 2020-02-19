@@ -64,7 +64,7 @@ class ExportExcelController extends MasterController
    {
      $arr = parent::getStatus();
      $nation_list = $this->arrnation();
-     $occu_list = $this->arroccu();
+     $arr_occupation = $this->arr_occupation();
      $sym_cough = $this->sym_cough();
      $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
      $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
@@ -73,11 +73,13 @@ class ExportExcelController extends MasterController
                      ->whereDate('notify_date','>=',$notify_date)
                      ->whereDate('notify_date', '<=',$notify_date_end)
                      ->get();
+
+                  //dd($data);
                      return view('export.allexport',compact(
                        'data',
                        'arr',
                        'nation_list',
-                       'occu_list',
+                       'arr_occupation',
                        'sym_cough'
                      ));
   }
@@ -204,13 +206,13 @@ class ExportExcelController extends MasterController
     		// dd($province_arr);
     		return $arrnation;
     	}
-      protected function arroccu(){
-        $arroccu = DB::table('ref_occupation')->select('id','occu_name_th')->get();
-        foreach ($arroccu as  $value) {
-          $arroccu[$value->id] =trim($value->occu_name_th);
+      protected function arr_occupation(){
+        $arr_occupation = DB::table('ref_occupation')->select('id','occu_name_th')->get();
+        foreach ($arr_occupation as  $value) {
+          $arr_occupation[$value->id] =trim($value->occu_name_th);
         }
         // dd($province_arr);
-        return $arroccu;
+        return $arr_occupation;
       }
 }
 ?>
