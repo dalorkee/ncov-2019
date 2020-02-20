@@ -32,12 +32,12 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 <div class="page-breadcrumb">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title">Create New ScreenPUI</h4>
+			<h4 class="page-title">Create New SAT Form</h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Home</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Create New ScreenPUI</li>
+						<li class="breadcrumb-item active" aria-current="page">Create New SAT Form</li>
 					</ol>
 				</nav>
 			</div>
@@ -64,7 +64,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 				<div class="card-body">
 					<div class="d-md-flex align-items-center mb-2">
 						<div>
-							<h4 class="card-title">แบบสอบสวนของผู้ป่วยโรคไวรัสโคโรนา 19(For SAT)</h4>
+							<h4 class="card-title">แบบบันทึกข้อมูลของผู้ป่วยโรคไวรัสโคโรนา 19(For SAT)</h4>
 							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
