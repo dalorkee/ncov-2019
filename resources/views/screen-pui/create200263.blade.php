@@ -141,7 +141,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                         </div>
 																				<div class="custom-control custom-radio">
 																					 <input type="radio" class="custom-control-input is-invalid" id="customControlValidation_rd3" value="3" {{ old('screen_pt') == 3 ? 'checked' : ''}} name="screen_pt" required="">
-																					 <label class="custom-control-label" for="customControlValidation_rd3">ชุมชน</label>
+																					 <label class="custom-control-label" for="customControlValidation_rd3">อื่นๆ</label>
 																			 </div>
                                     </div>
                   </div>
@@ -180,8 +180,8 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 									<div class="form-group screen_type3">
 										<div class="row">
 											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
-												<label for="dowork">ชื่อชุมชน</label>
-													<input type="text" name="community_name" class="form-control" id="community_name" value="{{ old('community_name') }}" placeholder="ชื่อชุมชน">
+												<label for="dowork">อื่นๆ(ชื่อสถานที่)</label>
+													<input type="text" name="community_name" class="form-control" id="community_name" value="{{ old('community_name') }}" placeholder="อื่นๆ(ชื่อสถานที่)">
 											</div>
 										</div>
 									</div>
@@ -701,7 +701,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="pt_status">PT Status</label>
-										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control  show-tick" required>
+										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control is-invalid  show-tick" required>
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['pt_status'] as $key => $val)
 											<option value="{{ $key }}" {{ old('pt_status') == $key ? 'selected' : ''}}>{{ $val }}</option>

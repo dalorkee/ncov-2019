@@ -94,16 +94,16 @@ input:read-only {
                                     <label class="col-md-3">การคัดกรอง</label>
                                     <div class="col-md-9">
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" @if($data->screen_pt==1) checked @endif id="customControlValidation_rd1" value="1" name="screen_pt" required="">
+                                            <input type="radio" class="custom-control-input is-invalid" @if($data->screen_pt==1) checked @endif id="customControlValidation_rd1" value="1" name="screen_pt" required="">
                                             <label class="custom-control-label" for="customControlValidation_rd1">คัดกรองที่สนามบิน</label>
                                         </div>
                                          <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" @if($data->screen_pt==2) checked @endif id="customControlValidation_rd2" value="2" name="screen_pt" required="">
+                                            <input type="radio" class="custom-control-input is-invalid" @if($data->screen_pt==2) checked @endif id="customControlValidation_rd2" value="2" name="screen_pt" required="">
                                             <label class="custom-control-label" for="customControlValidation_rd2">Walkin มาที่ รพ.</label>
                                         </div>
 																				<div class="custom-control custom-radio">
-																					 <input type="radio" class="custom-control-input" @if($data->screen_pt==3) checked @endif id="customControlValidation_rd3" value="3" name="screen_pt" required="">
-																					 <label class="custom-control-label" for="customControlValidation_rd3">ชุมชน</label>
+																					 <input type="radio" class="custom-control-input is-invalid" @if($data->screen_pt==3) checked @endif id="customControlValidation_rd3" value="3" name="screen_pt" required="">
+																					 <label class="custom-control-label" for="customControlValidation_rd3">อื่นๆ</label>
 																			 </div>
                                     </div>
                   </div>
@@ -144,8 +144,8 @@ input:read-only {
 										<div class="form-group screen_type3">
 											<div class="row">
 												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
-													<label for="dowork">ชื่อชุมชน</label>
-														<input type="text" name="community_name" class="form-control" id="community_name" value="{{ $data->community_name }}" placeholder="ชื่อชุมชน">
+													<label for="dowork">อื่นๆ(ชื่อสถานที่)</label>
+														<input type="text" name="community_name" class="form-control" id="community_name" value="{{ $data->community_name }}" placeholder="อื่นๆ(ชื่อสถานที่)">
 												</div>
 											</div>
 										</div>
@@ -221,7 +221,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group">
 												<label for="titleName">คำนำหน้าชื่อ</label>
-												<select name="title_name" class="form-control selectpicker show-tick select-title-name" data-live-search="true" id="title_name_input">
+												<select name="title_name" class="form-control selectpicker show-tick select-title-name is-invalid" data-live-search="true" id="title_name_input">
 													<option value="0">-- โปรดเลือก --</option>
 													@foreach($titleName as $key5=>$val5) {
 														<option value="{{ $val5['id'] }}" @if($data->title_name==$val5['id']) selected @endif>{{ $val5['title_name'] }}</option>
@@ -232,7 +232,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group {{ $errors->has('firstNameInput') ? 'has-error' : '' }}">
 												<label for="firstName">ชื่อจริง</label>
-												<input type="text" name="first_name" class="form-control" value="@if($data->first_name) {{ $data->first_name }} @endif" id="first_name_input" placeholder="ชื่อ" required>
+												<input type="text" name="first_name" class="form-control is-invalid" value="@if($data->first_name) {{ $data->first_name }} @endif" id="first_name_input" placeholder="ชื่อ" required>
 											</div>
 											<span class="text-danger">{{ $errors->first('firstNameInput') }}</span>
 										</div>
@@ -245,7 +245,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
 											<div class="form-group">
 												<label for="lastName">นามสกุล</label>
-												<input type="text" name="last_name" class="form-control" value="@if($data->last_name) {{ $data->last_name }} @endif" id="last_name_input" placeholder="นามสกุล" required>
+												<input type="text" name="last_name" class="form-control is-invalid" value="@if($data->last_name) {{ $data->last_name }} @endif" id="last_name_input" placeholder="นามสกุล" required>
 											</div>
 										</div>
 									</div>
@@ -253,17 +253,17 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group">
 												<label for="sex">เพศ</label>
-												<select name="sex" class="form-control selectpicker show-tick">
+												<select name="sex" class="form-control selectpicker show-tick is-invalid">
 													<option value="">-- โปรดเลือก --</option>
 													<option value="ชาย" @if($data->sex=="ชาย") selected @endif >ชาย</option>
 													<option value="หญิง" @if($data->sex=="หญิง") selected @endif>หญิง</option>
 												</select>
 											</div>
 										</div>
-										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-1 col-xl-1 mb-3">
+										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-1 col-xl-1 mb-3 ">
 											<div class="form-group">
 												<label for="age">อายุ/ปี</label>
-												<input type="text" name="age" value="@if($data->age) {{ $data->age }} @endif" class="form-control" id="age_year_input" required>
+												<input type="text" name="age" value="@if($data->age) {{ $data->age }} @endif" class="form-control is-invalid" id="age_year_input" required>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
@@ -684,7 +684,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="pt_status">PT Status</label>
-										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control  show-tick">
+										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control  show-tick is-invalid" required>
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['pt_status'] as $key => $val)
 											<option value="{{ $key }}" @if($data->pt_status==$key) selected @endif >{{ $val }}</option>
@@ -695,7 +695,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="pt_type">PUI TYPE</label>
-										<select name="pui_type" data-live-search="true" class="form-control  show-tick">
+										<select name="pui_type" data-live-search="true" class="form-control  show-tick ">
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['pui_type'] as $key => $val)
 											<option value="{{ $key }}" @if($data->pui_type==$key) selected @endif >{{ $val }}</option>
@@ -786,6 +786,23 @@ input:read-only {
 	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
 <script>
+(function($) {
+	$.fn.inputFilter = function(inputFilter) {
+		return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+			if (inputFilter(this.value)) {
+				this.oldValue = this.value;
+				this.oldSelectionStart = this.selectionStart;
+				this.oldSelectionEnd = this.selectionEnd;
+			} else if (this.hasOwnProperty("oldValue")) {
+				this.value = this.oldValue;
+				this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+			} else {
+				this.value = "";
+			}
+		});
+	};
+}(jQuery));
+
 $(document).ready(function() {
 	/* ajax request */
 	$.ajaxSetup({
@@ -804,6 +821,10 @@ $(document).ready(function() {
 		todayBtn: true,
 		autoclose: true
 	});
+
+	$("#age_year_input,#coordinator_tel").inputFilter(function(value) {
+			return /^\d*$/.test(value);    // Allow digits only, using a RegExp
+		});
 
 	$('.chk_risk3_3').click(function() {
 		$('.chk_risk3_3').not(this).prop('checked', false);
