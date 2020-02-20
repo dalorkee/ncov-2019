@@ -112,6 +112,8 @@ Route::group(['middleware' => 'under-construction'], function () {
 /* test for test by talek team */
 Route::get('/test', 'TestController@store')->name('test');
 
-Auth::routes();
+/* list-data => datatable */
+Route::get('invests-list', 'ListDataController@invest')->name('invest.list');
+Route::get('invests-list-data', 'ListDataController@investData')->name('invest.data');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/list-data', 'DataListController@index')->name('list-data.index');

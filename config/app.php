@@ -184,8 +184,8 @@ return [
 		SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
 		/* yajra data-table */
-		Yajra\DataTables\FractalServiceProvider::class,
 		Yajra\DataTables\DataTablesServiceProvider::class,
+		Yajra\DataTables\FractalServiceProvider::class,
 		Yajra\DataTables\ButtonsServiceProvider::class,
 
     ],
@@ -238,8 +238,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-		    'Captcha' => Mews\Captcha\Facades\Captcha::class,
-		    'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+		'Captcha' => Mews\Captcha\Facades\Captcha::class,
+		'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+		'Datatables' => Yajra\Datatables\Facades\Datatables::class,
     ],
 
 ];

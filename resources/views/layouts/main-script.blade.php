@@ -13,4 +13,3 @@
 <script src="{{ URL::asset('dist/js/sidebarmenu.js') }}"></script>
 <!--Custom JavaScript -->
 <script src="{{ URL::asset('dist/js/custom.min.js') }}"></script>
-<script src="{{ URL::asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
