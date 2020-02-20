@@ -73,7 +73,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 						<h3 class="text-primary">ส่วนที่ 1</h3>
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
 							<div style="position:absolute;top:10px;right:10px;z-index:1">
-								<a type="button" href="{{ route('satList') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists PUI</a>
+								<a type="button" href="{{ route('satList') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a>
 								<a type="button" href="{{ route('screenpui.create') }}" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a>
 							</div>
 							<div class="card">
