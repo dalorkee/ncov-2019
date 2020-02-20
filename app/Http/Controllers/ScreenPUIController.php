@@ -50,7 +50,7 @@ class ScreenPUIController extends MasterController
       $airportlists = AirportLists::all()->toArray();
       $arr = parent::getStatus();
       //return view('screen-pui.create',
-      return view('screen-pui.create120263',
+      return view('screen-pui.create200263',
         [
           'titleName' => $titleName,
           'provinces' => $provinces,
@@ -164,6 +164,7 @@ class ScreenPUIController extends MasterController
           "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : NULL,
           "risk2_6history_hospital_input" => (!empty($request->risk2_6history_hospital_input)) ? trim($request->risk2_6history_hospital_input) : NULL,
           "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
+          "community_name" => (!empty($request->community_name)) ? trim($request->community_name) : NULL,
           "risk_stay_outbreak_arrive_date" => (!empty($request->risk2_6arrive_date)) ? trim($this->Convert_Date($request->risk2_6arrive_date)) : NULL,
           "risk_stay_outbreak_airline" => (!empty($request->risk2_6airline_input)) ? trim($request->risk2_6airline_input) : NULL,
           "risk_stay_outbreak_flight_no" => (!empty($request->risk2_6flight_no_input)) ? trim($request->risk2_6flight_no_input) : NULL,
@@ -262,7 +263,7 @@ class ScreenPUIController extends MasterController
         if($data==null){
           return abort(404);  //404 page
         }else{
-          return view('screen-pui.edit120263',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city','airportlists','walkinplace_hosp_name','isolated_hosp_name'));
+          return view('screen-pui.edit200263',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city','airportlists','walkinplace_hosp_name','isolated_hosp_name'));
         }
     }
 
@@ -291,6 +292,22 @@ class ScreenPUIController extends MasterController
         // }
       }
 
+      if($request->screen_pt==3){
+        $airports_code = NULL;
+        $walkinplace_hosp_province = NULL;
+        $walkinplace_hosp_code =  NULL;
+        $community_name = (!empty($request->community_name)) ? trim($request->community_name) : NULL;
+      }elseif($request->screen_pt==2){
+        $airports_code = NULL;
+        $community_name = NULL;
+        $walkinplace_hosp_province = (!empty($request->walkinplace_hosp_province)) ? trim($request->walkinplace_hosp_province) : NULL;
+        $walkinplace_hosp_code = (!empty($request->walkinplace_hosp_code)) ? trim($request->walkinplace_hosp_code) : NULL;
+      }elseif($request->screen_pt==1){
+        $airports_code = (!empty($request->airports_code)) ? trim($request->airports_code) : NULL;
+        $walkinplace_hosp_province = NULL;
+        $walkinplace_hosp_code =  NULL;
+        $community_name = NULL;
+      }
 
       //dd($request->pt_status);
 
@@ -300,9 +317,10 @@ class ScreenPUIController extends MasterController
                 "notify_date" => (!empty($request->notify_date)) ? $this->Convert_Date($request->notify_date) : date('Y-m-d'),
                 "notify_time" => (!empty($request->notify_time)) ? $request->notify_time : NULL,
                 "screen_pt" => (!empty($request->screen_pt)) ? trim($request->screen_pt) : "1",
-                "airports_code" => (!empty($request->airports_code)) ? trim($request->airports_code) : NULL,
-                "walkinplace_hosp_province" => (!empty($request->walkinplace_hosp_province)) ? trim($request->walkinplace_hosp_province) : NULL,
-                "walkinplace_hosp_code" => (!empty($request->walkinplace_hosp_code)) ? trim($request->walkinplace_hosp_code) : NULL,
+                "airports_code" => $airports_code,
+                "walkinplace_hosp_province" => $walkinplace_hosp_province,
+                "walkinplace_hosp_code" => $walkinplace_hosp_code,
+                "community_name" => $community_name,
                 "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
                 "isolated_hosp_code" => (!empty($request->isolated_hosp_code)) ? trim($request->isolated_hosp_code) : NULL,
                 "title_name" => (!empty($request->title_name)) ? trim($request->title_name) : NULL,
