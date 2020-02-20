@@ -106,13 +106,13 @@ class ScreenPUIController extends MasterController
 
       $order_pt = (!empty($request->order_pt)) ? trim($request->order_pt) : NULL;
 
-      if(!is_null($order_pt)){
-        $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
-        if($check_duplicate_record_order_pt){
-          //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
-          return redirect()->back()->withInput()->with('message','ลำดับผู้ป่วย Confirm ซ้ำ ที่ SATID :'.$sat_id);
-        }
-      }
+      // if(!is_null($order_pt)){
+      //   $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
+      //   if($check_duplicate_record_order_pt){
+      //     //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
+      //     return redirect()->back()->withInput()->with('message','ลำดับผู้ป่วย Confirm ซ้ำ ที่ SATID :'.$sat_id);
+      //   }
+      // }
 
       $check_duplicate_record = InvestList::where('sat_id', '=', $request->sat_id)->exists();
       if($check_duplicate_record){
@@ -283,12 +283,12 @@ class ScreenPUIController extends MasterController
         $order_pt = NULL;
       }else{
         $order_pt = (!empty($request->order_pt)) ? trim($request->order_pt) : NULL;
-        if(!is_null($order_pt)){
-          $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
-          if($check_duplicate_record_order_pt){
-            return redirect()->back()->withInput()->with('message','ลำดับผู้ป่วย Confirm ซ้ำ SATID '.$request->sat_id);
-          }
-        }
+        // if(!is_null($order_pt)){
+        //   $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
+        //   if($check_duplicate_record_order_pt){
+        //     return redirect()->back()->withInput()->with('message','ลำดับผู้ป่วย Confirm ซ้ำ SATID '.$request->sat_id);
+        //   }
+        // }
       }
 
 
