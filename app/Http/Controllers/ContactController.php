@@ -412,10 +412,10 @@ class ContactController extends MasterController
     // $res3	= DB::table('tbl_contact_hsc')->insert($data_hsc);
 // }
   if ($res1){
-		return redirect()->route('contacttable',[$pui_id])->with('message','Insert Success : '.$pui_id);
-  }else{
-		return redirect()->route('contacttable',[$pui_id])->with('message','ERROR : '.$pui_id);
-    }
+		return redirect()->route('contactfollowtable',[$contact_id])->with('message','Insert Success : '.$pui_id);
+	}else{
+		return redirect()->route('contactfollowtable',[$contact_id])->with('message','ERROR : '.$pui_id);
+		}
 }
 }
 
