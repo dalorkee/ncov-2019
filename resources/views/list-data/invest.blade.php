@@ -1,14 +1,19 @@
 @extends('layouts.index')
 @section('custom-style')
-	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/datatables.min.css') }}">
+	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/datatables-1.10.20/css/jquery.dataTables.min.css') }}">
 	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/Buttons-1.6.1/css/buttons.bootstrap4.min.css') }}">
-	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/css/responsive.bootstrap.min.css') }}">
-	<link rel="stylesheet" href="{{ URL::asset('assets/libs/select2/dist/css/select2.min.css') }}">
-	<link rel='stylesheet' href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
-	<link rel="stylesheet" href="{{ URL::asset('assets/libs/toastr/build/toastr.min.css') }}">
+	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/css/responsive.bootstrap4.min.css') }}">
 @endsection
 @section('internal-style')
-
+<style>
+.dataTables_wrapper {
+	width: 100% !important;
+	font-family: 'Fira-code', tahoma !important;
+}
+#list-data-table {
+	width: 100% !important;
+}
+</style>
 @endsection
 @section('meta-token')
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -30,42 +35,13 @@
 	</div>
 </div>
 <div class="container-fluid">
-	<table class="table table-bordered" id="data-table">
-	<thead>
-		<tr>
-			<th>Id</th>
-			<th>sat_id</th>
-			<th>mng</th>
-		</tr>
-	</thead>
-</table>
+	{{ $dataTable->table() }}
 </div><!-- flu-contrainer -->
 @endsection
 @section('bottom-script')
-	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/datatables.min.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/datatables-1.10.20/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/Buttons-1.6.1/js/buttons.bootstrap4.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/js/responsive.bootstrap.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
-	<script>
-	$(document).ready(function() {
-		/* ajax request */
-		$.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			}
-		});
-	    $('#data-table').DataTable({
-	        processing: true,
-	        serverSide: true,
-	        ajax: '{!! route('invest.data') !!}',
-	        columns: [
-	            { data: 'id', name: 'id' },
-	            { data: 'sat_id', name: 'sat_id' },
-				{ data:  'a' },
-	        ]
-	    });
-	});
-	</script>
+	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/js/responsive.bootstrap4.min.js') }}"></script>
+	<script src="{{ URL::asset('vendor/datatables/buttons.server-side.js') }}"></script>
+	{{ $dataTable->scripts() }}
 @endsection

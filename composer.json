@@ -22,7 +22,7 @@
         "spatie/laravel-permission": "^3.0",
         "yajra/laravel-datatables": "1.5",
         "yajra/laravel-datatables-fractal": "^1.5",
-        "yajra/laravel-datatables-oracle": "9.0"
+        "yajra/laravel-datatables-oracle": "^9.8"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

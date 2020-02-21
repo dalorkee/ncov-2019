@@ -113,7 +113,4 @@ Route::group(['middleware' => 'under-construction'], function () {
 Route::get('/test', 'TestController@store')->name('test');
 
 /* list-data => datatable */
-Route::get('invests-list', 'ListDataController@invest')->name('invest.list');
-Route::get('invests-list-data', 'ListDataController@investData')->name('invest.data');
-
-Route::get('/list-data', 'DataListController@index')->name('list-data.index');
+Route::get('/list-invest', 'ListInvestController@index')->name('list-data.invest');

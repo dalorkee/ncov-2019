@@ -2,15 +2,22 @@
 
 namespace App\DataTables;
 
-use App\DataList;
+use App\InvestList;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Html\Editor\Editor;
+use App\Http\Controllers\MasterController;
 
-class DataListDataTable extends DataTable
+class ListInvestDataTable extends DataTable
 {
+
+	public function masterData() {
+		$data = new MasterController;
+		$status = $data->getStatus();
+		return $status;
+	}
 	/**
 	* Build DataTable class.
 	*
@@ -18,19 +25,30 @@ class DataListDataTable extends DataTable
 	* @return \Yajra\DataTables\DataTableAbstract
 	*/
 	public function dataTable($query) {
+		$status = collect([
+					'pt_status' => [
+						'1' => 'PUI',
+						'2' => 'Confirmed',
+						'3' => 'Probable',
+						'4' => 'Suspected',
+						'5' => 'Excluded'
+					]
+				]);
 		return datatables()
-			->eloquent($query)
-			->addColumn('action', '<a href="#" class="btn btn-danger btn-sm">isad</a>');
-		}
+			->eloquent($query, $status)
+			->editColumn('pt_status', $status["pt_status"][1].'{{ $pt_status }}')
+			->addColumn('action', '<a href="#" class="btn btn-danger btn-sm">'.$status['pt_status'][1].'</a>')
+			->rawColumns(['link', 'action']);
+	}
 
 	/**
 	* Get query source of dataTable.
 	*
-	* @param \App\DataList $model
+	* @param \App\InvestList $model
 	* @return \Illuminate\Database\Eloquent\Builder
 	*/
-	public function query(DataList $model) {
-		return $model->newQuery();
+	public function query(InvestList $model) {
+		return $model->newQuery()->whereNull('deleted_at');
 	}
 
 	/**
@@ -64,11 +82,14 @@ class DataListDataTable extends DataTable
 		return [
 			Column::make('id'),
 			Column::make('sat_id'),
+			Column::make('pt_status'),
+			Column::make('news_st'),
+			Column::make('disch_st'),
 			Column::computed('action')
 				->exportable(false)
 				->printable(false)
 				->width(60)
-				->addClass('text-center'),
+				->addClass('text-left'),
 			];
 	}
 

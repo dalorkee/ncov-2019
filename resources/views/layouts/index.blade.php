@@ -33,5 +33,6 @@
 	</div>
 	@include('layouts.main-script')
 	@yield('bottom-script')
+	@stack('script')
 </body>
 </html>
