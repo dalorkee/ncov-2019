@@ -157,9 +157,11 @@ input.valid, textarea.valid{
 								<th>ตั้งครรภ์</th>
 								<th>อ้วน</th>
 								<th>ประเภทมะเร็ง</th>
+								<th>จังหวัดที่เข้ารับการคัดกรอง</th>
 								<th>สถานที่ (ชื่อสนามบิน/รพ.)</th>
 								<th>มีห้อง Neagtive pressure หรือไม่</th>
 								<th>มีรถ Refer ผู้ป่วยหรือไม่</th>
+								<th>จังหวัด ที่ผู้ป่วย Isolated</th>
 								<th>ผู้ป่วย Isolated ที่ รพ.</th>
 								<th>วันที่มาถึงไทย</th>
 								<th>สายการบิน</th>
@@ -233,15 +235,20 @@ input.valid, textarea.valid{
 							<td>
 								{{ (!empty($value->data3_3chk_cancer_name)) ? $value->data3_3chk_cancer_name : ""  }}
 								{{ (!empty($value->data3_3input_other)) ? $value->data3_3input_other : ""	  }}
-						</td>
-						<td>
-							{{ (isset($arr_hos[$value->walkinplace_hosp_code])) ? $arr_hos[$value->walkinplace_hosp_code] : "" }}
+							</td>
+							<td>
+								{{-- {{ (!empty($value->walkinplace_hosp_province)) ? $value->walkinplace_hosp_province : ""  }} --}}
+								{{ (isset($arrprov[$value->walkinplace_hosp_province])) ? $arrprov[$value->walkinplace_hosp_province] : "" }}
+							</td>
+							<td>
+								{{ (isset($arr_hos[$value->walkinplace_hosp_code])) ? $arr_hos[$value->walkinplace_hosp_code] : "" }}
 							{{-- {{ (!empty($value->walkinplace_hosp_code)) ? $value->walkinplace_hosp_code : ""  }} --}}
-							{{ (!empty($value->walkinplace_hosp)) ? $value->walkinplace_hosp : ""  }}
-						</td>
-		        <td>{{ (!empty($value->negative_pressure)) ? $value->negative_pressure : ""  }}</td>
-		      	<td>{{ (!empty($value->refer_car)) ? $value->refer_car : ""  }}</td>
-		        <td>
+								{{ (!empty($value->walkinplace_hosp)) ? $value->walkinplace_hosp : ""  }}
+							</td>
+		        	<td>{{ (!empty($value->negative_pressure)) ? $value->negative_pressure : ""  }}</td>
+		      		<td>{{ (!empty($value->refer_car)) ? $value->refer_car : ""  }}</td>
+							<td>{{ (isset($arrprov[$value->isolated_province])) ? $arrprov[$value->isolated_province] : "" }}</td>
+		        	<td>
 							{{ (isset($arr_hos[$value->isolated_hosp_code])) ? $arr_hos[$value->isolated_hosp_code] : "" }}
 							{{-- {{ (!empty($value->isolated_hosp_code)) ? $value->isolated_hosp_code : ""  }} --}}
 							{{ (!empty($value->risk2_6history_hospital_input)) ? $value->risk2_6history_hospital_input : ""  }}

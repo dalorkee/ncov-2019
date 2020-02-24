@@ -30,6 +30,7 @@ class ExportExcelController extends MasterController
     $datenow = date('Y-m-d');
     $arr = parent::getStatus();
     $arr_hos = $this->arr_hos();
+    $arrprov = $this->arrprov();
     $nation_list = $this->arrnation();
     // dd($poe_id);
     $data=DB::table('invest_pt')
@@ -40,7 +41,8 @@ class ExportExcelController extends MasterController
       'data',
       'arr',
       'arr_hos',
-      'nation_list'
+      'nation_list',
+      'arrprov'
     ));
   }
 
@@ -66,6 +68,7 @@ class ExportExcelController extends MasterController
    {
      $arr = parent::getStatus();
      $arr_hos = $this->arr_hos();
+     $arrprov = $this->arrprov();
      $nation_list = $this->arrnation();
      $arr_occupation = $this->arr_occupation();
      $sym_cough = $this->sym_cough();
@@ -84,7 +87,8 @@ class ExportExcelController extends MasterController
                        'arr_hos',
                        'nation_list',
                        'arr_occupation',
-                       'sym_cough'
+                       'sym_cough',
+                       'arrprov'
                      ));
   }
     protected function convertDateToMySQL($date='00/00/0000') {
@@ -225,6 +229,15 @@ class ExportExcelController extends MasterController
         }
         // dd($province_arr);
         return $arr_hos;
+      }
+
+      protected function arrprov(){
+        $arrprov = DB::table('ref_province')->select('province_id','province_name')->get();
+        foreach ($arrprov as  $value) {
+          $arrprov[$value->province_id] =trim($value->province_name);
+        }
+        // dd($province_arr);
+        return $arrprov;
       }
 }
 ?>
