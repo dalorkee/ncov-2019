@@ -276,9 +276,11 @@ class ScreenPUIController extends MasterController
      */
     public function update(Request $request)
     {
-        //
-      //dd($request);
 
+      $check_duplicate_record = InvestList::where('sat_id', '=', $request->sat_id)->exists();
+      if($check_duplicate_record){
+        return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$request->sat_id);
+      }
 
       if($request->pt_status!=2){
         $order_pt = NULL;
@@ -310,6 +312,8 @@ class ScreenPUIController extends MasterController
       }
 
       //dd($request->pt_status);
+
+
 
 
       $update = InvestList::where('id', $request->id)
