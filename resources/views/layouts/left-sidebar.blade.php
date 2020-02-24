@@ -18,7 +18,12 @@
 						<li class="sidebar-item"><a href="{{ route('satList') }}" class="sidebar-link"><i class="mdi mdi-folder-multiple-outline"></i><span class="hide-menu"> SAT</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('investList.index') }}" class="sidebar-link"><i class="mdi mdi-ambulance"></i><span class="hide-menu"> Invest</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('allcasecontacttable') }}" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Contact</span></a></li>
-						<li class="sidebar-item"><a href="{{ route('allcasecontacttable') }}" class="sidebar-link"><i class="fas fa-chart-line"></i><span class="hide-menu"> FollowUp</span></a></li>
+						<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-chart-line"></i><span class="hide-menu"> FollowUp </span></a>
+							<ul aria-expanded="false" class="collapse  first-level">
+								<li class="sidebar-item"><a href="{{ route('contactfollowtable') }}" class="sidebar-link"><i class="mdi mdi-account-multiple"></i><span class="hide-menu"> FollowUp Contact</span></a></li>
+								<li class="sidebar-item"><a href="{{ route('puifollowtable') }}" class="sidebar-link"><i class="fas fa-diagnoses"></i><span class="hide-menu"> FollowUp PUI</span></a></li>
+							</ul>
+						</li>
 					</ul>
 				</li>
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-chart-line"></i><span class="hide-menu">Report </span></a>

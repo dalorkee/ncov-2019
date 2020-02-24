@@ -134,6 +134,7 @@ input.valid, textarea.valid{
           <table id="example" class="table-striped row-border" style="width:100%  font-size: 9px;">
         <thead>
             <tr>
+								<th>PUI Code</th>
 								<th>วันที่ได้รับแจ้ง</th>
                 <th>เวลาได้รับแจ้ง</th>
                 <th>การคัดกรอง</th>
@@ -176,13 +177,12 @@ input.valid, textarea.valid{
 								<th>xray_result</th>
 								<th>Rapid Test</th>
 								<th>แพทย์วินิจฉัยเบื้องต้น</th>
-								<th>PUI Code</th>
 								<th>หน่วยงานที่จะส่งหนังสือ</th>
 								<th>เลขหนังสือ</th>
 								<th>แจ้งศูนย์ Refer บำราศ</th>
 								<th>รับ Lab</th>
-								<th>ส่งมาเมื่อ</th>
-								<th>วันที่</th>
+								<th>เวลาส่ง Lab</th>
+								<th>วันที่ส่ง Lab</th>
 								<th>ไม่แจ้งบำราศ เนื่องจาก</th>
 								<th>ทีม Operation ลงเอง</th>
 								<th>ทีม สคร. ลง</th>
@@ -194,6 +194,7 @@ input.valid, textarea.valid{
 								<th>ชื่อผู้แจ้งข้อมูล</th>
 								<th>หน่วยงาน</th>
 								<th>ชื่อผู้รับแจ้ง</th>
+								<th>วันที่กรอกข้อมูล</th>
             </tr>
         </thead>
         <tbody>
@@ -202,6 +203,7 @@ input.valid, textarea.valid{
 					@foreach($data as $value)
 
 						<tr>
+							<td>{{ (!empty($value->sat_id)) ? $value->sat_id : ""  }}</td>
 							<td>{{ (!empty($value->notify_date)) ? ($value->notify_date) : date('Y-m-d')}}</td>
 							<td>{{ (!empty($value->notify_time)) ? $value->notify_time.":00" : ""  }}</td>
 							<td>{{ (isset($arr['screen_pt'][$value->screen_pt])) ? $arr['screen_pt'][$value->screen_pt] : "" }}</td>
@@ -232,11 +234,19 @@ input.valid, textarea.valid{
 								{{ (!empty($value->data3_3chk_cancer_name)) ? $value->data3_3chk_cancer_name : ""  }}
 								{{ (!empty($value->data3_3input_other)) ? $value->data3_3input_other : ""	  }}
 						</td>
-						<td>{{ (!empty($value->walkinplace_hosp)) ? $value->walkinplace_hosp : ""  }}</td>
+						<td>
+							{{ (isset($arr_hos[$value->walkinplace_hosp_code])) ? $arr_hos[$value->walkinplace_hosp_code] : "" }}
+							{{-- {{ (!empty($value->walkinplace_hosp_code)) ? $value->walkinplace_hosp_code : ""  }} --}}
+							{{ (!empty($value->walkinplace_hosp)) ? $value->walkinplace_hosp : ""  }}
+						</td>
 		        <td>{{ (!empty($value->negative_pressure)) ? $value->negative_pressure : ""  }}</td>
 		      	<td>{{ (!empty($value->refer_car)) ? $value->refer_car : ""  }}</td>
-		        <td>{{ (!empty($value->risk2_6history_hospital_input)) ? $value->risk2_6history_hospital_input : ""  }}</td>
-		        <td>{{ (!empty($value->risk2_6arrive_date)) ? ($value->risk2_6arrive_date) : ""  }}</td>
+		        <td>
+							{{ (isset($arr_hos[$value->isolated_hosp_code])) ? $arr_hos[$value->isolated_hosp_code] : "" }}
+							{{-- {{ (!empty($value->isolated_hosp_code)) ? $value->isolated_hosp_code : ""  }} --}}
+							{{ (!empty($value->risk2_6history_hospital_input)) ? $value->risk2_6history_hospital_input : ""  }}
+						</td>
+		        <td>{{ (!empty($value->risk_stay_outbreak_arrive_date)) ? ($value->risk_stay_outbreak_arrive_date) : ""  }}</td>
 		        <td>{{ (!empty($value->risk2_6airline_input)) ? $value->risk2_6airline_input : ""  }}</td>
 		        <td>{{ (!empty($value->risk2_6flight_no_input)) ? $value->risk2_6flight_no_input : ""  }}</td>
 		        <td>{{ (!empty($value->total_travel_in_group)) ? $value->total_travel_in_group : ""  }}</td>
@@ -255,7 +265,6 @@ input.valid, textarea.valid{
 							{{ (!empty($value->lab_test_result_other)) ? $value->lab_test_result_other : ""  }}
 						</td>
 		        <td>{{ (!empty($value->first_diag)) ? $value->first_diag : ""  }}</td>
-						<td>{{ (!empty($value->sat_id)) ? $value->sat_id : ""  }}</td>
 						<td>{{ (!empty($value->letter_division_code)) ? $value->letter_division_code : ""  }}</td>
 						<td>{{ (!empty($value->letter_code)) ? $value->letter_code : ""  }}</td>
 						<td>{{ (!empty($value->refer_bidi)) ? $value->refer_bidi : ""  }}</td>
@@ -273,6 +282,7 @@ input.valid, textarea.valid{
 						<td>{{ 	(!empty($value->send_information)) ? $value->send_information : ""  }}</td>
 						<td>{{ 	(!empty($value->send_information_div)) ? $value->send_information_div : ""  }}</td>
 						<td>{{ 	(!empty($value->receive_information)) ? $value->receive_information : ""  }}</td>
+						<td>{{ 	(!empty($value->created_at)) ? $value->created_at : ""  }}</td>
             </tr>
 					@endforeach
         </tbody>

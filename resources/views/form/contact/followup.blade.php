@@ -33,19 +33,19 @@
             <br>
             <div class="card-block">
             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส</h4>
-            <form action="{{route('followupcontactinsert')}}" method="post">
+            <form action="{{route('followupinsert')}}" method="post">
               			{{ csrf_field() }}
 
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="hidden" name="sat_id" value="{{$sat_id[0]->sat_id}}" class="form-control">
+						<input type="text" name="typid" value="{{$typid}}" class="form-control">
 						</div>
 						<div class="col-sm-3">
-						<input type="hidden" name="pui_id" value="{{$sat_id[0]->pui_id}}" class="form-control">
+						<input type="text" name="patianid" value="{{$id}}" class="form-control">
 						</div>
-						<div class="col-sm-3">
+						{{-- <div class="col-sm-3">
 						<input type="hidden" name="contact_id" value="{{$contact_id}}" class="form-control">
-						</div>
+						</div> --}}
 						<div class="col-sm-3">
 						<input type="hidden" name="contact_id_day" value="{{$followup_date}}" class="form-control">
 						</div>

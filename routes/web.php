@@ -77,15 +77,17 @@ Route::group(['middleware' => ['auth']], function() {
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
 Route::get('/detailcontact/contact_id/{contact_id}', 'ContactController@detailcontact')->name('detailcontact');
 Route::get('/contacttable/id/{id}', 'ContactController@contacttable')->name('contacttable');
-Route::get('/contactfollowtable/contact_id/{contact_id}', 'ContactController@contactfollowtable')->name('contactfollowtable');
+Route::get('/followuptable/typid/{typid}/id/{id}', 'ContactController@followuptable')->name('followuptable');
+Route::get('/puifollowtable', 'ContactController@puifollowtable')->name('puifollowtable');
+Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
 Route::get('/editcontact/contact_id/{contact_id}', 'ContactController@editcontact')->name('editcontact');
 Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetch');
 Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
 Route::post('/addcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
-Route::get('/followupcontact/contact_id/{contact_id}', 'ContactController@followupcontact')->name('followupcontact');
-Route::post('/followupcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
-Route::post('/followupcontactinsert', 'ContactController@followupcontactinsert')->name('followupcontactinsert');
+Route::get('/followup/typid/{typid}/id/{id}', 'ContactController@followup')->name('followup');
+Route::post('/followup/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
+Route::post('/followupinsert', 'ContactController@followupinsert')->name('followupinsert');
 Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
 Route::post('/contactedit', 'ContactController@contactedit')->name('contactedit');
 // excel download

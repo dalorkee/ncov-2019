@@ -29,6 +29,7 @@ class ExportExcelController extends MasterController
   {
     $datenow = date('Y-m-d');
     $arr = parent::getStatus();
+    $arr_hos = $this->arr_hos();
     $nation_list = $this->arrnation();
     // dd($poe_id);
     $data=DB::table('invest_pt')
@@ -38,6 +39,7 @@ class ExportExcelController extends MasterController
     return view('export.allexport',compact(
       'data',
       'arr',
+      'arr_hos',
       'nation_list'
     ));
   }
@@ -63,6 +65,7 @@ class ExportExcelController extends MasterController
    function indexallexcel(Request $req)
    {
      $arr = parent::getStatus();
+     $arr_hos = $this->arr_hos();
      $nation_list = $this->arrnation();
      $arr_occupation = $this->arr_occupation();
      $sym_cough = $this->sym_cough();
@@ -78,6 +81,7 @@ class ExportExcelController extends MasterController
                      return view('export.allexport',compact(
                        'data',
                        'arr',
+                       'arr_hos',
                        'nation_list',
                        'arr_occupation',
                        'sym_cough'
@@ -213,6 +217,14 @@ class ExportExcelController extends MasterController
         }
         // dd($province_arr);
         return $arr_occupation;
+      }
+      protected function arr_hos(){
+        $arr_hos = DB::table('chospital_new')->select('hospcode','hosp_name')->get();
+        foreach ($arr_hos as  $value) {
+          $arr_hos[$value->hospcode] =trim($value->hosp_name);
+        }
+        // dd($province_arr);
+        return $arr_hos;
       }
 }
 ?>

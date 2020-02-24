@@ -78,22 +78,24 @@ class ContactController extends MasterController
   }
 
 
-  public function contactfollowtable(Request $req)
+  public function followuptable(Request $req)
   {
 		$arr = parent::getStatus();
 		$sat_id=$req->sat_id;
-		$patian_date=DB::table('tbl_followupcontact')->where('contact_id', \DB::raw("(select max(`contact_id_day`) from tbl_followupcontact)"))->get();
+		$patian_date=DB::table('tbl_followup')->where('contact_id', \DB::raw("(select max(`contact_id_day`) from tbl_followup)"))->get();
 		$patian_data=DB::table('invest_pt')->select('*')->where('sat_id', [$req->sat_id] )->get();
 		$contact_data=DB::table('tbl_contact')->select('*')->where('sat_id', $sat_id)->get();
-		$fucontact_data=DB::table('tbl_followupcontact')->select('*')->where('contact_id', $req->contact_id)->get();
-		$contact_id=$req->contact_id;
+		$fucontact_data=DB::table('tbl_followup')->select('*')->where('contact_id', $req->contact_id)->get();
+		$id=$req->id;
+		$typid=$req->typid;
 		$contact_id_day=$req->contact_id_day;
 		$arr_division_follow_contact = $this->arr_division_follow_contact();
-    return view('form.contact.contactfollowtable',compact(
+    return view('form.contact.followuptable',compact(
 			'sat_id',
 			// 'poe_id',
 			'contact_id_day',
-			'contact_id',
+			'id',
+			'typid',
 			'fucontact_data',
 			'contact_data',
 			'patian_date',
@@ -103,6 +105,68 @@ class ContactController extends MasterController
     ));
   }
 
+	public function puifollowtable(Request $req)
+
+{
+  if(auth()->user()->id==Auth::user()->id){
+		$pui_data=
+									DB::table('invest_pt')
+												->join('users','invest_pt.entry_user','=','users.id')
+												->select('invest_pt.sat_id',
+																 'users.id',
+																 'invest_pt.sex',
+																 'invest_pt.age',
+																 'invest_pt.nation',
+																 'invest_pt.race',
+																 'users.prefix_sat_id')
+												->where('users.prefix_sat_id',Auth::user()->prefix_sat_id)
+												->where('invest_pt.pt_status',"2")
+												->get();
+		$nation_list = $this->arrnation();
+		$arr_occu = $this->arroccu();
+		$arrprov = $this->arrprov();
+		$arrdistrict = $this->arrdistrict();
+		$arr_sub_district = $this->arr_sub_district();
+		$arr_division_follow_contact = $this->arr_division_follow_contact();
+    return view('form.contact.puifollowtable',compact(
+			'pui_data',
+			'nation_list',
+			'arr_occu',
+			'arrprov',
+			'arrdistrict',
+			'arr_division_follow_contact',
+			'arr_sub_district'
+    ));
+  }
+}
+
+public function contactfollowtable(Request $req)
+
+{
+if(auth()->user()->id==Auth::user()->id){
+	$contact_data=
+	DB::table('tbl_contact')
+				->join('users','tbl_contact.user_id','=','users.id')
+				->select('tbl_contact.*','users.id','users.prefix_sat_id')
+				->where('users.prefix_sat_id',Auth::user()->prefix_sat_id)
+				->get();
+	$nation_list = $this->arrnation();
+	$arr_occu = $this->arroccu();
+	$arrprov = $this->arrprov();
+	$arrdistrict = $this->arrdistrict();
+	$arr_sub_district = $this->arr_sub_district();
+	$arr_division_follow_contact = $this->arr_division_follow_contact();
+	return view('form.contact.contactfollowtable',compact(
+		'contact_data',
+		'nation_list',
+		'arr_occu',
+		'arrprov',
+		'arrdistrict',
+		'arr_division_follow_contact',
+		'arr_sub_district'
+	));
+}
+}
 
 	// form contact add
 	public function detailcontact(Request $req)
@@ -143,7 +207,7 @@ class ContactController extends MasterController
 																			'isolated_province')
 														  ->where('id',$req->pui_id)
 															->get();
-		$ref_detail_follow=DB::table('tbl_followupcontact')
+		$ref_detail_follow=DB::table('tbl_followup')
             					->select('*')
 											->where('contact_id',$req->contact_id)
             					->get();
@@ -242,19 +306,20 @@ class ContactController extends MasterController
 	}
 
 
-  public function followupcontact(Request $req)
+  public function followup(Request $req)
   {
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
-		$followup_date=DB::table('tbl_followupcontact')->where('contact_id', $req->contact_id)->max('contact_id_day');
+		$followup_date=DB::table('tbl_followup')->where('contact_id', $req->contact_id)->max('contact_id_day');
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$sat_id=DB::table('tbl_contact')->select('pui_id','sat_id')->where('contact_id', $req->contact_id )->get();
-		$contact_id=$req->contact_id;
+		$id=$req->id;
+		$typid=$req->typid;
 		$contact_id_day=$req->contact_id_day;
 		$listprovince=$this->province();
 		$entry_user = Auth::user()->id;
 		$prefix_sat_id = Auth::user()->prefix_sat_id;
-    return view('form.contact.followupcontact',compact(
+    return view('form.contact.followup',compact(
 			'listprovince',
 			'ref_title_name',
 			'ref_specimen',
@@ -263,10 +328,13 @@ class ContactController extends MasterController
 			'followup_date',
 			'prefix_sat_id',
 			'contact_id_day',
-			'contact_id',
+			'id',
+			'typid',
 			'entry_user'
     ));
   }
+
+
 
 
   public function contactinsert(Request $req)
@@ -419,7 +487,7 @@ class ContactController extends MasterController
 }
 }
 
-public function followupcontactinsert(Request $req)
+public function followupinsert(Request $req)
 {
 
 // $poe_id = $req ->input ('poe_id');
@@ -481,7 +549,7 @@ $data = array(
 	'date_entry'=>$date_entry
 );
     // dd($data);
-$res1	= DB::table('tbl_followupcontact')->insert($data);
+$res1	= DB::table('tbl_followup')->insert($data);
 // if ($res1)
 // {
 // 	$pcr_contact =$req ->input('pcr_contact');
@@ -508,7 +576,7 @@ $res1	= DB::table('tbl_followupcontact')->insert($data);
 // 					}
 // 	// dd($ddata_member);
 // 	// exit;
-// 	$res3	= DB::table('tbl_followupcontact_hsc')->insert($data_hsc);
+// 	$res3	= DB::table('tbl_followup_hsc')->insert($data_hsc);
 // }
 if ($res1){
 

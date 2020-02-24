@@ -120,22 +120,19 @@ input.valid, textarea.valid{
             </tr>
         </thead>
         <tbody>
-					<?php foreach($contact_data as $value) : ?>
+					<?php foreach($pui_data as $value) : ?>
             <tr>
 								<td>{{ $value->id }}</td>
-                <td>{{ $value->contact_id }}</td>
-								<td>{{ $value->sex_contact }}</td>
-                <td>{{ $value->age_contact }}</td>
-								<td>{{ (isset($arrprov[$value->province])) ? $arrprov[$value->province] : "" }}
-										{{ (isset($arrdistrict[$value->district])) ? $arrdistrict[$value->district] : "" }}
-										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}
+                <td>{{ $value->sat_id }}</td>
+								<td>{{ $value->sex }}</td>
+                <td>{{ $value->age }}</td>
+                <td>{{ (isset($nation_list[$value->race])) ? $nation_list[$value->race] : "" }}
 								</td>
-								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
-
+								<td>{{ (isset($nation_list[$value->nation])) ? $nation_list[$value->nation] : "" }}</td>
 								<td>
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
-										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="{{ 'followuptable'}}/typid/2/id/{{ $value->contact_id }}">
-											FUCON
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="{{ 'followuptable'}}/typid/1/id/{{ $value->sat_id }}">
+											FUPUI
 									</a>
 									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="{{ 'detailcontact'}}/pui_id/{{ $value->sat_id }}">
