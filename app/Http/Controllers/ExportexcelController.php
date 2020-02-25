@@ -31,6 +31,7 @@ class ExportExcelController extends MasterController
     $arr = parent::getStatus();
     $arr_hos = $this->arr_hos();
     $arrprov = $this->arrprov();
+    $list_occupation = $this->list_occupation();
     $nation_list = $this->arrnation();
     // dd($poe_id);
     $data=DB::table('invest_pt')
@@ -42,6 +43,7 @@ class ExportExcelController extends MasterController
       'arr',
       'arr_hos',
       'nation_list',
+      'list_occupation',
       'arrprov'
     ));
   }
@@ -70,7 +72,7 @@ class ExportExcelController extends MasterController
      $arr_hos = $this->arr_hos();
      $arrprov = $this->arrprov();
      $nation_list = $this->arrnation();
-     $arr_occupation = $this->arr_occupation();
+     $list_occupation = $this->list_occupation();
      $sym_cough = $this->sym_cough();
      $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
      $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
@@ -86,7 +88,7 @@ class ExportExcelController extends MasterController
                        'arr',
                        'arr_hos',
                        'nation_list',
-                       'arr_occupation',
+                       'list_occupation',
                        'sym_cough',
                        'arrprov'
                      ));
@@ -179,7 +181,7 @@ class ExportExcelController extends MasterController
         // dd($list_sym_cough);
         return $list_pui_type;
       }
-      protected function occupation(){
+      protected function list_occupation(){
         $list_occupation = array(
                                       '1'=>'งาน/ดูแลบ้าน',
           														'2'=>'เกษตรกร (ปลูกพืช)',

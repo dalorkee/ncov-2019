@@ -15,7 +15,7 @@ class MasterController extends Controller
 		$this->result = null;
 	}
 
-	private function setStatus() {
+	public function setStatus() {
 		$status = collect([
 			'pt_status' => [
 				'1' => 'PUI',
@@ -30,7 +30,7 @@ class MasterController extends Controller
 			],
 			'disch_st' => [
 				'1' => 'Recovery',
-				'2' => 'Admit',
+				'2' => 'Admitted',
 				'3' => 'Death',
 				'4' => 'Selt quarantine'
 			],
@@ -57,7 +57,7 @@ class MasterController extends Controller
 		return $status;
 	}
 
-	protected function getStatus() {
+	public function getStatus() {
 		$status = $this->setStatus();
 		return $status;
 	}
