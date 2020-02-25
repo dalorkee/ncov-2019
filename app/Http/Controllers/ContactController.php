@@ -82,7 +82,7 @@ class ContactController extends MasterController
   {
 		$arr = parent::getStatus();
 		$sat_id=$req->sat_id;
-		$patian_date=DB::table('tbl_followup')->where('contact_id', \DB::raw("(select max(`contact_id_day`) from tbl_followup)"))->get();
+		$patian_date=DB::table('tbl_followup')->where('patianid', \DB::raw("(select max(`contact_id_day`) from tbl_followup)"))->get();
 		$patian_data=DB::table('invest_pt')->select('*')->where('sat_id', [$req->sat_id] )->get();
 		$contact_data=DB::table('tbl_contact')->select('*')->where('sat_id', $sat_id)->get();
 		$fucontact_data=DB::table('tbl_followup')->select('*')->where('contact_id', $req->contact_id)->get();
@@ -493,6 +493,8 @@ public function followupinsert(Request $req)
 // $poe_id = $req ->input ('poe_id');
 $sat_id = $req ->input ('sat_id');
 $pui_id = $req ->input ('pui_id');
+$patianid = $req ->input ('patianid');
+$typid = $req ->input ('typid');
 $contact_id = $req ->input ('contact_id');
 $contact_id_day= $req ->input ('contact_id_day');
 $date_no = $this->convertDateToMySQL($req ->input ('date_no'));
@@ -522,6 +524,8 @@ $data = array(
 	// 'poe_id'=>$poe_id,
 	'sat_id'=>$sat_id,
 	'pui_id'=>$pui_id,
+	'patianid'=>$patianid,
+	'typid'=>$typid,
 	'contact_id'=>$contact_id,
 	'contact_id_day'=>$contact_id_day + '1',
 	'followup_address'=>$followup_address,

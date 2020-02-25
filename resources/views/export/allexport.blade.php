@@ -134,7 +134,7 @@ input.valid, textarea.valid{
           <table id="example" class="table-striped row-border" style="width:100%  font-size: 9px;">
         <thead>
             <tr>
-								<th>PUI Code</th>
+								<th>SAT_ID</th>
 								<th>วันที่ได้รับแจ้ง</th>
                 <th>เวลาได้รับแจ้ง</th>
                 <th>การคัดกรอง</th>
@@ -142,7 +142,7 @@ input.valid, textarea.valid{
                 <th>อายุ/ปี</th>
                 <th>สัญชาติ</th>
                 {{-- <th>เชื้อชาติ</th> --}}
-                {{-- <th>อาชีพ</th> --}}
+                <th>อาชีพ</th>
                 <th>ชื่อเมือง</th>
 								<th>โรคประจำตัว</th>
 								<th>โรคปอดเรื้อรัง</th>
@@ -216,9 +216,10 @@ input.valid, textarea.valid{
 							{{-- <td> --}}
 							{{-- {{ (isset($arr_occupation[$value->occupation])) ? $arr_occupation[$value->occupation] : "" }} --}}
 							{{-- {{ (isset($value->occupation)) ? $value->occupation : ""}} --}}
-							{{-- <td>{{ (!empty($value->occupation)) ? $value->occupation : "" }}</td> --}}
-							 {{-- {{(!empty($value->occupation_oth)) ? $value->occupation_oth : ""}} --}}
-							{{-- </td> --}}
+							<td>
+									{{ (isset($arr_occupation[$value->occupation])) ? $arr_occupation[$value->occupation] : "" }}
+							 {{(!empty($value->occupation_oth)) ? $value->occupation_oth : ""}}
+							</td>
 							<td>{{ (!empty($value->travel_from)) ? $value->travel_from : ""  }}</td>
 							<td>{{ (!empty($value->data3_3chk_lung)) ? $value->data3_3chk_lung : ""  }} </td>
 							<td>{{ (!empty($value->data3_3chk_heart)) ? $value->data3_3chk_heart : ""  }}</td>
