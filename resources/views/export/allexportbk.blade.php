@@ -136,15 +136,14 @@ input.valid, textarea.valid{
             <tr>
 								<th>SAT_ID</th>
 								<th>วันที่ได้รับแจ้ง</th>
-								<th>สถานทีคัดกรอง</th>
-                {{-- <th>เวลาได้รับแจ้ง</th>
+                <th>เวลาได้รับแจ้ง</th>
                 <th>การคัดกรอง</th>
                 <th>เพศ</th>
                 <th>อายุ/ปี</th>
-                <th>สัญชาติ</th> --}}
+                <th>สัญชาติ</th>
                 {{-- <th>เชื้อชาติ</th> --}}
-                {{-- <th>อาชีพ</th> --}}
-                {{-- <th>ชื่อเมือง</th>
+                <th>อาชีพ</th>
+                <th>ชื่อเมือง</th>
 								<th>โรคประจำตัว</th>
 								<th>โรคปอดเรื้อรัง</th>
 								<th>โรคหัวใจ </th>
@@ -197,7 +196,7 @@ input.valid, textarea.valid{
 								<th>ชื่อผู้แจ้งข้อมูล</th>
 								<th>หน่วยงาน</th>
 								<th>ชื่อผู้รับแจ้ง</th>
-								<th>วันที่กรอกข้อมูล</th> --}}
+								<th>วันที่กรอกข้อมูล</th>
             </tr>
         </thead>
         <tbody>
@@ -208,24 +207,20 @@ input.valid, textarea.valid{
 						<tr>
 							<td>{{ (!empty($value->sat_id)) ? $value->sat_id : ""  }}</td>
 							<td>{{ (!empty($value->notify_date)) ? ($value->notify_date) : date('Y-m-d')}}</td>
-							<td>
-								{{ (isset($arrprov[$value->airports_code])) ? $arrprov[$value->airports_code] : "" }}
-								{{-- {{ (!empty($value->walkinplace_hosp_province)) ? $value->walkinplace_hosp_province : ""  }} --}}
-								 {{ (isset($arrprov[$value->walkinplace_hosp_province])) ? $arrprov[$value->walkinplace_hosp_province] : "" }}
-							</td>
-							{{-- <td>{{ (!empty($value->notify_time)) ? $value->notify_time.":00" : ""  }}</td>
+							<td>{{ (!empty($value->notify_time)) ? $value->notify_time.":00" : ""  }}</td>
 							<td>{{ (isset($arr['screen_pt'][$value->screen_pt])) ? $arr['screen_pt'][$value->screen_pt] : "" }}</td>
 							<td>{{ (!empty($value->sex)) ? $value->sex : "" }}</td>
 							<td>{{ (!empty($value->age)) ? $value->age : "" }}</td>
-							<td>{{ (isset($nation_list[$value->nation])) ? $nation_list[$value->nation] : "" }}</td> --}}
+							<td>{{ (isset($nation_list[$value->nation])) ? $nation_list[$value->nation] : "" }}</td>
 							{{-- <td>{{ (isset($nation_list[$value->race])) ? $nation_list[$value->race] : "" }}</td> --}}
 							{{-- <td> --}}
 							{{-- {{ (isset($arr_occupation[$value->occupation])) ? $arr_occupation[$value->occupation] : "" }} --}}
 							{{-- {{ (isset($value->occupation)) ? $value->occupation : ""}} --}}
-							{{-- <td>{{ (!empty($value->occupation)) ? $value->occupation : "" }}</td> --}}
-							 {{-- {{(!empty($value->occupation_oth)) ? $value->occupation_oth : ""}} --}}
-							{{-- </td> --}}
-							{{-- <td>{{ (!empty($value->travel_from)) ? $value->travel_from : ""  }}</td>
+							<td>
+									{{ (isset($list_occupation[$value->occupation])) ? $list_occupation[$value->occupation] : "" }}
+							 {{(!empty($value->occupation_oth)) ? $value->occupation_oth : ""}}
+							</td>
+							<td>{{ (!empty($value->travel_from)) ? $value->travel_from : ""  }}</td>
 							<td>{{ (!empty($value->data3_3chk_lung)) ? $value->data3_3chk_lung : ""  }} </td>
 							<td>{{ (!empty($value->data3_3chk_heart)) ? $value->data3_3chk_heart : ""  }}</td>
 							<td>{{ (!empty($value->data3_3chk_cirrhosis)) ? $value->data3_3chk_cirrhosis :""  }}</td>
@@ -241,23 +236,23 @@ input.valid, textarea.valid{
 							<td>
 								{{ (!empty($value->data3_3chk_cancer_name)) ? $value->data3_3chk_cancer_name : ""  }}
 								{{ (!empty($value->data3_3input_other)) ? $value->data3_3input_other : ""	  }}
-							</td> --}}
-							{{-- <td> --}}
-								{{-- {{ (!empty($value->walkinplace_hosp_province)) ? $value->walkinplace_hosp_province : ""  }} --}}
-								{{-- {{ (isset($arrprov[$value->walkinplace_hosp_province])) ? $arrprov[$value->walkinplace_hosp_province] : "" }}
 							</td>
 							<td>
-								{{ (isset($arr_hos[$value->walkinplace_hosp_code])) ? $arr_hos[$value->walkinplace_hosp_code] : "" }} --}}
+								{{-- {{ (!empty($value->walkinplace_hosp_province)) ? $value->walkinplace_hosp_province : ""  }} --}}
+								{{ (isset($arrprov[$value->walkinplace_hosp_province])) ? $arrprov[$value->walkinplace_hosp_province] : "" }}
+							</td>
+							<td>
+								{{ (isset($arr_hos[$value->walkinplace_hosp_code])) ? $arr_hos[$value->walkinplace_hosp_code] : "" }}
 							{{-- {{ (!empty($value->walkinplace_hosp_code)) ? $value->walkinplace_hosp_code : ""  }} --}}
-								{{-- {{ (!empty($value->walkinplace_hosp)) ? $value->walkinplace_hosp : ""  }}
+								{{ (!empty($value->walkinplace_hosp)) ? $value->walkinplace_hosp : ""  }}
 							</td>
 		        	<td>{{ (!empty($value->negative_pressure)) ? $value->negative_pressure : ""  }}</td>
 		      		<td>{{ (!empty($value->refer_car)) ? $value->refer_car : ""  }}</td>
 							<td>{{ (isset($arrprov[$value->isolated_province])) ? $arrprov[$value->isolated_province] : "" }}</td>
 		        	<td>
-							{{ (isset($arr_hos[$value->isolated_hosp_code])) ? $arr_hos[$value->isolated_hosp_code] : "" }} --}}
+							{{ (isset($arr_hos[$value->isolated_hosp_code])) ? $arr_hos[$value->isolated_hosp_code] : "" }}
 							{{-- {{ (!empty($value->isolated_hosp_code)) ? $value->isolated_hosp_code : ""  }} --}}
-							{{-- {{ (!empty($value->risk2_6history_hospital_input)) ? $value->risk2_6history_hospital_input : ""  }}
+							{{ (!empty($value->risk2_6history_hospital_input)) ? $value->risk2_6history_hospital_input : ""  }}
 						</td>
 		        <td>{{ (!empty($value->risk_stay_outbreak_arrive_date)) ? ($value->risk_stay_outbreak_arrive_date) : ""  }}</td>
 		        <td>{{ (!empty($value->risk2_6airline_input)) ? $value->risk2_6airline_input : ""  }}</td>
@@ -295,7 +290,7 @@ input.valid, textarea.valid{
 						<td>{{ 	(!empty($value->send_information)) ? $value->send_information : ""  }}</td>
 						<td>{{ 	(!empty($value->send_information_div)) ? $value->send_information_div : ""  }}</td>
 						<td>{{ 	(!empty($value->receive_information)) ? $value->receive_information : ""  }}</td>
-						<td>{{ 	(!empty($value->created_at)) ? $value->created_at : ""  }}</td> --}}
+						<td>{{ 	(!empty($value->created_at)) ? $value->created_at : ""  }}</td>
             </tr>
 					@endforeach
         </tbody>

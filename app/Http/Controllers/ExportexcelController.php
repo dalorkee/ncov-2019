@@ -31,8 +31,14 @@ class ExportExcelController extends MasterController
     $arr = parent::getStatus();
     $arr_hos = $this->arr_hos();
     $arrprov = $this->arrprov();
+    $arr_city = $this->arr_city();
     $list_occupation = $this->list_occupation();
     $nation_list = $this->arrnation();
+    $list_airport = $this->list_airport();
+    $arr_refer_lab = $this->arr_refer_lab();
+    $arr_refer_bidi = $this->arr_refer_bidi();
+    $arr_op_opt = $this->arr_op_opt();
+    $arr_op_dpc = $this->arr_op_dpc();
     // dd($poe_id);
     $data=DB::table('invest_pt')
             ->select('*')
@@ -44,7 +50,13 @@ class ExportExcelController extends MasterController
       'arr_hos',
       'nation_list',
       'list_occupation',
-      'arrprov'
+      'arrprov',
+      'list_airport',
+      'arr_refer_bidi',
+      'arr_refer_lab',
+      'arr_op_opt',
+      'arr_op_dpc',
+      'arr_city'
     ));
   }
 
@@ -72,8 +84,14 @@ class ExportExcelController extends MasterController
      $arr_hos = $this->arr_hos();
      $arrprov = $this->arrprov();
      $nation_list = $this->arrnation();
+     $arr_city = $this->arr_city();
+     $list_airport = $this->list_airport();
      $list_occupation = $this->list_occupation();
      $sym_cough = $this->sym_cough();
+     $arr_refer_lab = $this->arr_refer_lab();
+     $arr_refer_bidi = $this->arr_refer_bidi();
+     $arr_op_opt = $this->arr_op_opt();
+     $arr_op_dpc = $this->arr_op_dpc();
      $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
      $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
      $data=DB::table('invest_pt')
@@ -87,10 +105,16 @@ class ExportExcelController extends MasterController
                        'data',
                        'arr',
                        'arr_hos',
+                       'arr_refer_bidi',
+                       'arr_refer_lab',
                        'nation_list',
                        'list_occupation',
                        'sym_cough',
-                       'arrprov'
+                       'arrprov',
+                       'list_airport',
+                       'arr_op_opt',
+                       'arr_op_dpc',
+                       'arr_city'
                      ));
   }
     protected function convertDateToMySQL($date='00/00/0000') {
@@ -160,6 +184,42 @@ class ExportExcelController extends MasterController
         // dd($list_sym_cough);
         return $list_sym_stufefy;
       }
+      protected function arr_refer_bidi(){
+        $arr_refer_bidi = array(
+          'Y'=>'รับ Refer',
+          ''=>'',
+          'n'=>''
+          );
+        // dd($list_sym_cough);
+        return $arr_refer_bidi;
+      }
+      protected function arr_refer_lab(){
+        $arr_refer_lab = array(
+          'Y'=>'รับ Lab',
+          ''=>'',
+          'n'=>''
+          );
+        // dd($list_sym_cough);
+        return $arr_refer_lab;
+      }
+      protected function arr_op_opt(){
+        $arr_op_opt = array(
+          'Y'=>'ทีม Operation ลงเอง',
+          ''=>'',
+          'n'=>''
+          );
+        // dd($list_sym_cough);
+        return $arr_op_opt;
+      }
+      protected function arr_op_dpc(){
+        $arr_op_dpc = array(
+          'Y'=>'ทีม สคร. ลง',
+          ''=>'',
+          'n'=>''
+          );
+        // dd($list_sym_cough);
+        return $arr_op_dpc;
+      }
       protected function disch_st(){
         $list_disch_st = array(
           '1'=>'Recovery',
@@ -208,6 +268,25 @@ class ExportExcelController extends MasterController
         // dd($list_sym_cough);
         return $list_occupation;
       }
+      protected function list_airport(){
+        $list_airport = array(
+                                      '10'=>'สนามบินภูเก็ต',
+                                      '11'=>'สนามบินเชียงราย',
+                                      '12'=>'สนามบินอุดรธานี',
+                                      '13'=>'สนามบินอุบลราชธานี',
+                                      '14'=>'สนามบินกระบี่',
+                                      '42'=>'สนามบินอู่ตะเภา',
+                                      '43'=>'สนามบินสุราษฎร์ธานี',
+                                      '44'=>'สนามบินสมุย',
+                                      '7'=>'สนามบินสุวรรณภูมิ',
+                                      '8'=>'สนามบินดอนเมือง',
+                                      '9'=>'สนามบินเชียงใหม่',
+                                      '0'=>'',
+                                      ''=>''
+          );
+        // dd($list_sym_cough);
+        return $list_airport;
+      }
       protected function arrnation(){
     		$arrnation = DB::table('ref_global_country')->select('country_id','country_name')->get();
     		foreach ($arrnation as  $value) {
@@ -232,7 +311,14 @@ class ExportExcelController extends MasterController
         // dd($province_arr);
         return $arr_hos;
       }
-
+      protected function arr_city(){
+        $arr_city = DB::table('ref_global_city')->select('city_id','city_name')->get();
+        foreach ($arr_city as  $value) {
+          $arr_city[$value->city_id] =trim($value->city_name);
+        }
+        // dd($province_arr);
+        return $arr_city;
+      }
       protected function arrprov(){
         $arrprov = DB::table('ref_province')->select('province_id','province_name')->get();
         foreach ($arrprov as  $value) {
