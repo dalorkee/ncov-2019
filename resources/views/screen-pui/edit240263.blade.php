@@ -13,6 +13,7 @@ $risk2_6arrive_date = (!empty($data->risk_stay_outbreak_arrive_date)) ? ScreenPU
 $data3_1date_sickdate = (!empty($data->data3_1date_sickdate)) ? ScreenPUIController::Convert_Date_To_Picker($data->data3_1date_sickdate) : "" ;
 $lab_send_date = (!empty($data->lab_send_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->lab_send_date) : "" ;
 $isolate_date = (!empty($data->isolate_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->isolate_date) : "" ;
+$disch_st_date = (!empty($data->disch_st_date)) ? ScreenPUIController::Convert_Date_To_Picker($data->disch_st_date) : "" ;
 //dd($data->pt_status);
 //dd($globalcountry[$data->travel_from_country]);
 ?>
@@ -750,12 +751,26 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="disch_st">สถานะการรักษา</label>
-										<select name="disch_st" class="form-control  show-tick">
+										<select name="disch_st" id="disch_st" class="form-control  show-tick">
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['disch_st'] as $key => $val)
 											<option value="{{ $key }}" @if($data->disch_st==$key) selected @endif >{{ $val }}</option>
 											@endforeach
 										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row disch_st_date">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+									<div class="form-group">
+										<label for="disch_st_date">วันที่(สถานะการรักษา)</label>
+											<input type="text" id="disch_st_date" name="disch_st_date" value="@if($disch_st_date) {{ $disch_st_date }} @endif" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -854,9 +869,9 @@ $(document).ready(function() {
 
 	$('.time').mask('00:00');
 
-	$('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
+	$('.selectpicker').selectpicker();
 	/* date of birth */
-	$('#datepicker1,#datepicker2,#datepicker3,#notify_date,#isolate_date').datepicker({
+	$('#datepicker1,#datepicker2,#datepicker3,#notify_date,#isolate_date,#disch_st_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
@@ -991,6 +1006,30 @@ $(document).ready(function() {
 	});
 
 });
+
+$('.disch_st_date').hide();
+
+$('#disch_st').change(function() {
+	var disch_st = $('#disch_st').val();
+	if(disch_st==1 || disch_st==3){
+		//console.log(disch_st);
+		$('.disch_st_date').show();
+		//alert('dsdds');
+	}else{
+		$('.disch_st_date').hide();
+		$('#disch_st_date').val('');
+	}
+});
+
+var disch_st_db = <?php echo $data->disch_st; ?>;
+if(disch_st_db ==1 || disch_st_db ==3){
+	//console.log(disch_st);
+	$('.disch_st_date').show();
+	//alert('dsdds');
+}else{
+	$('.disch_st_date').hide();
+	$('#disch_st_date').val('');
+}
 
 function check_uncheck_checkbox(isChecked) {
 	if(isChecked) {

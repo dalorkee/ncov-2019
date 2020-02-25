@@ -767,12 +767,26 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="disch_st">สถานะการรักษา</label>
-										<select name="disch_st" class="form-control  show-tick">
+										<select name="disch_st" id="disch_st" class="form-control  show-tick">
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['disch_st'] as $key => $val)
 											<option value="{{ $key }}" {{ old('disch_st') == $key ? 'selected' : ''}}>{{ $val }}</option>
 											@endforeach
 										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row disch_st_date">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+									<div class="form-group">
+										<label for="disch_st_date">วันที่(สถานะการรักษา)</label>
+											<input type="text" id="disch_st_date" name="disch_st_date" value="{{ old('disch_st_date') }}" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -863,7 +877,7 @@ $(document).ready(function() {
 
 	$('.selectpicker').selectpicker();
 	/* date of birth */
-	$('#datepicker1,#datepicker2,#datepicker3,.datepicker,#notify_date,#isolate_date').datepicker({
+	$('#datepicker1,#datepicker2,#datepicker3,.datepicker,#notify_date,#isolate_date,#disch_st_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
@@ -1010,6 +1024,18 @@ $(document).ready(function() {
 		}
 	});
 
+	$('.disch_st_date').hide();
+	$('#disch_st').change(function() {
+		var disch_st = $('#disch_st').val();
+		if(disch_st==1 || disch_st==3){
+		  //console.log(disch_st);
+			$('.disch_st_date').show();
+			//alert('dsdds');
+		}else{
+			$('.disch_st_date').hide();
+			$('#disch_st_date').val('');
+		}
+	});
 
 
 });
