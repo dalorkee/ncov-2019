@@ -1,7 +1,7 @@
 <!-- ============================================================== -->
 <!-- All Jquery -->
 <!-- ============================================================== -->
-<script src="{{ URL::asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/jquery_/dist/jquery.min.js') }}"></script>
 <!-- Bootstrap tether Core JavaScript -->
 <script src="{{ URL::asset('assets/libs/popper.js/dist/umd/popper.min.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/bootstrap/dist/js/bootstrap.min.js') }}"></script>
