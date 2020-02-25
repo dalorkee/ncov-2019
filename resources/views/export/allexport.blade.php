@@ -217,7 +217,7 @@ input.valid, textarea.valid{
 							{{-- {{ (isset($arr_occupation[$value->occupation])) ? $arr_occupation[$value->occupation] : "" }} --}}
 							{{-- {{ (isset($value->occupation)) ? $value->occupation : ""}} --}}
 							<td>
-									{{ (isset($arr_occupation[$value->occupation])) ? $arr_occupation[$value->occupation] : "" }}
+									{{ (isset($list_occupation[$value->occupation])) ? $list_occupation[$value->occupation] : "" }}
 							 {{(!empty($value->occupation_oth)) ? $value->occupation_oth : ""}}
 							</td>
 							<td>{{ (!empty($value->travel_from)) ? $value->travel_from : ""  }}</td>
