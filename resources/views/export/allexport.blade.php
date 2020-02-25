@@ -175,6 +175,7 @@ input.valid, textarea.valid{
 								<th>Chest : CXR</th>
 								<th>Rapid test</th>
 								<th>วินิจฉัยเบื้องต้น</th>
+								<th>วินิจฉัยสุดท้าย</th>
 								<th>หน่วยงานที่จะส่งหนังสือ</th>
 								<th>เลขหนังสือ</th>
 								<th>แจ้งบำราศ เพื่อ</th>
@@ -245,6 +246,7 @@ input.valid, textarea.valid{
 							<td>{{ (!empty($value->xray_result)) ? $value->xray_result : ""  }}</td>
 							<td>{{ (!empty($value->rapid_test_result)) ? $value->rapid_test_result : ""  }}</td>
 							<td>{{ (!empty($value->first_diag)) ? $value->first_diag : ""  }}</td>
+							<td>{{ (!empty($value->last_diag)) ? $value->last_diag : ""  }}</td>
 							<td>{{ (!empty($value->letter_division_code)) ? $value->letter_division_code : ""  }}</td>
 							<td>{{ (!empty($value->letter_code)) ? $value->letter_code : ""  }}</td>
 							<td>
