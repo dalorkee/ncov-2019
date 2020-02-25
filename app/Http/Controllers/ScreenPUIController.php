@@ -50,7 +50,7 @@ class ScreenPUIController extends MasterController
       $airportlists = AirportLists::all()->toArray();
       $arr = parent::getStatus();
       //return view('screen-pui.create',
-      return view('screen-pui.create200263',
+      return view('screen-pui.create240263',
         [
           'titleName' => $titleName,
           'provinces' => $provinces,
@@ -164,6 +164,7 @@ class ScreenPUIController extends MasterController
           "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : NULL,
           "risk2_6history_hospital_input" => (!empty($request->risk2_6history_hospital_input)) ? trim($request->risk2_6history_hospital_input) : NULL,
           "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
+          "isolate_date" => (!empty($request->isolate_date)) ? trim($this->Convert_Date($request->isolate_date)) : NULL,
           "community_name" => (!empty($request->community_name)) ? trim($request->community_name) : NULL,
           "risk_stay_outbreak_arrive_date" => (!empty($request->risk2_6arrive_date)) ? trim($this->Convert_Date($request->risk2_6arrive_date)) : NULL,
           "risk_stay_outbreak_airline" => (!empty($request->risk2_6airline_input)) ? trim($request->risk2_6airline_input) : NULL,
@@ -178,12 +179,17 @@ class ScreenPUIController extends MasterController
           "sym_dyspnea" => (!empty($request->sym_dyspnea)) ? trim($request->sym_dyspnea) : "n",
           "sym_breathe" => (!empty($request->sym_breathe)) ? trim($request->sym_breathe) : "n",
           "sym_stufefy" => (!empty($request->sym_stufefy)) ? trim($request->sym_stufefy) : "n",
+          "sym_dyspnea_breathe" => (!empty($request->sym_dyspnea_breathe)) ? trim($request->sym_dyspnea_breathe) : "n",
+          "sym_vomit" => (!empty($request->sym_vomit)) ? trim($request->sym_vomit) : "n",
+          "sym_diarrhoea" => (!empty($request->sym_diarrhoea)) ? trim($request->sym_diarrhoea) : "n",
+          "sym_other" => (!empty($request->sym_other)) ? trim($request->sym_other) : "n",
+          "sym_othertext" => (!empty($request->sym_othertext)) ? trim($request->sym_othertext) : NULL,
           "rr_rpm" => (!empty($request->rr_rpm)) ? trim($request->rr_rpm) : NULL,
           "xray_result" => (!empty($request->xray_result)) ? trim($request->xray_result) : NULL,
           "lab_rapid_test_result" => (!empty($request->rapid_test_result)) ? trim($request->rapid_test_result) : NULL,
           "lab_other_result" => (!empty($request->lab_test_result_other)) ? trim($request->lab_test_result_other) : NULL,
           "first_diag" => (!empty($request->first_diag)) ? trim($request->first_diag) : NULL,
-
+          "last_diag" => (!empty($request->last_diag)) ? trim($request->last_diag) : NULL,
           "sat_id" => (!empty($sat_id)) ? trim($sat_id) : NULL,
           "sat_id_temp" => (!empty($tmp)) ? trim($tmp) : NULL,
           "sat_id_class" => "Q",
@@ -263,7 +269,7 @@ class ScreenPUIController extends MasterController
         if($data==null){
           return abort(404);  //404 page
         }else{
-          return view('screen-pui.edit200263',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city','airportlists','walkinplace_hosp_name','isolated_hosp_name'));
+          return view('screen-pui.edit240263',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city','airportlists','walkinplace_hosp_name','isolated_hosp_name'));
         }
     }
 
@@ -276,11 +282,11 @@ class ScreenPUIController extends MasterController
      */
     public function update(Request $request)
     {
-
-      $check_duplicate_record = InvestList::where('sat_id', '=', $request->sat_id)->exists();
-      if($check_duplicate_record){
-        return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$request->sat_id);
-      }
+      // dd($request);
+      // $check_duplicate_record = InvestList::where('sat_id', '=', $request->sat_id)->exists();
+      // if($check_duplicate_record){
+      //   return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$request->sat_id);
+      // }
 
       if($request->pt_status!=2){
         $order_pt = NULL;
@@ -361,6 +367,7 @@ class ScreenPUIController extends MasterController
                 "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : NULL,
                 "risk2_6history_hospital_input" => (!empty($request->risk2_6history_hospital_input)) ? trim($request->risk2_6history_hospital_input) : NULL,
                 "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
+                "isolate_date" => (!empty($request->isolate_date)) ? trim($this->Convert_Date($request->isolate_date)) : NULL,
                 "risk_stay_outbreak_arrive_date" => (!empty($request->risk2_6arrive_date)) ? $this->Convert_Date($request->risk2_6arrive_date) : NULL,
                 "risk_stay_outbreak_airline" => (!empty($request->risk2_6airline_input)) ? trim($request->risk2_6airline_input) : NULL,
                 "risk_stay_outbreak_flight_no" => (!empty($request->risk2_6flight_no_input)) ? trim($request->risk2_6flight_no_input) : NULL,
@@ -374,11 +381,17 @@ class ScreenPUIController extends MasterController
                 "sym_dyspnea" => (!empty($request->sym_dyspnea)) ? trim($request->sym_dyspnea) : "n",
                 "sym_breathe" => (!empty($request->sym_breathe)) ? trim($request->sym_breathe) : "n",
                 "sym_stufefy" => (!empty($request->sym_stufefy)) ? trim($request->sym_stufefy) : "n",
+                "sym_dyspnea_breathe" => (!empty($request->sym_dyspnea_breathe)) ? trim($request->sym_dyspnea_breathe) : "n",
+                "sym_vomit" => (!empty($request->sym_vomit)) ? trim($request->sym_vomit) : "n",
+                "sym_diarrhoea" => (!empty($request->sym_diarrhoea)) ? trim($request->sym_diarrhoea) : "n",
+                "sym_other" => (!empty($request->sym_other)) ? trim($request->sym_other) : "n",
+                "sym_othertext" => (!empty($request->sym_othertext)) ? trim($request->sym_othertext) : NULL,
                 "rr_rpm" => (!empty($request->rr_rpm)) ? trim($request->rr_rpm) : NULL,
                 "xray_result" => (!empty($request->xray_result)) ? trim($request->xray_result) : NULL,
                 "lab_rapid_test_result" => (!empty($request->rapid_test_result)) ? trim($request->rapid_test_result) : NULL,
                 "lab_other_result" => (!empty($request->lab_test_result_other)) ? trim($request->lab_test_result_other) : NULL,
                 "first_diag" => (!empty($request->first_diag)) ? trim($request->first_diag) : NULL,
+                "last_diag" => (!empty($request->last_diag)) ? trim($request->last_diag) : NULL,
                 "sat_id" => (!empty($request->sat_id)) ? trim($request->sat_id) : NULL,
                 "letter_division_code" => (!empty($request->letter_division_code)) ? trim($request->letter_division_code) : NULL,
                 "letter_code" => (!empty($request->letter_code)) ? trim($request->letter_code) : NULL,
