@@ -77,4 +77,16 @@
 	<script src="{{ URL::asset('assets/libs/datatables-1.10.18/Responsive-2.2.2/js/dataTables.responsive.min.js') }}"></script>
 	<script src="{{ URL::asset('vendor/datatables/buttons.server-side.js') }}"></script>
 	{{ $dataTable->scripts() }}
+	<script>
+	$(document).ready(function () {
+		alert('k');
+	    //$('#dialog').dialog();
+	    $('.testja').on('click', function (event) {
+			event.preventDefault();
+			//alert($(this).attr('value'));
+	        $('#chstatus').modal('show');
+	        return false;
+	    });
+	});
+	</script>
 @endsection

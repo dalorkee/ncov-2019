@@ -8,6 +8,7 @@ use App\DataTables\ListInvestDataTable;
 class ListInvestController extends Controller
 {
 	public function index(ListInvestDataTable $dataTable) {
-		return $dataTable->render('list-data.invest');
+		$test = ['a'=>'aa'];
+		return $dataTable->render('list-data.invest', compact('test'));
 	}
 }

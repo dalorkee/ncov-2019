@@ -68,8 +68,8 @@ class ListInvestDataTable extends DataTable
 				return $nt_rs;
 			})
 			->addColumn('action',
-				'<button type="button" class="btn btn-success btn-sm margin-5 text-white" data-toggle="modal" title="Change status" data-target="#chstatus">ST</button>
-				<a href="#" class="btn btn-warning btn-sm">Edit</a>')
+				'<button class="btn btn-success btn-sm margin-5 text-white" data-toggle="modal" title="Change status" data-target="#chstatus">ST</button>
+				 <button class="btn btn-warning btn-sm testja" value="{{ $id }}" id="invest_idx{{ $id }}">Edit</button>')
 			->rawColumns(['pt_status', 'disch_st', 'action', 'action1']);
 	}
 
