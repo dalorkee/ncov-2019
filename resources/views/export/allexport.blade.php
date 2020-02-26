@@ -147,6 +147,7 @@ input.valid, textarea.valid{
 								<th>เที่ยวบิน</th>
 								<th>จำนวนผู้ร่วมเดินทาง</th>
 								<th>เพศ</th>
+								<th>อายุ</th>
 								<th>สัญชาติ</th>
 								<th>อาชีพ</th>
 								<th>โรคประจำตัว</th>
@@ -184,6 +185,7 @@ input.valid, textarea.valid{
 								<th>PUI TYPE</th>
 								<th>การแถลงข่าว</th>
 								<th>สถานะการรักษา</th>
+								<th>วันที่(สถานะการรักษา)</th>
 								<th>เบอร์ติดต่อผู้รับแจ้ง</th>
 								<th>ชื่อผู้แจ้งข้อมูล</th>
 								<th>หน่วยงาน</th>
@@ -212,6 +214,7 @@ input.valid, textarea.valid{
 							<td>{{ (!empty($value->risk_stay_outbreak_flight_no)) ? $value->risk_stay_outbreak_flight_no : ""  }}</td>
 							<td>{{ (!empty($value->total_travel_in_group)) ? $value->total_travel_in_group : ""  }}</td>
 							<td>{{ (!empty($value->sex)) ? $value->sex : "" }}</td>
+							<td>{{ (!empty($value->age)) ? $value->age : "" }}</td>
 							<td>{{ (isset($nation_list[$value->nation])) ? $nation_list[$value->nation] : "" }}</td>
 							<td>
 									{{ (isset($list_occupation[$value->occupation])) ? $list_occupation[$value->occupation] : "" }}
@@ -261,6 +264,7 @@ input.valid, textarea.valid{
 							<td>{{ (isset($arr['pui_type'][$value->pui_type])) ? $arr['pui_type'][$value->pui_type] : "" }}</td>
 							<td>{{ (isset($arr['news_st'][$value->news_st])) ? $arr['news_st'][$value->news_st] : "" }}</td>
 							<td>{{ (isset($arr['disch_st'][$value->disch_st])) ? $arr['disch_st'][$value->disch_st] : "" }}</td>
+							<td>{{ 	(!empty($value->disch_st_date)) ? $value->disch_st_date : ""  }}</td>
 							<td>{{ 	(!empty($value->coordinator_tel)) ? $value->coordinator_tel : ""  }}</td>
 							<td>{{ 	(!empty($value->send_information)) ? $value->send_information : ""  }}</td>
 							<td>{{ 	(!empty($value->send_information_div)) ? $value->send_information_div : ""  }}</td>
