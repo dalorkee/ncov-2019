@@ -114,7 +114,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
 												<label for="houseNo" class="text-danger">PUI Code(Manual)</label>
-												<input type="text" name="sat_id" id="sat_id_manual" maxlength="11" placeholder="SATID/CASECODE" class="form-control is-invalid" value="{{ old('sat_id') }}">
+												<input type="text" name="sat_id" id="sat_id_manual" maxlength="12" placeholder="SATID/CASECODE" class="form-control is-invalid" value="{{ old('sat_id') }}">
 											</div>
 										</div>
 									</div>
