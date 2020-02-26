@@ -435,7 +435,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-9 col-xl-9">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 					<div class="form-group">
 						<label for="lab">สถานที่ส่งตรวจ</label>
 						<div class="input-group">
@@ -443,12 +443,22 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-9 col-xl-9">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 					<div class="form-group">
 						<label for="lab">ผลการตรวจ</label>
 						<div class="input-group">
 							<input type="text" name="labOtherResult" value="{{ $invest_pt[0]['lab_other_result'] }}" class="form-control">
 						</div>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li class="card-body border-top">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+				<div class="form-group">
+					<label for="message">Short note</label>
+					<div class="input-group">
+						<textarea name="invest_note" class="form-control">{{ $invest_pt[0]['invest_note'] }}</textarea>
 					</div>
 				</div>
 			</div>

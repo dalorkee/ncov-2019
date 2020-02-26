@@ -378,6 +378,7 @@ class ConfirmFormController extends Controller
 		$pt->lab_other_date = $this->convertDateToMySQL($request->labOtherDate);
 		$pt->lab_other_place = $request->labOtherPlace;
 		$pt->lab_other_result = $request->labOtherResult;
+		$pt->invest_note = $request->invest_note;
 
 		$pt->fever_history = $request->fever_history;
 		$pt->fever_current = $request->fever;
