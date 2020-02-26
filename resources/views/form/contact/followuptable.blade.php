@@ -129,7 +129,7 @@ input.valid, textarea.valid{
             <tr>
 
 							<td>
-								{{ $value->contact_id_day }}
+								{{ $value->followup_times }}
 							</td>
 							<td>
 								{{ $value->contact_id }}

@@ -46,9 +46,6 @@
 						{{-- <div class="col-sm-3">
 						<input type="hidden" name="contact_id" value="{{$contact_id}}" class="form-control">
 						</div> --}}
-						<div class="col-sm-3">
-						<input type="hidden" name="contact_id_day" value="{{$followup_date}}" class="form-control">
-						</div>
 						<div class="form-group row">
 									<div class="col-sm-3">
 									<input type="hidden" name="user_id" value="{{$entry_user}}"  class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
@@ -56,6 +53,10 @@
 						</div>
 						</div>
             <div class="form-group row">
+						<div class="col-sm-3">
+							<label for="date_no">ครั้งที่ติดตามอาการ</label>
+							<input type="number" name="followup_times" id="followup_times" class="form-control" value="1" min="1" max="14" placeholder="ครั้งที่ติดตามอาการ" autocomplete="off" required>
+						</div>
             <div class="col-sm-3">
 						<label for="date_no">วันที่ติดตามอาการ</label>
             <input type="text" name="date_no" id="date_no" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off">

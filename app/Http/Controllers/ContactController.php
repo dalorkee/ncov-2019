@@ -82,18 +82,18 @@ class ContactController extends MasterController
   {
 		$arr = parent::getStatus();
 		$sat_id=$req->sat_id;
-		$patian_date=DB::table('tbl_followup')->where('patianid', \DB::raw("(select max(`contact_id_day`) from tbl_followup)"))->get();
+		$patian_date=DB::table('tbl_followup')->where('patianid')->get();
 		$patian_data=DB::table('invest_pt')->select('*')->where('sat_id', [$req->sat_id] )->get();
 		$contact_data=DB::table('tbl_contact')->select('*')->where('sat_id', $sat_id)->get();
-		$fucontact_data=DB::table('tbl_followup')->select('*')->where('contact_id', $req->contact_id)->get();
+		$fucontact_data=DB::table('tbl_followup')->select('*')->where('patianid', $req->id)->get();
 		$id=$req->id;
 		$typid=$req->typid;
-		$contact_id_day=$req->contact_id_day;
+		$followup_times=$req->followup_times;
 		$arr_division_follow_contact = $this->arr_division_follow_contact();
     return view('form.contact.followuptable',compact(
 			'sat_id',
 			// 'poe_id',
-			'contact_id_day',
+			'followup_times',
 			'id',
 			'typid',
 			'fucontact_data',
@@ -310,7 +310,7 @@ if(auth()->user()->id==Auth::user()->id){
   {
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
-		$followup_date=DB::table('tbl_followup')->where('contact_id', $req->contact_id)->max('contact_id_day');
+		$followup_date=DB::table('tbl_followup')->select('*')->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$sat_id=DB::table('tbl_contact')->select('pui_id','sat_id')->where('contact_id', $req->contact_id )->get();
 		$id=$req->id;
@@ -496,7 +496,7 @@ $pui_id = $req ->input ('pui_id');
 $patianid = $req ->input ('patianid');
 $typid = $req ->input ('typid');
 $contact_id = $req ->input ('contact_id');
-$contact_id_day= $req ->input ('contact_id_day');
+$followup_times= $req ->input ('followup_times');
 $date_no = $this->convertDateToMySQL($req ->input ('date_no'));
 $clinical = $req ->input ('clinical');
 $fever = $req ->input ('fever');
@@ -527,7 +527,7 @@ $data = array(
 	'patianid'=>$patianid,
 	'typid'=>$typid,
 	'contact_id'=>$contact_id,
-	'contact_id_day'=>$contact_id_day + '1',
+	'followup_times'=>$followup_times,
 	'followup_address'=>$followup_address,
 	'date_no'=>$date_no,
 	'clinical'=>$clinical,
@@ -583,11 +583,13 @@ $res1	= DB::table('tbl_followup')->insert($data);
 // 	$res3	= DB::table('tbl_followup_hsc')->insert($data_hsc);
 // }
 if ($res1){
-
-	return redirect()->route('contactfollowtable',[$contact_id])->with('message','Insert Success : '.$pui_id);
-}else{
-	return redirect()->route('contactfollowtable',[$contact_id])->with('message','ERROR : '.$pui_id);
+	if ($typid = "1") {
+	return redirect()->route('puifollowtable')->with('message','Insert Success : '.$pui_id);
 	}
+	if ($typid = "2") {
+	return redirect()->route('contactfollowtable')->with('message','Insert Success : '.$pui_id);
+	}
+}
 }
 
 
