@@ -631,7 +631,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 									<div class="form-group">
 										<label for="houseNo">PUI Code</label>
-										<input type="text" name="sat_id" value="{{ trim($data->sat_id) }}"  class="form-control">
+										<input type="text" name="sat_id" value="{{ trim($data->sat_id) }}" maxlength="12" placeholder="SATID/CASECODE"  class="form-control">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
