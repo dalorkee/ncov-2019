@@ -106,7 +106,7 @@ input.valid, textarea.valid{
 						</div>
 					</div>
 					<div class="col-md-12">
-						<a class="btn btn-cyan" href="/{{ 'followup'}}/typid/{{$typid}}/id/{{ $id }}">
+						<a class="btn btn-cyan" href="{{ route('followup',[$id,$typid]) }}">
 						{{-- <a class="btn btn-cyan" href="{{ route('followupcontact',$contact_id)}}"> --}}
 							+	เพิ่มการติดตามผู้สัมผัส
 						</a>
