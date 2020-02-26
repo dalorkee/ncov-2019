@@ -67,8 +67,10 @@ class ListInvestDataTable extends DataTable
 				}
 				return $nt_rs;
 			})
-			->editColumn('action', '<a href="#" class="btn btn-danger btn-sm">view</a>')
-			->rawColumns(['pt_status', 'disch_st', 'action']);
+			->addColumn('action',
+				'<button type="button" class="btn btn-success btn-sm margin-5 text-white" data-toggle="modal" title="Change status" data-target="#chstatus">ST</button>
+				<a href="#" class="btn btn-warning btn-sm">Edit</a>')
+			->rawColumns(['pt_status', 'disch_st', 'action', 'action1']);
 	}
 
 	/**

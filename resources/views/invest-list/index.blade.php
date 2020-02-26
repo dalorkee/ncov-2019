@@ -137,7 +137,7 @@ input.valid, textarea.valid{
 				</div>
 			</form>
 		</div>
-	</div><!-- end confirmation delte -->
+	</div><!-- end confirmation delete -->
 	@if ($invest)
 		@foreach ($invest as $key => $value)
 			<!-- Modal change status-->
