@@ -138,10 +138,10 @@ input.valid, textarea.valid{
 											FUCON
 									</a>
 									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}
-										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="{{ 'detailcontact'}}/pui_id/{{ $value->sat_id }}">
+										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="{{ 'detailcontact'}}/contact_id/{{ $value->contact_id }}">
 										Info
 								</a>
-								<a class="btn btn-warning btn-sm" href="{{'editcontact'}}/pui_id/{{ $value->sat_id }}">
+								<a class="btn btn-warning btn-sm" href="{{'editcontact'}}/contact_id/{{ $value->contact_id }}">
 									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#"> --}}
 										Edit
 								</a>

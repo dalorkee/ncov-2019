@@ -59,7 +59,7 @@
 						</div>
             <div class="col-sm-3">
 						<label for="date_no">วันที่ติดตามอาการ</label>
-            <input type="text" name="date_no" id="date_no" class="form-control" placeholder="วันที่ติดตามอาการ" autocomplete="off">
+            <input type="text" name="date_no" id="date_no" class="form-control" value="<?php echo date("d/m/Y"); ?>" placeholder="วันที่ติดตามอาการ" autocomplete="off" readonly>
             </div>
             </div>
 						<div class="form-group row">

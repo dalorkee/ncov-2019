@@ -136,17 +136,20 @@ input.valid, textarea.valid{
 										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}
 								</td>
 								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
-									<td>
-										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" href="{{ route('contactfollowtable',$value->contact_id)}}">
-												FUC
-										</a>
-										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" href="{{ route('detailcontact',$value->contact_id)}}">
-											Info
+								<td>
+									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="/{{ 'followuptable'}}/typid/2/id/{{ $value->contact_id }}">
+											FUCON
 									</a>
-									<a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" href="{{ route('editcontact',$value->contact_id)}}">
-											Edit
-									</a>
-									</td>
+									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}
+										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="/{{ 'detailcontact'}}/contact_id/{{ $value->contact_id }}">
+										Info
+								</a>
+								<a class="btn btn-warning btn-sm" href="/{{'editcontact'}}/contact_id/{{ $value->contact_id }}">
+									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#"> --}}
+										Edit
+								</a>
+								</td>
 							</tr>
 							<?php endforeach;?>
 						</tbody>
