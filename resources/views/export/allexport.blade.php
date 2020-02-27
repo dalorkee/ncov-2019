@@ -134,6 +134,7 @@ input.valid, textarea.valid{
           <table id="example" class="table-striped row-border" style="width:100%  font-size: 9px;">
         <thead>
             <tr>
+							<th>Order ID</th>
 								<th>SAT ID</th>
 								<th>วันที่ได้รับแจ้ง</th>
 								<th>สถานที่ที่คัดกรอง</th>
@@ -195,6 +196,7 @@ input.valid, textarea.valid{
         <tbody>
 					@foreach($data as $value)
 						<tr>
+							<td>{{ (!empty($value->id)) ? $value->id : ""  }}</td>
 							<td>{{ (!empty($value->sat_id)) ? $value->sat_id : ""  }}</td>
 							<td>{{ (!empty($value->notify_date)) ? ($value->notify_date) : date('Y-m-d')}}</td>
 							<td>
