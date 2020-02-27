@@ -18,6 +18,7 @@ class ExportExcelController extends MasterController
     $data=DB::table('invest_pt')
             ->select('*')
             ->where('notify_date', $datenow)
+            ->whereNull('deleted_at')
             ->get();
     return view('export.export_excel',compact(
       'data',
@@ -43,6 +44,7 @@ class ExportExcelController extends MasterController
     $data=DB::table('invest_pt')
             ->select('*')
             ->where('notify_date', $datenow)
+            ->whereNull('deleted_at')
             ->get();
     return view('export.allexport',compact(
       'data',
@@ -71,6 +73,7 @@ class ExportExcelController extends MasterController
                       ->select('*')
                       ->whereDate('notify_date','>=',$notify_date)
                       ->whereDate('notify_date', '<=',$notify_date_end)
+                      ->whereNull('deleted_at')
                       ->get();
                       return view('export.export_excel',compact(
                         'data',
@@ -98,6 +101,7 @@ class ExportExcelController extends MasterController
                      ->select('*')
                      ->whereDate('notify_date','>=',$notify_date)
                      ->whereDate('notify_date', '<=',$notify_date_end)
+                     ->whereNull('deleted_at')
                      ->get();
 
                   //dd($data);
