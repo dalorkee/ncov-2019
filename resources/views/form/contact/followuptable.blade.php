@@ -106,7 +106,7 @@ input.valid, textarea.valid{
 						</div>
 					</div>
 					<div class="col-md-12">
-						<a class="btn btn-cyan" href="{{ route('followup',[$id,$typid]) }}">
+						<a class="btn btn-cyan" href="{{ route('followup',[$typid,$id]) }}">
 						{{-- <a class="btn btn-cyan" href="{{ route('followupcontact',$contact_id)}}"> --}}
 							+	เพิ่มการติดตามผู้สัมผัส
 						</a>
@@ -186,4 +186,11 @@ $(document).ready(function() {
     $('#example').DataTable();
 } );
 </script>
+<script>
+    var msg = '{{Session::get('alert')}}';
+    var exist = '{{Session::has('alert')}}';
+    if(exist){
+      alert(msg);
+    }
+  </script>
 @endsection

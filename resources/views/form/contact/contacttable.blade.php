@@ -176,4 +176,11 @@ $(document).ready(function() {
     $('#example').DataTable();
 			} );
 </script>
+<script>
+    var msg = '{{Session::get('alert')}}';
+    var exist = '{{Session::has('alert')}}';
+    if(exist){
+      alert(msg);
+    }
+  </script>
 @endsection

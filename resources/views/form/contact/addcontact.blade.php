@@ -410,6 +410,12 @@ $('#followup_address').change(function(){
    $("#followup_address_hos").prop("readonly", !$(this).is(':checked'));
 });
 </script>
-
+<script>
+    var msg = '{{Session::get('alert')}}';
+    var exist = '{{Session::has('alert')}}';
+    if(exist){
+      alert(msg);
+    }
+  </script>
 
 @endsection

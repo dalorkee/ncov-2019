@@ -348,9 +348,9 @@ if(auth()->user()->id==Auth::user()->id){
 		 $contact_id_temp = "";
 	 }
 
-	// $update_pt = DB::table('invest_pt')
-	// 						->where('id', $req ->input ('pui_id'))
-	// 						->update(['cont' => "y"]);
+	$update_pt = DB::table('invest_pt')
+							->where('id', $req ->input ('pui_id'))
+							->update(['cont' => "y"]);
 	// if ($update_pt)
 	{
 	// $contactid=uniqid();
@@ -479,10 +479,11 @@ if(auth()->user()->id==Auth::user()->id){
     // exit;
     // $res3	= DB::table('tbl_contact_hsc')->insert($data_hsc);
 // }
+
   if ($res1){
-		return redirect()->route('contactfollowtable',[$contact_id])->with('message','Insert Success : '.$pui_id);
+		return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 	}else{
-		return redirect()->route('contactfollowtable',[$contact_id])->with('message','ERROR : '.$pui_id);
+		return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
 		}
 }
 }
@@ -583,11 +584,11 @@ $res1	= DB::table('tbl_followup')->insert($data);
 // 	$res3	= DB::table('tbl_followup_hsc')->insert($data_hsc);
 // }
 if ($res1){
-	if ($typid = "1") {
-	return redirect()->route('puifollowtable')->with('message','Insert Success : '.$pui_id);
+	if ($typid = 1) {
+		return redirect()->route('followuptable',[$typid,$patianid])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 	}
-	if ($typid = "2") {
-	return redirect()->route('contactfollowtable')->with('message','Insert Success : '.$pui_id);
+	if ($typid = 2) {
+			return redirect()->route('followuptable',[$typid,$patianid])->with('alert', 'เพิ่มเข้าข้อมูลสำเร็จ');
 	}
 }
 }
@@ -732,9 +733,9 @@ if ($delete1)
 // }
  if ($res1){
 
-	 return redirect()->route('contacttable',[$pui_id])->with('message','Insert Success : '.$pui_id);
+	 return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 	}else{
-	 return redirect()->route('contacttable',[$pui_id])->with('message','ERROR : '.$pui_id);
+	 return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
 	 }
 }
 }

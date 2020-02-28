@@ -167,26 +167,11 @@ $(document).ready(function() {
     $('#example').DataTable();
 			} );
 </script>
-{{-- <script>
-
-document.getElementById("btnPrint").onclick = function () {
-    printElement(document.getElementById("printThis"));
-}
-
-function printElement(elem) {
-    var domClone = elem.cloneNode(true);
-
-    var $printSection = document.getElementById("printSection");
-
-    if (!$printSection) {
-        var $printSection = document.createElement("div");
-        $printSection.id = "printSection";
-        document.body.appendChild($printSection);
+<script>
+    var msg = '{{Session::get('alert')}}';
+    var exist = '{{Session::has('alert')}}';
+    if(exist){
+      alert(msg);
     }
-
-    $printSection.innerHTML = "";
-    $printSection.appendChild(domClone);
-    window.print();
-}
-</script> --}}
+  </script>
 @endsection
