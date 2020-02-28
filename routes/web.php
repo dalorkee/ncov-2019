@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('chConfirmStatus', 'ConfirmFormController@changeStatus')->name('chConfirmStatus');
+Route::post('chConfirmStatusServerSide', 'ConfirmFormController@changeStatusSeverSide')->name('chConfirmStatusServerSide');
 Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
 
 Route::get('/screen-pui', array(
@@ -115,4 +116,5 @@ Route::group(['middleware' => 'under-construction'], function () {
 Route::get('/test', 'TestController@store')->name('test');
 
 /* list-data => datatable */
-Route::get('/list-invest', 'ListInvestController@index')->name('list-data.invest');
+Route::get('/invest/list', 'ListInvestController@index')->name('list-data.invest');
+Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');

@@ -34,11 +34,16 @@ class ListInvestDataTable extends DataTable
 		}
 		return datatables()
 			->eloquent($query)
+			->filterColumn('xst', function($query, $keyword) {
+				$sql = '(CASE WHEN pt_status = "1" THEN "ok" ELSE "nok" END) AS xst';
+				$query->whereRaw($sql);
+			})
+
 			->editColumn('pt_status', function($pts) use ($master_status) {
 				if (!isset($pts->pt_status) || empty($pts->pt_status)) {
-					$pts_rs = "-";
+					$pts_rs = "<span class=\"text-danger\">-</span>";
 				} else {
-					$pts_rs = $master_status['pt_status'][$pts->pt_status];
+					$pts_rs = "<span class=\"text-danger\">".$master_status['pt_status'][$pts->pt_status]."</span>";
 				}
 				return $pts_rs;
 			})
@@ -68,9 +73,12 @@ class ListInvestDataTable extends DataTable
 				return $nt_rs;
 			})
 			->addColumn('action',
-				'<button class="btn btn-success btn-sm margin-5 text-white" data-toggle="modal" title="Change status" data-target="#chstatus">ST</button>
-				 <button class="btn btn-warning btn-sm testja" value="{{ $id }}" id="invest_idx{{ $id }}">Edit</button>')
-			->rawColumns(['pt_status', 'disch_st', 'action', 'action1']);
+				'<button class="btn btn-info btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">ST</button>
+				 <a href="{{ route("confirmForm", $id) }}" title="Invest form" class="btn btn-custom-1 btn-sm">Edit</a>
+				 <a href="{{ route("contacttable", $id) }}" title="Contact" class="btn btn-cyan btn-sm">CON</a>
+				 <a href="{{ route("live-site") }}" data-toggle="tooltip" data-placement="top" title="Laboratory" class="btn btn-secondary btn-sm">LAB</a>
+				')
+			->rawColumns(['pt_status', 'disch_st', 'action']);
 	}
 
 	/**
@@ -80,7 +88,16 @@ class ListInvestDataTable extends DataTable
 	* @return \Illuminate\Database\Eloquent\Builder
 	*/
 	public function query(InvestList $model) {
-		return $model->newQuery()->whereNull('deleted_at')->orderBy('id');
+	return $model->newQuery('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation')
+			->whereNull('deleted_at')->orderBy('id');
+	/*
+	$invest = InvestList::select('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation',
+			\DB::raw('(CASE
+				WHEN pt_status = "1" THEN "ok"
+				ELSE "nok"
+				END) AS xst'))->whereNull('deleted_at')->orderBy('id');
+		return $invest;
+		*/
 		/*
 		return $model->newQuery()
 			->leftJoin('ref_pt_status', 'ref_pt_status.pts_id', '=', 'invest_pt.pt_status')
@@ -101,8 +118,13 @@ class ListInvestDataTable extends DataTable
 			->columns($this->getColumns())
 			->minifiedAjax()
 			->dom('Bfrtip')
-			->orderBy(1)
+			->orderBy(0)
 			->responsive(true)
+			->parameters(
+				[ "language"=>[
+						"url" => "/assets/libs/datatables-1.10.20/i18n/thai.json"
+					]
+				])
 			->buttons(
 				/* Button::make('create'), */
 				Button::make('export'),
@@ -120,17 +142,18 @@ class ListInvestDataTable extends DataTable
 	*/
 	protected function getColumns() {
 		return [
-			Column::make('id'),
+			Column::make('id')->title('ID'),
 			Column::make('sat_id')->title('SatID'),
 			Column::make('pt_status')->title('Status'),
 			Column::make('news_st')->title('News'),
 			Column::make('disch_st')->title('Discharge'),
-			Column::make('sex'),
-			Column::make('nation'),
+			Column::make('sex')->title('Sex'),
+			Column::make('nation')->title('Nations'),
 			Column::computed('action')
-				->exportable(false)
+				->exportable(true)
 				->printable(false)
-				->addClass('text-left'),
+				->addClass('text-right')
+				->title('#'),
 			];
 	}
 
