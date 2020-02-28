@@ -18,7 +18,10 @@ class ContactController extends MasterController
 		$contact_data=
 									DB::table('tbl_contact')
 												->join('users','tbl_contact.user_id','=','users.id')
-												->select('tbl_contact.*','users.id','users.prefix_sat_id')
+												->select('tbl_contact.*',
+																  DB::raw('tbl_contact.id as conid'),
+																  'users.id',
+																	'users.prefix_sat_id')
 												->where('users.prefix_sat_id',Auth::user()->prefix_sat_id)
 												->get();
 		$nation_list = $this->arrnation();
@@ -118,9 +121,9 @@ class ContactController extends MasterController
 																 'invest_pt.age',
 																 'invest_pt.nation',
 																 'invest_pt.race',
+																 DB::raw('invest_pt.id as puiid'),
 																 'users.prefix_sat_id')
 												->where('users.prefix_sat_id',Auth::user()->prefix_sat_id)
-												->where('invest_pt.pt_status',"2")
 												->get();
 		$nation_list = $this->arrnation();
 		$arr_occu = $this->arroccu();
@@ -147,7 +150,7 @@ if(auth()->user()->id==Auth::user()->id){
 	$contact_data=
 	DB::table('tbl_contact')
 				->join('users','tbl_contact.user_id','=','users.id')
-				->select('tbl_contact.*','users.id','users.prefix_sat_id')
+				->select('tbl_contact.*', DB::raw('tbl_contact.id as conid'),'users.id','users.prefix_sat_id',)
 				->where('users.prefix_sat_id',Auth::user()->prefix_sat_id)
 				->get();
 	$nation_list = $this->arrnation();

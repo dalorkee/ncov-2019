@@ -122,7 +122,7 @@ input.valid, textarea.valid{
         <tbody>
 					<?php foreach($pui_data as $value) : ?>
             <tr>
-								<td>{{ $value->id }}</td>
+								<td>{{ $value->puiid }}</td>
                 <td>{{ $value->sat_id }}</td>
 								<td>{{ $value->sex }}</td>
                 <td>{{ $value->age }}</td>
