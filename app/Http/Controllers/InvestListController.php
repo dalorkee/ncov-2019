@@ -70,7 +70,7 @@ class InvestListController extends MasterController
 		foreach ($query_globalcountry as $value) {
 			$globalcountry[$value->country_id] = $value->country_name;
 		}
-		$invest = InvestList::whereNull('deleted_at')->get()->toArray();
+		$invest = InvestList::select('id','sat_id','order_pt','pt_status','news_st','disch_st','sex','nation')->whereNull('deleted_at')->get()->toArray();
 
 		return view('invest-list.sat',
 				[
