@@ -118,3 +118,8 @@ Route::get('/test', 'TestController@store')->name('test');
 /* list-data => datatable */
 Route::get('/invest/list', 'ListInvestController@index')->name('list-data.invest');
 Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
+/* Role & Permission Manage */
+Route::prefix('acl')->group(function () {
+	Route::resource('roles', 'RoleController');
+	Route::resource('permissions', 'PermissionController');
+});
