@@ -188,6 +188,9 @@ return [
 		Yajra\DataTables\FractalServiceProvider::class,
 		Yajra\DataTables\ButtonsServiceProvider::class,
 
+		/* Snappy PDF */
+		Barryvdh\Snappy\ServiceProvider::class,
+
     ],
 
     /*
@@ -241,6 +244,8 @@ return [
 		'Captcha' => Mews\Captcha\Facades\Captcha::class,
 		'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
 		'Datatables' => Yajra\Datatables\Facades\Datatables::class,
-    ],
+		'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+		'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+	],
 
 ];
