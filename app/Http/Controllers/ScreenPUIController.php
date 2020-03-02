@@ -141,7 +141,7 @@ class ScreenPUIController extends MasterController
           "occupation_oth" => (!empty($request->occupation_oth)) ? trim($request->occupation_oth) : NULL,
           "travel_from_country" => (!empty($request->travel_from_country)) ? trim($request->travel_from_country) : NULL,
           "travel_from_city" => (!empty($request->travel_from_city)) ? trim($request->travel_from_city) : NULL,
-          "contact_sat_id" => (!empty($request->travel_from_city)) ? trim($request->travel_from_city) : NULL,
+          "contact_sat_id" => (!empty($request->contact_sat_id)) ? trim($request->contact_sat_id) : NULL,
           "data3_3chk" => (!empty($request->data3_3chk)) ? trim($request->data3_3chk) : "n",
           "data3_3chk_lung" => (!empty($request->data3_3chk_lung)) ? trim($request->data3_3chk_lung) : "n",
           "data3_3chk_heart" => (!empty($request->data3_3chk_heart)) ? trim($request->data3_3chk_heart) : "n",
@@ -306,6 +306,7 @@ class ScreenPUIController extends MasterController
         $walkinplace_hosp_province = NULL;
         $walkinplace_hosp_code =  NULL;
         $community_name = (!empty($request->community_name)) ? trim($request->community_name) : NULL;
+        $contact_sat_id = NULL;
       }elseif($request->screen_pt==3){
         $airports_code = NULL;
         $community_name = NULL;
@@ -317,11 +318,13 @@ class ScreenPUIController extends MasterController
         $community_name = NULL;
         $walkinplace_hosp_province = (!empty($request->walkinplace_hosp_province)) ? trim($request->walkinplace_hosp_province) : NULL;
         $walkinplace_hosp_code = (!empty($request->walkinplace_hosp_code)) ? trim($request->walkinplace_hosp_code) : NULL;
+        $contact_sat_id = NULL;
       }elseif($request->screen_pt==1){
         $airports_code = (!empty($request->airports_code)) ? trim($request->airports_code) : NULL;
         $walkinplace_hosp_province = NULL;
         $walkinplace_hosp_code =  NULL;
         $community_name = NULL;
+        $contact_sat_id = NULL;
       }
 
       //dd($request->pt_status);
