@@ -141,7 +141,7 @@ class ScreenPUIController extends MasterController
           "occupation_oth" => (!empty($request->occupation_oth)) ? trim($request->occupation_oth) : NULL,
           "travel_from_country" => (!empty($request->travel_from_country)) ? trim($request->travel_from_country) : NULL,
           "travel_from_city" => (!empty($request->travel_from_city)) ? trim($request->travel_from_city) : NULL,
-
+          "contact_sat_id" => (!empty($request->travel_from_city)) ? trim($request->travel_from_city) : NULL,
           "data3_3chk" => (!empty($request->data3_3chk)) ? trim($request->data3_3chk) : "n",
           "data3_3chk_lung" => (!empty($request->data3_3chk_lung)) ? trim($request->data3_3chk_lung) : "n",
           "data3_3chk_heart" => (!empty($request->data3_3chk_heart)) ? trim($request->data3_3chk_heart) : "n",
@@ -301,11 +301,17 @@ class ScreenPUIController extends MasterController
         // }
       }
 
-      if($request->screen_pt==3){
+      if($request->screen_pt==99){
         $airports_code = NULL;
         $walkinplace_hosp_province = NULL;
         $walkinplace_hosp_code =  NULL;
         $community_name = (!empty($request->community_name)) ? trim($request->community_name) : NULL;
+      }elseif($request->screen_pt==3){
+        $airports_code = NULL;
+        $community_name = NULL;
+        $walkinplace_hosp_province = (!empty($request->walkinplace_hosp_province)) ? trim($request->walkinplace_hosp_province) : NULL;
+        $walkinplace_hosp_code = (!empty($request->walkinplace_hosp_code)) ? trim($request->walkinplace_hosp_code) : NULL;
+        $contact_sat_id = (!empty($request->contact_sat_id)) ? trim($request->contact_sat_id) : NULL;
       }elseif($request->screen_pt==2){
         $airports_code = NULL;
         $community_name = NULL;
@@ -332,6 +338,7 @@ class ScreenPUIController extends MasterController
                 "walkinplace_hosp_province" => $walkinplace_hosp_province,
                 "walkinplace_hosp_code" => $walkinplace_hosp_code,
                 "community_name" => $community_name,
+                "contact_sat_id" => $contact_sat_id,
                 "isolated_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
                 "isolated_hosp_code" => (!empty($request->isolated_hosp_code)) ? trim($request->isolated_hosp_code) : NULL,
                 "title_name" => (!empty($request->title_name)) ? trim($request->title_name) : NULL,
@@ -344,7 +351,6 @@ class ScreenPUIController extends MasterController
                 "race" => (!empty($request->race)) ? trim($request->race) : NULL,
                 "occupation" => (!empty($request->occupation)) ? trim($request->occupation) : NULL,
                 "occupation_oth" => (!empty($request->occupation_oth)) ? trim($request->occupation_oth) : NULL,
-                //"travel_from" => (!empty($request->travel_from)) ? trim($request->travel_from) : NULL,
                 "travel_from_country" => (!empty($request->travel_from_country)) ? trim($request->travel_from_country) : NULL,
                 "travel_from_city" => (!empty($request->travel_from_city)) ? trim($request->travel_from_city) : NULL,
                 "data3_3chk" => (!empty($request->data3_3chk)) ? trim($request->data3_3chk) : "n",
@@ -363,7 +369,6 @@ class ScreenPUIController extends MasterController
                 "data3_3chk_cancer_name" => (!empty($request->data3_3chk_cancer_name)) ? trim($request->data3_3chk_cancer_name) : NULL,
                 "data3_3chk_other" => (!empty($request->data3_3chk_other)) ? trim($request->data3_3chk_other) : "n",
                 "data3_3input_other" => (!empty($request->data3_3input_other)) ? trim($request->data3_3input_other) : NULL,
-                //"walkinplace_hosp" => (!empty($request->walkinplace_hosp)) ? trim($request->walkinplace_hosp) : NULL,
                 "negative_pressure" => (!empty($request->negative_pressure)) ? trim($request->negative_pressure) : NULL,
                 "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : NULL,
                 "risk2_6history_hospital_input" => (!empty($request->risk2_6history_hospital_input)) ? trim($request->risk2_6history_hospital_input) : NULL,

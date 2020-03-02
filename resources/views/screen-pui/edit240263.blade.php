@@ -104,8 +104,12 @@ input:read-only {
                                         </div>
 																				<div class="custom-control custom-radio">
 																					 <input type="radio" class="custom-control-input is-invalid" @if($data->screen_pt==3) checked @endif id="customControlValidation_rd3" value="3" name="screen_pt" required="">
-																					 <label class="custom-control-label" for="customControlValidation_rd3">อื่นๆ</label>
+																					 <label class="custom-control-label" for="customControlValidation_rd3">ผู้สัมผัสของผู้ป่วยยืนยัน</label>
 																			 </div>
+																			 <div class="custom-control custom-radio">
+																					<input type="radio" class="custom-control-input is-invalid" @if($data->screen_pt==99) checked @endif id="customControlValidation_rd4" value="99" name="screen_pt" required="">
+																					<label class="custom-control-label" for="customControlValidation_rd4">อื่นๆ</label>
+																			</div>
                                     </div>
                   </div>
 
@@ -143,6 +147,14 @@ input:read-only {
 											</div>
 										</div>
 										<div class="form-group screen_type3">
+											<div class="row">
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+													<label for="dowork">SATID ของผู้ป่วยยืนยัน</label>
+														<input type="text" name="contact_sat_id" maxlength="12" class="form-control" id="contact_sat_id" value="{{ $data->contact_sat_id }}" placeholder="SATID ของผู้ป่วยยืนยัน">
+												</div>
+											</div>
+										</div>
+										<div class="form-group screen_type4">
 											<div class="row">
 												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 													<label for="dowork">อื่นๆ(ชื่อสถานที่)</label>
@@ -933,38 +945,62 @@ $(document).ready(function() {
 		$('.screen_type1').show();
 		$('.screen_type2').hide();
 		$('.screen_type3').hide();
+		$('.screen_type4').hide();
 	}else if(screen_pt_from_db==2){
 		$('.screen_type2').show();
 		$('.screen_type1').hide();
 		$('.screen_type3').hide();
-	}else{
+		$('.screen_type4').hide();
+	}else if(screen_pt_from_db==3){
 		$('.screen_type3').show();
 		$('.screen_type2').hide();
 		$('.screen_type1').hide();
+		$('.screen_type4').hide();
+	}else{
+		$('.screen_type4').show();
+		$('.screen_type2').hide();
+		$('.screen_type1').hide();
+		$('.screen_type3').hide();
 	}
 
 	$("#customControlValidation_rd1").click(function(){
 			$('.screen_type1').show();
 			$('.screen_type2').hide();
 			$('.screen_type3').hide();
+			$('.screen_type4').hide();
 			$('#walkinplace_hosp_province').val(null).trigger('change');
 			$('#walkinplace_hosp_code').val(null).trigger('change');
 			$('#community_name').val('');
+			$('#contact_sat_id').val('');
 	});
 	$("#customControlValidation_rd2").click(function(){
 			$('.screen_type2').show();
 			$('.screen_type1').hide();
 			$('.screen_type3').hide();
+			$('.screen_type4').hide();
 			$('#airports_code').val(null).trigger('change');
 			$('#community_name').val('');
+			$('#contact_sat_id').val('');
 	});
 	$("#customControlValidation_rd3").click(function(){
 			$('.screen_type3').show();
 			$('.screen_type1').hide();
 			$('.screen_type2').hide();
+			$('.screen_type4').hide();
 			$('#airports_code').val(null).trigger('change');
 			$('#walkinplace_hosp_province').val(null).trigger('change');
 			$('#walkinplace_hosp_code').val(null).trigger('change');
+			$('#community_name').val('');
+	});
+	$("#customControlValidation_rd4").click(function(){
+			$('.screen_type4').show();
+			$('.screen_type1').hide();
+			$('.screen_type2').hide();
+			$('.screen_type3').hide();
+			$('#airports_code').val(null).trigger('change');
+			$('#walkinplace_hosp_province').val(null).trigger('change');
+			$('#walkinplace_hosp_code').val(null).trigger('change');
+			$('#contact_sat_id').val('');
 	});
 
 	$('#walkinplace_hosp_province').change(function() {
