@@ -39,7 +39,13 @@
 					</ul>
 				</li>
 				@role('admin')
-				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('users.index') }}" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Users</span></a></li>
+				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-lock"></i><span class="hide-menu">ACL </span></a>
+					<ul aria-expanded="false" class="collapse  first-level">
+						<li class="sidebar-item"><a href="{{ route('users.index') }}" class="sidebar-link"><i class="mdi mdi-account-multiple"></i><span class="hide-menu"> List Users</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('roles.index') }}" class="sidebar-link"><i class="mdi mdi-account-settings-variant"></i><span class="hide-menu"> Role List</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('permissions.index') }}" class="sidebar-link"><i class="mdi mdi-account-key"></i><span class="hide-menu"> Permission List</span></a></li>
+					</ul>
+				</li>
 				@endrole
 			</ul>
 		</nav>
