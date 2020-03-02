@@ -40,7 +40,7 @@ class ListInvestController extends Controller
 
 		return "
 		<div class=\"modal-header\">
-			<h5 class=\"modal-title\" id=\"statusModalLabel".$pst['id']."\">ID: ".$pst['id']."</h5>
+			<h5 class=\"modal-title\" id=\"statusModalLabel".$pst['id']."\">CH STATUS ID: ".$pst['id']."</h5>
 			<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
 				<span aria-hidden=\"true\">&times;</span>
 			</button>
@@ -49,7 +49,7 @@ class ListInvestController extends Controller
 			<div class=\"form-row\">
 				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
 					<div class=\"form-group\">
-						<label for=\"patient\">Patient</label>
+						<label for=\"patient\">Status</label>
 						<input type=\"hidden\" name=\"id\" value=\"".$pst['id']."\">
 						<select name=\"pt_status\" class=\"form-control\" id=\"pt_status".$pst['id']."\">
 							<option value=\"".$pst['pt_status']."\" selected=\"selected\">".$pt_status."</option>

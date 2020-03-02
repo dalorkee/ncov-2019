@@ -10,15 +10,53 @@ use Yajra\DataTables\Html\Editor\Editor;
 use App\Http\Controllers\MasterController;
 use App\GlobalCountry;
 use Session;
+use DB;
+use Barryvdh\DomPDF\PDF;
 
 class ListInvestDataTable extends DataTable
 {
-
-	public function status() {
+	private function status() {
 		$master = new MasterController;
 		$status = $master->getStatus();
 		return $status;
 	}
+
+	private function casePtStatus() {
+		$status = $this->status();
+		$str = "";
+		foreach ($status['pt_status'] as $key => $value) {
+			$str .= "WHEN pt_status = \"".$key."\" THEN \"".$value."\" ";
+		}
+		return $str;
+	}
+
+	private function caseNewsSt() {
+		$status = $this->status();
+		$str = "";
+		foreach ($status['news_st'] as $key => $value) {
+			$str .= "WHEN news_st = \"".$key."\" THEN \"".$value."\" ";
+		}
+		return $str;
+	}
+
+	private function caseDischSt() {
+		$status = $this->status();
+		$str = "";
+		foreach ($status['disch_st'] as $key => $value) {
+			$str .= "WHEN disch_st = \"".$key."\" THEN \"".$value."\" ";
+		}
+		return $str;
+	}
+
+	private function caseNation() {
+		$query_globalcountry = GlobalCountry::all()->toArray();
+		$str = "";
+		foreach ($query_globalcountry as $key => $value) {
+			$str .= "WHEN nation = \"".$value['country_id']."\" THEN \"".$value['country_name']."\" ";
+		}
+		return $str;
+	}
+
 	/**
 	* Build DataTable class.
 	*
@@ -27,25 +65,68 @@ class ListInvestDataTable extends DataTable
 	*/
 
 	public function dataTable($query) {
-		$master_status = $this->status();
-		$query_globalcountry = GlobalCountry::all();
-		foreach ($query_globalcountry as $value) {
-			$globalcountry[$value->country_id] = $value->country_name;
-		}
+		$pts = $this->casePtStatus();
+		$ns = $this->caseNewsSt();
+		$dcs = $this->caseDischSt();
+		$nation = $this->caseNation();
+
 		return datatables()
 			->eloquent($query)
-			->filterColumn('xst', function($query, $keyword) {
-				$sql = '(CASE WHEN pt_status = "1" THEN "ok" ELSE "nok" END) AS xst';
-				$query->whereRaw($sql);
+			->filterColumn('pt_status', function($query, $keyword) use ($pts) {
+				$query->whereRaw('(CASE '.$pts.' ELSE "-" END) like ?', ["%{$keyword}%"]);
+			})
+			->filterColumn('news_st', function($query, $keyword) use ($ns) {
+				$query->whereRaw('(CASE '.$ns.' ELSE "-" END) like ?', ["%{$keyword}%"]);
+			})
+			->filterColumn('disch_st', function($query, $keyword) use ($dcs) {
+				$query->whereRaw('(CASE '.$dcs.' ELSE "-" END) like ?', ["%{$keyword}%"]);
+			})
+			->filterColumn('nation', function($query, $keyword) use ($nation) {
+				$query->whereRaw('(CASE '.$nation.' ELSE "-" END) like ?', ["%{$keyword}%"]);
 			})
 
-			->editColumn('pt_status', function($pts) use ($master_status) {
+			->editColumn('pt_status', function($pts) {
 				if (!isset($pts->pt_status) || empty($pts->pt_status)) {
-					$pts_rs = "<span class=\"text-danger\">-</span>";
+					$pts_rs = "-";
 				} else {
-					$pts_rs = "<span class=\"text-danger\">".$master_status['pt_status'][$pts->pt_status]."</span>";
+					switch (mb_strtolower($pts->pt_status)) {
+						case "pui" :
+							$pts_rs = "<span class=\"text-color-custom-6\">".$pts->pt_status."</span>";
+							break;
+						case "confirmed" :
+							$pts_rs = "<span class=\"text-color-custom-5\">".$pts->pt_status."</span>";
+							break;
+						case "probable" :
+							$pts_rs = "<span class=\"text-danger\">".$pts->pt_status."</span>";
+							break;
+						case "suspected" :
+							$pts_rs = "<span class=\"text-color-custom-4\">".$pts->pt_status."</span>";
+							break;
+						case "excluded" :
+							$pts_rs = "<span class=\"text-success\">".$pts->pt_status."</span>";
+							break;
+						default :
+							$pts_rs = $pts->pt_status;
+							break;
+					}
 				}
 				return $pts_rs;
+			})
+			/*
+			->editColumn('news_st', function($ns) {
+				if (!isset($ns->news_st) || empty($ns->news_st)) {
+					$ns_rs = "-";
+				} else {
+					switch (mb_strtolower($ns->news_st)) {
+						case "confirmed publish" :
+							$ns_rs = "<span class=\"text-success\">".$ns->news_st."</span>";
+							break;
+						default :
+							$ns_rs = "<span class=\"text-color-custom-6\">".$ns->news_st."</span>";
+							break;
+					}
+				}
+				return $ns_rs;
 			})
 			->editColumn('disch_st', function($dcs) use ($master_status) {
 				if (!isset($dcs->disch_st) || empty($dcs->disch_st)) {
@@ -54,15 +135,6 @@ class ListInvestDataTable extends DataTable
 					$dcs_rs = $master_status['disch_st'][$dcs->disch_st];
 				}
 				return $dcs_rs;
-				//return '<span class="text-danger">'.$dcs->dcs_name_en.'</span>';
-			})
-			->editColumn('news_st', function($ns) use ($master_status) {
-				if (!isset($ns->news_st) || empty($ns->news_st)) {
-					$ns_rs = "-";
-				} else {
-					$ns_rs = $master_status['news_st'][$ns->news_st];
-				}
-				return $ns_rs;
 			})
 			->editColumn('nation', function($nt) use ($globalcountry) {
 				if (!isset($nt->nation) || empty($nt->nation)) {
@@ -71,14 +143,15 @@ class ListInvestDataTable extends DataTable
 					$nt_rs = $globalcountry[$nt->nation];
 				}
 				return $nt_rs;
-			})
+			}) */
+
 			->addColumn('action',
 				'<button class="btn btn-info btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">ST</button>
 				 <a href="{{ route("confirmForm", $id) }}" title="Invest form" class="btn btn-custom-1 btn-sm">Edit</a>
 				 <a href="{{ route("contacttable", $id) }}" title="Contact" class="btn btn-cyan btn-sm">CON</a>
 				 <a href="{{ route("live-site") }}" data-toggle="tooltip" data-placement="top" title="Laboratory" class="btn btn-secondary btn-sm">LAB</a>
 				')
-			->rawColumns(['pt_status', 'disch_st', 'action']);
+			->rawColumns(['pt_status', 'action']);
 	}
 
 	/**
@@ -88,10 +161,30 @@ class ListInvestDataTable extends DataTable
 	* @return \Illuminate\Database\Eloquent\Builder
 	*/
 	public function query(InvestList $model) {
-	return $model->newQuery('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation')
+		$pts = $this->casePtStatus();
+		$ns = $this->caseNewsSt();
+		$dcs = $this->caseDischSt();
+		$nation = $this->caseNation();
+
+		$invest = InvestList::select(
+			'id',
+			'sat_id',
+			\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+			\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+			\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+			'sex',
+			\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'))
 			->whereNull('deleted_at')->orderBy('id');
-	/*
-	$invest = InvestList::select('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation',
+
+		return $invest;
+
+		/*
+		return $model->newQuery('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation')
+			->whereNull('deleted_at')->orderBy('id');
+		*/
+
+		/*
+		$invest = InvestList::select('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation',
 			\DB::raw('(CASE
 				WHEN pt_status = "1" THEN "ok"
 				ELSE "nok"
@@ -124,7 +217,9 @@ class ListInvestDataTable extends DataTable
 				[ "language"=>[
 						"url" => "/assets/libs/datatables-1.10.20/i18n/thai.json"
 					]
-				])
+				]
+			)
+			->lengthMenu([20])
 			->buttons(
 				/* Button::make('create'), */
 				Button::make('export'),
