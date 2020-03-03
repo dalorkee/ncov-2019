@@ -21,7 +21,7 @@ class HomeController extends Controller
 	{
 		$roleArr = auth()->user()->getRoleNames();
 		if(isset($roleArr)){
-			Session::put('user_role', $roleArr[0]);
+			//Session::put('user_role', $roleArr[0]);
 			Session::put('user_role', '');
 		}else{
 			Session::put('user_role', '');
