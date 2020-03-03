@@ -3,11 +3,11 @@
 <div class="page-breadcrumb bg-light">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title"><span style="display:none;">Edit user</span></h4>
+			<h4 class="page-title"><span style="display:none;">Edit Permission</span></h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="{{ route('users.index') }}">User</a></li>
+						<li class="breadcrumb-item"><a href="{{ route('permissions.index') }}">Permission</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Edit</li>
 					</ol>
 				</nav>
@@ -37,52 +37,15 @@
 								</ul>
 							</div>
 						@endif
-						{!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
+						{!! Form::model($permission, ['method' => 'PATCH','route' => ['permissions.update', $permission->id]]) !!}
 						<div class="row">
 							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 								<div class="form-group">
-									<label for"name">คำนำหน้าชื่อ</label>
-									{!! Form::text('title_name', null, array('placeholder' => 'Title name','class' => 'form-control')) !!}
+									<label for"name">ชื่อสิทธิ์</label>
+									{!! Form::text('name', null, array('placeholder' => 'ชื่อสิทธิ์','class' => 'form-control')) !!}
 								</div>
 							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-								<div class="form-group">
-									<label for"name">ชื่อ</label>
-									{!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-								<div class="form-group">
-									<label for"lastname">นามสกุล</label>
-									{!! Form::text('lname', null, array('placeholder' => 'Lastname','class' => 'form-control')) !!}
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-								<div class="form-group">
-									<label for="email">Email:</label>
-									{!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-								<div class="form-group">
-									<label for="pwd">Password:</label>
-									{!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-								<div class="form-group">
-									<label for="confirmpwd">Confirm Password:</label>
-									{!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-12">
-								<div class="form-group">
-									<label for="role">Role:</label>
-									{!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control')) !!}
-								</div>
-							</div>
+
 							<div class="col-xs-12 col-sm-12 col-md-12">
 								<button type="submit" class="btn btn-primary">Save</button>
 							</div>

@@ -38,7 +38,7 @@ class MasterController extends Controller
 				1 => 'New PUI',
 				2 => 'Contact PUI',
 				3 => 'PUO',
-				4 => 'Confirmed nCoV-2019',
+				//4 => 'Confirmed nCoV-2019',
 			],
 			'screen_pt' => [
 				1 => 'คัดกรองที่สนามบิน',

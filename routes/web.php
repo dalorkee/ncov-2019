@@ -68,10 +68,10 @@ Route::post('province/district', 'ConfirmFormController@districtFetch')->name('d
 Route::post('province/district/sub-district', 'ConfirmFormController@subDistrictFetch')->name('subDistrictFetch');
 
 /* Auth */
-Route::group(['middleware' => ['auth']], function() {
-	Route::resource('roles', 'RoleController');
-	Route::resource('users', 'UserController');
-});
+// Route::group(['middleware' => ['auth']], function() {
+// 	Route::resource('roles', 'RoleController');
+// 	Route::resource('users', 'UserController');
+// });
 
 
 /* Contact */
@@ -120,6 +120,9 @@ Route::get('/invest/list', 'ListInvestController@index')->name('list-data.invest
 Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
 /* Role & Permission Manage */
 Route::prefix('acl')->group(function () {
-	Route::resource('roles', 'RoleController');
-	Route::resource('permissions', 'PermissionController');
+	Route::group(['middleware' => ['auth']], function() {
+		Route::resource('roles', 'RoleController');
+		Route::resource('permissions', 'PermissionController');
+		Route::resource('users', 'UserController');
+	});
 });

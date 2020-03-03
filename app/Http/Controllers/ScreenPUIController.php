@@ -105,7 +105,7 @@ class ScreenPUIController extends MasterController
       }
 
       $order_pt = (!empty($request->order_pt)) ? trim($request->order_pt) : NULL;
-
+      $type_nature = (!empty($request->type_nature)) ? trim($request->type_nature) : NULL;
       // if(!is_null($order_pt)){
       //   $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
       //   if($check_duplicate_record_order_pt){
@@ -116,7 +116,6 @@ class ScreenPUIController extends MasterController
 
       $check_duplicate_record = InvestList::where('sat_id', '=', $request->sat_id)->exists();
       if($check_duplicate_record){
-        //return redirect()->route('screenpui.create')->with('message','Duplicate SATID: '.$sat_id);
         return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$sat_id);
       }
 
@@ -158,7 +157,6 @@ class ScreenPUIController extends MasterController
           "data3_3chk_cancer_name" => (!empty($request->data3_3chk_cancer_name)) ? trim($request->data3_3chk_cancer_name) : NULL,
           "data3_3chk_other" => (!empty($request->data3_3chk_other)) ? trim($request->data3_3chk_other) : "n",
           "data3_3input_other" => (!empty($request->data3_3input_other)) ? trim($request->data3_3input_other) : NULL,
-
           "walkinplace_hosp" => (!empty($request->walkinplace_hosp)) ? trim($request->walkinplace_hosp) : NULL,
           "negative_pressure" => (!empty($request->negative_pressure)) ? trim($request->negative_pressure) : NULL,
           "refer_car" => (!empty($request->refer_car)) ? trim($request->refer_car) : NULL,
@@ -204,6 +202,7 @@ class ScreenPUIController extends MasterController
           "op_dpc" => (!empty($request->op_dpc)) ? trim($request->op_dpc) : NULL,
           "pt_status" => (!empty($request->pt_status)) ? trim($request->pt_status) : "1",
           "order_pt" => $order_pt,
+          "type_nature" => $type_nature,
           "pui_type" => (!empty($request->pui_type)) ? trim($request->pui_type) : NULL,
           "news_st" => (!empty($request->news_st)) ? trim($request->news_st) : NULL,
           "disch_st" => (!empty($request->disch_st)) ? trim($request->disch_st) : NULL,
@@ -213,7 +212,6 @@ class ScreenPUIController extends MasterController
           "send_information_div" => (!empty($request->send_information_div)) ? trim($request->send_information_div) : NULL,
           "receive_information" => (!empty($request->receive_information)) ? trim($request->receive_information) : NULL,
           "entry_user" => (!empty($request->entry_user)) ? trim($request->entry_user) : NULL,
-          //"created_at" => date('Y-m-d H:i:s'),
           "created_at" => Carbon::now(),
           "sat" => "y",
         ];
@@ -284,15 +282,13 @@ class ScreenPUIController extends MasterController
     public function update(Request $request)
     {
       // dd($request);
-      // $check_duplicate_record = InvestList::where('sat_id', '=', $request->sat_id)->exists();
-      // if($check_duplicate_record){
-      //   return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$request->sat_id);
-      // }
-
+      
       if($request->pt_status!=2){
         $order_pt = NULL;
+        $type_nature = NULL;
       }else{
         $order_pt = (!empty($request->order_pt)) ? trim($request->order_pt) : NULL;
+        $type_nature = (!empty($request->type_nature)) ? trim($request->type_nature) : NULL;
         // if(!is_null($order_pt)){
         //   $check_duplicate_record_order_pt = InvestList::where('order_pt', '=', $request->order_pt)->exists();
         //   if($check_duplicate_record_order_pt){
@@ -326,11 +322,6 @@ class ScreenPUIController extends MasterController
         $community_name = NULL;
         $contact_sat_id = NULL;
       }
-
-      //dd($request->pt_status);
-
-
-
 
       $update = InvestList::where('id', $request->id)
               ->update([
@@ -413,6 +404,7 @@ class ScreenPUIController extends MasterController
                 "op_dpc" => (!empty($request->op_dpc)) ? trim($request->op_dpc) : NULL,
                 "pt_status" => trim($request->pt_status),
                 "order_pt" => $order_pt,
+                "type_nature" => $type_nature,
                 "pui_type" => (!empty($request->pui_type)) ? trim($request->pui_type) : NULL,
                 "news_st" => (!empty($request->news_st)) ? trim($request->news_st) : NULL,
                 "disch_st" => (!empty($request->disch_st)) ? trim($request->disch_st) : NULL,

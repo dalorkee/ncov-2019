@@ -45,17 +45,27 @@
 									{!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
 								</div>
 							</div>
-							<div class="col-xs-12 col-sm-12 col-md-12">
-								<div class="form-group">
-									<strong>Permission:</strong>
-									<br/>
-									@foreach($permission as $value)
-										<label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-										{{ $value->name }}</label>
-										<br/>
-									@endforeach
+
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+									<div class="form-group">
+										<label>Permission:</label>
+											<div class="custom-control custom-checkbox">
+												<input class="custom-control-input" name="select_all" value="all" type="checkbox" id="selectAll">
+												<label class="custom-control-label" for="selectAll">All</label>
+												<br />
+											</div>
+
+												@foreach($permission as $value)
+												<div class="custom-control custom-checkbox">
+												<input class="custom-control-input" name="permission[]" value="{{ $value->id }}" type="checkbox" id="checkbox{{ $value->id }}" <?php if(!empty($rolePermissions[$value->id])){ echo ' checked ';} ?>>
+												<label class="custom-control-label" for="checkbox{{ $value->id }}">{{ ucfirst($value->name) }}</label>
+												<br />
+												</div>
+												@endforeach
+
+									</div>
 								</div>
-							</div>
+
 							<div class="col-xs-12 col-sm-12 col-md-12">
 								<button type="submit" class="btn btn-primary">Submit</button>
 							</div>
@@ -67,4 +77,13 @@
 		</div>
 	</div>
 </div>
+@endsection
+@section('bottom-script')
+<script>
+$(document).ready(function() {
+	$("#selectAll").click(function(){
+				$("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+	});
+});
+</script>
 @endsection

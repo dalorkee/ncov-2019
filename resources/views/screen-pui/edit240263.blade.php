@@ -794,6 +794,18 @@ input:read-only {
 									</div>
 								</div>
 							</div>
+							<div class="row type_nature">
+								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+									<div class="form-group">
+										<label for="subDistrict">ผู้ป่วยมาจาก</label>
+										<select name="type_nature" id="type_nature" class="form-control  show-tick">
+											<option value="">-- โปรดเลือก --</option>
+											<option value="1" <?php if($data->order_pt){ echo "";} ?>>Local</option>
+											<option value="2">Import</option>
+										</select>
+									</div>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 								 <h1 class="text-info">6. ข้อมูลผู้บันทึกข้อมูล</h1>
@@ -922,8 +934,10 @@ $(document).ready(function() {
 	var pt_status_from_db = <?php if(isset($data->pt_status)) { echo $data->pt_status; } ?>;
 	if(pt_status_from_db==2){
 		$('.confirm_order').show();
+		$('.type_nature').show();
 	}else{
 		$('.confirm_order').hide();
+		$('.type_nature').hide();
 	}
 
 	//$('.confirm_order').hide();
@@ -933,10 +947,14 @@ $(document).ready(function() {
 	 if(pt_status==2){
 		 $('.confirm_order').show();
 		 $("#order_pt").prop('required',true);
+		 $('.type_nature').show();
+		 $("#type_nature").prop('required',true);
 	 }else{
 		 $('.confirm_order').hide();
 		 $("#order_pt").prop('required',false);
 		 $("#order_pt").val('');
+		 $('.type_nature').hide();
+		 $("#type_nature").prop('required',false);
 	 }
 	});
 
