@@ -20,8 +20,8 @@ class HomeController extends Controller
 	public function index()
 	{
 		$roleArr = auth()->user()->getRoleNames();
-		if($roleArr){
-			Session::put('user_role', $roleArr[0]);
+		if(isset($roleArr)){
+			Session::put('user_role', 'admin@talek');
 		}else{
 			Session::put('user_role', '-');
 		}
