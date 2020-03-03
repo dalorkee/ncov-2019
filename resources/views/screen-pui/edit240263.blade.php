@@ -800,8 +800,8 @@ input:read-only {
 										<label for="subDistrict">ผู้ป่วยมาจาก</label>
 										<select name="type_nature" id="type_nature" class="form-control  show-tick">
 											<option value="">-- โปรดเลือก --</option>
-											<option value="1" <?php if($data->order_pt){ echo "";} ?>>Local</option>
-											<option value="2">Import</option>
+											<option value="1" <?php if($data->type_nature==1){ echo "selected";} ?>>Local</option>
+											<option value="2" <?php if($data->type_nature==2){ echo "selected";} ?>>Import</option>
 										</select>
 									</div>
 								</div>
