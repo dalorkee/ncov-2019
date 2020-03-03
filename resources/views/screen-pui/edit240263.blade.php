@@ -84,7 +84,7 @@ input:read-only {
 									<div class="form-group row">
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่ได้รับแจ้ง</label>
-											<input type="text" name="notify_date" id="notify_date" value="{{ $notify_date }}" class="form-control" required="">
+											<input type="text" name="notify_date" id="notify_date" value="{{ $notify_date }}" class="form-control" required="" readonly>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 mb-2">
 											<label for="workPhone">เวลาได้รับแจ้ง</label>
@@ -184,7 +184,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
 											<div class="form-group">
 												<label for="houseNo">วันที่ Isolated</label>
-												<input type="text" id="isolate_date" name="isolate_date" value="{{ $isolate_date }}" class="form-control">
+												<input type="text" id="isolate_date" name="isolate_date" value="{{ $isolate_date }}" class="form-control" readonly>
 											</div>
 										</div>
 									</div>
@@ -219,7 +219,7 @@ input:read-only {
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่มาถึงไทย</label>
-											<input type="text" name="risk2_6arrive_date" value="@if($risk2_6arrive_date) {{ $risk2_6arrive_date }} @endif" id="datepicker1" class="form-control">
+											<input type="text" name="risk2_6arrive_date" value="@if($risk2_6arrive_date) {{ $risk2_6arrive_date }} @endif" id="datepicker1" class="form-control" readonly>
 										</div>
 									</div>
 									<div class="row">
@@ -510,7 +510,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
 												<label for="houseNo">วันที่เริ่มป่วย</label>
-												<input type="text" id="datepicker2" value="@if($data3_1date_sickdate) {{ $data3_1date_sickdate }} @endif" name="data3_1date_sickdate" class="form-control">
+												<input type="text" id="datepicker2" value="@if($data3_1date_sickdate) {{ $data3_1date_sickdate }} @endif" name="data3_1date_sickdate" class="form-control" readonly>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-1 col-xl-1 mb-3">
@@ -697,7 +697,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="lane">วันที่</label>
-										<input type="text" id="datepicker3" name="lab_send_date" value="@if($lab_send_date) {{ $lab_send_date }} @endif" class="form-control">
+										<input type="text" id="datepicker3" name="lab_send_date" value="@if($lab_send_date) {{ $lab_send_date }} @endif" class="form-control" readonly>
 									</div>
 								</div>
 
@@ -782,7 +782,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="disch_st_date">วันที่(สถานะการรักษา)</label>
-											<input type="text" id="disch_st_date" name="disch_st_date" value="@if($disch_st_date) {{ $disch_st_date }} @endif" class="form-control">
+											<input type="text" id="disch_st_date" name="disch_st_date" value="@if($disch_st_date) {{ $disch_st_date }} @endif" class="form-control" readonly>
 									</div>
 								</div>
 							</div>

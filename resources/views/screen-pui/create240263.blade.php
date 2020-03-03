@@ -121,7 +121,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 									<div class="form-group row">
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone" class="text-danger">วันที่ได้รับแจ้ง</label>
-											<input type="text" name="notify_date" id="notify_date" value="{{ old('notify_date') }}" class="form-control is-invalid" required="">
+											<input type="text" name="notify_date" id="notify_date" value="{{ old('notify_date') }}" class="form-control is-invalid" required="" readonly>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 mb-2">
 											<label for="workPhone">เวลาได้รับแจ้ง</label>
@@ -218,7 +218,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
 											<div class="form-group">
 												<label for="houseNo">วันที่ Isolated</label>
-												<input type="text" id="isolate_date" name="isolate_date" value="{{ old('isolate_date') }}" class="form-control">
+												<input type="text" id="isolate_date" name="isolate_date" value="{{ old('isolate_date') }}" class="form-control" readonly>
 											</div>
 										</div>
 									</div>
@@ -248,7 +248,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่มาถึงไทย</label>
-											<input type="text" name="risk2_6arrive_date" value="{{ old('risk2_6arrive_date') }}" id="datepicker1" class="form-control">
+											<input type="text" name="risk2_6arrive_date" value="{{ old('risk2_6arrive_date') }}" id="datepicker1" class="form-control" readonly>
 										</div>
 									</div>
 										<div class="row">
@@ -531,7 +531,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
 												<label for="houseNo">วันที่เริ่มป่วย</label>
-												<input type="text" id="datepicker2" name="data3_1date_sickdate" value="{{ old('data3_1date_sickdate') }}" class="form-control">
+												<input type="text" id="datepicker2" name="data3_1date_sickdate" value="{{ old('data3_1date_sickdate') }}" class="form-control" readonly>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-1 col-xl-1 mb-3">
@@ -714,7 +714,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="lane">วันที่</label>
-										<input type="text" id="datepicker3" name="lab_send_date" value="{{ old('lab_send_date') }}" class="form-control">
+										<input type="text" id="datepicker3" name="lab_send_date" value="{{ old('lab_send_date') }}" class="form-control" readonly>
 									</div>
 								</div>
 
@@ -799,7 +799,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="disch_st_date">วันที่(สถานะการรักษา)</label>
-											<input type="text" id="disch_st_date" name="disch_st_date" value="{{ old('disch_st_date') }}" class="form-control">
+											<input type="text" id="disch_st_date" name="disch_st_date" value="{{ old('disch_st_date') }}" class="form-control" readonly>
 									</div>
 								</div>
 							</div>
