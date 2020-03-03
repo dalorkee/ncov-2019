@@ -59,7 +59,7 @@ Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confir
 
 
 /*List the data */
-Route::get('/sat/list', 'InvestListController@satListData')->name('satList');
+Route::get('/satt/list', 'InvestListController@satListData')->name('satList');
 Route::resource('investList', 'InvestListController');
 
 /* fetch district, fetch sub-district */
@@ -117,6 +117,7 @@ Route::get('/test', 'TestController@store')->name('test');
 
 /* list-data => datatable */
 Route::get('/invest/list', 'ListInvestController@index')->name('list-data.invest');
+Route::get('/sat/list', 'ListSatController@index')->name('list-data.sat');
 Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
 /* Role & Permission Manage */
 Route::prefix('acl')->group(function () {
