@@ -32,13 +32,17 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-body">
-          <div class="card">
             <div class="card-header">
             <h5>แบบสอบสวน CORONAVIRUS 2019</h5>
             </div>
             <br>
+            {{-- <h3 class="text-primary">ส่วนที่ 1</h3> --}}
+          <div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
+            <div style="position:absolute;top:10px;right:10px;z-index:1">
+              {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+              <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+            </div>
             <div class="card-block">
-
             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส</h4>
             <form action="{{route('contactinsert')}}" method="post">
               			{{ csrf_field() }}
@@ -74,6 +78,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             <div class="col-sm-12 col-md-3">
               <label for="name_contact">คำนำหน้าชื่อ</label>
             <select type="text" name="title_contact" class="form-control js-select-basic-single" placeholder="คำนำหน้าชื่อ">
+              <option value="">เลือกคำนำหน้าชื่อ</option>
 							@foreach ($ref_title_name as $row)
 							<option value="{{$row->id}}">{{$row->title_name}}</option>
 							@endforeach
@@ -106,8 +111,8 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             <input type="text" name="age_contact" class="form-control" placeholder="อายุ">
             </div>
 						<div class="col-sm-4">
-              <label for="passport_contact">Passport ID</label>
-						<input type="text" name="passport_contact" class="form-control" placeholder="Passport ID">
+              <label for="passport_contact">เลขบัตรประชาชน / Passport ID</label>
+						<input type="text" name="passport_contact" class="form-control" placeholder="เลขบัตรประชาชน / Passport ID">
 						</div>
             </div>
             <div class="form-group row">
@@ -157,7 +162,193 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             <textarea rows="3" type="text" name="patient_contact" class="form-control" placeholder="การสัมผัสผู้ป่วย"></textarea>
             </div>
             </div>
+            </div>
+            </div>
+            <div class="bd-callout bd-callout-custom-2" style="margin-top:0;position:relative">
+              <div style="position:absolute;top:10px;right:10px;z-index:1">
+                {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+                <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+              </div>
+            <div class="form-group row">
+            <div class="col-sm-4">
+              <label for="type_contact">ประเภทผู้สัมผัส</label>
+            <select type="text" name="type_contact" class="form-control js-select-basic-single" placeholder="ประเภทผู้สัมผัส">
+                <option value="">ประเภทผู้สัมผัส</option>
+                  <option value="">- เลือก -</option>
+                  <option value="1">บุคลากรทางการแพทย์</option>
+                  <option value="2">ผู้สัมผัสร่วมบ้าน</option>
+                  <option value="3">ผู้ร่วมเดินทาง</option>
+                  <option value="4">พนักงานโรงแรม</option>
+                  <option value="5">คนขับแท๊กซี่/ยานพาหนะ</option>
+                  <option value="6">พนักงานสนามบิน</option>
+                  <option value="7">อื่นๆ</option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <label for="phone_contact">วันที่สัมผัสผู้ป่วยวันสุดท้าย</label>
+                        <input type="text" class="form-control" name="datecontact" data-provide="datepicker" id="datecontact"  placeholder="วันที่สัมผัสผู้ป่วยวันสุดท้าย" autocomplete="off" >
+            </div>
+            <div class="col-sm-4">
+              <label for="patient_contact">วันสิ้นสุดการติดตาม</label>
+            <input type="text" class="form-control" name="datefollow" data-provide="datepicker" id="datefollow"  placeholder="วันสิ้นสุดการติดตาม" autocomplete="off" >
+            </div>
 
+            </div>
+            <div class="form-group row">
+            <div class="col-sm-4">
+              <label for="risk_contact">ระดับความเสี่ยง</label>
+            <select type="text" name="risk_contact" class="form-control js-select-basic-single" placeholder="ระดับความเสี่ยง">
+                <option value="">ระดับความเสี่ยง</option>
+                  <option value="1">เสี่ยงสูง</option>
+                  <option value="2">เสี่ยงต่ำ</option>
+            </select>
+            </div>
+            </div>
+            <h5 class="sub-title">อาการปัจจุบันของผู้สัมผัส</h5>
+            <div class="form-group row">
+              <div class="col-sm-3">
+              <input type="radio" name="clinical"  value="y" onclick="show1();" checked> ไม่มีอาการ
+              </div>
+              <div class="col-sm-3">
+              <input type="radio" name="clinical"  value="n" onclick="show2();"> มีอาการ
+              </div>
+            </div>
+            <div id="div1" class="hide">
+            <div class="form-group row">
+            <div class="col-sm-3">
+              <label for="patient_contact">วันที่เริ่มป่วย</label>
+            <input type="text" class="form-control" name="datesymtom" data-provide="datepicker" id="datesymtom"  placeholder="วันที่เริ่มป่วย" autocomplete="off" >
+            </div>
+          </div>
+            <div class="form-group row">
+            <div class="col-sm-3">
+            <input type="checkbox" name="fever"  value="1" > ไข้
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="cough"  value="2" > ไอ
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="sore_throat"  value="3" > เจ็บคอ
+            </div>
+            </div>
+            <div class="form-group row">
+            <div class="col-sm-3">
+            <input type="checkbox" name="mucous"  value="4" > มีน้ำมูก
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="sputum"  value="5" > มีเสมหะ
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="breath_labored"  value="" > หายใจลำบาก
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="suffocate"  value="9" > หอบเหนื่อย
+            </div>
+            </div>
+            <div class="form-group row">
+            <div class="col-sm-3">
+            <input type="checkbox" name="muscle_aches"  value="7" > ปวดกล้ามเนื้อ
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="headache"  value="6" > ปวดศีรษะ
+            </div>
+            <div class="col-sm-3">
+            <input type="checkbox" name="diarrhea"  value="14" > ถ่ายเหลว
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="bd-callout bd-callout-warning" style="margin-top:0;position:relative">
+          <div style="position:absolute;top:10px;right:10px;z-index:1">
+            {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+            <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+          </div>
+            <h6 class="sub-title">เป็นผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (มีอาการเข้าได้กับนิยามและมีผลยืนยันทางห้องปฏิบัติการณ์)</h6>
+            <div class="form-group row">
+            <div class="col-sm-3">
+              <div class="col-sm-6">
+              <input type="radio" name="sat_id_class"  value="Q" checked> ไม่ใช่
+              </div>
+              <div class="col-sm-6">
+              <input type="radio" name="sat_id_class"  value="A" > ใช่
+              </div>
+            </div>
+            </div>
+            <h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>
+                                  ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6>
+            </div>
+            <div class="bd-callout bd-callout-danger" style="margin-top:0;position:relative">
+                <div style="position:absolute;top:10px;right:10px;z-index:1">
+                  {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+                  <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+                </div>
+            <div class="form-group row">
+            <div class="col-sm-3">
+              <label for="status_followup">สถานะการติดตาม</label>
+            <select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
+              <option value="">สถานะการติดตาม</option>
+                <option value="1">จบการติดตาม</option>
+                <option value="2">ยังต้องติดตาม</option>
+            </select>
+            </div>
+            </div>
+            <br>
+            <div class="form-group row">
+              <div class="col-sm-3">
+             <label for="followup_address">สถานที่ที่ติดตามผู้สัมผัส</label>
+              <select type="text"  name="followup_address" id="followup_address" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+              <option value="">สถานที่ที่ติดตามผู้สัมผัส</option>
+              <option value="1">บ้าน</option>
+              <option value="2">โรงแรม</option>
+              <option value="3">โรงพยาบาล</option>
+              <option value="4">สถานที่กักกัน</option>
+              <option value="5">อื่นๆ</option>
+              </select>
+              </div>
+            <div class="col-sm-3">
+      <label for="province_follow_contact">จังหวัดที่ติดตามผู้สัมผัส</label>
+            <select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+            <option value="">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</option>
+            @foreach ($listprovince as $row)
+            <option value="{{$row->province_id}}">{{$row->province_name}}</option>
+            @endforeach
+            </select>
+            </div>
+            <div class="col-sm-3">
+              <label for="hospcode">โรงพยาบาลที่รักษาตัว</label>
+              <select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="อำเภอ">
+                <option value="">เลือกโรงพยาบาลที่รักษาตัว</option>
+              </select>
+            </div>
+          </div>
+            <div class="form-group row">
+            <div class="col-sm-3">
+              <label for="division_follow_contact">หน่วยงานที่ติดตามผู้สัมผัส</label>
+            <select type="text" name="division_follow_contact" id="division_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+            <option value="">หน่วยงานที่ติดตามผู้สัมผัส</option>
+            <option value="99">ส่วนกลาง</option>
+            <option value="13">สปคม.</option>
+            <option value="1">สคร.1</option>
+            <option value="2">สคร.2</option>
+            <option value="3">สคร.3</option>
+            <option value="4">สคร.4</option>
+            <option value="5">สคร.5</option>
+            <option value="6">สคร.6</option>
+            <option value="7">สคร.7</option>
+            <option value="8">สคร.8</option>
+            <option value="9">สคร.9</option>
+            <option value="10">สคร.10</option>
+            <option value="11">สคร.11</option>
+            <option value="12">สคร.12</option>
+            <option value="999">อื่นๆ</option>
+            </select>
+            </div>
+            <div class="col-sm-3">
+                <label for="name_contact">หน่วยงานอื่นๆ</label>
+            <input type="text" class="form-control" name="division_follow_contact_other"   placeholder="หน่วยงานอื่นๆ" autocomplete="off" >
+            </div>
+            </div>
+          </div>
 						{{-- <div class="form-group row">
 						<div class="col-sm-12 col-md-3">
 						<button type="button" id="close" class="btn btn-s btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
@@ -231,7 +422,6 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             </div>
           </form>
 				</div>
-			</div>
 		</div>
 	</div>
 </div>
@@ -379,6 +569,12 @@ $('#datefollow').datepicker({
 	todayBtn: true,
 	autoclose: true
 });
+$('#datesymtom').datepicker({
+	format: 'dd/mm/yyyy',
+	todayHighlight: true,
+	todayBtn: true,
+	autoclose: true
+});
 $('#date_followup').datepicker({
 	format: 'dd/mm/yyyy',
 	todayHighlight: true,
@@ -395,6 +591,14 @@ $('#date_dms_date_contact').datepicker({
 	autoclose: true
 });
 
+</script>
+<script>
+function show1(){
+  document.getElementById('div1').style.display ='none';
+}
+function show2(){
+  document.getElementById('div1').style.display = 'block';
+}
 </script>
 <script>
 // In your Javascript (external .js resource or <script> tag)
