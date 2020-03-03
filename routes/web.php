@@ -116,9 +116,12 @@ Route::group(['middleware' => 'under-construction'], function () {
 Route::get('/test', 'TestController@store')->name('test');
 
 /* list-data => datatable */
-Route::get('/invest/list', 'ListInvestController@index')->name('list-data.invest');
-Route::get('/sat/list', 'ListSatController@index')->name('list-data.sat');
-Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
+Route::group(['middleware' => ['auth']], function() {
+	Route::get('/invest/list', 'ListInvestController@index')->name('list-data.invest');
+	Route::get('/sat/list', 'ListSatController@index')->name('list-data.sat');
+	Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
+});
+
 /* Role & Permission Manage */
 Route::prefix('acl')->group(function () {
 	Route::group(['middleware' => ['auth']], function() {

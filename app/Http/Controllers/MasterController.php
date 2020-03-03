@@ -12,7 +12,6 @@ class MasterController extends Controller
 	public $result;
 
 	public function __construct() {
-		$this->middleware('auth');
 		$this->result = null;
 	}
 
