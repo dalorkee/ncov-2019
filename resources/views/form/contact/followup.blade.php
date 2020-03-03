@@ -31,6 +31,11 @@
             <h5>แบบฟอร์มรายละเอียด การติดตามผู้สัมผัส</h5>
             </div>
             <br>
+						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
+							<div style="position:absolute;top:10px;right:10px;z-index:1">
+								{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+								<!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+							</div>
             <div class="card-block">
             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส</h4>
             <form action="{{route('followupinsert')}}" method="post">
@@ -62,10 +67,30 @@
             <input type="text" name="date_no" id="date_no" class="form-control" value="<?php echo date("d/m/Y"); ?>" placeholder="วันที่ติดตามอาการ" autocomplete="off" readonly>
             </div>
             </div>
+					</div>
+					</div>
+					<div class="bd-callout bd-callout-custom-2" style="margin-top:0;position:relative">
+						<div style="position:absolute;top:10px;right:10px;z-index:1">
+							{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+							<!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+						</div>
+						<h5 class="sub-title">อาการปัจจุบันของผู้สัมผัส</h5>
+						<div class="form-group row">
+							<div class="col-sm-3">
+							<input type="radio" name="clinical"  value="y" onclick="show1();" checked> ไม่มีอาการ
+							</div>
+							<div class="col-sm-3">
+							<input type="radio" name="clinical"  value="n" onclick="show2();"> มีอาการ
+							</div>
+						</div>
+						<div id="div1" class="hide">
 						<div class="form-group row">
 						<div class="col-sm-3">
-						<input type="checkbox" name="clinical"  value="1" > ไม่มีอาการ
+							<label for="patient_contact">วันที่เริ่มป่วย</label>
+						<input type="text" class="form-control" name="datesymtom" data-provide="datepicker" id="datesymtom"  placeholder="วันที่เริ่มป่วย" autocomplete="off" >
 						</div>
+					</div>
+						<div class="form-group row">
 						<div class="col-sm-3">
 						<input type="checkbox" name="fever"  value="1" > ไข้
 						</div>
@@ -84,8 +109,8 @@
 						<input type="checkbox" name="sputum"  value="5" > มีเสมหะ
 						</div>
 						<div class="col-sm-3">
-            <input type="checkbox" name="breath_labored"  value="" > หายใจลำบาก
-            </div>
+						<input type="checkbox" name="breath_labored"  value="" > หายใจลำบาก
+						</div>
 						<div class="col-sm-3">
 						<input type="checkbox" name="suffocate"  value="9" > หอบเหนื่อย
 						</div>
@@ -101,12 +126,14 @@
 						<input type="checkbox" name="diarrhea"  value="14" > ถ่ายเหลว
 						</div>
 						</div>
-            <div class="form-group row">
-            <div class="col-sm-4">
-            <textarea rows="3" name="other_symtom" type="text" class="form-control" placeholder="อาการอื่นๆ "></textarea>
-            </div>
-            </div>
-
+					</div>
+					</div>
+				</div>
+				<div class="bd-callout bd-callout-warning" style="margin-top:0;position:relative">
+					<div style="position:absolute;top:10px;right:10px;z-index:1">
+						{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+						<!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+					</div>
 						<div class="form-group row">
               <div class="col-sm-3">
 						 <label for="followup_address">สถานที่ที่ติดตามผู้สัมผัส</label>
@@ -158,11 +185,16 @@
             </select>
             </div>
             <div class="col-sm-3">
-	              <label for="name_contact">คำนำหน้าชื่อ</label>
+	              <label for="name_contact">หน่วยงานอื่นๆ</label>
             <input type="text" class="form-control" name="division_follow_contact_other"   placeholder="หน่วยงานอื่นๆ" autocomplete="off" >
             </div>
             </div>
-						<br>
+					</div>
+					<div class="bd-callout  bd-callout-danger" style="margin-top:0;position:relative">
+						<div style="position:absolute;top:10px;right:10px;z-index:1">
+							{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+							<!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+						</div>
 						<h6 class="sub-title">ผู้ป่วยมีอาการเข้าได้กับนิยามผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (PUI 2019-nCoV)</h6>
 						<div class="form-group row">
 						<div class="col-sm-3">
@@ -175,7 +207,12 @@
 						</div>
 						</div>
 						<h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6>
-						<br>
+					</div>
+					<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
+						<div style="position:absolute;top:10px;right:10px;z-index:1">
+							{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+							<!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+						</div>
 						<div class="form-group row">
 						<div class="col-sm-3">
               <label for="status_followup">สถานะการติดตาม</label>
@@ -185,25 +222,8 @@
 								<option value="2">ยังต้องติดตาม</option>
 						</select>
 						</div>
-						<div class="col-sm-3">
-              <label for="available_contact">การติดตามผู้สัมผัส</label>
-						<select type="text" name="available_contact" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
-							<option value="">การติดตามผู้สัมผัส</option>
-								<option value="1">ติดตามได้</option>
-								<option value="2">ติดตามไม่ได้</option>
-						</select>
 						</div>
-						<div class="col-sm-3">
-              <label for="follow_results">ผลการติดตามผู้สัมผัส</label>
-						<select type="text" name="follow_results" class="form-control js-select-basic-single" placeholder="การติดตามผู้สัมผัส">
-							<option value="">ผลการติดตามผู้สัมผัส</option>
-							<option value="1">ไม่มี</option>
-							<option value="2">เล็กน้อย</option>
-							<option value="3">หนัก</option>
-							<option value="4">วิกฤต</option>
-						</select>
-						</div>
-						</div>
+					</div>
 						{{-- <div class="form-group row">
 						<div class="col-sm-3">
 						<button type="button" id="close" class="btn btn-xs btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
@@ -364,5 +384,13 @@
 	$(document).ready(function() {
 	    $('.js-select-basic-single').select2();
 	});
+	</script>
+	<script>
+	function show1(){
+	  document.getElementById('div1').style.display ='none';
+	}
+	function show2(){
+	  document.getElementById('div1').style.display = 'block';
+	}
 	</script>
 @endsection

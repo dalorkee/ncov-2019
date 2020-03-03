@@ -20,8 +20,15 @@ class HomeController extends Controller
 	public function index()
 	{
 		$roleArr = auth()->user()->getRoleNames();
-		Session::put('user_role', $roleArr[0]);
+		if(isset($roleArr)){
+			Session::put('user_role', $roleArr[0]);
+			Session::put('user_role', '');
+		}else{
+			Session::put('user_role', '');
+		}
+
 		//dd(Auth::user());
+
 		return redirect()->route('list-data.sat');
 	}
 

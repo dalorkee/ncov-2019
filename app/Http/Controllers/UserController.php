@@ -13,7 +13,7 @@ class UserController extends Controller
 {
 	public function __construct() {
 		$this->middleware('auth');
-		$this->middleware(['role:admin']);
+		//$this->middleware(['role:admin']);
 		//$this->middleware(['role:admin|hospital|lab']);
 		//$this->middleware('permission:manageuser|list|create|edit|delete', ['only' => ['index','store']]);
 	}
@@ -25,9 +25,9 @@ class UserController extends Controller
 	*/
 	public function index(Request $request)
 	{
-		$data = User::orderBy('id', 'DESC')->paginate(5);
+		$data = User::orderBy('id', 'DESC')->paginate(15);
 		return view('users.index', compact('data'))
-				->with('i', ($request->input('page', 1) - 1) * 5);
+				->with('i', ($request->input('page', 1) - 1) * 15);
 	}
 
 	/**

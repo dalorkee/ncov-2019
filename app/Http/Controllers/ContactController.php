@@ -400,6 +400,7 @@ if(auth()->user()->id==Auth::user()->id){
 	$status_followup = $req ->input ('status_followup');
 	$available_contact = $req ->input ('available_contact');
 	$follow_results = $req ->input ('follow_results');
+	$datesymtom = $req ->input ('datesymtom');
   $date_entry = date('Y-m-d') ;
   $data = array(
     // 'poe_id'=>$poe_id,
@@ -425,6 +426,7 @@ if(auth()->user()->id==Auth::user()->id){
     'datecontact'=>$datecontact,
     'datefollow'=>$datefollow,
 		'date_followup'=>$date_followup,
+		'datesymtom'=>$datesymtom,
     'type_contact'=>$type_contact,
 		'user_id'=>$user_id,
 		'province_follow_contact'=>$province_follow_contact,

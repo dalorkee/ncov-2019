@@ -102,7 +102,7 @@ input.valid, textarea.valid{
 					<div class="d-md-flex align-items-center mb-2">
 						<div>
 							<h4 class="card-title">แบบสอบสวนของผู้สัมผัสโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
-							<h5 class="card-subtitle">2019-nCoV</h5>
+							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
 					<br>
