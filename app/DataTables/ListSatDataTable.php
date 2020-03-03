@@ -130,7 +130,7 @@ class ListSatDataTable extends DataTable
 				return $inv_rs;
 			})
 			->addColumn('action',
-				'<button class="btn btn-custom-4 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
+				'<button class="btn btn-custom-6 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
 				 <a href="{{ route("screenpui.edit", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a>')
 			->rawColumns(['order_pt', 'sat_id', 'pt_status', 'inv', 'action']);
 	}

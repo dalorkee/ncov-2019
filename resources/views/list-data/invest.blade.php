@@ -43,7 +43,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Data</a></li>
-						<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('investList.index') }}">Invest</a></li>
+						<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('list-data.invest') }}">Invest</a></li>
 					</ol>
 				</nav>
 			</div>

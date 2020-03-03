@@ -253,6 +253,18 @@ a.link-color-white:hover {
   color: white;
 }
 
+.btn-custom-6,
+.btn-custom-6:active,
+.btn-custom-6:visited {
+  background-color: #00ACC1 !important;
+  color: white;
+}
+
+.btn-custom-6:hover {
+  background-color: #00838F !important;
+  color: white;
+}
+
 .badge-custom-1 {
   background-color: #DC7633;
   color: white;

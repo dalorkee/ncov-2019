@@ -156,7 +156,7 @@ class ListInvestDataTable extends DataTable
 			}) */
 
 			->addColumn('action',
-				'<button class="btn btn-custom-4 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
+				'<button class="btn btn-custom-6 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
 				 <a href="{{ route("confirmForm", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a>')
 			->rawColumns(['pt_status', 'inv', 'action']);
 	}
