@@ -213,3 +213,24 @@ a.link-color-white:hover {
   color: white;
 }
 
+.badge-custom-1 {
+  background-color: #DC7633;
+  color: white;
+}
+
+.font-0875 {
+  font-size: 0.875em !important;
+}
+
+.font-1 {
+  font-size: 1em !important;
+}
+
+.font-1875 {
+  font-size: 1.875em !important;
+}
+
+.font-2 {
+  font-size: 2em !important;
+}
+

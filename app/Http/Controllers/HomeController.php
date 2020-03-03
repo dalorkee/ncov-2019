@@ -22,7 +22,7 @@ class HomeController extends Controller
 		$roleArr = auth()->user()->getRoleNames();
 		Session::put('user_role', $roleArr[0]);
 		//dd(Auth::user());
-		return redirect()->route('satList');
+		return redirect()->route('list-data.sat');
 	}
 
 }
