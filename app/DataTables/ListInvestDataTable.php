@@ -91,19 +91,19 @@ class ListInvestDataTable extends DataTable
 				} else {
 					switch (mb_strtolower($pts->pt_status)) {
 						case "pui" :
-							$pts_rs = "<span class=\"text-color-custom-6\">".$pts->pt_status."</span>";
+							$pts_rs = "<span class=\"badge badge-light font-1\">".$pts->pt_status."</span>";
 							break;
 						case "confirmed" :
-							$pts_rs = "<span class=\"text-color-custom-5\">".$pts->pt_status."</span>";
+							$pts_rs = "<span class=\"badge badge-danger font-1\">".$pts->pt_status."</span>";
 							break;
 						case "probable" :
-							$pts_rs = "<span class=\"text-danger\">".$pts->pt_status."</span>";
+							$pts_rs = "<span class=\"badge badge-warning font-1\">".$pts->pt_status."</span>";
 							break;
 						case "suspected" :
-							$pts_rs = "<span class=\"text-color-custom-4\">".$pts->pt_status."</span>";
+							$pts_rs = "<span class=\"badge badge-custom-1 font-1\">".$pts->pt_status."</span>";
 							break;
 						case "excluded" :
-							$pts_rs = "<span class=\"text-success\">".$pts->pt_status."</span>";
+							$pts_rs = "<span class=\"badge badge-success font-1\">".$pts->pt_status."</span>";
 							break;
 						default :
 							$pts_rs = $pts->pt_status;
@@ -111,6 +111,16 @@ class ListInvestDataTable extends DataTable
 					}
 				}
 				return $pts_rs;
+			})
+			->editColumn('inv', function($iv) {
+				if (!isset($iv->inv) || empty($iv->inv)) {
+					$inv_rs = "<span class=\"badge badge-light\">-</span>";
+				} elseif ($iv->inv == 'y') {
+					$inv_rs = "<span class=\"badge badge-custom-3\"><i class=\"fa fa-check-circle\"></i> Investigated</span>";
+				} else {
+					$inv_rs = "-";
+				}
+				return $inv_rs;
 			})
 			/*
 			->editColumn('news_st', function($ns) {
@@ -146,12 +156,9 @@ class ListInvestDataTable extends DataTable
 			}) */
 
 			->addColumn('action',
-				'<button class="btn btn-info btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">ST</button>
-				 <a href="{{ route("confirmForm", $id) }}" title="Invest form" class="btn btn-custom-1 btn-sm">Edit</a>
-				 <a href="{{ route("contacttable", $id) }}" title="Contact" class="btn btn-cyan btn-sm">CON</a>
-				 <a href="{{ route("live-site") }}" data-toggle="tooltip" data-placement="top" title="Laboratory" class="btn btn-secondary btn-sm">LAB</a>
-				')
-			->rawColumns(['pt_status', 'action']);
+				'<button class="btn btn-custom-4 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
+				 <a href="{{ route("confirmForm", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a>')
+			->rawColumns(['pt_status', 'inv', 'action']);
 	}
 
 	/**
@@ -173,8 +180,8 @@ class ListInvestDataTable extends DataTable
 			\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 			\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
 			'sex',
-			\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'))
-			->whereNull('deleted_at')->orderBy('id');
+			\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+			'inv')->whereNull('deleted_at')->orderBy('id');
 
 		return $invest;
 
@@ -244,6 +251,7 @@ class ListInvestDataTable extends DataTable
 			Column::make('disch_st')->title('Discharge'),
 			Column::make('sex')->title('Sex'),
 			Column::make('nation')->title('Nations'),
+			Column::make('inv')->title('Invest'),
 			Column::computed('action')
 				->exportable(true)
 				->printable(false)

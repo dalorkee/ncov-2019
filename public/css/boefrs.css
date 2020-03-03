@@ -185,6 +185,10 @@ a.link-color-white:hover {
   color: #900C3F !important;
 }
 
+.bg-custom-3 {
+  background-color: #F4511E;
+}
+
 .text-color-custom-3 {
   color: #F4511E !important;
 }
@@ -203,7 +207,7 @@ a.link-color-white:hover {
 
 .btn-custom-1,
 .btn-custom-1:active,
-.btn-primary:visited {
+.btn-custom-1:visited {
   background-color: #8064A2 !important;
   color: white;
 }
@@ -213,9 +217,55 @@ a.link-color-white:hover {
   color: white;
 }
 
+.btn-custom-3,
+.btn-custom-3:active,
+.btn-custom-3:visited {
+  background-color: #F4511E !important;
+  color: white;
+}
+
+.btn-custom-3:hover {
+  background-color: #BA4A00 !important;
+  color: white;
+}
+
+.btn-custom-4,
+.btn-custom-4:active,
+.btn-custom-4:visited {
+  background-color: #2196F3 !important;
+  color: white;
+}
+
+.btn-custom-4:hover {
+  background-color: #1976D2 !important;
+  color: white;
+}
+
+.btn-custom-5,
+.btn-custom-5:active,
+.btn-custom-5:visited {
+  background-color: #922B21 !important;
+  color: white;
+}
+
+.btn-custom-5:hover {
+  background-color: #641E16 !important;
+  color: white;
+}
+
 .badge-custom-1 {
   background-color: #DC7633;
   color: white;
+}
+
+.badge-custom-2 {
+  background-color: #FFCA28;
+  color: #2C3E50;
+}
+
+.badge-custom-3 {
+  background-color: #CCFF99;
+  color: #1B5E20;
 }
 
 .font-0875 {

@@ -121,16 +121,16 @@ class ListSatDataTable extends DataTable
 			})
 			->editColumn('inv', function($iv) {
 				if (!isset($iv->inv) || empty($iv->inv)) {
-					$inv_rs = "<span class=\"text-color-custom-3\"><i class=\"fas fa-times w-30px\"></i></span>";
+					$inv_rs = "<span class=\"badge badge-light\">-</span>";
 				} elseif ($iv->inv == 'y') {
-					$inv_rs = "<span class=\"text-success\"><i class=\"fa fa-check-circle w-30px\"></i></span>";
+					$inv_rs = "<span class=\"badge badge-custom-3\"><i class=\"fa fa-check-circle\"></i> Investigated</span>";
 				} else {
 					$inv_rs = "-";
 				}
 				return $inv_rs;
 			})
 			->addColumn('action',
-				'<button class="btn btn-custom-1 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
+				'<button class="btn btn-custom-4 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
 				 <a href="{{ route("screenpui.edit", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a>')
 			->rawColumns(['order_pt', 'sat_id', 'pt_status', 'inv', 'action']);
 	}
