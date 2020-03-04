@@ -123,7 +123,7 @@ Route::group(['middleware' => ['auth']], function() {
 });
 
 /* Role & Permission Manage */
-Route::prefix('acl')->group(function () {
+Route::prefix('uac')->group(function () {
 	Route::group(['middleware' => ['auth']], function() {
 		Route::resource('roles', 'RoleController');
 		Route::resource('permissions', 'PermissionController');
