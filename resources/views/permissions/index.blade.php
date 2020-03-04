@@ -26,11 +26,11 @@
 							<h5 class="card-subtitle">ID Flu-BOE</h5>
 						</div>
 					</div>
-					@can('permission-create')
+
 					<div class="my-4">
 						<a class="btn btn-success" href="{{ route('permissions.create') }}"> Create Permission</a>
 					</div>
-					@endcan
+					
 					@if ($message = Session::get('success'))
 						<div class="alert alert-success">
 							<p>{{ $message }}</p>
