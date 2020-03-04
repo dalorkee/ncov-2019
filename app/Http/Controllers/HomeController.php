@@ -20,11 +20,12 @@ class HomeController extends Controller
 	public function index()
 	{
 		$roleArr = auth()->user()->getRoleNames();
-		if(isset($roleArr)){
-			//Session::put('user_role', $roleArr[0]);
-			Session::put('user_role', '');
-		}else{
-			Session::put('user_role', '');
+
+		if(count($roleArr) > 0) {
+			Session::put('user_role', $roleArr[0]);
+			//Session::put('user_role', '');
+		} else {
+			Session::put('user_role', 'unrole');
 		}
 
 		//dd(Auth::user());
