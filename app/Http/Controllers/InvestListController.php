@@ -11,7 +11,7 @@ class InvestListController extends MasterController
 {
 	public function __construct() {
 		$this->middleware('auth');
-		$this->middleware(['role:admin']);
+		//$this->middleware(['role:admin']);
 	}
 
 	/**
