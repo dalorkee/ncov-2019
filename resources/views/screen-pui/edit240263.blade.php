@@ -74,13 +74,20 @@ input:read-only {
 						<h3 class="text-primary">ส่วนที่ 1</h3>
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
 							<div style="position:absolute;top:10px;right:10px;z-index:1">
-								<a type="button" href="{{ route('satList') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a>
-								<a type="button" href="{{ route('screenpui.create') }}" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a>
+								<a type="button" href="{{ route('list-data.sat') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a>
 								<span class="btn btn-primary font-weight-bold">SAT ID : {{ $data->sat_id }}</span>
 							</div>
 							<div class="card">
 								<div class="card-body">
 									<h1 class="text-info">1. ข้อมูลทั่วไปของผู้ป่วย</h1>
+									<div class="form-group row">
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+											<div class="form-group">
+												<label for="houseNo">PUI Code</label>
+												<input type="text" name="sat_id" value="{{ $data->sat_id }}" maxlength="12" placeholder="SATID/CASECODE"  class="form-control">
+											</div>
+										</div>
+									</div>
 									<div class="form-group row">
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่ได้รับแจ้ง</label>
@@ -640,12 +647,12 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 									<h1 class="text-info">5.การดำเนินงานเพิ่มเติม สำหรับ Sup Sat./Sat Manager</h1>
 								</div>
-								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+								<!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 									<div class="form-group">
 										<label for="houseNo">PUI Code</label>
 										<input type="text" name="sat_id" value="{{ trim($data->sat_id) }}" maxlength="12" placeholder="SATID/CASECODE"  class="form-control">
 									</div>
-								</div>
+								</div> -->
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="subDistrict">หน่วยงานที่จะส่งหนังสือ</label>
