@@ -91,13 +91,13 @@ Route::post('/followup/fetchos', 'ContactController@fetchos')->name('dropdown.fe
 Route::post('/followupinsert', 'ContactController@followupinsert')->name('followupinsert');
 Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
 Route::post('/contactedit', 'ContactController@contactedit')->name('contactedit');
+Route::post('/contact_st_update', 'ContactController@contactstupdate')->name('contact_st_update');
+
 // excel download
 Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');
 Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
 Route::post('/allexport', 'ExportExcelController@indexallexcel')->name('allexport');
-// Route::get('/export_excel', 'ExportExcelController@index')->name('export_excel');
-// Route::post('/export_excel/excel', 'ExportExcelController@export')->name('export_excel.excel');
 
 /* destroy */
 Route::resource('item', 'InvestListController');

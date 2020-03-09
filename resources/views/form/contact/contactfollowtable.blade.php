@@ -101,11 +101,17 @@ input.valid, textarea.valid{
 				<div class="card-body">
 					<div class="d-md-flex align-items-center mb-2">
 						<div>
-							<h4 class="card-title">แบบสอบสวนของผู้สัมผัสโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
+							<h4 class="card-title">แบบติดตามผู้สัมผัสโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
 							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
 					<br>
+					<div class="col-md-12">
+						<a class="btn btn-warning" href="{{ route('contactfollowtable') }}" class="sidebar-link"><i class="mdi mdi-account-multiple"></i><span class="hide-menu"> FollowUp Contact</span></a>
+					<a class="btn btn-success" href="{{ route('puifollowtable') }}" class="sidebar-link"><i class="fas fa-diagnoses"></i><span class="hide-menu"> FollowUp PUI</span></a>
+					</div>
+					<br>
+				<br>
 					<div class="table-responsive">
           <table id="example" class="table display mb-4" role="table">
         <thead>
@@ -116,6 +122,7 @@ input.valid, textarea.valid{
 								<th>อายุ</th>
                 <th>เชื้อชาติ</th>
                 <th>สัญชาติ</th>
+								<th>ครั้ง/วันที่ติดตามครั้งล่าสุด</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -131,7 +138,7 @@ input.valid, textarea.valid{
 										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}
 								</td>
 								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
-
+								<td>{{ $value->age_contact }}</td>
 								<td>
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
 										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="{{ 'followuptable'}}/typid/2/id/{{ $value->contact_id }}">
