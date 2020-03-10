@@ -118,7 +118,7 @@ input.valid, textarea.valid{
 						</div>
 					</div>
 					<div class="col-md-12">
-						<a class="btn btn-success" href="{{ route('addcontact',$id) }}">
+						<a class="btn btn-success" target="_blank" href="{{ route('addcontact',$id) }}">
 							+	Add Contact
 						</a>
 					</div>
@@ -212,12 +212,12 @@ input.valid, textarea.valid{
 								</select>
 							</div>
 						</div>
-						{{-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 							<div class="form-group">
 								<label for="date_change_st">วันที่เปลี่ยนสถานะ</label>
 									  <input type="text" class="form-control" name="date_change_st" data-provide="datepicker" id="date_change_st" value=""  placeholder="" autocomplete="off" >
 							</div>
-						</div> --}}
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">

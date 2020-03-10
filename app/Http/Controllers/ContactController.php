@@ -527,8 +527,8 @@ public function contactstupdate(Request $request) {
 	$contact_id = $request ->input ('contact_id');
 	$status_followup = $request ->input ('status_followup');
   $pt_status = $request ->input ('pt_status');
-  // $date_change_st = $request ->input ('date_change_st');
-	$date_change_st =date('Y-m-d');
+  $date_change_st = $this->convertDateToMySQL($request ->input ('date_change_st'));
+	// $date_change_st =date('Y-m-d');
 	$res1=DB::table('tbl_contact')
 			->where('id',$id)
 			->where('contact_id',$contact_id)

@@ -46,14 +46,14 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส </h4>
                             <form action="{{route('contactinsert')}}" method="post">
                                 {{ csrf_field() }}
-                                <br><label>SAT ID : </label>
+
                                 <div class="form-group row">
                                     <div class="col-sm-12 col-md-3">
                                         <input type="hidden" name="pui_id" value="{{$pui_id}}" class="form-control" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-12 col-md-3">
+                                    <div class="col-sm-12 col-md-6">
                                         <input type="hidden" name="sat_id" value="{{$sat_id[0]->sat_id}}" class="form-control" readonly>
                                         <div>
                                           <h4 class="card-title">ของผู้ป่วย รหัส: <br>{{$sat_id[0]->sat_id}}</h4>

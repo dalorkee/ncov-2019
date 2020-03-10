@@ -141,16 +141,16 @@ input.valid, textarea.valid{
 								<td>{{ $value->age_contact }}</td>
 								<td>
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
-										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="{{ 'followuptable'}}/typid/2/id/{{ $value->contact_id }}">
-											FUCON
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" target="_blank" href="{{ 'followuptable'}}/typid/2/id/{{ $value->contact_id }}">
+											FU
 									</a>
 									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="{{ 'detailcontact'}}/contact_id/{{ $value->contact_id }}">
 										Info
 								</a>
-								<a class="btn btn-warning btn-sm" href="{{'editcontact'}}/contact_id/{{ $value->contact_id }}">
+								{{-- <a class="btn btn-warning btn-sm" href="{{'editcontact'}}/contact_id/{{ $value->contact_id }}"> --}}
 									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#"> --}}
-										Edit
+										{{-- Edit --}}
 								</a>
 								</td>
             </tr>
