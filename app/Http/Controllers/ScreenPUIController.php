@@ -282,7 +282,7 @@ class ScreenPUIController extends MasterController
     public function update(Request $request)
     {
       // dd($request);
-      
+
       if($request->pt_status!=2){
         $order_pt = NULL;
         $type_nature = NULL;
