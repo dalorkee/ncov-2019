@@ -65,9 +65,13 @@ class ContactController extends MasterController
 		$arrprov = $this->arrprov();
 		$arrdistrict = $this->arrdistrict();
 		$arr_sub_district = $this->arr_sub_district();
-		// dd($poe_id);
+		$arr_pts = $this->arr_pts();
+		$arr_status_followup = $this->arr_status_followup();
+		 // dd($arr_status_followup);
+		$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
 		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
 		$contact_data=DB::table('tbl_contact')->select('*')->where('pui_id', $id)->get();
+
     return view('form.contact.contacttable',compact(
 			'contact_data',
 			'id',
@@ -76,7 +80,10 @@ class ContactController extends MasterController
 			'arr_occu',
 			'arrprov',
 			'arrdistrict',
-			'arr_sub_district'
+			'arr_sub_district',
+			'ref_pt_status',
+			'arr_pts',
+			'arr_status_followup'
     ));
   }
 
@@ -150,7 +157,9 @@ if(auth()->user()->id==Auth::user()->id){
 	$contact_data=
 	DB::table('tbl_contact')
 				->join('users','tbl_contact.user_id','=','users.id')
-				->select('tbl_contact.*', DB::raw('tbl_contact.id as conid'),'users.id','users.prefix_sat_id',)
+				->select('tbl_contact.*', DB::raw('tbl_contact.id as conid'),
+				'users.id',
+				'users.prefix_sat_id')
 				->where('users.prefix_sat_id',Auth::user()->prefix_sat_id)
 				->get();
 	$nation_list = $this->arrnation();
@@ -159,6 +168,7 @@ if(auth()->user()->id==Auth::user()->id){
 	$arrdistrict = $this->arrdistrict();
 	$arr_sub_district = $this->arr_sub_district();
 	$arr_division_follow_contact = $this->arr_division_follow_contact();
+	$arr_pts = $this->arr_pts();
 	return view('form.contact.contactfollowtable',compact(
 		'contact_data',
 		'nation_list',
@@ -166,7 +176,8 @@ if(auth()->user()->id==Auth::user()->id){
 		'arrprov',
 		'arrdistrict',
 		'arr_division_follow_contact',
-		'arr_sub_district'
+		'arr_sub_district',
+		'arr_pts',
 	));
 }
 }
@@ -236,12 +247,23 @@ if(auth()->user()->id==Auth::user()->id){
   // form contact add
   public function addcontact(Request $req)
 	{
+		$contact_id = $req ->input ('contact_id');
 		$pui_id=$req->id;
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 		$sat_id=DB::table('invest_pt')->select('sat_id')->where('id', $pui_id )->get();
+		$sat_id_confirm=DB::table('invest_pt')
+										->select('id','sat_id','first_name','last_name','nation')
+										->where('pt_status' ,"=" ,"2" )
+										->get();
+		$sat_id_relation=DB::table('patient_relation')
+												->select('id','sat_id','contact_id')
+												->where('pui_id' , $pui_id )
+												->where('contact_id' , $contact_id )
+												->get();
     $listprovince=$this->province();
+		$nation_list = $this->arrnation();
     $listcountry=$this->arrnation();
 		$entry_user = Auth::user()->id;
 		$prefix_sat_id = Auth::user()->prefix_sat_id;
@@ -254,7 +276,10 @@ if(auth()->user()->id==Auth::user()->id){
 			'sat_id',
 			'prefix_sat_id',
 			'entry_user',
-			'pui_id'
+			'pui_id',
+			'sat_id_confirm',
+			'nation_list',
+			'sat_id_relation'
     ));
 	}
 
@@ -340,14 +365,12 @@ if(auth()->user()->id==Auth::user()->id){
 
 
 
-  public function contactinsert(Request $req)
-
- {
+  public function contactinsert(Request $req) {
 	 $contact_id = $req ->input ('contact_id');
 	 $contact_id_temp = $req ->input ('contact_id_temp');
 	 if ($contact_id == $contact_id_temp) {
 		 $contact_id_temp = $req ->input ('contact_id_temp');
-	 }else {
+	 } else {
 		 $contact_id_temp = "";
 	 }
 
@@ -377,30 +400,10 @@ if(auth()->user()->id==Auth::user()->id){
   $phone_contact = $req ->input ('phone_contact');
   $patient_contact = $req ->input ('patient_contact');
   $risk_contact = $req ->input ('risk_contact');
-  $datecontact = $this->convertDateToMySQL($req ->input ('datecontact'));
-  $datefollow = $this->convertDateToMySQL($req ->input ('datefollow'));
+  $datecontact = $this->convertDatefollowToMySQL($req ->input ('datecontact'));
+  $datefollow = $this->convertDatefollowToMySQL($req ->input ('datefollow'));
 	$date_followup = $this->convertDateToMySQL($req ->input ('date_followup'));
   $type_contact = $req ->input ('type_contact');
-	$province_follow_contact = $req ->input ('province_follow_contact');
-	$division_follow_contact = $req ->input ('division_follow_contact');
-	$division_follow_contact_other = $req ->input ('division_follow_contact_other');
-	$sat_id_class = $req ->input ('sat_id_class');
-	$hospcode = $req ->input ('hospcode');
-	$clinical = $req ->input ('clinical');
-	$fever = $req ->input ('fever');
-	$cough = $req ->input ('cough');
-	$sore_throat = $req ->input ('sore_throat');
-	$mucous = $req ->input ('mucous');
-	$sputum = $req ->input ('sputum');
-	$breath_labored = $req ->input ('breath_labored');
-	$suffocate = $req ->input ('suffocate');
-	$muscle_aches = $req ->input ('muscle_aches');
-	$headache = $req ->input ('headache');
-	$diarrhea = $req ->input ('diarrhea');
-	$status_followup = $req ->input ('status_followup');
-	$available_contact = $req ->input ('available_contact');
-	$follow_results = $req ->input ('follow_results');
-	$datesymtom = $req ->input ('datesymtom');
   $date_entry = date('Y-m-d') ;
   $data = array(
     // 'poe_id'=>$poe_id,
@@ -426,14 +429,49 @@ if(auth()->user()->id==Auth::user()->id){
     'datecontact'=>$datecontact,
     'datefollow'=>$datefollow,
 		'date_followup'=>$date_followup,
-		'datesymtom'=>$datesymtom,
     'type_contact'=>$type_contact,
 		'user_id'=>$user_id,
-		'province_follow_contact'=>$province_follow_contact,
-		'division_follow_contact'=>$division_follow_contact,
-		'division_follow_contact_other'=>$division_follow_contact_other,
-		'sat_id_class'=>$sat_id_class,
-		'hospcode'=>$hospcode,
+    'date_entry'=>$date_entry
+  );
+      // dd($data);
+  $res1	= DB::table('tbl_contact')->insert($data);
+  if ($res1)
+	$sat_id = $req ->input ('sat_id');
+	$pui_id = $req ->input ('pui_id');
+	$patianid = $req ->input ('patianid');
+	$typid = "2";
+	$contact_id = $req ->input ('contact_id');
+	$followup_times= "0";
+	$date_no = date('Y-m-d') ;
+	$clinical = $req ->input ('clinical');
+	$fever = $req ->input ('fever');
+	$cough = $req ->input ('cough');
+	$sore_throat = $req ->input ('sore_throat');
+	$mucous = $req ->input ('mucous');
+	$sputum = $req ->input ('sputum');
+	$breath_labored = $req ->input ('breath_labored');
+	$suffocate = $req ->input ('suffocate');
+	$muscle_aches = $req ->input ('muscle_aches');
+	$headache = $req ->input ('headache');
+	$diarrhea = $req ->input ('diarrhea');
+	$other_symtom = $req ->input ('other_symtom');
+	$status_followup = $req ->input ('status_followup');
+	$available_contact = $req ->input ('available_contact');
+	$follow_results = $req ->input ('follow_results');
+	$user_id = $req ->input ('user_id');
+	$followup_address = $req ->input ('followup_address');
+	$sat_id_class = $req ->input ('sat_id_class');
+	$datesymtom = $this->convertDatefollowToMySQL($req ->input ('datesymtom'));
+	$date_entry = date('Y-m-d') ;
+	$data = array(
+		// 'poe_id'=>$poe_id,
+		'sat_id'=>$sat_id,
+		'pui_id'=>$pui_id,
+		'patianid'=>$contact_id,
+		'typid'=>$typid,
+		'followup_times'=>$followup_times,
+		'followup_address'=>$followup_address,
+		'date_no'=>$date_no,
 		'clinical'=>$clinical,
 		'fever'=>$fever,
 		'cough'=>$cough,
@@ -445,53 +483,67 @@ if(auth()->user()->id==Auth::user()->id){
 		'muscle_aches'=>$muscle_aches,
 		'headache'=>$headache,
 		'diarrhea'=>$diarrhea,
+		'other_symtom'=>$other_symtom,
 		'status_followup'=>$status_followup,
 		'available_contact'=>$available_contact,
 		'follow_results'=>$follow_results,
-    'date_entry'=>$date_entry
-  );
-      // dd($data);
-  $res1	= DB::table('tbl_contact')->insert($data);
-//   if ($res1)
-//   {
-//     $dms_pcr_contact =$req ->input('dms_pcr_contact');
-//     $dms_time_contact =$req ->input('dms_time_contact');
-//     $dms_date_contact =$req ->input ('dms_date_contact');
-// 		$dms_date_contact_s = str_replace('/', '-', $dms_date_contact);
-// 		// $dms_date_contact_ss = date('Y-m-d', strtotime($dms_date_contact_s));
-//     $dms_specimen_contact =$req ->input('dms_specimen_contact');
-//     $chkspec_other_contact =$req ->input('chkspec_other_contact');
-//     $other_pcr_result_contact =$req ->input('other_pcr_result_contact');
-//      // exit;
-//     // $date_entry =date('Y-m-d') ;
-// $x=0;
-//     for ($i=0; $i < count($dms_pcr_contact); $i++) {
-//       $data_hsc[]  = [
-//                  // 'no'=>$team_id[$i],
-//                 // 'poe_id'=>$poe_id,
-//                 'contact_id'=>$contact_id,
-//                 'dms_pcr_contact'=>$dms_pcr_contact[$i],
-//                 'dms_time_contact'=>$dms_time_contact[$i],
-//                 'dms_date_contact'=>$dms_date_contact_s[$i],
-//                 'dms_specimen_contact'=>$dms_specimen_contact[$i],
-//                 'chkspec_other_contact' => $chkspec_other_contact[$i],
-//                 'other_pcr_result_contact' => $other_pcr_result_contact[$i],
-//                 'date_entry' => $date_entry
-//               ];
-//               $x++;
-//             }
-    // dd($data_hsc);
-    // exit;
-    // $res3	= DB::table('tbl_contact_hsc')->insert($data_hsc);
-// }
+		'user_id'=>$user_id,
+		'sat_id_class'=>$sat_id_class,
+		'datesymtom'=>$datesymtom,
+		'date_entry'=>$date_entry
+	);
+	 // dd($data);
+	$res2	= DB::table('tbl_followup')->insert($data);
 
-  if ($res1){
-		return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
-	}else{
-		return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
-		}
+	if ($res2) {
+		$pui_id = $req->input ('pui_id');
+		$contact_id =$req->input('contact_id');
+		$sat_id_relation = $req->input('sat_id_relation');
+		//dd($sat_id_relation);
+		$create_date=date('Y-m-d') ;
+		$x=0;
+			for ($i=0; $i < count($sat_id_relation); $i++) {
+				$data_pt[]  = [
+							'pui_id'=>$pui_id,
+							'contact_id'=>$contact_id,
+							'sat_id'=>$sat_id_relation[$i],
+							'create_date' => $create_date
+										];
+			}
+			$x++;
+			$res3	= DB::table('patient_relation')->insert($data_pt);
+			if ($res3) {
+				return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+			} else {
+				return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
+			}
+	}
 }
 }
+
+public function contactstupdate(Request $request) {
+	$id = $request ->input ('id');
+	$pui_id = $request ->input ('pui_id');
+	$contact_id = $request ->input ('contact_id');
+	$status_followup = $request ->input ('status_followup');
+  $pt_status = $request ->input ('pt_status');
+  $date_change_st = $this->convertDateToMySQL($request ->input ('date_change_st'));
+	// $date_change_st =date('Y-m-d');
+	$res1=DB::table('tbl_contact')
+			->where('id',$id)
+			->where('contact_id',$contact_id)
+	    ->update(
+	        ['pt_status' => $pt_status,
+					 'status_followup' => $status_followup,
+					 'date_change_st' => $date_change_st
+				 ]
+	    );
+	if ($res1) {
+		return redirect()->route('contacttable',[$pui_id]);
+		exit;
+	}
+}
+
 
 public function followupinsert(Request $req)
 {
@@ -560,34 +612,7 @@ $data = array(
 );
     // dd($data);
 $res1	= DB::table('tbl_followup')->insert($data);
-// if ($res1)
-// {
-// 	$pcr_contact =$req ->input('pcr_contact');
-// 	$specimen_contact =$req ->input('specimen_contact');
-// 	$chkspec_other_contact =$req ->input('chkspec_other_contact');
-// 	$other_pcr_result_contact =$req ->input('other_pcr_result_contact');
-// 	 // exit;
-// 	// $date_entry =date('Y-m-d') ;
-// $x=0;
-// 	for ($i=0; $i < count($pcr_contact); $i++) {
-// 		$data_hsc[]  = [
-// 							 // 'no'=>$team_id[$i],
-// 							 // 'poe_id'=>$poe_id,
-// 							'sat_id'=>$sat_id,
-// 							'contact_id'=>$contact_id,
-// 							'contact_id_day'=>$contact_id_day,
-// 							'pcr_contact'=>$pcr_contact[$i],
-// 							'specimen_contact'=>$specimen_contact[$i],
-// 							'chkspec_other_contact'=>$chkspec_other_contact[$i],
-// 							'other_pcr_result_contact'=>$other_pcr_result_contact[$i],
-// 							'date_entry' => $date_entry
-// 						];
-// 						$x++;
-// 					}
-// 	// dd($ddata_member);
-// 	// exit;
-// 	$res3	= DB::table('tbl_followup_hsc')->insert($data_hsc);
-// }
+
 if ($res1){
 	if ($typid = 1) {
 		return redirect()->route('followuptable',[$typid,$patianid])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
@@ -814,6 +839,14 @@ echo $outputD;
 		// dd($province_arr);
 		return $arr_hos;
 	}
+	protected function arr_pts(){
+		$arr_pts = DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
+		foreach ($arr_pts as  $value) {
+			$arr_pts[$value->pts_id] =trim($value->pts_name_en);
+		}
+		// dd($province_arr);
+		return $arr_pts;
+	}
 	// public function ref_title_name(){
 	// 	$ref_title_name=DB::table('ref_title_name')
 	// 	->orderBy('id', 'ASC')
@@ -837,7 +870,6 @@ echo $outputD;
 		// dd($province_arr);
 		return $arroccu;
 	}
-
 
 	protected function arrsymptoms(){
 		$arrsymptoms = DB::table('ref_symptoms')->select('id','symptom_name_en')->get();
@@ -1043,6 +1075,15 @@ echo $outputD;
 			if (!is_null($date) || !empty($date)) {
 				$ep = explode("/", $date);
 				$string = $ep[2]."-".$ep[1]."-".$ep[0];
+			} else {
+				$string = NULL;
+			}
+			return $string;
+		}
+		protected function convertDatefollowToMySQL($date='00/00/0000') {
+			if (!is_null($date) || !empty($date)) {
+				$ep = explode("/", $date);
+				$string = $ep[2]."-".$ep[0]."-".$ep[1];
 			} else {
 				$string = NULL;
 			}

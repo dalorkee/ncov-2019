@@ -8,6 +8,9 @@
 	<link rel="stylesheet" href="{{ URL::asset('assets/libs/select2/dist/css/select2.min.css') }}">
 	<link rel='stylesheet' href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
 	<link rel="stylesheet" href="{{ URL::asset('assets/libs/toastr/build/toastr.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+  {{-- <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}"> --}}
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('internal-style')
 <style>
@@ -103,12 +106,19 @@ input.valid, textarea.valid{
 				<div class="card-body">
 					<div class="d-md-flex align-items-center mb-2">
 						<div>
-							<h4 class="card-title">แบบสอบสวนของผู้สัมผัสโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
+							<h4 class="card-title">ผู้สัมผัสโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
 							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
+					<div class="d-md-flex align-items-center mb-2">
+						<div>
+							<?php foreach($patian_data as $valuept) : ?>
+							<h4 class="card-title">ของผู้ป่วย รหัส: {{ $valuept->sat_id }}</h4>
+							<?php endforeach;?>
+						</div>
+					</div>
 					<div class="col-md-12">
-						<a class="btn btn-success" href="{{ route('addcontact',$id) }}">
+						<a class="btn btn-success" target="_blank" href="{{ route('addcontact',$id) }}">
 							+	Add Contact
 						</a>
 					</div>
@@ -137,10 +147,11 @@ input.valid, textarea.valid{
 								</td>
 								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
 								<td>
+									<button type="button" class="btn btn-success btn-sm margin-5 text-white change_st" data-toggle="modal" title="Change status" data-target="#chstatus">ST</button>
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
-										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="/{{ 'followuptable'}}/typid/2/id/{{ $value->contact_id }}">
+										{{-- <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="/{{ 'followuptable'}}/typid/2/id/{{ $value->contact_id }}">
 											FUCON
-									</a>
+									</a> --}}
 									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="/{{ 'detailcontact'}}/contact_id/{{ $value->contact_id }}">
 										Info
@@ -160,6 +171,64 @@ input.valid, textarea.valid{
 		</div>
 	</div>
 </div>
+<?php foreach($contact_data as $value) : ?>
+	<form action="{{route('contact_st_update')}}" method="post">
+					{{ csrf_field() }}
+<!-- Modal change status-->
+<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Change Status ID:{{ $value->contact_id }}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="filechangest">
+					<input type="hidden" name="pui_id" value="{{$id}}">
+					<input type="hidden" name="id" value="{{ $value->id }}">
+					<input type="hidden" name="contact_id" value="{{ $value->contact_id }}">
+					<div class="form-row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+							<div class="form-group">
+								<label for="patient">สถานะการติดตาม</label>
+								<select name="status_followup" class="form-control selectpicker show-tick" data-style="btn-danger" id="status_followup">
+									<option value="{{ (!empty($value->status_followup)) ? $value->status_followup : ""  }}" selected="selected">{{ (isset($arr_status_followup[$value->status_followup])) ? $arr_status_followup[$value->status_followup] : "" }}</option>
+										<option value="">สถานะการติดตาม</option>
+											<option value="2">ยังต้องติดตาม</option>
+											<option value="1">จบการติดตาม</option>
+									</select>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+							<div class="form-group">
+								<label for="news">สถานะผู้ป่วย</label>
+								<select name="pt_status" class="form-control selectpicker show-tick" data-style="btn-info" id="pt_status{{ $value->contact_id }}">
+									<option value="{{ (!empty($value->pt_status)) ? $value->pt_status : ""  }}" selected="selected">{{ (isset($arr_pts[$value->pt_status])) ? $arr_pts[$value->pt_status] : "" }}</option>
+									<option value="">-- สถานะผู้ป่วย --</option>
+									@foreach ($ref_pt_status as $row)
+									<option value="{{$row->pts_id}}">{{$row->pts_name_en}}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+							<div class="form-group">
+								<label for="date_change_st">วันที่เปลี่ยนสถานะ</label>
+									  <input type="text" class="form-control" name="date_change_st" data-provide="datepicker" id="date_change_st" value=""  placeholder="" autocomplete="off" >
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-primary" value="Save changes">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<?php endforeach;?>
 @endsection
 @section('bottom-script')
 	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/datatables.min.js') }}"></script>
@@ -171,6 +240,9 @@ input.valid, textarea.valid{
 {{-- <script src="{{ URL::asset('assets/contact/datatable/js/jquery-3.3.1.js') }}"></script> --}}
 {{-- <script src="{{ URL::asset('assets/contact/datatable/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ URL::asset('assets/contact/datatable/js/dataTables.bootstrap4.min.js') }}"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js'></script>
 <script>
 $(document).ready(function() {
     $('#example').DataTable();
@@ -183,4 +255,15 @@ $(document).ready(function() {
       alert(msg);
     }
   </script>
+
+	<script>
+	$('#date_change_st').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	</script>
+
 @endsection
