@@ -435,6 +435,9 @@ if(auth()->user()->id==Auth::user()->id){
   );
       // dd($data);
   $res1	= DB::table('tbl_contact')->insert($data);
+
+	$last_res1_insert_id = DB::getPdo()->lastInsertId();
+	// dd($last_res1_insert_id);
   if ($res1)
 	$sat_id = $req ->input ('sat_id');
 	$pui_id = $req ->input ('pui_id');
@@ -463,6 +466,7 @@ if(auth()->user()->id==Auth::user()->id){
 	$sat_id_class = $req ->input ('sat_id_class');
 	$datesymtom = $this->convertDatefollowToMySQL($req ->input ('datesymtom'));
 	$date_entry = date('Y-m-d') ;
+	$hospcode = $req ->input ('hospcode');
 	$data = array(
 		// 'poe_id'=>$poe_id,
 		'sat_id'=>$sat_id,
@@ -490,26 +494,34 @@ if(auth()->user()->id==Auth::user()->id){
 		'user_id'=>$user_id,
 		'sat_id_class'=>$sat_id_class,
 		'datesymtom'=>$datesymtom,
-		'date_entry'=>$date_entry
+		'date_entry'=>$date_entry,
+		'hospcode'=>$hospcode
 	);
 	 // dd($data);
 	$res2	= DB::table('tbl_followup')->insert($data);
-
 	if ($res2) {
-		$pui_id = $req->input ('pui_id');
-		$contact_id =$req->input('contact_id');
 		$sat_id_relation = $req->input('sat_id_relation');
+		$pui_id_r= $req->input('pui_id_r');
+		$contact_id_code =$req->input('contact_code');
+		$contact_rid =$last_res1_insert_id;
+		// dd($contact_rid);
+		$contact_id =$req->input('contact_id');
+		// $sat_id_relation = $req->input('sat_id_relation');
 		//dd($sat_id_relation);
 		$create_date=date('Y-m-d') ;
 		$x=0;
 			for ($i=0; $i < count($sat_id_relation); $i++) {
+				$exp = explode('|', $sat_id_relation[$i]);
+				$sat_id_relation_arr[$i] = $exp;
 				$data_pt[]  = [
-							'pui_id'=>$pui_id,
+							'contact_rid'=>$contact_rid,
 							'contact_id'=>$contact_id,
-							'sat_id'=>$sat_id_relation[$i],
+							'pui_id'=>$sat_id_relation_arr[$i][1],
+							'sat_id'=>$sat_id_relation_arr[$i][0],
 							'create_date' => $create_date
 										];
 			}
+			// dd($data_pt);
 			$x++;
 			$res3	= DB::table('patient_relation')->insert($data_pt);
 			if ($res3) {

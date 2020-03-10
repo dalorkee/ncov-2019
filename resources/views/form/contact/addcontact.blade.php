@@ -70,9 +70,10 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                     <div class="col-sm-12 col-md-6">
                                         <select multiple="multiple" size="10" name="sat_id_relation[]">
                                           @foreach ($sat_id_confirm as $row)
-                                          <option value="{{$row->sat_id}}">{{$row->sat_id}} [{{$row->first_name}} {{$row->last_name}}/{{$nation_list[$row->nation]}}]</option>
+                                          <option value="{{$row->sat_id.'|'.$row->id}}">{{$row->sat_id}} [{{$row->first_name}} {{$row->last_name}}/{{$nation_list[$row->nation]}}]
+                                          </option>
                                           @endforeach
-                                          <option value="{{$sat_id[0]->sat_id}}" selected>รหัสตั้งผู้ป่วยหลัก {{$sat_id[0]->sat_id}}</option>
+                                          <option value="{{$sat_id[0]->sat_id.'|'.$pui_id}}" selected>รหัสตั้งผู้ป่วยหลัก {{$sat_id[0]->sat_id}}</option>
                                         </select>
                                         <br>
                                     </div>
