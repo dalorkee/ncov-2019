@@ -87,12 +87,12 @@
 							</div>
 						</div>
 						<div id="div1" class="hide">
-						<div class="form-group row">
+						{{-- <div class="form-group row">
 						<div class="col-sm-3">
 							<label for="patient_contact">วันที่เริ่มป่วย</label>
 						<input type="text" class="form-control" name="datesymtom" data-provide="datepicker" id="datesymtom"  placeholder="วันที่เริ่มป่วย" autocomplete="off" >
 						</div>
-					</div>
+					</div> --}}
 						<div class="form-group row">
 						<div class="col-sm-3">
 						<input type="checkbox" name="fever"  value="1" > ไข้
@@ -140,8 +140,9 @@
 						<div class="form-group row">
               <div class="col-sm-3">
 						 <label for="followup_address">สถานที่ที่ติดตามผู้ป่วย</label>
-              <select type="text"  name="followup_address" id="followup_address" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-              <option value="">สถานที่ที่ติดตามผู้ป่วย</option>
+              <select type="text"  name="followup_address" id="hosdivshow" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+								<option value="{{ (isset($position_follow[0]->followup_address)) ? $position_follow[0]->followup_address : ""  }}">{{ (isset($arr_followup_address[$position_follow[0]->followup_address])) ? $arr_followup_address[$position_follow[0]->followup_address]: "พื้นที่จังหวัดที่ติดตามผู้ป่วย"  }}</option>
+							<option value="">สถานที่ที่ติดตามผู้ป่วย</option>
               <option value="1">บ้าน</option>
               <option value="2">โรงแรม</option>
               <option value="3">โรงพยาบาล</option>
@@ -149,22 +150,33 @@
               <option value="5">อื่นๆ</option>
               </select>
               </div>
-            <div class="col-sm-3">
-			<label for="province_follow_contact">จังหวัดที่ติดตามผู้ป่วย</label>
-            <select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-						<option value="">พื้นที่จังหวัดที่ติดตามผู้ป่วย</option>
-            @foreach ($listprovince as $row)
-            <option value="{{$row->province_id}}">{{$row->province_name}}</option>
-            @endforeach
-            </select>
-            </div>
-            <div class="col-sm-3">
-              <label for="hospcode">โรงพยาบาลที่รักษาตัว</label>
-              <select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="อำเภอ">
-  							<option value="">เลือกโรงพยาบาลที่รักษาตัว</option>
-  						</select>
-            </div>
+
           </div>
+					<div id="follow_address_other" class="form-group row">
+					<div class="col-sm-3">
+						<label>ชื่อสถานที่ติดตามผู้ป่วย</label>
+						<input type="text" name="follow_address_other"  class="form-control"placeholder="ชื่อสถานที่ติดตามผู้ป่วย" >
+					</div>
+				</div>
+					<div id="hosdiv" class="form-group row">
+				<div class="col-sm-3">
+	<label for="province_follow_contact">จังหวัดที่ติดตามผู้ป่วย</label>
+				<select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+						<option value="{{ (isset($position_follow[0]->province_follow_contact)) ? $position_follow[0]->province_follow_contact : ""  }}">{{ (isset($arr_province[$position_follow[0]->province_follow_contact])) ? $arr_province[$position_follow[0]->province_follow_contact]: "พื้นที่จังหวัดที่ติดตามผู้ป่วย"  }}</option>
+				<option value="">พื้นที่จังหวัดที่ติดตามผู้ป่วย</option>
+				@foreach ($listprovince as $row)
+				<option value="{{$row->province_id}}">{{$row->province_name}}</option>
+				@endforeach
+				</select>
+				</div>
+				<div class="col-sm-3">
+					<label for="hospcode">โรงพยาบาลที่รักษาตัว</label>
+					<select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="โรงพยาบาลที่รักษาตัว">
+							<option value="{{ (isset($position_follow[0]->hospcode)) ? $position_follow[0]->hospcode : ""  }}">{{ (isset($arr_hos[$position_follow[0]->hospcode])) ? $arr_hos[$position_follow[0]->hospcode] : "โรงพยาบาลที่รักษาตัว"  }}</option>
+						<option value="">เลือกโรงพยาบาลที่รักษาตัว</option>
+					</select>
+				</div>
+			</div>
 						<div class="form-group row">
             <div class="col-sm-3">
               <label for="division_follow_contact">หน่วยงานที่ติดตามผู้ป่วย</label>
@@ -395,5 +407,33 @@
 	function show2(){
 	  document.getElementById('div1').style.display = 'block';
 	}
+	</script>
+	<script>
+	$(document).ready(function(){
+		$("#hosdiv").hide();
+		$("#follow_address_other").hide();
+	    $('#hosdivshow').on('change', function() {
+	      if ( this.value == '1')
+	      {
+	        $("#follow_address_other").show();
+					$("#hosdiv").hide();
+	      }
+				if ( this.value == '2')
+				{
+					$("#follow_address_other").show();
+					$("#hosdiv").hide();
+				}
+				if ( this.value == '4')
+				{
+					$("#follow_address_other").show();
+					$("#hosdiv").hide();
+				}
+				if ( this.value == '3')
+				{
+					$("#hosdiv").show();
+					$("#follow_address_other").hide();
+				}
+	    });
+	});
 	</script>
 @endsection

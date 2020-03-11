@@ -141,7 +141,7 @@ class ContactController extends MasterController
 			'patian_date',
 			'patian_data',
 			'arr_division_follow_contact',
-			'arr'
+			'arr',
     ));
   }
 
@@ -296,6 +296,9 @@ if(auth()->user()->id==Auth::user()->id){
 												->where('pui_id' , $pui_id )
 												->where('contact_id' , $contact_id )
 												->get();
+		$arr_province=$this->arr_province();
+		$arr_hos=$this->arr_hos();
+		$arr_followup_address=$this->arr_followup_address();
     $listprovince=$this->province();
 		$nation_list = $this->arrnation();
     $listcountry=$this->arrnation();
@@ -313,7 +316,10 @@ if(auth()->user()->id==Auth::user()->id){
 			'pui_id',
 			'sat_id_confirm',
 			'nation_list',
-			'sat_id_relation'
+			'sat_id_relation',
+			'arr_province',
+			'arr_hos',
+			'arr_followup_address'
     ));
 	}
 
@@ -410,8 +416,16 @@ if(auth()->user()->id==Auth::user()->id){
 			$sat_id=DB::table('tbl_contact')->select('pui_id','sat_id')->where('contact_id', $req->contact_id )->get();
 			$id=$req->id;
 			$typid=$req->typid;
+			$position_follow=DB::table('tbl_followup')->select('followup_address','province_follow_contact','hospcode')
+																			 ->where('patianid', $id)
+																			 ->where('followup_times', '=', '0')
+																			 ->get();
+			$arr_followup_address=$this->arr_followup_address();
 			$contact_id_day=$req->contact_id_day;
 			$listprovince=$this->province();
+			$arr_province=$this->arr_province();
+			$arr_hos=$this->arr_hos();
+			$arr_followup_address=$this->arr_followup_address();
 			$entry_user = Auth::user()->id;
 			$prefix_sat_id = Auth::user()->prefix_sat_id;
 	    return view('form.contact.addfollowuppui',compact(
@@ -426,25 +440,37 @@ if(auth()->user()->id==Auth::user()->id){
 				'id',
 				'typid',
 				'entry_user',
-				'arr'
+				'arr',
+				'position_follow',
+				'arr_province',
+				'arr_hos',
+				'arr_followup_address'
 	    ));
 	  }
 
 		public function addfollowupcon(Request $req)
 	  {
 			$arr = parent::getStatus();
+			$id=$req->id;
+			$typid=$req->typid;
 			$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 			$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 			$followup_date=DB::table('tbl_followup')->select('*')->get();
 			$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 			$sat_id=DB::table('tbl_contact')->select('pui_id','sat_id')->where('contact_id', $req->contact_id )->get();
-			$id=$req->id;
-			$typid=$req->typid;
+			$position_follow=DB::table('tbl_followup')->select('followup_address','province_follow_contact','hospcode')
+																			 ->where('patianid', $id)
+																			 ->where('followup_times', '=', '0')
+																			 ->get();
+			// dd($position_follow);
 			$contact_id_day=$req->contact_id_day;
 			$listprovince=$this->province();
 			$entry_user = Auth::user()->id;
+			$arr_province=$this->arr_province();
+			$arr_hos=$this->arr_hos();
+			$arr_followup_address=$this->arr_followup_address();
 			$prefix_sat_id = Auth::user()->prefix_sat_id;
-	    return view('form.contact.addfollowuppui',compact(
+	    return view('form.contact.addfollowupcon',compact(
 				'listprovince',
 				'ref_title_name',
 				'ref_specimen',
@@ -456,7 +482,11 @@ if(auth()->user()->id==Auth::user()->id){
 				'id',
 				'typid',
 				'entry_user',
-				'arr'
+				'arr',
+				'position_follow',
+				'arr_province',
+				'arr_hos',
+				'arr_followup_address'
 	    ));
 	  }
 
@@ -559,9 +589,13 @@ if(auth()->user()->id==Auth::user()->id){
 	$user_id = $req ->input ('user_id');
 	$followup_address = $req ->input ('followup_address');
 	$sat_id_class = $req ->input ('sat_id_class');
+	$province_follow_contact = $req ->input ('province_follow_contact');
+	$division_follow_contact = $req ->input ('division_follow_contact');
+	$division_follow_contact_other = $req ->input ('division_follow_contact_other');
 	$datesymtom = $this->convertDatefollowToMySQL($req ->input ('datesymtom'));
 	$date_entry = date('Y-m-d') ;
 	$hospcode = $req ->input ('hospcode');
+	$follow_address_other = $req ->input ('follow_address_other');
 	$data = array(
 		// 'poe_id'=>$poe_id,
 		'sat_id'=>$sat_id,
@@ -587,9 +621,13 @@ if(auth()->user()->id==Auth::user()->id){
 		'available_contact'=>$available_contact,
 		'follow_results'=>$follow_results,
 		'user_id'=>$user_id,
+		'province_follow_contact'=>$province_follow_contact,
+		'division_follow_contact'=>$division_follow_contact,
+		'division_follow_contact_other'=>$division_follow_contact_other,
 		'sat_id_class'=>$sat_id_class,
 		'datesymtom'=>$datesymtom,
 		'date_entry'=>$date_entry,
+				'follow_address_other'=>$follow_address_other,
 		'hospcode'=>$hospcode
 	);
 	 // dd($data);
@@ -707,6 +745,7 @@ $division_follow_contact = $req ->input ('division_follow_contact');
 $division_follow_contact_other = $req ->input ('division_follow_contact_other');
 $sat_id_class = $req ->input ('sat_id_class');
 $disch_st = $req ->input ('disch_st');
+$follow_address_other = $req ->input ('follow_address_other');
 $date_entry = date('Y-m-d') ;
 $data = array(
 	// 'poe_id'=>$poe_id,
@@ -739,6 +778,7 @@ $data = array(
 	'division_follow_contact_other'=>$division_follow_contact_other,
 	'sat_id_class'=>$sat_id_class,
 	'disch_st'=>$disch_st,
+	'follow_address_other'=>$follow_address_other,
 	'date_entry'=>$date_entry
 );
     // dd($data);
@@ -749,7 +789,7 @@ if ($res1){
 		return redirect()->route('followuptablespui',[$typid,$patianid])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 	}
 	if ($typid = 2) {
-			return redirect()->route('followuptablescontact',[$typid,$patianid])->with('alert', 'เพิ่มเข้าข้อมูลสำเร็จ');
+			return redirect()->route('followuptablescon',[$typid,$patianid])->with('alert', 'เพิ่มเข้าข้อมูลสำเร็จ');
 	}
 }
 }
@@ -1074,6 +1114,17 @@ echo $outputD;
 			);
 		// dd($list_sym_cough);
 		return $arr_risk_contact;
+	}
+	protected function arr_followup_address(){
+		$arr_followup_address = array(
+			'1'=>'บ้าน',
+			'2'=>'โรงแรม',
+			'3'=>'โรงพยาบาล',
+			'4'=>'สถานที่กักกัน' ,
+			'5'=>'อื่นๆ'
+			);
+		// dd($list_sym_cough);
+		return $arr_followup_address;
 	}
 	protected function arr_type_contact(){
 		$arr_type_contact = array(

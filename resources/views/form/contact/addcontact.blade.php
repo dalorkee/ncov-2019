@@ -318,17 +318,26 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                         </div>
                         <br>
                         <div class="form-group row">
-                            <div class="col-sm-3">
-                                <label for="followup_address">สถานที่ที่ติดตามผู้สัมผัส</label>
-                                <select type="text" name="followup_address" id="followup_address" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-                                    <option value="">สถานที่ที่ติดตามผู้สัมผัส</option>
-                                    <option value="1">บ้าน</option>
-                                    <option value="2">โรงแรม</option>
-                                    <option value="3">โรงพยาบาล</option>
-                                    <option value="4">สถานที่กักกัน</option>
-                                    <option value="5">อื่นๆ</option>
-                                </select>
-                            </div>
+                          <div class="col-sm-3">
+                         <label for="followup_address">สถานที่ที่ติดตามผู้ป่วย</label>
+                          <select type="text"  name="followup_address" id="hosdivshow" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+                          <option value="">สถานที่ที่ติดตามผู้ป่วย</option>
+                          <option value="1">บ้าน</option>
+                          <option value="2">โรงแรม</option>
+                          <option value="3">โรงพยาบาล</option>
+                          <option value="4">สถานที่กักกัน</option>
+                          <option value="5">อื่นๆ</option>
+                          </select>
+                          </div>
+
+                      </div>
+                      <div id="follow_address_other" class="form-group row">
+                      <div class="col-sm-3">
+                        <label>ชื่อสถานที่ติดตามผู้ป่วย</label>
+                        <input type="text" name="follow_address_other"  class="form-control"placeholder="ชื่อสถานที่ติดตามผู้ป่วย" >
+                      </div>
+                    </div>
+                    	<div id="hosdiv" class="form-group row">
                             <div class="col-sm-3">
                                 <label for="province_follow_contact">จังหวัดที่ติดตามผู้สัมผัส</label>
                                 <select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
@@ -548,6 +557,34 @@ var demo1 = $('select[name="sat_id_relation[]"]').bootstrapDualListbox();
 $("#demoform").submit(function() {
   alert($('[name="sat_id_relation[]"]').val());
   return false;
+});
+</script>
+<script>
+$(document).ready(function(){
+  $("#hosdiv").hide();
+  $("#follow_address_other").hide();
+    $('#hosdivshow').on('change', function() {
+      if ( this.value == '1')
+      {
+        $("#follow_address_other").show();
+        $("#hosdiv").hide();
+      }
+      if ( this.value == '2')
+      {
+        $("#follow_address_other").show();
+        $("#hosdiv").hide();
+      }
+      if ( this.value == '4')
+      {
+        $("#follow_address_other").show();
+        $("#hosdiv").hide();
+      }
+      if ( this.value == '3')
+      {
+        $("#hosdiv").show();
+        $("#follow_address_other").hide();
+      }
+    });
 });
 </script>
 @endsection
