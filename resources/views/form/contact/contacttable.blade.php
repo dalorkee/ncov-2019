@@ -204,8 +204,9 @@ input.valid, textarea.valid{
 							<div class="form-group">
 								<label for="news">สถานะผู้ป่วย</label>
 								<select name="pt_status" class="form-control selectpicker show-tick" data-style="btn-info" id="pt_status{{ $value->contact_id }}">
-									<option value="{{ (!empty($value->pt_status)) ? $value->pt_status : "2"  }}" selected="selected">{{ (isset($arr_pts[$value->pt_status])) ? $arr_pts[$value->pt_status] : "Confirmed" }}</option>
+									<option value="{{ (!empty($value->pt_status)) ? $value->pt_status : "99"  }}" selected="selected">{{ (isset($arr_pts[$value->pt_status])) ? $arr_pts[$value->pt_status] : "Contact" }}</option>
 									<option value="">-- สถานะผู้ป่วย --</option>
+									<option value="99">Contact</option>
 									@foreach ($ref_pt_status as $row)
 									<option value="{{$row->pts_id}}">{{$row->pts_name_en}}</option>
 									@endforeach

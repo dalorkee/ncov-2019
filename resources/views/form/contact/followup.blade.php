@@ -193,11 +193,11 @@
             </div>
             </div>
 					</div>
-					<div class="bd-callout  bd-callout-danger" style="margin-top:0;position:relative">
-						<div style="position:absolute;top:10px;right:10px;z-index:1">
+					{{-- <div class="bd-callout  bd-callout-danger" style="margin-top:0;position:relative">
+						<div style="position:absolute;top:10px;right:10px;z-index:1"> --}}
 							{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
 							<!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
-						</div>
+						{{-- </div>
 						<h6 class="sub-title">ผู้ป่วยมีอาการเข้าได้กับนิยามผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (PUI 2019-nCoV)</h6>
 						<div class="form-group row">
 						<div class="col-sm-3">
@@ -210,7 +210,7 @@
 						</div>
 						</div>
 						<h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6>
-					</div>
+					</div> --}}
 					<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
 						<div style="position:absolute;top:10px;right:10px;z-index:1">
 							{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
