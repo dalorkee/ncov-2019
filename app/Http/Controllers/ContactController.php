@@ -91,7 +91,7 @@ class ContactController extends MasterController
   }
 
 
-  public function followuptable(Request $req)
+  public function followuptablespui(Request $req)
   {
 		$arr = parent::getStatus();
 		$sat_id=$req->sat_id;
@@ -103,7 +103,34 @@ class ContactController extends MasterController
 		$typid=$req->typid;
 		$followup_times=$req->followup_times;
 		$arr_division_follow_contact = $this->arr_division_follow_contact();
-    return view('form.contact.followuptable',compact(
+    return view('form.contact.followuptablespui',compact(
+			'sat_id',
+			// 'poe_id',
+			'followup_times',
+			'id',
+			'typid',
+			'fucontact_data',
+			'contact_data',
+			'patian_date',
+			'patian_data',
+			'arr_division_follow_contact',
+			'arr'
+    ));
+  }
+
+	public function followuptablescon(Request $req)
+  {
+		$arr = parent::getStatus();
+		$sat_id=$req->sat_id;
+		$patian_date=DB::table('tbl_followup')->where('patianid')->get();
+		$patian_data=DB::table('invest_pt')->select('*')->where('sat_id', [$req->sat_id] )->get();
+		$contact_data=DB::table('tbl_contact')->select('*')->where('sat_id', $sat_id)->get();
+		$fucontact_data=DB::table('tbl_followup')->select('*')->where('patianid', $req->id)->get();
+		$id=$req->id;
+		$typid=$req->typid;
+		$followup_times=$req->followup_times;
+		$arr_division_follow_contact = $this->arr_division_follow_contact();
+    return view('form.contact.followuptablescon',compact(
 			'sat_id',
 			// 'poe_id',
 			'followup_times',
@@ -372,6 +399,67 @@ if(auth()->user()->id==Auth::user()->id){
 
 
 
+
+	  public function addfollowuppui(Request $req)
+	  {
+			$arr = parent::getStatus();
+			$ref_title_name=DB::table('ref_title_name')->select('*')->get();
+			$ref_specimen=DB::table('ref_specimen')->select('*')->get();
+			$followup_date=DB::table('tbl_followup')->select('*')->get();
+			$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
+			$sat_id=DB::table('tbl_contact')->select('pui_id','sat_id')->where('contact_id', $req->contact_id )->get();
+			$id=$req->id;
+			$typid=$req->typid;
+			$contact_id_day=$req->contact_id_day;
+			$listprovince=$this->province();
+			$entry_user = Auth::user()->id;
+			$prefix_sat_id = Auth::user()->prefix_sat_id;
+	    return view('form.contact.addfollowuppui',compact(
+				'listprovince',
+				'ref_title_name',
+				'ref_specimen',
+				'ref_global_country',
+				'sat_id',
+				'followup_date',
+				'prefix_sat_id',
+				'contact_id_day',
+				'id',
+				'typid',
+				'entry_user',
+				'arr'
+	    ));
+	  }
+
+		public function addfollowupcon(Request $req)
+	  {
+			$arr = parent::getStatus();
+			$ref_title_name=DB::table('ref_title_name')->select('*')->get();
+			$ref_specimen=DB::table('ref_specimen')->select('*')->get();
+			$followup_date=DB::table('tbl_followup')->select('*')->get();
+			$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
+			$sat_id=DB::table('tbl_contact')->select('pui_id','sat_id')->where('contact_id', $req->contact_id )->get();
+			$id=$req->id;
+			$typid=$req->typid;
+			$contact_id_day=$req->contact_id_day;
+			$listprovince=$this->province();
+			$entry_user = Auth::user()->id;
+			$prefix_sat_id = Auth::user()->prefix_sat_id;
+	    return view('form.contact.addfollowuppui',compact(
+				'listprovince',
+				'ref_title_name',
+				'ref_specimen',
+				'ref_global_country',
+				'sat_id',
+				'followup_date',
+				'prefix_sat_id',
+				'contact_id_day',
+				'id',
+				'typid',
+				'entry_user',
+				'arr'
+	    ));
+	  }
+
   public function contactinsert(Request $req) {
 	 $contact_id = $req ->input ('contact_id');
 	 $contact_id_temp = $req ->input ('contact_id_temp');
@@ -618,6 +706,7 @@ $followup_address = $req ->input ('followup_address');
 $division_follow_contact = $req ->input ('division_follow_contact');
 $division_follow_contact_other = $req ->input ('division_follow_contact_other');
 $sat_id_class = $req ->input ('sat_id_class');
+$disch_st = $req ->input ('disch_st');
 $date_entry = date('Y-m-d') ;
 $data = array(
 	// 'poe_id'=>$poe_id,
@@ -649,6 +738,7 @@ $data = array(
 	'division_follow_contact'=>$division_follow_contact,
 	'division_follow_contact_other'=>$division_follow_contact_other,
 	'sat_id_class'=>$sat_id_class,
+	'disch_st'=>$disch_st,
 	'date_entry'=>$date_entry
 );
     // dd($data);
@@ -656,10 +746,10 @@ $res1	= DB::table('tbl_followup')->insert($data);
 
 if ($res1){
 	if ($typid = 1) {
-		return redirect()->route('followuptable',[$typid,$patianid])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+		return redirect()->route('followuptablespui',[$typid,$patianid])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 	}
 	if ($typid = 2) {
-			return redirect()->route('followuptable',[$typid,$patianid])->with('alert', 'เพิ่มเข้าข้อมูลสำเร็จ');
+			return redirect()->route('followuptablescontact',[$typid,$patianid])->with('alert', 'เพิ่มเข้าข้อมูลสำเร็จ');
 	}
 }
 }
@@ -1027,6 +1117,17 @@ echo $outputD;
 			);
 		// dd($list_sym_cough);
 		return $arr_follow_results;
+	}
+	protected function arr_disch_st(){
+		$arr_disch_st= array(
+			'1'=>'ไม่มี',
+			'2'=>'เล็กน้อย',
+			'3'=>'หนัก',
+			'4'=>'วิกฤต',
+			''=>''
+			);
+		// dd($list_sym_cough);
+		return $arr_disch_st;
 	}
 	protected function arrtitlename(){
 			$arrtitlename = DB::table('ref_title_name')->select('id','title_name')->get();

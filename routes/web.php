@@ -78,7 +78,10 @@ Route::post('province/district/sub-district', 'ConfirmFormController@subDistrict
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
 Route::get('/detailcontact/contact_id/{contact_id}', 'ContactController@detailcontact')->name('detailcontact');
 Route::get('/contacttable/id/{id}', 'ContactController@contacttable')->name('contacttable');
-Route::get('/followuptable/typid/{typid}/id/{id}', 'ContactController@followuptable')->name('followuptable');
+
+Route::get('/followuptablespui/typid/{typid}/id/{id}', 'ContactController@followuptablespui')->name('followuptablespui');
+Route::get('/followuptablescon/typid/{typid}/id/{id}', 'ContactController@followuptablescon')->name('followuptablescon');
+
 Route::get('/puifollowtable', 'ContactController@puifollowtable')->name('puifollowtable');
 Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
@@ -87,12 +90,15 @@ Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetc
 Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
 Route::post('/addcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
 Route::get('/followup/typid/{typid}/id/{id}', 'ContactController@followup')->name('followup');
+
+Route::get('/addfollowuppui/typid/{typid}/id/{id}', 'ContactController@addfollowuppui')->name('addfollowuppui');
+Route::get('/addfollowupcon/typid/{typid}/id/{id}', 'ContactController@addfollowupcon')->name('addfollowupcon');
+
 Route::post('/followup/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
 Route::post('/followupinsert', 'ContactController@followupinsert')->name('followupinsert');
 Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
 Route::post('/contactedit', 'ContactController@contactedit')->name('contactedit');
 Route::post('/contact_st_update', 'ContactController@contactstupdate')->name('contact_st_update');
-Route::post('/fustupdate', 'ContactController@fustupdate')->name('fustupdate');
 // excel download
 Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');

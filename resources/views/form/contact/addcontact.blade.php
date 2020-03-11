@@ -231,10 +231,10 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                         <h5 class="sub-title">อาการปัจจุบันของผู้สัมผัส</h5>
                         <div class="form-group row">
                             <div class="col-sm-3">
-                                <input type="radio" name="clinical" value="y" onclick="show1();" checked> ไม่มีอาการ
+                                <input type="radio" name="clinical" value="n" onclick="show1();" checked> ไม่มีอาการ
                             </div>
                             <div class="col-sm-3">
-                                <input type="radio" name="clinical" value="n" onclick="show2();"> มีอาการ
+                                <input type="radio" name="clinical" value="y" onclick="show2();"> มีอาการ
                             </div>
                         </div>
                         <div id="div1" class="hide">

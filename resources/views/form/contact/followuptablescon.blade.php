@@ -101,57 +101,69 @@ input.valid, textarea.valid{
 				<div class="card-body">
 					<div class="d-md-flex align-items-center mb-2">
 						<div>
-							<h4 class="card-title">แบบติดตามผู้สัมผัสโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
+							<h4 class="card-title">แบบติดตามอาการของผู้ป่วยโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
 							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
-					<br>
 					<div class="col-md-12">
-						<a class="btn btn-warning" href="{{ route('contactfollowtable') }}" class="sidebar-link"><i class="mdi mdi-account-multiple"></i><span class="hide-menu"> FollowUp Contact</span></a>
-					<a class="btn btn-success" href="{{ route('puifollowtable') }}" class="sidebar-link"><i class="fas fa-diagnoses"></i><span class="hide-menu"> FollowUp PUI</span></a>
+						<a class="btn btn-cyan" href="{{ route('addfollowupcon',[$typid,$id]) }}">
+						{{-- <a class="btn btn-cyan" href="{{ route('followupcontact',$contact_id)}}"> --}}
+							+	Add FollowUp Contact
+						</a>
 					</div>
 					<br>
-				<br>
 					<div class="table-responsive">
           <table id="example" class="table display mb-4" role="table">
         <thead>
             <tr>
-							<th>ID</th>
-                <th>Contact ID</th>
-								<th>เพศ</th>
-								<th>อายุ</th>
-                <th>ที่อยู่ในประเทศไทย</th>
-                <th>สัญชาติ</th>
-                <th>Action</th>
+                <th>ครั้งที่</th>
+								<th>Contact ID</th>
+								<th>วันที่ติดตามผู้สัมผัส</th>
+								<th>หน่วยงานที่ติดตามผู้ป่วย</th>
+                <th>สถานที่ติดตามผู้สัมผัส</th>
             </tr>
         </thead>
         <tbody>
-					<?php foreach($contact_data as $value) : ?>
+
+					 <?php foreach($fucontact_data as $value) : ?>
             <tr>
-								<td>{{ $value->conid }}</td>
-                <td>{{ $value->contact_id }}</td>
-								<td>{{ $value->sex_contact }}</td>
-                <td>{{ $value->age_contact }}</td>
-								<td>{{ (isset($arrprov[$value->province])) ? $arrprov[$value->province] : "" }}
-										{{ (isset($arrdistrict[$value->district])) ? $arrdistrict[$value->district] : "" }}
-										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}
+
+							<td>
+								{{ $value->followup_times }}
+							</td>
+							<td>
+								{{ $value->contact_id }}
+							</td>
+							<td>
+									{{ $value->date_no }}
+							</td>
+							<td>
+										{{ (isset($arr_division_follow_contact[$value->division_follow_contact])) ? $arr_division_follow_contact[$value->division_follow_contact] : "" }}
+							</td>
+							@if ( $value->followup_address==3)
+							<td bgcolor="#A3E4D7">
+									{{ (isset($arr['arrfollowup_address'][$value->followup_address])) ? $arr['arrfollowup_address'][$value->followup_address] : "" }}
+
+							</td>
+							@else
+								<td bgcolor="#F9E79F">
+										{{ (isset($arr['arrfollowup_address'][$value->followup_address])) ? $arr['arrfollowup_address'][$value->followup_address] : "" }}
+
 								</td>
-								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
-								<td>
-									{{-- <button type="button" class="btn btn-success btn-sm margin-5 text-white chstatusfu" data-toggle="modal" title="Change status" data-target="#chstatusfu">ST</button> --}}
-									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
-										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" target="_blank" href="{{ 'followuptablescon'}}/typid/2/id/{{ $value->contact_id }}">
-											FU
-									</a>
-									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}
-										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="{{ 'detailcontact'}}/contact_id/{{ $value->contact_id }}">
-										Info
-								</a>
-								{{-- <a class="btn btn-warning btn-sm" href="{{'editcontact'}}/contact_id/{{ $value->contact_id }}"> --}}
-									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#"> --}}
-										{{-- Edit --}}
-								</a>
-								</td>
+								@endif
+
+                {{-- <td>
+									@if ( $value->followup_address==3)
+									<a class="btn btn-success btn-sm" href="{{ route('followupcontact')}}?contact_id_day=&sat_id={{ $sat_id }}&contact_id={{ $contact_id }}">
+                      {{ (isset($arr['arrfollowup_address'][$value->followup_address])) ? $arr['arrfollowup_address'][$value->followup_address] : "" }}
+                  </a>
+									@else
+										<a class="btn btn-warning btn-sm" href="{{ route('followupcontact')}}?contact_id_day=&sat_id={{ $sat_id }}&contact_id={{ $contact_id }}">
+												{{ (isset($arr['arrfollowup_address'][$value->followup_address])) ? $arr['arrfollowup_address'][$value->followup_address] : "" }}
+										</a>
+                @endif
+
+                </td> --}}
             </tr>
 						<?php endforeach;?>
         </tbody>
@@ -162,7 +174,6 @@ input.valid, textarea.valid{
 		</div>
 	</div>
 </div>
-
 @endsection
 @section('bottom-script')
 	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/datatables.min.js') }}"></script>
@@ -174,37 +185,13 @@ input.valid, textarea.valid{
 <script>
 $(document).ready(function() {
     $('#example').DataTable();
-			} );
+} );
 </script>
-{{-- <script>
-
-document.getElementById("btnPrint").onclick = function () {
-    printElement(document.getElementById("printThis"));
-}
-
-function printElement(elem) {
-    var domClone = elem.cloneNode(true);
-
-    var $printSection = document.getElementById("printSection");
-
-    if (!$printSection) {
-        var $printSection = document.createElement("div");
-        $printSection.id = "printSection";
-        document.body.appendChild($printSection);
-    }
-
-    $printSection.innerHTML = "";
-    $printSection.appendChild(domClone);
-    window.print();
-}
-</script> --}}
 <script>
-$('#date_change_st').datepicker({
-	format: 'dd/mm/yyyy',
-	todayHighlight: true,
-	todayBtn: true,
-	autoclose: true
-});
-
-</script>
+    var msg = '{{Session::get('alert')}}';
+    var exist = '{{Session::has('alert')}}';
+    if(exist){
+      alert(msg);
+    }
+  </script>
 @endsection
