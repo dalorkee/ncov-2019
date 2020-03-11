@@ -92,7 +92,7 @@ Route::post('/followupinsert', 'ContactController@followupinsert')->name('follow
 Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
 Route::post('/contactedit', 'ContactController@contactedit')->name('contactedit');
 Route::post('/contact_st_update', 'ContactController@contactstupdate')->name('contact_st_update');
-
+Route::post('/fustupdate', 'ContactController@fustupdate')->name('fustupdate');
 // excel download
 Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');

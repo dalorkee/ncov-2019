@@ -198,10 +198,13 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                     <option value="">- เลือก -</option>
                                     <option value="1">บุคลากรทางการแพทย์</option>
                                     <option value="2">ผู้สัมผัสร่วมบ้าน</option>
-                                    <option value="3">ผู้ร่วมเดินทาง</option>
+                                    <option value="3">ผู้ร่วมเดินทาง/ร่วมยานพาหนะ</option>
                                     <option value="4">พนักงานโรงแรม</option>
                                     <option value="5">คนขับแท๊กซี่/ยานพาหนะ</option>
                                     <option value="6">พนักงานสนามบิน</option>
+                                    <option value="8">บุคคลร่วมที่ทำงาน</option>
+                                    <option value="9">บุคคลร่วมโรงเรียน</option>
+                                    <option value="10">ผู้ป่วยในโรงพยาบาล</option>
                                     <option value="7">อื่นๆ</option>
                                 </select>
                             </div>
@@ -279,11 +282,11 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                             </div>
                         </div>
                     </div>
-                    <div class="bd-callout bd-callout-warning" style="margin-top:0;position:relative">
-                        <div style="position:absolute;top:10px;right:10px;z-index:1">
+                    {{-- <div class="bd-callout bd-callout-warning" style="margin-top:0;position:relative">
+                        <div style="position:absolute;top:10px;right:10px;z-index:1"> --}}
                             {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
                             <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
-                        </div>
+                        {{-- </div>
                         <h6 class="sub-title">เป็นผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (มีอาการเข้าได้กับนิยามและมีผลยืนยันทางห้องปฏิบัติการณ์)</h6>
                         <div class="form-group row">
                             <div class="col-sm-3">
@@ -297,7 +300,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                         </div>
                         <h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>
                             ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6>
-                    </div>
+                    </div> --}}
                     <div class="bd-callout bd-callout-danger" style="margin-top:0;position:relative">
                         <div style="position:absolute;top:10px;right:10px;z-index:1">
                             {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}

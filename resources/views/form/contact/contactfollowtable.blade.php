@@ -117,12 +117,11 @@ input.valid, textarea.valid{
         <thead>
             <tr>
 							<th>ID</th>
-                <th>PUI ID</th>
+                <th>Contact ID</th>
 								<th>เพศ</th>
 								<th>อายุ</th>
-                <th>เชื้อชาติ</th>
+                <th>ที่อยู่ในประเทศไทย</th>
                 <th>สัญชาติ</th>
-								<th>ครั้ง/วันที่ติดตามครั้งล่าสุด</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -138,8 +137,8 @@ input.valid, textarea.valid{
 										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}
 								</td>
 								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
-								<td>{{ $value->age_contact }}</td>
 								<td>
+									{{-- <button type="button" class="btn btn-success btn-sm margin-5 text-white chstatusfu" data-toggle="modal" title="Change status" data-target="#chstatusfu">ST</button> --}}
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
 										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" target="_blank" href="{{ 'followuptable'}}/typid/2/id/{{ $value->contact_id }}">
 											FU
@@ -199,4 +198,13 @@ function printElement(elem) {
     window.print();
 }
 </script> --}}
+<script>
+$('#date_change_st').datepicker({
+	format: 'dd/mm/yyyy',
+	todayHighlight: true,
+	todayBtn: true,
+	autoclose: true
+});
+
+</script>
 @endsection

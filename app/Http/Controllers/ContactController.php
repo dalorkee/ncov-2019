@@ -70,7 +70,10 @@ class ContactController extends MasterController
 		 // dd($arr_status_followup);
 		$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
 		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
-		$contact_data=DB::table('tbl_contact')->select('*')->where('pui_id', $id)->get();
+		$contact_data=DB::table('tbl_contact')
+										->select('*')
+										->where('pui_id', $id)->get();
+
 
     return view('form.contact.contacttable',compact(
 			'contact_data',
@@ -137,6 +140,7 @@ class ContactController extends MasterController
 		$arrprov = $this->arrprov();
 		$arrdistrict = $this->arrdistrict();
 		$arr_sub_district = $this->arr_sub_district();
+		$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
 		$arr_division_follow_contact = $this->arr_division_follow_contact();
     return view('form.contact.puifollowtable',compact(
 			'pui_data',
@@ -145,7 +149,8 @@ class ContactController extends MasterController
 			'arrprov',
 			'arrdistrict',
 			'arr_division_follow_contact',
-			'arr_sub_district'
+			'arr_sub_district',
+			'ref_pt_status'
     ));
   }
 }
@@ -169,6 +174,7 @@ if(auth()->user()->id==Auth::user()->id){
 	$arr_sub_district = $this->arr_sub_district();
 	$arr_division_follow_contact = $this->arr_division_follow_contact();
 	$arr_pts = $this->arr_pts();
+			$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
 	return view('form.contact.contactfollowtable',compact(
 		'contact_data',
 		'nation_list',
@@ -178,6 +184,7 @@ if(auth()->user()->id==Auth::user()->id){
 		'arr_division_follow_contact',
 		'arr_sub_district',
 		'arr_pts',
+		'ref_pt_status'
 	));
 }
 }
@@ -556,6 +563,28 @@ public function contactstupdate(Request $request) {
 	}
 }
 
+public function fustupdate(Request $request) {
+	$id = $request ->input ('id');
+	$pui_id = $request ->input ('pui_id');
+	$contact_id = $request ->input ('contact_id');
+	$status_followup = $request ->input ('status_followup');
+  $pt_status = $request ->input ('pt_status');
+  $date_change_st = $this->convertDateToMySQL($request ->input ('date_change_st'));
+	// $date_change_st =date('Y-m-d');
+	$res1=DB::table('tbl_contact')
+			->where('id',$id)
+			->where('contact_id',$contact_id)
+	    ->update(
+	        ['pt_status' => $pt_status,
+					 'status_followup' => $status_followup,
+					 'date_change_st' => $date_change_st
+				 ]
+	    );
+	if ($res1) {
+		return redirect()->route('contacttable',[$pui_id]);
+		exit;
+	}
+}
 
 public function followupinsert(Request $req)
 {

@@ -45,6 +45,9 @@
 						<div class="col-sm-3">
 						<input type="hidden" name="typid" value="{{$typid}}" class="form-control">
 						</div>
+						{{-- <div class="col-sm-3">
+						<input type="text" name="patianid" value="{{$pui_id}}" class="form-control">
+						</div> --}}
 						<div class="col-sm-3">
 						<input type="hidden" name="patianid" value="{{$id}}" class="form-control">
 						</div>

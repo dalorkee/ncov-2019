@@ -108,7 +108,7 @@ input.valid, textarea.valid{
 					<div class="col-md-12">
 						<a class="btn btn-cyan" href="{{ route('followup',[$typid,$id]) }}">
 						{{-- <a class="btn btn-cyan" href="{{ route('followupcontact',$contact_id)}}"> --}}
-							+	Add FollowUp Contact
+							+	Add FollowUp
 						</a>
 					</div>
 					<br>
@@ -151,6 +151,7 @@ input.valid, textarea.valid{
 
 								</td>
 								@endif
+								
                 {{-- <td>
 									@if ( $value->followup_address==3)
 									<a class="btn btn-success btn-sm" href="{{ route('followupcontact')}}?contact_id_day=&sat_id={{ $sat_id }}&contact_id={{ $contact_id }}">
