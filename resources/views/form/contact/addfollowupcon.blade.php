@@ -63,7 +63,7 @@
             <div class="form-group row">
 						<div class="col-sm-3">
 							<label for="date_no">ครั้งที่ติดตามอาการ</label>
-							<input type="number" name="followup_times" id="followup_times" class="form-control" value="1" min="1" max="14" placeholder="ครั้งที่ติดตามอาการ" autocomplete="off" required>
+							<input type="number" name="followup_times" id="followup_times" class="form-control"  min="1" max="14" placeholder="ครั้งที่ติดตามอาการ" autocomplete="off" required>
 						</div>
             <div class="col-sm-3">
 						<label for="date_no">วันที่ติดตามอาการ</label>

@@ -147,6 +147,8 @@ input.valid, textarea.valid{
 								</td>
 								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
 								<td>
+									<a href="http://viral.ddc.moph.go.th/viral/lab/genlab.php?idx={{ $value->contact_id }}" target="_blank" title="GenLAB" class="btn btn-cyan btn-sm">GenLAB</a>
+									<a href="http://viral.ddc.moph.go.th/viral/lab/labfollow.php?idx={{ $value->contact_id }}" target="_blank" title="LabResult" class="btn btn-primary btn-sm">LabResult</a>
 									<button type="button" class="btn btn-success btn-sm margin-5 text-white change_st" data-toggle="modal" title="Change status" data-target="#chstatus">ST</button>
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
 										<a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="/ncov-2019/{{ 'followuptablescon'}}/typid/2/id/{{ $value->contact_id }}">
@@ -193,6 +195,7 @@ input.valid, textarea.valid{
 							<div class="form-group">
 								<label for="patient">สถานะการติดตาม</label>
 								<select name="status_followup" class="form-control selectpicker show-tick" data-style="btn-danger" id="status_followup">
+									<option value="2">ยังต้องติดตาม</option>
 									<option value="{{ (!empty($value->status_followup)) ? $value->status_followup : ""  }}" selected="selected">{{ (isset($arr_status_followup[$value->status_followup])) ? $arr_status_followup[$value->status_followup] : "" }}</option>
 										<option value="">สถานะการติดตาม</option>
 											<option value="2">ยังต้องติดตาม</option>

@@ -63,7 +63,7 @@
             <div class="form-group row">
 						<div class="col-sm-3">
 							<label for="date_no">ครั้งที่ติดตามอาการ</label>
-							<input type="number" name="followup_times" id="followup_times" class="form-control" value="1" min="1" max="14" placeholder="ครั้งที่ติดตามอาการ" autocomplete="off" required>
+							<input type="number" name="followup_times" id="followup_times" class="form-control" min="1" max="14" placeholder="ครั้งที่ติดตามอาการ" autocomplete="off" required>
 						</div>
             <div class="col-sm-3">
 						<label for="date_no">วันที่ติดตามอาการ</label>
@@ -133,7 +133,7 @@
 			<div class="col-sm-3">
 				<label for="hospcode">โรงพยาบาลที่รักษาตัว</label>
 				<select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="โรงพยาบาลที่รักษาตัว">
-					
+
 					<option value="">เลือกโรงพยาบาลที่รักษาตัว</option>
 				</select>
 			</div>

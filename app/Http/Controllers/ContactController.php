@@ -416,7 +416,7 @@ if(auth()->user()->id==Auth::user()->id){
 			$sat_id=DB::table('tbl_contact')->select('pui_id','sat_id')->where('contact_id', $req->contact_id )->get();
 			$id=$req->id;
 			$typid=$req->typid;
-			$position_follow=DB::table('tbl_followup')->select('followup_address','province_follow_contact','hospcode')
+			$position_follow=DB::table('tbl_followup')->select('followup_address','province_follow_contact','hospcode','division_follow_contact','division_follow_contact_other')
 																			 ->where('patianid', $id)
 																			 ->where('followup_times', '=', '0')
 																			 ->get();
@@ -458,7 +458,8 @@ if(auth()->user()->id==Auth::user()->id){
 			$followup_date=DB::table('tbl_followup')->select('*')->get();
 			$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
 			$sat_id=DB::table('tbl_contact')->select('pui_id','sat_id')->where('contact_id', $req->contact_id )->get();
-			$position_follow=DB::table('tbl_followup')->select('followup_address','province_follow_contact','hospcode')
+			$position_follow=DB::table('tbl_followup')
+			->select('followup_address','province_follow_contact','hospcode','division_follow_contact','division_follow_contact_other')
 																			 ->where('patianid', $id)
 																			 ->where('followup_times', '=', '0')
 																			 ->get();
