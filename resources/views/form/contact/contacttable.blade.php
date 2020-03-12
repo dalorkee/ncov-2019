@@ -136,7 +136,7 @@ input.valid, textarea.valid{
 							</tr>
 						</thead>
 						<tbody>
-						<?php foreach($contact_data as $value) : ?>
+						<?php foreach($contact_data as  $value) : ?>
 							<tr>
 								<td>{{ $value->id }}</td>
                 <td>{{ $value->contact_id }}</td>
@@ -151,7 +151,7 @@ input.valid, textarea.valid{
 									<a href="http://viral.ddc.moph.go.th/viral/lab/labfollow.php?idx={{ $value->contact_id }}" target="_blank" title="LabResult" class="btn btn-primary btn-sm">LabResult</a>
 									<button type="button" class="btn btn-success btn-sm margin-5 text-white change_st" data-toggle="modal" title="Change status" data-target="#chstatus">ST</button>
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
-										<a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="/ncov-2019/{{ 'followuptablescon'}}/typid/2/id/{{ $value->contact_id }}">
+										<a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="/ncov-2019/{{ 'followuptablescon'}}/typid/2/id/{{ $value->id }}">
 											FU
 									</a>
 									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}

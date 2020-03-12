@@ -70,9 +70,25 @@ class ContactController extends MasterController
 		 // dd($arr_status_followup);
 		$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
 		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
-		$contact_data=DB::table('tbl_contact')
-										->select('*')
-										->where('pui_id', $id)->get();
+		$contact_data=DB::table('patient_relation')
+										->join('tbl_contact', 'patient_relation.contact_id', '=', 'tbl_contact.contact_id')
+										->select('patient_relation.id',
+															'patient_relation.pui_id',
+															'patient_relation.sat_id',
+															'patient_relation.contact_rid',
+															'patient_relation.contact_id',
+															'patient_relation.create_date',
+															'patient_relation.dalete_date',
+															'tbl_contact.age_contact',
+															'tbl_contact.sex_contact',
+															'tbl_contact.national_contact',
+															'tbl_contact.province',
+															'tbl_contact.district',
+															'tbl_contact.sub_district',
+															'tbl_contact.pt_status',
+															'tbl_contact.status_followup')
+										->where('patient_relation.pui_id', $id)
+										->get();
 
 
     return view('form.contact.contacttable',compact(
