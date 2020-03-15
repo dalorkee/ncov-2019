@@ -139,11 +139,11 @@ input.valid, textarea.valid{
 								<td>{{ (isset($nation_list[$value->nation])) ? $nation_list[$value->nation] : "" }}</td>
 								<td>
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
-										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" target="_blank" href="{{ 'followuptablespui'}}/typid/1/id/{{ $value->sat_id }}">
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" target="_blank" href="/ncov-2019/{{ 'followuptablespui'}}/typid/1/id/{{ $value->sat_id }}">
 											FU
 									</a>
 									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}
-										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="{{ 'detailcontact'}}/pui_id/{{ $value->sat_id }}">
+										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="/ncov-2019/{{ 'detailcontact'}}/pui_id/{{ $value->sat_id }}">
 										Info
 								</a>
 								{{-- <a class="btn btn-warning btn-sm" href="{{'editcontact'}}/pui_id/{{ $value->sat_id }}"> --}}
