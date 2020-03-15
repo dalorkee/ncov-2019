@@ -52,20 +52,41 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                         <input type="hidden" name="pui_id" value="{{$pui_id}}" class="form-control" readonly>
                                     </div>
                                 </div>
+                                <div class="bd-callout bd-callout-danger" style="margin-top:0;position:relative">
+                                    <div style="position:absolute;top:10px;right:10px;z-index:1">
+                                        {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+                                        <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+                                    </div>
                                 <div class="form-group row">
                                     <div class="col-sm-12 col-md-6">
                                         <input type="hidden" name="sat_id" value="{{$sat_id[0]->sat_id}}" class="form-control" readonly>
-                                        <div>
-                                          <h4 class="card-title">ของผู้ป่วย รหัส: <br>{{$sat_id[0]->sat_id}}</h4>
-                                          {{-- <h4 class="card-title">และ รหัส:<br>
-                                          @foreach ($sat_id_relation as $row)
-                                          {{$row->sat_id}}<br>
-                                          @endforeach
-                                        </h4> --}}
+                                          <h5 class="sub-title">รหัสผู้สัมผัส : </h5>
+                                        <div class="col-sm-12 col-md-6">
+                                              <h5 class="card-title"><input type="checkbox" id="cuscontactid" name="cuscontactid" /> :  กรณีกรอกรหัสผู้สัมผัสด้วยตนเอง  </h5>
+                                            <input type="text" id="inputcontact" name="contact_id" value="{{$contact_id}}" class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
+                                        </div>
                                         </div>
                                     </div>
+                                  </div>
+                                  <div>
+                                    <h5 class="card-title">ผู้สัมผัสของผู้ป่วยรหัส : {{$sat_id[0]->sat_id}}</h5>
+                                    {{-- <h4 class="card-title">และ รหัส:<br>
+                                    @foreach ($sat_id_relation as $row)
+                                    {{$row->sat_id}}<br>
+                                    @endforeach
+                                  </h4> --}}
+                                  </div>
+                                <h5 class="sub-title">เพิ่มผู้ป่วยของผู้สัมผัส กรณีเป็นผู้สัมผัสของผู้ป่วยหลายราย</h5>
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <input type="radio" name="pa1" value="n" onclick="show21();" checked> ไม่มี
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="radio" name="pa1" value="y" onclick="show22();"> มี
+                                    </div>
+
                                 </div>
-                                <label>เลือก SAT ID เพิ่มเติม : </label>
+                                <div id="div2" class="hide">
                                 <div class="form-group row">
                                     <div class="col-sm-12 col-md-6">
                                         <select multiple="multiple" size="10" name="sat_id_relation[]">
@@ -73,21 +94,15 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                           <option value="{{$row->sat_id.'|'.$row->id}}">{{$row->sat_id}} [{{$row->first_name}} {{$row->last_name}}/{{$nation_list[$row->nation]}}]
                                           </option>
                                           @endforeach
-                                          <option value="{{$sat_id[0]->sat_id.'|'.$pui_id}}" selected>รหัสตั้งผู้ป่วยหลัก {{$sat_id[0]->sat_id}}</option>
+                                          <option value="{{$sat_id[0]->sat_id.'|'.$pui_id}}" selected>รหัสตั้งต้นผู้ป่วยหลัก {{$sat_id[0]->sat_id}}</option>
                                         </select>
                                         <br>
                                     </div>
                                 </div>
-                                <label>Contact ID : </label>
+                              </div>
                                 <div class="form-group row">
                                     <div class="col-sm-12 col-md-3">
                                         <input type="hidden" id="contact_id_temp" name="contact_id_temp" value="{{$contact_id}}" class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-12 col-md-3">
-                                        <input type="checkbox" id="cuscontactid" name="cuscontactid" /> : กรณีกรอกรหัสผู้สัมผัสด้วยตนเอง
-                                        <input type="text" id="inputcontact" name="contact_id" value="{{$contact_id}}" class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -527,6 +542,15 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 
     function show2() {
         document.getElementById('div1').style.display = 'block';
+    }
+</script>
+<script>
+    function show21() {
+        document.getElementById('div2').style.display = 'none';
+    }
+
+    function show22() {
+        document.getElementById('div2').style.display = 'block';
     }
 </script>
 <script>
