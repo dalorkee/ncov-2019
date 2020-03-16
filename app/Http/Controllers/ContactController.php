@@ -351,9 +351,10 @@ if(auth()->user()->id==Auth::user()->id){
 
 		$getdata_fucontact=DB::table('tbl_followup')
 													->select('*')
-													->where('contact_id',$contact_id)
-													->where('followup_times','=','0')
+													->where('patianid',$contact_id)
+													->where('followup_times','=',"0")
 													->get();
+
 			// dd($getdata_fucontact);
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$arr_followup_address=$this->arr_followup_address();
