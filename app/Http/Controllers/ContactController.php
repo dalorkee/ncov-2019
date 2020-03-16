@@ -354,7 +354,7 @@ if(auth()->user()->id==Auth::user()->id){
 													->where('contact_id',$contact_id)
 													->where('followup_times','=','0')
 													->get();
-
+			// dd($getdata_fucontact);
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$arr_followup_address=$this->arr_followup_address();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();

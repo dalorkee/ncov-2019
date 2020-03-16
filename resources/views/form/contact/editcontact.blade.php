@@ -247,7 +247,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             <div class="col-sm-4">
                                 <label for="risk_contact">ระดับความเสี่ยง</label>
                                 <select type="text" name="risk_contact" class="form-control js-select-basic-single" placeholder="ระดับความเสี่ยง">
-																	<option value=""{{ (isset($getdata_contact[0]->risk_contact)) ? $getdata_contact[0]->risk_contact : "" }}"">{{ (isset($arr_risk_contact[$getdata_contact[0]->risk_contact])) ? $arr_risk_contact[$getdata_contact[0]->risk_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																	<option value="{{ (isset($getdata_contact[0]->risk_contact)) ? $getdata_contact[0]->risk_contact : "" }}">{{ (isset($arr_risk_contact[$getdata_contact[0]->risk_contact])) ? $arr_risk_contact[$getdata_contact[0]->risk_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
 																		<option value="">ระดับความเสี่ยง</option>
                                     <option value="1">เสี่ยงสูง</option>
                                     <option value="2">เสี่ยงต่ำ</option>
@@ -336,7 +336,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             <div class="col-sm-3">
                                 <label for="status_followup">สถานะการติดตาม</label>
                                 <select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
-																	<option value=""{{ (isset($getdata_fucontact[0]->status_followup)) ? $getdata_fucontact[0]->status_followup : "" }}"">{{ (isset($arr_status_followup[$getdata_fucontact[0]->status_followup])) ? $arr_status_followup[$getdata_fucontact[0]->status_followup] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																	{{-- <option value=""{{ (isset($getdata_fucontact[0]->status_followup)) ? $getdata_fucontact[0]->status_followup : "" }}"">{{ (isset($arr_status_followup[$getdata_fucontact[0]->status_followup])) ? $arr_status_followup[$getdata_fucontact[0]->status_followup] : "ยังไม่มีการกรอกข้อมูล" }}</option> --}}
 																	  <option value="">สถานะการติดตาม</option>
                                     <option value="1">จบการติดตาม</option>
                                     <option value="2">ยังต้องติดตาม</option>
@@ -348,7 +348,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                           <div class="col-sm-3">
                          <label for="followup_address">สถานที่ที่ติดตามผู้ป่วย</label>
                           <select type="text"  name="followup_address" id="hosdivshow" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-													<option value=""{{ (isset($getdata_fucontact[0]->followup_address)) ? $getdata_fucontact[0]->followup_address : "" }}"">{{ (isset($arr_followup_address[$getdata_fucontact[0]->followup_address])) ? $arr_followup_address[$getdata_fucontact[0]->followup_address] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+													{{-- <option value=""{{ (isset($getdata_fucontact[0]->followup_address)) ? $getdata_fucontact[0]->followup_address : "" }}"">{{ (isset($arr_followup_address[$getdata_fucontact[0]->followup_address])) ? $arr_followup_address[$getdata_fucontact[0]->followup_address] : "ยังไม่มีการกรอกข้อมูล" }}</option> --}}
 													<option value="">สถานที่ที่ติดตามผู้ป่วย</option>
                           <option value="1">บ้าน</option>
                           <option value="2">โรงแรม</option>
@@ -369,7 +369,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             <div class="col-sm-3">
                                 <label for="province_follow_contact">จังหวัดที่ติดตามผู้สัมผัส</label>
                                 <select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-																	<option value=""{{ (isset($getdata_fucontact[0]->province_follow_contact)) ? $getdata_fucontact[0]->province_follow_contact : "" }}"">{{ (isset($arr_province[$getdata_fucontact[0]->province_follow_contact])) ? $arr_province[$getdata_fucontact[0]->province_follow_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																	{{-- <option value=""{{ (isset($getdata_fucontact[0]->province_follow_contact)) ? $getdata_fucontact[0]->province_follow_contact : "" }}"">{{ (isset($arr_province[$getdata_fucontact[0]->province_follow_contact])) ? $arr_province[$getdata_fucontact[0]->province_follow_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option> --}}
 																		<option value="">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</option>
                                     @foreach ($listprovince as $row)
                                     <option value="{{$row->province_id}}">{{$row->province_name}}</option>
@@ -379,7 +379,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             <div class="col-sm-3">
                                 <label for="hospcode">โรงพยาบาลที่รักษาตัว</label>
                                 <select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="โรงพยาบาลที่รักษาตัว">
-																		<option value=""{{ (isset($getdata_fucontact[0]->hospcode)) ? $getdata_fucontact[0]->hospcode : "" }}"">{{ (isset($arr_hos[$getdata_fucontact[0]->hospcode])) ? $arr_hos[$getdata_fucontact[0]->hospcode] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																		{{-- <option value=""{{ (isset($getdata_fucontact[0]->hospcode)) ? $getdata_fucontact[0]->hospcode : "" }}"">{{ (isset($arr_hos[$getdata_fucontact[0]->hospcode])) ? $arr_hos[$getdata_fucontact[0]->hospcode] : "ยังไม่มีการกรอกข้อมูล" }}</option> --}}
 																		<option value="">เลือกโรงพยาบาลที่รักษาตัว</option>
                                 </select>
                             </div>
@@ -388,7 +388,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             <div class="col-sm-3">
                                 <label for="division_follow_contact">หน่วยงานที่ติดตามผู้สัมผัส</label>
                                 <select type="text" name="division_follow_contact" id="division_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-																	<option value=""{{ (isset($getdata_fucontact[0]->division_follow_contact)) ? $getdata_fucontact[0]->division_follow_contact : "" }}"">{{ (isset($arr_division_follow_contact[$getdata_fucontact[0]->division_follow_contact])) ? $arr_division_follow_contact[$getdata_fucontact[0]->division_follow_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																	{{-- <option value=""{{ (isset($getdata_fucontact[0]->division_follow_contact)) ? $getdata_fucontact[0]->division_follow_contact : "" }}"">{{ (isset($arr_division_follow_contact[$getdata_fucontact[0]->division_follow_contact])) ? $arr_division_follow_contact[$getdata_fucontact[0]->division_follow_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option> --}}
 																		<option value="">หน่วยงานที่ติดตามผู้สัมผัส</option>
                                     <option value="99">ส่วนกลาง</option>
                                     <option value="13">สปคม.</option>
@@ -409,7 +409,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             </div>
                             <div class="col-sm-3">
                                 <label for="name_contact">หน่วยงานอื่นๆ</label>
-                                <input type="text" class="form-control" name="division_follow_contact_other" value="{{$getdata_fucontact[0]->division_follow_contact_other}}" placeholder="หน่วยงานอื่นๆ" autocomplete="off">
+                                <input type="text" class="form-control" name="division_follow_contact_other"  placeholder="หน่วยงานอื่นๆ" autocomplete="off">
                             </div>
                         </div>
                     </div>
