@@ -348,7 +348,9 @@ if(auth()->user()->id==Auth::user()->id){
 										->where('pt_status' ,"=" ,"2" )
 										->get();
 		$getdata_contact=DB::table('tbl_contact')->select('*')->where('contact_id',$contact_id)->get();
-
+		$getdata_hsc_contact=DB::table('tbl_contact_hsc')
+														->select('*')
+														->where('contact_id',$contact_id)->get();
 		$getdata_fucontact=DB::table('tbl_followup')
 													->select('*')
 													->where('patianid',$contact_id)
@@ -369,6 +371,9 @@ if(auth()->user()->id==Auth::user()->id){
 		$arr_follow_results = $this->arr_follow_results();
 		// $arrtitlename = $this->arrtitlename();
 		// $sat_id=$req->sat_id;
+		$arrspecimen= $this->arrspecimen();
+		$arr_dms_pcr_contact= $this->arr_dms_pcr_contact();
+		$arr_other_pcr_result_contact= $this->arr_other_pcr_result_contact();
 		$contact_id=$req->contact_id;
 		$nation_list = $this->arrnation();
     $listprovince=$this->province();
@@ -380,6 +385,9 @@ if(auth()->user()->id==Auth::user()->id){
 		$entry_user = Auth::user()->id;
 		$prefix_sat_id = Auth::user()->prefix_sat_id;
 		return view('form.contact.editcontact',compact(
+			'arrspecimen',
+			'arr_dms_pcr_contact',
+			'arr_other_pcr_result_contact',
       'listprovince',
       'listcountry',
 			'ref_title_name',
@@ -403,7 +411,8 @@ if(auth()->user()->id==Auth::user()->id){
 			'arr_available_contact',
 			'arr_follow_results',
 			'getdata_fucontact',
-			'arr_followup_address'
+			'arr_followup_address',
+			'getdata_hsc_contact'
     ));
 	}
 
@@ -698,6 +707,8 @@ if(auth()->user()->id==Auth::user()->id){
 			$res3	= DB::table('patient_relation')->insert($data_pt);
 			if ($res3)
 			{
+				$no_lab = $req->input('no_lab');
+				$pui_id = $req->input('pui_id');
 				$dms_pcr_contact = $req->input('dms_pcr_contact');
 				$dms_time_contact = $req->input('dms_time_contact');
 				$dms_date_contact =$req->input('dms_date_contact');
@@ -709,6 +720,8 @@ if(auth()->user()->id==Auth::user()->id){
 					for ($i=0; $i < count($dms_time_contact); $i++) {
 						$data_hsc[]  = [
 								'contact_id'=>$contact_id,
+								'pui_id'=>$pui_id,
+								'no_lab'=>$no_lab[$i],
 									'dms_pcr_contact'=>$dms_pcr_contact[$i],
 									'dms_time_contact'=>$dms_time_contact[$i],
 									'dms_date_contact'=>$dms_date_contact[$i],
@@ -1002,13 +1015,47 @@ if ($delete1)
 	 'hospcode'=>$hospcode
  );
  $res3	= DB::table('tbl_followup')->insert($data);
-
- if ($res3){
+ if ($res3)
+ {
+	 $delete3= DB::table('tbl_contact_hsc')
+							 ->where('contact_id','=', $req->contact_id)
+							 ->delete();
+ }
+ {
+	 $no_lab = $req->input('no_lab');
+	 $pui_id = $req->input('pui_id');
+	 $dms_pcr_contact = $req->input('dms_pcr_contact');
+	 $dms_time_contact = $req->input('dms_time_contact');
+	 $dms_date_contact =$req->input('dms_date_contact');
+	 $dms_specimen_contact =$req->input('dms_specimen_contact');
+	 $chkspec_other_contact =$req->input('chkspec_other_contact');
+	 $other_pcr_result_contact =$req->input('other_pcr_result_contact');
+	 $date_entry=date('Y-m-d') ;
+	 $x=0;
+		 for ($i=0; $i < count($dms_time_contact); $i++) {
+			 $data_hsc[]  = [
+					 'contact_id'=>$contact_id,
+					 'pui_id'=>$pui_id,
+					 'no_lab'=>$no_lab[$i],
+						 'dms_pcr_contact'=>$dms_pcr_contact[$i],
+						 'dms_time_contact'=>$dms_time_contact[$i],
+						 'dms_date_contact'=>$dms_date_contact[$i],
+						 'dms_specimen_contact'=>$dms_specimen_contact[$i],
+						 'chkspec_other_contact'=>$chkspec_other_contact[$i],
+						 'other_pcr_result_contact'=>$other_pcr_result_contact[$i],
+						 'date_entry' => $date_entry
+									 ];
+		 $x++;
+							 }
+								// dd($data_hsc);
+		 $res4	= DB::table('tbl_contact_hsc')->insert($data_hsc);
+ if ($res4){
 
 	 return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 	}else{
 	 return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
 	 }
+}
 }
 }
 
@@ -1196,6 +1243,27 @@ echo $outputD;
 			);
 		// dd($list_sym_cough);
 		return $arr_followup_address;
+	}
+	protected function arr_dms_pcr_contact(){
+		$arr_dms_pcr_contact = array(
+			'1'=>'กรมวิทย์ฯ',
+			'2'=>'สถาบันบำราศฯ',
+			'3'=>'จุฬาลงกรณ์',
+			'4'=>'PCR for Mers ที่อื่นๆ' ,
+			''=>'ยังไม่มีการระบุข้อมูล'
+			);
+		// dd($list_sym_cough);
+		return $arr_dms_pcr_contact;
+	}
+	protected function arr_other_pcr_result_contact(){
+		$arr_other_pcr_result_contact = array(
+			'1'=>'รอผล',
+			'2'=>'Negative',
+			'3'=>'Positive',
+			''=>'ยังไม่มีการระบุข้อมูล'
+			);
+		// dd($list_sym_cough);
+		return $arr_other_pcr_result_contact;
 	}
 	protected function arr_type_contact(){
 		$arr_type_contact = array(

@@ -104,6 +104,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                     </div>
                                 </div>
                               </div> --}}
+
                                 <div class="form-group row">
                                     <div class="col-sm-12 col-md-3">
                                         <input type="hidden" id="contact_id_temp" name="contact_id_temp" value="{{$getdata_contact[0]->contact_id}}" class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
@@ -307,6 +308,105 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="bd-callout bd-callout-warning" style="margin-top:0;position:relative">
+                        {{-- <div style="position:absolute;top:10px;right:10px;z-index:1"> --}}
+                            {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+                            <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+                        {{-- </div> --}}
+                        {{-- <h6 class="sub-title">เป็นผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (มีอาการเข้าได้กับนิยามและมีผลยืนยันทางห้องปฏิบัติการณ์)</h6>
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                                <div class="col-sm-6">
+                                    <input type="radio" name="sat_id_class" value="Q" checked> ไม่ใช่
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="radio" name="sat_id_class" value="A"> ใช่
+                                </div>
+                            </div>
+                        </div>
+                        <h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>
+                            ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6> --}}
+
+                            {{-- <div class="form-group row">
+                            <div class="col-sm-3">
+                            <button type="button" id="close" class="btn btn-s btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
+                            </div>
+                            <div class="col-sm-3">
+                            <button type="button" id="open" class="btn btn-s btn-success">มีตัวอย่างและสิ่งส่งตรวจ</button>
+                            </div>
+                            </div> --}}
+                            {{-- <div class="form-group row" id="lab"> --}}
+                            <div class="form-group row">
+                            <div class="col-sm-12">
+                              <div class="table-responsive">
+                              <table class="table" id="maintable">
+                                  <thead>
+                                    <tr>
+                                      <th>#</th>
+                                      <th>สถานที่ส่งตรวจ PCR of Novel Coronavirus</th>
+                                      <th>ครั้งที่ตรวจ</th>
+                                      <th>วันที่ตรวจ</th>
+                                      <th>ตัวอย่างสิ่งส่งตรวจ</th>
+                                      <th>สิ่งส่งตรวจอื่นๆ</th>
+                                      <th>ผล PCR </th>
+                                      {{-- <th>เพิ่ม / ลบ</th> --}}
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <?php foreach($getdata_hsc_contact as  $value) : ?>
+                        							<tr>
+                                        <td>
+                                          <input type="text" id="dms_time_contact" name="no_lab[]" value="{{ $value->no_lab }}"  class="form-control dms_time_contact01" readonly>
+                                        </td>
+                                        <td>
+                                          <select class="form-control" name="dms_pcr_contact[]">
+                                            <option value="{{ $value->dms_pcr_contact }}">{{ $arr_dms_pcr_contact[$value->dms_pcr_contact] }}</option>
+                                            <option value="">- เลือก -</option>
+                                            <option value="1">กรมวิทย์ฯ</option>
+                                            <option value="2">สถาบันบำราศฯ</option>
+                                            <option value="3">จุฬาลงกรณ์</option>
+                                            <option value="4">PCR for Mers ที่อื่นๆ</option>
+                                          </select>
+                                        </td>
+                                        <td>
+                                          <input type="text" id="dms_time_contact" name="dms_time_contact[]" value="{{ $value->dms_time_contact }}"  class="form-control dms_time_contact01" onkeyup="autocomplet()">
+                                        </td>
+                                        <td>
+                                          <input type="text" id="date_dms_date_contact" name="dms_date_contact[]" value="{{ $value->dms_date_contact }}"  class="form-control dms_date_contact01" onkeyup="autocomplet()">
+                                        </td>
+                                        <td>
+                                          <select class="form-control" name="dms_specimen_contact[]">
+                                            <option value="{{ (isset($value->dms_specimen_contact)) ? $value->dms_specimen_contact : "" }}">{{ (isset( $arrspecimen[$value->dms_specimen_contact])) ?  $arrspecimen[$value->dms_specimen_contact] : "ยังไม่มียังไม่มีการกรอกข้อมูล" }}</option>
+                                            <option value="">- เลือก -</option>
+                                            @foreach ($ref_specimen as $row)
+                                            <option value="{{$row->id}}">{{$row->name_en}}</option>
+                                            @endforeach
+                                          </select>
+                                        </td>
+                                        <td>
+                                          <input type="text" id="chkspec_other_contact" name="chkspec_other_contact[]" value="{{ $value->chkspec_other_contact }}"  class="form-control chkspec_other_contact01" onkeyup="autocomplet()">
+                                        </td>
+                                        <td>
+                                          <select class="form-control" name="other_pcr_result_contact[]">
+                                            <option value="{{ $value->other_pcr_result_contact }}">{{ $value->other_pcr_result_contact }}</option>
+                                            <option value="">- เลือก -</option>
+                                          <option value="รอผล">รอผล</option>
+                                          <option value="Negative">Negative</option>
+                                          <option value="Positive">Positive</option>
+                                        </select>
+                                      </td>
+                                      </tr>
+                        							<?php endforeach;?>
+                                      {{-- <td>
+                                          <button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd">Add More</button>
+                                      </td> --}}
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            </div>
                     </div>
                     {{-- <div class="bd-callout bd-callout-warning" style="margin-top:0;position:relative">
                         <div style="position:absolute;top:10px;right:10px;z-index:1"> --}}

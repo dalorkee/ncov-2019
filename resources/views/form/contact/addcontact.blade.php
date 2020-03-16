@@ -333,6 +333,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                               <table class="table" id="maintable">
                                   <thead>
                                     <tr>
+                                      <th>#</th>
                                       <th>สถานที่ส่งตรวจ PCR of Novel Coronavirus</th>
                                       <th>ครั้งที่ตรวจ</th>
                                       <th>วันที่ตรวจ</th>
@@ -344,7 +345,9 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                   </thead>
                                   <tbody>
                                     <tr class="data-contact-person">
-
+                                      <td>
+                                        <input type="text"  name="no_lab[]" value="1"  class="form-control " readonly>
+                                      </td>
                                       <td>
                                         <select class="form-control" name="dms_pcr_contact[]">
                                           <option value="">- เลือก -</option>
@@ -383,7 +386,9 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                       </td> --}}
                                     </tr>
                                     <tr class="data-contact-person">
-
+                                      <td>
+                                        <input type="text"  name="no_lab[]" value="2"  class="form-control" readonly>
+                                      </td>
                                       <td>
                                         <select class="form-control" name="dms_pcr_contact[]">
                                           <option value="">- เลือก -</option>
