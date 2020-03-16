@@ -696,7 +696,31 @@ if(auth()->user()->id==Auth::user()->id){
 			// dd($data_pt);
 			$x++;
 			$res3	= DB::table('patient_relation')->insert($data_pt);
-			if ($res3) {
+			if ($res3)
+			{
+				$dms_pcr_contact = $req->input('dms_pcr_contact');
+				$dms_time_contact = $req->input('dms_time_contact');
+				$dms_date_contact =$req->input('dms_date_contact');
+				$dms_specimen_contact =$req->input('dms_specimen_contact');
+				$chkspec_other_contact =$req->input('chkspec_other_contact');
+				$other_pcr_result_contact =$req->input('other_pcr_result_contact');
+				$date_entry=date('Y-m-d') ;
+				$x=0;
+					for ($i=0; $i < count($dms_time_contact); $i++) {
+						$data_hsc[]  = [
+								'contact_id'=>$contact_id,
+									'dms_pcr_contact'=>$dms_pcr_contact[$i],
+									'dms_time_contact'=>$dms_time_contact[$i],
+									'dms_date_contact'=>$dms_date_contact[$i],
+									'dms_specimen_contact'=>$dms_specimen_contact[$i],
+									'chkspec_other_contact'=>$chkspec_other_contact[$i],
+									'other_pcr_result_contact'=>$other_pcr_result_contact[$i],
+									'date_entry' => $date_entry
+												];
+					$x++;
+										}
+										 // dd($data_hsc);
+					$res4	= DB::table('tbl_contact_hsc')->insert($data_hsc);
 				return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 			} else {
 				return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
