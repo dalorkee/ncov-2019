@@ -136,3 +136,6 @@ Route::prefix('uac')->group(function () {
 		Route::resource('users', 'UserController');
 	});
 });
+
+Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');
+Route::get('/clusters/doughnut', 'covidController@clusters')->name('maps.doughnut');
