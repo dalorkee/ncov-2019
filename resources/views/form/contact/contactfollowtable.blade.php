@@ -140,7 +140,7 @@ input.valid, textarea.valid{
 								<td>
 									{{-- <button type="button" class="btn btn-success btn-sm margin-5 text-white chstatusfu" data-toggle="modal" title="Change status" data-target="#chstatusfu">ST</button> --}}
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
-										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" target="_blank" href="{{ 'followuptablescon'}}/typid/2/id/{{ $value->contact_id }}">
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" target="_blank" href="/ncov-2019/{{ 'followuptablescon'}}/typid/2/id/{{ $value->contact_id }}">
 											FU
 									</a>
 									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}
