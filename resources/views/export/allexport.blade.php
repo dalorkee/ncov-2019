@@ -138,9 +138,11 @@ input.valid, textarea.valid{
 								<th>SAT ID</th>
 								<th>วันที่ได้รับแจ้ง</th>
 								<th>สถานที่ที่คัดกรอง</th>
+								<th>ประเภท รพ. ที่คัดกรอง</th>
 								<th>จังหวัดที่คัดกรอง</th>
 								<th>จังหวัด ที่ผู้ป่วย Isolated</th>
 								<th>รพ. ที่ ผู้ป่วย Isolated</th>
+								<th>ประเภท รพ.ที่ ผู้ป่วย Isolated</th>
 								<th>ประเทศที่เดินทางมา</th>
 								<th>เมืองที่เดินทางมา</th>
 								<th>วันที่มาถึงไทย</th>
@@ -195,7 +197,10 @@ input.valid, textarea.valid{
         </thead>
         <tbody>
 					@foreach($data as $value)
+						<?php $hos_type_code =  (isset($arr_hostype[$value->isolated_hosp_code])) ? $arr_hostype[$value->isolated_hosp_code] : ""  ?>
+						<?php $walkhos_type_code =  (isset($arr_hostype[$value->walkinplace_hosp_code])) ? $arr_hostype[$value->walkinplace_hosp_code] : ""  ?>
 						<tr>
+
 							<td>{{ (!empty($value->id)) ? $value->id : ""  }}</td>
 							<td>{{ (!empty($value->sat_id)) ? $value->sat_id : ""  }}</td>
 							<td>{{ (!empty($value->notify_date)) ? ($value->notify_date) : date('Y-m-d')}}</td>
@@ -203,12 +208,18 @@ input.valid, textarea.valid{
 								{{ (isset($arr_hos[$value->walkinplace_hosp_code])) ? $arr_hos[$value->walkinplace_hosp_code] : "" }}
 								{{ (isset($list_airport[$value->airports_code])) ? $list_airport[$value->airports_code] : "" }}
 							</td>
+							<td>
+								{{ (isset($arr_hostype_th[$walkhos_type_code])) ? $arr_hostype_th[$walkhos_type_code] : "" }}
+							</td>
 							<td>{{ (isset($arrprov[$value->walkinplace_hosp_province])) ? $arrprov[$value->walkinplace_hosp_province] : "" }}</td>
 							<td>{{ (isset($arrprov[$value->isolated_province])) ? $arrprov[$value->isolated_province] : "" }}</td>
 							<td>
 							{{ (isset($arr_hos[$value->isolated_hosp_code])) ? $arr_hos[$value->isolated_hosp_code] : "" }}
 							{{ (!empty($value->risk2_6history_hospital_input)) ? $value->risk2_6history_hospital_input : ""  }}
 						</td>
+						<td>
+						{{ (isset($arr_hostype_th[$hos_type_code])) ? $arr_hostype_th[$hos_type_code] : "" }}
+					</td>
 							<td>{{ (isset($nation_list[$value->travel_from_country])) ? $nation_list[$value->travel_from_country] : "" }}</td>
 							<td>{{ (isset($arr_city[$value->travel_from_city])) ? $arr_city[$value->travel_from_city] : "" }}</td>
 							<td>{{ (!empty($value->risk_stay_outbreak_arrive_date)) ? $value->risk_stay_outbreak_arrive_date : ""  }}</td>
