@@ -100,7 +100,7 @@
 			zoom: 4.6
 		});
 
-		const colors = ['#EA4335','#ff00ff','#fdb462','#b3de69','#f28cb1'];
+		const colors = ['#B03060','#FF0000','#FFFF00','#FF00FF','#1E90FF'];
 
 		const colorScale = d3.scaleOrdinal()
 			.domain(["cluster1", "cluster2", "cluster3", "cluster4", "cluster5"])
