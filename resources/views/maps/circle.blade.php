@@ -158,11 +158,11 @@
 					'circle-color': [
 						'match',
 						['get', 'cluster_id'],
-						1, '#D2B48C',
-						2, '#A52A2A',
-						3, '#9932CC',
-						4, '#DDA0DD',
-						5, '#EEDD82',
+						1, '#B03060',
+						2, '#FF0000',
+						3, '#FFFF00',
+						4, '#FF00FF',
+						5, '#1E90FF',
 						'#000000'
 					],
 					"circle-radius": 4,
