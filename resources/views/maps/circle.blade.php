@@ -117,7 +117,7 @@
 					"circle-color": [
 						"step",
 						["get", "point_count"],
-						"#FF5608",
+						"#D23148",
 						100,
 						"#DE4150",
 						300,
@@ -165,9 +165,9 @@
 						5, '#1E90FF',
 						'#000000'
 					],
-					"circle-radius": 4,
-					"circle-stroke-width": 1,
-					"circle-stroke-color": "#fff"
+					"circle-radius": 10,
+					"circle-stroke-width": 2,
+					"circle-stroke-color": "#ffffff"
 				}
 			});
 
