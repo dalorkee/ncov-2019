@@ -1,33 +1,44 @@
 @extends('layouts.index')
 @section('custom-style')
-	<link rel="stylesheet" href="{{ URL::asset('assets/libs/jquery-contextmenu/dist/jquery.contextMenu.min.css') }}">
-	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/datatables-1.10.20/css/jquery.dataTables.min.css') }}">
-	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/Buttons-1.6.1/css/buttons.dataTables.min.css') }}">
-	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/css/responsive.dataTables.min.css') }}">
-	<link rel="stylesheet" href="{{ URL::asset('assets/libs/select2-4.0.13/dist/css/select2.min.css') }}">
 	<link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet">
 	<link href="https://api.mapbox.com/mapbox-assembly/v0.23.2/assembly.min.css" rel="stylesheet">
 @endsection
 @section('internal-style')
 <style>
-.page-wrapper {
-	background: white !important;
+#map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
 }
-.dataTables_wrapper {
-	width: 100% !important;
-	font-family: 'Fira-code', tahoma !important;
+#key {
+	background-color: rgba(0, 0, 0, 0.8);
+	width: 22.22%;
+	height: auto;
+	overflow: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
-#list-data-table {
-	width: 100% !important;
+.total {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 800;
+	font-size: 15px;
 }
-/* table.dataTable td.sorting_1 { background-color: #eee; border:1px lightgrey; } */
-/* table.dataTable td { background-color: red;  border:1px lightgrey;} */
-table.dataTable tr.odd { background-color: #F6F6F6;  border:1px lightgrey;}
-table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
+.table {
+	font-family: 'Montserrat', sans-serif;
+	color: white;
+	border-collapse: collapse;
+}
+.pie {
+  cursor: pointer;
+}
 </style>
 @endsection
 @section('top-script')
-
+	<!-- PAGE PLUGINS -->
+	<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
 @endsection
 @section('meta-token')
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -49,23 +60,37 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	</div>
 </div>
 <div class="container-fluid">
-
+	<div id="key" style="z-index:9999"></div>
+	<div id="map" style="width: 100%; height: 100vh;"></div>
 </div><!-- flu-contrainer -->
 @endsection
 @section('bottom-script')
 	<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
-
 	<script>
-	<!-- OPTIONAL SCRIPTS -->
-	{{ Html::script(('AdminLTE/dist/js/demo.js')) }}
-	<!-- PAGE PLUGINS -->
-	<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
-	<script src="https://d3js.org/d3.v4.min.js"></script>
-	<!-- SlimScroll 1.3.0 -->
-	{{ Html::script(('AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js')) }}
-	<script>
-
+		const powerplants = {
+			"type": "FeatureCollection",
+			"features": [
+				@foreach ($caseData as $key => $value)
+				{
+					"type": "Feature",
+					"properties": {
+						"description": "PJ",
+						"country_long": "Thailand",
+						"cluster": "cluster{{ $value->cluster_id }}"
+					},
+					"geometry": {
+						"type": "Point",
+						"coordinates": [
+							{{ $value->lng }},
+							{{ $value->lat }}
+						]
+					}
+				},
+				@endforeach
+			]
+		}
+/*
 	const powerplants = {
 	  "type": "FeatureCollection",
 	  "features": [
@@ -94,141 +119,6 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 		  "geometry": {
 			"type": "Point",
 			"coordinates": [
-			  100.4787,
-			  13.556
-			]
-		  }
-		},
-		{
-		  "type": "Feature",
-		  "properties": {
-			"description": 'PJ',
-			"country_long": "Thailand",
-			"fuel1": "Hydro"
-		  },
-		  "geometry": {
-			"type": "Point",
-			"coordinates": [
-			  100.717,
-			  13.641
-			]
-		  }
-		},
-		{
-		  "type": "Feature",
-		  "properties": {
-			"description": 'PJ',
-			"country_long": "Thailand",
-			"fuel1": "Hydro"
-		  },
-		  "geometry": {
-			"type": "Point",
-			"coordinates": [
-			  100.3633,
-			  13.4847
-			]
-		  }
-		},
-		{
-		  "type": "Feature",
-		  "properties": {
-			"description": 'PJ',
-			"country_long": "Thailand",
-			"fuel1": "Gas"
-		  },
-		  "geometry": {
-			"type": "Point",
-			"coordinates": [
-			  100.1134,
-			  13.5638
-			]
-		  }
-		},
-		{
-		  "type": "Feature",
-		  "properties": {
-			"description": 'PJ',
-			"country_long": "Thailand",
-			"fuel1": "Hydro"
-		  },
-		  "geometry": {
-			"type": "Point",
-			"coordinates": [
-			  100.71,
-			  13.9416
-			]
-		  }
-		},
-		{
-		  "type": "Feature",
-		  "properties": {
-			"description": 'PJ',
-			"country_long": "Thailand",
-			"fuel1": "Hydro"
-		  },
-		  "geometry": {
-			"type": "Point",
-			"coordinates": [
-			  100.7757,
-			  13.5865
-			]
-		  }
-		},
-		{
-		  "type": "Feature",
-		  "properties": {
-			"description": 'PJ',
-			"country_long": "Thailand",
-			"fuel1": "Hydro"
-		  },
-		  "geometry": {
-			"type": "Point",
-			"coordinates": [
-			  100.1047,
-			  13.9116
-			]
-		  }
-		},
-		{
-		  "type": "Feature",
-		  "properties": {
-			"description": 'PJ',
-			"country_long": "Thailand",
-			"fuel1": "Hydro"
-		  },
-		  "geometry": {
-			"type": "Point",
-			"coordinates": [
-			  100.0431,
-			  13.2514
-			]
-		  }
-		},
-		{
-		  "type": "Feature",
-		  "properties": {
-			"description": 'PJ',
-			"country_long": "Thailand",
-			"fuel1": "Hydro"
-		  },
-		  "geometry": {
-			"type": "Point",
-			"coordinates": [
-			  100.8224,
-			  13.1033
-			]
-		  }
-		},
-		{
-		  "type": "Feature",
-		  "properties": {
-			"description": 'PJ',
-			"country_long": "Thailand",
-			"fuel1": "Hydro"
-		  },
-		  "geometry": {
-			"type": "Point",
-			"coordinates": [
 			  100.7619,
 			  13.5222
 			]
@@ -236,7 +126,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 		}
 	  ]
 	}
-
+	*/
 	</script>
 	<script>
 		mapboxgl.accessToken = 'pk.eyJ1IjoiZGFsb3JrZWUiLCJhIjoiY2pnbmJrajh4MDZ6aTM0cXZkNDQ0MzI5cCJ9.C2REqhILLm2HKIQSn9Wc0A';
@@ -247,100 +137,69 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 			zoom: 4.6
 		});
 
-		const colors = ['#EA4335','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#d9d9d9','#bc80bd','#ccebc5'];
+		const colors = ['#EA4335','#ffffb3','#fdb462','#b3de69','#bc80bd'];
 
 		const colorScale = d3.scaleOrdinal()
-		  .domain(["hydro", "solar", "wind", "gas", "oil","coal", "biomass", "waste", "nuclear", "geothermal", "others"])
-		  .range(colors)
+			.domain(["cluster1", "cluster2", "cluster3", "cluster4", "cluster5"])
+			.range(colors)
 
-		const hydro = ['==', ['get', 'fuel1'], 'Hydro'];
-		const solar = ['==', ['get', 'fuel1'], 'Solar'];
-		const wind = ['==', ['get', 'fuel1'], 'Wind'];
-		const gas = ['==', ['get', 'fuel1'], 'Gas'];
-		const oil = ['==', ['get', 'fuel1'], 'Oil'];
-		const coal = ['==', ['get', 'fuel1'], 'Coal'];
-		const biomass = ['==', ['get', 'fuel1'], 'Biomass'];
-		const waste = ['==', ['get', 'fuel1'], 'Waste'];
-		const nuclear = ['==', ['get', 'fuel1'], 'Nuclear'];
-		const geothermal = ['==', ['get', 'fuel1'], 'Geothermal'];
-		const others = ['any',
-		  ['==', ['get', 'fuel1'], 'Cogeneration'],
-		  ['==', ['get', 'fuel1'], 'Storage'],
-		  ['==', ['get', 'fuel1'], 'Other'],
-		  ['==', ['get', 'fuel1'], 'Wave and Tidel'],
-		  ['==', ['get', 'fuel1'], 'Petcoke'],
-		  ['==', ['get', 'fuel1'], '']
-		];
+			const cluster1 = ['==', ['get', 'cluster'], 'cluster1'];
+			const cluster2 = ['==', ['get', 'cluster'], 'cluster2'];
+			const cluster3 = ['==', ['get', 'cluster'], 'cluster3'];
+			const cluster4 = ['==', ['get', 'cluster'], 'cluster4'];
+			const cluster5 = ['==', ['get', 'cluster'], 'cluster5'];
 
-		map.on('load', () => {
-		  // add a clustered GeoJSON source for powerplant
-		  map.addSource('powerplants', {
-			'type': 'geojson',
-			'data': powerplants,
-			'cluster': true,
-			'clusterRadius': 100,
-			'clusterProperties': { // keep separate counts for each fuel category in a cluster
-			  'hydro': ['+', ['case', hydro, 1, 0]],
-			  'solar': ['+', ['case', solar, 1, 0]],
-			  'wind': ['+', ['case', wind, 1, 0]],
-			  'gas': ['+', ['case', gas, 1, 0]],
-			  'oil': ['+', ['case', oil, 1, 0]],
-			  'coal': ['+', ['case', coal, 1, 0]],
-			  'biomass': ['+', ['case', biomass, 1, 0]],
-			  'waste': ['+', ['case', waste, 1, 0]],
-			  'nuclear': ['+', ['case', nuclear, 1, 0]],
-			  'geothermal': ['+', ['case', geothermal, 1, 0]],
-			  'others': ['+', ['case', others, 1, 0]]
-			}
-		  });
-
-		  map.addLayer({
-			'id': 'powerplant_individual',
-			'type': 'circle',
-			'source': 'powerplants',
-			'filter': ['!=', ['get', 'cluster'], true],
-			'paint': {
-			  'circle-color': ['case',
-				hydro, colorScale('hydro'),
-				solar, colorScale('solar'),
-				wind, colorScale('wind'),
-				gas, colorScale('gas'),
-				oil, colorScale('oil'),
-				coal, colorScale('coal'),
-				biomass, colorScale('biomass'),
-				waste, colorScale('waste'),
-				nuclear, colorScale('nuclear'),
-				geothermal, colorScale('geothermal'),
-				others, colorScale('others'), '#ffed6f'],
-			  'circle-radius': 5
-			}
-		  });
-
-			map.addLayer({
-			  'id': 'powerplant_individual_outer',
-			  'type': 'circle',
-			  'source': 'powerplants',
-			  'filter': ['!=', ['get', 'cluster'], true],
-			  'paint': {
-				'circle-stroke-color': ['case',
-				  hydro, colorScale('hydro'),
-				  solar, colorScale('solar'),
-				  wind, colorScale('wind'),
-				  gas, colorScale('gas'),
-				  oil, colorScale('oil'),
-				  coal, colorScale('coal'),
-				  biomass, colorScale('biomass'),
-				  waste, colorScale('waste'),
-				  nuclear, colorScale('nuclear'),
-				  geothermal, colorScale('geothermal'),
-				  others, colorScale('others'), '#ffed6f'],
-				'circle-stroke-width': 2,
-				'circle-radius': 10,
-				'circle-color': "rgba(0, 0, 0, 0)"
-			  }
+			map.on('load', () => {
+			// add a clustered GeoJSON source for powerplant
+			map.addSource('powerplants', {
+				'type': 'geojson',
+				'data': powerplants,
+				'cluster': true,
+				'clusterRadius': 100,
+				'clusterProperties': { // keep separate counts for each fuel category in a cluster
+					'cluster1': ['+', ['case', cluster1, 1, 0]],
+					'cluster2': ['+', ['case', cluster2, 1, 0]],
+					'cluster3': ['+', ['case', cluster3, 1, 0]],
+					'cluster4': ['+', ['case', cluster4, 1, 0]],
+					'cluster5': ['+', ['case', cluster5, 1, 0]],
+				}
 			});
 
+			map.addLayer({
+				'id': 'powerplant_individual',
+				'type': 'circle',
+				'source': 'powerplants',
+				'filter': ['!=', ['get', 'cluster'], true],
+				'paint': {
+					'circle-color': ['case',
+					cluster1, colorScale('cluster1'),
+					cluster2, colorScale('cluster2'),
+					cluster3, colorScale('cluster3'),
+					cluster4, colorScale('cluster4'),
+					cluster5, colorScale('cluster5'),
+					'#ffed6f'],
+					'circle-radius': 5
+				}
+			});
 
+			map.addLayer({
+				'id': 'powerplant_individual_outer',
+				'type': 'circle',
+				'source': 'powerplants',
+				'filter': ['!=', ['get', 'cluster'], true],
+				'paint': {
+				'circle-stroke-color': ['case',
+					cluster1, colorScale('cluster1'),
+					cluster2, colorScale('cluster2'),
+					cluster3, colorScale('cluster3'),
+					cluster4, colorScale('cluster4'),
+					cluster5, colorScale('cluster5'),
+					'#ffed6f'],
+					'circle-stroke-width': 2,
+					'circle-radius': 10,
+					'circle-color': "rgba(0, 0, 0, 0)"
+				}
+			});
 
 			let markers = {};
 			let markersOnScreen = {};
@@ -400,17 +259,11 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 			const createDonutChart = (props, totals) => {
 			  const div = document.createElement('div');
 			  const data = [
-				{type: 'hydro', count: props.hydro},
-				{type: 'solar', count: props.solar},
-				{type: 'wind', count: props.wind},
-				{type: 'oil', count: props.oil},
-				{type: 'gas', count: props.gas},
-				{type: 'coal', count: props.coal},
-				{type: 'biomass', count: props.biomass},
-				{type: 'waste', count: props.waste},
-				{type: 'nuclear', count: props.nuclear},
-				{type: 'geothermal', count: props.geothermal},
-				{type: 'others', count: props.others},
+				{type: 'cluster1', count: props.cluster1},
+				{type: 'cluster2', count: props.cluster2},
+				{type: 'cluster3', count: props.cluster3},
+				{type: 'cluster4', count: props.cluster4},
+				{type: 'cluster5', count: props.cluster5},
 			  ];
 
 			  const thickness = 10;
@@ -477,17 +330,11 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 			  };
 
 			  const data = [
-				{type: 'hydro', perc: getPerc(props.hydro)},
-				{type: 'solar', perc: getPerc(props.solar)},
-				{type: 'wind', perc: getPerc(props.wind)},
-				{type: 'oil', perc: getPerc(props.oil)},
-				{type: 'gas', perc: getPerc(props.gas)},
-				{type: 'coal', perc: getPerc(props.coal)},
-				{type: 'biomass', perc: getPerc(props.biomass)},
-				{type: 'waste', perc: getPerc(props.waste)},
-				{type: 'nuclear', perc: getPerc(props.nuclear)},
-				{type: 'geothermal', perc: getPerc(props.geothermal)},
-				{type: 'others', perc: getPerc(props.others)},
+				{type: 'cluster1', perc: getPerc(props.cluster1)},
+				{type: 'cluster2', perc: getPerc(props.cluster2)},
+				{type: 'cluster3', perc: getPerc(props.cluster3)},
+				{type: 'cluster4', perc: getPerc(props.cluster4)},
+				{type: 'cluster5', perc: getPerc(props.cluster5)},
 			  ];
 
 			  const columns = ['type', 'perc']
@@ -501,7 +348,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				  .data(columns).enter()
 				  .append('th')
 					.text((d) => {
-				  let colName = d === 'perc' ? '%' : 'Fuel Type'
+				  let colName = d === 'perc' ? '%' : 'Cluster Type'
 				  return colName;
 				})
 
@@ -550,7 +397,5 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 			});
 		});
 	</script>
-
-
 
 @endsection
