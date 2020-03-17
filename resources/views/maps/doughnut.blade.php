@@ -75,7 +75,7 @@
 				{
 					"type": "Feature",
 					"properties": {
-						"description": "PJ",
+						"description": "<ul class='evb-popup'><li><span>Cluster</span><span>{{ $value->cluster_id }}</span></li><li><span>สถานที่</span><span> {{ $value->station_desc }}</span></li></ul>",
 						"country_long": "Thailand",
 						"cluster": "cluster{{ $value->cluster_id }}"
 					},
@@ -90,43 +90,6 @@
 				@endforeach
 			]
 		}
-/*
-	const powerplants = {
-	  "type": "FeatureCollection",
-	  "features": [
-		{
-		  "type": "Feature",
-		  "properties": {
-			"description": 'PJ',
-			"country_long": "Thailand",
-			"fuel1": "Hydro"
-		  },
-		  "geometry": {
-			"type": "Point",
-			"coordinates": [
-			  100.119,
-			  13.322
-			]
-		  }
-		},
-		{
-		  "type": "Feature",
-		  "properties": {
-			"description": 'PJ',
-			"country_long": "Thailand",
-			"fuel1": "Hydro"
-		  },
-		  "geometry": {
-			"type": "Point",
-			"coordinates": [
-			  100.7619,
-			  13.5222
-			]
-		  }
-		}
-	  ]
-	}
-	*/
 	</script>
 	<script>
 		mapboxgl.accessToken = 'pk.eyJ1IjoiZGFsb3JrZWUiLCJhIjoiY2pnbmJrajh4MDZ6aTM0cXZkNDQ0MzI5cCJ9.C2REqhILLm2HKIQSn9Wc0A';
@@ -137,7 +100,7 @@
 			zoom: 4.6
 		});
 
-		const colors = ['#EA4335','#ffffb3','#fdb462','#b3de69','#bc80bd'];
+		const colors = ['#EA4335','#ff00ff','#fdb462','#b3de69','#f28cb1'];
 
 		const colorScale = d3.scaleOrdinal()
 			.domain(["cluster1", "cluster2", "cluster3", "cluster4", "cluster5"])
