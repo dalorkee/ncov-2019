@@ -86,6 +86,8 @@ class ContactController extends MasterController
 															'tbl_contact.district',
 															'tbl_contact.sub_district',
 															'tbl_contact.pt_status',
+															'tbl_contact.name_contact',
+															'tbl_contact.lname_contact',
 															'tbl_contact.status_followup')
 										->where('patient_relation.pui_id', $id)
 										->get();

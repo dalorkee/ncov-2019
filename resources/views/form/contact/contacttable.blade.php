@@ -110,13 +110,53 @@ input.valid, textarea.valid{
 							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
-					<div class="d-md-flex align-items-center mb-2">
-						<div>
-							<?php foreach($patian_data as $valuept) : ?>
-							<h4 class="card-title">ของผู้ป่วย รหัส: {{ $valuept->sat_id }}</h4>
-							<?php endforeach;?>
-						</div>
-					</div>
+					{{-- <div class="col-lg-12"> --}}
+                                        {{-- <div class="row">
+                                            <div class="col-3 m-t-15">
+                                                <div class="bg-dark p-10 text-white text-center">
+                                                   <i class="fa fa-user m-b-5 font-16"></i>
+                                                   <h5 class="m-b-0 m-t-5">
+
+																									 							<h4 class="card-title">{{ $valuept->sat_id }}</h4>
+																							</h5>
+                                                   <small class="font-light">ผู้สัมผัสทั้งหมด</small>
+                                                </div>
+                                            </div>
+                                             <div class="col-3 m-t-15">
+                                                <div class="bg-dark p-10 text-white text-center">
+                                                   <i class="fa fa-arrow-alt-circle-up m-b-5 font-16"></i>
+                                                   <h5 class="m-b-0 m-t-5">
+																									 							<h4 class="card-title">{{ $valuept->sat_id }}</h4>
+
+																									 </h5>
+                                                   <small class="font-light">ผู้ป่วยเสี่ยงสูง</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 m-t-15">
+                                                <div class="bg-dark p-10 text-white text-center">
+                                                   <i class="fa fa-arrow-alt-circle-down m-b-5 font-16"></i>
+                                                   <h5 class="m-b-0 m-t-5">
+
+																																<h4 class="card-title">{{ $valuept->sat_id }}</h4>
+
+                                                   </h5>
+                                                   <small class="font-light">ผู้ป่วยเสี่ยงต่ำ</small>
+                                                </div>
+                                            </div>
+                                             <div class="col-3 m-t-15">
+                                                <div class="bg-dark p-10 text-white text-center">
+                                                   <i class="fa fa-vial m-b-5 font-16"></i>
+                                                   <h5 class="m-b-0 m-t-5">
+
+																																<h4 class="card-title">{{ $valuept->sat_id }}</h4>
+
+                                                   </h5>
+                                                   <small class="font-light">ส่ง Lab แล้ว</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+</br>
 					<div class="col-md-12">
 						<a class="btn btn-success" target="_blank" href="{{ route('addcontact',$id) }}">
 							+	Add Contact
@@ -129,6 +169,7 @@ input.valid, textarea.valid{
 							<tr>
 								<th>ID</th>
 									<th>Contact ID</th>
+									<th>ชื่อ - นามสกุล</th>
 									<th>อายุ</th>
 									<th>ที่อยู่ในประเทศไทย</th>
 									<th>สัญชาติ</th>
@@ -140,6 +181,7 @@ input.valid, textarea.valid{
 							<tr>
 								<td>{{ $value->id }}</td>
                 <td>{{ $value->contact_id }}</td>
+								<td>{{ $value->name_contact }} {{ $value->lname_contact }}</td>
                 <td>{{ $value->age_contact }}</td>
                 <td>{{ (isset($arrprov[$value->province])) ? $arrprov[$value->province] : "" }}
 										{{ (isset($arrdistrict[$value->district])) ? $arrdistrict[$value->district] : "" }}
@@ -250,9 +292,20 @@ input.valid, textarea.valid{
 <script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js'></script>
 <script>
-$(document).ready(function() {
-    $('#example').DataTable();
-			} );
+	$(document).ready(function() {
+	    $('#example').DataTable( {
+	        dom: 'Bfrtip',
+	        buttons: [
+	            'copy', 'csv', 'excel', 'pdf', 'print'
+	        ],
+					"columnDefs": [
+	    { "width": "80px","targets": 1 },
+			{ "width": "150px","targets": 4 },
+			{ "width": "90px","targets": 5 }
+	  ]
+
+	    } );
+	} );
 </script>
 <script>
     var msg = '{{Session::get('alert')}}';
