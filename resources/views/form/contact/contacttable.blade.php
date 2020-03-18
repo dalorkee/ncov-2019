@@ -110,52 +110,47 @@ input.valid, textarea.valid{
 							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
-					{{-- <div class="col-lg-12"> --}}
-                                        {{-- <div class="row">
-                                            <div class="col-3 m-t-15">
-                                                <div class="bg-dark p-10 text-white text-center">
-                                                   <i class="fa fa-user m-b-5 font-16"></i>
-                                                   <h5 class="m-b-0 m-t-5">
-
-																									 							<h4 class="card-title">{{ $valuept->sat_id }}</h4>
-																							</h5>
-                                                   <small class="font-light">ผู้สัมผัสทั้งหมด</small>
-                                                </div>
-                                            </div>
-                                             <div class="col-3 m-t-15">
-                                                <div class="bg-dark p-10 text-white text-center">
-                                                   <i class="fa fa-arrow-alt-circle-up m-b-5 font-16"></i>
-                                                   <h5 class="m-b-0 m-t-5">
-																									 							<h4 class="card-title">{{ $valuept->sat_id }}</h4>
-
+					<div class="col-lg-12">
+						<h5 class="font-light">ผู้สัมผัสของผู้ป่วยรหัส : <?php foreach($patian_data as $valuept) : ?>{{ $valuept->sat_id }}<?php endforeach;?></h5>
+																				{{-- <div class="row">
+																						<div class="col-3 m-t-15">
+																								<div class="bg-dark p-10 text-white text-center">
+																									 <i class="fa fa-user m-b-5 font-16"></i>
+																									 <h5 class="m-b-0 m-t-5">
+																																<h4 class="card-title">{{ $valuept->sat_id }}</h4>
+																						</h5>
+																									 <small class="font-light">ผู้สัมผัสทั้งหมด</small>
+																								</div>
+																						</div>
+																						 <div class="col-3 m-t-15">
+																								<div class="bg-dark p-10 text-white text-center">
+																									 <i class="fa fa-arrow-alt-circle-up m-b-5 font-16"></i>
+																									 <h5 class="m-b-0 m-t-5">
+																																<h4 class="card-title">{{ $valuept->sat_id }}</h4>
 																									 </h5>
-                                                   <small class="font-light">ผู้ป่วยเสี่ยงสูง</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-3 m-t-15">
-                                                <div class="bg-dark p-10 text-white text-center">
-                                                   <i class="fa fa-arrow-alt-circle-down m-b-5 font-16"></i>
-                                                   <h5 class="m-b-0 m-t-5">
-
+																									 <small class="font-light">ผู้ป่วยเสี่ยงสูง</small>
+																								</div>
+																						</div>
+																						<div class="col-3 m-t-15">
+																								<div class="bg-dark p-10 text-white text-center">
+																									 <i class="fa fa-arrow-alt-circle-down m-b-5 font-16"></i>
+																									 <h5 class="m-b-0 m-t-5">
 																																<h4 class="card-title">{{ $valuept->sat_id }}</h4>
-
-                                                   </h5>
-                                                   <small class="font-light">ผู้ป่วยเสี่ยงต่ำ</small>
-                                                </div>
-                                            </div>
-                                             <div class="col-3 m-t-15">
-                                                <div class="bg-dark p-10 text-white text-center">
-                                                   <i class="fa fa-vial m-b-5 font-16"></i>
-                                                   <h5 class="m-b-0 m-t-5">
-
+																									 </h5>
+																									 <small class="font-light">ผู้ป่วยเสี่ยงต่ำ</small>
+																								</div>
+																						</div>
+																						 <div class="col-3 m-t-15">
+																								<div class="bg-dark p-10 text-white text-center">
+																									 <i class="fa fa-vial m-b-5 font-16"></i>
+																									 <h5 class="m-b-0 m-t-5">
 																																<h4 class="card-title">{{ $valuept->sat_id }}</h4>
-
-                                                   </h5>
-                                                   <small class="font-light">ส่ง Lab แล้ว</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
+																									 </h5>
+																									 <small class="font-light">ส่ง Lab แล้ว</small>
+																								</div>
+																						</div>
+																				</div> --}}
+																		</div>
 </br>
 					<div class="col-md-12">
 						<a class="btn btn-success" target="_blank" href="{{ route('addcontact',$id) }}">
