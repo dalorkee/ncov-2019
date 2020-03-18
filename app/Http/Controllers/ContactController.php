@@ -302,7 +302,7 @@ if(auth()->user()->id==Auth::user()->id){
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
-		$sat_id=DB::table('invest_pt')->select('sat_id')->where('id', $pui_id )->get();
+		$sat_id=DB::table('invest_pt')->select('sat_id','id')->where('id', $pui_id )->get();
 		$sat_id_confirm=DB::table('invest_pt')
 										->select('id','sat_id','first_name','last_name','nation')
 										->where('pt_status' ,"=" ,"2" )

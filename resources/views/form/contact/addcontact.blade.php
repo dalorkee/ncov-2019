@@ -96,7 +96,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                           <option value="{{$row->sat_id.'|'.$row->id}}">{{$row->sat_id}} [{{$row->first_name}} {{$row->last_name}}/{{$nation_list[$row->nation]}}]
                                           </option>
                                           @endforeach
-                                          <option value="{{$sat_id[0]->sat_id.'|'.$pui_id}}" selected>รหัสตั้งต้นผู้ป่วยหลัก {{$sat_id[0]->sat_id}}</option>
+                                          <option value="{{$sat_id[0]->sat_id.'|'.$sat_id[0]->id}}" selected>รหัสตั้งต้นผู้ป่วยหลัก {{$sat_id[0]->sat_id}}</option>
                                         </select>
                                         <br>
                                     </div>
