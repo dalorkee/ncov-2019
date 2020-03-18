@@ -136,6 +136,7 @@ input.valid, textarea.valid{
             <tr>
 							<th>Order ID</th>
 								<th>SAT ID</th>
+								<th>ชื่อ-นามสกุล</th>
 								<th>วันที่ได้รับแจ้ง</th>
 								<th>สถานที่ที่คัดกรอง</th>
 								<th>ประเภท รพ. ที่คัดกรอง</th>
@@ -203,6 +204,7 @@ input.valid, textarea.valid{
 
 							<td>{{ (!empty($value->id)) ? $value->id : ""  }}</td>
 							<td>{{ (!empty($value->sat_id)) ? $value->sat_id : ""  }}</td>
+							<td>{{ (!empty($value->first_name)) ? $value->first_name : ""  }} {{ (!empty($value->mid_name)) ? $value->mid_name : ""  }} {{ (!empty($value->last_name)) ? $value->last_name : ""  }}</td>
 							<td>{{ (!empty($value->notify_date)) ? ($value->notify_date) : date('Y-m-d')}}</td>
 							<td>
 								{{ (isset($arr_hos[$value->walkinplace_hosp_code])) ? $arr_hos[$value->walkinplace_hosp_code] : "" }}
