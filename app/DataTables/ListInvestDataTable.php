@@ -72,6 +72,7 @@ class ListInvestDataTable extends DataTable
 
 		return datatables()
 			->eloquent($query)
+			->orderColumn('order_pt', '-order_pt $1')
 			->filterColumn('pt_status', function($query, $keyword) use ($pts) {
 				$query->whereRaw('(CASE '.$pts.' ELSE "-" END) like ?', ["%{$keyword}%"]);
 			})
@@ -179,13 +180,14 @@ class ListInvestDataTable extends DataTable
 
 		$invest = InvestList::select(
 			'id',
+			'order_pt',
 			'sat_id',
 			\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 			\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 			\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
 			'sex',
 			\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-			'inv')->whereNull('deleted_at')->orderBy('id');
+			'inv')->whereNull('deleted_at');
 
 		return $invest;
 
@@ -247,7 +249,7 @@ class ListInvestDataTable extends DataTable
 	*/
 	protected function getColumns() {
 		return [
-			Column::make('id')->title('ID'),
+			Column::make('order_pt')->title('OrderID'),
 			Column::make('sat_id')->title('SatID'),
 			Column::make('pt_status')->title('Status'),
 			Column::make('news_st')->title('News'),
