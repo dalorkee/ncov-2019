@@ -111,14 +111,15 @@ input.valid, textarea.valid{
 						</div>
 					</div>
 					<div class="col-lg-12">
-						<h5 class="font-light">ผู้สัมผัสของผู้ป่วยรหัส : <?php foreach($patian_data as $valuept) : ?>{{ $valuept->sat_id }}<?php endforeach;?></h5>
-																				{{-- <div class="row">
+												<h5 class="font-light">ผู้สัมผัสของผู้ป่วยรหัส : <?php foreach($patian_data as $valuept) : ?>{{ $valuept->sat_id }}<?php endforeach;?></h5>
+																				<div class="row">
 																						<div class="col-3 m-t-15">
 																								<div class="bg-dark p-10 text-white text-center">
 																									 <i class="fa fa-user m-b-5 font-16"></i>
 																									 <h5 class="m-b-0 m-t-5">
-																																<h4 class="card-title">{{ $valuept->sat_id }}</h4>
-																						</h5>
+																										 <?php foreach($count_con as $count_cont) : ?>
+																																<h4 class="card-title">{{ $count_cont->count_cont }}</h4>
+																											<?php endforeach;?></h5>
 																									 <small class="font-light">ผู้สัมผัสทั้งหมด</small>
 																								</div>
 																						</div>
@@ -126,7 +127,9 @@ input.valid, textarea.valid{
 																								<div class="bg-dark p-10 text-white text-center">
 																									 <i class="fa fa-arrow-alt-circle-up m-b-5 font-16"></i>
 																									 <h5 class="m-b-0 m-t-5">
-																																<h4 class="card-title">{{ $valuept->sat_id }}</h4>
+																										 <?php foreach($count_hrisk as $valuehrisk) : ?>
+																																<h4 class="card-title">{{ $valuehrisk->count_hrisk }}</h4>
+																											<?php endforeach;?>
 																									 </h5>
 																									 <small class="font-light">ผู้ป่วยเสี่ยงสูง</small>
 																								</div>
@@ -135,7 +138,9 @@ input.valid, textarea.valid{
 																								<div class="bg-dark p-10 text-white text-center">
 																									 <i class="fa fa-arrow-alt-circle-down m-b-5 font-16"></i>
 																									 <h5 class="m-b-0 m-t-5">
-																																<h4 class="card-title">{{ $valuept->sat_id }}</h4>
+																										 <?php foreach($count_lrisk as $valuecount_lrisk) : ?>
+																																<h4 class="card-title">{{ $valuecount_lrisk->count_lrisk }}</h4>
+																											<?php endforeach;?>
 																									 </h5>
 																									 <small class="font-light">ผู้ป่วยเสี่ยงต่ำ</small>
 																								</div>
@@ -144,12 +149,14 @@ input.valid, textarea.valid{
 																								<div class="bg-dark p-10 text-white text-center">
 																									 <i class="fa fa-vial m-b-5 font-16"></i>
 																									 <h5 class="m-b-0 m-t-5">
-																																<h4 class="card-title">{{ $valuept->sat_id }}</h4>
+																										 <?php foreach($count_labcont as $valuecount_labcont) : ?>
+																																<h4 class="card-title">{{ $valuecount_labcont->count_labcont }}</h4>
+																											<?php endforeach;?>
 																									 </h5>
 																									 <small class="font-light">ส่ง Lab แล้ว</small>
 																								</div>
 																						</div>
-																				</div> --}}
+																				</div>
 																		</div>
 </br>
 					<div class="col-md-12">
@@ -166,6 +173,8 @@ input.valid, textarea.valid{
 									<th>Contact ID</th>
 									<th>ชื่อ - นามสกุล</th>
 									<th>อายุ</th>
+									<th>ระดับความเสี่ยง</th>
+									<th>สถานที่ตรวจ Lab</th>
 									<th>ที่อยู่ในประเทศไทย</th>
 									<th>สัญชาติ</th>
 									<th>Action</th>
@@ -178,6 +187,8 @@ input.valid, textarea.valid{
                 <td>{{ $value->contact_id }}</td>
 								<td>{{ $value->name_contact }} {{ $value->lname_contact }}</td>
                 <td>{{ $value->age_contact }}</td>
+								<td>{{ (isset($arr_risk_contact[$value->risk_contact])) ? $arr_risk_contact[$value->risk_contact] : "" }}</td>
+								<td>{{ $value->age_contact }}</td>
                 <td>{{ (isset($arrprov[$value->province])) ? $arrprov[$value->province] : "" }}
 										{{ (isset($arrdistrict[$value->district])) ? $arrdistrict[$value->district] : "" }}
 										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}

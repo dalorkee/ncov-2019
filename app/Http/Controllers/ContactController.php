@@ -66,7 +66,28 @@ class ContactController extends MasterController
 		$arrdistrict = $this->arrdistrict();
 		$arr_sub_district = $this->arr_sub_district();
 		$arr_pts = $this->arr_pts();
+		$count_data = $this->arr_pts();
 		$arr_status_followup = $this->arr_status_followup();
+		$arr_risk_contact=$this->arr_risk_contact();
+		$count_con=DB::table('patient_relation')
+															->select(DB::raw('count(*) as count_cont'))
+															->where('pui_id', $id)
+															->get();
+		$count_hrisk=DB::table('tbl_contact')
+															->select(DB::raw('count(*) as count_hrisk'))
+															->where('pui_id', $id)
+															->where('risk_contact', '=','1')
+															->get();
+		$count_lrisk=DB::table('tbl_contact')
+															->select(DB::raw('count(*) as count_lrisk'))
+															->where('pui_id', $id)
+															->where('risk_contact', '=','2')
+															->get();
+		$count_labcont=DB::table('tbl_contact_hsc')
+															->select(DB::raw('count(*) as count_labcont'))
+															->where('pui_id', $id)
+															->where('dms_pcr_contact', '>=','1')
+															->get();
 		 // dd($arr_status_followup);
 		$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
 		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
@@ -86,6 +107,7 @@ class ContactController extends MasterController
 															'tbl_contact.district',
 															'tbl_contact.sub_district',
 															'tbl_contact.pt_status',
+															'tbl_contact.risk_contact',
 															'tbl_contact.name_contact',
 															'tbl_contact.lname_contact',
 															'tbl_contact.status_followup')
@@ -104,7 +126,12 @@ class ContactController extends MasterController
 			'arr_sub_district',
 			'ref_pt_status',
 			'arr_pts',
-			'arr_status_followup'
+			'arr_status_followup',
+			'arr_risk_contact',
+			'count_con',
+			'count_hrisk',
+			'count_lrisk',
+			'count_labcont'
     ));
   }
 

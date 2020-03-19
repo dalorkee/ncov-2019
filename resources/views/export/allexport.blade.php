@@ -134,7 +134,8 @@ input.valid, textarea.valid{
           <table id="example" class="table-striped row-border" style="width:100%  font-size: 9px;">
         <thead>
             <tr>
-							<th>Order ID</th>
+							<th>ID</th>
+							<th>ลำดับผู้ป่วยยืนยัน</th>
 								<th>SAT ID</th>
 								<th>ชื่อ-นามสกุล</th>
 								<th>วันที่ได้รับแจ้ง</th>
@@ -203,6 +204,7 @@ input.valid, textarea.valid{
 						<tr>
 
 							<td>{{ (!empty($value->id)) ? $value->id : ""  }}</td>
+							<td>{{ (!empty($value->order_pt)) ? $value->order_pt : ""  }}</td>
 							<td>{{ (!empty($value->sat_id)) ? $value->sat_id : ""  }}</td>
 							<td>{{ (!empty($value->first_name)) ? $value->first_name : ""  }} {{ (!empty($value->mid_name)) ? $value->mid_name : ""  }} {{ (!empty($value->last_name)) ? $value->last_name : ""  }}</td>
 							<td>{{ (!empty($value->notify_date)) ? ($value->notify_date) : date('Y-m-d')}}</td>
