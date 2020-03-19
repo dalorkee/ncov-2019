@@ -215,7 +215,7 @@ return true;
 				source: "evb",
 				filter: ["has", "point_count"],
 				layout: {
-					//'icon-image': 'pulsing-dot',
+					'icon-image': 'pulsing-dot',
 					"text-field": "{point_count_abbreviated}",
 					"text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
 					"text-size": 12
@@ -246,6 +246,7 @@ return true;
 
 			// inspect a cluster on click
 			map.on('click', 'clusters', function (e) {
+
 				var features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
 				var clusterId = features[0].properties.cluster_id;
 				map.getSource('evb').getClusterExpansionZoom(clusterId, function (err, zoom) {
