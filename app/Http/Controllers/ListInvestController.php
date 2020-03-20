@@ -6,11 +6,18 @@ use App\DataTables\ListInvestDataTable;
 use App\InvestList;
 use App\Http\Controllers\MasterController;
 
+use App\Exports\InvestExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class ListInvestController extends Controller
 {
 	public function index(ListInvestDataTable $dataTable) {
 		$test = ['a'=>'aa'];
 		return $dataTable->render('list-data.invest', compact('test'));
+	}
+
+	public function export() {
+		return Excel::download(new InvestExport, 'invest.xlsx');
 	}
 
 	public function chStatus(Request $request) {
