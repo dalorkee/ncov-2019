@@ -188,7 +188,7 @@ input.valid, textarea.valid{
 								<td>{{ $value->name_contact }} {{ $value->lname_contact }}</td>
                 <td>{{ $value->age_contact }}</td>
 								<td>{{ (isset($arr_risk_contact[$value->risk_contact])) ? $arr_risk_contact[$value->risk_contact] : "" }}</td>
-								<td>{{ $value->age_contact }}</td>
+								<td></td>
                 <td>{{ (isset($arrprov[$value->province])) ? $arrprov[$value->province] : "" }}
 										{{ (isset($arrdistrict[$value->district])) ? $arrdistrict[$value->district] : "" }}
 										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}
