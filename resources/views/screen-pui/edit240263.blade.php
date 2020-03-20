@@ -490,7 +490,7 @@ input:read-only {
 																<div class="custom-control custom-checkbox">
 																	<input type="checkbox" name="data3_3chk_other" value="y" class="custom-control-input" @if($data->data3_3chk_other=="y") checked @endif id="data3_3chk_other">
 																	<label for="data3_3chk_other" class="custom-control-label normal-label">
-																		อื่นๆ
+																		ประวัติเสียงที่สำคัญ
 																	</label>
 																	<div class="row mt-2">
 																		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
