@@ -8,8 +8,9 @@ use App\Occupation;
 use App\GlobalCountry;
 use App\Hospitals;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class InvestExport implements FromCollection
+class InvestExport implements FromCollection, WithHeadings
 {
 	public function collection() {
 		//return collect([1=>[1], 2=>[2], 3=>[3]]);
@@ -22,75 +23,81 @@ class InvestExport implements FromCollection
 			'last_name',
 			'sex',
 			'age',
-			'isolated_province',
 			'occupation',
+			'occupation_oth',
 			'order_pt',
 			'nation',
 			'walkinplace_hosp_code',
-			'walkinplace_hosp_province'
-		)->where('id', '<=', 10)->get()->toArray();
-
+			'walkinplace_hosp_province',
+			'isolated_hosp_code',
+			'isolated_province'
+		)->where('pt_status', '=', 2)->get()->toArray();
 		$result = collect();
-
 		foreach($data as $key => $val) {
-			if (!empty($val['isolated_province']) || $val['isolated_province'] != NULL) {
-				$province = $prov[$val['isolated_province']]['province_name'];
-			} else {
-				$province = '-';
-			}
-
-			if (!empty($val['occupation']) || $val['occupation'] != NULL) {
-				$occ = $occu[$val['occupation']]['occu_name_th'];
+			if (!empty($val['occupation']) || $val['occupation'] != null) {
+				if ($val['occupation'] == 99) {
+					$occ = $val['occupation_oth'];
+				} else {
+					$occ = $occu[$val['occupation']]['occu_name_th'];
+				}
 			} else {
 				$occ = '-';
 			}
-
-			if (!empty($val['nation']) || $val['nation'] != NULL) {
+			if (!empty($val['nation']) || $val['nation'] != null) {
 				$nation = $globalCountry[$val['nation']]['country_name'];
 			} else {
 				$nation = '-';
 			}
-
-			if (!empty($val['walkinplace_hosp_code']) || $val['walkinplace_hosp_code'] != NULL) {
+			if (!empty($val['walkinplace_hosp_code']) || $val['walkinplace_hosp_code'] != null) {
 				$walk_hosp = $hospitals[$val['walkinplace_hosp_code']]['hosp_name'];
 			} else {
 				$walk_hosp= '-';
 			}
-
-			if (!empty($val['walkinplace_hosp_province']) || $val['walkinplace_hosp_province'] != NULL) {
+			if (!empty($val['walkinplace_hosp_province']) || $val['walkinplace_hosp_province'] != null) {
 				$walk_prov = $prov[$val['walkinplace_hosp_province']]['province_name'];
 			} else {
 				$walk_prov= '-';
 			}
-
+			if (!empty($val['isolated_hosp_code']) || $val['isolated_hosp_code'] != null) {
+				$iso_hosp = $hospitals[$val['isolated_hosp_code']]['hosp_name'];
+			} else {
+				$iso_hosp= '-';
+			}
+			if (!empty($val['isolated_province']) || $val['isolated_province'] != null) {
+				$iso_prov = $prov[$val['isolated_province']]['province_name'];
+			} else {
+				$iso_prov = '-';
+			}
 			$arr = array(
 				'first_name' => $val['first_name'],
 				'last_name' => $val['last_name'],
-				'isolated_province' => $province,
 				'occupation' => $occ,
-				'order_no' => $val['order_pt'],
+				'order_id' => $val['order_pt'],
 				'nation' => $nation,
 				'walkinplace_hosp_code' => $walk_hosp,
-				'walkinplace_hosp_province' => $walk_prov
+				'walkinplace_hosp_province' => $walk_prov,
+				'isolated_hosp_code' => $iso_hosp,
+				'isolated_province' => $iso_prov,
+				'pt_status' => 'Confirmed'
 			);
-
 			$result->push($arr);
 		}
 		return $result;
+	}
 
-
-		/*
-			return collect([
-				0 => [
-					'first_name' => 'ดำดี',
-					'last_name' => 'สีไม่ตก'
-					],
-				1 => [
-					'first_name' => 'เอาละสิ',
-					'last_name' => 'เอนเกม'
-				]
-			]);
-			*/
+	public function headings(): array {
+		return [
+			'First name',
+			'Last name',
+			'Occupation',
+			'Order ID',
+			'Nation',
+			'First hospital',
+			'First hospital province',
+			'Current hospital',
+			'Current hospital province',
+			'Status'
+		];
 	}
 
 }
