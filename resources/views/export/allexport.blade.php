@@ -117,6 +117,22 @@ input.valid, textarea.valid{
         <input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด" autocomplete="off" required>
         </div>
       </div>
+			<div class="form-group row">
+				<div class="col-sm-4">
+						<label for="sex_contact">สถานผู้ป่วย</label>
+						<select type="text" name="pt_status" class="form-control" placeholder="col-sm-2">
+								<option value="">เลือกทั้งหมด</option>
+								<option value="1">PUI</option>
+								<option value="2">Confirm</option>
+								<option value="3">Probable</option>
+								<option value="4">Suspected</option>
+								<option value="5">Excluded</option>
+						</select>
+				</div>
+				{{-- <div class="col-sm-6">
+				<input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด" autocomplete="off" required>
+				</div> --}}
+			</div>
       <div class="col-sm-12">
         <button type="submit" class="btn btn-success">ค้นหาข้อมูล</button>
       </div>

@@ -72,6 +72,7 @@ class ExportExcelController extends MasterController
       $arr = parent::getStatus();
       $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
       $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+      $pt_status= $req ->input ('pt_status');
       $nation_list = $this->arrnation();
       $data=DB::table('invest_pt')
                       ->select('*')
@@ -100,11 +101,13 @@ class ExportExcelController extends MasterController
      $arr_op_opt = $this->arr_op_opt();
      $arr_op_dpc = $this->arr_op_dpc();
      $arr_hostype = $this->arr_hostype();
+     $pt_status= $req ->input ('pt_status');
      $arr_hostype_th  = $this->arr_hostype_th();
      $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
      $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
      $data=DB::table('invest_pt')
                      ->select('*')
+                     ->where('pt_status', '=',$pt_status)
                      ->whereDate('notify_date','>=',$notify_date)
                      ->whereDate('notify_date', '<=',$notify_date_end)
                      ->whereNull('deleted_at')
