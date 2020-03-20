@@ -129,7 +129,7 @@ input.valid, textarea.valid{
 					<?php foreach($contact_data as $value) : ?>
             <tr>
 								<td>{{ $value->conid }}</td>
-                <td>{{ $value->patianid }}</td>
+                <td>{{ $value->contact_id }}</td>
 								<td>{{ $value->sex_contact }}</td>
                 <td>{{ $value->age_contact }}</td>
 								<td>{{ (isset($arrprov[$value->province])) ? $arrprov[$value->province] : "" }}
