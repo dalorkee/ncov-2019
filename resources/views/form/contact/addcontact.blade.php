@@ -52,41 +52,59 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                         <input type="hidden" name="pui_id" value="{{$pui_id}}" class="form-control" readonly>
                                     </div>
                                 </div>
+                                <div class="bd-callout bd-callout-danger" style="margin-top:0;position:relative">
+                                    <div style="position:absolute;top:10px;right:10px;z-index:1">
+                                        {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
+                                        <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
+                                    </div>
                                 <div class="form-group row">
                                     <div class="col-sm-12 col-md-6">
                                         <input type="hidden" name="sat_id" value="{{$sat_id[0]->sat_id}}" class="form-control" readonly>
-                                        <div>
-                                          <h4 class="card-title">ของผู้ป่วย รหัส: <br>{{$sat_id[0]->sat_id}}</h4>
-                                          {{-- <h4 class="card-title">และ รหัส:<br>
-                                          @foreach ($sat_id_relation as $row)
-                                          {{$row->sat_id}}<br>
-                                          @endforeach
-                                        </h4> --}}
+                                          <h5 class="sub-title">รหัสผู้สัมผัส : </h5>
+                                        <div class="col-sm-12 col-md-6">
+                                              {{-- <h5 class="card-title"><input type="checkbox" id="cuscontactid" name="cuscontactid" /> :  กรณีกรอกรหัสผู้สัมผัสด้วยตนเอง  </h5>
+                                            <input type="text" id="inputcontact" name="contact_id" value="{{$contact_id}}" class="form-control" placeholder="รหัสผู้สัมผัส" readonly> --}}
+                                            {{-- <h5 class="card-title"><input type="checkbox" id="cuscontactid" name="cuscontactid" /> :  กรณีกรอกรหัสผู้สัมผัสด้วยตนเอง  </h5> --}}
+                                          <input type="text" id="inputcontact" name="contact_id" class="form-control" placeholder="รหัสผู้สัมผัส" >
+                                        </div>
                                         </div>
                                     </div>
+                                  </div>
+                                  <div>
+                                    <h5 class="card-title">ผู้สัมผัสของผู้ป่วยรหัส : {{$sat_id[0]->sat_id}}</h5>
+                                    {{-- <h4 class="card-title">และ รหัส:<br>
+                                    @foreach ($sat_id_relation as $row)
+                                    {{$row->sat_id}}<br>
+                                    @endforeach
+                                  </h4> --}}
+                                  </div>
+                                <h5 class="sub-title">เพิ่มผู้ป่วยของผู้สัมผัส กรณีเป็นผู้สัมผัสของผู้ป่วยหลายราย</h5>
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <input type="radio" name="pa1" value="n" onclick="show21();" checked> ไม่มี
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="radio" name="pa1" value="y" onclick="show22();"> มี
+                                    </div>
+
                                 </div>
-                                <label>เลือก SAT ID เพิ่มเติม : </label>
+                                <div id="div2" class="hide">
                                 <div class="form-group row">
                                     <div class="col-sm-12 col-md-6">
                                         <select multiple="multiple" size="10" name="sat_id_relation[]">
                                           @foreach ($sat_id_confirm as $row)
-                                          <option value="{{$row->sat_id}}">{{$row->sat_id}} [{{$row->first_name}} {{$row->last_name}}/{{$nation_list[$row->nation]}}]</option>
+                                          <option value="{{$row->sat_id.'|'.$row->id}}">{{ (isset($row->sat_id)) ? $row->sat_id : "" }} [{{ (isset($row->first_name)) ? $row->first_name : "" }} {{ (isset($row->last_name)) ? $row->last_name : "" }}/{{ (isset($nation_list[$row->nation])) ? $nation_list[$row->nation] : "" }}]
+                                          </option>
                                           @endforeach
-                                          <option value="{{$sat_id[0]->sat_id}}" selected>รหัสตั้งผู้ป่วยหลัก {{$sat_id[0]->sat_id}}</option>
+                                          <option value="{{$sat_id[0]->sat_id.'|'.$sat_id[0]->id}}" selected>รหัสตั้งต้นผู้ป่วยหลัก {{$sat_id[0]->sat_id}}</option>
                                         </select>
                                         <br>
                                     </div>
                                 </div>
-                                <label>Contact ID : </label>
+                              </div>
                                 <div class="form-group row">
                                     <div class="col-sm-12 col-md-3">
                                         <input type="hidden" id="contact_id_temp" name="contact_id_temp" value="{{$contact_id}}" class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-12 col-md-3">
-                                        <input type="checkbox" id="cuscontactid" name="cuscontactid" /> : กรณีกรอกรหัสผู้สัมผัสด้วยตนเอง
-                                        <input type="text" id="inputcontact" name="contact_id" value="{{$contact_id}}" class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -197,10 +215,13 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                     <option value="">- เลือก -</option>
                                     <option value="1">บุคลากรทางการแพทย์</option>
                                     <option value="2">ผู้สัมผัสร่วมบ้าน</option>
-                                    <option value="3">ผู้ร่วมเดินทาง</option>
+                                    <option value="3">ผู้ร่วมเดินทาง/ร่วมยานพาหนะ</option>
                                     <option value="4">พนักงานโรงแรม</option>
                                     <option value="5">คนขับแท๊กซี่/ยานพาหนะ</option>
                                     <option value="6">พนักงานสนามบิน</option>
+                                    <option value="8">บุคคลร่วมที่ทำงาน</option>
+                                    <option value="9">บุคคลร่วมโรงเรียน</option>
+                                    <option value="10">ผู้ป่วยในโรงพยาบาล</option>
                                     <option value="7">อื่นๆ</option>
                                 </select>
                             </div>
@@ -227,10 +248,10 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                         <h5 class="sub-title">อาการปัจจุบันของผู้สัมผัส</h5>
                         <div class="form-group row">
                             <div class="col-sm-3">
-                                <input type="radio" name="clinical" value="y" onclick="show1();" checked> ไม่มีอาการ
+                                <input type="radio" name="clinical" value="n" onclick="show1();" checked> ไม่มีอาการ
                             </div>
                             <div class="col-sm-3">
-                                <input type="radio" name="clinical" value="n" onclick="show2();"> มีอาการ
+                                <input type="radio" name="clinical" value="y" onclick="show2();"> มีอาการ
                             </div>
                         </div>
                         <div id="div1" class="hide">
@@ -279,11 +300,11 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                         </div>
                     </div>
                     <div class="bd-callout bd-callout-warning" style="margin-top:0;position:relative">
-                        <div style="position:absolute;top:10px;right:10px;z-index:1">
+                        {{-- <div style="position:absolute;top:10px;right:10px;z-index:1"> --}}
                             {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
                             <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
-                        </div>
-                        <h6 class="sub-title">เป็นผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (มีอาการเข้าได้กับนิยามและมีผลยืนยันทางห้องปฏิบัติการณ์)</h6>
+                        {{-- </div> --}}
+                        {{-- <h6 class="sub-title">เป็นผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (มีอาการเข้าได้กับนิยามและมีผลยืนยันทางห้องปฏิบัติการณ์)</h6>
                         <div class="form-group row">
                             <div class="col-sm-3">
                                 <div class="col-sm-6">
@@ -295,13 +316,128 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                             </div>
                         </div>
                         <h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>
-                            ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6>
+                            ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6> --}}
+
+                            {{-- <div class="form-group row">
+                            <div class="col-sm-3">
+                            <button type="button" id="close" class="btn btn-s btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
+                            </div>
+                            <div class="col-sm-3">
+                            <button type="button" id="open" class="btn btn-s btn-success">มีตัวอย่างและสิ่งส่งตรวจ</button>
+                            </div>
+                            </div> --}}
+                            {{-- <div class="form-group row" id="lab"> --}}
+                            <div class="form-group row">
+                            <div class="col-sm-12">
+                              <div class="table-responsive">
+                              <table class="table" id="maintable">
+                                  <thead>
+                                    <tr>
+                                      <th>#</th>
+                                      <th>สถานที่ส่งตรวจ PCR of Novel Coronavirus</th>
+                                      <th>ครั้งที่ตรวจ</th>
+                                      <th>วันที่ตรวจ</th>
+                                      <th>ตัวอย่างสิ่งส่งตรวจ</th>
+                                      <th>สิ่งส่งตรวจอื่นๆ</th>
+                                      <th>ผล PCR </th>
+                                      {{-- <th>เพิ่ม / ลบ</th> --}}
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr class="data-contact-person">
+                                      <td>
+                                        <input type="text"  name="no_lab[]" value="1"  class="form-control " readonly>
+                                      </td>
+                                      <td>
+                                        <select class="form-control" name="dms_pcr_contact[]">
+                                          <option value="">- เลือก -</option>
+                                          <option value="1">กรมวิทย์ฯ</option>
+                                          <option value="2">สถาบันบำราศฯ</option>
+                                          <option value="3">จุฬาลงกรณ์</option>
+                                          <option value="4">PCR for Mers ที่อื่นๆ</option>
+                                        </select>
+                                      </td>
+                                      <td>
+                                        <input type="text" id="dms_time_contact" name="dms_time_contact[]"  class="form-control dms_time_contact01" onkeyup="autocomplet()">
+                                      </td>
+                                      <td>
+                                        <input type="text" id="date_dms_date_contact" name="dms_date_contact[]"  class="form-control dms_date_contact01" onkeyup="autocomplet()">
+                                      </td>
+                                      <td>
+                                        <select class="form-control" name="dms_specimen_contact[]">
+                                          <option value="">- เลือก -</option>
+                                          @foreach ($ref_specimen as $row)
+                                          <option value="{{$row->id}}">{{$row->name_en}}</option>
+                                          @endforeach
+                                        </select>
+                                      </td>
+                                      <td>
+                                        <input type="text" id="chkspec_other_contact" name="chkspec_other_contact[]"  class="form-control chkspec_other_contact01" onkeyup="autocomplet()">
+                                      </td>
+                                      <td>
+                                        <select class="form-control" name="other_pcr_result_contact[]">
+                                          <option value="">- เลือก -</option>
+                                        <option value="รอผล">รอผล</option>
+                                        <option value="Negative">Negative</option>
+                                        <option value="Positive">Positive</option>
+                                      </select>
+                                      {{-- <td>
+                                          <button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd">Add More</button>
+                                      </td> --}}
+                                    </tr>
+                                    <tr class="data-contact-person">
+                                      <td>
+                                        <input type="text"  name="no_lab[]" value="2"  class="form-control" readonly>
+                                      </td>
+                                      <td>
+                                        <select class="form-control" name="dms_pcr_contact[]">
+                                          <option value="">- เลือก -</option>
+                                          <option value="1">กรมวิทย์ฯ</option>
+                                          <option value="2">สถาบันบำราศฯ</option>
+                                          <option value="3">จุฬาลงกรณ์</option>
+                                          <option value="4">PCR for Mers ที่อื่นๆ</option>
+                                        </select>
+                                      </td>
+                                      <td>
+                                        <input type="text" id="dms_time_contact" name="dms_time_contact[]"  class="form-control dms_time_contact01" onkeyup="autocomplet()">
+                                      </td>
+                                      <td>
+                                        <input type="text" id="date_dms_date_contact" name="dms_date_contact[]"  class="form-control dms_date_contact01" onkeyup="autocomplet()">
+                                      </td>
+                                      <td>
+                                        <select class="form-control" name="dms_specimen_contact[]">
+                                          <option value="">- เลือก -</option>
+                                          @foreach ($ref_specimen as $row)
+                                          <option value="{{$row->id}}">{{$row->name_en}}</option>
+                                          @endforeach
+                                        </select>
+                                      </td>
+                                      <td>
+                                        <input type="text" id="chkspec_other_contact" name="chkspec_other_contact[]"  class="form-control chkspec_other_contact01" onkeyup="autocomplet()">
+                                      </td>
+                                      <td>
+                                        <select class="form-control" name="other_pcr_result_contact[]">
+                                          <option value="">- เลือก -</option>
+                                        <option value="รอผล">รอผล</option>
+                                        <option value="Negative">Negative</option>
+                                        <option value="Positive">Positive</option>
+                                      </select>
+                                      {{-- <td>
+                                          <button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd">Add More</button>
+                                      </td> --}}
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            </div>
                     </div>
                     <div class="bd-callout bd-callout-danger" style="margin-top:0;position:relative">
                         <div style="position:absolute;top:10px;right:10px;z-index:1">
                             {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
                             <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
                         </div>
+
                         <div class="form-group row">
                             <div class="col-sm-3">
                                 <label for="status_followup">สถานะการติดตาม</label>
@@ -314,17 +450,26 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                         </div>
                         <br>
                         <div class="form-group row">
-                            <div class="col-sm-3">
-                                <label for="followup_address">สถานที่ที่ติดตามผู้สัมผัส</label>
-                                <select type="text" name="followup_address" id="followup_address" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-                                    <option value="">สถานที่ที่ติดตามผู้สัมผัส</option>
-                                    <option value="1">บ้าน</option>
-                                    <option value="2">โรงแรม</option>
-                                    <option value="3">โรงพยาบาล</option>
-                                    <option value="4">สถานที่กักกัน</option>
-                                    <option value="5">อื่นๆ</option>
-                                </select>
-                            </div>
+                          <div class="col-sm-3">
+                         <label for="followup_address">สถานที่ที่ติดตามผู้ป่วย</label>
+                          <select type="text"  name="followup_address" id="hosdivshow" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+                          <option value="">สถานที่ที่ติดตามผู้ป่วย</option>
+                          <option value="1">บ้าน</option>
+                          <option value="2">โรงแรม</option>
+                          <option value="3">โรงพยาบาล</option>
+                          <option value="4">สถานที่กักกัน</option>
+                          <option value="5">อื่นๆ</option>
+                          </select>
+                          </div>
+
+                      </div>
+                      <div id="follow_address_other" class="form-group row">
+                      <div class="col-sm-3">
+                        <label>ชื่อสถานที่ติดตามผู้ป่วย</label>
+                        <input type="text" name="follow_address_other"  class="form-control"placeholder="ชื่อสถานที่ติดตามผู้ป่วย" >
+                      </div>
+                    </div>
+                    	<div id="hosdiv" class="form-group row">
                             <div class="col-sm-3">
                                 <label for="province_follow_contact">จังหวัดที่ติดตามผู้สัมผัส</label>
                                 <select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
@@ -381,7 +526,50 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 </div>
 @endsection
 @section('bottom-script')
+  <script type="text/javascript">
+  				$(document).ready(function () {
+  					$(document).on("click", ".classAdd", function () { //
+  						var rowCount = $('.data-contact-person').length + 1;
+  						var contactdiv = '<tr class="data-contact-person">' +
+              '<td><select class="form-control" name="dms_pcr_contact[]' + rowCount + '"">' +
+                        '<option value="">- เลือก -</option>' +
+                        '<option value="1">กรมวิทย์ฯ</option>' +
+                        '<option value="2">สถาบันบำราศฯ</option>' +
+                        '<option value="3">จุฬาลงกรณ์</option>' +
+                        '<option value="4">PCR for Mers ที่อื่นๆ</option>' +
+                        '</select></td>'+
+  									'<td><input type="text" id="dms_time_contact' + rowCount + '" name="dms_time_contact[]' + rowCount + '"  class="form-control  dms_time_contact01" onkeyup="autocomplet()" />' +
+                    '<td><input type="text" id="date_dms_date_contact' + rowCount + '" name="dms_date_contact[]' + rowCount + '"  class="form-control  dms_date_contact01" onkeyup="autocomplet()" />' +
+  									'<td><select class="form-control" name="dms_specimen_contact[]' + rowCount + '"">' +
+                                '<option value="">- เลือก -</option>'+
+  															@foreach ($ref_specimen as $row)
+  															'<option value="{{$row->id}}">{{$row->name_en}}</option>'+
+  															@endforeach
+  														'</select></td>'+
+                              '<td><input type="text" id="chkspec_other_contact' + rowCount + '" name="chkspec_other_contact[]' + rowCount + '"  class="form-control  chkspec_other_contact01" onkeyup="autocomplet()" />' +
+                              '<td><select class="form-control" name="other_pcr_result_contact[]' + rowCount + '"  title="ตำแหน่งในทีม" >' +
+                                '<option value="">- เลือก -</option>'+
+                                '<option value="รอผล">รอผล</option>'+
+                                '<option value="Negative">Negative</option>'+
+                                '<option value="Positive">Positive</option>'+
+  															'</select></td>' +
+  									'<td><button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd">Add More</button>' +
+  										'<button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs">Remove</button></td>' +
+  								'</tr>';
+  					$('#maintable').append(contactdiv); // Adding these controls to Main table class
+  					$('#date_dms_date_contact' + rowCount + '').datepicker({
+  						format: 'yyyy/mm/dd',
+  						todayHighlight: true,
+  						todayBtn: true,
+  						autoclose: true
+  					});
+  			});
+  			$(document).on("click", ".deleteContact", function () {
+  				$(this).closest("tr").remove(); // closest used to remove the respective 'tr' in which I have my controls
+  	});
 
+  		});
+  	</script>
 
 <script type="text/javascript">
     $('.province').change(function() {
@@ -450,7 +638,8 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js'></script>
 <script src="{{ URL::asset('assets/contact/dualbox/jquery.bootstrap-duallistbox.js') }}"></script>
 {{-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> --}}
-<script>
+
+{{-- <script>
     $(function() {
         $('#lab').hide();
         $('#close').on('click', function() {
@@ -461,7 +650,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
         });
     });
     // $('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
-</script>
+</script> --}}
 <script>
     $('.input-daterange')
         .datepicker({
@@ -517,6 +706,15 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
     }
 </script>
 <script>
+    function show21() {
+        document.getElementById('div2').style.display = 'none';
+    }
+
+    function show22() {
+        document.getElementById('div2').style.display = 'block';
+    }
+</script>
+<script>
     // In your Javascript (external .js resource or <script> tag)
     $(document).ready(function() {
         $('.js-select-basic-single').select2();
@@ -544,6 +742,34 @@ var demo1 = $('select[name="sat_id_relation[]"]').bootstrapDualListbox();
 $("#demoform").submit(function() {
   alert($('[name="sat_id_relation[]"]').val());
   return false;
+});
+</script>
+<script>
+$(document).ready(function(){
+  $("#hosdiv").hide();
+  $("#follow_address_other").hide();
+    $('#hosdivshow').on('change', function() {
+      if ( this.value == '1')
+      {
+        $("#follow_address_other").show();
+        $("#hosdiv").hide();
+      }
+      if ( this.value == '2')
+      {
+        $("#follow_address_other").show();
+        $("#hosdiv").hide();
+      }
+      if ( this.value == '4')
+      {
+        $("#follow_address_other").show();
+        $("#hosdiv").hide();
+      }
+      if ( this.value == '3')
+      {
+        $("#hosdiv").show();
+        $("#follow_address_other").hide();
+      }
+    });
 });
 </script>
 @endsection

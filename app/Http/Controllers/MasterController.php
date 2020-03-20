@@ -29,7 +29,7 @@ class MasterController extends Controller
 				2 => 'Confirmed not yet released',
 			],
 			'disch_st' => [
-				1 => 'Recovery',
+				1 => 'Recovered',
 				2 => 'Admitted',
 				3 => 'Death',
 				4 => 'Selt quarantine'

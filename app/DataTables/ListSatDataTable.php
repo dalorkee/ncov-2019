@@ -130,11 +130,12 @@ class ListSatDataTable extends DataTable
 				return $inv_rs;
 			})
 			->addColumn('action',
+				/*
 				'<a href="http://viral.ddc.moph.go.th/viral/lab/genlab.php?idx={{ $sat_id }}" target="_blank" title="GenLAB" class="btn btn-cyan btn-sm">GenLAB</a>
 				<a href="http://viral.ddc.moph.go.th/viral/lab/labfollow.php?idx={{ $sat_id }}" target="_blank" title="LabResult" class="btn btn-primary btn-sm">LabResult</a>
 				<button class="btn btn-custom-6 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
-				 <a href="{{ route("screenpui.edit", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a>
-				 ')
+				 <a href="{{ route("screenpui.edit", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a> */
+				 '<button class="context-nav btn btn-custom-7 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-bars"></i></button>')
 			->rawColumns(['order_pt', 'sat_id', 'pt_status', 'inv', 'action']);
 	}
 
@@ -197,7 +198,7 @@ class ListSatDataTable extends DataTable
 			Column::computed('action')
 				->exportable(false)
 				->printable(false)
-				->addClass('text-right')
+				->addClass('text-left')
 				->title('#'),
 			];
 	}

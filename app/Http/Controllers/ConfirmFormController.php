@@ -438,8 +438,8 @@ class ConfirmFormController extends Controller
 
 		$pt_saved = $pt->save();
 		if ($pt_saved) {
-			flash()->overlay('Successfully saved.', 'nCoV 2019');
-			return redirect()->route('investList.index');
+			flash()->overlay('Successfully saved.', 'Covid-19');
+			return redirect()->route('list-data.invest');
 			exit;
 		}
 	}

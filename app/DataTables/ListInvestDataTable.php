@@ -72,6 +72,7 @@ class ListInvestDataTable extends DataTable
 
 		return datatables()
 			->eloquent($query)
+			->orderColumn('order_pt', '-order_pt $1')
 			->filterColumn('pt_status', function($query, $keyword) use ($pts) {
 				$query->whereRaw('(CASE '.$pts.' ELSE "-" END) like ?', ["%{$keyword}%"]);
 			})
@@ -156,11 +157,12 @@ class ListInvestDataTable extends DataTable
 			}) */
 
 			->addColumn('action',
-				'<a href="http://viral.ddc.moph.go.th/viral/lab/genlab.php?idx={{ $sat_id }}" target="_blank" title="GenLAB" class="btn btn-cyan btn-sm">GenLAB</a>
+				/*'<a href="http://viral.ddc.moph.go.th/viral/lab/genlab.php?idx={{ $sat_id }}" target="_blank" title="GenLAB" class="btn btn-cyan btn-sm">GenLAB</a>
 				<a href="http://viral.ddc.moph.go.th/viral/lab/labfollow.php?idx={{ $sat_id }}" target="_blank" title="LabResult" class="btn btn-primary btn-sm">LabResult</a>
 				<button class="btn btn-custom-6 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
 				 <a href="{{ route("contacttable", $id) }}" title="Contact form" class="btn btn-info btn-sm">Contact</a>
-				 <a href="{{ route("confirmForm", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a>')
+				 <a href="{{ route("confirmForm", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a> */
+				 '<button class="context-nav btn btn-custom-1 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-angle-down"></i></button>')
 			->rawColumns(['pt_status', 'inv', 'action']);
 	}
 
@@ -178,13 +180,14 @@ class ListInvestDataTable extends DataTable
 
 		$invest = InvestList::select(
 			'id',
+			'order_pt',
 			'sat_id',
 			\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 			\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 			\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
 			'sex',
 			\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-			'inv')->whereNull('deleted_at')->orderBy('id');
+			'inv')->whereNull('deleted_at');
 
 		return $invest;
 
@@ -220,7 +223,7 @@ class ListInvestDataTable extends DataTable
 			->setTableId('list-data-table')
 			->columns($this->getColumns())
 			->minifiedAjax()
-			->dom('Bfrtip')
+			->dom('frtip')
 			->orderBy(0)
 			->responsive(true)
 			->parameters(
@@ -231,12 +234,11 @@ class ListInvestDataTable extends DataTable
 			)
 			->lengthMenu([20])
 			->buttons(
-				/* Button::make('create'), */
+				Button::make('create'),
 				Button::make('export'),
 				Button::make('print'),
 				Button::make('reset'),
 				Button::make('reload')
-
 			);
 	}
 
@@ -247,7 +249,7 @@ class ListInvestDataTable extends DataTable
 	*/
 	protected function getColumns() {
 		return [
-			Column::make('id')->title('ID'),
+			Column::make('order_pt')->title('OrderID'),
 			Column::make('sat_id')->title('SatID'),
 			Column::make('pt_status')->title('Status'),
 			Column::make('news_st')->title('News'),
@@ -258,7 +260,7 @@ class ListInvestDataTable extends DataTable
 			Column::computed('action')
 				->exportable(true)
 				->printable(false)
-				->addClass('text-right')
+				->addClass('text-left')
 				->title('#'),
 			];
 	}

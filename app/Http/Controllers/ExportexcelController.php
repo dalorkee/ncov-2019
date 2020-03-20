@@ -40,6 +40,8 @@ class ExportExcelController extends MasterController
     $arr_refer_bidi = $this->arr_refer_bidi();
     $arr_op_opt = $this->arr_op_opt();
     $arr_op_dpc = $this->arr_op_dpc();
+    $arr_hostype  = $this->arr_hostype();
+    $arr_hostype_th  = $this->arr_hostype_th();
     // dd($poe_id);
     $data=DB::table('invest_pt')
             ->select('*')
@@ -58,7 +60,9 @@ class ExportExcelController extends MasterController
       'arr_refer_lab',
       'arr_op_opt',
       'arr_op_dpc',
-      'arr_city'
+      'arr_city',
+      'arr_hostype',
+      'arr_hostype_th'
     ));
   }
 
@@ -95,6 +99,8 @@ class ExportExcelController extends MasterController
      $arr_refer_bidi = $this->arr_refer_bidi();
      $arr_op_opt = $this->arr_op_opt();
      $arr_op_dpc = $this->arr_op_dpc();
+     $arr_hostype = $this->arr_hostype();
+     $arr_hostype_th  = $this->arr_hostype_th();
      $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
      $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
      $data=DB::table('invest_pt')
@@ -118,7 +124,9 @@ class ExportExcelController extends MasterController
                        'list_airport',
                        'arr_op_opt',
                        'arr_op_dpc',
-                       'arr_city'
+                       'arr_city',
+                       'arr_hostype',
+                       'arr_hostype_th'
                      ));
   }
     protected function convertDateToMySQL($date='00/00/0000') {
@@ -330,6 +338,39 @@ class ExportExcelController extends MasterController
         }
         // dd($province_arr);
         return $arrprov;
+      }
+      protected function arr_hostype(){
+        $arr_hostype = DB::table('chospital_new')->select('hospcode','hosp_type_code')->get();
+        foreach ($arr_hostype as  $value) {
+          $arr_hostype[$value->hospcode] =trim($value->hosp_type_code);
+        }
+        // dd($province_arr);
+        return $arr_hostype;
+      }
+      protected function arr_hostype_th(){
+        $arr_hostype_th = array(
+          '01'=>'โรงพยาบาลรัฐ',
+          '02'=>'โรงพยาบาลรัฐ',
+          '03'=>'โรงพยาบาลรัฐ',
+          '04'=>'โรงพยาบาลรัฐ',
+          '05'=>'โรงพยาบาลรัฐ',
+          '06'=>'โรงพยาบาลรัฐ',
+          '07'=>'โรงพยาบาลรัฐ',
+          '08'=>'โรงพยาบาลรัฐ',
+          '09'=>'โรงพยาบาลรัฐ',
+          '10'=>'โรงพยาบาลรัฐ',
+          '11'=>'โรงพยาบาลรัฐ',
+          '12'=>'โรงพยาบาลรัฐ',
+          '13'=>'โรงพยาบาลรัฐ',
+          '14'=>'โรงพยาบาลรัฐ',
+          '15'=>'โรงพยาบาลเอกชน',
+          '16'=>'โรงพยาบาลเอกชน',
+          '17'=>'โรงพยาบาลรัฐ',
+          '18'=>'โรงพยาบาลรัฐ',
+          ''=>''
+          );
+        // dd($list_sym_cough);
+        return $arr_hostype_th;
       }
 }
 ?>

@@ -13,6 +13,8 @@ class User extends Authenticatable
 
 	public $timestamps = true;
 
+	//protected $connection = 'mysql';
+
 	/**
 	* The attributes that are mass assignable.
 	*
