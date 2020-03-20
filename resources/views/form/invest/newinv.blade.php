@@ -1,7 +1,6 @@
 @extends('layouts.index')
 @section('custom-style')
 
-
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 <head>
@@ -1359,10 +1358,142 @@
 			</div>
 		</li>	
 		<li class="card-body border-top">
+			<div class="form-group row">
+                            <div class="col-sm-12">
+                              <div class="table-responsive">
+                              <table class="table" id="maintable">
+                                  <thead>
+								  <label for="informant">2.9 PCR for COVID-19</label>
+
+                                    <tr>
+                                      <th>PCR for COVID-19</th>
+                                      <th>สถานที่ส่งตรวจ PCR of Novel Coronavirus</th>
+                                      <th>ครั้งที่ตรวจ</th>
+                                      <th>วันที่ตรวจ</th>
+                                      <th>ตัวอย่างสิ่งส่งตรวจ</th>
+                                      <th>สิ่งส่งตรวจอื่นๆ</th>
+                                      <th>ผล PCR </th>
+                                      
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr class="data-contact-person">
+                                      <td>
+                                        <input type="text"  name="no_lab[]" value="1"  class="form-control " readonly>
+                                      </td>
+                                      <td>
+                                        <select class="form-control" name="dms_pcr_contact[]">
+                                          <option value="">- เลือก -</option>
+                                          <option value="1">กรมวิทย์ฯ</option>
+                                          <option value="2">สถาบันบำราศฯ</option>
+                                          <option value="3">จุฬาลงกรณ์</option>
+                                          <option value="4">PCR for Mers ที่อื่นๆ</option>
+                                        </select>
+                                      </td>
+                                      <td>
+                                        <input type="text" id="dms_time_contact" name="dms_time_contact[]"  class="form-control dms_time_contact01" onkeyup="autocomplet()">
+                                      </td>
+                                      <td>
+										<div class="input-group date" data-provide="datepicke" id="lab_covid_date">
+											<div class="input-group">
+												<input type="text" name="labCovidDate" value="" class="form-control"  placeholder="ระบุวันที่"readonly>
+												<div class="input-group-append">
+													<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+												</div>
+											</div>                                     
+									 </td>
+                                      <td>
+                                        <select class="form-control" name="dms_specimen_contact[]">
+                                          <option value="">- เลือก -</option>
+                                                                                    <option value="4">Throat swab</option>
+                                                                                    <option value="5">Nasopharyngeal swab</option>
+                                                                                    <option value="6">Nasopharyngeal aspirate</option>
+                                                                                    <option value="1">TS+NPS</option>
+                                                                                    <option value="7">Trachealsecretion</option>
+                                                                                    <option value="8">Lower respiratory tract other</option>
+                                                                                    <option value="9">Stool</option>
+                                                                                    <option value="10">Urine</option>
+                                                                                    <option value="99">Other</option>
+                                                                                    <option value="2">Sputum</option>
+                                                                                    <option value="3">Clot Blood</option>
+                                                                                  </select>
+                                      </td>
+                                      <td>
+                                        <input type="text" id="chkspec_other_contact" name="chkspec_other_contact[]"  class="form-control chkspec_other_contact01" onkeyup="autocomplet()">
+                                      </td>
+                                      <td>
+                                        <select class="form-control" name="other_pcr_result_contact[]">
+                                          <option value="">- เลือก -</option>
+                                        <option value="รอผล">รอผล</option>
+                                        <option value="Negative">Negative</option>
+                                        <option value="Positive">Positive</option>
+                                      </select>
+                                      
+                                    </tr>
+                                    <tr class="data-contact-person">
+                                      <td>
+                                        <input type="text"  name="no_lab[]" value="2"  class="form-control" readonly>
+                                      </td>
+                                      <td>
+                                        <select class="form-control" name="dms_pcr_contact[]">
+                                          <option value="">- เลือก -</option>
+                                          <option value="1">กรมวิทย์ฯ</option>
+                                          <option value="2">สถาบันบำราศฯ</option>
+                                          <option value="3">จุฬาลงกรณ์</option>
+                                          <option value="4">PCR for Mers ที่อื่นๆ</option>
+                                        </select>
+                                      </td>
+                                      <td>
+                                        <input type="text" id="dms_time_contact" name="dms_time_contact[]"  class="form-control dms_time_contact01" onkeyup="autocomplet()">
+                                      </td>
+									  <td>
+										<div class="input-group date" data-provide="datepicke" id="lab_covid2_date">
+											<div class="input-group">
+												<input type="text" name="labCovidDate2" value="" class="form-control"  placeholder="ระบุวันที่"readonly>
+												<div class="input-group-append">
+													<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+												</div>
+											</div>                                     
+									 </td>
+                                      <td>
+                                        <select class="form-control" name="dms_specimen_contact[]">
+                                          <option value="">- เลือก -</option>
+                                                                                    <option value="4">Throat swab</option>
+                                                                                    <option value="5">Nasopharyngeal swab</option>
+                                                                                    <option value="6">Nasopharyngeal aspirate</option>
+                                                                                    <option value="1">TS+NPS</option>
+                                                                                    <option value="7">Trachealsecretion</option>
+                                                                                    <option value="8">Lower respiratory tract other</option>
+                                                                                    <option value="9">Stool</option>
+                                                                                    <option value="10">Urine</option>
+                                                                                    <option value="99">Other</option>
+                                                                                    <option value="2">Sputum</option>
+                                                                                    <option value="3">Clot Blood</option>
+                                                                                  </select>
+                                      </td>
+                                      <td>
+                                        <input type="text" id="chkspec_other_contact" name="chkspec_other_contact[]"  class="form-control chkspec_other_contact01" onkeyup="autocomplet()">
+                                      </td>
+                                      <td>
+                                        <select class="form-control" name="other_pcr_result_contact[]">
+                                          <option value="">- เลือก -</option>
+                                        <option value="รอผล">รอผล</option>
+                                        <option value="Negative">Negative</option>
+                                        <option value="Positive">Positive</option>
+                                      </select>
+                                      
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+							</div>
+		</li>
+		<li class="card-body border-top">
 		
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-					<label for="dateInput"> 2.9 ภาพถ่ายรังสีปอด (Chest X-ray) </label>
+					<label for="dateInput"> 2.10 ภาพถ่ายรังสีปอด (Chest X-ray) </label>
 					<div class="input-group date" data-provide="datepicke" id="lab_cxr1_date">
 						<div class="input-group">
 							<input type="text" name="labCxr1Date" value="" class="form-control"placeholder="ระบุวันที่" readonly>
@@ -1411,7 +1542,7 @@
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 					<div class="form-group">
-						<label for="rapidtest"> 2.10 Rapid test สำหรับไข้หวัด </label>
+						<label for="rapidtest"> 2.11 Rapid test สำหรับไข้หวัด </label>
 						<div class="input-group date" data-provide="datepicke" id="lab_rapid_test_date">
 							<div class="input-group">
 								<input type="text" name="labRapidTestDate" value="13/01/2020" class="form-control" placeholder="ระบุวันที่" readonly>
@@ -2902,6 +3033,20 @@ $(document).ready(function() {
 	});
 
 	$('#lab_cbc_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#lab_covid_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
+
+	$('#lab_covid2_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
 		todayBtn: true,
