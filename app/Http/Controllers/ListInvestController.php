@@ -20,6 +20,7 @@ class ListInvestController extends Controller
 		return Excel::download(new InvestExport, 'invest.xlsx');
 	}
 
+
 	public function chStatus(Request $request) {
 		$pst = InvestList::select('id', 'sat_id', 'pt_status', 'news_st', 'disch_st')
 			->where('id', '=', $request->id)
