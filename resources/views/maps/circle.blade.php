@@ -246,7 +246,6 @@ return true;
 
 			// inspect a cluster on click
 			map.on('click', 'clusters', function (e) {
-
 				var features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
 				var clusterId = features[0].properties.cluster_id;
 				map.getSource('evb').getClusterExpansionZoom(clusterId, function (err, zoom) {

@@ -127,6 +127,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/invest/list', 'ListInvestController@index')->name('list-data.invest');
 	Route::get('/sat/list', 'ListSatController@index')->name('list-data.sat');
 	Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
+	Route::get('invest/export/', 'ListInvestController@export');
 });
 
 /* Role & Permission Manage */
@@ -140,3 +141,8 @@ Route::prefix('uac')->group(function () {
 
 Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');
 Route::get('/clusters/doughnut', 'covidController@clusters')->name('maps.doughnut');
+
+/*
+Route::get('/einvest', function(App\Exports\InvestExport $export) {
+		return $export->download('inv.xlsx');
+});*/

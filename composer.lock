@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6ce982103b0b764be082f72b2b72e08",
+    "content-hash": "e45cae1488ad2d3f2b04f06b8c532979",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1291,12 +1291,15 @@
                 "sftp",
                 "storage"
             ],
+<<<<<<< HEAD
+=======
             "funding": [
                 {
                     "url": "https://offset.earth/frankdejonge",
                     "type": "other"
                 }
             ],
+>>>>>>> 2130394392ddce1b457ed452e04d859effa8e19d
             "time": "2020-03-17T18:58:12+00:00"
         },
         {
@@ -4331,12 +4334,15 @@
                 "env",
                 "environment"
             ],
+<<<<<<< HEAD
+=======
             "funding": [
                 {
                     "url": "https://tidelift.com/funding/github/packagist/vlucas/phpdotenv",
                     "type": "tidelift"
                 }
             ],
+>>>>>>> 2130394392ddce1b457ed452e04d859effa8e19d
             "time": "2020-03-12T13:44:00+00:00"
         },
         {
