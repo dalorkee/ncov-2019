@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\GlobalCountry;
+use App\investList;
 class ExportExcelController extends MasterController
 {
 
@@ -87,8 +88,8 @@ class ExportExcelController extends MasterController
        'arr_hostype_th'
      ));
    }
-   function indexallexcel(Request $req)
-   {
+
+public function indexallexcel(Request $req) {
      $arr = parent::getStatus();
      $arr_hos = $this->arr_hos();
      $arrprov = $this->arrprov();
@@ -109,16 +110,29 @@ class ExportExcelController extends MasterController
      $pt_status4= $req ->input ('pt_status4');
      $pt_status5= $req ->input ('pt_status5');
      $arr_hostype_th  = $this->arr_hostype_th();
-     $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
-     $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
-     $data=DB::table('invest_pt')
-                     ->select('*')
-                     ->wherein('pt_status',[$pt_status1,$pt_status2,$pt_status3,$pt_status4,$pt_status5])
-                     ->whereDate('notify_date','>=',$notify_date)
-                     ->whereDate('notify_date', '<=',$notify_date_end)
+	if (empty($req->notify_date) || $req->notify_date == null) {
+		$notify_date = Date('Y-m-d');
+	} else {
+		$notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
+	}
+
+	if (empty($req->notify_date_end) || $req->notify_date_end == null) {
+		$notify_date_end = Date('Y-m-d');
+	} else {
+		$notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+	}
+
+	//echo $notify_date.'-'.$notify_date_end;
+	//exit;
+
+	$data = InvestList::whereIn('pt_status', $req->pt_status)
+					->whereBetween('notify_date', [$notify_date, $notify_date_end])
+/*
+					 ->where('notify_date','>=',$notify_date)
+                     ->where('notify_date', '<=',$notify_date_end)
+*/
                      ->whereNull('deleted_at')
                      ->get();
-                  //dd($data);
                      return view('export.allexport',compact(
                        'data',
                        'arr',

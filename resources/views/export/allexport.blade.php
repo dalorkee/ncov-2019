@@ -111,23 +111,23 @@ input.valid, textarea.valid{
                 {{ csrf_field() }}
       <div class="form-group row">
         <div class="col-sm-6">
-        <input type="text" class="form-control" name="notify_date" data-provide="datepicke" id="datecontact"  placeholder="วันที่รับแจ้งเริ่มต้น" autocomplete="off" required>
+        <input type="text" class="form-control" name="notify_date" data-provide="datepicke" id="datecontact"  placeholder="วันที่รับแจ้งเริ่มต้น">
         </div>
         <div class="col-sm-6">
-        <input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด" autocomplete="off" required>
+        <input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด">
         </div>
       </div>
 			<div class="form-group row">
 				<div class="col-sm-4">
 						<label for="">สถานะผู้ป่วย</label>
 						<div class="col-md-8">
-										<input type="checkbox" value="all" class="select-all" checked><label>(All)</label><br>
-										<input type="checkbox" value="1" name="pt_status1" class="checkboxlistitem" checked><label>PUI </label><br>
-										<input type="checkbox" value="2" name="pt_status2" class="checkboxlistitem" checked><label>Confirm </label><br>
-										<input type="checkbox" value="3" name="pt_status3" class="checkboxlistitem" checked><label>Probable </label><br>
-										<input type="checkbox" value="4" name="pt_status4" class="checkboxlistitem" checked><label>Suspected </label><br>
-										<input type="checkbox" value="5" name="pt_status5" class="checkboxlistitem" checked>	<label>Excluded </label><br>
-								</div>
+							<input type="checkbox" value="all" name="all" class="select-all" checked><label>(All)</label><br>
+							<input type="checkbox" value="1" name="pt_status[]" class="checkboxlistitem" checked><label>PUI </label><br>
+							<input type="checkbox" value="2" name="pt_status[]" class="checkboxlistitem" checked><label>Confirm </label><br>
+							<input type="checkbox" value="3" name="pt_status[]" class="checkboxlistitem" checked><label>Probable </label><br>
+							<input type="checkbox" value="4" name="pt_status[]" class="checkboxlistitem" checked><label>Suspected </label><br>
+							<input type="checkbox" value="5" name="pt_status[]" class="checkboxlistitem" checked><label>Excluded </label><br>
+						</div>
 				</div>
 				{{-- <div class="col-sm-6">
 				<input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด" autocomplete="off" required>
@@ -351,10 +351,9 @@ $('#datecontact').datepicker({
 	format: 'dd/mm/yyyy',
 	todayHighlight: true,
 	todayBtn: true,
-	autoclose: true
+	autoclose: true,
+	defaultDate: new Date(),
 });
-</script>
-<script>
 /* date of birth */
 $('#datefollow').datepicker({
 	format: 'dd/mm/yyyy',
