@@ -110,6 +110,7 @@ public function indexallexcel(Request $req) {
      $pt_status4= $req ->input ('pt_status4');
      $pt_status5= $req ->input ('pt_status5');
      $arr_hostype_th  = $this->arr_hostype_th();
+
 	if (empty($req->notify_date) || $req->notify_date == null) {
 		$notify_date = Date('Y-m-d');
 	} else {
@@ -124,8 +125,13 @@ public function indexallexcel(Request $req) {
 
 	//echo $notify_date.'-'.$notify_date_end;
 	//exit;
-
-	$data = InvestList::whereIn('pt_status', $req->pt_status)
+	//dd($req->pt_status);
+	if ($req->pt_status == null) {
+		$new_status = array('1', '2', '3', '4', '5');
+	} else {
+		$new_status = $req->pt_status;
+	}
+	$data = InvestList::whereIn('pt_status', $new_status)
 					->whereBetween('notify_date', [$notify_date, $notify_date_end])
 /*
 					 ->where('notify_date','>=',$notify_date)
