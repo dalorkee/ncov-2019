@@ -238,7 +238,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                         <div class="form-group row">
                             <div class="col-sm-4">
                                 <label for="risk_contact">ระดับความเสี่ยง</label>
-                                <select type="text" name="risk_contact" class="form-control js-select-basic-single" placeholder="ระดับความเสี่ยง">
+                                <select type="text" name="risk_contact" class="form-control js-select-basic-single" placeholder="ระดับความเสี่ยง" required="true">
                                     <option value="">ระดับความเสี่ยง</option>
                                     <option value="1">เสี่ยงสูง</option>
                                     <option value="2">เสี่ยงต่ำ</option>
@@ -351,10 +351,9 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                       <td>
                                         <select class="form-control" name="dms_pcr_contact[]">
                                           <option value="">- เลือก -</option>
-                                          <option value="1">กรมวิทย์ฯ</option>
-                                          <option value="2">สถาบันบำราศฯ</option>
-                                          <option value="3">จุฬาลงกรณ์</option>
-                                          <option value="4">PCR for Mers ที่อื่นๆ</option>
+                                          @foreach ($ref_lab as $row)
+                                          <option value="{{$row->id}}">{{$row->th_name}}</option>
+                                          @endforeach
                                         </select>
                                       </td>
                                       <td>
@@ -391,11 +390,10 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                       </td>
                                       <td>
                                         <select class="form-control" name="dms_pcr_contact[]">
-                                          <option value="">- เลือก -</option>
-                                          <option value="1">กรมวิทย์ฯ</option>
-                                          <option value="2">สถาบันบำราศฯ</option>
-                                          <option value="3">จุฬาลงกรณ์</option>
-                                          <option value="4">PCR for Mers ที่อื่นๆ</option>
+                                      <option value="">- เลือก -</option>
+                                          @foreach ($ref_lab as $row)
+                                          <option value="{{$row->id}}">{{$row->th_name}}</option>
+                                          @endforeach
                                         </select>
                                       </td>
                                       <td>

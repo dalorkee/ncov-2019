@@ -361,12 +361,11 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                         </td>
                                         <td>
                                           <select class="form-control" name="dms_pcr_contact[]">
-                                            <option value="{{ $value->dms_pcr_contact }}">{{ $arr_dms_pcr_contact[$value->dms_pcr_contact] }}</option>
+                                            <option value="{{ $value->dms_pcr_contact }}">{{ $arr_laboratory[$value->dms_pcr_contact] }}</option>
                                             <option value="">- เลือก -</option>
-                                            <option value="1">กรมวิทย์ฯ</option>
-                                            <option value="2">สถาบันบำราศฯ</option>
-                                            <option value="3">จุฬาลงกรณ์</option>
-                                            <option value="4">PCR for Mers ที่อื่นๆ</option>
+                                            @foreach ($ref_lab as $row)
+                                            <option value="{{$row->id}}">{{$row->th_name}}</option>
+                                            @endforeach
                                           </select>
                                         </td>
                                         <td>

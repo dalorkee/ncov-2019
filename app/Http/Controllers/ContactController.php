@@ -246,7 +246,7 @@ if(auth()->user()->id==Auth::user()->id){
 	$arr_sub_district = $this->arr_sub_district();
 	$arr_division_follow_contact = $this->arr_division_follow_contact();
 	$arr_pts = $this->arr_pts();
-			$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
+	$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
 	return view('form.contact.contactfollowtable',compact(
 		'contact_data',
 		'nation_list',
@@ -331,6 +331,7 @@ if(auth()->user()->id==Auth::user()->id){
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
 		$ref_global_country=DB::table('ref_global_country')->select('country_id','country_name')->get();
+		$ref_lab=DB::table('laboratory')->select('id','th_name')->get();
 		$sat_id=DB::table('invest_pt')->select('sat_id','id')->where('id', $pui_id )->get();
 		$sat_id_confirm=DB::table('invest_pt')
 										->select('id','sat_id','first_name','last_name','nation')
@@ -347,6 +348,7 @@ if(auth()->user()->id==Auth::user()->id){
     $listprovince=$this->province();
 		$nation_list = $this->arrnation();
     $listcountry=$this->arrnation();
+		$arr_laboratory=$this->arr_laboratory();
 		$entry_user = Auth::user()->id;
 		$prefix_sat_id = Auth::user()->prefix_sat_id;
 		return view('form.contact.addcontact',compact(
@@ -364,7 +366,9 @@ if(auth()->user()->id==Auth::user()->id){
 			'sat_id_relation',
 			'arr_province',
 			'arr_hos',
-			'arr_followup_address'
+			'arr_followup_address',
+			'arr_laboratory',
+			'ref_lab'
     ));
 	}
 
@@ -401,6 +405,8 @@ if(auth()->user()->id==Auth::user()->id){
 		// $arrtitlename = $this->arrtitlename();
 		// $sat_id=$req->sat_id;
 		$arrspecimen= $this->arrspecimen();
+				$arr_laboratory=$this->arr_laboratory();
+						$ref_lab=DB::table('laboratory')->select('id','th_name')->get();
 		$arr_dms_pcr_contact= $this->arr_dms_pcr_contact();
 		$arr_other_pcr_result_contact= $this->arr_other_pcr_result_contact();
 		$contact_id=$req->contact_id;
@@ -441,7 +447,9 @@ if(auth()->user()->id==Auth::user()->id){
 			'arr_follow_results',
 			'getdata_fucontact',
 			'arr_followup_address',
-			'getdata_hsc_contact'
+			'getdata_hsc_contact',
+			'arr_laboratory',
+			'ref_lab'
     ));
 	}
 
@@ -1165,6 +1173,15 @@ echo $outputD;
 		// dd($province_arr);
 		return $arr_pts;
 	}
+	protected function arr_laboratory(){
+		$arr_laboratory = DB::table('laboratory')->select('id','th_name')->get();
+		foreach ($arr_laboratory as  $value) {
+			$arr_laboratory[$value->id] =trim($value->th_name);
+		}
+		 // dd($arr_laboratory);
+		return $arr_laboratory;
+	}
+
 	// public function ref_title_name(){
 	// 	$ref_title_name=DB::table('ref_title_name')
 	// 	->orderBy('id', 'ASC')

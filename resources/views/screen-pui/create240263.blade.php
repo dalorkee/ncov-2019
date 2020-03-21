@@ -506,7 +506,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 																<div class="custom-control custom-checkbox">
 																	<input type="checkbox" name="data3_3chk_other" value="y" class="custom-control-input" id="data3_3chk_other" {{ old('data3_3chk_other') == 'y' ? 'checked' : ''}}>
 																	<label for="data3_3chk_other" class="custom-control-label normal-label">
-																		อื่นๆ
+																		ประวัติเสียงที่สำคัญ
 																	</label>
 																	<div class="row mt-2">
 																		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -923,15 +923,15 @@ $(document).ready(function() {
 
 	$(".check-auto").click(function(){
 	        $("#pui_code_gen_rd1").prop("checked", true);
-					$("#patient_type_sat_id").prop('required',true);
+					//$("#patient_type_sat_id").prop('required',true);
 					$('#pui_gen_auto').show();
 					$('#pui_gen_manual').hide();
 					//$('#sat_id').val('');
 	});
 	$(".check-manual").click(function(){
 	        $("#pui_code_gen_rd2").prop("checked", true);
-					$("#patient_type_sat_id").prop('required',false);
-					$("#sat_id_manual").prop('required',true);
+					//$("#patient_type_sat_id").prop('required',false);
+					//$("#sat_id_manual").prop('required',true);
 					$('#sat_id_manual').val('');
 					$('#pui_gen_auto').hide();
 					$('#pui_gen_manual').show();

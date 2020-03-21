@@ -117,6 +117,22 @@ input.valid, textarea.valid{
         <input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด" autocomplete="off" required>
         </div>
       </div>
+			<div class="form-group row">
+				<div class="col-sm-4">
+						<label for="">สถานะผู้ป่วย</label>
+						<div class="col-md-8">
+										<input type="checkbox" value="all" class="select-all" checked><label>(All)</label><br>
+										<input type="checkbox" value="1" name="pt_status1" class="checkboxlistitem" checked><label>PUI </label><br>
+										<input type="checkbox" value="2" name="pt_status2" class="checkboxlistitem" checked><label>Confirm </label><br>
+										<input type="checkbox" value="3" name="pt_status3" class="checkboxlistitem" checked><label>Probable </label><br>
+										<input type="checkbox" value="4" name="pt_status4" class="checkboxlistitem" checked><label>Suspected </label><br>
+										<input type="checkbox" value="5" name="pt_status5" class="checkboxlistitem" checked>	<label>Excluded </label><br>
+								</div>
+				</div>
+				{{-- <div class="col-sm-6">
+				<input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด" autocomplete="off" required>
+				</div> --}}
+			</div>
       <div class="col-sm-12">
         <button type="submit" class="btn btn-success">ค้นหาข้อมูล</button>
       </div>
@@ -354,6 +370,23 @@ $('#date_dms_date_contact').datepicker({
 	todayHighlight: true,
 	todayBtn: true,
 	autoclose: true
+});
+
+</script>
+<script>
+$(".select-all").change(function () {
+    $(this).siblings().prop('checked', $(this).prop("checked"));
+});
+
+$(".checkboxlistitem").change(function() {
+	  var checkboxes = $(this).parent().find('.checkboxlistitem');
+    var checkedboxes = checkboxes.filter(':checked');
+
+    if(checkboxes.length === checkedboxes.length) {
+     $(this).parent().find('.select-all').prop('checked', true);
+    } else {
+    $(this).parent().find('.select-all').prop('checked', false);
+    }
 });
 </script>
 @endsection

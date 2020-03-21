@@ -26,45 +26,7 @@ class ExportExcelController extends MasterController
       'nation_list'
     ));
   }
-  public function alltableexport(Request $req)
-  {
-    $datenow = date('Y-m-d');
-    $arr = parent::getStatus();
-    $arr_hos = $this->arr_hos();
-    $arrprov = $this->arrprov();
-    $arr_city = $this->arr_city();
-    $list_occupation = $this->list_occupation();
-    $nation_list = $this->arrnation();
-    $list_airport = $this->list_airport();
-    $arr_refer_lab = $this->arr_refer_lab();
-    $arr_refer_bidi = $this->arr_refer_bidi();
-    $arr_op_opt = $this->arr_op_opt();
-    $arr_op_dpc = $this->arr_op_dpc();
-    $arr_hostype  = $this->arr_hostype();
-    $arr_hostype_th  = $this->arr_hostype_th();
-    // dd($poe_id);
-    $data=DB::table('invest_pt')
-            ->select('*')
-            ->where('notify_date', $datenow)
-            ->whereNull('deleted_at')
-            ->get();
-    return view('export.allexport',compact(
-      'data',
-      'arr',
-      'arr_hos',
-      'nation_list',
-      'list_occupation',
-      'arrprov',
-      'list_airport',
-      'arr_refer_bidi',
-      'arr_refer_lab',
-      'arr_op_opt',
-      'arr_op_dpc',
-      'arr_city',
-      'arr_hostype',
-      'arr_hostype_th'
-    ));
-  }
+
 
 
     function index(Request $req)
@@ -72,6 +34,7 @@ class ExportExcelController extends MasterController
       $arr = parent::getStatus();
       $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
       $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+      $pt_status= $req ->input ('pt_status');
       $nation_list = $this->arrnation();
       $data=DB::table('invest_pt')
                       ->select('*')
@@ -84,6 +47,45 @@ class ExportExcelController extends MasterController
                         'arr',
                         'nation_list'
                       ));
+   }
+   public function alltableexport(Request $req)
+   {
+     $datenow = date('Y-m-d');
+     $arr = parent::getStatus();
+     $arr_hos = $this->arr_hos();
+     $arrprov = $this->arrprov();
+     $arr_city = $this->arr_city();
+     $list_occupation = $this->list_occupation();
+     $nation_list = $this->arrnation();
+     $list_airport = $this->list_airport();
+     $arr_refer_lab = $this->arr_refer_lab();
+     $arr_refer_bidi = $this->arr_refer_bidi();
+     $arr_op_opt = $this->arr_op_opt();
+     $arr_op_dpc = $this->arr_op_dpc();
+     $arr_hostype  = $this->arr_hostype();
+     $arr_hostype_th  = $this->arr_hostype_th();
+     // dd($poe_id);
+     $data=DB::table('invest_pt')
+             ->select('*')
+             ->where('notify_date', $datenow)
+             ->whereNull('deleted_at')
+             ->get();
+     return view('export.allexport',compact(
+       'data',
+       'arr',
+       'arr_hos',
+       'nation_list',
+       'list_occupation',
+       'arrprov',
+       'list_airport',
+       'arr_refer_bidi',
+       'arr_refer_lab',
+       'arr_op_opt',
+       'arr_op_dpc',
+       'arr_city',
+       'arr_hostype',
+       'arr_hostype_th'
+     ));
    }
    function indexallexcel(Request $req)
    {
@@ -100,16 +102,22 @@ class ExportExcelController extends MasterController
      $arr_op_opt = $this->arr_op_opt();
      $arr_op_dpc = $this->arr_op_dpc();
      $arr_hostype = $this->arr_hostype();
+     // $pt_status= $req ->input ('pt_status');
+     $pt_status1= $req ->input ('pt_status1');
+     $pt_status2= $req ->input ('pt_status2');
+     $pt_status3= $req ->input ('pt_status3');
+     $pt_status4= $req ->input ('pt_status4');
+     $pt_status5= $req ->input ('pt_status5');
      $arr_hostype_th  = $this->arr_hostype_th();
      $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
      $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
      $data=DB::table('invest_pt')
                      ->select('*')
+                     ->wherein('pt_status',[$pt_status1,$pt_status2,$pt_status3,$pt_status4,$pt_status5])
                      ->whereDate('notify_date','>=',$notify_date)
                      ->whereDate('notify_date', '<=',$notify_date_end)
                      ->whereNull('deleted_at')
                      ->get();
-
                   //dd($data);
                      return view('export.allexport',compact(
                        'data',
