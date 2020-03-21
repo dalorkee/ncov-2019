@@ -23,8 +23,8 @@
 				</li>
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-folder-download"></i><span class="hide-menu">Export </span></a>
 					<ul aria-expanded="false" class="collapse  first-level">
-						<li class="sidebar-item"><a href="{{ route('allexport') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> Export PUI For SAT</span></a></li>
-						<li class="sidebar-item"><a href="{{ route('export_excel') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> Export PUI For Dr.Darin</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('allexport') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> PUI For SAT</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('export_excel') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> PUI For Dr.Darin</span></a></li>
 					</ul>
 				</li>
 				@role('admin')

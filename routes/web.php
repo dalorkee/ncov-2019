@@ -128,7 +128,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/sat/list', 'ListSatController@index')->name('list-data.sat');
 	Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
 	Route::get('invest/export/', 'ListInvestController@export');
+	Route::resource('invest', 'InvestController');
 });
+
 
 /* Role & Permission Manage */
 Route::prefix('uac')->group(function () {
