@@ -123,11 +123,8 @@ public function indexallexcel(Request $req) {
 		$notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
 	}
 
-	//echo $notify_date.'-'.$notify_date_end;
-	//exit;
-	//dd($req->pt_status);
-	if ($req->pt_status == null) {
-		$new_status = array('1', '2', '3', '4', '5');
+	if ($req->pt_status == null || empty($req->pt_status)) {
+		$new_status = ['1', '2', '3', '4', '5'];
 	} else {
 		$new_status = $req->pt_status;
 	}
