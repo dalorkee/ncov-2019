@@ -490,7 +490,7 @@ input:read-only {
 																<div class="custom-control custom-checkbox">
 																	<input type="checkbox" name="data3_3chk_other" value="y" class="custom-control-input" @if($data->data3_3chk_other=="y") checked @endif id="data3_3chk_other">
 																	<label for="data3_3chk_other" class="custom-control-label normal-label">
-																		ประวัติเสียงที่สำคัญ
+																		โรคประจำตัวอื่นๆ
 																	</label>
 																	<div class="row mt-2">
 																		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -507,10 +507,29 @@ input:read-only {
 											</div>
 										</div>
 									</div>
+									<hr />
 									<div class="form-row">
-
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+											<h1 class="text-info">ปัจจัยเสี่ยง</h1>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+											<div class="form-group">
+												<label for="risk_detail">รายละเอียดประวัติเสี่ยง</label>
+												<textarea class="form-control" name="risk_detail">@if($data->risk_detail) {{ $data->risk_detail }} @endif</textarea>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+											<div class="form-group">
+												<label for="risk_type">ประเภทประวัติเสี่ยง</label>
+												<select name="risk_type" id="risk_type" data-live-search="true" class="form-control selectpicker show-tick">
+													<option value="">-- โปรดเลือก --</option>
+													@foreach($risk_type as $val)
+													<option value="{{ $val->id }}" {{ $data->risk_type == $val->id ? 'selected' : ''}}>{{ $val->risk_name }}</option>
+													@endforeach
+												</select>
+											</div>
+										</div>
 									</div>
-
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 											<h1 class="text-info">3. ข้อมูลอาการผู้ป่วย</h1>
