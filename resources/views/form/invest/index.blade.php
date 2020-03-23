@@ -1,31 +1,8 @@
 @extends('layouts.index')
 @section('custom-style')
-
-<!DOCTYPE html>
-<html dir="ltr" lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<!-- Tell the browser to be responsive to screen width -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="COVID-19">
-	<meta name="author" content="Talek team">
-	<meta name="csrf-token" content="f0PLdj4IkNQHs2sR4mMiPXNydBnb05UGPBItSmgO">
-	<!-- Favicon icon -->
-	<link rel="icon" type="image/png" sizes="16x16" href="http://viral.ddc.moph.go.th/ncov-2019/assets/images/small-moph-logo.png">
-	<title>COVID-19</title>
-	<!-- default style -->
-<link type="text/css" href="http://viral.ddc.moph.go.th/ncov-2019/dist/css/style.min.css" rel="stylesheet">
-<link type="text/css" href="http://viral.ddc.moph.go.th/ncov-2019/css/boefrs.css" rel="stylesheet">
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-	<link rel="stylesheet" type="text/css" href="http://viral.ddc.moph.go.th/ncov-2019/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-<link rel="stylesheet" type="text/css" href="http://viral.ddc.moph.go.th/ncov-2019/assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css">
-<link rel="stylesheet" type="text/css" href="http://viral.ddc.moph.go.th/ncov-2019/assets/libs/toastr/build/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/toastr/build/toastr.min.css') }}">
 <style>
 	input:-moz-read-only { /* For Firefox */
 		background-color: #fafafa !important;
@@ -37,143 +14,19 @@
 		padding: 18px!important;
 }
 </style>
-		
-</head>
-<body>
-	<div class="preloader">
-		<div class="lds-ripple">
-			<div class="lds-pos"></div>
-			<div class="lds-pos"></div>
-		</div>
-	</div>
-	<div id="main-wrapper">
-		<!-- ============================================================== -->
-<!-- Topbar header - style you can find in pages.scss -->
-<!-- ============================================================== -->
-<header class="topbar" data-navbarbg="skin5">
-	<nav class="navbar top-navbar navbar-expand-md navbar-dark">
-		<div class="navbar-header" data-logobg="skin5">
-			<a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
-			<a class="navbar-brand" href="#">
-				<!-- Logo icon -->
-				<b class="logo-icon p-l-10">
-					<img src="http://viral.ddc.moph.go.th/ncov-2019/assets/images/small-moph-logo.png" alt="BOE" class="light-logo" style="width:95%;">
-				</b>
-				<!-- Logo text -->
-				<span class="logo-text text-white">COVID-19</span>
-			</a>
-			<a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="ti-more"></i></a>
-		</div>
-		<div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
-			<ul class="navbar-nav float-left mr-auto">
-				<li class="nav-item d-none d-md-block"><a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(1)" data-sidebartype="mini-sidebar"><i class="mdi mdi-menu font-24"></i></a></li>
-				<li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
-					<form class="app-search position-absolute">
-						<input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
-					</form>
-				</li>
-			</ul>
-			<!-- ============================================================== -->
-			<!-- Right side toggle and nav items -->
-			<!-- ============================================================== -->
-			<ul class="navbar-nav float-right">
-				<li class="nav-item"><a class="nav-link">พีริยะ&nbsp;[ unrole ]</a></li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<img src="http://viral.ddc.moph.go.th/ncov-2019/assets/images/users/1.jpg" class="rounded-circle" width="31" alt="alt=user">
-					</a>
-					<div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown" aria-labelledby="2">
-						<ul class="list-style-none">
-							<li>
-								<div class="">
-									 <!-- Message -->
-									<a href="javascript:void(0)" class="link border-top">
-										<div class="d-flex no-block align-items-center p-10">
-											<span class="btn btn-success btn-circle"><i class="mdi mdi-account"></i></span>
-											<div class="m-l-10">
-												<h6 class="m-b-0">พีริยะ&nbsp;วตะกูลสิน</h6>
-												<span class="mail-desc"></span>
-											</div>
-										</div>
-									</a>
-									<!-- Message -->
-									<a href="javascript:void(0)" class="link border-top">
-										<div class="d-flex no-block align-items-center p-10">
-											<span class="btn btn-info btn-circle"><i class="fas fa-map-pin"></i></span>
-											<div class="m-l-10">
-												<h5 class="m-b-0">หน่วยงาน</h5>
-												<span class="mail-desc"></span>
-											</div>
-										</div>
-									</a>
-									<a href="http://viral.ddc.moph.go.th/ncov-2019/logout" class="link border-top">
-										<div class="d-flex no-block align-items-center p-10">
-											<span class="btn btn-danger btn-circle"><i class="fa fa-power-off"></i></span>
-											<div class="m-l-10">
-												<h5 class="m-b-0">Logout</h5>
-												<span class="mail-desc"></span>
-											</div>
-										</div>
-									</a>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</nav>
-</header>
-<!-- ============================================================== -->
-<!-- End Topbar header -->
-<!-- ============================================================== -->
-		<!-- ============================================================== -->
-<!-- Left Sidebar - style you can find in sidebar.scss  -->
-<!-- ============================================================== -->
-<aside class="left-sidebar" data-sidebarbg="skin5">
-	<!-- Sidebar scroll-->
-	<div class="scroll-sidebar">
-		<!-- Sidebar navigation-->
-		<nav class="sidebar-nav">
-			<ul id="sidebarnav" class="p-t-30">
-				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-database"></i><span class="hide-menu">Data </span></a>
-					<ul aria-expanded="false" class="collapse  first-level">
-						<li class="sidebar-item"><a href="http://viral.ddc.moph.go.th/ncov-2019/sat/list" class="sidebar-link"><i class="mdi mdi-folder-multiple-outline"></i><span class="hide-menu"> SAT</span></a></li>
-						<li class="sidebar-item"><a href="http://viral.ddc.moph.go.th/ncov-2019/invest/list" class="sidebar-link"><i class="mdi mdi-ambulance"></i><span class="hide-menu"> Invest</span></a></li>
-					<li class="sidebar-item"><a href="http://viral.ddc.moph.go.th/ncov-2019/contactfollowtable" class="sidebar-link"><i class="mdi mdi-account-multiple"></i><span class="hide-menu"> FollowUp </span></a>
-						</li>
-					</ul>
-				</li>
-				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-chart-line"></i><span class="hide-menu">Report </span></a>
-					<ul aria-expanded="false" class="collapse  first-level">
-						<li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-chart-bar"></i><span class="hide-menu"> Report 1</span></a></li>
-						<li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-chart-bar"></i><span class="hide-menu"> Report 2</span></a></li>
-					</ul>
-				</li>
-				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-folder-download"></i><span class="hide-menu">Export </span></a>
-					<ul aria-expanded="false" class="collapse  first-level">
-						<li class="sidebar-item"><a href="http://viral.ddc.moph.go.th/ncov-2019/allexport" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> Export PUI For SAT</span></a></li>
-						<li class="sidebar-item"><a href="http://viral.ddc.moph.go.th/ncov-2019/export_excel" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> Export PUI For Dr.Darin</span></a></li>
-					</ul>
-				</li>
-							</ul>
-		</nav>
-		<!-- End Sidebar navigation -->
-	</div>
-	<!-- End Sidebar scroll-->
-</aside>
-<!-- ============================================================== -->
-<!-- End Left Sidebar - style you can find in sidebar.scss  -->
-<!-- ============================================================== -->
-		<div class="page-wrapper">
-			<div class="page-breadcrumb">
+@endsection
+@section('meta-token')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+@section('contents')
+<div class="page-breadcrumb">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
 			<h4 class="page-title">Invest Form</h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="http://viral.ddc.moph.go.th/ncov-2019/invest/list">Invest</a></li>
+						<li class="breadcrumb-item"><a href="{{ route('list-data.invest') }}">Invest</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Form</li>
 					</ol>
 				</nav>
@@ -182,68 +35,66 @@
 	</div>
 </div>
 <div class="container-fluid">
+	@include('flash::message')
 		<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-			<div class="card">
-				<div class="card-body">
-					<div class="d-md-flex align-items-center mb-2">
-						<div>
-							<h4 class="card-title">แบบสอบสวนของผู้ป่วยโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
-							<h5 class="card-subtitle">COVID-19</h5>
-						</div>
-					</div>
-					<form action="http://viral.ddc.moph.go.th/ncov-2019/confirmCase" method="POST" enctype="multipart/form-data" class="form-horizontal">
-						<input type="hidden" name="_token" value="f0PLdj4IkNQHs2sR4mMiPXNydBnb05UGPBItSmgO">
-						<input type="hidden" name="_method" value="POST">
-						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
-							<div style="position:absolute;top:10px;right:10px;z-index:1">
-								<span class="btn btn-danger font-weight-bold" style="font-family: 'Fira-code';">13A1603CW09</span>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="d-md-flex align-items-center mb-2">
+							<div>
+								<h4 class="card-title">แบบสอบสวนของผู้ป่วยโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
+								<h5 class="card-subtitle">COVID-19</h5>
 							</div>
-							<div class="card">
-	<div class="card-body">
-		<h1 class="text-info">1. ข้อมูลทั่วไปของผู้ป่วย</h1>
-		<input type="hidden" name="id" value="8784">
-		<div class="card">
-			<div class="card-body" style="margin:0; padding:0 0 30px 0;">
-				<div class="form-row">
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
-						<div class="form-group">
-							<label for="titleName">คำนำหน้าชื่อ</label>
-							<select name="titleName" class="form-control selectpicker show-tick" id="title_name">
-																	<option value="6" selected="selected">Mr</option>
+						</div>
+						<form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
+							{{ csrf_field() }}
+							{{ method_field('POST') }}
+							<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
+								<div style="position:absolute;top:10px;right:10px;z-index:1">
+									<span class="btn btn-danger font-weight-bold" style="font-family: 'Fira-code';">13A1603CW09</span>
+								</div>
+								<div class="card">
+									<div class="card-body">
+										<h1 class="text-info">1. ข้อมูลทั่วไปของผู้ป่วย</h1>
+										<input type="hidden" name="id" value="{{ $invest_pt[0]['id'] }}">
+										<div class="card">
+											<div class="card-body" style="margin:0; padding:0 0 30px 0;">
+												<div class="form-row">
+													<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
+														<div class="form-group">
+															<label for="titleName">คำนำหน้าชื่อ</label>
+															<select name="titleName" class="form-control selectpicker show-tick" id="title_name">
+																@if (!empty($invest_pt[0]['title_name']))
+																	<option value="{{ $invest_pt[0]['title_name'] }}" selected="selected">{{ $titleName[$invest_pt[0]['title_name']]['title_name'] }}</option>
+																@endif
 																<option value="">-- โปรดเลือก --</option>
-																	<option value="1">นาย</option>
-																	<option value="2">นาง</option>
-																	<option value="3">นางสาว</option>
-																	<option value="4">ด.ช.</option>
-																	<option value="5">ด.ญ.</option>
-																	<option value="6">Mr</option>
-																	<option value="7">Mrs</option>
-																	<option value="8">Miss</option>
+																@foreach ($titleName as $key => $value)
+																	<option value="{{ $value['id'] }}">{{ $value['title_name'] }}</option>
+																@endforeach
 															</select>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-						<div class="form-group">
-							<label for="firstName">ชื่อจริง</label>
-							<input type="text" name="firstNameInput" value="" class="form-control" id="first_name_input" placeholder="ชื่อ" required>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-						<div class="form-group">
-							<label for="lastName">นามสกุล</label>
-							<input type="text" name="lastNameInput" value="" class="form-control" id="last_name_input" placeholder="นามสกุล" required>
-						</div>
-					</div>
+														</div>
+													</div>
+													<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+														<div class="form-group">
+															<label for="firstName">ชื่อจริง</label>
+															<input type="text" name="firstNameInput" value="{{ $invest_pt[0]['first_name'] }}" class="form-control" id="first_name_input" placeholder="ชื่อ" required>
+														</div>
+													</div>
+													<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+														<div class="form-group">
+															<label for="lastName">นามสกุล</label>
+															<input type="text" name="lastNameInput" value="{{ $invest_pt[0]['last_name'] }}" class="form-control" id="last_name_input" placeholder="นามสกุล" required>
+														</div>
+													</div>
+												</div>
+												<div class="form-row">
+													<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
+														<div class="form-group">
+															<label for="pid">เลขประจำคัวประชาชน/เลขที่Passport</label>
+															<input type="text" name="idcardInput" value="" class="form-control" id="idcard" placeholder="ID" required>
+														</div>
+													</div>
                 </div>
-                <div class="form-row">
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
-						<div class="form-group">
-                            <label for="PID">เลขประจำคัวประชาชน/เลขที่Passport</label>
-							<input type="text" name="PIDInput" value="" class="form-control" id="PID_input" placeholder="ID" required>
-						</div>
-                    </div>
-                </div>    
 				<div class="form-row">
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
 						<div class="form-group">
@@ -268,7 +119,7 @@
 							<input type="text" name="ageMonthInput" value="" class="form-control" id="age_month_input">
 						</div>
 					</div>
-				
+
 				</div>
 				<div class="form-row">
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
@@ -503,7 +354,7 @@
 															</select>
 						</div>
 					</div>
-					
+
                 </div>
 
                 <div class="card-body border-top" style="margin:0; padding:30px 0 30px 0;">
@@ -540,7 +391,7 @@
 																	<option value="11">บุคลากรทางสาธารณสุข</option>
 																	<option value="12">รับจ้างทั่วไป/กรรมกร</option>
 																	<option value="13">ว่างงาน</option>
-																
+
 																	<option value="13">ว่างงาน</option>
 																	<option value="99">อื่นๆ</option>
 															</select>
@@ -566,7 +417,7 @@
 							<input type="text" name="workOfficeInput" value="" class="form-control" placeholder="สถานที่ทำงาน">
 						</div>
 					</div>
-					
+
 				</div>
 
 			<div class="card-body border-top" style="margin:0; padding:20px 0 0 0;">
@@ -600,7 +451,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-row">						
+				<div class="form-row">
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
 							<label for="province" class="text-success">จังหวัด</label>
@@ -812,12 +663,12 @@
 								<input type="checkbox" name="sym_stufefy" value="y" class="custom-control-input pt-type" id="stufefyChk" >
 								<label for="stufefyChk" class="custom-control-label normal-label">ถ่ายเหลว</label>
                             </div>
-                        </div> 
+                        </div>
                     <div class="form-group">
 						<label for="lane">อาการอื่นๆ โปรดระบุ</label>
 						<div class="input-group">
 							<input type="text" name="rr_rpm" value="" class="form-control" placeholder="โปรดระบุ">
-						
+
 						</div>
 					</div>
 						</div>
@@ -1113,7 +964,7 @@
 										</div>
 									</td>
 								</tr>
-							
+
 								<tr id="risk3_3table_tr5">
 									<td>
 										<div class="custom-control custom-checkbox">
@@ -1154,7 +1005,7 @@
 										</div>
 									</td>
 								</tr>
-			
+
 								<tr id="risk3_3table_tr11">
 									<td>
 										<div class="custom-control custom-checkbox">
@@ -1165,7 +1016,7 @@
 										</div>
 									</td>
 								</tr>
-						
+
 								<tr id="risk3_3table_tr13">
 									<td>
 										<div class="custom-control custom-checkbox">
@@ -1220,7 +1071,7 @@
 				</div>
 			</div>
 		</li>
-		
+
         <li class="card-body border-top">
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
@@ -1271,13 +1122,13 @@
 								<input type="checkbox" name="sym_breathe" value="y" class="custom-control-input pt-type" id="breatheChk" >
 								<label for="breatheChk" class="custom-control-label normal-label">Oseltamivir</label>
                             </div>
-                    
-                        </div> 
+
+                        </div>
                     <div class="form-group">
 						<label for="lane">ยาอื่นๆ โปรดระบุ</label>
 						<div class="input-group">
 							<input type="text" name="rr_rpm" value="" class="form-control" placeholder="โปรดระบุ">
-						
+
 						</div>
 					</div>
 						</div>
@@ -1356,7 +1207,7 @@
 					</div>
 				</div>
 			</div>
-		</li>	
+		</li>
 		<li class="card-body border-top">
 			<div class="form-group row">
                             <div class="col-sm-12">
@@ -1373,7 +1224,7 @@
                                       <th>ตัวอย่างสิ่งส่งตรวจ</th>
                                       <th>สิ่งส่งตรวจอื่นๆ</th>
                                       <th>ผล PCR </th>
-                                      
+
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -1400,7 +1251,7 @@
 												<div class="input-group-append">
 													<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
 												</div>
-											</div>                                     
+											</div>
 									 </td>
                                       <td>
                                         <select class="form-control" name="dms_specimen_contact[]">
@@ -1428,7 +1279,7 @@
                                         <option value="Negative">Negative</option>
                                         <option value="Positive">Positive</option>
                                       </select>
-                                      
+
                                     </tr>
                                     <tr class="data-contact-person">
                                       <td>
@@ -1453,7 +1304,7 @@
 												<div class="input-group-append">
 													<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
 												</div>
-											</div>                                     
+											</div>
 									 </td>
                                       <td>
                                         <select class="form-control" name="dms_specimen_contact[]">
@@ -1481,7 +1332,7 @@
                                         <option value="Negative">Negative</option>
                                         <option value="Positive">Positive</option>
                                       </select>
-                                      
+
                                     </tr>
                                   </tbody>
                                 </table>
@@ -1490,7 +1341,7 @@
 							</div>
 		</li>
 		<li class="card-body border-top">
-		
+
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 					<label for="dateInput"> 2.10 ภาพถ่ายรังสีปอด (Chest X-ray) </label>
@@ -1575,10 +1426,10 @@
 							<input type="checkbox" name="labRapidTestResult" value="unusual"  class="custom-control-input lab_rapid_test_result" id="labRapidTestResultPositive">
 							<label for="labRapidTestResultPositive" class="custom-control-label normal-label">Influenza B</label>
 						</div>
-					
+
 					</div>
 				</div>
-				
+
 			</div>
 		</li>
 	</ul>
@@ -1856,7 +1707,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="form-group">
@@ -2186,7 +2037,7 @@
 				</div>
 			</div>
 		</li>
-		
+
 		<li class="card-body border-top">
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">

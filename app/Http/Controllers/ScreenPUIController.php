@@ -13,6 +13,7 @@ use App\Occupation;
 use App\GlobalCountry;
 use App\GlobalCity;
 use App\AirportLists;
+use App\RiskType;
 use Auth;
 use DB;
 use Carbon\Carbon;
@@ -48,6 +49,7 @@ class ScreenPUIController extends MasterController
       $occupation = Occupation::all()->toArray();
       $globalcountry = GlobalCountry::all();
       $airportlists = AirportLists::all()->toArray();
+      $risk_type = RiskType::all();
       $arr = parent::getStatus();
       //return view('screen-pui.create',
       return view('screen-pui.create240263',
@@ -63,6 +65,7 @@ class ScreenPUIController extends MasterController
           'globalcountry' => $globalcountry,
           'prefix_sat_id' => $prefix_sat_id,
           'airportlists' => $airportlists,
+          'risk_type' => $risk_type,
         ]
       );
     }
@@ -169,6 +172,8 @@ class ScreenPUIController extends MasterController
           "risk_stay_outbreak_flight_no" => (!empty($request->risk2_6flight_no_input)) ? trim($request->risk2_6flight_no_input) : NULL,
           "total_travel_in_group" => (!empty($request->total_travel_in_group)) ? trim($request->total_travel_in_group) : NULL,
           "data3_1date_sickdate" => (!empty($request->data3_1date_sickdate)) ? trim($this->Convert_Date($request->data3_1date_sickdate)) : NULL,
+          "risk_detail" => (!empty($request->risk_detail)) ? $request->risk_detail : NULL,
+          "risk_type" => (!empty($request->risk_type)) ? trim($request->risk_type) : NULL,
           "fever_current" => (!empty($request->fever)) ? trim($request->fever) : NULL,
           "fever_history" => (!empty($request->fever_history)) ? trim($request->fever_history) : "n",
           "sym_cough" => (!empty($request->sym_cough)) ? trim($request->sym_cough) : "n",
@@ -254,6 +259,7 @@ class ScreenPUIController extends MasterController
         $occupation = Occupation::all()->toArray();
         $airportlists = AirportLists::all()->toArray();
         $arr_globalcountry = GlobalCountry::select('country_id','country_name')->get()->toArray();
+        $risk_type = RiskType::all();
         foreach($arr_globalcountry as $val){
             $globalcountry[$val['country_id']] = $val['country_name'];
         }
@@ -268,7 +274,7 @@ class ScreenPUIController extends MasterController
         if($data==null){
           return abort(404);  //404 page
         }else{
-          return view('screen-pui.edit240263',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city','airportlists','walkinplace_hosp_name','isolated_hosp_name'));
+          return view('screen-pui.edit240263',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city','airportlists','walkinplace_hosp_name','isolated_hosp_name','risk_type'));
         }
     }
 
@@ -373,6 +379,8 @@ class ScreenPUIController extends MasterController
                 "risk_stay_outbreak_flight_no" => (!empty($request->risk2_6flight_no_input)) ? trim($request->risk2_6flight_no_input) : NULL,
                 "total_travel_in_group" => (!empty($request->total_travel_in_group)) ? trim($request->total_travel_in_group) : NULL,
                 "data3_1date_sickdate" => (!empty($request->data3_1date_sickdate)) ? $this->Convert_Date($request->data3_1date_sickdate) : NULL,
+                "risk_detail" => (!empty($request->risk_detail)) ? $request->risk_detail : NULL,
+                "risk_type" => (!empty($request->risk_type)) ? trim($request->risk_type) : NULL,
                 "fever_current" => (!empty($request->fever)) ? trim($request->fever) : NULL,
                 "fever_history" => (!empty($request->fever_history)) ? trim($request->fever_history) : "n",
                 "sym_cough" => (!empty($request->sym_cough)) ? trim($request->sym_cough) : "n",
