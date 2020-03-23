@@ -529,6 +529,12 @@ input:read-only {
 												</select>
 											</div>
 										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3 risk_type_text">
+											<div class="form-group">
+												<label for="risk_type_text">ประเภทประวัติเสี่ยง(อื่นๆ)</label>
+												<input type="text" name="risk_type_text" class="form-control" id="risk_type_text" value="{{ $data->risk_type_text }}" placeholder="กรอกประเภทประวัติเสี่ยง(อื่นๆ)">
+											</div>
+										</div>
 									</div>
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
@@ -816,7 +822,7 @@ input:read-only {
 							<div class="row confirm_order">
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
-										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่</label>
+										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่(กรณีที่ทราบลำดับประกาศเคสยืนยัน)</label>
 										<input type="text" name="order_pt" value="@if($data->order_pt) {{ $data->order_pt }} @endif" id="order_pt" class="form-control" placeholder="ลำดับผู้ป่วย">
 									</div>
 								</div>
@@ -918,6 +924,25 @@ $(document).ready(function() {
 		$('.sym_othertext').hide();
 	}
 
+	var risk_type_db = '<?php echo $data->risk_type; ?>';
+	if(risk_type_db=='13'){
+		$('.risk_type_text').show();
+	}else{
+		$('.risk_type_text').hide();
+	}
+
+	$('#risk_type').change(function() {
+	 var risk_type = $('#risk_type').val();
+	 //console.log(pt_status);
+	 if(risk_type==13){
+		 $('.risk_type_text').show();
+	 }else{
+		 $('.risk_type_text').hide();
+		 $('#risk_type_text').val('');
+	 }
+	});
+
+
 	$('.time').mask('00:00');
 
 	$('.selectpicker').selectpicker();
@@ -973,12 +998,12 @@ $(document).ready(function() {
 	 //console.log(pt_status);
 	 if(pt_status==2){
 		 $('.confirm_order').show();
-		 $("#order_pt").prop('required',true);
+		 //$("#order_pt").prop('required',true);
 		 $('.type_nature').show();
 		 $("#type_nature").prop('required',true);
 	 }else{
 		 $('.confirm_order').hide();
-		 $("#order_pt").prop('required',false);
+		 //$("#order_pt").prop('required',false);
 		 $("#order_pt").val('');
 		 $('.type_nature').hide();
 		 $("#type_nature").prop('required',false);
