@@ -65,7 +65,7 @@ public function index(Request $req)
    {
 	   
 	$uid = auth()->user()->id;
-	if ($uid == 535) {
+	if ($uid == 405 || $uid == 535) {
 		 $datenow = date('Y-m-d');
 		 $arr = parent::getStatus();
 		 $arr_hos = $this->arr_hos();
@@ -129,7 +129,7 @@ public function index(Request $req)
 public function indexallexcel(Request $req)
 {
 	$uid = auth()->user()->id;
-	if ($uid == 535) {
+	if ($uid == 405 || $uid == 535) {
 		 $arr = parent::getStatus();
 		 $arr_hos = $this->arr_hos();
 		 $arrprov = $this->arrprov();
@@ -171,17 +171,16 @@ public function indexallexcel(Request $req)
 		}
 		$data = InvestList::whereIn('pt_status', $new_status)
 						->whereBetween('notify_date', [$notify_date, $notify_date_end])
-						->whereNull('deleted_at')
-						 ->get();
 						/*
 			$data=DB::table('invest_pt')
 						->select('*')
 						  ->wherein('pt_status',[$pt_status1,$pt_status2,$pt_status3,$pt_status4,$pt_status5])
 						  ->whereDate('notify_date','>=',$notify_date)
 						  ->whereDate('notify_date', '<=',$notify_date_end)
+						  */
 						  ->whereNull('deleted_at')
 						  ->get();
-*/
+
 						 return view('export.allexport',compact(
 							'data',
 							'arr',
