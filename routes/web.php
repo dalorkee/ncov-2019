@@ -103,6 +103,7 @@ Route::post('/contact_st_update', 'ContactController@contactstupdate')->name('co
 // excel download
 Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');
+
 Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
 Route::post('/allexport', 'ExportExcelController@indexallexcel')->name('allexport');
 

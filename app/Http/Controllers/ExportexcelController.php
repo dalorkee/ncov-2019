@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\GlobalCountry;
+use App\InvestList;
 class ExportExcelController extends MasterController
 {
 
@@ -62,132 +63,145 @@ public function index(Request $req)
 
    public function alltableexport(Request $req)
    {
-	   return view('errors.405');
-	   exit;
-     $datenow = date('Y-m-d');
-     $arr = parent::getStatus();
-     $arr_hos = $this->arr_hos();
-     $arrprov = $this->arrprov();
-     $arr_city = $this->arr_city();
-     $list_occupation = $this->list_occupation();
-     $nation_list = $this->arrnation();
-     $list_airport = $this->list_airport();
-     $arr_refer_lab = $this->arr_refer_lab();
-     $arr_refer_bidi = $this->arr_refer_bidi();
-     $arr_op_opt = $this->arr_op_opt();
-     $arr_op_dpc = $this->arr_op_dpc();
-     $arr_hostype  = $this->arr_hostype();
-     $arr_hostype_th  = $this->arr_hostype_th();
-     // dd($poe_id);
-     $data=DB::table('invest_pt')
-             ->select('*')
-             ->where('notify_date', $datenow)
-             ->whereNull('deleted_at')
-             ->get();
-     // return view('export.allexport',compact(
-     //   'data',
-     //   'arr',
-     //   'arr_hos',
-     //   'nation_list',
-     //   'list_occupation',
-     //   'arrprov',
-     //   'list_airport',
-     //   'arr_refer_bidi',
-     //   'arr_refer_lab',
-     //   'arr_op_opt',
-     //   'arr_op_dpc',
-     //   'arr_city',
-     //   'arr_hostype',
-     //   'arr_hostype_th'
-     // ));
-     return view('errors.405',compact(
-       'data',
-       'arr',
-       'arr_hos',
-       'nation_list',
-       'list_occupation',
-       'arrprov',
-       'list_airport',
-       'arr_refer_bidi',
-       'arr_refer_lab',
-       'arr_op_opt',
-       'arr_op_dpc',
-       'arr_city',
-       'arr_hostype',
-       'arr_hostype_th'
-     ));
+	   
+	$uid = auth()->user()->id;
+	if ($uid == 535) {
+		 $datenow = date('Y-m-d');
+		 $arr = parent::getStatus();
+		 $arr_hos = $this->arr_hos();
+		 $arrprov = $this->arrprov();
+		 $arr_city = $this->arr_city();
+		 $list_occupation = $this->list_occupation();
+		 $nation_list = $this->arrnation();
+		 $list_airport = $this->list_airport();
+		 $arr_refer_lab = $this->arr_refer_lab();
+		 $arr_refer_bidi = $this->arr_refer_bidi();
+		 $arr_op_opt = $this->arr_op_opt();
+		 $arr_op_dpc = $this->arr_op_dpc();
+		 $arr_hostype  = $this->arr_hostype();
+		 $arr_hostype_th  = $this->arr_hostype_th();
+		 
+		 $data=DB::table('invest_pt')
+				 ->select('*')
+				 ->where('notify_date', $datenow)
+				 ->whereNull('deleted_at')
+				 ->get();
+		  return view('export.allexport',compact(
+		    'data',
+		    'arr',
+		    'arr_hos',
+		    'nation_list',
+		    'list_occupation',
+		    'arrprov',
+		    'list_airport',
+		    'arr_refer_bidi',
+		    'arr_refer_lab',
+		    'arr_op_opt',
+		   'arr_op_dpc',
+			'arr_city',
+		  'arr_hostype',
+		   'arr_hostype_th'
+		  ));
+	} else {
+		return view('errors.405');
+	}
+		
+		 /*
+		 return view('errors.405',compact(
+		   'data',
+		   'arr',
+		   'arr_hos',
+		   'nation_list',
+		   'list_occupation',
+		   'arrprov',
+		   'list_airport',
+		   'arr_refer_bidi',
+		   'arr_refer_lab',
+		   'arr_op_opt',
+		   'arr_op_dpc',
+		   'arr_city',
+		   'arr_hostype',
+		   'arr_hostype_th'
+		 ));
+		 */
    }
+   
 public function indexallexcel(Request $req)
 {
-	return view('errors.405');
-	exit;
-	
-     $arr = parent::getStatus();
-     $arr_hos = $this->arr_hos();
-     $arrprov = $this->arrprov();
-     $nation_list = $this->arrnation();
-     $arr_city = $this->arr_city();
-     $list_airport = $this->list_airport();
-     $list_occupation = $this->list_occupation();
-     $sym_cough = $this->sym_cough();
-     $arr_refer_lab = $this->arr_refer_lab();
-     $arr_refer_bidi = $this->arr_refer_bidi();
-     $arr_op_opt = $this->arr_op_opt();
-     $arr_op_dpc = $this->arr_op_dpc();
-     $arr_hostype = $this->arr_hostype();
-     // $pt_status= $req ->input ('pt_status');
-     $pt_status1= $req ->input ('pt_status1');
-     $pt_status2= $req ->input ('pt_status2');
-     $pt_status3= $req ->input ('pt_status3');
-     $pt_status4= $req ->input ('pt_status4');
-     $pt_status5= $req ->input ('pt_status5');
-     $arr_hostype_th  = $this->arr_hostype_th();
-     $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
-     $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
-    if (empty($req->notify_date) || $req->notify_date == null) {
-        $notify_date = Date('Y-m-d');
-    } else {
-        $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
-    }
+	$uid = auth()->user()->id;
+	if ($uid == 535) {
+		 $arr = parent::getStatus();
+		 $arr_hos = $this->arr_hos();
+		 $arrprov = $this->arrprov();
+		 $nation_list = $this->arrnation();
+		 $arr_city = $this->arr_city();
+		 $list_airport = $this->list_airport();
+		 $list_occupation = $this->list_occupation();
+		 $sym_cough = $this->sym_cough();
+		 $arr_refer_lab = $this->arr_refer_lab();
+		 $arr_refer_bidi = $this->arr_refer_bidi();
+		 $arr_op_opt = $this->arr_op_opt();
+		 $arr_op_dpc = $this->arr_op_dpc();
+		 $arr_hostype = $this->arr_hostype();
+		 // $pt_status= $req ->input ('pt_status');
+		 $pt_status1= $req ->input ('pt_status1');
+		 $pt_status2= $req ->input ('pt_status2');
+		 $pt_status3= $req ->input ('pt_status3');
+		 $pt_status4= $req ->input ('pt_status4');
+		 $pt_status5= $req ->input ('pt_status5');
+		 $arr_hostype_th  = $this->arr_hostype_th();
+		 $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
+		 $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+		if (empty($req->notify_date) || $req->notify_date == null) {
+			$notify_date = Date('Y-m-d');
+		} else {
+			$notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
+		}
 
-    if (empty($req->notify_date_end) || $req->notify_date_end == null) {
-        $notify_date_end = Date('Y-m-d');
-    } else {
-        $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
-    }
+		if (empty($req->notify_date_end) || $req->notify_date_end == null) {
+			$notify_date_end = Date('Y-m-d');
+		} else {
+			$notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+		}
 
-    if ($req->pt_status == null || empty($req->pt_status)) {
-        $new_status = ['1', '2', '3', '4', '5'];
-    } else {
-        $new_status = $req->pt_status;
-    }
-    $data = InvestList::whereIn('pt_status', $new_status)
-                    ->whereBetween('notify_date', [$notify_date, $notify_date_end]);
-     // $data=DB::table('invest_pt')
-     //                 ->select('*')
-     //                 ->wherein('pt_status',[$pt_status1,$pt_status2,$pt_status3,$pt_status4,$pt_status5])
-                     // ->whereDate('notify_date','>=',$notify_date)
-                     // ->whereDate('notify_date', '<=',$notify_date_end)
-                     // ->whereNull('deleted_at')
-                     // ->get();
-                  //dd($data);
-                     // return view('export.allexport',compact(
-                     //   'data',
-                     //   'arr',
-                     //   'arr_hos',
-                     //   'arr_refer_bidi',
-                     //   'arr_refer_lab',
-                     //   'nation_list',
-                     //   'list_occupation',
-                     //   'sym_cough',
-                     //   'arrprov',
-                     //   'list_airport',
-                     //   'arr_op_opt',
-                     //   'arr_op_dpc',
-                     //   'arr_city',
-                     //   'arr_hostype',
-                     //   'arr_hostype_th'
-                     // ));
+		if ($req->pt_status == null || empty($req->pt_status)) {
+			$new_status = ['1', '2', '3', '4', '5'];
+		} else {
+			$new_status = $req->pt_status;
+		}
+		$data = InvestList::whereIn('pt_status', $new_status)
+						->whereBetween('notify_date', [$notify_date, $notify_date_end])
+						->whereNull('deleted_at')
+						 ->get();
+						/*
+			$data=DB::table('invest_pt')
+						->select('*')
+						  ->wherein('pt_status',[$pt_status1,$pt_status2,$pt_status3,$pt_status4,$pt_status5])
+						  ->whereDate('notify_date','>=',$notify_date)
+						  ->whereDate('notify_date', '<=',$notify_date_end)
+						  ->whereNull('deleted_at')
+						  ->get();
+*/
+						 return view('export.allexport',compact(
+							'data',
+							'arr',
+							'arr_hos',
+							'arr_refer_bidi',
+							'arr_refer_lab',
+							'nation_list',
+						   'list_occupation',
+							'sym_cough',
+							'arrprov',
+							'list_airport',
+							'arr_op_opt',
+							'arr_op_dpc',
+							'arr_city',
+							'arr_hostype',
+							'arr_hostype_th'
+						  ));
+	}
+					 
+					 /*
                      return view('errors.405',compact(
                        'data',
                        'arr',
@@ -204,7 +218,7 @@ public function indexallexcel(Request $req)
                        'arr_city',
                        'arr_hostype',
                        'arr_hostype_th'
-                     ));
+                     )); */
   }
     protected function convertDateToMySQL($date='00/00/0000') {
       if (!is_null($date) || !empty($date)) {
