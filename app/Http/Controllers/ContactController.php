@@ -592,6 +592,7 @@ if(auth()->user()->id==Auth::user()->id){
   // $poe_id = $req ->input ('poe_id');
 	$sat_id = $req ->input ('sat_id');
 	$pui_id = $req ->input ('pui_id');
+	dd($pui_id);
   // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
 	$user_id = $req ->input ('user_id');
 	$title_contact = $req ->input ('title_contact');

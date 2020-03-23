@@ -490,7 +490,7 @@ input:read-only {
 																<div class="custom-control custom-checkbox">
 																	<input type="checkbox" name="data3_3chk_other" value="y" class="custom-control-input" @if($data->data3_3chk_other=="y") checked @endif id="data3_3chk_other">
 																	<label for="data3_3chk_other" class="custom-control-label normal-label">
-																		ประวัติเสียงที่สำคัญ
+																		โรคประจำตัวอื่นๆ
 																	</label>
 																	<div class="row mt-2">
 																		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -507,10 +507,35 @@ input:read-only {
 											</div>
 										</div>
 									</div>
+									<hr />
 									<div class="form-row">
-
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+											<h1 class="text-info">ปัจจัยเสี่ยง</h1>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+											<div class="form-group">
+												<label for="risk_detail">รายละเอียดประวัติเสี่ยง</label>
+												<textarea class="form-control" name="risk_detail">@if($data->risk_detail) {{ $data->risk_detail }} @endif</textarea>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+											<div class="form-group">
+												<label for="risk_type">ประเภทประวัติเสี่ยง</label>
+												<select name="risk_type" id="risk_type" data-live-search="true" class="form-control selectpicker show-tick">
+													<option value="">-- โปรดเลือก --</option>
+													@foreach($risk_type as $val)
+													<option value="{{ $val->id }}" {{ $data->risk_type == $val->id ? 'selected' : ''}}>{{ $val->risk_name }}</option>
+													@endforeach
+												</select>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3 risk_type_text">
+											<div class="form-group">
+												<label for="risk_type_text">ประเภทประวัติเสี่ยง(อื่นๆ)</label>
+												<input type="text" name="risk_type_text" class="form-control" id="risk_type_text" value="{{ $data->risk_type_text }}" placeholder="กรอกประเภทประวัติเสี่ยง(อื่นๆ)">
+											</div>
+										</div>
 									</div>
-
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 											<h1 class="text-info">3. ข้อมูลอาการผู้ป่วย</h1>
@@ -797,7 +822,7 @@ input:read-only {
 							<div class="row confirm_order">
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
-										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่</label>
+										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่(กรณีที่ทราบลำดับประกาศเคสยืนยัน)</label>
 										<input type="text" name="order_pt" value="@if($data->order_pt) {{ $data->order_pt }} @endif" id="order_pt" class="form-control" placeholder="ลำดับผู้ป่วย">
 									</div>
 								</div>
@@ -899,6 +924,25 @@ $(document).ready(function() {
 		$('.sym_othertext').hide();
 	}
 
+	var risk_type_db = '<?php echo $data->risk_type; ?>';
+	if(risk_type_db=='13'){
+		$('.risk_type_text').show();
+	}else{
+		$('.risk_type_text').hide();
+	}
+
+	$('#risk_type').change(function() {
+	 var risk_type = $('#risk_type').val();
+	 //console.log(pt_status);
+	 if(risk_type==13){
+		 $('.risk_type_text').show();
+	 }else{
+		 $('.risk_type_text').hide();
+		 $('#risk_type_text').val('');
+	 }
+	});
+
+
 	$('.time').mask('00:00');
 
 	$('.selectpicker').selectpicker();
@@ -954,12 +998,12 @@ $(document).ready(function() {
 	 //console.log(pt_status);
 	 if(pt_status==2){
 		 $('.confirm_order').show();
-		 $("#order_pt").prop('required',true);
+		 //$("#order_pt").prop('required',true);
 		 $('.type_nature').show();
 		 $("#type_nature").prop('required',true);
 	 }else{
 		 $('.confirm_order').hide();
-		 $("#order_pt").prop('required',false);
+		 //$("#order_pt").prop('required',false);
 		 $("#order_pt").val('');
 		 $('.type_nature').hide();
 		 $("#type_nature").prop('required',false);

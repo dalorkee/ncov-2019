@@ -13,7 +13,7 @@ input:read-only {
 </style>
 <?php
 
-//dd($airportlists);
+//dd($risk_type);
 $config = [
     'table' => 'invest_pt',
     'length' => 11,
@@ -506,7 +506,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 																<div class="custom-control custom-checkbox">
 																	<input type="checkbox" name="data3_3chk_other" value="y" class="custom-control-input" id="data3_3chk_other" {{ old('data3_3chk_other') == 'y' ? 'checked' : ''}}>
 																	<label for="data3_3chk_other" class="custom-control-label normal-label">
-																		ประวัติเสียงที่สำคัญ
+																		โรคประจำตัวอื่นๆ
 																	</label>
 																	<div class="row mt-2">
 																		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -520,6 +520,36 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 														</tr>
 													</tbody>
 												</table>
+											</div>
+										</div>
+									</div>
+
+									<hr />
+									<div class="form-row">
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+											<h1 class="text-info">ปัจจัยเสี่ยง</h1>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+											<div class="form-group">
+												<label for="risk_detail">รายละเอียดประวัติเสี่ยง</label>
+												<textarea class="form-control" name="risk_detail">{{ old('risk_detail') }}</textarea>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+											<div class="form-group">
+												<label for="risk_type">ประเภทประวัติเสี่ยง</label>
+												<select name="risk_type" id="risk_type" data-live-search="true" class="form-control selectpicker  show-tick">
+													<option value="">-- โปรดเลือก --</option>
+													@foreach($risk_type as $val)
+													<option value="{{ $val->id }}" {{ old('risk_type') == $val->id ? 'selected' : ''}}>{{ $val->risk_name }}</option>
+													@endforeach
+												</select>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3 risk_type_text">
+											<div class="form-group">
+												<label for="risk_type_text">ประเภทประวัติเสี่ยง(อื่นๆ)</label>
+												<input type="text" name="risk_type_text" class="form-control" id="risk_type_text" value="{{ old('risk_type_text') }}" placeholder="กรอกประเภทประวัติเสี่ยง(อื่นๆ)">
 											</div>
 										</div>
 									</div>
@@ -806,7 +836,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 							<div class="row confirm_order">
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
-										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่</label>
+										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่(กรณีที่ทราบลำดับประกาศเคสยืนยัน)</label>
 										<input type="text" name="order_pt" value="{{ old('order_pt') }}" id="order_pt" class="form-control" placeholder="ลำดับผู้ป่วย">
 									</div>
 								</div>
@@ -921,6 +951,7 @@ $(document).ready(function() {
 	$('#pui_gen_auto').hide();
 	$('#pui_gen_manual').hide();
 
+
 	$(".check-auto").click(function(){
 	        $("#pui_code_gen_rd1").prop("checked", true);
 					//$("#patient_type_sat_id").prop('required',true);
@@ -951,6 +982,18 @@ $(document).ready(function() {
 	// 	//console.log('checked');
 	// 	//$("#sym_other").prop("checked", true);
 	// });
+	$('.risk_type_text').hide();
+	$('#risk_type').change(function() {
+	 var risk_type = $('#risk_type').val();
+	 //console.log(pt_status);
+	 if(risk_type==13){
+		 $('.risk_type_text').show();
+	 }else{
+		 $('.risk_type_text').hide();
+		 $('#risk_type_text').val('');
+	 }
+	});
+
 
 	$('#select_travel_from_country').change(function() {
 		if ($(this).val() != '') {
@@ -978,13 +1021,13 @@ $(document).ready(function() {
 	 //console.log(pt_status);
 	 if(pt_status==2){
 		 $('.confirm_order').show();
-		 $("#order_pt").prop('required',true);
+		 //$("#order_pt").prop('required',true);
 		 $('.type_nature').show();
 		 $("#type_nature").prop('required',true);
 	 }else{
 		 $('.confirm_order').hide();
 		 $('.type_nature').hide();
-		 $("#order_pt").prop('required',false);
+		 //$("#order_pt").prop('required',false);
 		 $("#type_nature").prop('required',false);
 	 }
 	});
