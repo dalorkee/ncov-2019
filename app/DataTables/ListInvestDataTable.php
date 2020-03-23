@@ -85,7 +85,6 @@ class ListInvestDataTable extends DataTable
 			->filterColumn('nation', function($query, $keyword) use ($nation) {
 				$query->whereRaw('(CASE '.$nation.' ELSE "-" END) like ?', ["%{$keyword}%"]);
 			})
-
 			->editColumn('pt_status', function($pts) {
 				if (!isset($pts->pt_status) || empty($pts->pt_status)) {
 					$pts_rs = "-";

@@ -129,6 +129,8 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
 	Route::get('invest/export/', 'ListInvestController@export');
 	Route::resource('invest', 'InvestController');
+	Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');
+	Route::get('/clusters/doughnut', 'covidController@clusters')->name('maps.doughnut');
 });
 
 
@@ -140,9 +142,6 @@ Route::prefix('uac')->group(function () {
 		Route::resource('users', 'UserController');
 	});
 });
-
-Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');
-Route::get('/clusters/doughnut', 'covidController@clusters')->name('maps.doughnut');
 
 /*
 Route::get('/einvest', function(App\Exports\InvestExport $export) {

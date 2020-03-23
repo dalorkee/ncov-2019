@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invest extends Model
 {
-    //
+	protected $table = 'invest_pt';
+	protected $primaryKey = 'id';
 }

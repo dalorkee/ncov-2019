@@ -16,10 +16,16 @@
 	@yield('custom-style')
 	<style>
 		.topbar, #navbarSupportedContent {
-			background-color:#343a40 !important;
+			background-color:#E84C93 !important;
 		}
 		#navbarSupportedContent a {
 			color: white;
+		}
+		.auth-box {
+			background: none !important;
+		}
+		.bg-white-1 {
+			background-color: #F9F9F9 !important;
 		}
 	</style>
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -29,7 +35,7 @@
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
-<body>
+<body data-theme="dark">
 <div class="main-wrapper">
 	<div class="preloader">
 		<div class="lds-ripple">
