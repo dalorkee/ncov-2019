@@ -9,12 +9,14 @@ class ExportExcelController extends MasterController
 {
 
   // all table
-  public function alltable(Request $req)
-  {
+public function alltable(Request $req)
+{
+	return view('errors.405');
+/*
     $datenow = date('Y-m-d');
     $arr = parent::getStatus();
     $nation_list = $this->arrnation();
-    // dd($poe_id);
+
     $data=DB::table('invest_pt')
             ->select('*')
             ->where('notify_date', $datenow)
@@ -25,12 +27,15 @@ class ExportExcelController extends MasterController
       'arr',
       'nation_list'
     ));
+	*/
   }
 
 
 
-    function index(Request $req)
-    {
+public function index(Request $req)
+{
+	return view('errors.405');
+	/*
       $arr = parent::getStatus();
       $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
       $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
@@ -52,9 +57,13 @@ class ExportExcelController extends MasterController
                         'arr',
                         'nation_list'
                       ));
+	*/
    }
+
    public function alltableexport(Request $req)
    {
+	   return view('errors.405');
+	   exit;
      $datenow = date('Y-m-d');
      $arr = parent::getStatus();
      $arr_hos = $this->arr_hos();
@@ -108,8 +117,11 @@ class ExportExcelController extends MasterController
        'arr_hostype_th'
      ));
    }
-   function indexallexcel(Request $req)
-   {
+public function indexallexcel(Request $req)
+{
+	return view('errors.405');
+	exit;
+	
      $arr = parent::getStatus();
      $arr_hos = $this->arr_hos();
      $arrprov = $this->arrprov();
