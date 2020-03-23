@@ -12,7 +12,8 @@ use Maatwebsite\Excel\Facades\Excel;
 class ListInvestController extends Controller
 {
 	public function index(ListInvestDataTable $dataTable) {
-		return $dataTable->render('list-data.invest', compact('test'));
+
+		return $dataTable->render('list-data.invest');
 	}
 
 	public function export() {
