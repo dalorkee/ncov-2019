@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\GlobalCountry;
-use App\investList;
 class ExportExcelController extends MasterController
 {
 
@@ -21,7 +20,7 @@ class ExportExcelController extends MasterController
             ->where('notify_date', $datenow)
             ->whereNull('deleted_at')
             ->get();
-    return view('export.export_excel',compact(
+    return view('errors.405',compact(
       'data',
       'arr',
       'nation_list'
@@ -43,7 +42,12 @@ class ExportExcelController extends MasterController
                       ->whereDate('notify_date', '<=',$notify_date_end)
                       ->whereNull('deleted_at')
                       ->get();
-                      return view('export.export_excel',compact(
+                      // return view('export.export_excel',compact(
+                      //   'data',
+                      //   'arr',
+                      //   'nation_list'
+                      // ));
+                      return view('errors.405',compact(
                         'data',
                         'arr',
                         'nation_list'
@@ -71,7 +75,23 @@ class ExportExcelController extends MasterController
              ->where('notify_date', $datenow)
              ->whereNull('deleted_at')
              ->get();
-     return view('export.allexport',compact(
+     // return view('export.allexport',compact(
+     //   'data',
+     //   'arr',
+     //   'arr_hos',
+     //   'nation_list',
+     //   'list_occupation',
+     //   'arrprov',
+     //   'list_airport',
+     //   'arr_refer_bidi',
+     //   'arr_refer_lab',
+     //   'arr_op_opt',
+     //   'arr_op_dpc',
+     //   'arr_city',
+     //   'arr_hostype',
+     //   'arr_hostype_th'
+     // ));
+     return view('errors.405',compact(
        'data',
        'arr',
        'arr_hos',
@@ -88,8 +108,8 @@ class ExportExcelController extends MasterController
        'arr_hostype_th'
      ));
    }
-
-public function indexallexcel(Request $req) {
+   function indexallexcel(Request $req)
+   {
      $arr = parent::getStatus();
      $arr_hos = $this->arr_hos();
      $arrprov = $this->arrprov();
@@ -110,33 +130,53 @@ public function indexallexcel(Request $req) {
      $pt_status4= $req ->input ('pt_status4');
      $pt_status5= $req ->input ('pt_status5');
      $arr_hostype_th  = $this->arr_hostype_th();
+     $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
+     $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+    if (empty($req->notify_date) || $req->notify_date == null) {
+        $notify_date = Date('Y-m-d');
+    } else {
+        $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
+    }
 
-	if (empty($req->notify_date) || $req->notify_date == null) {
-		$notify_date = Date('Y-m-d');
-	} else {
-		$notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
-	}
+    if (empty($req->notify_date_end) || $req->notify_date_end == null) {
+        $notify_date_end = Date('Y-m-d');
+    } else {
+        $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+    }
 
-	if (empty($req->notify_date_end) || $req->notify_date_end == null) {
-		$notify_date_end = Date('Y-m-d');
-	} else {
-		$notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
-	}
-
-	if ($req->pt_status == null || empty($req->pt_status)) {
-		$new_status = ['1', '2', '3', '4', '5'];
-	} else {
-		$new_status = $req->pt_status;
-	}
-	$data = InvestList::whereIn('pt_status', $new_status)
-					->whereBetween('notify_date', [$notify_date, $notify_date_end])
-/*
-					 ->where('notify_date','>=',$notify_date)
-                     ->where('notify_date', '<=',$notify_date_end)
-*/
-                     ->whereNull('deleted_at')
-                     ->get();
-                     return view('export.allexport',compact(
+    if ($req->pt_status == null || empty($req->pt_status)) {
+        $new_status = ['1', '2', '3', '4', '5'];
+    } else {
+        $new_status = $req->pt_status;
+    }
+    $data = InvestList::whereIn('pt_status', $new_status)
+                    ->whereBetween('notify_date', [$notify_date, $notify_date_end]);
+     // $data=DB::table('invest_pt')
+     //                 ->select('*')
+     //                 ->wherein('pt_status',[$pt_status1,$pt_status2,$pt_status3,$pt_status4,$pt_status5])
+                     // ->whereDate('notify_date','>=',$notify_date)
+                     // ->whereDate('notify_date', '<=',$notify_date_end)
+                     // ->whereNull('deleted_at')
+                     // ->get();
+                  //dd($data);
+                     // return view('export.allexport',compact(
+                     //   'data',
+                     //   'arr',
+                     //   'arr_hos',
+                     //   'arr_refer_bidi',
+                     //   'arr_refer_lab',
+                     //   'nation_list',
+                     //   'list_occupation',
+                     //   'sym_cough',
+                     //   'arrprov',
+                     //   'list_airport',
+                     //   'arr_op_opt',
+                     //   'arr_op_dpc',
+                     //   'arr_city',
+                     //   'arr_hostype',
+                     //   'arr_hostype_th'
+                     // ));
+                     return view('errors.405',compact(
                        'data',
                        'arr',
                        'arr_hos',
@@ -397,5 +437,6 @@ public function indexallexcel(Request $req) {
         // dd($list_sym_cough);
         return $arr_hostype_th;
       }
+
 }
 ?>
