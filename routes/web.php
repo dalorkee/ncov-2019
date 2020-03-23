@@ -148,3 +148,6 @@ Route::get('/clusters/doughnut', 'covidController@clusters')->name('maps.doughnu
 Route::get('/einvest', function(App\Exports\InvestExport $export) {
 		return $export->download('inv.xlsx');
 });*/
+
+
+Route::resource('hospital', 'HospitalController');
