@@ -15,6 +15,12 @@
 	<!-- Custom CSS -->
 	@yield('custom-style')
 	<style>
+		.topbar {
+			position: fixed;
+			top: 0; top;
+			width: 100%;
+			transition: top 0.3s;
+		}
 		.topbar, #navbarSupportedContent {
 			background-color:#E84C93 !important;
 		}
