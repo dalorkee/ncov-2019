@@ -102,6 +102,7 @@ class ContactController extends MasterController
 															'patient_relation.dalete_date',
 															'tbl_contact.age_contact',
 															'tbl_contact.sex_contact',
+															'tbl_contact.phone_contact',
 															'tbl_contact.national_contact',
 															'tbl_contact.province',
 															'tbl_contact.district',

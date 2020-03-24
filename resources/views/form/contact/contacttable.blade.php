@@ -174,26 +174,27 @@ input.valid, textarea.valid{
 									<th>ชื่อ - นามสกุล</th>
 									<th>อายุ</th>
 									<th>ระดับความเสี่ยง</th>
-									<th>สถานที่ตรวจ Lab</th>
+									{{-- <th>สถานที่ตรวจ Lab</th> --}}
+									<th>เบอร์โทร</th>
 									<th>ที่อยู่ในประเทศไทย</th>
-									<th>สัญชาติ</th>
+									<th>สถานะการติดตาม</th>
 									<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 						<?php foreach($contact_data as  $value) : ?>
 							<tr>
-								<td>{{ $value->id }}</td>
+								<td>{{ $value->sat_id }}</td>
                 <td>{{ $value->contact_id }}</td>
 								<td>{{ $value->name_contact }} {{ $value->lname_contact }}</td>
                 <td>{{ $value->age_contact }}</td>
 								<td>{{ (isset($arr_risk_contact[$value->risk_contact])) ? $arr_risk_contact[$value->risk_contact] : "" }}</td>
-								<td></td>
+								<td>{{ $value->phone_contact }}</td>
                 <td>{{ (isset($arrprov[$value->province])) ? $arrprov[$value->province] : "" }}
 										{{ (isset($arrdistrict[$value->district])) ? $arrdistrict[$value->district] : "" }}
 										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}
 								</td>
-								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
+								<td>{{ (isset($arr_status_followup[$value->status_followup])) ? $arr_status_followup[$value->status_followup] : "" }}</td>
 
 								<td>
 									<a href="http://viral.ddc.moph.go.th/viral/lab/genlab.php?idx={{ $value->contact_id }}" target="_blank" title="GenLAB" class="btn btn-cyan btn-sm">GenLAB</a>
