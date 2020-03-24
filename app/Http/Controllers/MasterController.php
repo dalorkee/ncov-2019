@@ -18,11 +18,11 @@ class MasterController extends Controller
 	public function setStatus() {
 		$status = collect([
 			'pt_status' => [
-				1 => 'PUI',
-				2 => 'Confirmed',
+				1 => 'PUI (รอผลแลป)',
+				2 => 'Confirmed (ผลแลปยืนยัน)',
 				3 => 'Probable',
 				4 => 'Suspected',
-				5 => 'Excluded'
+				5 => 'Excluded (ผลแลปเป็นลบ)'
 			],
 			'news_st' => [
 				1 => 'Confirmed publish',

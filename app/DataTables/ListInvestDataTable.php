@@ -90,10 +90,10 @@ class ListInvestDataTable extends DataTable
 					$pts_rs = "-";
 				} else {
 					switch (mb_strtolower($pts->pt_status)) {
-						case "pui" :
+						case "pui (รอผลแลป)" :
 							$pts_rs = "<span class=\"badge badge-light font-1\">".$pts->pt_status."</span>";
 							break;
-						case "confirmed" :
+						case "confirmed (ผลแลปยืนยัน)" :
 							$pts_rs = "<span class=\"badge badge-danger font-1\">".$pts->pt_status."</span>";
 							break;
 						case "probable" :
@@ -102,7 +102,7 @@ class ListInvestDataTable extends DataTable
 						case "suspected" :
 							$pts_rs = "<span class=\"badge badge-custom-1 font-1\">".$pts->pt_status."</span>";
 							break;
-						case "excluded" :
+						case "excluded (ผลแลปเป็นลบ)" :
 							$pts_rs = "<span class=\"badge badge-success font-1\">".$pts->pt_status."</span>";
 							break;
 						default :

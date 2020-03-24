@@ -22,7 +22,11 @@ class ListSatController extends Controller
 		$pt_status = (!empty($pst['pt_status'])) ? $status['pt_status'][$pst['pt_status']] : "-";
 		$pt_status_opt = "";
 		foreach ($status['pt_status'] as $key => $val) {
-			$pt_status_opt .= "<option value=\"".$key."\">".$val."</option>";
+			if ($key == '3' || $key =='4') {
+				continue;
+			} else {
+				$pt_status_opt .= "<option value=\"".$key."\">".$val."</option>";
+			}
 		}
 
 		$news_st = (!empty($pst['news_st'])) ? $status['news_st'][$pst['news_st']] : "-";
