@@ -63,7 +63,7 @@ public function index(Request $req)
 
    public function alltableexport(Request $req)
    {
-	   
+
 	$uid = auth()->user()->id;
 	if ($uid == 405 || $uid == 535) {
 		 $datenow = date('Y-m-d');
@@ -80,7 +80,7 @@ public function index(Request $req)
 		 $arr_op_dpc = $this->arr_op_dpc();
 		 $arr_hostype  = $this->arr_hostype();
 		 $arr_hostype_th  = $this->arr_hostype_th();
-		 
+
 		 $data=DB::table('invest_pt')
 				 ->select('*')
 				 ->where('notify_date', $datenow)
@@ -105,7 +105,7 @@ public function index(Request $req)
 	} else {
 		return view('errors.405');
 	}
-		
+
 		 /*
 		 return view('errors.405',compact(
 		   'data',
@@ -125,11 +125,11 @@ public function index(Request $req)
 		 ));
 		 */
    }
-   
+
 public function indexallexcel(Request $req)
 {
 	$uid = auth()->user()->id;
-	if ($uid == 405 || $uid == 535) {
+	if ($uid == 405 || $uid == 535 || $uid == 437) {
 		 $arr = parent::getStatus();
 		 $arr_hos = $this->arr_hos();
 		 $arrprov = $this->arrprov();
@@ -199,7 +199,7 @@ public function indexallexcel(Request $req)
 							'arr_hostype_th'
 						  ));
 	}
-					 
+
 					 /*
                      return view('errors.405',compact(
                        'data',
