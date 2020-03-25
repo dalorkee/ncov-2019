@@ -65,7 +65,7 @@ public function index(Request $req)
    {
 
 	$uid = auth()->user()->id;
-	if ($uid == 405 || $uid == 535) {
+	if ($uid == 405 || $uid == 535 || $uid == 437) {
 		 $datenow = date('Y-m-d');
 		 $arr = parent::getStatus();
 		 $arr_hos = $this->arr_hos();
