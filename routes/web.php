@@ -83,7 +83,7 @@ Route::post('province/district/sub-district', 'ConfirmFormController@subDistrict
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
 Route::get('/detailcontact/contact_id/{contact_id}', 'ContactController@detailcontact')->name('detailcontact');
 Route::get('/contacttable/id/{id}', 'ContactController@contacttable')->name('contacttable');
-
+Route::get('/deletecontact/id/{id}/pui_id/{pui_id}', 'ContactController@deletecontact')->name('deletecontact');
 Route::get('/followuptablespui/typid/{typid}/id/{id}', 'ContactController@followuptablespui')->name('followuptablespui');
 Route::get('/followuptablescon/typid/{typid}/id/{id}', 'ContactController@followuptablescon')->name('followuptablescon');
 

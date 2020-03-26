@@ -92,16 +92,17 @@ class ContactController extends MasterController
 		$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
 		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
 		$contact_data=DB::table('patient_relation')
-										->join('tbl_contact', 'patient_relation.contact_id', '=', 'tbl_contact.contact_id')
+										->join('tbl_contact', 'patient_relation.contact_rid', '=', 'tbl_contact.id')
 										->select('patient_relation.id',
 															'patient_relation.pui_id',
 															'patient_relation.sat_id',
 															'patient_relation.contact_rid',
 															'patient_relation.contact_id',
 															'patient_relation.create_date',
-															'patient_relation.dalete_date',
+															'patient_relation.delete_at',
 															'tbl_contact.age_contact',
 															'tbl_contact.sex_contact',
+															'tbl_contact.phone_contact',
 															'tbl_contact.national_contact',
 															'tbl_contact.province',
 															'tbl_contact.district',
@@ -112,6 +113,7 @@ class ContactController extends MasterController
 															'tbl_contact.lname_contact',
 															'tbl_contact.status_followup')
 										->where('patient_relation.pui_id', $id)
+										->whereNull('delete_at')
 										->get();
 
 
@@ -483,7 +485,27 @@ if(auth()->user()->id==Auth::user()->id){
   }
 
 
-
+	public function deletecontact(Request $req){
+		$id = $req->id;
+		// dd($id);
+		$pui_id = $req->pui_id;
+		// dd($pui_id);
+		$delete_at = date('Y-m-d');
+		$update =DB::table('patient_relation')
+							->where('id',$id)
+							->where('pui_id',$pui_id)
+							->update([
+								'delete_at' => $delete_at
+			]);
+			// dd($update);
+		if ($update)
+		{
+		return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+	} else {
+		return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
+	}
+	 echo $url_rediect;
+	}
 
 
 	  public function addfollowuppui(Request $req)
