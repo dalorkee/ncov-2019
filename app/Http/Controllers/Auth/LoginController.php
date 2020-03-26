@@ -51,8 +51,13 @@ class LoginController extends Controller
 	public function login(Request $request){
 		$user = User::where('username', $request->username)
 			->where('password', md5($request->password))->first();
-		Auth::login($user);
-		return redirect('/');
+		if($user==null){
+			return redirect('/login')->with('message','ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีือรหัสผ่าน');
+		}else{
+			Auth::login($user);
+			return redirect('/');
+		}
+		//return redirect('/');
 	}
 	/* Note *** if don't use md5 remove login override method at once  */
 	/* *** *** *** */

@@ -766,7 +766,11 @@ input:read-only {
 										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control  show-tick is-invalid" required>
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['pt_status'] as $key => $val)
+											@if ($key == '3' || $key =='4') {
+												continue;
+											@else
 											<option value="{{ $key }}" @if($data->pt_status==$key) selected @endif >{{ $val }}</option>
+											@endif
 											@endforeach
 										</select>
 									</div>

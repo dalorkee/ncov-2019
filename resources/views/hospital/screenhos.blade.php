@@ -46,15 +46,10 @@
 							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
-					<form action="{{ route('confirmCase') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+					<form action="{{ route('confirmCase') }}" method="POST" class="form-horizontal">
 						{{ csrf_field() }}
-						{{ method_field('POST') }}
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
-							<div style="position:absolute;top:10px;right:10px;z-index:1">
-								<span class="btn btn-danger font-weight-bold" style="font-family: 'Fira-code';">{{ $invest_pt[0]['sat_id'] }}</span>
-							</div>							
-							<div class="card">
-								<div class="card-body">
+
 									<h1 class="text-info">1. ข้อมูลทั่วไป</h1>
 									<div class="card">
 										<div class="card-body" style="margin:0; padding:0 0 30px 0;">
@@ -71,13 +66,16 @@
 														<input type="text" name="passport" class="form-control" id="passport" placeholder="passport">
 													</div>
 												</div>
-												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+
+											</div>
+											<div class="form-row">
+												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 													<div class="form-group">
 														<label for="name_th">ชื่อ</label>
 														<input type="text" name="name_th" class="form-control" id="name_th" placeholder="ชื่อ" required>
 													</div>
 												</div>
-												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 													<div class="form-group">
 														<label for="lname_th">นามสกุล</label>
 														<input type="text" name="lname_th" class="form-control" id="lname_th" placeholder="นามสกุล" required>
@@ -85,10 +83,24 @@
 												</div>
 											</div>
 											<div class="form-row">
-												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
+												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+													<div class="form-group">
+														<label for="name_th">HN</label>
+														<input type="text" name="name_th" class="form-control" id="name_th" placeholder="ชื่อ" required>
+													</div>
+												</div>
+												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+													<div class="form-group">
+														<label for="lname_th">เบอร์โทรศัพท์</label>
+														<input type="text" name="lname_th" class="form-control" id="lname_th" placeholder="นามสกุล" required>
+													</div>
+												</div>
+											</div>
+											<div class="form-row">
+												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 													<div class="form-group">
 														<label for="f_name_en">อักษรตัวแรกของชื่อภาษาอังกฤษ</label>
-														<select name="f_name_en" class="form-control selectpicker show-tick" id="f_name_en">
+														<select name="f_name_en" class="form-control selectpicker show-tick" data-live-search="true" id="f_name_en">
 															<option value="">-- โปรดเลือก --</option>
 															<option value="A">A</option>
 															<option value="B">B</option>
@@ -119,10 +131,10 @@
 														</select>
 													</div>
 												</div>
-												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
+												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 													<div class="form-group">
 														<label for="f_lname_en">อักษรตัวแรกของนามสกุลภาษาอังกฤษ</label>
-														<select name="f_lname_en" class="form-control selectpicker show-tick" id="f_lname_en">
+														<select name="f_lname_en" class="form-control selectpicker show-tick" data-live-search="true" id="f_lname_en">
 															<option value="">-- โปรดเลือก --</option>
 															<option value="A">A</option>
 															<option value="B">B</option>
@@ -152,15 +164,9 @@
 															<option value="Z">Z</option>
 														</select>
 													</div>
-												</div>											
+												</div>
 											</div>
-										</div>
-									</div>									
-									<div class="card">
-										<div class="card-body" style="margin:0;padding-top:10px;padding-bottom:0">
-											<h1 class="card-title m-b-0 m-t-0 text-danger">2. อาการและอาการแสดง</h1>										
-											<h4 class="card-title m-b-0 m-t-0 text-danger">การเฝ้าระวังที่สถานพยาบาล</h4>
-										</div>
+											<h1 class="card-title m-b-0 m-t-0 text-info" style="margin-top:10px;">2. อาการและอาการแสดง</h1>
 										<ul class="list-style-none">
 											<li class="card-body">
 												<div class="form-row">
@@ -178,7 +184,7 @@
 																</div>
 															</div>
 														</div>
-													</div>													
+													</div>
 												</div>
 											</li>
 											<li class="card-body border-top">
@@ -197,7 +203,7 @@
 													<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 														<div class="form-group">
 															<label for="villageNo">ประวัติมีไข้</label>
-															<div class="card">																
+															<div class="card">
 																<div class="custom-control custom-radio custom-control-inline">
 																	<input type="radio" name="fever" value="y" class="custom-control-input fever" id="fever_yes">
 																	<label for="fever_yes" class="custom-control-label normal-label">มี</label>
@@ -208,7 +214,7 @@
 																</div>
 															</div>
 														</div>
-													</div>													
+													</div>
 													<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2">
 														<div class="form-group">
 															<label for="informant">อาการ</label>
@@ -248,10 +254,10 @@
 																	<div class="form-group">
 																		<label for="country">ประเทศ</label>
 																		<select name="country" class="form-control selectpicker show-tick" id="country">
-																			<option value="">-- โปรดเลือก --</option>																			
+																			<option value="">-- โปรดเลือก --</option>
 																		</select>
 																	</div>
-																</div>	
+																</div>
 																<div class="custom-control custom-checkbox custom-control-inline">
 																	<input type="checkbox" name="occu_contact_foreign" value="y" class="custom-control-input occu_contact_foreign" id="occu_contact_foreign_Chk">
 																	<label for="occu_contact_foreign_Chk" class="custom-control-label normal-label">เป็นผู้ที่ประกอบอาชีพที่สัมผัสใกล้ชิดกับนักท่องเที่ยวต่างชาติ</label>
@@ -270,7 +276,7 @@
 																</div>
 															</div>
 														</div>
-													</div>												
+													</div>
 												</div>
 											</li>
 											<li class="card-body">
@@ -289,7 +295,7 @@
 																</div>
 															</div>
 														</div>
-													</div>													
+													</div>
 												</div>
 											</li>
 											<li class="card-body border-top">
@@ -301,7 +307,7 @@
 																<div class="custom-control custom-checkbox custom-control-inline">
 																	<input type="checkbox" name="hcw" value="y" class="custom-control-input hcw" id="hcw_Chk">
 																	<label for="hcw_Chk" class="custom-control-label normal-label">เป็นบคลากรทางการแพทย์หรือสาธารณสุข</label>
-																</div>																	
+																</div>
 																<div class="custom-control custom-checkbox custom-control-inline">
 																	<input type="checkbox" name="not_better_2day" value="y" class="custom-control-input not_better_2day" id="not_better_2day_Chk">
 																	<label for="not_better_2day_Chk" class="custom-control-label normal-label">หาสาเหตุไม่ได้ และ รักษาแล้วอาการไม่ดีขึ้นภายใน 48 ชั่วโมง</label>
@@ -316,13 +322,12 @@
 																</div>
 															</div>
 														</div>
-													</div>												
+													</div>
 												</div>
 											</li>
 										</ul>
-									</div>								
 								</div>
-							</div>						
+							</div>
 						</div><!-- bd-collout1 -->
 						<div class="border-top">
 							<div class="card-body">
@@ -369,11 +374,12 @@ $(document).ready(function() {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
+	$('.selectpicker').selectpicker();
 });
 </script>
 @endsection
 
-card_id->add
+<!-- card_id->add
 passport->add
 name_th = first_name
 lname_th = last_name
@@ -397,7 +403,4 @@ hcw->add
 not_better_2day->add
 severe_pneumonia->add
 film_xray->add
-hos_id = isolated_hosp_code
-
-
-
+hos_id = isolated_hosp_code -->
