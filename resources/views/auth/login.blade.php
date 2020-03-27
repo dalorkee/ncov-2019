@@ -37,7 +37,6 @@
 								</span>
 							@enderror
 						</div>
-						{{ Session::get('message') !== null ? Session::get('message') : '' }}
 					</div>
 				</div>
 				<div class="row border-top border-secondary">
