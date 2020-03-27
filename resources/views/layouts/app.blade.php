@@ -43,6 +43,7 @@
 </head>
 <body data-theme="dark">
 <div class="main-wrapper">
+	@include('flash::message')
 	<div class="preloader">
 		<div class="lds-ripple">
 			<div class="lds-pos"></div>
@@ -105,6 +106,8 @@
 			$("#recoverform").hide();
 			$("#loginform").fadeIn();
 		});
+		/* flash message */
+		$('#flash-overlay-modal').modal();
 	</script>
 	@yield('bottom-script')
 </body>

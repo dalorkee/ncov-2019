@@ -78,6 +78,7 @@ class ScreenPUIController extends MasterController
      */
     public function store(Request $request)
     {
+      //dd($request);
       $prefix_sat_id = Auth::user()->prefix_sat_id;
       //Auto
       if($request->pui_code_gen==1){
@@ -119,7 +120,10 @@ class ScreenPUIController extends MasterController
 
       $check_duplicate_record = InvestList::where('sat_id', '=', $request->sat_id)->exists();
       if($check_duplicate_record){
-        return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$sat_id);
+        //return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$sat_id);
+        $message = "Duplicate SATID: ".$sat_id;
+        flash()->overlay($message, 'Message');
+        return redirect()->back()->withInput();
       }
 
         $data = [
