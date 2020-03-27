@@ -92,7 +92,7 @@ class ContactController extends MasterController
 		$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
 		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
 		$contact_data=DB::table('patient_relation')
-										->join('tbl_contact', 'patient_relation.contact_rid', '=', 'tbl_contact.id')
+										->join('tbl_contact', 'patient_relation.contact_id', '=', 'tbl_contact.contact_id')
 										->select('patient_relation.id',
 															'patient_relation.pui_id',
 															'patient_relation.sat_id',
