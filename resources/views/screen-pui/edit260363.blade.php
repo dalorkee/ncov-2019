@@ -200,7 +200,7 @@ input:read-only {
 									<div class="form-group row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
 											<label for="dowork">หมายเลขบัตรประจำตัวประชาชน</label>
-												<input type="text" name="card_id" maxlength="13" value="@if($data->card_id) {{ $data->card_id }} @endif" class="form-control is-invalid" id="card_id" value="{{ old('card_id') }}" placeholder="หมายเลขบัตรประจำตัวประชาชน">
+												<input type="text" name="card_id" maxlength="13" value="@if($data->card_id) {{ $data->card_id }} @endif" class="form-control" id="card_id" value="{{ old('card_id') }}" placeholder="หมายเลขบัตรประจำตัวประชาชน">
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
 											<label for="dowork">หมายเลข Passport</label>
