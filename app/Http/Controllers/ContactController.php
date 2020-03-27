@@ -772,6 +772,7 @@ if(auth()->user()->id==Auth::user()->id){
 				$dms_pcr_contact = $req->input('dms_pcr_contact');
 				$dms_time_contact = $req->input('dms_time_contact');
 				$dms_date_contact =$req->input('dms_date_contact');
+				// dd($dms_date_contact);
 				$dms_specimen_contact =$req->input('dms_specimen_contact');
 				$chkspec_other_contact =$req->input('chkspec_other_contact');
 				$other_pcr_result_contact =$req->input('other_pcr_result_contact');
@@ -1071,7 +1072,7 @@ if ($delete1)
 	 'sat_id_class'=>$sat_id_class,
 	 'datesymtom'=>$datesymtom,
 	 'date_entry'=>$date_entry,
-			 'follow_address_other'=>$follow_address_other,
+	 'follow_address_other'=>$follow_address_other,
 	 'hospcode'=>$hospcode
  );
  $res3	= DB::table('tbl_followup')->insert($data);
