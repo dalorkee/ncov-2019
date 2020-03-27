@@ -361,7 +361,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                         </td>
                                         <td>
                                           <select class="form-control" name="dms_pcr_contact[]">
-                                            <option value="{{ $value->dms_pcr_contact }}">{{ (isset( $arr_laboratory[$value->dms_pcr_contact])) ?  $arr_laboratory[$value->dms_pcr_contact] : "ยังไม่มียังไม่มีการกรอกข้อมูล" }}</option>
+                                            <option value="{{ $value->dms_pcr_contact }}">{{ (isset( $arr_laboratory[$value->dms_pcr_contact])) ?  $arr_laboratory[$value->dms_pcr_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
                                             <option value="">- เลือก -</option>
                                             @foreach ($ref_lab as $row)
                                             <option value="{{$row->id}}">{{$row->th_name}}</option>
