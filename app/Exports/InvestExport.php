@@ -31,7 +31,9 @@ class InvestExport implements FromCollection, WithHeadings
 			'walkinplace_hosp_province',
 			'isolated_hosp_code',
 			'isolated_province'
-		)->where('pt_status', '=', 2)->get()->toArray();
+		)
+		->where('pt_status', '=', 2)
+		->whereNull('deleted_at')->get()->toArray();
 		$result = collect();
 		foreach($data as $key => $val) {
 			if (!empty($val['occupation']) || $val['occupation'] != null) {

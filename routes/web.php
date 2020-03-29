@@ -19,7 +19,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 /* Form */
 
-Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
+//Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('chConfirmStatus', 'ConfirmFormController@changeStatus')->name('chConfirmStatus');
 Route::post('chConfirmStatusServerSide', 'ConfirmFormController@changeStatusSeverSide')->name('chConfirmStatusServerSide');
 Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
@@ -66,6 +66,7 @@ Route::resource('investList', 'InvestListController');
 Route::post('country/city', 'ConfirmFormController@cityFetch')->name('cityFetch');
 Route::post('province/district', 'ConfirmFormController@districtFetch')->name('districtFetch');
 Route::post('province/district/sub-district', 'ConfirmFormController@subDistrictFetch')->name('subDistrictFetch');
+Route::post('hospitalFetch', 'InvestController@hospitalFetch')->name('hospitalFetch');
 
 /* Auth */
 // Route::group(['middleware' => ['auth']], function() {
@@ -107,9 +108,6 @@ Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel'
 Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
 Route::post('/allexport', 'ExportExcelController@indexallexcel')->name('allexport');
 
-/* destroy */
-Route::resource('item', 'InvestListController');
-
 /* Logout */
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
@@ -129,11 +127,14 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/sat/list', 'ListSatController@index')->name('list-data.sat');
 	Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
 	Route::get('invest/export/', 'ListInvestController@export');
-	Route::resource('invest', 'InvestController');
+	//Route::resource('invest', 'InvestController');
+	Route::get('/invest/{id}', 'InvestController@create')->name('invest');
+	Route::post('/invest/store', 'InvestController@store')->name('store');
 	Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');
 	Route::get('/clusters/doughnut', 'covidController@clusters')->name('maps.doughnut');
+	/* destroy */
+	Route::resource('item', 'InvestController');
 });
-
 
 /* Role & Permission Manage */
 Route::prefix('uac')->group(function () {
@@ -148,6 +149,5 @@ Route::prefix('uac')->group(function () {
 Route::get('/einvest', function(App\Exports\InvestExport $export) {
 		return $export->download('inv.xlsx');
 });*/
-
 
 Route::resource('hospital', 'HospitalController');
