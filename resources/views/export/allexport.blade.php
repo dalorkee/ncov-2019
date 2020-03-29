@@ -184,6 +184,8 @@ input.valid, textarea.valid{
 								<th>ตั้งครรภ์</th>
 								<th>อ้วน</th>
 								<th>มะเร็ง</th>
+								<th>รายละเอียดประวัติเสี่ยง</th>
+								<th>ประเภทประวัติเสี่ยง</th>
 								<th>วันที่เริ่มป่วย</th>
 								<th>วันที่ Isolate</th>
 								<th>ประวัติไข้</th>
@@ -268,6 +270,17 @@ input.valid, textarea.valid{
 							<td>
 								{{ (!empty($value->data3_3chk_cancer_name)) ? $value->data3_3chk_cancer_name : ""  }}
 								{{ (!empty($value->data3_3input_other)) ? $value->data3_3input_other : ""	  }}
+							</td>
+							<td>{{ (!empty($value->risk_detail)) ? $value->risk_detail : ""  }}</td>
+							<td>
+									<?php if(is_null($value->risk_type)){
+														echo "";
+									}elseif($value->risk_type=="13"){
+										echo $value->risk_type_text;
+									}else{
+										echo $arr_risk_type[$value->risk_type];
+									}
+									?>
 							</td>
 							<td>{{ (!empty($value->data3_1date_sickdate)) ? $value->data3_1date_sickdate : ""  }}</td>
 							<td>{{ (!empty($value->isolate_date)) ? $value->isolate_date : ""  }}</td>

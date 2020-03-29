@@ -99,7 +99,7 @@ class ContactController extends MasterController
 															'patient_relation.contact_rid',
 															'patient_relation.contact_id',
 															'patient_relation.create_date',
-															'patient_relation.dalete_date',
+															'patient_relation.delete_at',
 															'tbl_contact.age_contact',
 															'tbl_contact.sex_contact',
 															'tbl_contact.phone_contact',
@@ -113,6 +113,7 @@ class ContactController extends MasterController
 															'tbl_contact.lname_contact',
 															'tbl_contact.status_followup')
 										->where('patient_relation.pui_id', $id)
+										->whereNull('delete_at')
 										->get();
 
 
@@ -484,7 +485,27 @@ if(auth()->user()->id==Auth::user()->id){
   }
 
 
-
+	public function deletecontact(Request $req){
+		$id = $req->id;
+		// dd($id);
+		$pui_id = $req->pui_id;
+		// dd($pui_id);
+		$delete_at = date('Y-m-d');
+		$update =DB::table('patient_relation')
+							->where('id',$id)
+							->where('pui_id',$pui_id)
+							->update([
+								'delete_at' => $delete_at
+			]);
+			// dd($update);
+		if ($update)
+		{
+		return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+	} else {
+		return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
+	}
+	 echo $url_rediect;
+	}
 
 
 	  public function addfollowuppui(Request $req)
@@ -751,6 +772,7 @@ if(auth()->user()->id==Auth::user()->id){
 				$dms_pcr_contact = $req->input('dms_pcr_contact');
 				$dms_time_contact = $req->input('dms_time_contact');
 				$dms_date_contact =$req->input('dms_date_contact');
+				// dd($dms_date_contact);
 				$dms_specimen_contact =$req->input('dms_specimen_contact');
 				$chkspec_other_contact =$req->input('chkspec_other_contact');
 				$other_pcr_result_contact =$req->input('other_pcr_result_contact');
@@ -1050,7 +1072,7 @@ if ($delete1)
 	 'sat_id_class'=>$sat_id_class,
 	 'datesymtom'=>$datesymtom,
 	 'date_entry'=>$date_entry,
-			 'follow_address_other'=>$follow_address_other,
+	 'follow_address_other'=>$follow_address_other,
 	 'hospcode'=>$hospcode
  );
  $res3	= DB::table('tbl_followup')->insert($data);

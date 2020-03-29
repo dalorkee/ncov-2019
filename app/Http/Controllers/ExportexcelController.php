@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use DB;
 use App\GlobalCountry;
 use App\InvestList;
+use App\RiskType;
+
 class ExportExcelController extends MasterController
 {
 
@@ -63,9 +65,9 @@ public function index(Request $req)
 
    public function alltableexport(Request $req)
    {
-	   
+
 	$uid = auth()->user()->id;
-	if ($uid == 405 || $uid == 535) {
+	if ($uid == 405 || $uid == 535 || $uid == 437) {
 		 $datenow = date('Y-m-d');
 		 $arr = parent::getStatus();
 		 $arr_hos = $this->arr_hos();
@@ -80,7 +82,10 @@ public function index(Request $req)
 		 $arr_op_dpc = $this->arr_op_dpc();
 		 $arr_hostype  = $this->arr_hostype();
 		 $arr_hostype_th  = $this->arr_hostype_th();
-		 
+		 $risk_type = RiskType::all()->toArray();
+		 foreach($risk_type as $val_risk_type){
+			 $arr_risk_type[$val_risk_type['id']] = $val_risk_type['risk_name'];
+		 }
 		 $data=DB::table('invest_pt')
 				 ->select('*')
 				 ->where('notify_date', $datenow)
@@ -100,12 +105,13 @@ public function index(Request $req)
 		   'arr_op_dpc',
 			'arr_city',
 		  'arr_hostype',
-		   'arr_hostype_th'
+		   'arr_hostype_th',
+			 'arr_risk_type',
 		  ));
 	} else {
 		return view('errors.405');
 	}
-		
+
 		 /*
 		 return view('errors.405',compact(
 		   'data',
@@ -125,11 +131,11 @@ public function index(Request $req)
 		 ));
 		 */
    }
-   
+
 public function indexallexcel(Request $req)
 {
 	$uid = auth()->user()->id;
-	if ($uid == 405 || $uid == 535) {
+	if ($uid == 405 || $uid == 535 || $uid == 437) {
 		 $arr = parent::getStatus();
 		 $arr_hos = $this->arr_hos();
 		 $arrprov = $this->arrprov();
@@ -152,6 +158,10 @@ public function indexallexcel(Request $req)
 		 $arr_hostype_th  = $this->arr_hostype_th();
 		 $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
 		 $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+		 $risk_type = RiskType::all()->toArray();
+		 foreach($risk_type as $val_risk_type){
+			 $arr_risk_type[$val_risk_type['id']] = $val_risk_type['risk_name'];
+		 }
 		if (empty($req->notify_date) || $req->notify_date == null) {
 			$notify_date = Date('Y-m-d');
 		} else {
@@ -196,10 +206,11 @@ public function indexallexcel(Request $req)
 							'arr_op_dpc',
 							'arr_city',
 							'arr_hostype',
-							'arr_hostype_th'
+							'arr_hostype_th',
+							'arr_risk_type',
 						  ));
 	}
-					 
+
 					 /*
                      return view('errors.405',compact(
                        'data',

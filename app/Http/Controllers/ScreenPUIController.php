@@ -52,7 +52,7 @@ class ScreenPUIController extends MasterController
       $risk_type = RiskType::all();
       $arr = parent::getStatus();
       //return view('screen-pui.create',
-      return view('screen-pui.create240263',
+      return view('screen-pui.create260363',
         [
           'titleName' => $titleName,
           'provinces' => $provinces,
@@ -78,6 +78,7 @@ class ScreenPUIController extends MasterController
      */
     public function store(Request $request)
     {
+      //dd($request);
       $prefix_sat_id = Auth::user()->prefix_sat_id;
       //Auto
       if($request->pui_code_gen==1){
@@ -119,7 +120,10 @@ class ScreenPUIController extends MasterController
 
       $check_duplicate_record = InvestList::where('sat_id', '=', $request->sat_id)->exists();
       if($check_duplicate_record){
-        return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$sat_id);
+        //return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$sat_id);
+        $message = "Duplicate SATID: ".$sat_id;
+        flash()->overlay($message, 'Message');
+        return redirect()->back()->withInput();
       }
 
         $data = [
@@ -220,14 +224,23 @@ class ScreenPUIController extends MasterController
           "entry_user" => (!empty($request->entry_user)) ? trim($request->entry_user) : NULL,
           "created_at" => Carbon::now(),
           "sat" => "y",
+          "card_id" => (!empty($request->card_id)) ? trim($request->card_id) : NULL,
+          "passport" => (!empty($request->passport)) ? trim($request->passport) : NULL,
+          "hn" => (!empty($request->hn)) ? trim($request->hn) : NULL,
         ];
 
         $result = InvestList::insert($data);
 
         if($result){
-          return redirect()->route('screenpui.create')->with('message','Insert Success SATID: '.$sat_id);
+          $message = "Insert Success SATID: ".$sat_id;
+          flash()->overlay($message, 'Message');
+          //return redirect()->route('screenpui.create')->with('message','Insert Success SATID: '.$sat_id);
+          return redirect()->route('screenpui.create');
         }else{
-          return redirect()->route('screenpui.create')->with('message','Error');
+          $message = "Error";
+          flash()->overlay($message, 'Message');
+          //return redirect()->route('screenpui.create')->with('message','Error');
+          return redirect()->route('screenpui.create');
         }
     }
 
@@ -275,7 +288,7 @@ class ScreenPUIController extends MasterController
         if($data==null){
           return abort(404);  //404 page
         }else{
-          return view('screen-pui.edit240263',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city','airportlists','walkinplace_hosp_name','isolated_hosp_name','risk_type'));
+          return view('screen-pui.edit260363',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city','airportlists','walkinplace_hosp_name','isolated_hosp_name','risk_type'));
         }
     }
 
@@ -288,7 +301,7 @@ class ScreenPUIController extends MasterController
      */
     public function update(Request $request)
     {
-      // dd($request);
+      //dd($request);
 
       if($request->pt_status!=2){
         $order_pt = NULL;
@@ -424,9 +437,15 @@ class ScreenPUIController extends MasterController
                 "send_information_div" => (!empty($request->send_information_div)) ? trim($request->send_information_div) : NULL,
                 "receive_information" => (!empty($request->receive_information)) ? trim($request->receive_information) : NULL,
                 "entry_user" => (!empty($request->entry_user)) ? trim($request->entry_user) : NULL,
+                "card_id" => (!empty($request->card_id)) ? trim($request->card_id) : NULL,
+                "passport" => (!empty($request->passport)) ? trim($request->passport) : NULL,
+                "hn" => (!empty($request->hn)) ? trim($request->hn) : NULL,
                       ]);
 
-              return redirect()->route('screenpui.edit', ['id' => $request->id])->with('message','Edit Success!');
+              //return redirect()->route('screenpui.edit', ['id' => $request->id])->with('message','Edit Success!');
+              $message = "Edit Success!";
+              flash()->overlay($message, 'Message');
+              return redirect()->route('screenpui.edit', ['id' => $request->id]);
     }
 
     /**

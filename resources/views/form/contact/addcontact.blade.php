@@ -400,7 +400,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                         <input type="text" id="dms_time_contact" name="dms_time_contact[]"  class="form-control dms_time_contact01" onkeyup="autocomplet()">
                                       </td>
                                       <td>
-                                        <input type="text" id="date_dms_date_contact" name="dms_date_contact[]"  class="form-control dms_date_contact01" onkeyup="autocomplet()">
+                                        <input type="text" id="date_dms_date_contact2" name="dms_date_contact[]"  class="form-control dms_date_contact01" onkeyup="autocomplet()">
                                       </td>
                                       <td>
                                         <select class="form-control" name="dms_specimen_contact[]">
@@ -556,7 +556,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
   								'</tr>';
   					$('#maintable').append(contactdiv); // Adding these controls to Main table class
   					$('#date_dms_date_contact' + rowCount + '').datepicker({
-  						format: 'yyyy/mm/dd',
+  						format: 'yyyy-mm-dd',
   						todayHighlight: true,
   						todayBtn: true,
   						autoclose: true
@@ -688,7 +688,14 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 <script>
     /* date of birth */
     $('#date_dms_date_contact').datepicker({
-        format: 'yyyy/mm/dd',
+        format: 'yyyy-mm-dd',
+        todayHighlight: true,
+        todayBtn: true,
+        autoclose: true
+    });
+    /* date of birth */
+    $('#date_dms_date_contact2').datepicker({
+        format: 'yyyy-mm-dd',
         todayHighlight: true,
         todayBtn: true,
         autoclose: true

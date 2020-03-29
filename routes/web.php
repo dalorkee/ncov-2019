@@ -52,6 +52,11 @@ Route::get('/sat-delete/{id}', array(
 						'as'   => 'screenpui.satdel',
 						'uses' => 'ScreenPUIController@Delete_Sat'
 					));
+Route::get('/hos-test', function () {
+					 return view('hospital.screenhos');
+					});
+
+
 
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
@@ -79,7 +84,7 @@ Route::post('hospitalFetch', 'InvestController@hospitalFetch')->name('hospitalFe
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
 Route::get('/detailcontact/contact_id/{contact_id}', 'ContactController@detailcontact')->name('detailcontact');
 Route::get('/contacttable/id/{id}', 'ContactController@contacttable')->name('contacttable');
-
+Route::get('/deletecontact/id/{id}/pui_id/{pui_id}', 'ContactController@deletecontact')->name('deletecontact');
 Route::get('/followuptablespui/typid/{typid}/id/{id}', 'ContactController@followuptablespui')->name('followuptablespui');
 Route::get('/followuptablescon/typid/{typid}/id/{id}', 'ContactController@followuptablescon')->name('followuptablescon');
 
@@ -142,6 +147,16 @@ Route::prefix('uac')->group(function () {
 		Route::resource('roles', 'RoleController');
 		Route::resource('permissions', 'PermissionController');
 		Route::resource('users', 'UserController');
+	});
+});
+
+/* DashBoardGraph */
+Route::prefix('dashboardgraph')->group(function () {
+	Route::group(['middleware' => ['auth']], function() {
+		Route::get('/', array(
+								'as'   => 'dashboardgraph.index',
+								'uses' => 'DashboardGraphController@index'
+							));
 	});
 });
 

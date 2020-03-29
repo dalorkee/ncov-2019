@@ -780,7 +780,11 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control is-invalid  show-tick" required>
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['pt_status'] as $key => $val)
+											@if ($key == '3' || $key =='4') {
+												continue;
+											@else
 											<option value="{{ $key }}" {{ old('pt_status') == $key ? 'selected' : ''}}>{{ $val }}</option>
+											@endif
 											@endforeach
 										</select>
 									</div>

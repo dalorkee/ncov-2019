@@ -46,7 +46,8 @@ input:read-only {
 	</div>
 </div>
 <div class="container-fluid">
-	<div class="row">
+	@include('flash::message')
+	<!-- <div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
@@ -58,14 +59,14 @@ input:read-only {
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 		</div>
-	</div>
+	</div> -->
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 			<div class="card">
 				<div class="card-body">
 					<div class="d-md-flex align-items-center mb-2">
 						<div>
-							<h4 class="card-title">แบบบันทึกข้อมูลของผู้ป่วยโรคไวรัสโคโรนา 19(For SAT)</h4>
+							<h4 class="card-title">แก้ไขข้อมูลของผู้ป่วยโรคไวรัสโคโรนา 19(For SAT)</h4>
 							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
@@ -194,6 +195,20 @@ input:read-only {
 												<label for="houseNo">วันที่ Isolated</label>
 												<input type="text" id="isolate_date" name="isolate_date" value="{{ $isolate_date }}" class="form-control" readonly>
 											</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+											<label for="dowork">หมายเลขบัตรประจำตัวประชาชน</label>
+												<input type="text" name="card_id" maxlength="13" value="@if($data->card_id) {{ $data->card_id }} @endif" class="form-control" id="card_id" value="{{ old('card_id') }}" placeholder="หมายเลขบัตรประจำตัวประชาชน">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+											<label for="dowork">หมายเลข Passport</label>
+												<input type="text" name="passport" class="form-control" value="@if($data->passport) {{ $data->passport }} @endif" id="passport" value="{{ old('passport') }}" placeholder="หมายเลข Passport">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-4">
+											<label for="dowork">HN</label>
+												<input type="text" name="hn" class="form-control" id="hn" value="@if($data->hn) {{ $data->hn }} @endif" value="{{ old('hn') }}" placeholder="หมายเลขประจำตัวผู้ป่วย">
 										</div>
 									</div>
 								</div>
@@ -913,6 +928,8 @@ input:read-only {
 }(jQuery));
 
 $(document).ready(function() {
+	/* flash message */
+	$('#flash-overlay-modal').modal();
 	/* ajax request */
 	$.ajaxSetup({
 		headers: {
@@ -920,6 +937,10 @@ $(document).ready(function() {
 		}
 	});
 	$('.sym_othertext').hide();
+
+	$("#age_year_input,#coordinator_tel,#card_id").inputFilter(function(value) {
+	    return /^\d*$/.test(value);    // Allow digits only, using a RegExp
+	  });
 
 	var sym_other = '<?php echo $data->sym_other; ?>';
 	if(sym_other=="y"){
@@ -958,9 +979,6 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
-	$("#age_year_input,#coordinator_tel").inputFilter(function(value) {
-			return /^\d*$/.test(value);    // Allow digits only, using a RegExp
-		});
 
 	$('.chk_risk3_3').click(function() {
 		$('.chk_risk3_3').not(this).prop('checked', false);
@@ -987,8 +1005,8 @@ $(document).ready(function() {
 		}
 	});
 
-	var pt_status_from_db = <?php if(isset($data->pt_status)) { echo $data->pt_status; } ?>;
-	if(pt_status_from_db==2){
+	var pt_status_from_db = '<?php if(isset($data->pt_status)) { echo $data->pt_status; } ?>';
+	if(pt_status_from_db=='2'){
 		$('.confirm_order').show();
 		$('.type_nature').show();
 	}else{
@@ -1014,18 +1032,18 @@ $(document).ready(function() {
 	 }
 	});
 
-	var screen_pt_from_db = <?php if(isset($data->screen_pt)) { echo $data->screen_pt; } ?>;
-	if(screen_pt_from_db==1){
+	var screen_pt_from_db = '<?php if(isset($data->screen_pt)) { echo $data->screen_pt; } ?>';
+	if(screen_pt_from_db=='1'){
 		$('.screen_type1').show();
 		$('.screen_type2').hide();
 		$('.screen_type3').hide();
 		$('.screen_type4').hide();
-	}else if(screen_pt_from_db==2){
+	}else if(screen_pt_from_db=='2'){
 		$('.screen_type2').show();
 		$('.screen_type1').hide();
 		$('.screen_type3').hide();
 		$('.screen_type4').hide();
-	}else if(screen_pt_from_db==3){
+	}else if(screen_pt_from_db=='3'){
 		$('.screen_type3').show();
 		$('.screen_type2').hide();
 		$('.screen_type1').hide();
@@ -1131,8 +1149,8 @@ $('#disch_st').change(function() {
 	}
 });
 
-var disch_st_db = <?php echo $data->disch_st; ?>;
-if(disch_st_db ==1 || disch_st_db ==3){
+var disch_st_db = '<?php echo $data->disch_st; ?>';
+if(disch_st_db =='1' || disch_st_db =='3'){
 	//console.log(disch_st);
 	$('.disch_st_date').show();
 	//alert('dsdds');

@@ -32,7 +32,7 @@ class MasterController extends Controller
 				1 => 'Recovered',
 				2 => 'Admitted',
 				3 => 'Death',
-				4 => 'Selt quarantine'
+				4 => 'Self quarantine'
 			],
 			'pui_type' => [
 				1 => 'New PUI',

@@ -361,7 +361,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                         </td>
                                         <td>
                                           <select class="form-control" name="dms_pcr_contact[]">
-                                            <option value="{{ $value->dms_pcr_contact }}">{{ $arr_laboratory[$value->dms_pcr_contact] }}</option>
+                                            <option value="{{ $value->dms_pcr_contact }}">{{ (isset( $arr_laboratory[$value->dms_pcr_contact])) ?  $arr_laboratory[$value->dms_pcr_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
                                             <option value="">- เลือก -</option>
                                             @foreach ($ref_lab as $row)
                                             <option value="{{$row->id}}">{{$row->th_name}}</option>
@@ -369,10 +369,10 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                           </select>
                                         </td>
                                         <td>
-                                          <input type="text" id="dms_time_contact" name="dms_time_contact[]" value="{{ $value->dms_time_contact }}"  class="form-control dms_time_contact01" onkeyup="autocomplet()">
+                                          <input type="text" id="" name="dms_time_contact[]" value="{{ $value->dms_time_contact }}"  class="form-control dms_time_contact" onkeyup="autocomplet()">
                                         </td>
                                         <td>
-                                          <input type="text" id="date_dms_date_contact" name="dms_date_contact[]" value="{{ $value->dms_date_contact }}"  class="form-control dms_date_contact01" onkeyup="autocomplet()">
+                                          <input type="text" id="date_dms_date_contact" name="dms_date_contact[]" value="{{ $value->dms_date_contact }}"  class="form-control dms_time_contact" onkeyup="autocomplet()">
                                         </td>
                                         <td>
                                           <select class="form-control" name="dms_specimen_contact[]">
@@ -632,7 +632,14 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
 <script>
     /* date of birth */
     $('#date_dms_date_contact').datepicker({
-        format: 'yyyy/mm/dd',
+        format: 'yyyy-mm-dd',
+        todayHighlight: true,
+        todayBtn: true,
+        autoclose: true
+    });
+    /* date of birth */
+    $('#date_dms_date_contact2').datepicker({
+        format: 'yyyy-mm-dd',
         todayHighlight: true,
         todayBtn: true,
         autoclose: true

@@ -141,7 +141,18 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						window.location.replace(scurl);
 						break;
 					case 'delete':
-						alert('Permission denied !');
+						//alert('Permission denied !');
+						<?php if(auth()->user()->id=='535' || auth()->user()->id=='405'){ ?>
+							let dcurl = '{{ route("screenpui.satdel", ":id") }}';
+							dcurl = dcurl.replace(':id', id);
+							if(confirm('ต้องการลบข้อมูลใช่หรือไม่')==true){
+								window.location.replace(dcurl);
+							}else{
+								alert('You selected to cancel.');
+							}
+						<?php }else{ ?>
+							alert('Permission denied !');
+					  <?php	} ?>
 						break;
 				}
 			},
