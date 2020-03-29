@@ -149,6 +149,16 @@ Route::prefix('uac')->group(function () {
 	});
 });
 
+/* DashBoardGraph */
+Route::prefix('dashboardgraph')->group(function () {
+	Route::group(['middleware' => ['auth']], function() {
+		Route::get('/', array(
+								'as'   => 'dashboardgraph.index',
+								'uses' => 'DashboardGraphController@index'
+							));
+	});
+});
+
 /*
 Route::get('/einvest', function(App\Exports\InvestExport $export) {
 		return $export->download('inv.xlsx');
