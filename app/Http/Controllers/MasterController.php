@@ -51,7 +51,15 @@ class MasterController extends Controller
 				3 => 'โรงพยาบาล',
 				4 => 'สถานที่กักกัน',
 				5 => 'อื่นๆ'
-			]
+			],
+			'pt_treat_status' => [
+				1 => 'หาย',
+				2 => 'ยังรักษาอยู่',
+				3 => 'เสียชีวิต',
+				4 => 'ส่งต่อ',
+				5 => 'อื่นๆ'
+			],
+
 		]);
 		return $status;
 	}
@@ -59,6 +67,25 @@ class MasterController extends Controller
 	public function getStatus() {
 		$status = $this->setStatus();
 		return $status;
+	}
+
+	private function setDrug() {
+		$drug = collect([
+			'covid-19' => [
+				1 => 'Darunavir/Ritonavir (DRV/r)',
+				2 => 'Lopinavir/Ritonavir (LPV/r)',
+				3 => 'Favipiravir',
+				4 => 'Chloroquine',
+				5 => 'Hydroxychloroquine',
+				6 => 'Oseltamivir',
+				7 => 'Other'
+			]
+		]);
+		return $drug;
+	}
+
+	protected function getDrug() {
+		return $this->setDrug();
 	}
 
 

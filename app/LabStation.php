@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Specimen extends Model
+class LabStation extends Model
 {
-	protected $table = 'ref_specimen';
+	protected $table = 'laboratory';
 	protected $primaryKey = 'id';
 }

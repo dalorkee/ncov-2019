@@ -19,7 +19,6 @@ use App\GlobalCity;
 use App\GlobalCountry;
 use DB;
 
-
 class ConfirmFormController extends Controller
 {
 	public function __construct() {
@@ -397,7 +396,7 @@ class ConfirmFormController extends Controller
 		$pt->data3_1date_sickdate = $this->convertDateToMySQL($request->data3_1date_sickdate);
 		$pt->rr_rpm = $request->rr_rpm;
 		$pt->sym_cough = $request->sym_cough;
-		$pt->sym_snot = $request->sym_sore;
+		$pt->sym_snot = $request->sym_snot;
 		$pt->sym_sore = $request->sym_sore;
 		$pt->sym_dyspnea = $request->sym_dyspnea;
 		$pt->sym_breathe = $request->sym_breathe;
@@ -437,6 +436,7 @@ class ConfirmFormController extends Controller
 		$pt->data3_3input_other = $request->data3_3input_other;
 
 		$pt_saved = $pt->save();
+
 		if ($pt_saved) {
 			flash()->overlay('Successfully saved.', 'Covid-19');
 			return redirect()->route('list-data.invest');

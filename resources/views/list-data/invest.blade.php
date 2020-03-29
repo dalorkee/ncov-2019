@@ -137,7 +137,8 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						window.location.replace(cturl);
 						break;
 					case 'edit':
-						let cfurl = '{{ route("confirmForm", ":id") }}';
+						//let cfurl = '{ route("confirmForm", ":id") }}';
+						let cfurl = '{{ route("invest", ":id") }}';
 						cfurl = cfurl.replace(':id', id);
 						window.location.replace(cfurl);
 						break;
