@@ -67,7 +67,7 @@ public function index(Request $req)
    {
 
 	$uid = auth()->user()->id;
-	if ($uid == 1 || $uid == 97 || $uid == 30) {
+	if ($uid == 2 || $uid == 97 || $uid == 30) {
 		 $datenow = date('Y-m-d');
 		 $arr = parent::getStatus();
 		 $arr_hos = $this->arr_hos();
