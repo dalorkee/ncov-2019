@@ -123,9 +123,6 @@ Route::group(['middleware' => 'under-construction'], function () {
 	})->name('live-site');
 });
 
-/* test for test by talek team */
-Route::get('/test', 'TestController@store')->name('test');
-
 /* list-data => datatable */
 Route::group(['middleware' => ['auth']], function() {
 	Route::get('/invest/list', 'ListInvestController@index')->name('list-data.invest');
@@ -139,6 +136,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/clusters/doughnut', 'covidController@clusters')->name('maps.doughnut');
 	/* destroy */
 	Route::resource('item', 'InvestController');
+
+	/* test route for talek team only */
+	Route::get('/pj', 'TestController@store')->name('pj');
 });
 
 /* Role & Permission Manage */

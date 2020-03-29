@@ -55,6 +55,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	</div>
 </div>
 <div class="container-fluid">
+		@include('flash::message')
 	<!-- Modal change status-->
 	<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -161,5 +162,8 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 			}
 		});
 	});
+	</script>
+	<script>
+		$('#flash-overlay-modal').modal();
 	</script>
 @endsection

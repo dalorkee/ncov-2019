@@ -85,9 +85,6 @@
 <script src="{{ URL::asset('assets/libs/bootstrap-validate-2.2.0/dist/bootstrap-validate.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
-	$('#flash-overlay-modal').modal();
-</script>
-<script>
 $(document).ready(function() {
 	$.ajaxSetup({
 		headers: {
@@ -540,6 +537,8 @@ $(".custom-file-input").on("change", function() {
 	var fileName = $(this).val().split("\\").pop();
 	$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
-
+</script>
+<script>
+	$('#flash-overlay-modal').modal();
 </script>
 @endsection
