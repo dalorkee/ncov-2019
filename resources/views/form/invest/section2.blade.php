@@ -268,7 +268,7 @@
 					<div class="form-group">
 						<label for="lane">อาการอื่นๆ โปรดระบุ</label>
 						<div class="input-group">
-							<input type="text" name="sym_other_text" value="{{ $invest_pt[0]['sym_other_text'] }}" class="form-control" placeholder="โปรดระบุ">
+							<input type="text" name="sym_other_text" value="{{ $invest_pt[0]['sym_othertext'] }}" class="form-control" placeholder="โปรดระบุ">
 						</div>
 					</div>
 				</div>
