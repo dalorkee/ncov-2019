@@ -91,7 +91,6 @@ class ListInvestDataTable extends DataTable
 			->filterColumn('ext_name', function($query, $keyword) {
 				$query->whereRaw("CONCAT(LEFT(first_name, 3), '_', ' ', LEFT(last_name, 3), '_') like ?", ["%{$keyword}%"]);
 			})
-
 			->editColumn('pt_status', function($pts) {
 				if (!isset($pts->pt_status) || empty($pts->pt_status)) {
 					$pts_rs = "-";
@@ -181,26 +180,7 @@ class ListInvestDataTable extends DataTable
 
 		return $invest;
 
-		/*
-		return $model->newQuery('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation')
-			->whereNull('deleted_at')->orderBy('id');
-		*/
 
-		/*
-		$invest = InvestList::select('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation',
-			\DB::raw('(CASE
-				WHEN pt_status = "1" THEN "ok"
-				ELSE "nok"
-				END) AS xst'))->whereNull('deleted_at')->orderBy('id');
-		return $invest;
-		*/
-		/*
-		return $model->newQuery()
-			->leftJoin('ref_pt_status', 'ref_pt_status.pts_id', '=', 'invest_pt.pt_status')
-			->leftJoin('ref_disch_status', 'ref_disch_status.dcs_id', '=', 'invest_pt.disch_st')
-			->whereNull('deleted_at')
-			->orderBy('invest_pt.id');
-		*/
 	}
 
 	/**
