@@ -135,7 +135,7 @@ public function index(Request $req)
 public function indexallexcel(Request $req)
 {
 	$uid = auth()->user()->id;
-	if ($uid == 405 || $uid == 535 || $uid == 437) {
+	if ($uid == 2 || $uid == 97 || $uid == 30) {
 		 $arr = parent::getStatus();
 		 $arr_hos = $this->arr_hos();
 		 $arrprov = $this->arrprov();
