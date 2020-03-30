@@ -111,10 +111,10 @@ input.valid, textarea.valid{
                 {{ csrf_field() }}
       <div class="form-group row">
         <div class="col-sm-6">
-        <input type="text" class="form-control" name="notify_date" data-provide="datepicke" id="datecontact"  placeholder="วันที่รับแจ้งเริ่มต้น">
+        <input type="text" class="form-control" name="notify_date" data-provide="datepicke" id="datecontact"  placeholder="วันที่รับแจ้งเริ่มต้น" autocomplete="off">
         </div>
         <div class="col-sm-6">
-        <input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด">
+        <input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด" autocomplete="off">
         </div>
       </div>
 			<div class="form-group row">
