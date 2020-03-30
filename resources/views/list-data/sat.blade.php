@@ -138,7 +138,8 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 					case 'edit':
 						let scurl = '{{ route("screenpui.edit", ":id") }}';
 						scurl = scurl.replace(':id', id);
-						window.location.replace(scurl);
+						//window.location.replace(scurl);
+						window.open(scurl, '_blank');
 						break;
 					case 'delete':
 						//alert('Permission denied !');
