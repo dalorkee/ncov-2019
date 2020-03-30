@@ -349,7 +349,7 @@ class InvestController extends MasterController
 		}
 		$pt_saved = $pt->save();
 		if ($pt_saved) {
-			flash()->overlay('บันทึกข้อมูลสำเร็จแล้ว.', 'Covid-19');
+			flash()->overlay('<i class="fas fa-check-circle text-success"></i> บันทึกข้อมูลสำเร็จแล้ว', 'DDC::Covid-19');
 			return redirect()->route('list-data.invest');
 			//exit;
 		}

@@ -2,6 +2,14 @@
 .page-wrapper-custom {
 	background-color: #fff;
 }
+.font-fira {
+	font-family: 'Fira-code' !important;
+	font-style: normal;
+}
+.font-prompt {
+	font-family: 'prompt' !important;
+	font-style: normal;
+}
 .card {
 	font-family: 'Motosansthai-Light' !important;
 	font-style: normal;
@@ -114,6 +122,9 @@ a.link-color-white:hover {
 .bg-custom-3 {
 	background-color: #F4511E;
 }
+.bg-custom-4 {
+	background-color: #E84C93;
+}
 .text-color-custom-3 {
 	color: #F4511E  !important;
 }
@@ -125,6 +136,9 @@ a.link-color-white:hover {
 }
 .text-color-custom-6 {
 	color: #9C27B0  !important;
+}
+.text-color-custom-7 {
+	color: #E84C93  !important;
 }
 
 .btn-custom-1,
@@ -187,8 +201,6 @@ a.link-color-white:hover {
 	background-color: #108769 !important;
 	color: white;
 }
-
-
 .badge-custom-1 {
 	background-color: #DC7633;
 	color: white;

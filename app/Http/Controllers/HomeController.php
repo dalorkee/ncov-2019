@@ -30,7 +30,9 @@ class HomeController extends Controller
 
 		//dd(Auth::user());
 
-		return redirect()->route('list-data.sat');
+		//return redirect()->route('list-data.sat');
+		return redirect()->route('live-site');
+
 	}
 
 }

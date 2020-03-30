@@ -88,6 +88,9 @@ class ListInvestDataTable extends DataTable
 			->filterColumn('first_name', function($query, $keyword) {
 				$query->whereRaw("first_name like ?", ["%{$keyword}%"]);
 			})
+			->filterColumn('ext_name', function($query, $keyword) {
+				$query->whereRaw("first_name like ?", ["%{$keyword}%"]);
+			})
 			->editColumn('pt_status', function($pts) {
 				if (!isset($pts->pt_status) || empty($pts->pt_status)) {
 					$pts_rs = "-";
@@ -183,6 +186,7 @@ class ListInvestDataTable extends DataTable
 		$invest = InvestList::select(
 			'id',
 			'first_name',
+			\DB::raw('LEFT(first_name, 3) as ext_name'),
 			'order_pt',
 			'sat_id',
 			\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
@@ -253,7 +257,8 @@ class ListInvestDataTable extends DataTable
 	protected function getColumns() {
 		return [
 			Column::make('order_pt')->title('OrderID'),
-			//Column::make('first_name')->title('f'),
+			Column::make('first_name')->visible(false),
+			Column::make('ext_name')->title('Name'),
 			Column::make('sat_id')->title('SatID'),
 			Column::make('pt_status')->title('Status'),
 			Column::make('news_st')->title('News'),
