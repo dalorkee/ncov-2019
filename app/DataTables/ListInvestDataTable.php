@@ -118,6 +118,26 @@ class ListInvestDataTable extends DataTable
 				}
 				return $pts_rs;
 			})
+			->editColumn('disch_st', function($disc) {
+				switch ($disc->disch_st) {
+					case "Admitted" :
+						$pts_rs = '<span class="badge badge-custom-2 font-1">'.$disc->disch_st.'</span>';
+						break;
+					case "Recovered" :
+						$pts_rs = '<span class="badge badge-success font-1">'.$disc->disch_st.'</span>';
+						break;
+					case "Death" :
+						$pts_rs = '<span class="badge badge-secondary font-1">'.$disc->disch_st.'</span>';
+						break;
+					case "Self quarantine":
+						$pts_rs = '<span class="badge badge-custom-5 font-1">'.$disc->disch_st.'</span>';
+						break;
+					default:
+						$pts_rs = '<span class="badge badge-light font-1">'.$disc->disch_st.'</span>';
+						break;
+				}
+				return $pts_rs;
+			})
 			->editColumn('inv', function($iv) {
 				if (!isset($iv->inv) || empty($iv->inv)) {
 					$inv_rs = "<span class=\"badge badge-light\">-</span>";
@@ -168,7 +188,7 @@ class ListInvestDataTable extends DataTable
 				 <a href="{{ route("contacttable", $id) }}" title="Contact form" class="btn btn-info btn-sm">Contact</a>
 				 <a href="{{ route("confirmForm", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a> */
 				 '<button class="context-nav btn btn-custom-1 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-angle-down"></i></button>')
-			->rawColumns(['pt_status', 'inv', 'action']);
+			->rawColumns(['pt_status', 'inv', 'disch_st', 'action']);
 	}
 
 	/**
@@ -186,7 +206,7 @@ class ListInvestDataTable extends DataTable
 		$invest = InvestList::select(
 			'id',
 			'first_name',
-			\DB::raw('LEFT(first_name, 3) as ext_name'),
+			\DB::raw('CONCAT(LEFT(first_name, 4), "--") as ext_name'),
 			'order_pt',
 			'sat_id',
 			\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
