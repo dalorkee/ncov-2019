@@ -76,6 +76,12 @@ class ListSatDataTable extends DataTable
 			->filterColumn('nation', function($query, $keyword) use ($nation) {
 				$query->whereRaw('(CASE '.$nation.' ELSE "-" END) like ?', ["%{$keyword}%"]);
 			})
+			->filterColumn('first_name', function($query, $keyword) {
+				$query->whereRaw("first_name like ?", ["%{$keyword}%"]);
+			})
+			->filterColumn('ext_name', function($query, $keyword) {
+				$query->whereRaw("first_name like ?", ["%{$keyword}%"]);
+			})
 			->editColumn('sat_id', function($sid) {
 				if (!isset($sid->sat_id) || empty($sid->sat_id)) {
 					$sid_rs = "<span class=\"badge badge-light font-0875\">-</span>";
@@ -84,7 +90,7 @@ class ListSatDataTable extends DataTable
 				}
 				return $sid_rs;
 			})
-			->editColumn('order_pt', function($sid) {
+			->editColumn('order_pt', function($oid) {
 				if (!isset($oid->order_pt) || empty($oid->order_pt)) {
 					$oid_rs = "<span class=\"font-1\">-</span>";
 				} else {
@@ -119,6 +125,26 @@ class ListSatDataTable extends DataTable
 				}
 				return $pts_rs;
 			})
+			->editColumn('disch_st', function($disc) {
+				switch ($disc->disch_st) {
+					case "Admitted" :
+						$pts_rs = '<span class="badge badge-custom-2 font-1">'.$disc->disch_st.'</span>';
+						break;
+					case "Recovered" :
+						$pts_rs = '<span class="badge badge-success font-1">'.$disc->disch_st.'</span>';
+						break;
+					case "Death" :
+						$pts_rs = '<span class="badge badge-secondary font-1">'.$disc->disch_st.'</span>';
+						break;
+					case "Self quarantine":
+						$pts_rs = '<span class="badge badge-custom-5 font-1">'.$disc->disch_st.'</span>';
+						break;
+					default:
+						$pts_rs = '<span class="badge badge-light font-1">'.$disc->disch_st.'</span>';
+						break;
+				}
+				return $pts_rs;
+			})
 			->editColumn('inv', function($iv) {
 				if (!isset($iv->inv) || empty($iv->inv)) {
 					$inv_rs = "<span class=\"badge badge-light\">-</span>";
@@ -136,7 +162,7 @@ class ListSatDataTable extends DataTable
 				<button class="btn btn-custom-6 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
 				 <a href="{{ route("screenpui.edit", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a> */
 				 '<button class="context-nav btn btn-custom-7 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-bars"></i></button>')
-			->rawColumns(['order_pt', 'sat_id', 'pt_status', 'inv', 'action']);
+			->rawColumns(['order_pt', 'sat_id', 'pt_status', 'disch_st', 'inv', 'action']);
 	}
 
 	public function query(InvestList $model) {
@@ -147,6 +173,8 @@ class ListSatDataTable extends DataTable
 
 		$invest = InvestList::select(
 			'id',
+			'first_name',
+			\DB::raw('CONCAT(LEFT(first_name, 4), "--") as ext_name'),
 			'sat_id',
 			'order_pt',
 			\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
@@ -188,6 +216,8 @@ class ListSatDataTable extends DataTable
 	protected function getColumns() {
 		return [
 			Column::make('sat_id')->title('SatID'),
+			Column::make('first_name')->visible(false),
+			Column::make('ext_name')->title('Name'),
 			Column::make('order_pt')->title('OrderID'),
 			Column::make('pt_status')->title('Status'),
 			Column::make('news_st')->title('News'),

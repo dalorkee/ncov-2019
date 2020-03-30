@@ -242,7 +242,7 @@ class InvestController extends MasterController
 		$pt->sym_headache = $request->sym_headache;
 		$pt->sym_diarrhoea = $request->sym_diarrhoea;
 		$pt->sym_other = $request->sym_other;
-		$pt->sym_other_text = $request->sym_other_text;
+		$pt->sym_othertext = $request->sym_other_text;
 		$pt->breathing_tube_chk = $request->breathingTubeChk;
 		$pt->breathing_tube_date = $this->convertDateToMySQL($request->breathing_tube_date);
 		$pt->lab_cxr1_chk = $request->lab_cxr1_chk;

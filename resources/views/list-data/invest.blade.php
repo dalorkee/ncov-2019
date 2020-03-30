@@ -141,7 +141,8 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						//let cfurl = '{ route("confirmForm", ":id") }}';
 						let cfurl = '{{ route("invest", ":id") }}';
 						cfurl = cfurl.replace(':id', id);
-						window.location.replace(cfurl);
+						//window.location.replace(cfurl);
+						window.open(cfurl, '_blank');
 						break;
 					case 'delete':
 						alert('Permission denied !');

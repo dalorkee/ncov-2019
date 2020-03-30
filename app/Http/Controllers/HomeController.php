@@ -28,10 +28,8 @@ class HomeController extends Controller
 			Session::put('user_role', 'unrole');
 		}
 
-		//dd(Auth::user());
-
-		//return redirect()->route('list-data.sat');
-		return redirect()->route('live-site');
+		return redirect()->route('list-data.sat');
+		//return redirect()->route('live-site');
 
 	}
 
