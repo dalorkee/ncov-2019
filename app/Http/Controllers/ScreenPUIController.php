@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\TitleName;
 use App\Provinces;
+use App\District;
+use App\SubDistrict;
 use App\Nationality;
 use App\InvestList;
 use App\LaboratoryLists;
@@ -148,6 +150,14 @@ class ScreenPUIController extends MasterController
           "travel_from_country" => (!empty($request->travel_from_country)) ? trim($request->travel_from_country) : NULL,
           "travel_from_city" => (!empty($request->travel_from_city)) ? trim($request->travel_from_city) : NULL,
           "contact_sat_id" => (!empty($request->contact_sat_id)) ? trim($request->contact_sat_id) : NULL,
+          "sick_house_no" => (!empty($request->sick_house_no)) ? trim($request->sick_house_no) : NULL,
+          "sick_village_no" => (!empty($request->sick_village_no)) ? trim($request->sick_village_no) : NULL,
+          "sick_village" => (!empty($request->sick_village)) ? trim($request->sick_village) : NULL,
+          "sick_lane" => (!empty($request->sick_lane)) ? trim($request->sick_lane) : NULL,
+          "sick_road" => (!empty($request->sick_road)) ? trim($request->sick_road) : NULL,
+          "sick_province" => (!empty($request->sick_province)) ? trim($request->sick_province) : NULL,
+          "sick_district" => (!empty($request->sick_district)) ? trim($request->sick_district) : NULL,
+          "sick_sub_district" => (!empty($request->sick_sub_district)) ? trim($request->sick_sub_district) : NULL,
           "data3_3chk" => (!empty($request->data3_3chk)) ? trim($request->data3_3chk) : "n",
           "data3_3chk_lung" => (!empty($request->data3_3chk_lung)) ? trim($request->data3_3chk_lung) : "n",
           "data3_3chk_heart" => (!empty($request->data3_3chk_heart)) ? trim($request->data3_3chk_heart) : "n",
@@ -274,12 +284,28 @@ class ScreenPUIController extends MasterController
         $airportlists = AirportLists::all()->toArray();
         $arr_globalcountry = GlobalCountry::select('country_id','country_name')->get()->toArray();
         $risk_type = RiskType::all();
+
+
         foreach($arr_globalcountry as $val){
             $globalcountry[$val['country_id']] = $val['country_name'];
         }
 
         $arr = parent::getStatus();
         $data = InvestList::find($id);
+
+        /* sick district */
+    		if (!empty($data->sick_district)) {
+    			$sick_district = District::where('district_id', '=', $data->sick_district)->get()->toArray();
+    		} else {
+    			$sick_district = null;
+    		}
+    		/* sick sub district */
+    		if (!empty($data->sick_sub_district)) {
+    			$sick_sub_district = SubDistrict::where('sub_district_id', '=', $data->sick_sub_district)->get()->toArray();
+    		} else {
+    			$sick_sub_district = null;
+    		}
+
 
         $work_city = GlobalCity::where('city_id', '=', $data->travel_from_city)->get()->toArray();
         $walkinplace_hosp_name = DB::table('chospital_new')->where('hospcode',$data->walkinplace_hosp_code)->first();
@@ -288,7 +314,8 @@ class ScreenPUIController extends MasterController
         if($data==null){
           return abort(404);  //404 page
         }else{
-          return view('screen-pui.edit260363',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality','occupation','arr','data','globalcountry','work_city','airportlists','walkinplace_hosp_name','isolated_hosp_name','risk_type'));
+          return view('screen-pui.edit260363',compact('entry_user','laboratorylists','pathogenlists','titleName','provinces','nationality',
+          'occupation','arr','data','globalcountry','work_city','airportlists','walkinplace_hosp_name','isolated_hosp_name','risk_type','sick_district','sick_sub_district'));
         }
     }
 
@@ -365,6 +392,14 @@ class ScreenPUIController extends MasterController
                 "race" => (!empty($request->race)) ? trim($request->race) : NULL,
                 "occupation" => (!empty($request->occupation)) ? trim($request->occupation) : NULL,
                 "occupation_oth" => (!empty($request->occupation_oth)) ? trim($request->occupation_oth) : NULL,
+                "sick_house_no" => (!empty($request->sick_house_no)) ? trim($request->sick_house_no) : NULL,
+                "sick_village_no" => (!empty($request->sick_village_no)) ? trim($request->sick_village_no) : NULL,
+                "sick_village" => (!empty($request->sick_village)) ? trim($request->sick_village) : NULL,
+                "sick_lane" => (!empty($request->sick_lane)) ? trim($request->sick_lane) : NULL,
+                "sick_road" => (!empty($request->sick_road)) ? trim($request->sick_road) : NULL,
+                "sick_province" => (!empty($request->sick_province)) ? trim($request->sick_province) : NULL,
+                "sick_district" => (!empty($request->sick_district)) ? trim($request->sick_district) : NULL,
+                "sick_sub_district" => (!empty($request->sick_sub_district)) ? trim($request->sick_sub_district) : NULL,
                 "travel_from_country" => (!empty($request->travel_from_country)) ? trim($request->travel_from_country) : NULL,
                 "travel_from_city" => (!empty($request->travel_from_city)) ? trim($request->travel_from_city) : NULL,
                 "data3_3chk" => (!empty($request->data3_3chk)) ? trim($request->data3_3chk) : "n",
@@ -443,7 +478,7 @@ class ScreenPUIController extends MasterController
                       ]);
 
               //return redirect()->route('screenpui.edit', ['id' => $request->id])->with('message','Edit Success!');
-              $message = "Edit Success!";
+              $message = "แก้ไขข้อมูล SATID : ".trim($request->sat_id)." สำเร็จ!";
               flash()->overlay($message, 'Message');
               return redirect()->route('screenpui.edit', ['id' => $request->id]);
     }

@@ -211,8 +211,9 @@ input:read-only {
 												<input type="text" name="hn" class="form-control" id="hn" value="@if($data->hn) {{ $data->hn }} @endif" value="{{ old('hn') }}" placeholder="หมายเลขประจำตัวผู้ป่วย">
 										</div>
 									</div>
+
 								</div>
-									<div class="row">
+									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 											<h1 class="text-info">2. ข้อมูลการเดินทาง</h1>
 											<div class="form-group">
@@ -245,7 +246,7 @@ input:read-only {
 											<input type="text" name="risk2_6arrive_date" value="@if($risk2_6arrive_date) {{ $risk2_6arrive_date }} @endif" id="datepicker1" class="form-control" readonly>
 										</div>
 									</div>
-									<div class="row">
+									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">สายการบิน</label>
 											<input type="text" name="risk2_6airline_input" value="@if($data->risk_stay_outbreak_airline) {{ $data->risk_stay_outbreak_airline }} @endif" class="form-control" placeholder="สายการบิน">
@@ -257,6 +258,11 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone"><small>จำนวนผู้ร่วมเดินทางในกลุ่มเดียวกัน(คน)</small></label>
 											<input type="text" name="total_travel_in_group" value="@if($data->total_travel_in_group) {{ $data->total_travel_in_group }} @endif"  class="form-control" placeholder="จำนวนคน">
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
+											<h1 class="text-info">3. ข้อมูลผู้ป่วย</h1>
 										</div>
 									</div>
 									<div class="form-row">
@@ -354,6 +360,80 @@ input:read-only {
 												<h6 class="alert-heading">คำแนะนำ: "อาชีพ" ระบุลักษณะงานที่ทำและหากเป็นเจ้าหน้าที่ทางการแพทย์หรือสาธารณสุขต้องระบุให้ชัดเจนว่าเป็นบุคลากรทางการแพทย์</h6>
 											</div>
 										</div>
+									</div>
+									<div class="form-row">
+										<div class="form-group">
+											<label for="houseNoLabel">ที่อยู่ขณะป่วย</label>
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="form-group">
+											<label for="houseNo">บ้านเลขที่</label>
+											<input type="text" name="sick_house_no" class="form-control" value="@if($data->sick_house_no) {{ $data->sick_house_no }} @endif" placeholder="บ้านเลขที่">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-1 col-xl-1">
+											<div class="form-group">
+												<label for="villageNo">หมู่ที่</label>
+												<input type="text" name="sick_village_no" value="@if($data->sick_village_no) {{ $data->sick_village_no }} @endif"  class="form-control" placeholder="หมู่ที่">
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+											<label for="village">หมู่บ้าน/ชุมชน</label>
+											<input type="text" name="sick_village" value="@if($data->sick_village) {{ $data->sick_village }} @endif"  class="form-control" placeholder="หมู่บ้าน">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+											<div class="form-group">
+												<label for="lane">ซอย</label>
+												<input type="text" name="sick_lane" value="@if($data->sick_lane) {{ $data->sick_lane }} @endif" class="form-control" placeholder="ซอย">
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+											<div class="form-group">
+												<label for="road">ถนน</label>
+												<input type="text" name="sick_road" value="@if($data->sick_road) {{ $data->sick_road }} @endif"  class="form-control" placeholder="ถนน">
+											</div>
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+											<div class="form-group">
+												<label for="provinceSickDate">จังหวัด</label>
+												<select name="sick_province" class="form-control selectpicker show-tick" data-live-search="true"  id="select_sick_province">
+													@if (!empty($data->sick_province))
+														<option value="{{ $data->sick_province }}" selected="selected"></option>
+													@endif
+													<option value="">-- เลือกจังหวัด --</option>
+													@foreach($provinces as $key => $val)
+														<option value="{{ $val['province_id'] }}" @if ($data->sick_province == $val['province_id']) selected @endif>{{ $val['province_name'] }}</option>
+													@endforeach
+												</select>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+											<div class="form-group">
+												<label for="district">อำเภอ</label>
+												<select name="sick_district" class="form-control selectpicker show-tick"  id="select_sick_district">
+													@if (!empty($data->sick_district))
+														<option value="{{ $data->sick_district }}" selected="selected">{{ $sick_district['0']['district_name'] }}</option>
+													@endif
+													<option value="">-- โปรดเลือก --</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+											<div class="form-group">
+												<label for="subDistrict">ตำบล</label>
+												<select name="sick_sub_district" class="form-control selectpicker show-tick"  id="select_sick_sub_district">
+													@if (!empty($data->sick_sub_district))
+														<option value="{{ $data->sick_sub_district }}" selected="selected">{{ $sick_sub_district['0']['sub_district_name'] }}</option>
+													@endif
+													<option value="">-- โปรดเลือก --</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<hr />
+									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
 											<label for="occupation">โรคประจำตัว</label>
 										</div>
@@ -750,7 +830,7 @@ input:read-only {
 								</div>
 
 						</div>
-						<div class="row">
+						<div class="form-row">
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="lane">ไม่แจ้งบำราศ เนื่องจาก</label>
@@ -774,7 +854,7 @@ input:read-only {
 									</div>
 								</div>
 							</div>
-							<div class="row">
+							<div class="form-row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="pt_status">PT Status</label>
@@ -858,7 +938,7 @@ input:read-only {
 									</div>
 								</div>
 							</div>
-							<div class="row">
+							<div class="form-row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 								 <h1 class="text-info">6. ข้อมูลผู้บันทึกข้อมูล</h1>
 								</div>
@@ -1133,20 +1213,60 @@ $(document).ready(function() {
 		}
 	});
 
-});
+	$('.disch_st_date').hide();
 
-$('.disch_st_date').hide();
+	$('#disch_st').change(function() {
+		var disch_st = $('#disch_st').val();
+		if(disch_st==1 || disch_st==3){
+			//console.log(disch_st);
+			$('.disch_st_date').show();
+			//alert('dsdds');
+		}else{
+			$('.disch_st_date').hide();
+			$('#disch_st_date').val('');
+		}
+	});
 
-$('#disch_st').change(function() {
-	var disch_st = $('#disch_st').val();
-	if(disch_st==1 || disch_st==3){
-		//console.log(disch_st);
-		$('.disch_st_date').show();
-		//alert('dsdds');
-	}else{
-		$('.disch_st_date').hide();
-		$('#disch_st_date').val('');
-	}
+	/* sick district */
+	$('#select_sick_province').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('districtFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_sick_district').html(response);
+					$('#select_sick_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* sick sub district */
+	$('#select_sick_district').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_sick_sub_district').html(response);
+					$('#select_sick_sub_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
 });
 
 var disch_st_db = '<?php echo $data->disch_st; ?>';

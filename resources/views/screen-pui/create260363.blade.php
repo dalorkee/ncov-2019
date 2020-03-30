@@ -280,6 +280,13 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 											<input type="text" name="total_travel_in_group" value="{{ old('total_travel_in_group') }}"  class="form-control" placeholder="จำนวนคน">
 										</div>
 									</div>
+
+									<div class="form-row">
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
+											<h1 class="text-info">3. ข้อมูลผู้ป่วย</h1>
+										</div>
+									</div>
+
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-3">
 											<div class="form-group">
@@ -370,6 +377,71 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 												<h6 class="alert-heading">คำแนะนำ: "อาชีพ" ระบุลักษณะงานที่ทำและหากเป็นเจ้าหน้าที่ทางการแพทย์หรือสาธารณสุขต้องระบุให้ชัดเจนว่าเป็นบุคลากรทางการแพทย์</h6>
 											</div>
 										</div>
+									</div>
+									<div class="row">
+										<div class="form-group">
+											<label for="houseNoLabel">ที่อยู่ขณะป่วย</label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group">
+											<label for="houseNo">บ้านเลขที่</label>
+											<input type="text" name="sick_house_no"  class="form-control" placeholder="บ้านเลขที่">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-1 col-xl-1">
+											<div class="form-group">
+												<label for="villageNo">หมู่ที่</label>
+												<input type="text" name="sick_village_no"  class="form-control" placeholder="หมู่ที่">
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+											<label for="village">หมู่บ้าน/ชุมชน</label>
+											<input type="text" name="sick_village"  class="form-control" placeholder="หมู่บ้าน">
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+											<div class="form-group">
+												<label for="lane">ซอย</label>
+												<input type="text" name="sick_lane" class="form-control" placeholder="ซอย">
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+											<div class="form-group">
+												<label for="road">ถนน</label>
+												<input type="text" name="sick_road"  class="form-control" placeholder="ถนน">
+											</div>
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+											<div class="form-group">
+												<label for="provinceSickDate" >จังหวัด</label>
+												<select name="sick_province" class="form-control selectpicker show-tick" data-live-search="true"  id="select_sick_province">
+													<option value="">-- เลือกจังหวัด --</option>
+													@foreach($provinces as $key => $val)
+														<option value="{{ $val['province_id'] }}">{{ $val['province_name'] }}</option>
+													@endforeach
+												</select>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+											<div class="form-group">
+												<label for="district" >อำเภอ</label>
+												<select name="sick_district" class="form-control selectpicker show-tick"  id="select_sick_district">
+													<option value="">-- โปรดเลือก --</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+											<div class="form-group">
+												<label for="subDistrict" >ตำบล</label>
+												<select name="sick_sub_district" class="form-control selectpicker show-tick"  id="select_sick_sub_district">
+													<option value="">-- โปรดเลือก --</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<hr />
+									<div class="row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
 											<label for="occupation">โรคประจำตัว</label>
 										</div>
@@ -542,7 +614,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 									<hr />
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-											<h1 class="text-info">ปัจจัยเสี่ยง</h1>
+											<h1 class="text-info">4.ปัจจัยเสี่ยง</h1>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 											<div class="form-group">
@@ -571,7 +643,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-											<h1 class="text-info">3. ข้อมูลอาการผู้ป่วย</h1>
+											<h1 class="text-info">5. ข้อมูลอาการผู้ป่วย</h1>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
@@ -654,7 +726,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										</div>
 
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-										 <h1 class="text-info">4. ข้อมูลผลทางห้องปฏิบัติการ</h1>
+										 <h1 class="text-info">6. ข้อมูลผลทางห้องปฏิบัติการ</h1>
 										</div>
 
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
@@ -706,7 +778,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 						<div class="bd-callout bd-callout-danger" style="margin:0;">
 							<div class="form-row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-									<h1 class="text-info">5.การดำเนินงานเพิ่มเติม สำหรับ Sup Sat./Sat Manager</h1>
+									<h1 class="text-info">7.การดำเนินงานเพิ่มเติม สำหรับ Sup Sat./Sat Manager</h1>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
@@ -874,7 +946,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-								 <h1 class="text-info">6. ข้อมูลผู้แจ้ง</h1>
+								 <h1 class="text-info">8. ข้อมูลผู้แจ้ง</h1>
 								</div>
 
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
@@ -1146,6 +1218,47 @@ $(document).ready(function() {
 			$('#disch_st_date').val('');
 		}
 	});
+
+	/* sick district */
+	$('#select_sick_province').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('districtFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_sick_district').html(response);
+					$('#select_sick_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
+	/* sick sub district */
+	$('#select_sick_district').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_sick_sub_district').html(response);
+					$('#select_sick_sub_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
 
 
 });
