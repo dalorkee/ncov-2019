@@ -27,9 +27,7 @@
 						</div>
 					</div>
 					<div class="my-4">
-						@can('role-create')
 							<a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role</a>
-						@endcan
 					</div>
 					@if ($message = Session::get('success'))
 						<div class="alert alert-success">
