@@ -64,7 +64,7 @@
 						<div class="bd-callout bd-callout-custom-2" style="margin-top:0;">
 							@include('form.invest.section2')
 						</div><!-- bd-collout2 -->
-						<div class="bd-callout bd-callout-custom-1" style="margin-top:0;">
+						<div class="bd-callout bd-callout-custom-6" style="margin-top:0;">
 							@include('form.invest.section3')
 						</div><!-- bd-collout3 -->
 						<div class="border-top">
