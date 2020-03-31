@@ -1,15 +1,38 @@
 <div class="card">
 	<div class="card-body">
 		<h1 class="text-info">3. ประวัติเสี่ยง</h1>
-		<input type="hidden" name="id" value="{{ $invest_pt[0]['id'] }}">
 		<div class="card">
 			<div class="card-body" style="margin:0; padding:0 0 30px 0;">
 				<ul class="list-style-none">
 					<li class="card-body border-top">
 						<div class="form-row">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+								<div class="form-group">
+									<label for="risk_type">ประเภทประวัติเสี่ยง</label>
+									<select name="risk_type" id="risk_type" data-live-search="true" class="form-control selectpicker show-tick">
+										@if (!empty($invest_pt[0]['risk_type']))
+											<option value="{{ $invest_pt[0]['risk_type'] }}" selected="selected">{{ $risk_type[$invest_pt[0]['risk_type']]['risk_name'] }}</option>
+										@endif
+										<option value="">-- โปรดเลือก --</option>
+										@foreach($risk_type as $key => $val)
+										<option value="{{ $val['id'] }}" {{ old('risk_type') == $val['id'] ? 'selected' : ''}}>{{ $val['risk_name'] }}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 risk_type_text">
+								<div class="form-group">
+									<label for="risk_type_text">ประเภทประวัติเสี่ยงอื่นๆ</label>
+									<input type="text" name="risk_type_text" value="{{ $invest_pt[0]['risk_type_text'] }}" class="form-control" id="risk_type_text" placeholder="ประวัติเสี่ยงอื่นๆ">
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="card-body border-top">
+						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-group">
-									<label for="risk">3.1 ช่วง 14 วันก่อนป่วย ท่านอาศัยอยู่ หรือ มีการเดินทางมาจากพื้นที่ที่มีการระบาด</label>
+									<label for="risk">ช่วง 14 วันก่อนป่วย ท่านอาศัยอยู่ หรือ มีการเดินทางมาจากพื้นที่ที่มีการระบาด</label>
 									<div class="card">
 										<div class="custom-control custom-checkbox custom-control-inline">
 											<input type="checkbox" name="riskStayOutbreakChk" value="n" @if ($invest_pt[0]['risk_stay_outbreak_chk'] == 'n') checked @endif class="custom-control-input chk_risk_stay_outbreak" id="riskStayOutbreakChkNo">
@@ -141,7 +164,7 @@
 						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-group">
-									<label for="risk">3.2 ช่วง 14 วันก่อนป่วย ท่านได้เข้ารับการรักษาหรือเยี่ยมผู้ป่วยในโรงพยาบาลของพื้นที่ที่มีการระบาด</label>
+									<label for="risk">ช่วง 14 วันก่อนป่วย ท่านได้เข้ารับการรักษาหรือเยี่ยมผู้ป่วยในโรงพยาบาลของพื้นที่ที่มีการระบาด</label>
 									<div class="card">
 										<div class="custom-control custom-checkbox custom-control-inline">
 											<input type="checkbox" name="riskTreatOrVisitPatient" value="n" @if ($invest_pt[0]['risk_treat_or_visit_patient'] == 'n') checked @endif  class="custom-control-input risk_treat_or_visit_patient" id="risk_treat_or_visit_patient_no">
@@ -160,7 +183,7 @@
 						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-group">
-									<label for="risk">3.3 ช่วง 14 วันก่อนป่วย ท่านใด้ดูแลหรือสัมผัสใกล้ชิดกับผู้ป่วยอาการคล้ายไข้หวัดใหญ่หรือปอดอักเสบ</label>
+									<label for="risk">ช่วง 14 วันก่อนป่วย ท่านใด้ดูแลหรือสัมผัสใกล้ชิดกับผู้ป่วยอาการคล้ายไข้หวัดใหญ่หรือปอดอักเสบ</label>
 									<div class="card">
 										<div class="custom-control custom-checkbox custom-control-inline">
 											<input type="checkbox" name="riskCareFluPatient" value="n" @if ($invest_pt[0]['risk_care_flu_patient'] == 'n') checked @endif class="custom-control-input risk_care_flu_patient" id="risk_care_flu_patient_no">
@@ -179,7 +202,7 @@
 						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-group">
-									<label for="risk">3.4 ช่วง 14 วันก่อนป่วย ท่านมีประวัติสัมผัสกับผู้ป่วยยืนยันโรคติดเชื้อไวรัสโคโรนา 2019</label>
+									<label for="risk">ช่วง 14 วันก่อนป่วย ท่านมีประวัติสัมผัสกับผู้ป่วยยืนยันโรคติดเชื้อไวรัสโคโรนา 2019</label>
 									<div class="card">
 										<div class="custom-control custom-checkbox custom-control-inline">
 											<input type="checkbox" name="risk_contact_covid_19" value="n" @if ($invest_pt[0]['risk_contact_covid_19'] == 'n') checked @endif class="custom-control-input risk_contact_covid_19" id="risk_contact_covid_19_no">
@@ -222,7 +245,7 @@
 						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-group">
-									<label for="tourist">3.5 ช่วง 14 วันก่อนป่วย ท่านประกอบอาชีพที่สัมผัสใกล้ชิดกับนักท่องเที่ยวต่างชาติ</label>
+									<label for="tourist">ช่วง 14 วันก่อนป่วย ท่านประกอบอาชีพที่สัมผัสใกล้ชิดกับนักท่องเที่ยวต่างชาติ</label>
 									<div class="card">
 										<div class="custom-control custom-checkbox custom-control">
 											<input type="checkbox" name="risk_contact_tourist" value="n" @if ($invest_pt[0]['risk_contact_tourist'] == 'n') checked @endif class="custom-control-input chk-risk-contact-tourist" id="risk_contack_tourist_no">
@@ -241,7 +264,7 @@
 						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-group">
-									<label for="">3.6 นช่วง 14 วันก่อนป่วย ท่านมีประวัติเดินทางไปในสถานที่ที่มีคนหนาแน่น เช่น ฝับ สนามมวย หรือไม่</label>
+									<label for="">ช่วง 14 วันก่อนป่วย ท่านมีประวัติเดินทางไปในสถานที่ที่มีคนหนาแน่น เช่น ฝับ สนามมวย หรือไม่</label>
 									<div class="card">
 										<div class="custom-control custom-checkbox custom-control">
 											<input type="checkbox" name="risk_travel_to_arena" value="n" @if ($invest_pt[0]['risk_travel_to_arena'] == 'n') checked @endif class="custom-control-input risk_travel_to_arena" id="risk_travel_to_arena_no">
@@ -255,7 +278,7 @@
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 									<div class="form-group">
-										<label for="">ระบุชื่อสถานที่ และรายละเอียด</label>
+										<label for="">ระบุชื่อสถานที่</label>
 										<input type="text" name="risk_travel_arena_name" value="{{ $invest_pt[0]['risk_travel_arena_name'] }}" class="form-control" placeholder="ระบุสถานที่">
 									</div>
 								</div>
@@ -266,7 +289,7 @@
 						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-group">
-									<label for="">3.7 เป็นผู้ป่วยอาการทางเดินหายใจหรือปอดอักเสบเป็นกลุ่มก้อน</label>
+									<label for="">เป็นผู้ป่วยอาการทางเดินหายใจหรือปอดอักเสบเป็นกลุ่มก้อน</label>
 									<div class="card">
 										<div class="custom-control custom-checkbox custom-control">
 											<input type="checkbox" name="be_patient_cluster" value="n" @if ($invest_pt[0]['be_patient_cluster'] == 'n') checked @endif class="custom-control-input be_patient_cluster" id="be_patient_cluster_no">
@@ -285,7 +308,7 @@
 						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-group">
-									<label for="">3.8 เป็นผู้ป่วยปอดอักเสบรุนแรงหรือเสียชีวิตที่หาสาเหตุไม่ได้</label>
+									<label for="">เป็นผู้ป่วยปอดอักเสบรุนแรงหรือเสียชีวิตที่หาสาเหตุไม่ได้</label>
 									<div class="card">
 										<div class="custom-control custom-checkbox custom-control">
 											<input type="checkbox" name="be_patient_critical_unknown_cause" value="n" @if ($invest_pt[0]['be_patient_critical_unknown_cause'] == 'n') checked @endif class="custom-control-input be_patient_critical_unknown_cause" id="be_patient_critical_unknown_cause_no">
@@ -304,7 +327,7 @@
 						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-group">
-									<label for="">3.9 เป็นบุคลากรทางการแพทย์และสาธารณสุขหรือเจ้าหน้าที่ห้องปฏิบัติการ</label>
+									<label for="">เป็นบุคลากรทางการแพทย์และสาธารณสุขหรือเจ้าหน้าที่ห้องปฏิบัติการ</label>
 									<div class="card">
 										<div class="custom-control custom-checkbox custom-control">
 											<input type="checkbox" name="be_health_personel" value="n" @if ($invest_pt[0]['be_health_personel'] == 'n') checked @endif class="custom-control-input be_health_personel" id="be_health_personel_no">
@@ -333,7 +356,7 @@
 						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-group">
-									<label for="history">3.10 รายละเอียดเหตุการณ์ ประวัติเสี่ยงติดเชื้อ ก่อนเริ่มป่วย</label>
+									<label for="history">รายละเอียดเหตุการณ์ ประวัติเสี่ยงติดเชื้อ ก่อนเริ่มป่วย</label>
 									<textarea name="risk_history_note" class="form-control">{{ $invest_pt[0]['risk_history_note'] }}</textarea>
 								</div>
 							</div>
