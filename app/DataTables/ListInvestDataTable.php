@@ -85,11 +85,11 @@ class ListInvestDataTable extends DataTable
 			->filterColumn('nation', function($query, $keyword) use ($nation) {
 				$query->whereRaw('(CASE '.$nation.' ELSE "-" END) like ?', ["%{$keyword}%"]);
 			})
-			->filterColumn('first_name', function($query, $keyword) {
-				$query->whereRaw("first_name like ?", ["%{$keyword}%"]);
+			->filterColumn('full_name', function($query, $keyword) {
+				$query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ["%{$keyword}%"]);
 			})
 			->filterColumn('ext_name', function($query, $keyword) {
-				$query->whereRaw("first_name like ?", ["%{$keyword}%"]);
+				$query->whereRaw("CONCAT(LEFT(first_name, 3), '_', ' ', LEFT(last_name, 3), '_') like ?", ["%{$keyword}%"]);
 			})
 			->editColumn('pt_status', function($pts) {
 				if (!isset($pts->pt_status) || empty($pts->pt_status)) {
@@ -148,45 +148,8 @@ class ListInvestDataTable extends DataTable
 				}
 				return $inv_rs;
 			})
-			/*
-			->editColumn('news_st', function($ns) {
-				if (!isset($ns->news_st) || empty($ns->news_st)) {
-					$ns_rs = "-";
-				} else {
-					switch (mb_strtolower($ns->news_st)) {
-						case "confirmed publish" :
-							$ns_rs = "<span class=\"text-success\">".$ns->news_st."</span>";
-							break;
-						default :
-							$ns_rs = "<span class=\"text-color-custom-6\">".$ns->news_st."</span>";
-							break;
-					}
-				}
-				return $ns_rs;
-			})
-			->editColumn('disch_st', function($dcs) use ($master_status) {
-				if (!isset($dcs->disch_st) || empty($dcs->disch_st)) {
-					$dcs_rs = "-";
-				} else {
-					$dcs_rs = $master_status['disch_st'][$dcs->disch_st];
-				}
-				return $dcs_rs;
-			})
-			->editColumn('nation', function($nt) use ($globalcountry) {
-				if (!isset($nt->nation) || empty($nt->nation)) {
-					$nt_rs = "-";
-				} else {
-					$nt_rs = $globalcountry[$nt->nation];
-				}
-				return $nt_rs;
-			}) */
 
 			->addColumn('action',
-				/*'<a href="http://viral.ddc.moph.go.th/viral/lab/genlab.php?idx={{ $sat_id }}" target="_blank" title="GenLAB" class="btn btn-cyan btn-sm">GenLAB</a>
-				<a href="http://viral.ddc.moph.go.th/viral/lab/labfollow.php?idx={{ $sat_id }}" target="_blank" title="LabResult" class="btn btn-primary btn-sm">LabResult</a>
-				<button class="btn btn-custom-6 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
-				 <a href="{{ route("contacttable", $id) }}" title="Contact form" class="btn btn-info btn-sm">Contact</a>
-				 <a href="{{ route("confirmForm", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a> */
 				 '<button class="context-nav btn btn-custom-1 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-angle-down"></i></button>')
 			->rawColumns(['pt_status', 'inv', 'disch_st', 'action']);
 	}
@@ -205,9 +168,8 @@ class ListInvestDataTable extends DataTable
 
 		$invest = InvestList::select(
 			'id',
-			'first_name',
-			\DB::raw('CONCAT(LEFT(first_name, 4), "--") as ext_name'),
-			'order_pt',
+			\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+			\DB::raw("CONCAT(LEFT(first_name, 3), '_', ' ', LEFT(last_name, 3), '_') as ext_name"),
 			'sat_id',
 			\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 			\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
@@ -218,26 +180,7 @@ class ListInvestDataTable extends DataTable
 
 		return $invest;
 
-		/*
-		return $model->newQuery('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation')
-			->whereNull('deleted_at')->orderBy('id');
-		*/
 
-		/*
-		$invest = InvestList::select('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation',
-			\DB::raw('(CASE
-				WHEN pt_status = "1" THEN "ok"
-				ELSE "nok"
-				END) AS xst'))->whereNull('deleted_at')->orderBy('id');
-		return $invest;
-		*/
-		/*
-		return $model->newQuery()
-			->leftJoin('ref_pt_status', 'ref_pt_status.pts_id', '=', 'invest_pt.pt_status')
-			->leftJoin('ref_disch_status', 'ref_disch_status.dcs_id', '=', 'invest_pt.disch_st')
-			->whereNull('deleted_at')
-			->orderBy('invest_pt.id');
-		*/
 	}
 
 	/**
@@ -276,16 +219,15 @@ class ListInvestDataTable extends DataTable
 	*/
 	protected function getColumns() {
 		return [
-			Column::make('order_pt')->title('OrderID'),
-			Column::make('first_name')->visible(false),
-			Column::make('ext_name')->title('Name'),
 			Column::make('sat_id')->title('SatID'),
-			Column::make('pt_status')->title('Status'),
-			Column::make('news_st')->title('News'),
+			Column::make('full_name')->visible(false),
+			Column::make('ext_name')->title('ชื่อ-สกุล'),
+			Column::make('pt_status')->title('สถานะ'),
+			Column::make('news_st')->title('แถลงข่าว'),
 			Column::make('disch_st')->title('Discharge'),
-			Column::make('sex')->title('Sex'),
-			Column::make('nation')->title('Nations'),
-			Column::make('inv')->title('Invest'),
+			Column::make('sex')->title('เพศ'),
+			Column::make('nation')->title('สัญชาติ'),
+			Column::make('inv')->title('สอบสวนโรค'),
 			Column::computed('action')
 				->exportable(false)
 				->printable(false)

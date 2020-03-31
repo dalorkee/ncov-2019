@@ -76,11 +76,11 @@ class ListSatDataTable extends DataTable
 			->filterColumn('nation', function($query, $keyword) use ($nation) {
 				$query->whereRaw('(CASE '.$nation.' ELSE "-" END) like ?', ["%{$keyword}%"]);
 			})
-			->filterColumn('first_name', function($query, $keyword) {
-				$query->whereRaw("first_name like ?", ["%{$keyword}%"]);
+			->filterColumn('full_name', function($query, $keyword) {
+				$query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ["%{$keyword}%"]);
 			})
 			->filterColumn('ext_name', function($query, $keyword) {
-				$query->whereRaw("first_name like ?", ["%{$keyword}%"]);
+				$query->whereRaw("CONCAT(LEFT(first_name, 3), '_', ' ', LEFT(last_name, 3), '_') like ?", ["%{$keyword}%"]);
 			})
 			->editColumn('sat_id', function($sid) {
 				if (!isset($sid->sat_id) || empty($sid->sat_id)) {
@@ -89,14 +89,6 @@ class ListSatDataTable extends DataTable
 					$sid_rs = "<span class=\"badge badge-light font-1\">".$sid->sat_id."</span>";
 				}
 				return $sid_rs;
-			})
-			->editColumn('order_pt', function($oid) {
-				if (!isset($oid->order_pt) || empty($oid->order_pt)) {
-					$oid_rs = "<span class=\"font-1\">-</span>";
-				} else {
-					$oid_rs = "<span class=\"font-1\">".$oid->order_pt."</span>";
-				}
-				return $oid_rs;
 			})
 			->editColumn('pt_status', function($pts) {
 				if (!isset($pts->pt_status) || empty($pts->pt_status)) {
@@ -162,7 +154,7 @@ class ListSatDataTable extends DataTable
 				<button class="btn btn-custom-6 btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">Status</button>
 				 <a href="{{ route("screenpui.edit", $id) }}" title="Invest form" class="btn btn-warning btn-sm">Edit</a> */
 				 '<button class="context-nav btn btn-custom-7 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-bars"></i></button>')
-			->rawColumns(['order_pt', 'sat_id', 'pt_status', 'disch_st', 'inv', 'action']);
+			->rawColumns(['sat_id', 'pt_status', 'disch_st', 'inv', 'action']);
 	}
 
 	public function query(InvestList $model) {
@@ -173,10 +165,9 @@ class ListSatDataTable extends DataTable
 
 		$invest = InvestList::select(
 			'id',
-			'first_name',
-			\DB::raw('CONCAT(LEFT(first_name, 4), "--") as ext_name'),
 			'sat_id',
-			'order_pt',
+			\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+			\DB::raw("CONCAT(LEFT(first_name, 3), '_', ' ', LEFT(last_name, 3), '_') as ext_name"),
 			\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 			\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 			\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
@@ -216,15 +207,14 @@ class ListSatDataTable extends DataTable
 	protected function getColumns() {
 		return [
 			Column::make('sat_id')->title('SatID'),
-			Column::make('first_name')->visible(false),
-			Column::make('ext_name')->title('Name'),
-			Column::make('order_pt')->title('OrderID'),
-			Column::make('pt_status')->title('Status'),
-			Column::make('news_st')->title('News'),
+			Column::make('full_name')->visible(false),
+			Column::make('ext_name')->title('ชื่อ-สกุล'),
+			Column::make('pt_status')->title('สถานะ'),
+			Column::make('news_st')->title('แถลงข่าว'),
 			Column::make('disch_st')->title('Discharge'),
-			Column::make('sex')->title('Sex'),
-			Column::make('nation')->title('Nations'),
-			Column::make('inv')->title('Invest'),
+			Column::make('sex')->title('เพศ'),
+			Column::make('nation')->title('สัญชาติ'),
+			Column::make('inv')->title('สอบสวนโรค'),
 			Column::computed('action')
 				->exportable(false)
 				->printable(false)
