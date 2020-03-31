@@ -171,6 +171,10 @@ input.valid, textarea.valid{
 								<th>อายุ</th>
 								<th>สัญชาติ</th>
 								<th>อาชีพ</th>
+								<th>ที่อยู่ขณะป่วย</th>
+								<th>จังหวัดที่อยู่ขณะป่วย</th>
+								<th>อำเภอที่อยู่ขณะป่วย</th>
+								<th>ตำบลที่อยู่ขณะป่วย</th>
 								<th>โรคประจำตัว</th>
 								<th>โรคปอดเรื้อรัง</th>
 								<th>โรคหัวใจ </th>
@@ -255,6 +259,17 @@ input.valid, textarea.valid{
 									{{ (isset($list_occupation[$value->occupation])) ? $list_occupation[$value->occupation] : "" }}
 							 		{{(!empty($value->occupation_oth)) ? $value->occupation_oth : ""}}
 							</td>
+							<td>
+									บ้านเลขที่ {{(!empty($value->sick_house_no)) ? $value->sick_house_no : ""}}
+									หมู่ {{(!empty($value->sick_village_no)) ? $value->sick_village_no : ""}}
+									{{(!empty($value->sick_village)) ? $value->sick_village : ""}}
+									{{(!empty($value->sick_lane)) ? $value->sick_lane : ""}}
+									{{(!empty($value->sick_road)) ? $value->sick_road : ""}}
+							</td>
+							<td>{{ (isset($arrprov[$value->sick_province])) ? $arrprov[$value->sick_province] : "" }}</td>
+							<td>{{ (isset($arrdistrict[$value->sick_district])) ? $arrdistrict[$value->sick_district] : "" }}</td>
+							<td>{{ (isset($arrsub_district[$value->sick_sub_district])) ? $arrsub_district[$value->sick_sub_district] : "" }}</td>
+
 							<td>{{ (!empty($value->data3_3chk_lung)) ? $value->data3_3chk_lung : ""  }} </td>
 							<td>{{ (!empty($value->data3_3chk_heart)) ? $value->data3_3chk_heart : ""  }}</td>
 							<td>{{ (!empty($value->data3_3chk_cirrhosis)) ? $value->data3_3chk_cirrhosis :""  }}</td>
