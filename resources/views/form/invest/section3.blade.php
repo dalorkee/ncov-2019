@@ -268,7 +268,7 @@
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 				<div class="form-group">
-					<label for="">ช่วง 14 วันก่อนป่วย ท่านมีประวัติเดินทางไปในสถานที่ที่มีคนหนาแน่น เช่น ฝับ สนามมวย หรือไม่</label>
+					<label for="">ช่วง 14 วันก่อนป่วย ท่านมีประวัติเดินทางไปในสถานที่ที่มีคนหนาแน่น เช่น ผับ สนามมวย หรือไม่</label>
 					<div class="card">
 						<div class="custom-control custom-checkbox custom-control">
 							<input type="checkbox" name="risk_travel_to_arena" value="n" @if ($invest_pt[0]['risk_travel_to_arena'] == 'n') checked @endif class="custom-control-input risk_travel_to_arena" id="risk_travel_to_arena_no">

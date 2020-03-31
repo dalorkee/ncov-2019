@@ -52,7 +52,7 @@
 							<h5 class="card-subtitle">COVID-19 Version 1.10</h5>
 						</div>
 					</div>
-					<form action="{{ route('store') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+					<form action="{{ route('store') }}" method="POST" enctype="multipart/form-data" class="form-horizontal" novalidate>
 						{{ csrf_field() }}
 						{{ method_field('POST') }}
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
