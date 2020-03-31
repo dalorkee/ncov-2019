@@ -6,6 +6,12 @@
 				<ul class="list-style-none">
 					<li class="card-body border-top">
 						<div class="form-row">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+								<div class="form-group">
+									<label for="risk_detail">รายละเอียดเหตุการณ์ ประวัติเสี่ยงติดเชื้อ ก่อนเริ่มป่วย</label>
+									<textarea name="risk_detail" class="form-control" >{{ $invest_pt[0]['risk_detail'] }}</textarea>
+								</div>
+							</div>
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
 								<div class="form-group">
 									<label for="risk_type">ประเภทประวัติเสี่ยง</label>
@@ -352,16 +358,18 @@
 							</div>
 						</div>
 					</li>
+					<!--
 					<li class="card-body border-top">
 						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 								<div class="form-group">
 									<label for="history">รายละเอียดเหตุการณ์ ประวัติเสี่ยงติดเชื้อ ก่อนเริ่มป่วย</label>
-									<textarea name="risk_history_note" class="form-control">{{ $invest_pt[0]['risk_history_note'] }}</textarea>
+									<textarea name="risk_history_note" class="form-control">{ $invest_pt[0]['risk_history_note'] }}</textarea>
 								</div>
 							</div>
 						</div>
 					</li>
+					-->
 					<li class="card-body border-top">
 						<div class="form-row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">

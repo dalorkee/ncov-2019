@@ -332,8 +332,9 @@ class InvestController extends MasterController
 		$pt->be_patient_critical_unknown_cause = $request->be_patient_critical_unknown_cause;
 		$pt->be_health_personel = $request->be_health_personel;
 		$pt->risk_other = $request->risk_other;
-		$pt->risk_history_note = $request->risk_history_note;
+		//$pt->risk_history_note = $request->risk_history_note;
 		$pt->invest_date =  $this->convertDateToMySQL($request->investDateInput);
+		$pt->risk_detail = $request->risk_detail;
 		$pt->risk_type = $request->risk_type;
 		$pt->risk_type_text = $request->risk_type_text;
 
