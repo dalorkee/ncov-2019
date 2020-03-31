@@ -8,9 +8,17 @@ use DB;
 use Auth;
 use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Spatie\Permission\Models\Role;
+//use Spatie\Permission\Models\Permission;
+
 class ContactController extends MasterController
 {
-  // allcontact table
+	function __construct()
+	{
+		$this->middleware('auth');
+		$this->middleware(['role:root|ddc|dpc|pho|hos']);
+	}
+	// allcontact table
 	public function allcasecontacttable(Request $req)
 
 {
