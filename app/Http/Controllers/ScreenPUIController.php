@@ -83,33 +83,33 @@ class ScreenPUIController extends MasterController
       //dd($request);
       $prefix_sat_id = Auth::user()->prefix_sat_id;
       //Auto
-      if($request->pui_code_gen==1){
-        if (InvestList::where('sat_id_temp', '=', $request->sat_id)->exists()) {
-             // dup
-             //dd('dup');
-             $config = [
-                 'table' => 'invest_pt',
-                 'length' => 11,
-                'field' => 'sat_id_temp',
-                 'prefix' => $prefix_sat_id."O".date('d').date('m'),
-             ];
-             $sat_id_gen = IdGenerator::generate($config);
-             $tmp = trim($sat_id_gen);
-             //dd('dup>>'.$sat_id);
-             $tmp_sat_id = explode("O",$sat_id_gen);
-             $patient_type_sat_id = trim($request->patient_type_sat_id);
-             $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
-        }else{
-             $tmp = trim($request->sat_id);
-             $tmp_sat_id = explode("O",$request->sat_id);
-             $patient_type_sat_id = trim($request->patient_type_sat_id);
-             $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
-        }
+      // if($request->pui_code_gen==1){
+      //   if (InvestList::where('sat_id_temp', '=', $request->sat_id)->exists()) {
+      //        // dup
+      //        //dd('dup');
+      //        $config = [
+      //            'table' => 'invest_pt',
+      //            'length' => 11,
+      //           'field' => 'sat_id_temp',
+      //            'prefix' => $prefix_sat_id."O".date('d').date('m'),
+      //        ];
+      //        $sat_id_gen = IdGenerator::generate($config);
+      //        $tmp = trim($sat_id_gen);
+      //        //dd('dup>>'.$sat_id);
+      //        $tmp_sat_id = explode("O",$sat_id_gen);
+      //        $patient_type_sat_id = trim($request->patient_type_sat_id);
+      //        $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
+      //   }else{
+      //        $tmp = trim($request->sat_id);
+      //        $tmp_sat_id = explode("O",$request->sat_id);
+      //        $patient_type_sat_id = trim($request->patient_type_sat_id);
+      //        $sat_id = $tmp_sat_id['0'].$patient_type_sat_id.$tmp_sat_id['1'];
+      //   }
       //Manual
-      }elseif($request->pui_code_gen==2){
-          $sat_id = trim($request->sat_id);
-      }
-
+      // }elseif($request->pui_code_gen==2){
+      //     $sat_id = trim($request->sat_id);
+      // }
+      $sat_id = trim($request->sat_id);
       $order_pt = (!empty($request->order_pt)) ? trim($request->order_pt) : NULL;
       $type_nature = (!empty($request->type_nature)) ? trim($request->type_nature) : NULL;
       // if(!is_null($order_pt)){
