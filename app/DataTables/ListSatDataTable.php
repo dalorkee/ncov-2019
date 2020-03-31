@@ -80,7 +80,7 @@ class ListSatDataTable extends DataTable
 				$query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ["%{$keyword}%"]);
 			})
 			->filterColumn('ext_name', function($query, $keyword) {
-				$query->whereRaw("CONCAT(LEFT(first_name, 3), '_', ' ', LEFT(last_name, 3), '_') like ?", ["%{$keyword}%"]);
+				$query->whereRaw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') like ?", ["%{$keyword}%"]);
 			})
 			->editColumn('sat_id', function($sid) {
 				if (!isset($sid->sat_id) || empty($sid->sat_id)) {
@@ -167,7 +167,7 @@ class ListSatDataTable extends DataTable
 			'id',
 			'sat_id',
 			\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
-			\DB::raw("CONCAT(LEFT(first_name, 3), '_', ' ', LEFT(last_name, 3), '_') as ext_name"),
+			\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
 			\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 			\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 			\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),

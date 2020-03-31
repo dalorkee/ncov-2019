@@ -14,13 +14,13 @@ input:read-only {
 <?php
 
 //dd($risk_type);
-$config = [
-    'table' => 'invest_pt',
-    'length' => 11,
-		'field' => 'sat_id_temp',
-    'prefix' => $prefix_sat_id."O".date('d').date('m'),
-];
-$sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
+// $config = [
+//     'table' => 'invest_pt',
+//     'length' => 11,
+// 		'field' => 'sat_id_temp',
+//     'prefix' => $prefix_sat_id."O".date('d').date('m'),
+// ];
+// $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 
 //dd($id);
 ?>
@@ -80,42 +80,12 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 							<div class="card">
 								<div class="card-body">
 									<h1 class="text-info">1. ข้อมูลทั่วไปของผู้ป่วย</h1>
-									<div class="form-group row">
-                                    <!-- <label class="col-md-3">PUI Code</label> -->
-                                    <div class="col-md-9">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input check-auto is-invalid" id="pui_code_gen_rd1" value="1" {{ old('pui_code_gen') == 1 ? 'checked' : ''}} name="pui_code_gen" required="">
-                                            <label class="custom-control-label" for="pui_code_gen_rd1">PUI Code(Auto Generate)</label>
-                                        </div>
-                                         <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input check-manual is-invalid" id="pui_code_gen_rd2" value="2" {{ old('pui_code_gen') == 2 ? 'checked' : ''}} name="pui_code_gen" required="">
-                                            <label class="custom-control-label" for="pui_code_gen_rd2">PUI Code(Manual)</label>
-                                        </div>
-                                    </div>
-                  </div>
-									<div class="form-group row" id="pui_gen_auto">
-										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
-											<div class="form-group">
-												<label for="houseNo" class="text-danger">PUI Code(Auto Generate)</label>
-												<input type="text" name="sat_id" class="form-control is-invalid" value="{{ $sat_id }}" readonly>
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
-											<div class="form-group">
-												<label for="houseNo" class="text-danger">ชนิดผู้ป่วย</label>
-												<select name="patient_type_sat_id" class="form-control selectpicker show-tick is-invalid" id="patient_type_sat_id">
-													<option value="">-- โปรดเลือก --</option>
-													<option value="A">PUI</option>
-													<option value="S">Special</option>
-												</select>
-											</div>
-										</div>
-									</div>
+
 									<div class="form-group row" id="pui_gen_manual">
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
 												<label for="houseNo" class="text-danger">PUI Code(Manual)</label>
-												<input type="text" name="sat_id" id="sat_id_manual" maxlength="12" placeholder="SATID/CASECODE" class="form-control is-invalid" value="{{ old('sat_id') }}">
+												<input type="text" name="sat_id" id="sat_id_manual" maxlength="12" placeholder="SATID/CASECODE" class="form-control is-invalid" value="{{ old('sat_id') }}" required="">
 											</div>
 										</div>
 									</div>
@@ -380,7 +350,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 									</div>
 									<div class="row">
 										<div class="form-group">
-											<label for="houseNoLabel">ที่อยู่ขณะป่วย</label>
+											<label for="houseNoLabel">ที่อยู่ปัจจุบัน</label>
 										</div>
 									</div>
 									<div class="row">
@@ -1041,25 +1011,25 @@ $(document).ready(function() {
 	});
 
 
-	$('#pui_gen_auto').hide();
-	$('#pui_gen_manual').hide();
+	//$('#pui_gen_auto').hide();
+	//$('#pui_gen_manual').hide();
 
 
-	$(".check-auto").click(function(){
-	        $("#pui_code_gen_rd1").prop("checked", true);
-					//$("#patient_type_sat_id").prop('required',true);
-					$('#pui_gen_auto').show();
-					$('#pui_gen_manual').hide();
-					//$('#sat_id').val('');
-	});
-	$(".check-manual").click(function(){
-	        $("#pui_code_gen_rd2").prop("checked", true);
-					//$("#patient_type_sat_id").prop('required',false);
-					//$("#sat_id_manual").prop('required',true);
-					$('#sat_id_manual').val('');
-					$('#pui_gen_auto').hide();
-					$('#pui_gen_manual').show();
-	});
+	// $(".check-auto").click(function(){
+	//         $("#pui_code_gen_rd1").prop("checked", true);
+	// 				//$("#patient_type_sat_id").prop('required',true);
+	// 				$('#pui_gen_auto').show();
+	// 				$('#pui_gen_manual').hide();
+	// 				//$('#sat_id').val('');
+	// });
+	// $(".check-manual").click(function(){
+	//         $("#pui_code_gen_rd2").prop("checked", true);
+	// 				//$("#patient_type_sat_id").prop('required',false);
+	// 				//$("#sat_id_manual").prop('required',true);
+	// 				$('#sat_id_manual').val('');
+	// 				$('#pui_gen_auto').hide();
+	// 				$('#pui_gen_manual').show();
+	// });
 
 	// if(){
 	// 	$('.sym_othertext').show();

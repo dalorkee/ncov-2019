@@ -86,7 +86,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 											<div class="form-group">
 												<label for="houseNo">PUI Code</label>
-												<input type="text" name="sat_id" value="{{ $data->sat_id }}" maxlength="12" placeholder="SATID/CASECODE"  class="form-control">
+												<input type="text" name="sat_id" value="{{ $data->sat_id }}" maxlength="12" placeholder="SATID/CASECODE"  class="form-control" readonly>
 											</div>
 										</div>
 									</div>
@@ -363,7 +363,7 @@ input:read-only {
 									</div>
 									<div class="form-row">
 										<div class="form-group">
-											<label for="houseNoLabel">ที่อยู่ขณะป่วย</label>
+											<label for="houseNoLabel">ที่อยู่ปัจจุบัน</label>
 										</div>
 									</div>
 									<div class="form-row">
@@ -605,7 +605,7 @@ input:read-only {
 									<hr />
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-											<h1 class="text-info">ปัจจัยเสี่ยง</h1>
+											<h1 class="text-info">4.ปัจจัยเสี่ยง</h1>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 											<div class="form-group">
@@ -633,7 +633,7 @@ input:read-only {
 									</div>
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-											<h1 class="text-info">3. ข้อมูลอาการผู้ป่วย</h1>
+											<h1 class="text-info">5. ข้อมูลอาการผู้ป่วย</h1>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
@@ -716,7 +716,7 @@ input:read-only {
 										</div>
 
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-										 <h1 class="text-info">4. ข้อมูลผลทางห้องปฏิบัติการ</h1>
+										 <h1 class="text-info">6. ข้อมูลผลทางห้องปฏิบัติการ</h1>
 										</div>
 
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
@@ -766,7 +766,7 @@ input:read-only {
 						<div class="bd-callout bd-callout-danger" style="margin:0;">
 							<div class="form-row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-									<h1 class="text-info">5.การดำเนินงานเพิ่มเติม สำหรับ Sup Sat./Sat Manager</h1>
+									<h1 class="text-info">7.การดำเนินงานเพิ่มเติม สำหรับ Sup Sat./Sat Manager</h1>
 								</div>
 								<!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 									<div class="form-group">
@@ -940,7 +940,7 @@ input:read-only {
 							</div>
 							<div class="form-row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
-								 <h1 class="text-info">6. ข้อมูลผู้บันทึกข้อมูล</h1>
+								 <h1 class="text-info">8. ข้อมูลผู้บันทึกข้อมูล</h1>
 								</div>
 
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">

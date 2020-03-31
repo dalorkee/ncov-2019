@@ -145,7 +145,7 @@
 				<div class="form-row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="form-group">
-							<label for="">ที่อยู่ขณะป่วยในประเทศไทย</label>
+							<label for="">ที่อยู่ขณะป่วย (ปัจจุบัน)</label>
 							<div class="card">
 								<div class="custom-control custom-checkbox custom-control">
 									<input type="checkbox" name="sickStayTypeChk" value="home" class="custom-control-input sick_stay_type-chk" @if ($invest_pt[0]['sick_stay_type'] == 'home') checked @endif id="sickStayTypeChkNo">
@@ -160,7 +160,7 @@
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="form-group">
-							<label for="houseNo">ที่อยู่ขณะป่วยอื่นๆ ระบุ</label>
+							<label for="houseNo">ที่อยู่ขณะป่วย (ปัจจุบัน) อื่นๆ ระบุ</label>
 							<input type="text" name="sickStayTypeOtherInput" value="{{ $invest_pt[0]['sick_stay_type_other'] }}" class="form-control" placeholder="ระบุ">
 						</div>
 					</div>

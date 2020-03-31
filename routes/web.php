@@ -79,7 +79,6 @@ Route::post('hospitalFetch', 'InvestController@hospitalFetch')->name('hospitalFe
 // 	Route::resource('users', 'UserController');
 // });
 
-
 /* Contact */
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
 Route::get('/detailcontact/contact_id/{contact_id}', 'ContactController@detailcontact')->name('detailcontact');

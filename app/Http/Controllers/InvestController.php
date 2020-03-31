@@ -21,6 +21,7 @@ use App\GlobalCountry;
 use App\LabStation;
 use App\Specimen;
 use App\PatientActivity;
+use App\RiskType;
 use DB;
 use Session;
 
@@ -46,6 +47,7 @@ class InvestController extends MasterController
 		$treat_place_city = GlobalCity::where('city_id', '=', $invest_pt[0]['treat_place_city'])->get()->toArray();
 		$labStation = LabStation::select('id', 'th_name')->get()->keyBy('id')->toArray();
 		$ref_specimen = Specimen::select('id', 'name_en')->where('specimen_status', '=', 1)->get()->keyBy('id')->toArray();
+		$risk_type = RiskType::all()->keyBy('id')->toArray();
 
 		$treat_first_hospital = Hospitals::where('new_hospcode', '=', $invest_pt[0]['treat_first_hospital'])->get()->toArray();
 		$treat_place_hospital = Hospitals::where('new_hospcode', '=', $invest_pt[0]['treat_place_hospital'])->get()->toArray();
@@ -167,7 +169,9 @@ class InvestController extends MasterController
 				'treat_place_sub_district' => $treat_place_sub_district,
 				'lab_station' => $labStation,
 				'ref_specimen' => $ref_specimen,
-				'pt_activity' => $pt_activity
+				'pt_activity' => $pt_activity,
+				'risk_type' => $risk_type
+
 			]
 		);
 	}
@@ -328,8 +332,11 @@ class InvestController extends MasterController
 		$pt->be_patient_critical_unknown_cause = $request->be_patient_critical_unknown_cause;
 		$pt->be_health_personel = $request->be_health_personel;
 		$pt->risk_other = $request->risk_other;
-		$pt->risk_history_note = $request->risk_history_note;
+		//$pt->risk_history_note = $request->risk_history_note;
 		$pt->invest_date =  $this->convertDateToMySQL($request->investDateInput);
+		$pt->risk_detail = $request->risk_detail;
+		$pt->risk_type = $request->risk_type;
+		$pt->risk_type_text = $request->risk_type_text;
 
 		for ($i=1; $i<=10; $i++) {
 			$activityDate = $request->input('activityDate'.$i);

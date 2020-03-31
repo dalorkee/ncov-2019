@@ -89,7 +89,7 @@ class ListInvestDataTable extends DataTable
 				$query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ["%{$keyword}%"]);
 			})
 			->filterColumn('ext_name', function($query, $keyword) {
-				$query->whereRaw("CONCAT(LEFT(first_name, 3), '_', ' ', LEFT(last_name, 3), '_') like ?", ["%{$keyword}%"]);
+				$query->whereRaw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') like ?", ["%{$keyword}%"]);
 			})
 			->editColumn('pt_status', function($pts) {
 				if (!isset($pts->pt_status) || empty($pts->pt_status)) {
@@ -169,7 +169,7 @@ class ListInvestDataTable extends DataTable
 		$invest = InvestList::select(
 			'id',
 			\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
-			\DB::raw("CONCAT(LEFT(first_name, 3), '_', ' ', LEFT(last_name, 3), '_') as ext_name"),
+			\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
 			'sat_id',
 			\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 			\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
