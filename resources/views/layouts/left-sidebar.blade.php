@@ -41,6 +41,11 @@
 						<li class="sidebar-item"><a href="{{ route('maps.doughnut') }}" class="sidebar-link"><i class="mdi mdi-chart-arc"></i><span class="hide-menu"> Doughnut</span></a></li>
 					</ul>
 				</li>
+				<!-- <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(1)" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">DashBoard </span></a>
+					<ul aria-expanded="false" class="collapse  first-level">
+						<li class="sidebar-item"><a href="{{ route('dashboardgraph.index') }}" class="sidebar-link"><i class="mdi mdi-chart-areaspline"></i><span class="hide-menu"> Covid-19 Case Report</span></a></li>
+					</ul>
+				</li> -->
 				@endrole
 			</ul>
 		</nav>
