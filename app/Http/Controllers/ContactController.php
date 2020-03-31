@@ -58,6 +58,7 @@ class ContactController extends MasterController
   // indexcontact table
   public function contacttable(Request $req)
   {
+		if(auth()->user()->id==Auth::user()->id){
 		// $sat_id=$req->sat_id;
 		$id=$req->id;
 		$nation_list = $this->arrnation();
@@ -92,7 +93,7 @@ class ContactController extends MasterController
 		$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
 		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
 		$contact_data=DB::table('patient_relation')
-										->join('tbl_contact', 'patient_relation.contact_id', '=', 'tbl_contact.contact_id')
+										->join('tbl_contact', 'patient_relation.contact_rid', '=', 'tbl_contact.id')
 										->select('patient_relation.id',
 															'patient_relation.pui_id',
 															'patient_relation.sat_id',
@@ -136,7 +137,7 @@ class ContactController extends MasterController
 			'count_labcont'
     ));
   }
-
+}
 
   public function followuptablespui(Request $req)
   {
@@ -236,7 +237,13 @@ if(auth()->user()->id==Auth::user()->id){
 	$contact_data=
 	DB::table('tbl_contact')
 				->join('users','tbl_contact.user_id','=','users.id')
-				->select('tbl_contact.*', DB::raw('tbl_contact.id as conid'),
+				->select('tbl_contact.contact_id', DB::raw('tbl_contact.id as conid'),
+				'tbl_contact.sex_contact',
+				'tbl_contact.age_contact',
+				'tbl_contact.province',
+				'tbl_contact.district',
+				'tbl_contact.sub_district',
+				'tbl_contact.national_contact',
 				'users.id',
 				'users.prefix_sat_id')
 				->where('users.prefix_sat_id',Auth::user()->prefix_sat_id)
@@ -628,7 +635,11 @@ if(auth()->user()->id==Auth::user()->id){
   $province = $req ->input ('province');
   $district = $req ->input ('district');
   $sub_district = $req ->input ('sub_district');
-  $address_contact = $req ->input ('address_contact');
+  $sick_house_no = $req ->input ('sick_house_no');
+	$sick_village_no = $req ->input ('sick_village_no');
+	$sick_village = $req ->input ('sick_village');
+	$sick_lane = $req ->input ('sick_lane');
+	$sick_road = $req ->input ('sick_road');
   $phone_contact = $req ->input ('phone_contact');
   $patient_contact = $req ->input ('patient_contact');
   $risk_contact = $req ->input ('risk_contact');
@@ -654,7 +665,11 @@ if(auth()->user()->id==Auth::user()->id){
     'province'=>$province,
     'district'=>$district,
     'sub_district'=>$sub_district,
-    'address_contact'=>$address_contact,
+    'sick_house_no'=>$sick_house_no,
+		'sick_village_no'=>$sick_village_no,
+		'sick_village'=>$sick_village,
+		'sick_lane'=>$sick_lane,
+		'sick_road'=>$sick_road,
     'phone_contact'=>$phone_contact,
     'patient_contact'=>$patient_contact,
     'risk_contact'=>$risk_contact,
@@ -932,11 +947,9 @@ if ($res1){
 }
 
 
+
 public function contactedit(Request $req){
-	// dd($req->contact_id);
-$delete1 = DB::table('tbl_contact')->where('contact_id','=', $req->contact_id)->delete();
-// dd($delete1);
-if ($delete1)
+// if ($delete1)
 {
 	$contact_id = $req ->input ('contact_id');
 	$contact_id_temp = $req ->input ('contact_id_temp');
@@ -1110,8 +1123,8 @@ if ($delete1)
 							 }
 								// dd($data_hsc);
 		 $res4	= DB::table('tbl_contact_hsc')->insert($data_hsc);
- if ($res4){
-
+ if ($res4)
+ {
 	 return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 	}else{
 	 return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
@@ -1119,6 +1132,11 @@ if ($delete1)
 }
 }
 }
+
+
+
+
+
 
 public function fetch(Request $request){
 $id=$request->get('select');
@@ -1128,7 +1146,7 @@ $query=DB::table('ref_province')
 ->select('ref_district.district_name','ref_district.district_id','ref_district.district_id')
 ->where('ref_province.province_id',$id)
 ->get();
-$output='<option value="%">   อำเภอ   </option>';
+$output='<option value="">   อำเภอ   </option>';
 	foreach ($query as $row) {
 		$output.='<option value="'.$row->district_id.'">'.$row->district_name.'</option>';
 	}
@@ -1143,7 +1161,7 @@ $queryD=DB::table('ref_sub_district')
 ->where(DB::raw('left(ref_sub_district.sub_district_id, 4)'),'=',$idD)
 ->get();
 
-$outputD='<option value="%">   ตำบล   </option>';
+$outputD='<option value="">   ตำบล   </option>';
 foreach ($queryD as $rowD) {
 	$outputD.='<option value="'.$rowD->sub_district_id.'">'.$rowD->sub_district_name.'</option>';
 }
