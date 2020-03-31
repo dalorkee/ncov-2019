@@ -143,7 +143,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						break;
 					case 'delete':
 						//alert('Permission denied !');
-						<?php if(auth()->user()->id=='535' || auth()->user()->id=='405'){ ?>
+						<?php if(auth()->user()->id=='97' || auth()->user()->id=='2'){ ?>
 							let dcurl = '{{ route("screenpui.satdel", ":id") }}';
 							dcurl = dcurl.replace(':id', id);
 							if(confirm('ต้องการลบข้อมูลใช่หรือไม่')==true){

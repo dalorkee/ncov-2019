@@ -79,6 +79,8 @@ public function index(Request $req)
 		 $arr_refer_lab = $this->arr_refer_lab();
 		 $arr_refer_bidi = $this->arr_refer_bidi();
 		 $arr_op_opt = $this->arr_op_opt();
+		 $arrdistrict = $this->arrdistrict();
+		 $arrsub_district = $this->arrsub_district();
 		 $arr_op_dpc = $this->arr_op_dpc();
 		 $arr_hostype  = $this->arr_hostype();
 		 $arr_hostype_th  = $this->arr_hostype_th();
@@ -96,7 +98,8 @@ public function index(Request $req)
 'risk_type_text','data3_1date_sickdate','isolate_date','fever_history','fever_current','sym_cough','sym_snot','sym_sore','sym_dyspnea','sym_breathe','sym_stufefy','xray_result','first_diag','last_diag',
 'letter_division_code','letter_code','refer_bidi','refer_lab','op_opt','op_dpc','pt_status','pui_type','news_st','disch_st',
 'disch_st_date','coordinator_tel','send_information','send_information_div',
-'receive_information',)
+'receive_information','sick_house_no','sick_village_no','sick_village'
+,'sick_lane','sick_road','sick_village','sick_province','sick_district','sick_sub_district')
 				 ->where('notify_date', $datenow)
 				 ->whereNull('deleted_at')
 				 ->get();
@@ -116,6 +119,8 @@ public function index(Request $req)
 		  'arr_hostype',
 		   'arr_hostype_th',
 			 'arr_risk_type',
+			 'arrdistrict',
+			 'arrsub_district'
 		  ));
 	} else {
 		return view('errors.405');
@@ -158,6 +163,8 @@ public function indexallexcel(Request $req)
 		 $arr_op_opt = $this->arr_op_opt();
 		 $arr_op_dpc = $this->arr_op_dpc();
 		 $arr_hostype = $this->arr_hostype();
+		 $arrdistrict = $this->arrdistrict();
+		 $arrsub_district = $this->arrsub_district();
 		 // $pt_status= $req ->input ('pt_status');
 		 $pt_status1= $req ->input ('pt_status1');
 		 $pt_status2= $req ->input ('pt_status2');
@@ -217,6 +224,8 @@ public function indexallexcel(Request $req)
 							'arr_hostype',
 							'arr_hostype_th',
 							'arr_risk_type',
+							'arrdistrict',
+							'arrsub_district'
 						  ));
 	}
 
@@ -441,6 +450,22 @@ public function indexallexcel(Request $req)
         // dd($province_arr);
         return $arr_city;
       }
+			protected function arrdistrict(){
+				$arrdistrict = DB::table('ref_district')->select('district_id','district_name')->get();
+				foreach ($arrdistrict as  $value) {
+					$arrdistrict[$value->district_id] =trim($value->district_name);
+				}
+				// dd($province_arr);
+				return $arrdistrict;
+			}
+			protected function arrsub_district(){
+				$arrsub_district = DB::table('ref_sub_district')->select('sub_district_id','sub_district_name')->get();
+				foreach ($arrsub_district as  $value) {
+					$arrsub_district[$value->sub_district_id] =trim($value->sub_district_name);
+				}
+				// dd($province_arr);
+				return $arrsub_district;
+			}
       protected function arrprov(){
         $arrprov = DB::table('ref_province')->select('province_id','province_name')->get();
         foreach ($arrprov as  $value) {

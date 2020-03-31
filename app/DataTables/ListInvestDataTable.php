@@ -167,6 +167,7 @@ class ListInvestDataTable extends DataTable
 	* @return \Illuminate\Database\Eloquent\Builder
 	*/
 	public function query(InvestList $model) {
+		$user = auth()->user()->id;
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
 		$dcs = $this->caseDischSt();
@@ -182,7 +183,7 @@ class ListInvestDataTable extends DataTable
 			\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
 			'sex',
 			\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-			'inv')->whereNull('deleted_at');
+			'inv')->whereNull('deleted_at')->orderBy('id');
 
 		return $invest;
 
