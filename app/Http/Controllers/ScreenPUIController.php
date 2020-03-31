@@ -19,10 +19,17 @@ use App\RiskType;
 use Auth;
 use DB;
 use Carbon\Carbon;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
+//use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Spatie\Permission\Models\Role;
+//use Spatie\Permission\Models\Permission;
 
 class ScreenPUIController extends MasterController
 {
+    function __construct()
+    {
+      $this->middleware('auth');
+      $this->middleware(['role:root|ddc|dpc|pho']);
+    }
     /**
      * Display a listing of the resource.
      *

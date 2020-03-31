@@ -12,9 +12,15 @@ use App\GlobalCountry;
 use Session;
 use DB;
 use Barryvdh\DomPDF\PDF;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class ListInvestDataTable extends DataTable
 {
+	// public function __construct() {
+	// 	$this->middleware('auth');
+	// 	$this->middleware(['role:root|ddc|dpc|pho|hos']);
+	// }
 	private function status() {
 		$master = new MasterController;
 		$status = $master->getStatus();

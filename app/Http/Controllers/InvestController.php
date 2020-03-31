@@ -29,6 +29,7 @@ class InvestController extends MasterController
 {
 	public function __construct() {
 		$this->middleware('auth');
+		$this->middleware(['role:root|ddc|dpc|pho|hos']);
 	}
 
 	public function index()
