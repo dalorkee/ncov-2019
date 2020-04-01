@@ -13,12 +13,20 @@
 
 Auth::routes();
 
+/* Role & Permission Manage */
+Route::prefix('uac')->group(function () {
+	Route::group(['middleware' => ['auth']], function() {
+		Route::resource('roles', 'RoleController');
+		Route::resource('permissions', 'PermissionController');
+		Route::resource('users', 'UserController');
+	});
+});
+
 /* Home */
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 
 /* Form */
-
 //Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('chConfirmStatus', 'ConfirmFormController@changeStatus')->name('chConfirmStatus');
 Route::post('chConfirmStatusServerSide', 'ConfirmFormController@changeStatusSeverSide')->name('chConfirmStatusServerSide');
@@ -56,14 +64,11 @@ Route::get('/hos-test', function () {
 					 return view('hospital.screenhos');
 					});
 
-
-
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
 //Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
 
-
-/*List the data */
+/*List the data older version */
 Route::get('/satt/list', 'InvestListController@satListData')->name('satList');
 Route::resource('investList', 'InvestListController');
 
@@ -72,12 +77,6 @@ Route::post('country/city', 'ConfirmFormController@cityFetch')->name('cityFetch'
 Route::post('province/district', 'ConfirmFormController@districtFetch')->name('districtFetch');
 Route::post('province/district/sub-district', 'ConfirmFormController@subDistrictFetch')->name('subDistrictFetch');
 Route::post('hospitalFetch', 'InvestController@hospitalFetch')->name('hospitalFetch');
-
-/* Auth */
-// Route::group(['middleware' => ['auth']], function() {
-// 	Route::resource('roles', 'RoleController');
-// 	Route::resource('users', 'UserController');
-// });
 
 /* Contact */
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
@@ -105,6 +104,7 @@ Route::post('/followupinsert', 'ContactController@followupinsert')->name('follow
 Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
 Route::post('/contactedit', 'ContactController@contactedit')->name('contactedit');
 Route::post('/contact_st_update', 'ContactController@contactstupdate')->name('contact_st_update');
+
 // excel download
 Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');
@@ -140,15 +140,6 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/pj', 'TestController@store')->name('pj');
 });
 
-/* Role & Permission Manage */
-Route::prefix('uac')->group(function () {
-	Route::group(['middleware' => ['auth']], function() {
-		Route::resource('roles', 'RoleController');
-		Route::resource('permissions', 'PermissionController');
-		Route::resource('users', 'UserController');
-	});
-});
-
 /* DashBoardGraph */
 Route::prefix('dashboardgraph')->group(function () {
 	Route::group(['middleware' => ['auth']], function() {
@@ -159,9 +150,13 @@ Route::prefix('dashboardgraph')->group(function () {
 	});
 });
 
+Route::resource('hospital', 'HospitalController');
+
+/* gexport excel */
 /*
 Route::get('/einvest', function(App\Exports\InvestExport $export) {
-		return $export->download('inv.xlsx');
-});*/
+	return $export->download('inv.xlsx');
+});
+*/
 
-Route::resource('hospital', 'HospitalController');
+ //Route::get('/invest/ept', 'ListInvestController@exportToExcel');

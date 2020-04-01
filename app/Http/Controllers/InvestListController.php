@@ -11,6 +11,7 @@ class InvestListController extends MasterController
 {
 	public function __construct() {
 		$this->middleware('auth');
+		$this->middleware('chkUserRole');
 		//$this->middleware(['role:admin']);
 	}
 
@@ -26,10 +27,11 @@ class InvestListController extends MasterController
 			$globalcountry[$value->country_id] = $value->country_name;
 		}
 		//$globalcountry->keyBy('country_id');
-		$user = Auth::user();
-		$role = $user->getRoleNames()->toArray();
+		//$user = Auth::user();
+		//$role = $user->getRoleNames()->toArray();
+		$role = Session::get('user_role');
 
-		switch($role[0]) {
+		switch($role) {
 			case 'admin':
 				$invest = InvestList::select(
 					'id',

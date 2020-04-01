@@ -14,13 +14,10 @@ use DB;
 use Barryvdh\DomPDF\PDF;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\User;
 
 class ListInvestDataTable extends DataTable
 {
-	// public function __construct() {
-	// 	$this->middleware('auth');
-	// 	$this->middleware(['role:root|ddc|dpc|pho|hos']);
-	// }
 	private function status() {
 		$master = new MasterController;
 		$status = $master->getStatus();
@@ -167,27 +164,97 @@ class ListInvestDataTable extends DataTable
 	* @return \Illuminate\Database\Eloquent\Builder
 	*/
 	public function query(InvestList $model) {
+		$user_role = Session::get('user_role');
+
 		$user = auth()->user()->id;
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
 		$dcs = $this->caseDischSt();
 		$nation = $this->caseNation();
 
-		$invest = InvestList::select(
-			'id',
-			\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
-			\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
-			'sat_id',
-			\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
-			\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
-			\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-			'sex',
-			\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-			'inv')->whereNull('deleted_at')->orderBy('id');
-
+		switch ($user_role) {
+			case 'root':
+			$invest = InvestList::select(
+				'id',
+				\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+				\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+				'sat_id',
+				\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+				\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+				\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+				'sex',
+				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+				'inv')
+				->whereNull('deleted_at')->orderBy('id');
+				break;
+			case 'ddc':
+			$invest = InvestList::select(
+				'id',
+				\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+				\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+				'sat_id',
+				\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+				\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+				\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+				'sex',
+				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+				'inv')
+				->whereNull('deleted_at')->orderBy('id');
+				break;
+			case 'dpc':
+			$invest = InvestList::select(
+				'id',
+				\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+				\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+				'sat_id',
+				\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+				\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+				\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+				'sex',
+				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+				'inv')
+				->whereNull('deleted_at')->orderBy('id');
+				break;
+			case 'pho':
+			$invest = InvestList::select(
+				'id',
+				\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+				\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+				'sat_id',
+				\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+				\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+				\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+				'sex',
+				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+				'inv')
+				->whereNull('deleted_at')->orderBy('id');
+				break;
+			case 'hos':
+				$hospcode = auth()->user()->hospcode;
+				$users = User::select('id')->where('hospcode', '=', $hospcode)->get()->toArray();
+				$user_arr = array();
+				foreach ($users as $key => $val) {
+					array_push($user_arr, $val['id']);
+				}
+				$invest = InvestList::select(
+					'id',
+					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+					\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+					'sat_id',
+					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+					'sex',
+					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+					'inv')
+					->whereIn('entry_user', $user_arr)
+					->whereNull('deleted_at')->orderBy('id');
+				break;
+			default:
+				return redirect()->route('logout');
+				break;
+		}
 		return $invest;
-
-
 	}
 
 	/**

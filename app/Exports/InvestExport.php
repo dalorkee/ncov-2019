@@ -10,10 +10,17 @@ use App\Hospitals;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class InvestExport implements FromCollection, WithHeadings
-{
+
+class InvestExport implements FromCollection, WithHeadings {
+
+	protected $id;
+	public function __construct($id)
+	{
+		$this->id = $id;
+	}
+
 	public function collection() {
-		//return collect([1=>[1], 2=>[2], 3=>[3]]);
+		/* return collect([1=>[1], 2=>[2], 3=>[3]]);*/
 		$prov = Provinces::all()->keyBy('province_id')->toArray();
 		$occu = Occupation::all()->keyBy('id')->toArray();
 		$globalCountry = GlobalCountry::all()->keyBy('country_id')->toArray();
@@ -32,8 +39,10 @@ class InvestExport implements FromCollection, WithHeadings
 			'isolated_hosp_code',
 			'isolated_province'
 		)
-		->where('pt_status', '=', 2)
-		->whereNull('deleted_at')->get()->toArray();
+		//->where('pt_status', '=', 2)
+		->where('id', '=', $this->id)
+		//->whereNull('deleted_at')
+		->get()->toArray();
 		$result = collect();
 		foreach($data as $key => $val) {
 			if (!empty($val['occupation']) || $val['occupation'] != null) {

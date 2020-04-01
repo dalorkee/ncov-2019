@@ -11,14 +11,23 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ListInvestController extends Controller
 {
+	public function __construct() {
+		$this->middleware('auth');
+		//$this->middleware('chkUserRole');
+		$this->middleware(['role:root|ddc|dpc|pho|hos']);
+	 }
+
 	public function index(ListInvestDataTable $dataTable) {
 		return $dataTable->render('list-data.invest');
 	}
 
 	public function export() {
-		return Excel::download(new InvestExport, 'invest.xlsx');
+		return Excel::download($id, new InvestExport, 'invest.xlsx');
 	}
 
+	public function exportByParams($id = 56) {
+		return Excel::download(new InvestExport($id), 'invest.xlsx');
+	}
 
 	public function chStatus(Request $request) {
 		$pst = InvestList::select('id', 'sat_id', 'pt_status', 'news_st', 'disch_st')
