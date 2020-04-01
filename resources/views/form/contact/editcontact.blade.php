@@ -1,13 +1,13 @@
 @extends('layouts.index')
 <?php
-$config = [
-    'table' => 'tbl_contact',
-    'length' => 11,
-		'field' => 'contact_id_temp',
-    'prefix' => $prefix_sat_id."B".date('d').date('m'),
-];
-$contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
-use App\Http\Controllers\ContactController as ContactController;
+// $config = [
+//     'table' => 'tbl_contact',
+//     'length' => 11,
+// 		'field' => 'contact_id_temp',
+//     'prefix' => $prefix_sat_id."B".date('d').date('m'),
+// ];
+// $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
+// use App\Http\Controllers\ContactController as ContactController;
 $datecontact = (!empty($getdata_contact[0]->datecontact)) ? ContactController::Convert_Date_To_Picker_range($getdata_contact[0]->datecontact) : "" ;
 $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Convert_Date_To_Picker_range($getdata_contact[0]->datefollow) : "" ;
 ?>
@@ -67,6 +67,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                           <h5 class="sub-title">รหัสผู้สัมผัส : </h5>
                                         <div class="col-sm-12 col-md-6">
                                               <h5 class="card-title"><input type="checkbox" id="cuscontactid" name="cuscontactid" /> :  กรณีกรอกรหัสผู้สัมผัสด้วยตนเอง  </h5>
+                                            <input type="hidden" id="" name="contact_id_r" value="{{$getdata_contact[0]->contact_id}}" class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
                                             <input type="text" id="inputcontact" name="contact_id" value="{{$getdata_contact[0]->contact_id}}" class="form-control" placeholder="รหัสผู้สัมผัส" readonly>
                                         </div>
                                         </div>
@@ -196,10 +197,26 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-4">
-                                        <label for="address_contact">ที่อยู่</label>
-                                        <textarea rows="3" name="address_contact" value="{{$getdata_contact[0]->address_contact}}" type="text" class="form-control" placeholder="ที่อยู่"></textarea>
-                                    </div>
+                                  <div class="col-sm-4">
+                                      <label for="address_contact">บ้านเลขที่</label>
+                                      <input name="sick_house_no" value="{{$getdata_contact[0]->sick_house_no}}" type="text" class="form-control" placeholder="บ้านเลขที่">
+                                  </div>
+                                  <div class="col-sm-4">
+                                      <label for="address_contact">ที่อยู่</label>
+                                      <input name="sick_village_no" value="{{$getdata_contact[0]->sick_village_no}}" type="text" class="form-control" placeholder="ที่อยู่">
+                                  </div>
+                                  <div class="col-sm-4">
+                                      <label for="address_contact">หมู่บ้าน</label>
+                                      <input name="sick_village" value="{{$getdata_contact[0]->sick_village}}" type="text" class="form-control" placeholder="หมู่บ้าน">
+                                  </div>
+                                  <div class="col-sm-4">
+                                      <label for="address_contact">ซอย</label>
+                                      <input name="sick_lane" value="{{$getdata_contact[0]->sick_lane}}" type="text" class="form-control" placeholder="ซอย">
+                                  </div>
+                                  <div class="col-sm-4">
+                                      <label for="address_contact">ถนน</label>
+                                      <input name="sick_road" value="{{$getdata_contact[0]->sick_road}}" type="text" class="form-control" placeholder="ถนน">
+                                  </div>
                                     <div class="col-sm-4">
                                         <label for="phone_contact">เบอร์โทร</label>
                                         <input type="text" name="phone_contact" value="{{$getdata_contact[0]->phone_contact}}" class="form-control" placeholder="เบอร์โทร">

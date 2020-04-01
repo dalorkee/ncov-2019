@@ -188,8 +188,24 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-4">
+                                        <label for="address_contact">บ้านเลขที่</label>
+                                        <input name="sick_house_no" type="text" class="form-control" placeholder="บ้านเลขที่">
+                                    </div>
+                                    <div class="col-sm-4">
                                         <label for="address_contact">ที่อยู่</label>
-                                        <textarea rows="3" name="address_contact" type="text" class="form-control" placeholder="ที่อยู่"></textarea>
+                                        <input name="sick_village_no" type="text" class="form-control" placeholder="ที่อยู่">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="address_contact">หมู่บ้าน</label>
+                                        <input name="sick_village" type="text" class="form-control" placeholder="หมู่บ้าน">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="address_contact">ซอย</label>
+                                        <input name="sick_lane" type="text" class="form-control" placeholder="ซอย">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="address_contact">ถนน</label>
+                                        <input name="sick_road" type="text" class="form-control" placeholder="ถนน">
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="phone_contact">เบอร์โทร</label>
