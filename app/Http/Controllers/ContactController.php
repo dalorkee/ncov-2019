@@ -1111,6 +1111,10 @@ $res2	= DB::table('tbl_followup')
 											'pui_id' => $pui_id ,
 											'contact_id' => $contact_id
 											]);
+
+		$delete1 = DB::table('tbl_contact_hsc')->where('contact_id','=', $contact_id_r)->delete();
+	if ($delete1)
+ {
  $no_lab = $req->input('no_lab');
  $pui_id = $req->input('pui_id');
  $dms_pcr_contact = $req->input('dms_pcr_contact');
@@ -1138,14 +1142,10 @@ $res2	= DB::table('tbl_followup')
 		 );
 		 $i++;
  }
- $j = 0;
- $count1 = count($req->input('no_lab'));
- while($j < $count1){
-	$res4=	 DB::table('tbl_contact_hsc')
-							->where('contact_id',$data[$j]['contact_id'])
-							->updateorinsert($data[$j]);
-		 $j++;
  }
+ $res4 = DB::table('tbl_contact_hsc')->insert($data);
+ // dd($data);
+
  if ($res4){
  return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 }else{
