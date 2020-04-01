@@ -758,7 +758,7 @@ if(auth()->user()->id==Auth::user()->id){
 		'sat_id_class'=>$sat_id_class,
 		'datesymtom'=>$datesymtom,
 		'date_entry'=>$date_entry,
-				'follow_address_other'=>$follow_address_other,
+		'follow_address_other'=>$follow_address_other,
 		'hospcode'=>$hospcode
 	);
 	 // dd($data);
@@ -959,10 +959,8 @@ if ($res1){
 public function contactedit(Request $req){
 
 {
-	$contact_id_r = $req ->input ('contact_id_r');
-		 // dd($contact_id_r);
+$contact_id_r = $req ->input ('contact_id_r');
 $contact_id = $req ->input ('contact_id');
-		// dd($contact_id);
 $contact_id_temp = $req ->input ('contact_id_temp');
 if ($contact_id == $contact_id_temp) {
 	$contact_id_temp = $req ->input ('contact_id_temp');
@@ -970,10 +968,7 @@ if ($contact_id == $contact_id_temp) {
 	$contact_id_temp = "";
 }
 $sat_id = $req ->input ('sat_id');
-
 $pui_id = $req ->input ('pui_id');
-
- // $contact_id = $poe_id.'_'.$contactid;	// dd($order);
 $user_id = $req ->input ('user_id');
 $title_contact = $req ->input ('title_contact');
  $name_contact = $req ->input ('name_contact');
@@ -987,10 +982,10 @@ $title_contact = $req ->input ('title_contact');
  $district = $req ->input ('district');
  $sub_district = $req ->input ('sub_district');
  $sick_house_no = $req ->input ('sick_house_no');
-	$sick_village_no = $req ->input ('sick_village_no');
-	$sick_village = $req ->input ('sick_village');
-	$sick_lane = $req ->input ('sick_lane');
-	$sick_road = $req ->input ('sick_road');
+ $sick_village_no = $req ->input ('sick_village_no');
+ $sick_village = $req ->input ('sick_village');
+ $sick_lane = $req ->input ('sick_lane');
+ $sick_road = $req ->input ('sick_road');
  $address_contact = $req ->input ('address_contact');
  $phone_contact = $req ->input ('phone_contact');
  $patient_contact = $req ->input ('patient_contact');
@@ -1000,7 +995,6 @@ $title_contact = $req ->input ('title_contact');
  $date_followup = $this->convertDatefollowToMySQL($req ->input ('date_followup'));
  $type_contact = $req ->input ('type_contact');
  $date_entry = date('Y-m-d') ;
- // dd($contact_id);
 $res1 = DB::table('tbl_contact')
 				->where('pui_id',$pui_id)
 				->where('sat_id',$sat_id)

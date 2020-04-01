@@ -7,7 +7,7 @@
 //     'prefix' => $prefix_sat_id."B".date('d').date('m'),
 // ];
 // $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
-// use App\Http\Controllers\ContactController as ContactController;
+use App\Http\Controllers\ContactController as ContactController;
 $datecontact = (!empty($getdata_contact[0]->datecontact)) ? ContactController::Convert_Date_To_Picker_range($getdata_contact[0]->datecontact) : "" ;
 $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Convert_Date_To_Picker_range($getdata_contact[0]->datefollow) : "" ;
 ?>
