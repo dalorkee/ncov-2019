@@ -215,7 +215,7 @@ class ListInvestDataTable extends DataTable
 				->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			case 'pho':
-				$user_arr = self::getPhoUserByProv();
+				//$user_arr = self::getPhoUserByProv();
 				$invest = InvestList::select(
 					'id',
 					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
@@ -227,11 +227,11 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
-					->whereIn('entry_user', $user_arr)
+				//	->whereIn('entry_user', $user_arr)
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'hos':
-				$user_arr = self::getUserByHospCode();
+				//$user_arr = self::getUserByHospCode();
 				$invest = InvestList::select(
 					'id',
 					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
@@ -243,7 +243,7 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
-					->whereIn('entry_user', $user_arr)
+					//->whereIn('entry_user', $user_arr)
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			default:
