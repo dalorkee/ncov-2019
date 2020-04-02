@@ -24,6 +24,7 @@ use App\PatientActivity;
 use App\RiskType;
 use DB;
 use Session;
+use App\User;
 
 class InvestController extends MasterController
 {
@@ -32,12 +33,15 @@ class InvestController extends MasterController
 		$this->middleware(['role:root|ddc|dpc|pho|hos']);
 	}
 
-	public function index()
-	{
+	public function index() {
 		//
 	}
 
 	public function create(Request $request) {
+
+		$test = User::getPhoUserByProv('10');
+		dd($test);
+
 		$titleName = TitleName::all()->keyBy('id')->toArray();
 		$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
 		$globalCountry = GlobalCountry::all()->keyBy('country_id')->toArray();

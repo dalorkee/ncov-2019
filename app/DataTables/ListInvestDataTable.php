@@ -215,7 +215,7 @@ class ListInvestDataTable extends DataTable
 				->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			case 'pho':
-				$user_arr = self::getPhoUserByProv(auth()->user()->prov_code);
+				$user_arr = self::getPhoUserByProv();
 				$invest = InvestList::select(
 					'id',
 					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
@@ -231,7 +231,7 @@ class ListInvestDataTable extends DataTable
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'hos':
-				$user_arr = self::getUserByHospCode(auth()->user()->hospcode);
+				$user_arr = self::getUserByHospCode();
 				$invest = InvestList::select(
 					'id',
 					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
@@ -253,9 +253,9 @@ class ListInvestDataTable extends DataTable
 		return $invest;
 	}
 
-	private function getUserByHospCode($hosp_code=0) {
-		$hosp_code = auth()->user()->hosp_code;
-		$users = User::select('id')->where('hospcode', '=', $hosp_code)->get()->toArray();
+	private function getPhoUserByProv() {
+		$prov_code = auth()->user()->prov_code;
+		$users = User::select('id')->where('prov_code', '=', $prov_code)->get()->toArray();
 		$user_arr = array();
 		foreach ($users as $key => $val) {
 			array_push($user_arr, $val['id']);
@@ -263,9 +263,9 @@ class ListInvestDataTable extends DataTable
 		return $user_arr;
 	}
 
-	private function getPhoUserByProv($prov_code=0) {
-		$prov_code = auth()->user()->prov_code;
-		$users = User::select('id')->where('prov_code', '=', $prov_code)->get()->toArray();
+	private function getUserByHospCode() {
+		$hosp_code = auth()->user()->hosp_code;
+		$users = User::select('id')->where('hospcode', '=', $hosp_code)->get()->toArray();
 		$user_arr = array();
 		foreach ($users as $key => $val) {
 			array_push($user_arr, $val['id']);
