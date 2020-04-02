@@ -11,6 +11,7 @@ use Hash;
 
 class UserController extends Controller
 {
+	protected $hospcode;
 	public function __construct() {
 		$this->middleware('auth');
 		//$this->middleware(['role:admin']);
@@ -148,8 +149,4 @@ class UserController extends Controller
 		}
 		return $htm;
 	}
-
-
-
-
 }

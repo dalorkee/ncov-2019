@@ -165,8 +165,7 @@ class ListInvestDataTable extends DataTable
 	*/
 	public function query(InvestList $model) {
 		$user_role = Session::get('user_role');
-		$x = "->where('id', '<=', '10')";
-		$user = auth()->user()->id;
+		//$user = auth()->user()->id;
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
 		$dcs = $this->caseDischSt();
@@ -216,26 +215,23 @@ class ListInvestDataTable extends DataTable
 				->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			case 'pho':
-			$invest = InvestList::select(
-				'id',
-				\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
-				\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
-				'sat_id',
-				\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
-				\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
-				\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-				'sex',
-				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-				'inv')
-				->whereNull('deleted_at')->orderBy('id', 'DESC');
-				break;
+				$user_arr = self::getPhoUserByProv(auth()->user()->prov_code);
+				$invest = InvestList::select(
+					'id',
+					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+					\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+					'sat_id',
+					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+					'sex',
+					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+					'inv')
+					->whereIn('entry_user', $user_arr)
+					->whereNull('deleted_at')->orderBy('id', 'DESC');
+					break;
 			case 'hos':
-				$hospcode = auth()->user()->hospcode;
-				$users = User::select('id')->where('hospcode', '=', $hospcode)->get()->toArray();
-				$user_arr = array();
-				foreach ($users as $key => $val) {
-					array_push($user_arr, $val['id']);
-				}
+				$user_arr = self::getUserByHospCode(auth()->user()->hospcode);
 				$invest = InvestList::select(
 					'id',
 					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
@@ -255,6 +251,26 @@ class ListInvestDataTable extends DataTable
 				break;
 		}
 		return $invest;
+	}
+
+	private function getUserByHospCode($hosp_code=0) {
+		$hosp_code = auth()->user()->hosp_code;
+		$users = User::select('id')->where('hospcode', '=', $hosp_code)->get()->toArray();
+		$user_arr = array();
+		foreach ($users as $key => $val) {
+			array_push($user_arr, $val['id']);
+		}
+		return $user_arr;
+	}
+
+	private function getPhoUserByProv($prov_code=0) {
+		$prov_code = auth()->user()->prov_code;
+		$users = User::select('id')->where('prov_code', '=', $prov_code)->get()->toArray();
+		$user_arr = array();
+		foreach ($users as $key => $val) {
+			array_push($user_arr, $val['id']);
+		}
+		return $user_arr;
 	}
 
 	/**
@@ -293,6 +309,7 @@ class ListInvestDataTable extends DataTable
 	*/
 	protected function getColumns() {
 		return [
+			Column::make('id')->title('id'),
 			Column::make('sat_id')->title('SatID'),
 			Column::make('full_name')->visible(false),
 			Column::make('ext_name')->title('ชื่อ-สกุล'),

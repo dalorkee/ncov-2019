@@ -18,16 +18,15 @@ class HomeController extends Controller
 	}
 
 	public function index() {
-/*
-		$hospcode = auth()->user()->hospcode;
-
-		$user_arr = User::select('id')->where('hospcode', '=', $hospcode)->get()->toArray();
-
-		foreach ($user_arr as $key => $val) {
-			$users[] = $val['id'];
+		/*
+		$prov_code = auth()->user()->prov_code;
+		$users = User::select('id')->where('prov_code', '=', $prov_code)->get()->toArray();
+		$user_arr = array();
+		foreach ($users as $key => $val) {
+			array_push($user_arr, $val['id']);
 		}
-		dd($users);
-*/
+		dd($user_arr);
+		*/
 		$roleArr = auth()->user()->getRoleNames()->toArray();
 		if (count($roleArr) > 0) {
 			$user_role = $roleArr[0];
