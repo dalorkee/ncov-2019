@@ -67,7 +67,7 @@ public function index(Request $req)
    {
 
 	$uid = auth()->user()->id;
-	if ($uid == 2 || $uid == 97 || $uid == 30  || $uid == 35) {
+	if ($uid == 2 || $uid == 97 || $uid == 30  || $uid == 35 || $uid == 76) {
 		 $datenow = date('Y-m-d');
 		 $arr = parent::getStatus();
 		 $arr_hos = $this->arr_hos();
@@ -149,7 +149,7 @@ public function index(Request $req)
 public function indexallexcel(Request $req)
 {
 	$uid = auth()->user()->id;
-	if ($uid == 2 || $uid == 97 || $uid == 30 || $uid == 35) {
+	if ($uid == 2 || $uid == 97 || $uid == 30 || $uid == 35 || $uid == 76) {
 		 $arr = parent::getStatus();
 		 $arr_hos = $this->arr_hos();
 		 $arrprov = $this->arrprov();
