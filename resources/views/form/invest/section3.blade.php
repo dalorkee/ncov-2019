@@ -430,19 +430,19 @@
 				<div class="form-group">
 					<label for="firstNameInput">ผู้รายงาน</label>
 					<input type="hidden" name="userIdInput" value="{{ auth()->user()->id }}">
-					<input type="text" name="userInput" value="{{ auth()->user()->name . ' ' . auth()->user()->lastname }}" class="form-control" id="first_name_input" readonly>
+					<input type="text" name="userInput" value="{{ auth()->user()->username }}" class="form-control" readonly>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg- col-xl-6">
 				<div class="form-group">
 					<label for="user_hospital">หน่วยงาน</label>
-					<input type="text" name="userHospitalInput" value="" class="form-control" readonly>
+					<input type="text" name="userHospitalInput" value="{{ auth()->user()->name }}" class="form-control" readonly>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg- col-xl-6">
 				<div class="form-group">
 					<label for="user_phone">โทรศัพท์</label>
-					<input type="text" name="userPhoneInput" value="{{ auth()->user()->phone }}" class="form-control" placeholder="โทรศัพท์" readonly>
+					<input type="text" name="userPhoneInput" value="{{ auth()->user()->tel }}" class="form-control" placeholder="โทรศัพท์" readonly>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg- col-xl-6">
