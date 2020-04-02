@@ -38,10 +38,6 @@ class InvestController extends MasterController
 	}
 
 	public function create(Request $request) {
-
-		$test = User::getPhoUserByProv('10');
-		dd($test);
-
 		$titleName = TitleName::all()->keyBy('id')->toArray();
 		$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
 		$globalCountry = GlobalCountry::all()->keyBy('country_id')->toArray();
