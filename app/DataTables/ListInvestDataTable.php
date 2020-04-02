@@ -165,7 +165,7 @@ class ListInvestDataTable extends DataTable
 	*/
 	public function query(InvestList $model) {
 		$user_role = Session::get('user_role');
-
+		$x = "->where('id', '<=', '10')";
 		$user = auth()->user()->id;
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
@@ -185,7 +185,7 @@ class ListInvestDataTable extends DataTable
 				'sex',
 				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 				'inv')
-				->whereNull('deleted_at')->orderBy('id');
+				->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			case 'ddc':
 			$invest = InvestList::select(
@@ -199,7 +199,7 @@ class ListInvestDataTable extends DataTable
 				'sex',
 				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 				'inv')
-				->whereNull('deleted_at')->orderBy('id');
+				->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			case 'dpc':
 			$invest = InvestList::select(
@@ -213,7 +213,7 @@ class ListInvestDataTable extends DataTable
 				'sex',
 				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 				'inv')
-				->whereNull('deleted_at')->orderBy('id');
+				->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			case 'pho':
 			$invest = InvestList::select(
@@ -227,7 +227,7 @@ class ListInvestDataTable extends DataTable
 				'sex',
 				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 				'inv')
-				->whereNull('deleted_at')->orderBy('id');
+				->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			case 'hos':
 				$hospcode = auth()->user()->hospcode;
@@ -248,7 +248,7 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
 					->whereIn('entry_user', $user_arr)
-					->whereNull('deleted_at')->orderBy('id');
+					->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			default:
 				return redirect()->route('logout');
