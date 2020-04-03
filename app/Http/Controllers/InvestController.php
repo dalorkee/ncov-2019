@@ -204,22 +204,13 @@ class InvestController extends MasterController
 		$pt->sick_province = $request->sickProvinceInput;
 		$pt->sick_district = $request->sickDistrictInput;
 		$pt->sick_sub_district = $request->sickSubDistrictInput;
-		//$pt->data3_3chk = $request->data3_3chk;
-		//$pt->data3_3chk_lung = $request->data3_3chk_lung;
 		$pt->data3_3chk_heart = $request->data3_3chk_heart;
 		$pt->data3_3chk_cirrhosis = $request->data3_3chk_cirrhosis;
 		$pt->data3_3chk_kidney = $request->data3_3chk_kidney;
-		//$pt->data3_3chk_diabetes = $request->data3_3chk_diabetes;
-		//$pt->data3_3chk_blood = $request->data3_3chk_blood;
-		//$pt->data3_3chk_immune = $request->data3_3chk_immune;
-		//$pt->data3_3chk_anaemia = $request->data3_3chk_anaemia;
 		$pt->data3_3chk_cerebral = $request->data3_3chk_cerebral;
 		$pt->data3_3chk_pregnant = $request->data3_3chk_pregnant;
-		//$pt->data3_3chk_fat = $request->data3_3chk_fat;
 		$pt->data3_3chk_cancer = $request->data3_3chk_cancer;
 		$pt->data3_3chk_cancer_name = $request->data3_3chk_cancer_name;
-		//$pt->data3_3chk_other = $request->data3_3chk_other;
-		//$pt->data3_3input_other = $request->data3_3input_other;
 
 		$pt->data3_1date_sickdate = $this->convertDateToMySQL($request->data3_1date_sickdate);
 		$pt->sick_province_first = $request->sick_province_first;
@@ -333,11 +324,11 @@ class InvestController extends MasterController
 		$pt->be_patient_critical_unknown_cause = $request->be_patient_critical_unknown_cause;
 		$pt->be_health_personel = $request->be_health_personel;
 		$pt->risk_other = $request->risk_other;
-		//$pt->risk_history_note = $request->risk_history_note;
-		$pt->invest_date =  $this->convertDateToMySQL($request->investDateInput);
+		$pt->invest_date =  $this->convertDateToMySQL($request->invest_date);
 		$pt->risk_detail = $request->risk_detail;
 		$pt->risk_type = $request->risk_type;
 		$pt->risk_type_text = $request->risk_type_text;
+		$pt->entry_user_last_update = auth()->user()->id;
 
 		for ($i=1; $i<=10; $i++) {
 			$activityDate = $request->input('activityDate'.$i);

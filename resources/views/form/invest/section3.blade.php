@@ -450,7 +450,7 @@
 					<label for="report_date">วันที่สอบสวน</label>
 					<div class="input-group date" data-provide="datepicke" id="invest_date">
 						<div class="input-group">
-							<input type="text" name="invest_date" value="{{ $invest_pt[0]['invest_date'] }}" class="form-control" readonly required>
+							<input type="text" name="invest_date" value="{{ $data['invest_date'] }}" class="form-control" readonly required>
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
 							</div>
