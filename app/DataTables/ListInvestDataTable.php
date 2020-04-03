@@ -165,7 +165,6 @@ class ListInvestDataTable extends DataTable
 	*/
 	public function query(InvestList $model) {
 		$user_role = Session::get('user_role');
-		//$user = auth()->user()->id;
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
 		$dcs = $this->caseDischSt();
@@ -231,7 +230,7 @@ class ListInvestDataTable extends DataTable
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'hos':
-				//$user_arr = self::getUserByHospCode();
+				//$hosp_code_arr = self::getHospCodeByHospCode();
 				$invest = InvestList::select(
 					'id',
 					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
@@ -243,7 +242,7 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
-					//->whereIn('entry_user', $user_arr)
+					//->whereIn('isolated_hosp_code', $hosp_code_arr)
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			default:
@@ -251,6 +250,13 @@ class ListInvestDataTable extends DataTable
 				break;
 		}
 		return $invest;
+	}
+
+	private function getHospCodeByHospCode() {
+		$user_hosp_code = auth()->user()->hospcode;
+		$hosp_code = User::select('hospcode')->where('hospcode', '=', $user_hosp_code)->get();
+		$hosp_code_arr = $hosp_code->pluck('hospcode')->toArray();
+		return $hosp_code_arr;
 	}
 
 	private function getPhoUserByProv() {

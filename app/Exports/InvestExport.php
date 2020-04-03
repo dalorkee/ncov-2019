@@ -14,6 +14,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class InvestExport implements FromCollection, WithHeadings {
 
 	protected $id;
+
 	public function __construct($id)
 	{
 		$this->id = $id;

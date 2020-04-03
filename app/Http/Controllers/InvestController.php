@@ -177,8 +177,7 @@ class InvestController extends MasterController
 		);
 	}
 
-	public function store(Request $request)
-	{
+	public function store(Request $request) {
 		$pt = Invest::find($request->id);
 		$pt->card_id = $request->idcardInput;
 		$pt->passport = $request->passportInput;
@@ -359,7 +358,6 @@ class InvestController extends MasterController
 		if ($pt_saved) {
 			flash()->overlay('<i class="fas fa-check-circle text-success"></i> บันทึกข้อมูลสำเร็จแล้ว', 'DDC::Covid-19');
 			return redirect()->route('list-data.invest');
-			//exit;
 		}
 	}
 
