@@ -105,7 +105,11 @@ Route::post('/contactinsert', 'ContactController@contactinsert')->name('contacti
 Route::post('/contactedit', 'ContactController@contactedit')->name('contactedit');
 Route::post('/contact_st_update', 'ContactController@contactstupdate')->name('contact_st_update');
 
+route::get('contactexport/id/{id}', 'ExportContactController@export')->name('contactexport');
+
 // excel download
+route::post('satexport', 'ExportSATController@satexport')->name('satexport');
+
 Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');
 

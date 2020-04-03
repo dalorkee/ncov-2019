@@ -90,16 +90,16 @@ public function index(Request $req)
 		 }
 		 $data=DB::table('invest_pt')
 				 ->select('id','order_pt','sat_id','first_name','notify_date','walkinplace_hosp_code','airports_code',
-'walkinplace_hosp_code','walkinplace_hosp_province','isolated_province','isolated_hosp_code',
-'risk2_6history_hospital_input','travel_from_country','travel_from_city',
-'risk_stay_outbreak_arrive_date','risk_stay_outbreak_airline','risk_stay_outbreak_flight_no','total_travel_in_group','sex','age','nation','occupation','occupation_oth','data3_3chk_lung','data3_3chk_heart','data3_3chk_cirrhosis',
-'data3_3chk_kidney','data3_3chk_diabetes','data3_3chk_blood','data3_3chk_immune','data3_3chk_anaemia','data3_3chk_cerebral',
-'data3_3chk_cerebral','data3_3chk_pregnant','data3_3chk_fat','data3_3chk_cancer_name','data3_3input_other','risk_detail','risk_type',
-'risk_type_text','data3_1date_sickdate','isolate_date','fever_history','fever_current','sym_cough','sym_snot','sym_sore','sym_dyspnea','sym_breathe','sym_stufefy','xray_result','first_diag','last_diag',
-'letter_division_code','letter_code','refer_bidi','refer_lab','op_opt','op_dpc','pt_status','pui_type','news_st','disch_st',
-'disch_st_date','coordinator_tel','send_information','send_information_div',
-'receive_information','sick_house_no','sick_village_no','sick_village'
-,'sick_lane','sick_road','sick_village','sick_province','sick_district','sick_sub_district')
+				 					'walkinplace_hosp_code','walkinplace_hosp_province','isolated_province','isolated_hosp_code',
+									'risk2_6history_hospital_input','travel_from_country','travel_from_city',
+									'risk_stay_outbreak_arrive_date','risk_stay_outbreak_airline','risk_stay_outbreak_flight_no','total_travel_in_group','sex','age','nation','occupation','occupation_oth','data3_3chk_lung','data3_3chk_heart','data3_3chk_cirrhosis',
+									'data3_3chk_kidney','data3_3chk_diabetes','data3_3chk_blood','data3_3chk_immune','data3_3chk_anaemia','data3_3chk_cerebral',
+									'data3_3chk_cerebral','data3_3chk_pregnant','data3_3chk_fat','data3_3chk_cancer_name','data3_3input_other','risk_detail','risk_type',
+									'risk_type_text','data3_1date_sickdate','isolate_date','fever_history','fever_current','sym_cough','sym_snot','sym_sore','sym_dyspnea','sym_breathe','sym_stufefy','xray_result','first_diag','last_diag',
+									'letter_division_code','letter_code','refer_bidi','refer_lab','op_opt','op_dpc','pt_status','pui_type','news_st','disch_st',
+									'disch_st_date','coordinator_tel','send_information','send_information_div',
+									'receive_information','sick_house_no','sick_village_no','sick_village',
+									'sick_lane','sick_road','sick_village','sick_province','sick_district','sick_sub_district')
 				 ->where('notify_date', $datenow)
 				 ->whereNull('deleted_at')
 				 ->get();
@@ -165,7 +165,6 @@ public function indexallexcel(Request $req)
 		 $arr_hostype = $this->arr_hostype();
 		 $arrdistrict = $this->arrdistrict();
 		 $arrsub_district = $this->arrsub_district();
-		 // $pt_status= $req ->input ('pt_status');
 		 $pt_status1= $req ->input ('pt_status1');
 		 $pt_status2= $req ->input ('pt_status2');
 		 $pt_status3= $req ->input ('pt_status3');

@@ -163,6 +163,9 @@ input.valid, textarea.valid{
 						<a class="btn btn-success" target="_blank" href="{{ route('addcontact',$id) }}">
 							+	Add Contact
 						</a>
+						<a class="btn btn-info" target="_blank" href="{{ route('contactexport',$id) }}">
+							export Contact
+						</a>
 					</div>
 					<br>
 					<div class="table-responsive">
@@ -199,7 +202,7 @@ input.valid, textarea.valid{
 								<td>
 									<a href="http://viral.ddc.moph.go.th/viral/lab/genlab.php?idx={{ $value->contact_id }}" target="_blank" title="GenLAB" class="btn btn-cyan btn-sm">GenLAB</a>
 									<a href="http://viral.ddc.moph.go.th/viral/lab/labfollow.php?idx={{ $value->contact_id }}" target="_blank" title="LabResult" class="btn btn-primary btn-sm">LabResult</a>
-									<button type="button" class="btn btn-success btn-sm margin-5 text-white change_st" data-toggle="modal" title="Change status" data-target="#chstatus">ST</button>
+									<button type="button" class="btn btn-success btn-sm margin-5 text-white change_st" data-toggle="modal" title="Change status" data-target="#chstatus{{ $value->contact_id }}">ST</button>
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
 										<a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="/ncov-2019/{{ 'followuptablescon'}}/typid/2/id/{{ $value->contact_id }}">
 											FU
@@ -231,7 +234,7 @@ input.valid, textarea.valid{
 	<form action="{{route('contact_st_update')}}" method="post">
 					{{ csrf_field() }}
 <!-- Modal change status-->
-<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="chstatus{{ $value->contact_id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -304,18 +307,7 @@ input.valid, textarea.valid{
 <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js'></script>
 <script>
 	$(document).ready(function() {
-	    $('#example').DataTable( {
-	        dom: 'Bfrtip',
-	        buttons: [
-	            'copy', 'csv', 'excel', 'pdf', 'print'
-	        ],
-					"columnDefs": [
-	    { "width": "80px","targets": 1 },
-			{ "width": "150px","targets": 4 },
-			{ "width": "90px","targets": 5 }
-	  ]
-
-	    } );
+	    $('#example').DataTable();
 	} );
 </script>
 <script>

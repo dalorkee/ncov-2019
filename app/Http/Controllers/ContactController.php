@@ -835,7 +835,7 @@ public function contactstupdate(Request $request) {
   $date_change_st = $this->convertDateToMySQL($request ->input ('date_change_st'));
 	// $date_change_st =date('Y-m-d');
 	$res1=DB::table('tbl_contact')
-			->where('id',$id)
+			->where('pui_id',$pui_id)
 			->where('contact_id',$contact_id)
 	    ->update(
 	        ['pt_status' => $pt_status,
