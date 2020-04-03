@@ -8,6 +8,11 @@ use App\Http\Controllers\MasterController;
 
 class ListSatController extends Controller
 {
+	public function __construct() {
+		$this->middleware('auth');
+		$this->middleware(['role:root|ddc|dpc']);
+	}
+
 	public function index(ListSatDataTable $dataTable) {
 		return $dataTable->render('list-data.sat');
 	}

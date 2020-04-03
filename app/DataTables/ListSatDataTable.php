@@ -16,10 +16,7 @@ use Spatie\Permission\Models\Permission;
 
 class ListSatDataTable extends DataTable
 {
-	// public function __construct() {
-	// 	$this->middleware('auth');
-	// 	$this->middleware(['role:root|ddc|dpc|pho']);
-	// }
+
 	private function status() {
 		$master = new MasterController;
 		$status = $master->getStatus();
