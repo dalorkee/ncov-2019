@@ -780,7 +780,7 @@
 					<div class="custom-control custom-checkbox custom-control-inline" style="width:340px">
 						<input type="checkbox" name="patientTreatStatus" value="4" @if ($invest_pt[0]['patient_treat_status'] == '4') checked @endif class="custom-control-input chk-treatment" id="treatment_refer">
 						<label for="treatment_refer" class="custom-control-label normal-label">ส่งต่อไปรักษาที่</label>
-						<input type="text" name="resultCliReferInput" value="{{ $invest_pt[0]['patient_treat_status_refer'] }}" class="form-control form-control-sm ml-2" style="width:200px">
+						<input type="text" name="patient_treat_status_refer" value="{{ $invest_pt[0]['patient_treat_status_refer'] }}" class="form-control form-control-sm ml-2" style="width:200px">
 					</div>
 					<div class="custom-control custom-checkbox custom-control-inline">
 						<input type="checkbox" name="patientTreatStatus" value="5" @if ($invest_pt[0]['patient_treat_status'] == '5') checked @endif class="custom-control-input chk-treatment" id="treatment_other">
