@@ -81,7 +81,7 @@ class ContactExport  implements FromCollection, WithHeadings
         // dd($arr_lab_contact1);
         foreach($contact_data as  $value) {
           if (!empty($value->national_contact) || $value->national_contact != null) {
-            $national_contact = $arr_national_contact[$value->national_contact]['country_id'];
+            $national_contact = $arr_national_contact[$value->national_contact]['country_name'];
           } else {
             $national_contact= '-';
           }

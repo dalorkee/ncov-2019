@@ -161,7 +161,7 @@ input.valid, textarea.valid{
 </br>
 					<div class="col-md-12">
 						<a class="btn btn-success" target="_blank" href="{{ route('addcontact',$id) }}">
-							+	Add Contact
+							Add Contact
 						</a>
 						<a class="btn btn-info" target="_blank" href="{{ route('contactexport',$id) }}">
 							export Contact

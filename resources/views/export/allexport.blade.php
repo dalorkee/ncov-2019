@@ -107,7 +107,7 @@ input.valid, textarea.valid{
     <div class="card">
       <div class="card-body">
         <br>
-        <form action="{{ route('allexport') }}" method="post">
+        <form action="{{ route('satexport') }}" method="post">
                 {{ csrf_field() }}
       <div class="form-group row">
         <div class="col-sm-6">
@@ -141,238 +141,18 @@ input.valid, textarea.valid{
     </div>
   </div>
 </div>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="card">
-				<div class="card-body">
-					<br>
-					<div class="table-responsive">
-          <table id="example" class="table-striped row-border" style="width:100%  font-size: 9px;">
-        <thead>
-            <tr>
-							<th>ID</th>
-							<th>ลำดับผู้ป่วยยืนยัน</th>
-								<th>SAT ID</th>
-								<th>ชื่อ-นามสกุล</th>
-								<th>วันที่ได้รับแจ้ง</th>
-								<th>สถานที่ที่คัดกรอง</th>
-								<th>ประเภท รพ. ที่คัดกรอง</th>
-								<th>จังหวัดที่คัดกรอง</th>
-								<th>จังหวัด ที่ผู้ป่วย Isolated</th>
-								<th>รพ. ที่ ผู้ป่วย Isolated</th>
-								<th>ประเภท รพ.ที่ ผู้ป่วย Isolated</th>
-								<th>ประเทศที่เดินทางมา</th>
-								<th>เมืองที่เดินทางมา</th>
-								<th>วันที่มาถึงไทย</th>
-								<th>สายการบิน</th>
-								<th>เที่ยวบิน</th>
-								<th>จำนวนผู้ร่วมเดินทาง</th>
-								<th>เพศ</th>
-								<th>อายุ</th>
-								<th>สัญชาติ</th>
-								<th>อาชีพ</th>
-								<th>ที่อยู่ขณะป่วย</th>
-								<th>จังหวัดที่อยู่ขณะป่วย</th>
-								<th>อำเภอที่อยู่ขณะป่วย</th>
-								<th>ตำบลที่อยู่ขณะป่วย</th>
-								<th>โรคประจำตัว</th>
-								<th>โรคปอดเรื้อรัง</th>
-								<th>โรคหัวใจ </th>
-								<th>โรคตับเรื้อรัง</th>
-								<th>โรคไต</th>
-								<th>เบาหวาน</th>
-								<th>ความดันโลหิตสูง</th>
-								<th>ภูมิคุ้มกันบกพร่อง</th>
-								<th>โลหิตจาง</th>
-								<th>พิการทางสมอง</th>
-								<th>ตั้งครรภ์</th>
-								<th>อ้วน</th>
-								<th>มะเร็ง</th>
-								<th>รายละเอียดประวัติเสี่ยง</th>
-								<th>ประเภทประวัติเสี่ยง</th>
-								<th>วันที่เริ่มป่วย</th>
-								<th>วันที่ Isolate</th>
-								<th>ประวัติไข้</th>
-								<th>ไข้ (องศา)</th>
-								<th>ไอ</th>
-								<th>น้ำมูก</th>
-								<th>เจ็บคอ</th>
-								<th>หายใจเหนื่อ</th>
-								<th>หายใจลำบาก</th>
-								<th>ซึม</th>
-								<th>Chest : CXR</th>
-								<th>Rapid test</th>
-								<th>วินิจฉัยเบื้องต้น</th>
-								<th>วินิจฉัยสุดท้าย</th>
-								<th>หน่วยงานที่จะส่งหนังสือ</th>
-								<th>เลขหนังสือ</th>
-								<th>แจ้งบำราศ เพื่อ</th>
-								<th>แจ้งทีม Operation</th>
-								<th>PT Status</th>
-								<th>PUI TYPE</th>
-								<th>การแถลงข่าว</th>
-								<th>สถานะการรักษา</th>
-								<th>วันที่(สถานะการรักษา)</th>
-								<th>เบอร์ติดต่อผู้รับแจ้ง</th>
-								<th>ชื่อผู้แจ้งข้อมูล</th>
-								<th>หน่วยงาน</th>
-								<th>ชื่อผู้รับแจ้ง</th>
-            </tr>
-        </thead>
-        <tbody>
-					@foreach($data as $value)
-						<?php $hos_type_code =  (isset($arr_hostype[$value->isolated_hosp_code])) ? $arr_hostype[$value->isolated_hosp_code] : ""  ?>
-						<?php $walkhos_type_code =  (isset($arr_hostype[$value->walkinplace_hosp_code])) ? $arr_hostype[$value->walkinplace_hosp_code] : ""  ?>
-						<tr>
-
-							<td>{{ (!empty($value->id)) ? $value->id : ""  }}</td>
-							<td>{{ (!empty($value->order_pt)) ? $value->order_pt : ""  }}</td>
-							<td>{{ (!empty($value->sat_id)) ? $value->sat_id : ""  }}</td>
-							<td>{{ (!empty($value->first_name)) ? $value->first_name : ""  }} {{ (!empty($value->mid_name)) ? $value->mid_name : ""  }} {{ (!empty($value->last_name)) ? $value->last_name : ""  }}</td>
-							<td>{{ (!empty($value->notify_date)) ? ($value->notify_date) : date('Y-m-d')}}</td>
-							<td>
-								{{ (isset($arr_hos[$value->walkinplace_hosp_code])) ? $arr_hos[$value->walkinplace_hosp_code] : "" }}
-								{{ (isset($list_airport[$value->airports_code])) ? $list_airport[$value->airports_code] : "" }}
-							</td>
-							<td>
-								{{ (isset($arr_hostype_th[$walkhos_type_code])) ? $arr_hostype_th[$walkhos_type_code] : "" }}
-							</td>
-							<td>{{ (isset($arrprov[$value->walkinplace_hosp_province])) ? $arrprov[$value->walkinplace_hosp_province] : "" }}</td>
-							<td>{{ (isset($arrprov[$value->isolated_province])) ? $arrprov[$value->isolated_province] : "" }}</td>
-							<td>
-							{{ (isset($arr_hos[$value->isolated_hosp_code])) ? $arr_hos[$value->isolated_hosp_code] : "" }}
-							{{ (!empty($value->risk2_6history_hospital_input)) ? $value->risk2_6history_hospital_input : ""  }}
-						</td>
-						<td>
-						{{ (isset($arr_hostype_th[$hos_type_code])) ? $arr_hostype_th[$hos_type_code] : "" }}
-					</td>
-							<td>{{ (isset($nation_list[$value->travel_from_country])) ? $nation_list[$value->travel_from_country] : "" }}</td>
-							<td>{{ (isset($arr_city[$value->travel_from_city])) ? $arr_city[$value->travel_from_city] : "" }}</td>
-							<td>{{ (!empty($value->risk_stay_outbreak_arrive_date)) ? $value->risk_stay_outbreak_arrive_date : ""  }}</td>
-							<td>{{ (!empty($value->risk_stay_outbreak_airline)) ? $value->risk_stay_outbreak_airline : ""  }}</td>
-							<td>{{ (!empty($value->risk_stay_outbreak_flight_no)) ? $value->risk_stay_outbreak_flight_no : ""  }}</td>
-							<td>{{ (!empty($value->total_travel_in_group)) ? $value->total_travel_in_group : ""  }}</td>
-							<td>{{ (!empty($value->sex)) ? $value->sex : "" }}</td>
-							<td>{{ (!empty($value->age)) ? $value->age : "" }}</td>
-							<td>{{ (isset($nation_list[$value->nation])) ? $nation_list[$value->nation] : "" }}</td>
-							<td>
-									{{ (isset($list_occupation[$value->occupation])) ? $list_occupation[$value->occupation] : "" }}
-							 		{{(!empty($value->occupation_oth)) ? $value->occupation_oth : ""}}
-							</td>
-							<td>
-									บ้านเลขที่ {{(!empty($value->sick_house_no)) ? $value->sick_house_no : ""}}
-									หมู่ {{(!empty($value->sick_village_no)) ? $value->sick_village_no : ""}}
-									{{(!empty($value->sick_village)) ? $value->sick_village : ""}}
-									{{(!empty($value->sick_lane)) ? $value->sick_lane : ""}}
-									{{(!empty($value->sick_road)) ? $value->sick_road : ""}}
-							</td>
-							<td>{{ (isset($arrprov[$value->sick_province])) ? $arrprov[$value->sick_province] : "" }}</td>
-							<td>{{ (isset($arrdistrict[$value->sick_district])) ? $arrdistrict[$value->sick_district] : "" }}</td>
-							<td>{{ (isset($arrsub_district[$value->sick_sub_district])) ? $arrsub_district[$value->sick_sub_district] : "" }}</td>
-
-							<td>{{ (!empty($value->data3_3chk_lung)) ? $value->data3_3chk_lung : ""  }} </td>
-							<td>{{ (!empty($value->data3_3chk_heart)) ? $value->data3_3chk_heart : ""  }}</td>
-							<td>{{ (!empty($value->data3_3chk_cirrhosis)) ? $value->data3_3chk_cirrhosis :""  }}</td>
-							<td>{{ (!empty($value->data3_3chk_kidney)) ? $value->data3_3chk_kidney : "" }}</td>
-							<td>{{ (!empty($value->data3_3chk_diabetes)) ? $value->data3_3chk_diabetes : ""  }}</td>
-							<td>{{ (!empty($value->data3_3chk_blood)) ? $value->data3_3chk_blood : ""  }}</td>
-							<td>{{ (!empty($value->data3_3chk_immune)) ? $value->data3_3chk_immune : ""  }}</td>
-							<td>{{ (!empty($value->data3_3chk_anaemia)) ? $value->data3_3chk_anaemia : ""  }}</td>
-							<td>{{ (!empty($value->data3_3chk_cerebral)) ? $value->data3_3chk_cerebral : ""  }}</td>
-							<td>{{ (!empty($value->data3_3chk_cerebral)) ? $value->data3_3chk_cerebral : ""  }}</td>
-							<td>{{ (!empty($value->data3_3chk_pregnant)) ? $value->data3_3chk_pregnant : ""  }}</td>
-							<td>{{ (!empty($value->data3_3chk_fat)) ? $value->data3_3chk_fat : ""  }}</td>
-							<td>
-								{{ (!empty($value->data3_3chk_cancer_name)) ? $value->data3_3chk_cancer_name : ""  }}
-								{{ (!empty($value->data3_3input_other)) ? $value->data3_3input_other : ""	  }}
-							</td>
-							<td>{{ (!empty($value->risk_detail)) ? $value->risk_detail : ""  }}</td>
-							<td>
-									<?php if(is_null($value->risk_type)){
-														echo "";
-									}elseif($value->risk_type=="13"){
-										echo $value->risk_type_text;
-									}else{
-										echo $arr_risk_type[$value->risk_type];
-									}
-									?>
-							</td>
-							<td>{{ (!empty($value->data3_1date_sickdate)) ? $value->data3_1date_sickdate : ""  }}</td>
-							<td>{{ (!empty($value->isolate_date)) ? $value->isolate_date : ""  }}</td>
-							<td>{{ (!empty($value->fever_history)) ? $value->fever_history : ""  }}</td>
-							<td>{{ (!empty($value->fever_current)) ? $value->fever_current : ""  }}</td>
-							<td>{{ (!empty($value->sym_cough)) ? $value->sym_cough : ""  }}</td>
-							<td>{{ (!empty($value->sym_snot)) ? $value->sym_snot : ""  }}</td>
-							<td>{{ (!empty($value->sym_sore)) ? $value->sym_sore : ""  }}</td>
-							<td>{{ (!empty($value->sym_dyspnea)) ? $value->sym_dyspnea : ""  }}</td>
-							<td>{{ (!empty($value->sym_breathe)) ? $value->sym_breathe : ""  }}</td>
-							<td>{{ (!empty($value->sym_stufefy)) ? $value->sym_stufefy : ""  }}</td>
-							<td>{{ (!empty($value->xray_result)) ? $value->xray_result : ""  }}</td>
-							<td>{{ (!empty($value->rapid_test_result)) ? $value->rapid_test_result : ""  }}</td>
-							<td>{{ (!empty($value->first_diag)) ? $value->first_diag : ""  }}</td>
-							<td>{{ (!empty($value->last_diag)) ? $value->last_diag : ""  }}</td>
-							<td>{{ (!empty($value->letter_division_code)) ? $value->letter_division_code : ""  }}</td>
-							<td>{{ (!empty($value->letter_code)) ? $value->letter_code : ""  }}</td>
-							<td>
-									{{ (isset($arr_refer_bidi[$value->refer_bidi])) ? $arr_refer_bidi[$value->refer_bidi] : "" }}
-										{{ (isset($arr_refer_lab[$value->refer_lab])) ? $arr_refer_lab[$value->refer_lab] : "" }}
-							</td>
-							<td>
-								{{ (isset($arr_op_opt[$value->op_opt])) ? $arr_op_opt[$value->op_opt] : "" }}
-									{{ (isset($arr_op_dpc[$value->op_dpc])) ? $arr_op_dpc[$value->op_dpc] : "" }}
-							</td>
-							<td>{{ (isset($arr['pt_status'][$value->pt_status])) ? $arr['pt_status'][$value->pt_status] : "" }}</td>
-							<td>{{ (isset($arr['pui_type'][$value->pui_type])) ? $arr['pui_type'][$value->pui_type] : "" }}</td>
-							<td>{{ (isset($arr['news_st'][$value->news_st])) ? $arr['news_st'][$value->news_st] : "" }}</td>
-							<td>{{ (isset($arr['disch_st'][$value->disch_st])) ? $arr['disch_st'][$value->disch_st] : "" }}</td>
-							<td>{{ 	(!empty($value->disch_st_date)) ? $value->disch_st_date : ""  }}</td>
-							<td>{{ 	(!empty($value->coordinator_tel)) ? $value->coordinator_tel : ""  }}</td>
-							<td>{{ 	(!empty($value->send_information)) ? $value->send_information : ""  }}</td>
-							<td>{{ 	(!empty($value->send_information_div)) ? $value->send_information_div : ""  }}</td>
-							<td>{{ 	(!empty($value->receive_information)) ? $value->receive_information : ""  }}</td>
-            </tr>
-					@endforeach
-        </tbody>
-    </table>
-	</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 @endsection
 @section('bottom-script')
-	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/datatables.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/Buttons-1.6.1/js/buttons.bootstrap4.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/js/responsive.bootstrap.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
-<script src="{{ URL::asset('https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ URL::asset('https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
 <script src="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js') }}"></script>
 <script src="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js') }}"></script>
 <script src="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js') }}"></script>
-<script src="{{ URL::asset('https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js') }}"></script>
-<script src="{{ URL::asset('https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
-<script>
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-				"columnDefs": [
-    { "width": "80px","targets": 1 },
-		{ "width": "150px","targets": 4 },
-		{ "width": "90px","targets": 5 }
-  ]
 
-    } );
-} );
-</script>
 <script>
 /* date of birth */
 $('#datecontact').datepicker({
