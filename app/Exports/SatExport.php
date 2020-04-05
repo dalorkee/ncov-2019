@@ -8,7 +8,7 @@ use App\District;
 use App\SubDistrict;
 use App\GlobalCountry;
 use App\laboratory;
-use App\Hospitals;
+use App\Hospitals_A;
 use App\GlobalCity;
 use App\AirportLists;
 use App\Occupation;
@@ -27,16 +27,14 @@ class SatExport  implements FromCollection, WithHeadings
       $this->new_status = array_pull($data, 'new_status');
       $this->notify_date_end = array_pull($data, 'notify_date_end');
       $this->notify_date = array_pull($data, 'notify_date');
-       // dd($this->new_status);
     }
     public function collection()
     {
-      // dd($this->notify_date);
         $arr_province = Provinces::all()->keyBy('province_id')->toArray();
         $arr_district = District::all()->keyBy('district_id')->toArray();
         $arr_sub_district = SubDistrict::all()->keyBy('sub_district_id')->toArray();
         $arr_national = GlobalCountry::all()->keyBy('country_id')->toArray();
-        $arr_hospital = Hospitals::all()->keyBy('hospcode')->toArray();
+        $arr_hospital = Hospitals_A::all()->where('status_code', '=', '1')->keyBy('hospcode')->toArray();
         $arr_airport = AirportLists::all()->keyBy('list')->toArray();
         $arr_occupation = Occupation::all()->keyBy('id')->toArray();
         $arr_city = GlobalCity::all()->keyBy('city_id')->toArray();
@@ -170,7 +168,6 @@ class SatExport  implements FromCollection, WithHeadings
               ->whereBetween('notify_date', [$this->notify_date, $this->notify_date_end])
               ->whereNull('deleted_at')
               ->get()->toArray();
-              // dd($data);
           		$result = collect();
           		foreach($data as $value) {
                   if (!empty($value->nation) || $value->nation != null) {
@@ -194,10 +191,7 @@ class SatExport  implements FromCollection, WithHeadings
                     $sick_district = '-';
                   }
                   if (!empty($value->sick_sub_district) || $value->sick_sub_district != null) {
-                    $sick_sub_district = $arr_sub_district[$value->sick_sub_district]['sub_district_name'];
-                  }elseif ($value->sick_sub_district == 0) {
-                    $sick_district = '-';
-                  }
+                    $sick_sub_district = $arr_sub_district[$value->sick_sub_district]['sub_district_name'];}
                    else {
                     $sick_district = '-';
                   }
@@ -221,11 +215,6 @@ class SatExport  implements FromCollection, WithHeadings
                   } else {
                     $isolated_hosp_code= '-';
                   }
-                  // if (!empty($value->risk2_6history_hospital_input) || $value->risk2_6history_hospital_input != null) {
-                  //   $risk2_6history_hospital_input = $value->risk2_6history_hospital_input;
-                  // } else {
-                  //   $risk2_6history_hospital_input = '-';
-                  // }
                   if (!empty($value->travel_from_country) || $value->travel_from_country != null|| $value->travel_from_country != 0) {
                     $travel_from_country = $arr_national[$value->travel_from_country]['country_name'];
                   } else {
@@ -267,15 +256,15 @@ class SatExport  implements FromCollection, WithHeadings
                   } else {
                     $disch_st = '-';
                   }
-                  if (!empty($value->walkinplace_hosp_province) || $value->walkinplace_hosp_province != null) {
-                    $walkinplace_hosp_province_group = $arr_hospital[$value->walkinplace_hosp_province]['hosp_type_code'] ;
+                  if (!empty($value->walkinplace_hosp_code) || $value->walkinplace_hosp_code != null) {
+                    $walkinplace_hosp_code_group = $arr_hospital[$value->walkinplace_hosp_code]['hosp_type_code'] ;
                   } else {
-                    $walkinplace_hosp_province_group = '';
+                    $walkinplace_hosp_code_group = '';
                   }
-                  if (!empty($walkinplace_hosp_province_group) || $walkinplace_hosp_province_group != null) {
-                    $walkinplace_hosp_province_group_th = $arr_hostype_th[$walkinplace_hosp_province_group] ;
+                  if (!empty($walkinplace_hosp_code_group) || $walkinplace_hosp_code_group != null) {
+                    $walkinplace_hosp_code_group_th = $arr_hostype_th[$walkinplace_hosp_code_group] ;
                   } else {
-                    $walkinplace_hosp_province_group_th= '-';
+                    $walkinplace_hosp_code_group_th= '-';
                   }
                   if (!empty($value->isolated_hosp_code) || $value->isolated_hosp_code != null) {
                     $isolated_hosp_code_group = $arr_hospital[$value->isolated_hosp_code]['hosp_type_code'] ;
@@ -296,7 +285,7 @@ class SatExport  implements FromCollection, WithHeadings
                   'last_name' =>$value->last_name,
                   'notify_date' => $value->notify_date,
                   'walkinplace_hosp_code' => $walkinplace_hosp_code,
-                  'walkinplace_hosp_province_group_th' => $walkinplace_hosp_province_group_th,
+                  'walkinplace_hosp_code_group_th' => $walkinplace_hosp_code_group_th,
                   'airports_code' => $airports_code,
                   'walkinplace_hosp_province' => $walkinplace_hosp_province,
                   'isolated_province' => $isolated_province,
