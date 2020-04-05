@@ -170,19 +170,20 @@ class SatExport  implements FromCollection, WithHeadings
               ->get()->toArray();
           		$result = collect();
           		foreach($data as $value) {
-                  if (!empty($value->nation) || $value->nation != null) {
+                  if (!empty($value->nation) || $value->nation != null || $value->nation != null) {
                     $nation = $arr_national[$value->nation]['country_name'];
                   } else {
                     $nation= '-';
                   }
-                  if (!empty($value->walkinplace_hosp_province) || $value->walkinplace_hosp_province != null || $value->walkinplace_hosp_province != 0) {
+                  if (!empty($value->walkinplace_hosp_province) || $value->walkinplace_hosp_province != null ) {
                     $walkinplace_hosp_province = $arr_province[$value->walkinplace_hosp_province]['province_name'];
                   } else {
                     $walkinplace_hosp_province= '-';
                   }
-                  if (!empty($value->sick_province) || $value->sick_province != null) {
+                  if (!empty($value->sick_province) || $value->sick_province != null || $value->sick_province != '0') {
                     $sick_province = $arr_province[$value->sick_province]['province_name'];
-                  } else {
+                  }
+                   else {
                     $sick_province = '-';
                   }
                   if (!empty($value->sick_district) || $value->sick_district != null) {
@@ -215,7 +216,7 @@ class SatExport  implements FromCollection, WithHeadings
                   } else {
                     $isolated_hosp_code= '-';
                   }
-                  if (!empty($value->travel_from_country) || $value->travel_from_country != null|| $value->travel_from_country != 0) {
+                  if (!empty($value->travel_from_country) || $value->travel_from_country != null) {
                     $travel_from_country = $arr_national[$value->travel_from_country]['country_name'];
                   } else {
                     $travel_from_country = '-';
