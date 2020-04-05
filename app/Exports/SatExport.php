@@ -34,7 +34,7 @@ class SatExport  implements FromCollection, WithHeadings
         $arr_district = District::all()->keyBy('district_id')->toArray();
         $arr_sub_district = SubDistrict::all()->keyBy('sub_district_id')->toArray();
         $arr_national = GlobalCountry::all()->keyBy('country_id')->toArray();
-        $arr_hospital = Hospitals_A::all()->where('status_code', '=', '1')->keyBy('hospcode')->toArray();
+        $arr_hospital = Hospitals_A::all()->wherein('status_code', ['0','1'])->keyBy('hospcode')->toArray();
         $arr_airport = AirportLists::all()->keyBy('list')->toArray();
         $arr_occupation = Occupation::all()->keyBy('id')->toArray();
         $arr_city = GlobalCity::all()->keyBy('city_id')->toArray();
@@ -180,7 +180,7 @@ class SatExport  implements FromCollection, WithHeadings
                   } else {
                     $walkinplace_hosp_province= '-';
                   }
-                  if (!empty($value->sick_province) || $value->sick_province != null || $value->sick_province != '0') {
+                  if (!empty($value->sick_province) || $value->sick_province != null) {
                     $sick_province = $arr_province[$value->sick_province]['province_name'];
                   }
                    else {
