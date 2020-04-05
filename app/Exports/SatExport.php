@@ -34,7 +34,7 @@ class SatExport  implements FromCollection, WithHeadings
         $arr_district = District::all()->keyBy('district_id')->toArray();
         $arr_sub_district = SubDistrict::all()->keyBy('sub_district_id')->toArray();
         $arr_national = GlobalCountry::all()->keyBy('country_id')->toArray();
-        $arr_hospital = Hospitals_A::all()->wherein('status_code', ['0','1'])->keyBy('hospcode')->toArray();
+        $arr_hospital = Hospitals_A::all()->wherein('status_code', ['1'])->keyBy('hospcode')->toArray();
         $arr_airport = AirportLists::all()->keyBy('list')->toArray();
         $arr_occupation = Occupation::all()->keyBy('id')->toArray();
         $arr_city = GlobalCity::all()->keyBy('city_id')->toArray();
@@ -171,94 +171,217 @@ class SatExport  implements FromCollection, WithHeadings
           		$result = collect();
           		foreach($data as $value) {
                   if (!empty($value->nation) || $value->nation != null || $value->nation != null) {
-                    $nation = $arr_national[$value->nation]['country_name'];
+                    if ($value->nation == '0') {
+                      $nation= '-';
+                    }else {
+                      $nation = $arr_national[$value->nation]['country_name'];
+                    }
+
                   } else {
                     $nation= '-';
                   }
                   if (!empty($value->walkinplace_hosp_province) || $value->walkinplace_hosp_province != null ) {
-                    $walkinplace_hosp_province = $arr_province[$value->walkinplace_hosp_province]['province_name'];
+                    if ($value->walkinplace_hosp_province == '0')
+                    {
+                      $walkinplace_hosp_province= '-';
+                    }else {
+                      $walkinplace_hosp_province = $arr_province[$value->walkinplace_hosp_province]['province_name'];
+                    }
+
                   } else {
                     $walkinplace_hosp_province= '-';
                   }
+
                   if (!empty($value->sick_province) || $value->sick_province != null) {
-                    $sick_province = $arr_province[$value->sick_province]['province_name'];
+                    if ($value->sick_province == '0') {
+                      $sick_province= '-';
+                    }else {
+                      $sick_province = $arr_province[$value->sick_province]['province_name'];
+                    }
+
+                    // dd($sick_province);
                   }
                    else {
                     $sick_province = '-';
                   }
+
                   if (!empty($value->sick_district) || $value->sick_district != null) {
-                    $sick_district = $arr_district[$value->sick_district]['district_name'];
+                    if ($value->sick_district == '0') {
+                      $sick_district= '-';
+                    }else {
+                      $sick_district = $arr_district[$value->sick_district]['district_name'];
+                    }
+
                   } else {
                     $sick_district = '-';
                   }
                   if (!empty($value->sick_sub_district) || $value->sick_sub_district != null) {
-                    $sick_sub_district = $arr_sub_district[$value->sick_sub_district]['sub_district_name'];}
+                    if ($value->sick_sub_district == '0') {
+                      $sick_sub_district= '-';
+                    }else {
+                      $sick_sub_district = $arr_sub_district[$value->sick_sub_district]['sub_district_name'];}
+                    }
+
                    else {
-                    $sick_district = '-';
+                    $sick_sub_district = '-';
                   }
                   if (!empty($value->walkinplace_hosp_code) || $value->walkinplace_hosp_code != null) {
-                    $walkinplace_hosp_code = $arr_hospital[$value->walkinplace_hosp_code]['hosp_name'];
+                    if ($value->walkinplace_hosp_code == '0' ||$value->walkinplace_hosp_code == '00013'||
+                                        $value->walkinplace_hosp_code == '00500'||
+                                        $value->walkinplace_hosp_code == '00520'||
+                                        $value->walkinplace_hosp_code == '00540'||
+                                        $value->walkinplace_hosp_code == '00560'||
+                                        $value->walkinplace_hosp_code == '00566'||
+                                        $value->walkinplace_hosp_code == '00570'||
+                                        $value->walkinplace_hosp_code == '00800'||
+                                        $value->walkinplace_hosp_code == '00830'||
+                                        $value->walkinplace_hosp_code == '04007')  {
+                      $walkinplace_hosp_code= '-';
+                    }else {
+                      $walkinplace_hosp_code = $arr_hospital[$value->walkinplace_hosp_code]['hosp_name'];
+                    }
+
                   } else {
                     $walkinplace_hosp_code = '-';
                   }
                   if (!empty($value->airports_code) || $value->airports_code != null) {
-                    $airports_code = $arr_airport[$value->airports_code]['right'];
+                    if ($value->airports_code == '0') {
+                      $airports_code = '-';
+                    }else {
+                      $airports_code = $arr_airport[$value->airports_code]['right'];
+                    }
+
                   } else {
                     $airports_code = '-';
                   }
                   if (!empty($value->isolated_province) || $value->isolated_province != null) {
-                    $isolated_province = $arr_province[$value->isolated_province]['province_name'];
+                    if ($value->isolated_province == '0') {
+                      $isolated_province = '-';
+                    }else {
+                      $isolated_province = $arr_province[$value->isolated_province]['province_name'];
+                    }
+
                   } else {
                     $isolated_province= '-';
                   }
                   if (!empty($value->isolated_hosp_code) || $value->isolated_hosp_code != null) {
-                    $isolated_hosp_code = $arr_hospital[$value->isolated_hosp_code]['hosp_name'];
+                    if ($value->isolated_hosp_code == '0'||
+                                        $value->isolated_hosp_code == '00013'||
+                                        $value->isolated_hosp_code == '00500'||
+                                        $value->isolated_hosp_code == '00520'||
+                                        $value->isolated_hosp_code == '00540'||
+                                        $value->isolated_hosp_code == '00560'||
+                                        $value->isolated_hosp_code == '00566'||
+                                        $value->isolated_hosp_code == '00570'||
+                                        $value->isolated_hosp_code == '00800'||
+                                        $value->isolated_hosp_code == '00830'||
+                                        $value->isolated_hosp_code == '04007')  {
+                      $isolated_hosp_code = '-';
+                    }else {
+                      $isolated_hosp_code = $arr_hospital[$value->isolated_hosp_code]['hosp_name'];
+                    }
+
                   } else {
                     $isolated_hosp_code= '-';
                   }
                   if (!empty($value->travel_from_country) || $value->travel_from_country != null) {
-                    $travel_from_country = $arr_national[$value->travel_from_country]['country_name'];
+                    if ($value->travel_from_country  == '0') {
+                      $travel_from_country = '-';
+                    }else {
+                      $travel_from_country = $arr_national[$value->travel_from_country]['country_name'];
+                    }
+
                   } else {
                     $travel_from_country = '-';
                   }
                   if (!empty($value->travel_from_city) || $value->travel_from_city != null) {
-                    $travel_from_city = $arr_city[$value->travel_from_city]['city_name'];
+                    if ($value->travel_from_city  == '0') {
+                      $travel_from_city = '-';
+                    }else {
+                      $travel_from_city = $arr_city[$value->travel_from_city]['city_name'];
+                    }
+
                   } else {
                     $travel_from_city = '-';
                   }
                   if (!empty($value->occupation) || $value->occupation != null) {
-                    $occupation = $arr_occupation[$value->occupation]['occu_name_th'];
+                    if ($value->occupation  == '0') {
+                      $occupation = '-';
+                    }else {
+                      $occupation = $arr_occupation[$value->occupation]['occu_name_th'];
+                    }
                 }
                    else {
                     $occupation = '-';
                   }
                   if (!empty($value->risk_type) || $value->risk_type != null) {
-                    $risk_type = $arr_risk_type[$value->risk_type]['risk_name'];
+                    if ($value->risk_type  == '0') {
+                      $risk_type = '-';
+                    }else {
+                      $risk_type = $arr_risk_type[$value->risk_type]['risk_name'];
+                    }
+
                   } else {
                     $risk_type = '-';
                   }
                   if (!empty($value->pt_status) || $value->pt_status != null) {
-                    $pt_status = $arr_pt_status[$value->pt_status];
+                    if ($value->pt_status  == '0') {
+                      $pt_status = '-';
+                    }else {
+                      $pt_status = $arr_pt_status[$value->pt_status];
+                    }
+
                   } else {
                     $pt_status = '-';
                   }
                   if (!empty($value->pui_type) || $value->pui_type != null) {
-                    $pui_type = $arr_pui_type[$value->pui_type];
+                    if ($value->pui_type  == '0') {
+                      $pui_type = '-';
+                    }else {
+                      $pui_type = $arr_pui_type[$value->pui_type];
+                    }
+
                   } else {
                     $pui_type = '-';
                   }
                   if (!empty($value->news_st) || $value->news_st != null) {
-                    $news_st = $arr_news_st[$value->news_st];
+                    if ($value->news_st  == '0') {
+                      $news_st = '-';
+                    }else {
+                      $news_st = $arr_news_st[$value->news_st];
+                    }
+
                   } else {
                     $news_st = '-';
                   }
                   if (!empty($value->disch_st) || $value->disch_st != null) {
-                    $disch_st = $arr_disch_st[$value->disch_st];
+                    if ($value->disch_st  == '0') {
+                      $disch_st = '-';
+                    }else {
+                      $disch_st = $arr_disch_st[$value->disch_st];
+                    }
+
                   } else {
                     $disch_st = '-';
                   }
                   if (!empty($value->walkinplace_hosp_code) || $value->walkinplace_hosp_code != null) {
-                    $walkinplace_hosp_code_group = $arr_hospital[$value->walkinplace_hosp_code]['hosp_type_code'] ;
+                    if (                $value->walkinplace_hosp_code == '0'||
+                                        $value->walkinplace_hosp_code == '-'||
+                                        $value->walkinplace_hosp_code == '00013'||
+                                        $value->walkinplace_hosp_code == '00500'||
+                                        $value->walkinplace_hosp_code == '00520'||
+                                        $value->walkinplace_hosp_code == '00540'||
+                                        $value->walkinplace_hosp_code == '00560'||
+                                        $value->walkinplace_hosp_code == '00566'||
+                                        $value->walkinplace_hosp_code == '00570'||
+                                        $value->walkinplace_hosp_code == '00800'||
+                                        $value->walkinplace_hosp_code == '00830'||
+                                        $value->walkinplace_hosp_code == '04007')  {
+                      $walkinplace_hosp_code_group = '';
+                    }else {
+                      $walkinplace_hosp_code_group = $arr_hospital[$value->walkinplace_hosp_code]['hosp_type_code'] ;
+                    }
+
                   } else {
                     $walkinplace_hosp_code_group = '';
                   }
@@ -268,7 +391,23 @@ class SatExport  implements FromCollection, WithHeadings
                     $walkinplace_hosp_code_group_th= '-';
                   }
                   if (!empty($value->isolated_hosp_code) || $value->isolated_hosp_code != null) {
-                    $isolated_hosp_code_group = $arr_hospital[$value->isolated_hosp_code]['hosp_type_code'] ;
+                    if (                $value->isolated_hosp_code == '0'||
+                                        $value->isolated_hosp_code == '-'||
+                                        $value->isolated_hosp_code == '00013'||
+                                        $value->isolated_hosp_code == '00500'||
+                                        $value->isolated_hosp_code == '00520'||
+                                        $value->isolated_hosp_code == '00540'||
+                                        $value->isolated_hosp_code == '00560'||
+                                        $value->isolated_hosp_code == '00566'||
+                                        $value->isolated_hosp_code == '00570'||
+                                        $value->isolated_hosp_code == '00800'||
+                                        $value->isolated_hosp_code == '00830'||
+                                        $value->isolated_hosp_code == '04007')  {
+                      $isolated_hosp_code_group = '';
+                    }else {
+                      $isolated_hosp_code_group = $arr_hospital[$value->isolated_hosp_code]['hosp_type_code'] ;
+                    }
+
                   } else {
                     $isolated_hosp_code_group = '';
                   }
@@ -308,9 +447,9 @@ class SatExport  implements FromCollection, WithHeadings
                   'sick_village' => $value->sick_village,
                   'sick_lane' => $value->sick_lane,
                   'sick_road' => $value->sick_road ,
-                  'sick_province' => $value->sick_province,
-                  'sick_district' => $value->sick_district,
-                  'sick_sub_district' => $value->sick_sub_district,
+                  'sick_province' => $sick_province,
+                  'sick_district' => $sick_district,
+                  'sick_sub_district' => $sick_sub_district,
                   'data3_3chk_lung' => $value->data3_3chk_lung,
                   'data3_3chk_heart' => $value->data3_3chk_heart,
                   'data3_3chk_cirrhosis' => $value->data3_3chk_cirrhosis,
