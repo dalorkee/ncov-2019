@@ -98,7 +98,6 @@ class SatExport  implements FromCollection, WithHeadings
                         'walkinplace_hosp_province',
                         'isolated_province',
                         'isolated_hosp_code',
-                        'risk2_6history_hospital_input',
                         'travel_from_country',
                         'travel_from_city',
                         'risk_stay_outbreak_arrive_date',
@@ -179,7 +178,7 @@ class SatExport  implements FromCollection, WithHeadings
                   } else {
                     $nation= '-';
                   }
-                  if (!empty($value->walkinplace_hosp_province) || $value->walkinplace_hosp_province != null) {
+                  if (!empty($value->walkinplace_hosp_province) || $value->walkinplace_hosp_province != null || $value->walkinplace_hosp_province != 0) {
                     $walkinplace_hosp_province = $arr_province[$value->walkinplace_hosp_province]['province_name'];
                   } else {
                     $walkinplace_hosp_province= '-';
@@ -196,7 +195,10 @@ class SatExport  implements FromCollection, WithHeadings
                   }
                   if (!empty($value->sick_sub_district) || $value->sick_sub_district != null) {
                     $sick_sub_district = $arr_sub_district[$value->sick_sub_district]['sub_district_name'];
-                  } else {
+                  }elseif ($value->sick_sub_district == 0) {
+                    $sick_district = '-';
+                  }
+                   else {
                     $sick_district = '-';
                   }
                   if (!empty($value->walkinplace_hosp_code) || $value->walkinplace_hosp_code != null) {
@@ -219,12 +221,12 @@ class SatExport  implements FromCollection, WithHeadings
                   } else {
                     $isolated_hosp_code= '-';
                   }
-                  if (!empty($value->risk2_6history_hospital_input) || $value->risk2_6history_hospital_input != null) {
-                    $risk2_6history_hospital_input = $arr_hospital[$value->risk2_6history_hospital_input]['hosp_name'];
-                  } else {
-                    $risk2_6history_hospital_input = '-';
-                  }
-                  if (!empty($value->travel_from_country) || $value->travel_from_country != null) {
+                  // if (!empty($value->risk2_6history_hospital_input) || $value->risk2_6history_hospital_input != null) {
+                  //   $risk2_6history_hospital_input = $value->risk2_6history_hospital_input;
+                  // } else {
+                  //   $risk2_6history_hospital_input = '-';
+                  // }
+                  if (!empty($value->travel_from_country) || $value->travel_from_country != null|| $value->travel_from_country != 0) {
                     $travel_from_country = $arr_national[$value->travel_from_country]['country_name'];
                   } else {
                     $travel_from_country = '-';
@@ -236,7 +238,8 @@ class SatExport  implements FromCollection, WithHeadings
                   }
                   if (!empty($value->occupation) || $value->occupation != null) {
                     $occupation = $arr_occupation[$value->occupation]['occu_name_th'];
-                  } else {
+                }
+                   else {
                     $occupation = '-';
                   }
                   if (!empty($value->risk_type) || $value->risk_type != null) {
@@ -269,7 +272,7 @@ class SatExport  implements FromCollection, WithHeadings
                   } else {
                     $walkinplace_hosp_province_group = '';
                   }
-                  if (!empty($walkinplace_hosp_province_group) || $walkinplace_hosp_province_group != null ) {
+                  if (!empty($walkinplace_hosp_province_group) || $walkinplace_hosp_province_group != null) {
                     $walkinplace_hosp_province_group_th = $arr_hostype_th[$walkinplace_hosp_province_group] ;
                   } else {
                     $walkinplace_hosp_province_group_th= '-';
@@ -279,7 +282,7 @@ class SatExport  implements FromCollection, WithHeadings
                   } else {
                     $isolated_hosp_code_group = '';
                   }
-                  if (!empty($isolated_hosp_code_group) || $isolated_hosp_code_group != null ) {
+                  if (!empty($isolated_hosp_code_group) || $isolated_hosp_code_group != null) {
                     $isolated_hosp_code_group_th = $arr_hostype_th[$isolated_hosp_code_group] ;
                   } else {
                     $isolated_hosp_code_group_th= '-';

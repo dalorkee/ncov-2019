@@ -101,16 +101,26 @@ class ContactExport  implements FromCollection, WithHeadings
             $sub_district = '-';
           }
           if (!empty($value->contact_id) || $value->contact_id != null) {
-            $lab1 = $arr_labstation_contact1[$value->contact_id]['dms_pcr_contact'] ;
-            $lab1_name = $arr_laboratory_name[$lab1]['th_name'] ;
+            $lab1_name = $arr_labstation_contact1[$value->contact_id]['dms_pcr_contact'] ;
+            // $lab1_name = $arr_laboratory_name[$lab1]['th_name'] ;
           } else {
             $lab1_name = '-';
           }
+          if (!empty($lab1_name) || $lab1_name != null ) {
+            $lab1 = $arr_laboratory_name[$lab1_name]['th_name'] ;
+          } else {
+            $lab1= '-';
+          }
           if (!empty($value->contact_id) || $value->contact_id != null) {
-            $lab2 = $arr_labstation_contact2[$value->contact_id]['dms_pcr_contact'] ;
-            $lab2_name = $arr_laboratory_name[$lab2]['th_name'] ;
+            $lab2_name = $arr_labstation_contact2[$value->contact_id]['dms_pcr_contact'] ;
+            // $lab2_name = $arr_laboratory_name[$lab2]['th_name'] ;
           } else {
             $lab2_name = '-';
+          }
+          if (!empty($lab2_name) || $lab2_name != null ) {
+            $lab2 = $arr_laboratory_name[$lab2_name]['th_name'] ;
+          } else {
+            $lab2= '-';
           }
           if (!empty($value->contact_id) || $value->contact_id != null) {
             $labresult1 = $arr_labstation_contact1[$value->contact_id]['other_pcr_result_contact'] ;
@@ -161,9 +171,9 @@ class ContactExport  implements FromCollection, WithHeadings
             'type_contact' => $type_contact,
             'status_followup' => $status_followup,
             'pt_status'=> $value->pt_status,
-            'lab1' =>  $lab1_name,
+            'lab1' =>  $lab1,
             'labresult1'=> $labresult1,
-            'lab2' => $lab2_name,
+            'lab2' => $lab2,
             'labresult2'=> $labresult2
           );
           $result->push($arr);
