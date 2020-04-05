@@ -22,7 +22,7 @@ class ListInvestController extends Controller
 	}
 
 	public function export() {
-		return Excel::download($id, new InvestExport, 'invest.xlsx');
+		return Excel::download(new InvestExport, 'invest.csv');
 	}
 
 	public function exportByParams($id = 56) {

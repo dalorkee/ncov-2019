@@ -164,6 +164,8 @@ class ListInvestDataTable extends DataTable
 	* @return \Illuminate\Database\Eloquent\Builder
 	*/
 	public function query(InvestList $model) {
+		$user_hosp = auth()->user()->hospcode;
+		$user_prov = auth()->user()->prov_code;
 		$user_role = Session::get('user_role');
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
@@ -214,7 +216,6 @@ class ListInvestDataTable extends DataTable
 				->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			case 'pho':
-				//$user_arr = self::getPhoUserByProv();
 				$invest = InvestList::select(
 					'id',
 					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
@@ -226,11 +227,13 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
-				//	->whereIn('entry_user', $user_arr)
+					->where('isolated_province', '=',  $user_prov)
+					->orWhere('walkinplace_hosp_province', '=',  $user_prov)
+					->orWhere('sick_province', '=',  $user_prov)
+					->orWhere('sick_province_first', '=',  $user_prov)
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'hos':
-				//$hosp_code_arr = self::getHospCodeByHospCode();
 				$invest = InvestList::select(
 					'id',
 					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
@@ -242,7 +245,8 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
-					//->whereIn('isolated_hosp_code', $hosp_code_arr)
+					->where('isolated_hosp_code', '=', $user_hosp)
+					->orWhere('walkinplace_hosp_code', '=', $user_hosp)
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 				break;
 			default:

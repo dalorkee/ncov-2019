@@ -147,10 +147,11 @@ Route::group(['middleware' => ['auth']], function() {
 /* DashBoardGraph */
 Route::prefix('dashboardgraph')->group(function () {
 	Route::group(['middleware' => ['auth']], function() {
-		Route::get('/', array(
-								'as'   => 'dashboardgraph.index',
-								'uses' => 'DashboardGraphController@index'
-							));
+		Route::get('/',
+			array(
+				'as'   => 'dashboardgraph.index',
+				'uses' => 'DashboardGraphController@index'
+			));
 	});
 });
 

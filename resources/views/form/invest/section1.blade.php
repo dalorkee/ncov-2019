@@ -103,7 +103,7 @@
 								@if (!empty($invest_pt[0]['occupation']))
 									<option value="{{ $invest_pt[0]['occupation'] }}" selected="selected">{{ $occupation[$invest_pt[0]['occupation']]['occu_name_th'] }}</option>
 								@endif
-								<option value="0">-- โปรดเลือก --</option>
+								<option value="">-- โปรดเลือก --</option>
 								@foreach ($occupation as $key => $value)
 									<option value="{{ $value['id'] }}">{{ $value['occu_name_th'] }}</option>
 								@endforeach

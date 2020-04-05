@@ -1,8 +1,9 @@
 @font-face {
 	font-family: 'Fira-code';
 	src:
-		url('../static/fonts/fira-code/FiraCode-Regular.woff2') format('woff2'),
-		url('../static/fonts/fira-code/FiraCode-Regular.ttf') format('truetype');
+		 url('../static/fonts/fira-code/FiraCode-Regular.woff2') format('woff2'),
+		 url('../static/fonts/fira-code/FiraCode-Regular.ttf') format('truetype');
+	font-weight:400;
 	font-weight: normal;
 	font-style: normal;
 }

@@ -25,8 +25,33 @@
 @font-face {
   font-family: "Fira-code";
   src: url(../fonts/FiraCode-Regular.woff2?ea8e341601f69d25bb335b834f77e732) format("woff2"), url(../fonts/FiraCode-Regular.ttf?1b433a821ef8f9a70eac6aea64f7cac8) format("truetype");
+  font-weight: 400;
   font-weight: normal;
   font-style: normal;
+}
+
+@font-face {
+  font-family: "boon";
+  src: url(../fonts/Boon-Regular.woff2?bc2683485f0c4be1de1186e4604c0a2c) format("woff2"), url(../fonts/Boon-Regular.woff?a5658b33ca5093c879b38d5b4c480879) format("woff"), url(../fonts/Boon-Regular.ttf?643291e07bc7a8594c2c358f537c0301) format("truetype");
+  font-weight: 400;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "cs_prakasregular";
+  src: url(../fonts/csprakas-webfont.woff2?66fe84ebffc3575ca8586a87b05bdcf8) format("woff2"), url(../fonts/csprakas-webfont.woff?fc5cc992edeb5868c6e4c5f868d58e15) format("woff"), url(../fonts/csprakas-webfont.ttf?da031375e747d3cb06717f843e343cf1) format("truetype");
+  font-weight: 400;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "sukhumvit";
+  src: url(../fonts/SukhumvitReg.woff2?d593a19afb6184190da0835a043687f9) format("woff2"), url(../fonts/SukhumvitReg.woff?2025ba7f123849d66c726cae4d6754ea) format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
 }
 
 .page-wrapper-custom {
@@ -44,7 +69,7 @@
 }
 
 .card {
-  font-family: "Motosansthai-Light" !important;
+  font-family: "sukhumvit" !important;
   font-style: normal;
 }
 
@@ -291,6 +316,18 @@ a.link-color-white:hover {
 }
 
 .btn-custom-7:hover {
+  background-color: #108769 !important;
+  color: white;
+}
+
+.btn-custom-8,
+.btn-custom-8:active,
+.btn-custom-8:visited {
+  background-color: #139676 !important;
+  color: white;
+}
+
+.btn-custom-8:hover {
   background-color: #108769 !important;
   color: white;
 }

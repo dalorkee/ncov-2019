@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html dir="ltr" lang="th">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +15,6 @@
 	@yield('custom-style')
 	@yield('internal-style')
 	@yield('top-script')
-
 </head>
 <body>
 	<div class="preloader">
