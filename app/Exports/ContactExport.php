@@ -106,11 +106,17 @@ class ContactExport  implements FromCollection, WithHeadings
           } else {
             $lab1_name = '-';
           }
+
           if (!empty($lab1_name) || $lab1_name != null ) {
-            $lab1 = $arr_laboratory_name[$lab1_name]['th_name'] ;
+            if ($lab1_name == '-')  {
+              $lab1_name = '';
+            }else {
+              $lab1 = $arr_laboratory_name[$lab1_name]['th_name'] ;
+            }
           } else {
             $lab1= '-';
           }
+          // dd($lab1);
           if (!empty($value->contact_id) || $value->contact_id != null) {
             $lab2_name = $arr_labstation_contact2[$value->contact_id]['dms_pcr_contact'] ;
             // $lab2_name = $arr_laboratory_name[$lab2]['th_name'] ;
@@ -118,7 +124,12 @@ class ContactExport  implements FromCollection, WithHeadings
             $lab2_name = '-';
           }
           if (!empty($lab2_name) || $lab2_name != null ) {
-            $lab2 = $arr_laboratory_name[$lab2_name]['th_name'] ;
+            if ($lab2_name == '-')  {
+              $lab2_name = '';
+            }else {
+                $lab2 = $arr_laboratory_name[$lab2_name]['th_name'] ;
+            }
+
           } else {
             $lab2= '-';
           }
