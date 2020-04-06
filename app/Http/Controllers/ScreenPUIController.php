@@ -127,13 +127,24 @@ class ScreenPUIController extends MasterController
       //   }
       // }
 
-      $check_duplicate_record = InvestList::where('sat_id', '=', $request->sat_id)->exists();
-      if($check_duplicate_record){
+      $check_duplicate_record_sat_id = InvestList::where('sat_id', '=', $sat_id)->exists();
+      if($check_duplicate_record_sat_id){
         //return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$sat_id);
-        $message = "Duplicate SATID: ".$sat_id;
+        $message = "พบหมายเลข SAT ID ซ้ำ : ".$sat_id;
         flash()->overlay($message, 'Message');
         return redirect()->back()->withInput();
       }
+
+      if(isset($request->card_id)){
+        $check_duplicate_record_card_id = InvestList::where('card_id', '=', $request->card_id)->exists();
+        if($check_duplicate_record_card_id){
+          //return redirect()->back()->withInput()->with('message','Duplicate SATID: '.$sat_id);
+          $message = "พบหมายเลขบัตรประจำตัวประชาชน CID ซ้ำ : ".$request->card_id;
+          flash()->overlay($message, 'Message');
+          return redirect()->back()->withInput();
+        }
+      }
+
 
         $data = [
           "notify_date" => (!empty($request->notify_date)) ? trim($this->Convert_Date($request->notify_date)) : date('Y-m-d'),
