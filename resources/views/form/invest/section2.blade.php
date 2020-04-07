@@ -719,35 +719,43 @@
 				<div class="form-group">
 					<label for="covidDrug">ชนิดยารักษาโรคติดเชื้อไวรัสโคโรนา 2019</label>
 					<div class="card">
+						@foreach ($covid19_drug_medicate_name as $key => $value)
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="covid19_drug_medicate_name" value="Darunavir/Ritonavir (DRV/r)" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Darunavir/Ritonavir (DRV/r)') checked @endif class="custom-control-input chk_covid_drug_name" id="drvChk"  >
+							<input type="checkbox" name="covid19_drug_medicate_name[]" value="{{ $key }}" @if ($key == $drug_result[((int)$key)]) checked @endif class="custom-control-input chk_covid_drug_name" id="drugName{{$value}}"  >
+							<label for="drugName{{$value}}" class="custom-control-label normal-label">{{ $value }}</label>
+						</div>
+						@endforeach
+						<!--
+						<div class="custom-control custom-checkbox custom-control-inline">
+							<input type="checkbox" name="covid19_drug_medicate_name[]" value="Darunavir/Ritonavir (DRV/r)" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Darunavir/Ritonavir (DRV/r)') checked @endif class="custom-control-input chk_covid_drug_name" id="drvChk"  >
 							<label for="drvChk" class="custom-control-label normal-label">Darunavir/Ritonavir (DRV/r)</label>
 						</div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="covid19_drug_medicate_name" value="Lopinavir/Ritonavir (LPV/r)" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Lopinavir/Ritonavir (LPV/r)') checked @endif class="custom-control-input chk_covid_drug_name" id="lpvChk" >
+							<input type="checkbox" name="covid19_drug_medicate_name[]" value="Lopinavir/Ritonavir (LPV/r)" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Lopinavir/Ritonavir (LPV/r)') checked @endif class="custom-control-input chk_covid_drug_name" id="lpvChk" >
 							<label for="lpvChk" class="custom-control-label normal-label">Lopinavir/Ritonavir (LPV/r)</label>
 						</div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="covid19_drug_medicate_name" value="Favipiravir" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Favipiravir') checked @endif class="custom-control-input chk_covid_drug_name" id="favChk" >
+							<input type="checkbox" name="covid19_drug_medicate_name[]" value="Favipiravir" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Favipiravir') checked @endif class="custom-control-input chk_covid_drug_name" id="favChk" >
 							<label for="favChk" class="custom-control-label normal-label">Favipiravir</label>
 						</div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="covid19_drug_medicate_name" value="Chloroquine" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Chloroquine') checked @endif class="custom-control-input chk_covid_drug_name" id="chlChk" >
+							<input type="checkbox" name="covid19_drug_medicate_name[]" value="Chloroquine" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Chloroquine') checked @endif class="custom-control-input chk_covid_drug_name" id="chlChk" >
 							<label for="chlChk" class="custom-control-label normal-label">Chloroquine</label>
 						</div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="covid19_drug_medicate_name" value="Hydroxychloroquine" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Hydroxychloroquine') checked @endif class="custom-control-input chk_covid_drug_name" id="hydChk" >
+							<input type="checkbox" name="covid19_drug_medicate_name[]" value="Hydroxychloroquine" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Hydroxychloroquine') checked @endif class="custom-control-input chk_covid_drug_name" id="hydChk" >
 							<label for="hydChk" class="custom-control-label normal-label">Hydroxychloroquine</label>
 						</div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="covid19_drug_medicate_name" value="Oseltamivir" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Oseltamivir') checked @endif class="custom-control-input chk_covid_drug_name" id="oseChk" >
+							<input type="checkbox" name="covid19_drug_medicate_name[]" value="Oseltamivir" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'Oseltamivir') checked @endif class="custom-control-input chk_covid_drug_name" id="oseChk" >
 							<label for="oseChk" class="custom-control-label normal-label">Oseltamivir</label>
 						</div>
 						<div class="custom-control custom-checkbox custom-control-inline">
-							<input type="checkbox" name="covid19_drug_medicate_name" value="other" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'other') checked @endif class="custom-control-input chk_covid_drug_name" id="othChk" >
+							<input type="checkbox" name="covid19_drug_medicate_name[]" value="other" @if ($invest_pt[0]['covid19_drug_medicate_name'] == 'other') checked @endif class="custom-control-input chk_covid_drug_name" id="othChk" >
 							<label for="othChk" class="custom-control-label normal-label">ยาอื่นๆ โปรดระบุ</label>
 						</div>
 					</div>
+					-->
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">

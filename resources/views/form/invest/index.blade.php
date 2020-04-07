@@ -378,10 +378,10 @@ $(document).ready(function() {
 	});
 
 	/* covid-19 drug name check */
-	$('.chk_covid_drug_name').click(function() {
+	/*$('.chk_covid_drug_name').click(function() {
 		$('.chk_covid_drug_name').not(this).prop('checked', false);
 	});
-
+*/
 	/* โรคประจำตัว */
 	$('.chk_congenital_disease').click(function() {
 		$('.chk_congenital_disease').not(this).prop('checked', false);

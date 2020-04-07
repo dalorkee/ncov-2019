@@ -1,16 +1,4 @@
 <?php
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Auth::routes();
 
 /* Role & Permission Manage */
@@ -31,38 +19,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('chConfirmStatus', 'ConfirmFormController@changeStatus')->name('chConfirmStatus');
 Route::post('chConfirmStatusServerSide', 'ConfirmFormController@changeStatusSeverSide')->name('chConfirmStatusServerSide');
 Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
-
-Route::get('/screen-pui', array(
-						'as'   => 'screenpui.create',
-						'uses' => 'ScreenPUIController@create'
-					));
-Route::post('/screen-pui', array(
-						'as'   => 'screenpui.store',
-						'uses' => 'ScreenPUIController@store'
-					));
-Route::get('/screen-pui/edit/{id}', array(
-						'as'   => 'screenpui.edit',
-						'uses' => 'ScreenPUIController@edit'
-					));
-Route::post('/screen-pui/update/', array(
-						'as'   => 'screenpui.update',
-						'uses' => 'ScreenPUIController@update'
-					));
-Route::get('/del-screen-pui/{id}', array(
-						'as'   => 'screenpui.delete',
-						'uses' => 'ScreenPUIController@destroy'
-					));
-Route::post('/ListHosp', array(
-						'as'   => 'screenpui.fetchHos',
-						'uses' => 'ScreenPUIController@Sat_FetcHos'
-					));
-Route::get('/sat-delete/{id}', array(
-						'as'   => 'screenpui.satdel',
-						'uses' => 'ScreenPUIController@Delete_Sat'
-					));
+Route::get('/screen-pui', array('as' => 'screenpui.create', 'uses' => 'ScreenPUIController@create'));
+Route::post('/screen-pui', array('as' => 'screenpui.store', 'uses' => 'ScreenPUIController@store'));
+Route::get('/screen-pui/edit/{id}', array('as' => 'screenpui.edit', 'uses' => 'ScreenPUIController@edit'));
+Route::post('/screen-pui/update/', array('as' => 'screenpui.update', 'uses' => 'ScreenPUIController@update'));
+Route::get('/del-screen-pui/{id}', array('as' => 'screenpui.delete', 'uses' => 'ScreenPUIController@destroy'));
+Route::post('/ListHosp', array('as' => 'screenpui.fetchHos', 'uses' => 'ScreenPUIController@Sat_FetcHos'));
+Route::get('/sat-delete/{id}', array('as' => 'screenpui.satdel', 'uses' => 'ScreenPUIController@Delete_Sat'));
 Route::get('/hos-test', function () {
-					 return view('hospital.screenhos');
-					});
+	return view('hospital.screenhos');
+});
 
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
@@ -128,15 +94,33 @@ Route::group(['middleware' => 'under-construction'], function () {
 
 /* list-data => datatable */
 Route::group(['middleware' => ['auth']], function() {
+	/* List data */
 	Route::get('/invest/list', 'ListInvestController@index')->name('list-data.invest');
 	Route::get('/sat/list', 'ListSatController@index')->name('list-data.sat');
+
+	/* ch status */
 	Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
-	Route::get('invest/export/', 'ListInvestController@export');
-	//Route::resource('invest', 'InvestController');
+
+	/* invest */
 	Route::get('/invest/{id}', 'InvestController@create')->name('invest');
 	Route::post('/invest/store', 'InvestController@store')->name('store');
+
+	/* map */
 	Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');
 	Route::get('/clusters/doughnut', 'covidController@clusters')->name('maps.doughnut');
+
+	/* Export */
+	Route::get('invest/export/', 'ListInvestController@export');
+	Route::get('epi', function() {
+		return view('export.invest');
+	});
+	/*
+	Route::get('/einvest', function(App\Exports\InvestExport $export) {
+		return $export->download('inv.xlsx');
+	});
+	Route::get('/invest/ept', 'ListInvestController@exportToExcel');
+	*/
+
 	/* destroy */
 	Route::resource('item', 'InvestController');
 
@@ -147,21 +131,8 @@ Route::group(['middleware' => ['auth']], function() {
 /* DashBoardGraph */
 Route::prefix('dashboardgraph')->group(function () {
 	Route::group(['middleware' => ['auth']], function() {
-		Route::get('/',
-			array(
-				'as'   => 'dashboardgraph.index',
-				'uses' => 'DashboardGraphController@index'
-			));
+		Route::get('/', array('as' => 'dashboardgraph.index', 'uses' => 'DashboardGraphController@index'));
 	});
 });
 
 Route::resource('hospital', 'HospitalController');
-
-/* gexport excel */
-/*
-Route::get('/einvest', function(App\Exports\InvestExport $export) {
-	return $export->download('inv.xlsx');
-});
-*/
-
- //Route::get('/invest/ept', 'ListInvestController@exportToExcel');

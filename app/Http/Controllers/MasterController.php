@@ -71,7 +71,7 @@ class MasterController extends Controller
 
 	private function setDrug() {
 		$drug = collect([
-			'covid-19' => [
+			'covid19' => [
 				1 => 'Darunavir/Ritonavir (DRV/r)',
 				2 => 'Lopinavir/Ritonavir (LPV/r)',
 				3 => 'Favipiravir',
@@ -84,8 +84,13 @@ class MasterController extends Controller
 		return $drug;
 	}
 
-	protected function getDrug() {
-		return $this->setDrug();
+	public function getDrug($key=null) {
+		$drug = $this->setDrug();
+		if (!is_null($key)) {
+			return $drug[$key];
+		} else {
+			return $drug;
+		}
 	}
 
 

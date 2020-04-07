@@ -60,6 +60,23 @@ class InvestController extends MasterController
 			}
 		}
 
+		$covid19_drug_medicate_name = parent::getDrug('covid19');
+		/* set drug name to array where edit data */
+		if (strlen($invest_pt[0]['covid19_drug_medicate_name']) > 0) {
+			$drug_on_db = explode(',', $invest_pt[0]['covid19_drug_medicate_name']);
+		} else {
+			$drug_on_db = array();
+		}
+		foreach ($covid19_drug_medicate_name as $key => $value) {
+			if (in_array($key, $drug_on_db)) {
+				$drug_result[$key] = $key;
+			} else {
+				$drug_result[$key] = 0;
+			}
+		}
+
+		//dd($drug_result);
+
 		$data['breathing_tube_date'] = self::convertMySQLDateFormat($invest_pt[0]['breathing_tube_date']);
 		$data['risk_stay_outbreak_arrive_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk_stay_outbreak_arrive_date']);
 		$data['risk_stay_outbreak_arrive_thai_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk_stay_outbreak_arrive_thai_date']);
@@ -171,7 +188,10 @@ class InvestController extends MasterController
 				'lab_station' => $labStation,
 				'ref_specimen' => $ref_specimen,
 				'pt_activity' => $pt_activity,
+				'covid19_drug_medicate_name' => $covid19_drug_medicate_name,
+				'drug_result' => $drug_result,
 				'risk_type' => $risk_type
+
 
 			]
 		);
@@ -284,7 +304,21 @@ class InvestController extends MasterController
 		$pt->first_diag = $request->firstDiagInput;
 		$pt->covid19_drug_medicate = $request->covid19Drugchk;
 		$pt->covid19_drug_medicate_first_date = $this->convertDateToMySQL($request->covid19_drug_medicate_first_date);
-		$pt->covid19_drug_medicate_name = $request->covid19_drug_medicate_name;
+
+		/* set drug name to array */
+		$drugStr = NULL;
+		if (count($request->covid19_drug_medicate_name) > 0) {
+			foreach ($request->covid19_drug_medicate_name as $key => $value) {
+				if (is_null($drugStr)) {
+					$drugStr = "";
+				} else {
+					$drugStr = $drugStr.", ";
+				}
+				$drugStr = $drugStr.$value;
+			}
+		}
+		$pt->covid19_drug_medicate_name = $drugStr;
+
 		$pt->covid19_drug_medicate_name_other = $request->covid19_drug_medicate_name_other;
 		$pt->patient_treat_status = $request->patientTreatStatus;
 		$pt->patient_treat_status_refer = $request->patient_treat_status_refer;
@@ -329,6 +363,7 @@ class InvestController extends MasterController
 		$pt->risk_type = $request->risk_type;
 		$pt->risk_type_text = $request->risk_type_text;
 		$pt->entry_user_last_update = auth()->user()->id;
+
 
 		for ($i=1; $i<=10; $i++) {
 			$activityDate = $request->input('activityDate'.$i);
