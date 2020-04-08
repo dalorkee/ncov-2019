@@ -101,20 +101,26 @@ input.valid, textarea.valid{
 				<div class="card-body">
 					<div class="d-md-flex align-items-center mb-2">
 						<div>
-							<h4 class="card-title">แบบสอบสวนของผู้สัมผัสโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
-							<h5 class="card-subtitle">2019-nCoV</h5>
+							<h4 class="card-title">แบบติดตามผู้สัมผัสโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
+							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
 					<br>
+					<div class="col-md-12">
+						<a class="btn btn-warning" href="{{ route('contactfollowtable') }}" class="sidebar-link"><i class="mdi mdi-account-multiple"></i><span class="hide-menu"> FollowUp Contact</span></a>
+					<a class="btn btn-success" href="{{ route('puifollowtable') }}" class="sidebar-link"><i class="fas fa-diagnoses"></i><span class="hide-menu"> FollowUp PUI</span></a>
+					</div>
+					<br>
+				<br>
 					<div class="table-responsive">
           <table id="example" class="table display mb-4" role="table">
         <thead>
             <tr>
 							<th>ID</th>
-                <th>PUI ID</th>
+                <th>Contact ID</th>
 								<th>เพศ</th>
 								<th>อายุ</th>
-                <th>เชื้อชาติ</th>
+                <th>ที่อยู่ในประเทศไทย</th>
                 <th>สัญชาติ</th>
                 <th>Action</th>
             </tr>
@@ -131,19 +137,19 @@ input.valid, textarea.valid{
 										{{ (isset( $arr_sub_district[$value->sub_district])) ? $arr_sub_district[$value->sub_district] : "" }}
 								</td>
 								<td>{{ (isset($nation_list[$value->national_contact])) ? $nation_list[$value->national_contact] : "" }}</td>
-
 								<td>
+									{{-- <button type="button" class="btn btn-success btn-sm margin-5 text-white chstatusfu" data-toggle="modal" title="Change status" data-target="#chstatusfu">ST</button> --}}
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
-										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="{{ 'followuptable'}}/typid/2/id/{{ $value->contact_id }}">
-											FUCON
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" target="_blank" href="/ncov-2019/{{ 'followuptablescon'}}/typid/2/id/{{ $value->contact_id }}">
+											FU
 									</a>
 									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="{{ 'detailcontact'}}/contact_id/{{ $value->contact_id }}">
 										Info
 								</a>
-								<a class="btn btn-warning btn-sm" href="{{'editcontact'}}/contact_id/{{ $value->contact_id }}">
+								{{-- <a class="btn btn-warning btn-sm" href="{{'editcontact'}}/contact_id/{{ $value->contact_id }}"> --}}
 									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#"> --}}
-										Edit
+										{{-- Edit --}}
 								</a>
 								</td>
             </tr>
@@ -192,4 +198,13 @@ function printElement(elem) {
     window.print();
 }
 </script> --}}
+<script>
+$('#date_change_st').datepicker({
+	format: 'dd/mm/yyyy',
+	todayHighlight: true,
+	todayBtn: true,
+	autoclose: true
+});
+
+</script>
 @endsection

@@ -5,69 +5,44 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\GlobalCountry;
+use App\InvestList;
+use App\RiskType;
+
 class ExportExcelController extends MasterController
 {
 
   // all table
-  public function alltable(Request $req)
-  {
+public function alltable(Request $req)
+{
+	return view('errors.405');
+/*
     $datenow = date('Y-m-d');
     $arr = parent::getStatus();
     $nation_list = $this->arrnation();
-    // dd($poe_id);
+
     $data=DB::table('invest_pt')
             ->select('*')
             ->where('notify_date', $datenow)
             ->whereNull('deleted_at')
             ->get();
-    return view('export.export_excel',compact(
+    return view('errors.405',compact(
       'data',
       'arr',
       'nation_list'
     ));
-  }
-  public function alltableexport(Request $req)
-  {
-    $datenow = date('Y-m-d');
-    $arr = parent::getStatus();
-    $arr_hos = $this->arr_hos();
-    $arrprov = $this->arrprov();
-    $arr_city = $this->arr_city();
-    $list_occupation = $this->list_occupation();
-    $nation_list = $this->arrnation();
-    $list_airport = $this->list_airport();
-    $arr_refer_lab = $this->arr_refer_lab();
-    $arr_refer_bidi = $this->arr_refer_bidi();
-    $arr_op_opt = $this->arr_op_opt();
-    $arr_op_dpc = $this->arr_op_dpc();
-    // dd($poe_id);
-    $data=DB::table('invest_pt')
-            ->select('*')
-            ->where('notify_date', $datenow)
-            ->whereNull('deleted_at')
-            ->get();
-    return view('export.allexport',compact(
-      'data',
-      'arr',
-      'arr_hos',
-      'nation_list',
-      'list_occupation',
-      'arrprov',
-      'list_airport',
-      'arr_refer_bidi',
-      'arr_refer_lab',
-      'arr_op_opt',
-      'arr_op_dpc',
-      'arr_city'
-    ));
+	*/
   }
 
 
-    function index(Request $req)
-    {
+
+public function index(Request $req)
+{
+	return view('errors.405');
+	/*
       $arr = parent::getStatus();
       $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
       $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+      $pt_status= $req ->input ('pt_status');
       $nation_list = $this->arrnation();
       $data=DB::table('invest_pt')
                       ->select('*')
@@ -75,37 +50,186 @@ class ExportExcelController extends MasterController
                       ->whereDate('notify_date', '<=',$notify_date_end)
                       ->whereNull('deleted_at')
                       ->get();
-                      return view('export.export_excel',compact(
+                      // return view('export.export_excel',compact(
+                      //   'data',
+                      //   'arr',
+                      //   'nation_list'
+                      // ));
+                      return view('errors.405',compact(
                         'data',
                         'arr',
                         'nation_list'
                       ));
+	*/
    }
-   function indexallexcel(Request $req)
-   {
-     $arr = parent::getStatus();
-     $arr_hos = $this->arr_hos();
-     $arrprov = $this->arrprov();
-     $nation_list = $this->arrnation();
-     $arr_city = $this->arr_city();
-     $list_airport = $this->list_airport();
-     $list_occupation = $this->list_occupation();
-     $sym_cough = $this->sym_cough();
-     $arr_refer_lab = $this->arr_refer_lab();
-     $arr_refer_bidi = $this->arr_refer_bidi();
-     $arr_op_opt = $this->arr_op_opt();
-     $arr_op_dpc = $this->arr_op_dpc();
-     $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
-     $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
-     $data=DB::table('invest_pt')
-                     ->select('*')
-                     ->whereDate('notify_date','>=',$notify_date)
-                     ->whereDate('notify_date', '<=',$notify_date_end)
-                     ->whereNull('deleted_at')
-                     ->get();
 
-                  //dd($data);
-                     return view('export.allexport',compact(
+   public function alltableexport(Request $req)
+   {
+
+	$uid = auth()->user()->id;
+	if ($uid == 2 || $uid == 97 || $uid == 30  || $uid == 35 || $uid == 76) {
+		 $datenow = date('Y-m-d');
+		 $arr = parent::getStatus();
+		 $arr_hos = $this->arr_hos();
+		 $arrprov = $this->arrprov();
+		 $arr_city = $this->arr_city();
+		 $list_occupation = $this->list_occupation();
+		 $nation_list = $this->arrnation();
+		 $list_airport = $this->list_airport();
+		 $arr_refer_lab = $this->arr_refer_lab();
+		 $arr_refer_bidi = $this->arr_refer_bidi();
+		 $arr_op_opt = $this->arr_op_opt();
+		 $arrdistrict = $this->arrdistrict();
+		 $arrsub_district = $this->arrsub_district();
+		 $arr_op_dpc = $this->arr_op_dpc();
+		 $arr_hostype  = $this->arr_hostype();
+		 $arr_hostype_th  = $this->arr_hostype_th();
+		 $risk_type = RiskType::all()->toArray();
+		 foreach($risk_type as $val_risk_type){
+			 $arr_risk_type[$val_risk_type['id']] = $val_risk_type['risk_name'];
+		 }
+		 $data=DB::table('invest_pt')
+				 ->select('id','order_pt','sat_id','first_name','notify_date','walkinplace_hosp_code','airports_code',
+				 					'walkinplace_hosp_code','walkinplace_hosp_province','isolated_province','isolated_hosp_code',
+									'risk2_6history_hospital_input','travel_from_country','travel_from_city',
+									'risk_stay_outbreak_arrive_date','risk_stay_outbreak_airline','risk_stay_outbreak_flight_no','total_travel_in_group','sex','age','nation','occupation','occupation_oth','data3_3chk_lung','data3_3chk_heart','data3_3chk_cirrhosis',
+									'data3_3chk_kidney','data3_3chk_diabetes','data3_3chk_blood','data3_3chk_immune','data3_3chk_anaemia','data3_3chk_cerebral',
+									'data3_3chk_cerebral','data3_3chk_pregnant','data3_3chk_fat','data3_3chk_cancer_name','data3_3input_other','risk_detail','risk_type',
+									'risk_type_text','data3_1date_sickdate','isolate_date','fever_history','fever_current','sym_cough','sym_snot','sym_sore','sym_dyspnea','sym_breathe','sym_stufefy','xray_result','first_diag','last_diag',
+									'letter_division_code','letter_code','refer_bidi','refer_lab','op_opt','op_dpc','pt_status','pui_type','news_st','disch_st',
+									'disch_st_date','coordinator_tel','send_information','send_information_div',
+									'receive_information','sick_house_no','sick_village_no','sick_village',
+									'sick_lane','sick_road','sick_village','sick_province','sick_district','sick_sub_district')
+				 ->where('notify_date', $datenow)
+				 ->whereNull('deleted_at')
+				 ->get();
+		  return view('export.allexport',compact(
+		    'data',
+		    'arr',
+		    'arr_hos',
+		    'nation_list',
+		    'list_occupation',
+		    'arrprov',
+		    'list_airport',
+		    'arr_refer_bidi',
+		    'arr_refer_lab',
+		    'arr_op_opt',
+		   'arr_op_dpc',
+			'arr_city',
+		  'arr_hostype',
+		   'arr_hostype_th',
+			 'arr_risk_type',
+			 'arrdistrict',
+			 'arrsub_district'
+		  ));
+	} else {
+		return view('errors.405');
+	}
+
+		 /*
+		 return view('errors.405',compact(
+		   'data',
+		   'arr',
+		   'arr_hos',
+		   'nation_list',
+		   'list_occupation',
+		   'arrprov',
+		   'list_airport',
+		   'arr_refer_bidi',
+		   'arr_refer_lab',
+		   'arr_op_opt',
+		   'arr_op_dpc',
+		   'arr_city',
+		   'arr_hostype',
+		   'arr_hostype_th'
+		 ));
+		 */
+   }
+
+public function indexallexcel(Request $req)
+{
+	$uid = auth()->user()->id;
+	if ($uid == 2 || $uid == 97 || $uid == 30 || $uid == 35 || $uid == 76) {
+		 $arr = parent::getStatus();
+		 $arr_hos = $this->arr_hos();
+		 $arrprov = $this->arrprov();
+		 $nation_list = $this->arrnation();
+		 $arr_city = $this->arr_city();
+		 $list_airport = $this->list_airport();
+		 $list_occupation = $this->list_occupation();
+		 $sym_cough = $this->sym_cough();
+		 $arr_refer_lab = $this->arr_refer_lab();
+		 $arr_refer_bidi = $this->arr_refer_bidi();
+		 $arr_op_opt = $this->arr_op_opt();
+		 $arr_op_dpc = $this->arr_op_dpc();
+		 $arr_hostype = $this->arr_hostype();
+		 $arrdistrict = $this->arrdistrict();
+		 $arrsub_district = $this->arrsub_district();
+		 $pt_status1= $req ->input ('pt_status1');
+		 $pt_status2= $req ->input ('pt_status2');
+		 $pt_status3= $req ->input ('pt_status3');
+		 $pt_status4= $req ->input ('pt_status4');
+		 $pt_status5= $req ->input ('pt_status5');
+		 $arr_hostype_th  = $this->arr_hostype_th();
+		 $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
+		 $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+		 $risk_type = RiskType::all()->toArray();
+		 foreach($risk_type as $val_risk_type){
+			 $arr_risk_type[$val_risk_type['id']] = $val_risk_type['risk_name'];
+		 }
+		if (empty($req->notify_date) || $req->notify_date == null) {
+			$notify_date = Date('Y-m-d');
+		} else {
+			$notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
+		}
+
+		if (empty($req->notify_date_end) || $req->notify_date_end == null) {
+			$notify_date_end = Date('Y-m-d');
+		} else {
+			$notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+		}
+
+		if ($req->pt_status == null || empty($req->pt_status)) {
+			$new_status = ['1', '2', '3', '4', '5'];
+		} else {
+			$new_status = $req->pt_status;
+		}
+		$data = InvestList::whereIn('pt_status', $new_status)
+						->whereBetween('notify_date', [$notify_date, $notify_date_end])
+						/*
+			$data=DB::table('invest_pt')
+						->select('*')
+						  ->wherein('pt_status',[$pt_status1,$pt_status2,$pt_status3,$pt_status4,$pt_status5])
+						  ->whereDate('notify_date','>=',$notify_date)
+						  ->whereDate('notify_date', '<=',$notify_date_end)
+						  */
+						  ->whereNull('deleted_at')
+						  ->get();
+
+						 return view('export.allexport',compact(
+							'data',
+							'arr',
+							'arr_hos',
+							'arr_refer_bidi',
+							'arr_refer_lab',
+							'nation_list',
+						   'list_occupation',
+							'sym_cough',
+							'arrprov',
+							'list_airport',
+							'arr_op_opt',
+							'arr_op_dpc',
+							'arr_city',
+							'arr_hostype',
+							'arr_hostype_th',
+							'arr_risk_type',
+							'arrdistrict',
+							'arrsub_district'
+						  ));
+	}
+
+					 /*
+                     return view('errors.405',compact(
                        'data',
                        'arr',
                        'arr_hos',
@@ -118,8 +242,10 @@ class ExportExcelController extends MasterController
                        'list_airport',
                        'arr_op_opt',
                        'arr_op_dpc',
-                       'arr_city'
-                     ));
+                       'arr_city',
+                       'arr_hostype',
+                       'arr_hostype_th'
+                     )); */
   }
     protected function convertDateToMySQL($date='00/00/0000') {
       if (!is_null($date) || !empty($date)) {
@@ -142,106 +268,106 @@ class ExportExcelController extends MasterController
 
       protected function sym_cough(){
         $list_sym_cough = array(
-    			'y'=>'ไอ',
-    			'n'=>''
-    			);
+													    			'y'=>'ไอ',
+													    			'n'=>''
+											    			);
     		// dd($list_sym_cough);
     		return $list_sym_cough;
     	}
       protected function sym_snot(){
         $list_sym_snot = array(
-          'y'=>'น้ำมูก',
-          'n'=>''
-          );
+												          'y'=>'น้ำมูก',
+												          'n'=>''
+											          );
         // dd($list_sym_cough);
         return $list_sym_snot;
       }
       protected function sym_sore(){
         $list_sym_sore = array(
-          'y'=>'เจ็บคอ',
-          'n'=>''
-          );
+													          'y'=>'เจ็บคอ',
+													          'n'=>''
+											          );
         // dd($list_sym_cough);
         return $list_sym_sore;
       }
       protected function sym_dyspnea(){
         $list_sym_dyspnea = array(
-          'y'=>'หายใจเหนื่อย',
-          'n'=>''
-          );
+														          'y'=>'หายใจเหนื่อย',
+														          'n'=>''
+												          );
         // dd($list_sym_cough);
         return $list_sym_dyspnea;
       }
       protected function sym_breathe(){
         $list_sym_breathe = array(
-          'y'=>'หายใจลำบาก',
-          'n'=>''
-          );
+														          'y'=>'หายใจลำบาก',
+														          'n'=>''
+												          );
         // dd($list_sym_cough);
         return $list_sym_breathe;
       }
       protected function sym_stufefy(){
         $list_sym_stufefy = array(
-          'y'=>'ซึม',
-          'n'=>''
-          );
+														          'y'=>'ซึม',
+														          'n'=>''
+												          );
         // dd($list_sym_cough);
         return $list_sym_stufefy;
       }
       protected function arr_refer_bidi(){
         $arr_refer_bidi = array(
-          'Y'=>'รับ Refer',
-          ''=>'',
-          'n'=>''
-          );
+													          'Y'=>'รับ Refer',
+													          ''=>'',
+													          'n'=>''
+											          );
         // dd($list_sym_cough);
         return $arr_refer_bidi;
       }
       protected function arr_refer_lab(){
         $arr_refer_lab = array(
-          'Y'=>'รับ Lab',
-          ''=>'',
-          'n'=>''
-          );
+													          'Y'=>'รับ Lab',
+													          ''=>'',
+													          'n'=>''
+										          );
         // dd($list_sym_cough);
         return $arr_refer_lab;
       }
       protected function arr_op_opt(){
         $arr_op_opt = array(
-          'Y'=>'ทีม Operation ลงเอง',
-          ''=>'',
-          'n'=>''
-          );
+												          'Y'=>'ทีม Operation ลงเอง',
+												          ''=>'',
+												          'n'=>''
+									          );
         // dd($list_sym_cough);
         return $arr_op_opt;
       }
       protected function arr_op_dpc(){
         $arr_op_dpc = array(
-          'Y'=>'ทีม สคร. ลง',
-          ''=>'',
-          'n'=>''
-          );
+												          'Y'=>'ทีม สคร. ลง',
+												          ''=>'',
+												          'n'=>''
+												          );
         // dd($list_sym_cough);
         return $arr_op_dpc;
       }
       protected function disch_st(){
         $list_disch_st = array(
-          '1'=>'Recovery',
-          '2'=>'Admit',
-          '3'=>'Death',
-          ''=>''
-          );
+												          '1'=>'Recovery',
+												          '2'=>'Admit',
+												          '3'=>'Death',
+												          ''=>''
+												          );
         // dd($list_sym_cough);
         return $list_disch_st;
       }
       protected function pui_type(){
         $list_pui_type = array(
-          '1'=>'New PUI',
-          '2'=>'Contact PUI',
-          '3'=>'PUO',
-          '4'=>'Confirm nCov 2019',
-          ''=>''
-          );
+													          '1'=>'New PUI',
+													          '2'=>'Contact PUI',
+													          '3'=>'PUO',
+													          '4'=>'Confirm nCov 2019',
+													          ''=>''
+													          );
         // dd($list_sym_cough);
         return $list_pui_type;
       }
@@ -323,6 +449,22 @@ class ExportExcelController extends MasterController
         // dd($province_arr);
         return $arr_city;
       }
+			protected function arrdistrict(){
+				$arrdistrict = DB::table('ref_district')->select('district_id','district_name')->get();
+				foreach ($arrdistrict as  $value) {
+					$arrdistrict[$value->district_id] =trim($value->district_name);
+				}
+				// dd($province_arr);
+				return $arrdistrict;
+			}
+			protected function arrsub_district(){
+				$arrsub_district = DB::table('ref_sub_district')->select('sub_district_id','sub_district_name')->get();
+				foreach ($arrsub_district as  $value) {
+					$arrsub_district[$value->sub_district_id] =trim($value->sub_district_name);
+				}
+				// dd($province_arr);
+				return $arrsub_district;
+			}
       protected function arrprov(){
         $arrprov = DB::table('ref_province')->select('province_id','province_name')->get();
         foreach ($arrprov as  $value) {
@@ -331,5 +473,39 @@ class ExportExcelController extends MasterController
         // dd($province_arr);
         return $arrprov;
       }
+      protected function arr_hostype(){
+        $arr_hostype = DB::table('chospital_new')->select('hospcode','hosp_type_code')->get();
+        foreach ($arr_hostype as  $value) {
+          $arr_hostype[$value->hospcode] =trim($value->hosp_type_code);
+        }
+        // dd($province_arr);
+        return $arr_hostype;
+      }
+      protected function arr_hostype_th(){
+        $arr_hostype_th = array(
+													          '01'=>'โรงพยาบาลรัฐ',
+													          '02'=>'โรงพยาบาลรัฐ',
+													          '03'=>'โรงพยาบาลรัฐ',
+													          '04'=>'โรงพยาบาลรัฐ',
+													          '05'=>'โรงพยาบาลรัฐ',
+													          '06'=>'โรงพยาบาลรัฐ',
+													          '07'=>'โรงพยาบาลรัฐ',
+													          '08'=>'โรงพยาบาลรัฐ',
+													          '09'=>'โรงพยาบาลรัฐ',
+													          '10'=>'โรงพยาบาลรัฐ',
+													          '11'=>'โรงพยาบาลรัฐ',
+													          '12'=>'โรงพยาบาลรัฐ',
+													          '13'=>'โรงพยาบาลรัฐ',
+													          '14'=>'โรงพยาบาลรัฐ',
+													          '15'=>'โรงพยาบาลเอกชน',
+													          '16'=>'โรงพยาบาลเอกชน',
+													          '17'=>'โรงพยาบาลรัฐ',
+													          '18'=>'โรงพยาบาลรัฐ',
+													          ''=>''
+										          );
+        // dd($list_sym_cough);
+        return $arr_hostype_th;
+      }
+
 }
 ?>

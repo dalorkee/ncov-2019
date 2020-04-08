@@ -6,11 +6,27 @@ use App\DataTables\ListInvestDataTable;
 use App\InvestList;
 use App\Http\Controllers\MasterController;
 
+use App\Exports\InvestExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class ListInvestController extends Controller
 {
+	public function __construct() {
+		$this->middleware('auth');
+		//$this->middleware('chkUserRole');
+		$this->middleware(['role:root|ddc|dpc|pho|hos']);
+	 }
+
 	public function index(ListInvestDataTable $dataTable) {
-		$test = ['a'=>'aa'];
-		return $dataTable->render('list-data.invest', compact('test'));
+		return $dataTable->render('list-data.invest');
+	}
+
+	public function export() {
+		return Excel::download(new InvestExport, 'invest.csv');
+	}
+
+	public function exportByParams($id = 56) {
+		return Excel::download(new InvestExport($id), 'invest.xlsx');
 	}
 
 	public function chStatus(Request $request) {
@@ -23,7 +39,11 @@ class ListInvestController extends Controller
 		$pt_status = (!empty($pst['pt_status'])) ? $status['pt_status'][$pst['pt_status']] : "-";
 		$pt_status_opt = "";
 		foreach ($status['pt_status'] as $key => $val) {
-			$pt_status_opt .= "<option value=\"".$key."\">".$val."</option>";
+			if ($key == '3' || $key =='4') {
+				continue;
+			} else {
+				$pt_status_opt .= "<option value=\"".$key."\">".$val."</option>";
+			}
 		}
 
 		$news_st = (!empty($pst['news_st'])) ? $status['news_st'][$pst['news_st']] : "-";
@@ -40,7 +60,7 @@ class ListInvestController extends Controller
 
 		return "
 		<div class=\"modal-header\">
-			<h5 class=\"modal-title\" id=\"statusModalLabel".$pst['id']."\">ID: ".$pst['id']."</h5>
+			<h5 class=\"modal-title\" id=\"statusModalLabel".$pst['id']."\">CH STATUS ID: ".$pst['id']."</h5>
 			<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
 				<span aria-hidden=\"true\">&times;</span>
 			</button>
@@ -49,7 +69,7 @@ class ListInvestController extends Controller
 			<div class=\"form-row\">
 				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
 					<div class=\"form-group\">
-						<label for=\"patient\">Patient</label>
+						<label for=\"patient\">Status</label>
 						<input type=\"hidden\" name=\"id\" value=\"".$pst['id']."\">
 						<select name=\"pt_status\" class=\"form-control\" id=\"pt_status".$pst['id']."\">
 							<option value=\"".$pst['pt_status']."\" selected=\"selected\">".$pt_status."</option>

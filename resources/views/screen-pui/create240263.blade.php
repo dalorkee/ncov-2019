@@ -13,7 +13,7 @@ input:read-only {
 </style>
 <?php
 
-//dd($airportlists);
+//dd($risk_type);
 $config = [
     'table' => 'invest_pt',
     'length' => 11,
@@ -121,7 +121,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 									<div class="form-group row">
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone" class="text-danger">วันที่ได้รับแจ้ง</label>
-											<input type="text" name="notify_date" id="notify_date" value="{{ old('notify_date') }}" class="form-control is-invalid" required="">
+											<input type="text" name="notify_date" id="notify_date" value="{{ old('notify_date') }}" class="form-control is-invalid" required="" readonly>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 mb-2">
 											<label for="workPhone">เวลาได้รับแจ้ง</label>
@@ -141,8 +141,12 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                         </div>
 																				<div class="custom-control custom-radio">
 																					 <input type="radio" class="custom-control-input is-invalid" id="customControlValidation_rd3" value="3" {{ old('screen_pt') == 3 ? 'checked' : ''}} name="screen_pt" required="">
-																					 <label class="custom-control-label" for="customControlValidation_rd3">อื่นๆ</label>
-																			 </div>
+																					 <label class="custom-control-label" for="customControlValidation_rd3">ผู้สัมผัสของผู้ป่วยยืนยัน</label>
+																			  </div>
+																				<div class="custom-control custom-radio">
+																					 <input type="radio" class="custom-control-input is-invalid" id="customControlValidation_rd4" value="99" {{ old('screen_pt') == 99 ? 'checked' : ''}} name="screen_pt" required="">
+																					 <label class="custom-control-label" for="customControlValidation_rd4">อื่นๆ</label>
+																			  </div>
                                     </div>
                   </div>
 
@@ -180,6 +184,15 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 									<div class="form-group screen_type3">
 										<div class="row">
 											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+												<label for="dowork">SATID ของผู้ป่วยยืนยัน</label>
+													<input type="text" name="contact_sat_id" maxlength="12" class="form-control" id="contact_sat_id" value="{{ old('contact_sat_id') }}" placeholder="SATID ของผู้ป่วยยืนยัน">
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group screen_type4">
+										<div class="row">
+											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 												<label for="dowork">อื่นๆ(ชื่อสถานที่)</label>
 													<input type="text" name="community_name" class="form-control" id="community_name" value="{{ old('community_name') }}" placeholder="อื่นๆ(ชื่อสถานที่)">
 											</div>
@@ -205,7 +218,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
 											<div class="form-group">
 												<label for="houseNo">วันที่ Isolated</label>
-												<input type="text" id="isolate_date" name="isolate_date" value="{{ old('isolate_date') }}" class="form-control">
+												<input type="text" id="isolate_date" name="isolate_date" value="{{ old('isolate_date') }}" class="form-control" readonly>
 											</div>
 										</div>
 									</div>
@@ -235,7 +248,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่มาถึงไทย</label>
-											<input type="text" name="risk2_6arrive_date" value="{{ old('risk2_6arrive_date') }}" id="datepicker1" class="form-control">
+											<input type="text" name="risk2_6arrive_date" value="{{ old('risk2_6arrive_date') }}" id="datepicker1" class="form-control" readonly>
 										</div>
 									</div>
 										<div class="row">
@@ -493,7 +506,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 																<div class="custom-control custom-checkbox">
 																	<input type="checkbox" name="data3_3chk_other" value="y" class="custom-control-input" id="data3_3chk_other" {{ old('data3_3chk_other') == 'y' ? 'checked' : ''}}>
 																	<label for="data3_3chk_other" class="custom-control-label normal-label">
-																		อื่นๆ
+																		โรคประจำตัวอื่นๆ
 																	</label>
 																	<div class="row mt-2">
 																		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -511,6 +524,36 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										</div>
 									</div>
 
+									<hr />
+									<div class="form-row">
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+											<h1 class="text-info">ปัจจัยเสี่ยง</h1>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+											<div class="form-group">
+												<label for="risk_detail">รายละเอียดประวัติเสี่ยง</label>
+												<textarea class="form-control" name="risk_detail">{{ old('risk_detail') }}</textarea>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+											<div class="form-group">
+												<label for="risk_type">ประเภทประวัติเสี่ยง</label>
+												<select name="risk_type" id="risk_type" data-live-search="true" class="form-control selectpicker  show-tick">
+													<option value="">-- โปรดเลือก --</option>
+													@foreach($risk_type as $val)
+													<option value="{{ $val->id }}" {{ old('risk_type') == $val->id ? 'selected' : ''}}>{{ $val->risk_name }}</option>
+													@endforeach
+												</select>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3 risk_type_text">
+											<div class="form-group">
+												<label for="risk_type_text">ประเภทประวัติเสี่ยง(อื่นๆ)</label>
+												<input type="text" name="risk_type_text" class="form-control" id="risk_type_text" value="{{ old('risk_type_text') }}" placeholder="กรอกประเภทประวัติเสี่ยง(อื่นๆ)">
+											</div>
+										</div>
+									</div>
+
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 											<h1 class="text-info">3. ข้อมูลอาการผู้ป่วย</h1>
@@ -518,7 +561,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
 												<label for="houseNo">วันที่เริ่มป่วย</label>
-												<input type="text" id="datepicker2" name="data3_1date_sickdate" value="{{ old('data3_1date_sickdate') }}" class="form-control">
+												<input type="text" id="datepicker2" name="data3_1date_sickdate" value="{{ old('data3_1date_sickdate') }}" class="form-control" readonly>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-1 col-xl-1 mb-3">
@@ -701,7 +744,7 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="lane">วันที่</label>
-										<input type="text" id="datepicker3" name="lab_send_date" value="{{ old('lab_send_date') }}" class="form-control">
+										<input type="text" id="datepicker3" name="lab_send_date" value="{{ old('lab_send_date') }}" class="form-control" readonly>
 									</div>
 								</div>
 
@@ -737,7 +780,11 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control is-invalid  show-tick" required>
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['pt_status'] as $key => $val)
+											@if ($key == '3' || $key =='4') {
+												continue;
+											@else
 											<option value="{{ $key }}" {{ old('pt_status') == $key ? 'selected' : ''}}>{{ $val }}</option>
+											@endif
 											@endforeach
 										</select>
 									</div>
@@ -786,15 +833,27 @@ $sat_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="disch_st_date">วันที่(สถานะการรักษา)</label>
-											<input type="text" id="disch_st_date" name="disch_st_date" value="{{ old('disch_st_date') }}" class="form-control">
+											<input type="text" id="disch_st_date" name="disch_st_date" value="{{ old('disch_st_date') }}" class="form-control" readonly>
 									</div>
 								</div>
 							</div>
 							<div class="row confirm_order">
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
-										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่</label>
+										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่(กรณีที่ทราบลำดับประกาศเคสยืนยัน)</label>
 										<input type="text" name="order_pt" value="{{ old('order_pt') }}" id="order_pt" class="form-control" placeholder="ลำดับผู้ป่วย">
+									</div>
+								</div>
+							</div>
+							<div class="row type_nature">
+								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+									<div class="form-group">
+										<label for="subDistrict">ผู้ป่วยมาจาก</label>
+										<select name="type_nature" id="type_nature" class="form-control  show-tick">
+											<option value="">-- โปรดเลือก --</option>
+											<option value="1">Local</option>
+											<option value="2">Import</option>
+										</select>
 									</div>
 								</div>
 							</div>
@@ -896,17 +955,18 @@ $(document).ready(function() {
 	$('#pui_gen_auto').hide();
 	$('#pui_gen_manual').hide();
 
+
 	$(".check-auto").click(function(){
 	        $("#pui_code_gen_rd1").prop("checked", true);
-					$("#patient_type_sat_id").prop('required',true);
+					//$("#patient_type_sat_id").prop('required',true);
 					$('#pui_gen_auto').show();
 					$('#pui_gen_manual').hide();
 					//$('#sat_id').val('');
 	});
 	$(".check-manual").click(function(){
 	        $("#pui_code_gen_rd2").prop("checked", true);
-					$("#patient_type_sat_id").prop('required',false);
-					$("#sat_id_manual").prop('required',true);
+					//$("#patient_type_sat_id").prop('required',false);
+					//$("#sat_id_manual").prop('required',true);
 					$('#sat_id_manual').val('');
 					$('#pui_gen_auto').hide();
 					$('#pui_gen_manual').show();
@@ -926,6 +986,18 @@ $(document).ready(function() {
 	// 	//console.log('checked');
 	// 	//$("#sym_other").prop("checked", true);
 	// });
+	$('.risk_type_text').hide();
+	$('#risk_type').change(function() {
+	 var risk_type = $('#risk_type').val();
+	 //console.log(pt_status);
+	 if(risk_type==13){
+		 $('.risk_type_text').show();
+	 }else{
+		 $('.risk_type_text').hide();
+		 $('#risk_type_text').val('');
+	 }
+	});
+
 
 	$('#select_travel_from_country').change(function() {
 		if ($(this).val() != '') {
@@ -946,45 +1018,66 @@ $(document).ready(function() {
 		}
 	});
 
+	$('.type_nature').hide();
 	$('.confirm_order').hide();
 	$('#pt_status').change(function() {
 	 var pt_status = $('#pt_status').val();
 	 //console.log(pt_status);
 	 if(pt_status==2){
 		 $('.confirm_order').show();
-		 $("#order_pt").prop('required',true);
+		 //$("#order_pt").prop('required',true);
+		 $('.type_nature').show();
+		 $("#type_nature").prop('required',true);
 	 }else{
 		 $('.confirm_order').hide();
-		 $("#order_pt").prop('required',false);
+		 $('.type_nature').hide();
+		 //$("#order_pt").prop('required',false);
+		 $("#type_nature").prop('required',false);
 	 }
 	});
-
 
 	$('.screen_type1').hide();
 	$('.screen_type2').hide();
 	$('.screen_type3').hide();
+	$('.screen_type4').hide();
 	$("#customControlValidation_rd1").click(function(){
 			$('.screen_type1').show();
 			$('.screen_type2').hide();
 			$('.screen_type3').hide();
+			$('.screen_type4').hide();
 			$('#walkinplace_hosp_province').val(null).trigger('change');
 			$('#walkinplace_hosp_code').val(null).trigger('change');
 			$('#community_name').val('');
+			$('#contact_sat_id').val('');
 	});
 	$("#customControlValidation_rd2").click(function(){
 			$('.screen_type2').show();
 			$('.screen_type1').hide();
 			$('.screen_type3').hide();
+			$('.screen_type4').hide();
 			$('#airports_code').val(null).trigger('change');
 			$('#community_name').val('');
+			$('#contact_sat_id').val('');
 	});
 	$("#customControlValidation_rd3").click(function(){
 			$('.screen_type3').show();
 			$('.screen_type1').hide();
 			$('.screen_type2').hide();
+			$('.screen_type4').hide();
 			$('#airports_code').val(null).trigger('change');
 			$('#walkinplace_hosp_province').val(null).trigger('change');
 			$('#walkinplace_hosp_code').val(null).trigger('change');
+			$('#community_name').val('');
+	});
+	$("#customControlValidation_rd4").click(function(){
+			$('.screen_type4').show();
+			$('.screen_type1').hide();
+			$('.screen_type2').hide();
+			$('.screen_type3').hide();
+			$('#airports_code').val(null).trigger('change');
+			$('#walkinplace_hosp_province').val(null).trigger('change');
+			$('#walkinplace_hosp_code').val(null).trigger('change');
+			$('#contact_sat_id').val('');
 	});
 	$('#walkinplace_hosp_province').change(function() {
 		if ($(this).val() != '') {

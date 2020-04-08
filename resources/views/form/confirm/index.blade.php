@@ -26,7 +26,7 @@
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="{{ route('investList.index') }}">Invest</a></li>
+						<li class="breadcrumb-item"><a href="{{ route('list-data.invest') }}">Invest</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Form</li>
 					</ol>
 				</nav>
@@ -793,6 +793,5 @@ $(".custom-file-input").on("change", function() {
 	var fileName = $(this).val().split("\\").pop();
 	$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
-
 </script>
 @endsection

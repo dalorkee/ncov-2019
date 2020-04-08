@@ -15,11 +15,23 @@
 	<!-- Custom CSS -->
 	@yield('custom-style')
 	<style>
+		.topbar {
+			position: fixed;
+			top: 0; top;
+			width: 100%;
+			transition: top 0.3s;
+		}
 		.topbar, #navbarSupportedContent {
-			background-color:#343a40 !important;
+			background-color:#E84C93 !important;
 		}
 		#navbarSupportedContent a {
 			color: white;
+		}
+		.auth-box {
+			background: none !important;
+		}
+		.bg-white-1 {
+			background-color: #F9F9F9 !important;
 		}
 	</style>
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -29,8 +41,9 @@
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
-<body>
+<body data-theme="dark">
 <div class="main-wrapper">
+	@include('flash::message')
 	<div class="preloader">
 		<div class="lds-ripple">
 			<div class="lds-pos"></div>
@@ -93,6 +106,8 @@
 			$("#recoverform").hide();
 			$("#loginform").fadeIn();
 		});
+		/* flash message */
+		$('#flash-overlay-modal').modal();
 	</script>
 	@yield('bottom-script')
 </body>

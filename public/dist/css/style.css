@@ -5,7 +5,7 @@ File: scss
 */
 /*******************************/
 /*******************************/
-@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800");
+/*@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800");*/
 /*Theme Colors*/
 /*Topbar Colors*/
 /*Sidebar Colors*/
@@ -80,7 +80,7 @@ body[data-theme="dark"] {
     body[data-theme="dark"] a.link:hover, body[data-theme="dark"] a.link:focus {
       color: #2962FF; }
   body[data-theme="dark"] .bg-white {
-    background-color: #000 !important; }
+    background-color: #ffffff !important; }
   body[data-theme="dark"] .bg-dark {
     background-color: #6c757d !important; }
   body[data-theme="dark"] .text-dark {

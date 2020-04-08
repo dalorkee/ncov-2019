@@ -36,7 +36,8 @@ class TestController extends Controller
     public function store(Request $request)
     {
 		flash()->overlay('Modal Message', 'Modal Title');
-		return view('test.pj1');
+		//return redirect()->route('list-data.invest');
+		//return view('test.pj');
     }
 
     /**

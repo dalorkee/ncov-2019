@@ -3,12 +3,12 @@
 <link rel="stylesheet" href="{{ URL::asset('dist/css/style.min.css') }}">
 @endsection
 @section('content')
-<div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
-	<div class="auth-box bg-dark border-top border-secondary">
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-white-1">
+	<div class="auth-box">
+			<div class="text-center"><img src="{{ URL::asset('assets/images/logo-ddc.png') }}" alt="logo"></div>
 		<div id="loginform">
 			<div class="text-center p-t-20 p-b-20">
-				<span class="db" style="display:block;font-size: 1.675em;color:white;">Corona Virus Disease</span>
-				<span class="db" style="font-size:1.375em;color:white;">DDC MOPH</span>
+				<span class="db" style="display:block;font-size: 1.675em;color:black;">Coronavirus disease (COVID-19)</span>
 			</div>
 			<!-- Form -->
 			<form method="POST" action="{{ route('login') }}" class="form-horizontal m-t-20" id="loginform">

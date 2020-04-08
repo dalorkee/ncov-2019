@@ -101,10 +101,16 @@ input.valid, textarea.valid{
 				<div class="card-body">
 					<div class="d-md-flex align-items-center mb-2">
 						<div>
-							<h4 class="card-title">แบบสอบสวนของผู้สัมผัสโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
-							<h5 class="card-subtitle">2019-nCoV</h5>
+							<h4 class="card-title">แบบติดตามผู้ป่วยโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
+							<h5 class="card-subtitle">COVID-19</h5>
 						</div>
 					</div>
+					<br>
+					<div class="col-md-12">
+						<a class="btn btn-warning" href="{{ route('contactfollowtable') }}" class="sidebar-link"><i class="mdi mdi-account-multiple"></i><span class="hide-menu"> FollowUp Contact</span></a>
+					<a class="btn btn-success" href="{{ route('puifollowtable') }}" class="sidebar-link"><i class="fas fa-diagnoses"></i><span class="hide-menu"> FollowUp PUI</span></a>
+					</div>
+					<br>
 					<br>
 					<div class="table-responsive">
           <table id="example" class="table display mb-4" role="table">
@@ -116,6 +122,7 @@ input.valid, textarea.valid{
 								<th>อายุ</th>
                 <th>เชื้อชาติ</th>
                 <th>สัญชาติ</th>
+								<th>ครั้ง/วันที่ติดตามครั้งล่าสุด</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -126,21 +133,22 @@ input.valid, textarea.valid{
                 <td>{{ $value->sat_id }}</td>
 								<td>{{ $value->sex }}</td>
                 <td>{{ $value->age }}</td>
+								<td>{{ $value->age }}</td>
                 <td>{{ (isset($nation_list[$value->race])) ? $nation_list[$value->race] : "" }}
 								</td>
 								<td>{{ (isset($nation_list[$value->nation])) ? $nation_list[$value->nation] : "" }}</td>
 								<td>
 									{{-- <a class="btn btn-danger btn-sm" href="{{ route('contactfollowtable',$value->contact_id)}}"> --}}
-										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" href="{{ 'followuptable'}}/typid/1/id/{{ $value->sat_id }}">
-											FUPUI
+										<a class="btn btn-success btn-sm" data-toggle="tooltip" title="Follow up table" data-placement="top" target="_blank" href="/ncov-2019/{{ 'followuptablespui'}}/typid/1/id/{{ $value->sat_id }}">
+											FU
 									</a>
 									{{-- <a class="btn btn-info btn-sm" href="{{ route('detailcontact',$value->contact_id)}}"> --}}
-										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="{{ 'detailcontact'}}/pui_id/{{ $value->sat_id }}">
+										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="/ncov-2019/{{ 'detailcontact'}}/pui_id/{{ $value->sat_id }}">
 										Info
 								</a>
-								<a class="btn btn-warning btn-sm" href="{{'editcontact'}}/pui_id/{{ $value->sat_id }}">
+								{{-- <a class="btn btn-warning btn-sm" href="{{'editcontact'}}/pui_id/{{ $value->sat_id }}"> --}}
 									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#"> --}}
-										Edit
+										{{-- Edit --}}
 								</a>
 								</td>
             </tr>

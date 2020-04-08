@@ -1,12 +1,16 @@
 @extends('layouts.index')
 @section('custom-style')
-	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.18/datatables-1.10.18/css/jquery.dataTables.min.css') }}">
-	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.18/Buttons-1.5.6/css/buttons.dataTables.min.css') }}">
-	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.18/Responsive-2.2.2/css/responsive.dataTables.min.css') }}">
+	<link rel="stylesheet" href="{{ URL::asset('assets/libs/jquery-contextmenu/dist/jquery.contextMenu.min.css') }}">
+	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/datatables-1.10.20/css/jquery.dataTables.min.css') }}">
+	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/Buttons-1.6.1/css/buttons.dataTables.min.css') }}">
+	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/css/responsive.dataTables.min.css') }}">
 	<link rel="stylesheet" href="{{ URL::asset('assets/libs/select2-4.0.13/dist/css/select2.min.css') }}">
 @endsection
 @section('internal-style')
 <style>
+.page-wrapper {
+	background: white !important;
+}
 .dataTables_wrapper {
 	width: 100% !important;
 	font-family: 'Fira-code', tahoma !important;
@@ -43,7 +47,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Data</a></li>
-						<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('investList.index') }}">Invest</a></li>
+						<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('list-data.invest') }}">Invest</a></li>
 					</ol>
 				</nav>
 			</div>
@@ -51,6 +55,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	</div>
 </div>
 <div class="container-fluid">
+		@include('flash::message')
 	<!-- Modal change status-->
 	<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -64,9 +69,11 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 </div><!-- flu-contrainer -->
 @endsection
 @section('bottom-script')
-	<script src="{{ URL::asset('assets/libs/datatables-1.10.18/datatables-1.10.18/js/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/datatables-1.10.18/Buttons-1.5.6/js/dataTables.buttons.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/datatables-1.10.18/Responsive-2.2.2/js/dataTables.responsive.min.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/jquery-contextmenu/dist/jquery.contextMenu.min.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/jquery-contextmenu/dist/jquery.ui.position.min.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/datatables-1.10.20/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/Buttons-1.6.1/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/js/dataTables.responsive.min.js') }}"></script>
 	<script src="{{ URL::asset('vendor/datatables/buttons.server-side.js') }}"></script>
 	{{ $dataTable->scripts() }}
 	<script>
@@ -76,12 +83,13 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			}
 		});
-
+		/* change status */
+		/*
 		$(document).on('click', '.chstatus', function () {
 			var id = $(this).attr('value');
 			$.ajax({
 				method: 'POST',
-				url: '{{ route('ch-status') }}',
+				url: '{ route('ch-status') }}',
 				data: {id:id},
 				dataType: 'HTML',
 				success: function(data) {
@@ -93,8 +101,70 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 					alert(error);
 				}
 			});
+		}); */
+		/* context nav */
+		$.contextMenu({
+			selector: '.context-nav',
+			trigger: 'left',
+			className: 'data-title',
+			callback: function(key, options) {
+				var id = $(this).data('id');
+				var satid = $(this).data('satid');
+				switch (key) {
+					case 'chStatus':
+						$.ajax({
+							method: 'POST',
+							url: '{{ route('ch-status') }}',
+							data: {id:id},
+							dataType: 'HTML',
+							success: function(data) {
+								$('#ajax-status').html(data);
+								$('#chstatus').modal('show');
+							},
+							error: function(data, status, error) {
+								alert(error);
+							}
+						});
+						break;
+					case 'labGen':
+						window.open('http://viral.ddc.moph.go.th/viral/lab/genlab.php?idx=' + satid, '_blank');
+						break;
+					case 'labResult':
+						window.open('http://viral.ddc.moph.go.th/viral/lab/labfollow.php?idx=' + satid, '_blank');
+						break;
+					case 'contact':
+						let cturl = '{{ route("contacttable", ":id") }}';
+						cturl = cturl.replace(':id', id);
+						window.location.replace(cturl);
+						break;
+					case 'edit':
+						//let cfurl = '{ route("confirmForm", ":id") }}';
+						let cfurl = '{{ route("invest", ":id") }}';
+						cfurl = cfurl.replace(':id', id);
+						//window.location.replace(cfurl);
+						window.open(cfurl, '_blank');
+						break;
+					case 'delete':
+						alert('Permission denied !');
+						break;
+				}
+			},
+			items: {
+				"chStatus": {name: "Change status", icon: "fas fa-check-circle"},
+				"sep1": "---------",
+				"labGen": {name: "Generate lab", icon: "fas fa-barcode"},
+				"labResult": {name: "Lab result", icon: "fas fa-flask"},
+				"contact": {name: "Contact", icon: "fas fa-handshake"},
+				"sep2": "---------",
+				"edit": {name: "Edit", icon: "fas fa-edit"},
+				"delete": {name: "Delete", icon: "fas fa-trash-alt"},
+				"sep3": "---------",
+				"quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+			}
 		});
 	});
 	</script>
-
+	<script>
+		$('#flash-overlay-modal').modal();
+	</script>
 @endsection

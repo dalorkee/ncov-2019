@@ -36,7 +36,6 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-			//\App\Http\Middleware\DdcAuthen::class,
         ],
 
         'api' => [
@@ -65,7 +64,7 @@ class Kernel extends HttpKernel
 		'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
 		'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
 		'under-construction' => \LarsJanssen\UnderConstruction\UnderConstruction::class,
-		'page_session' => \App\Http\Middleware\PageSession::class,
+		'chkUserRole' => \App\Http\Middleware\chkUserRole::class,
 	];
 
     /**

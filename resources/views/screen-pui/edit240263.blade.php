@@ -74,7 +74,7 @@ input:read-only {
 						<h3 class="text-primary">ส่วนที่ 1</h3>
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
 							<div style="position:absolute;top:10px;right:10px;z-index:1">
-								<a type="button" href="{{ route('satList') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a>
+								<a type="button" href="{{ route('list-data.sat') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a>
 								<a type="button" href="{{ route('screenpui.create') }}" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a>
 								<span class="btn btn-primary font-weight-bold">SAT ID : {{ $data->sat_id }}</span>
 							</div>
@@ -82,9 +82,17 @@ input:read-only {
 								<div class="card-body">
 									<h1 class="text-info">1. ข้อมูลทั่วไปของผู้ป่วย</h1>
 									<div class="form-group row">
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+											<div class="form-group">
+												<label for="houseNo">PUI Code</label>
+												<input type="text" name="sat_id" value="{{ $data->sat_id }}" maxlength="12" placeholder="SATID/CASECODE"  class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่ได้รับแจ้ง</label>
-											<input type="text" name="notify_date" id="notify_date" value="{{ $notify_date }}" class="form-control" required="">
+											<input type="text" name="notify_date" id="notify_date" value="{{ $notify_date }}" class="form-control" required="" readonly>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 mb-2">
 											<label for="workPhone">เวลาได้รับแจ้ง</label>
@@ -104,8 +112,12 @@ input:read-only {
                                         </div>
 																				<div class="custom-control custom-radio">
 																					 <input type="radio" class="custom-control-input is-invalid" @if($data->screen_pt==3) checked @endif id="customControlValidation_rd3" value="3" name="screen_pt" required="">
-																					 <label class="custom-control-label" for="customControlValidation_rd3">อื่นๆ</label>
+																					 <label class="custom-control-label" for="customControlValidation_rd3">ผู้สัมผัสของผู้ป่วยยืนยัน</label>
 																			 </div>
+																			 <div class="custom-control custom-radio">
+																					<input type="radio" class="custom-control-input is-invalid" @if($data->screen_pt==99) checked @endif id="customControlValidation_rd4" value="99" name="screen_pt" required="">
+																					<label class="custom-control-label" for="customControlValidation_rd4">อื่นๆ</label>
+																			</div>
                                     </div>
                   </div>
 
@@ -145,6 +157,14 @@ input:read-only {
 										<div class="form-group screen_type3">
 											<div class="row">
 												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+													<label for="dowork">SATID ของผู้ป่วยยืนยัน</label>
+														<input type="text" name="contact_sat_id" maxlength="12" class="form-control" id="contact_sat_id" value="{{ $data->contact_sat_id }}" placeholder="SATID ของผู้ป่วยยืนยัน">
+												</div>
+											</div>
+										</div>
+										<div class="form-group screen_type4">
+											<div class="row">
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 													<label for="dowork">อื่นๆ(ชื่อสถานที่)</label>
 														<input type="text" name="community_name" class="form-control" id="community_name" value="{{ $data->community_name }}" placeholder="อื่นๆ(ชื่อสถานที่)">
 												</div>
@@ -172,7 +192,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
 											<div class="form-group">
 												<label for="houseNo">วันที่ Isolated</label>
-												<input type="text" id="isolate_date" name="isolate_date" value="{{ $isolate_date }}" class="form-control">
+												<input type="text" id="isolate_date" name="isolate_date" value="{{ $isolate_date }}" class="form-control" readonly>
 											</div>
 										</div>
 									</div>
@@ -207,7 +227,7 @@ input:read-only {
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<label for="workPhone">วันที่มาถึงไทย</label>
-											<input type="text" name="risk2_6arrive_date" value="@if($risk2_6arrive_date) {{ $risk2_6arrive_date }} @endif" id="datepicker1" class="form-control">
+											<input type="text" name="risk2_6arrive_date" value="@if($risk2_6arrive_date) {{ $risk2_6arrive_date }} @endif" id="datepicker1" class="form-control" readonly>
 										</div>
 									</div>
 									<div class="row">
@@ -470,7 +490,7 @@ input:read-only {
 																<div class="custom-control custom-checkbox">
 																	<input type="checkbox" name="data3_3chk_other" value="y" class="custom-control-input" @if($data->data3_3chk_other=="y") checked @endif id="data3_3chk_other">
 																	<label for="data3_3chk_other" class="custom-control-label normal-label">
-																		อื่นๆ
+																		โรคประจำตัวอื่นๆ
 																	</label>
 																	<div class="row mt-2">
 																		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -487,10 +507,35 @@ input:read-only {
 											</div>
 										</div>
 									</div>
+									<hr />
 									<div class="form-row">
-
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+											<h1 class="text-info">ปัจจัยเสี่ยง</h1>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+											<div class="form-group">
+												<label for="risk_detail">รายละเอียดประวัติเสี่ยง</label>
+												<textarea class="form-control" name="risk_detail">@if($data->risk_detail) {{ $data->risk_detail }} @endif</textarea>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
+											<div class="form-group">
+												<label for="risk_type">ประเภทประวัติเสี่ยง</label>
+												<select name="risk_type" id="risk_type" data-live-search="true" class="form-control selectpicker show-tick">
+													<option value="">-- โปรดเลือก --</option>
+													@foreach($risk_type as $val)
+													<option value="{{ $val->id }}" {{ $data->risk_type == $val->id ? 'selected' : ''}}>{{ $val->risk_name }}</option>
+													@endforeach
+												</select>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3 risk_type_text">
+											<div class="form-group">
+												<label for="risk_type_text">ประเภทประวัติเสี่ยง(อื่นๆ)</label>
+												<input type="text" name="risk_type_text" class="form-control" id="risk_type_text" value="{{ $data->risk_type_text }}" placeholder="กรอกประเภทประวัติเสี่ยง(อื่นๆ)">
+											</div>
+										</div>
 									</div>
-
 									<div class="form-row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 											<h1 class="text-info">3. ข้อมูลอาการผู้ป่วย</h1>
@@ -498,7 +543,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 											<div class="form-group">
 												<label for="houseNo">วันที่เริ่มป่วย</label>
-												<input type="text" id="datepicker2" value="@if($data3_1date_sickdate) {{ $data3_1date_sickdate }} @endif" name="data3_1date_sickdate" class="form-control">
+												<input type="text" id="datepicker2" value="@if($data3_1date_sickdate) {{ $data3_1date_sickdate }} @endif" name="data3_1date_sickdate" class="form-control" readonly>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-1 col-xl-1 mb-3">
@@ -628,12 +673,12 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-12">
 									<h1 class="text-info">5.การดำเนินงานเพิ่มเติม สำหรับ Sup Sat./Sat Manager</h1>
 								</div>
-								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
+								<!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 									<div class="form-group">
 										<label for="houseNo">PUI Code</label>
 										<input type="text" name="sat_id" value="{{ trim($data->sat_id) }}" maxlength="12" placeholder="SATID/CASECODE"  class="form-control">
 									</div>
-								</div>
+								</div> -->
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="subDistrict">หน่วยงานที่จะส่งหนังสือ</label>
@@ -685,7 +730,7 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="lane">วันที่</label>
-										<input type="text" id="datepicker3" name="lab_send_date" value="@if($lab_send_date) {{ $lab_send_date }} @endif" class="form-control">
+										<input type="text" id="datepicker3" name="lab_send_date" value="@if($lab_send_date) {{ $lab_send_date }} @endif" class="form-control" readonly>
 									</div>
 								</div>
 
@@ -721,7 +766,11 @@ input:read-only {
 										<select name="pt_status" id="pt_status" data-live-search="true" class="form-control  show-tick is-invalid" required>
 											<option value="">-- โปรดเลือก --</option>
 											@foreach($arr['pt_status'] as $key => $val)
+											@if ($key == '3' || $key =='4') {
+												continue;
+											@else
 											<option value="{{ $key }}" @if($data->pt_status==$key) selected @endif >{{ $val }}</option>
+											@endif
 											@endforeach
 										</select>
 									</div>
@@ -770,15 +819,27 @@ input:read-only {
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
 										<label for="disch_st_date">วันที่(สถานะการรักษา)</label>
-											<input type="text" id="disch_st_date" name="disch_st_date" value="@if($disch_st_date) {{ $disch_st_date }} @endif" class="form-control">
+											<input type="text" id="disch_st_date" name="disch_st_date" value="@if($disch_st_date) {{ $disch_st_date }} @endif" class="form-control" readonly>
 									</div>
 								</div>
 							</div>
 							<div class="row confirm_order">
 								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
 									<div class="form-group">
-										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่</label>
+										<label for="subDistrict">ผู้ป่วย Confirm ลำดับที่(กรณีที่ทราบลำดับประกาศเคสยืนยัน)</label>
 										<input type="text" name="order_pt" value="@if($data->order_pt) {{ $data->order_pt }} @endif" id="order_pt" class="form-control" placeholder="ลำดับผู้ป่วย">
+									</div>
+								</div>
+							</div>
+							<div class="row type_nature">
+								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-3">
+									<div class="form-group">
+										<label for="subDistrict">ผู้ป่วยมาจาก</label>
+										<select name="type_nature" id="type_nature" class="form-control  show-tick">
+											<option value="">-- โปรดเลือก --</option>
+											<option value="1" <?php if($data->type_nature==1){ echo "selected";} ?>>Local</option>
+											<option value="2" <?php if($data->type_nature==2){ echo "selected";} ?>>Import</option>
+										</select>
 									</div>
 								</div>
 							</div>
@@ -867,6 +928,25 @@ $(document).ready(function() {
 		$('.sym_othertext').hide();
 	}
 
+	var risk_type_db = '<?php echo $data->risk_type; ?>';
+	if(risk_type_db=='13'){
+		$('.risk_type_text').show();
+	}else{
+		$('.risk_type_text').hide();
+	}
+
+	$('#risk_type').change(function() {
+	 var risk_type = $('#risk_type').val();
+	 //console.log(pt_status);
+	 if(risk_type==13){
+		 $('.risk_type_text').show();
+	 }else{
+		 $('.risk_type_text').hide();
+		 $('#risk_type_text').val('');
+	 }
+	});
+
+
 	$('.time').mask('00:00');
 
 	$('.selectpicker').selectpicker();
@@ -910,8 +990,10 @@ $(document).ready(function() {
 	var pt_status_from_db = <?php if(isset($data->pt_status)) { echo $data->pt_status; } ?>;
 	if(pt_status_from_db==2){
 		$('.confirm_order').show();
+		$('.type_nature').show();
 	}else{
 		$('.confirm_order').hide();
+		$('.type_nature').hide();
 	}
 
 	//$('.confirm_order').hide();
@@ -920,11 +1002,15 @@ $(document).ready(function() {
 	 //console.log(pt_status);
 	 if(pt_status==2){
 		 $('.confirm_order').show();
-		 $("#order_pt").prop('required',true);
+		 //$("#order_pt").prop('required',true);
+		 $('.type_nature').show();
+		 $("#type_nature").prop('required',true);
 	 }else{
 		 $('.confirm_order').hide();
-		 $("#order_pt").prop('required',false);
+		 //$("#order_pt").prop('required',false);
 		 $("#order_pt").val('');
+		 $('.type_nature').hide();
+		 $("#type_nature").prop('required',false);
 	 }
 	});
 
@@ -933,38 +1019,62 @@ $(document).ready(function() {
 		$('.screen_type1').show();
 		$('.screen_type2').hide();
 		$('.screen_type3').hide();
+		$('.screen_type4').hide();
 	}else if(screen_pt_from_db==2){
 		$('.screen_type2').show();
 		$('.screen_type1').hide();
 		$('.screen_type3').hide();
-	}else{
+		$('.screen_type4').hide();
+	}else if(screen_pt_from_db==3){
 		$('.screen_type3').show();
 		$('.screen_type2').hide();
 		$('.screen_type1').hide();
+		$('.screen_type4').hide();
+	}else{
+		$('.screen_type4').show();
+		$('.screen_type2').hide();
+		$('.screen_type1').hide();
+		$('.screen_type3').hide();
 	}
 
 	$("#customControlValidation_rd1").click(function(){
 			$('.screen_type1').show();
 			$('.screen_type2').hide();
 			$('.screen_type3').hide();
+			$('.screen_type4').hide();
 			$('#walkinplace_hosp_province').val(null).trigger('change');
 			$('#walkinplace_hosp_code').val(null).trigger('change');
 			$('#community_name').val('');
+			$('#contact_sat_id').val('');
 	});
 	$("#customControlValidation_rd2").click(function(){
 			$('.screen_type2').show();
 			$('.screen_type1').hide();
 			$('.screen_type3').hide();
+			$('.screen_type4').hide();
 			$('#airports_code').val(null).trigger('change');
 			$('#community_name').val('');
+			$('#contact_sat_id').val('');
 	});
 	$("#customControlValidation_rd3").click(function(){
 			$('.screen_type3').show();
 			$('.screen_type1').hide();
 			$('.screen_type2').hide();
+			$('.screen_type4').hide();
 			$('#airports_code').val(null).trigger('change');
 			$('#walkinplace_hosp_province').val(null).trigger('change');
 			$('#walkinplace_hosp_code').val(null).trigger('change');
+			$('#community_name').val('');
+	});
+	$("#customControlValidation_rd4").click(function(){
+			$('.screen_type4').show();
+			$('.screen_type1').hide();
+			$('.screen_type2').hide();
+			$('.screen_type3').hide();
+			$('#airports_code').val(null).trigger('change');
+			$('#walkinplace_hosp_province').val(null).trigger('change');
+			$('#walkinplace_hosp_code').val(null).trigger('change');
+			$('#contact_sat_id').val('');
 	});
 
 	$('#walkinplace_hosp_province').change(function() {

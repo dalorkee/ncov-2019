@@ -28,7 +28,7 @@
 			<!-- Right side toggle and nav items -->
 			<!-- ============================================================== -->
 			<ul class="navbar-nav float-right">
-				<li class="nav-item"><a class="nav-link">{{ auth()->user()->name }}&nbsp;[{{ Session::get('user_role') }}]</a></li>
+				<li class="nav-item"><a class="nav-link">{{ auth()->user()->name }}&nbsp;[@if(session()->has('user_role')) {{ Session::get('user_role') }} @endif]</a></li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{{ Html::image('assets/images/users/1.jpg', 'alt=user', ['class'=>'rounded-circle', 'width'=>'31']) }}

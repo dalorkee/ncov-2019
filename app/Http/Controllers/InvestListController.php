@@ -11,7 +11,8 @@ class InvestListController extends MasterController
 {
 	public function __construct() {
 		$this->middleware('auth');
-		$this->middleware(['role:admin']);
+		$this->middleware('chkUserRole');
+		//$this->middleware(['role:admin']);
 	}
 
 	/**
@@ -26,10 +27,11 @@ class InvestListController extends MasterController
 			$globalcountry[$value->country_id] = $value->country_name;
 		}
 		//$globalcountry->keyBy('country_id');
-		$user = Auth::user();
-		$role = $user->getRoleNames()->toArray();
+		//$user = Auth::user();
+		//$role = $user->getRoleNames()->toArray();
+		$role = Session::get('user_role');
 
-		switch($role[0]) {
+		switch($role) {
 			case 'admin':
 				$invest = InvestList::select(
 					'id',
@@ -70,7 +72,16 @@ class InvestListController extends MasterController
 		foreach ($query_globalcountry as $value) {
 			$globalcountry[$value->country_id] = $value->country_name;
 		}
-		$invest = InvestList::whereNull('deleted_at')->get()->toArray();
+		$invest = InvestList::select(
+				'id',
+				'sat_id',
+				'order_pt',
+				'pt_status',
+				'news_st',
+				'disch_st',
+				'sex',
+				'nation'
+		)->whereNull('deleted_at')->get()->toArray();
 
 		return view('invest-list.sat',
 				[

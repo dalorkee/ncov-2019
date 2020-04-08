@@ -10,15 +10,56 @@ use Yajra\DataTables\Html\Editor\Editor;
 use App\Http\Controllers\MasterController;
 use App\GlobalCountry;
 use Session;
+use DB;
+use Barryvdh\DomPDF\PDF;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\User;
 
 class ListInvestDataTable extends DataTable
 {
-
-	public function status() {
+	private function status() {
 		$master = new MasterController;
 		$status = $master->getStatus();
 		return $status;
 	}
+
+	private function casePtStatus() {
+		$status = $this->status();
+		$str = "";
+		foreach ($status['pt_status'] as $key => $value) {
+			$str .= "WHEN pt_status = \"".$key."\" THEN \"".$value."\" ";
+		}
+		return $str;
+	}
+
+	private function caseNewsSt() {
+		$status = $this->status();
+		$str = "";
+		foreach ($status['news_st'] as $key => $value) {
+			$str .= "WHEN news_st = \"".$key."\" THEN \"".$value."\" ";
+		}
+		return $str;
+	}
+
+	private function caseDischSt() {
+		$status = $this->status();
+		$str = "";
+		foreach ($status['disch_st'] as $key => $value) {
+			$str .= "WHEN disch_st = \"".$key."\" THEN \"".$value."\" ";
+		}
+		return $str;
+	}
+
+	private function caseNation() {
+		$query_globalcountry = GlobalCountry::all()->toArray();
+		$str = "";
+		foreach ($query_globalcountry as $key => $value) {
+			$str .= "WHEN nation = \"".$value['country_id']."\" THEN \"".$value['country_name']."\" ";
+		}
+		return $str;
+	}
+
 	/**
 	* Build DataTable class.
 	*
@@ -27,58 +68,93 @@ class ListInvestDataTable extends DataTable
 	*/
 
 	public function dataTable($query) {
-		$master_status = $this->status();
-		$query_globalcountry = GlobalCountry::all();
-		foreach ($query_globalcountry as $value) {
-			$globalcountry[$value->country_id] = $value->country_name;
-		}
+		$pts = $this->casePtStatus();
+		$ns = $this->caseNewsSt();
+		$dcs = $this->caseDischSt();
+		$nation = $this->caseNation();
+
 		return datatables()
 			->eloquent($query)
-			->filterColumn('xst', function($query, $keyword) {
-				$sql = '(CASE WHEN pt_status = "1" THEN "ok" ELSE "nok" END) AS xst';
-				$query->whereRaw($sql);
+			->orderColumn('order_pt', '-order_pt $1')
+			->filterColumn('pt_status', function($query, $keyword) use ($pts) {
+				$query->whereRaw('(CASE '.$pts.' ELSE "-" END) like ?', ["%{$keyword}%"]);
 			})
-
-			->editColumn('pt_status', function($pts) use ($master_status) {
+			->filterColumn('news_st', function($query, $keyword) use ($ns) {
+				$query->whereRaw('(CASE '.$ns.' ELSE "-" END) like ?', ["%{$keyword}%"]);
+			})
+			->filterColumn('disch_st', function($query, $keyword) use ($dcs) {
+				$query->whereRaw('(CASE '.$dcs.' ELSE "-" END) like ?', ["%{$keyword}%"]);
+			})
+			->filterColumn('nation', function($query, $keyword) use ($nation) {
+				$query->whereRaw('(CASE '.$nation.' ELSE "-" END) like ?', ["%{$keyword}%"]);
+			})
+			->filterColumn('full_name', function($query, $keyword) {
+				$query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ["%{$keyword}%"]);
+			})
+			->filterColumn('ext_name', function($query, $keyword) {
+				$query->whereRaw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') like ?", ["%{$keyword}%"]);
+			})
+			->editColumn('pt_status', function($pts) {
 				if (!isset($pts->pt_status) || empty($pts->pt_status)) {
-					$pts_rs = "<span class=\"text-danger\">-</span>";
+					$pts_rs = "-";
 				} else {
-					$pts_rs = "<span class=\"text-danger\">".$master_status['pt_status'][$pts->pt_status]."</span>";
+					switch (mb_strtolower($pts->pt_status)) {
+						case "pui (รอผลแลป)" :
+							$pts_rs = "<span class=\"badge badge-light font-1\">".$pts->pt_status."</span>";
+							break;
+						case "confirmed (ผลแลปยืนยัน)" :
+							$pts_rs = "<span class=\"badge badge-danger font-1\">".$pts->pt_status."</span>";
+							break;
+						case "probable" :
+							$pts_rs = "<span class=\"badge badge-warning font-1\">".$pts->pt_status."</span>";
+							break;
+						case "suspected" :
+							$pts_rs = "<span class=\"badge badge-custom-1 font-1\">".$pts->pt_status."</span>";
+							break;
+						case "excluded (ผลแลปเป็นลบ)" :
+							$pts_rs = "<span class=\"badge badge-success font-1\">".$pts->pt_status."</span>";
+							break;
+						default :
+							$pts_rs = $pts->pt_status;
+							break;
+					}
 				}
 				return $pts_rs;
 			})
-			->editColumn('disch_st', function($dcs) use ($master_status) {
-				if (!isset($dcs->disch_st) || empty($dcs->disch_st)) {
-					$dcs_rs = "-";
-				} else {
-					$dcs_rs = $master_status['disch_st'][$dcs->disch_st];
+			->editColumn('disch_st', function($disc) {
+				switch ($disc->disch_st) {
+					case "Admitted" :
+						$pts_rs = '<span class="badge badge-custom-2 font-1">'.$disc->disch_st.'</span>';
+						break;
+					case "Recovered" :
+						$pts_rs = '<span class="badge badge-success font-1">'.$disc->disch_st.'</span>';
+						break;
+					case "Death" :
+						$pts_rs = '<span class="badge badge-secondary font-1">'.$disc->disch_st.'</span>';
+						break;
+					case "Self quarantine":
+						$pts_rs = '<span class="badge badge-custom-5 font-1">'.$disc->disch_st.'</span>';
+						break;
+					default:
+						$pts_rs = '<span class="badge badge-light font-1">'.$disc->disch_st.'</span>';
+						break;
 				}
-				return $dcs_rs;
-				//return '<span class="text-danger">'.$dcs->dcs_name_en.'</span>';
+				return $pts_rs;
 			})
-			->editColumn('news_st', function($ns) use ($master_status) {
-				if (!isset($ns->news_st) || empty($ns->news_st)) {
-					$ns_rs = "-";
+			->editColumn('inv', function($iv) {
+				if (!isset($iv->inv) || empty($iv->inv)) {
+					$inv_rs = "<span class=\"badge badge-light\">-</span>";
+				} elseif ($iv->inv == 'y') {
+					$inv_rs = "<span class=\"badge badge-custom-3\"><i class=\"fa fa-check-circle\"></i> Investigated</span>";
 				} else {
-					$ns_rs = $master_status['news_st'][$ns->news_st];
+					$inv_rs = "-";
 				}
-				return $ns_rs;
+				return $inv_rs;
 			})
-			->editColumn('nation', function($nt) use ($globalcountry) {
-				if (!isset($nt->nation) || empty($nt->nation)) {
-					$nt_rs = "-";
-				} else {
-					$nt_rs = $globalcountry[$nt->nation];
-				}
-				return $nt_rs;
-			})
+
 			->addColumn('action',
-				'<button class="btn btn-info btn-sm chstatus" value="{{ $id }}" id="invest_idx{{ $id }}" title="{{ $id }}">ST</button>
-				 <a href="{{ route("confirmForm", $id) }}" title="Invest form" class="btn btn-custom-1 btn-sm">Edit</a>
-				 <a href="{{ route("contacttable", $id) }}" title="Contact" class="btn btn-cyan btn-sm">CON</a>
-				 <a href="{{ route("live-site") }}" data-toggle="tooltip" data-placement="top" title="Laboratory" class="btn btn-secondary btn-sm">LAB</a>
-				')
-			->rawColumns(['pt_status', 'disch_st', 'action']);
+				 '<button class="context-nav btn btn-custom-1 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-angle-down"></i></button>')
+			->rawColumns(['pt_status', 'inv', 'disch_st', 'action']);
 	}
 
 	/**
@@ -88,23 +164,123 @@ class ListInvestDataTable extends DataTable
 	* @return \Illuminate\Database\Eloquent\Builder
 	*/
 	public function query(InvestList $model) {
-	return $model->newQuery('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation')
-			->whereNull('deleted_at')->orderBy('id');
-	/*
-	$invest = InvestList::select('id', 'sat_id', 'pt_status', 'news_st', 'disch_st', 'sex', 'nation',
-			\DB::raw('(CASE
-				WHEN pt_status = "1" THEN "ok"
-				ELSE "nok"
-				END) AS xst'))->whereNull('deleted_at')->orderBy('id');
+		$user_hosp = auth()->user()->hospcode;
+		$user_prov = auth()->user()->prov_code;
+		$user_role = Session::get('user_role');
+		$pts = $this->casePtStatus();
+		$ns = $this->caseNewsSt();
+		$dcs = $this->caseDischSt();
+		$nation = $this->caseNation();
+
+		switch ($user_role) {
+			case 'root':
+			$invest = InvestList::select(
+				'id',
+				\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+				\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+				'sat_id',
+				\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+				\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+				\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+				'sex',
+				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+				'inv')
+				->whereNull('deleted_at')->orderBy('id', 'DESC');
+				break;
+			case 'ddc':
+			$invest = InvestList::select(
+				'id',
+				\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+				\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+				'sat_id',
+				\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+				\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+				\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+				'sex',
+				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+				'inv')
+				->whereNull('deleted_at')->orderBy('id', 'DESC');
+				break;
+			case 'dpc':
+			$invest = InvestList::select(
+				'id',
+				\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+				\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+				'sat_id',
+				\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+				\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+				\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+				'sex',
+				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+				'inv')
+				->whereNull('deleted_at')->orderBy('id', 'DESC');
+				break;
+			case 'pho':
+				$invest = InvestList::select(
+					'id',
+					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+					\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+					'sat_id',
+					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+					'sex',
+					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+					'inv')
+					->where('isolated_province', '=',  $user_prov)
+					->orWhere('walkinplace_hosp_province', '=',  $user_prov)
+					->orWhere('sick_province', '=',  $user_prov)
+					->orWhere('sick_province_first', '=',  $user_prov)
+					->whereNull('deleted_at')->orderBy('id', 'DESC');
+					break;
+			case 'hos':
+				$invest = InvestList::select(
+					'id',
+					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+					\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+					'sat_id',
+					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+					'sex',
+					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+					'inv')
+					->where('isolated_hosp_code', '=', $user_hosp)
+					->orWhere('walkinplace_hosp_code', '=', $user_hosp)
+					->whereNull('deleted_at')->orderBy('id', 'DESC');
+				break;
+			default:
+				return redirect()->route('logout');
+				break;
+		}
 		return $invest;
-		*/
-		/*
-		return $model->newQuery()
-			->leftJoin('ref_pt_status', 'ref_pt_status.pts_id', '=', 'invest_pt.pt_status')
-			->leftJoin('ref_disch_status', 'ref_disch_status.dcs_id', '=', 'invest_pt.disch_st')
-			->whereNull('deleted_at')
-			->orderBy('invest_pt.id');
-		*/
+	}
+
+	private function getHospCodeByHospCode() {
+		$user_hosp_code = auth()->user()->hospcode;
+		$hosp_code = User::select('hospcode')->where('hospcode', '=', $user_hosp_code)->get();
+		$hosp_code_arr = $hosp_code->pluck('hospcode')->toArray();
+		return $hosp_code_arr;
+	}
+
+	private function getPhoUserByProv() {
+		$prov_code = auth()->user()->prov_code;
+		$users = User::select('id')->where('prov_code', '=', $prov_code)->get()->toArray();
+		$user_arr = array();
+		foreach ($users as $key => $val) {
+			array_push($user_arr, $val['id']);
+		}
+		return $user_arr;
+	}
+
+	private function getUserByHospCode() {
+		$hosp_code = auth()->user()->hosp_code;
+		$users = User::select('id')->where('hospcode', '=', $hosp_code)->get()->toArray();
+		$user_arr = array();
+		foreach ($users as $key => $val) {
+			array_push($user_arr, $val['id']);
+		}
+		return $user_arr;
 	}
 
 	/**
@@ -117,21 +293,22 @@ class ListInvestDataTable extends DataTable
 			->setTableId('list-data-table')
 			->columns($this->getColumns())
 			->minifiedAjax()
-			->dom('Bfrtip')
+			->dom('frtip')
 			->orderBy(0)
 			->responsive(true)
 			->parameters(
 				[ "language"=>[
 						"url" => "/assets/libs/datatables-1.10.20/i18n/thai.json"
 					]
-				])
+				]
+			)
+			->lengthMenu([20])
 			->buttons(
-				/* Button::make('create'), */
+				Button::make('create'),
 				Button::make('export'),
 				Button::make('print'),
 				Button::make('reset'),
 				Button::make('reload')
-
 			);
 	}
 
@@ -142,17 +319,20 @@ class ListInvestDataTable extends DataTable
 	*/
 	protected function getColumns() {
 		return [
-			Column::make('id')->title('ID'),
+			Column::make('id')->title('id'),
 			Column::make('sat_id')->title('SatID'),
-			Column::make('pt_status')->title('Status'),
-			Column::make('news_st')->title('News'),
+			Column::make('full_name')->visible(false),
+			Column::make('ext_name')->title('ชื่อ-สกุล'),
+			Column::make('pt_status')->title('สถานะ'),
+			Column::make('news_st')->title('แถลงข่าว'),
 			Column::make('disch_st')->title('Discharge'),
-			Column::make('sex')->title('Sex'),
-			Column::make('nation')->title('Nations'),
+			Column::make('sex')->title('เพศ'),
+			Column::make('nation')->title('สัญชาติ'),
+			Column::make('inv')->title('สอบสวนโรค'),
 			Column::computed('action')
-				->exportable(true)
+				->exportable(false)
 				->printable(false)
-				->addClass('text-right')
+				->addClass('text-left')
 				->title('#'),
 			];
 	}

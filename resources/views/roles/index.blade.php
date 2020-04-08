@@ -1,4 +1,23 @@
 @extends('layouts.index')
+@section('custom-style')
+<style>
+	input:-moz-read-only { /* For Firefox */
+		background-color: #fafafa !important;
+	}
+	input:read-only {
+		background-color: #fafafa !important;
+	}
+	.select-custom select option {
+		padding: 18px!important;
+	}
+	.font-fira {
+		font-family: 'Fira-code' !important;
+	}
+	.input-group .bootstrap-select.form-control {
+		z-index: 0;
+	}
+</style>
+@endsection
 @section('contents')
 <div class="page-breadcrumb bg-light">
 	<div class="row">
@@ -27,9 +46,7 @@
 						</div>
 					</div>
 					<div class="my-4">
-						@can('role-create')
 							<a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role</a>
-						@endcan
 					</div>
 					@if ($message = Session::get('success'))
 						<div class="alert alert-success">
@@ -53,7 +70,7 @@
 								@endcan
 								@can('role-delete')
 									{!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
-									{!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+									{!! Form::submit('Delete', ['class' => 'btn btn-danger text-primary']) !!}
 									{!! Form::close() !!}
 								@endcan
 							</td>

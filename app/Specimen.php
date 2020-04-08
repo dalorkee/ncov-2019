@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Specimen extends Model
 {
-	protected $table = 'specimen';
+	protected $table = 'ref_specimen';
 	protected $primaryKey = 'id';
 }

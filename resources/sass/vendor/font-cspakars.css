@@ -1,0 +1,9 @@
+@font-face {
+	font-family: 'cs_prakasregular';
+	src: url('../static/fonts/cspakars/csprakas-webfont.woff2') format('woff2'),
+		 url('../static/fonts/cspakars/csprakas-webfont.woff') format('woff'),
+		 url('../static/fonts/cspakars/csprakas-webfont.ttf') format('truetype');
+	font-weight:400;
+	font-weight: normal;
+	font-style: normal;
+}
