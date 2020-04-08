@@ -489,7 +489,7 @@ class ScreenPUIController extends MasterController
                 "send_information" => (!empty($request->send_information)) ? trim($request->send_information) : NULL,
                 "send_information_div" => (!empty($request->send_information_div)) ? trim($request->send_information_div) : NULL,
                 "receive_information" => (!empty($request->receive_information)) ? trim($request->receive_information) : NULL,
-                "entry_user" => (!empty($request->entry_user)) ? trim($request->entry_user) : NULL,
+                "entry_user_last_update" => (!empty($request->entry_user)) ? trim($request->entry_user) : NULL,
                 "card_id" => (!empty($request->card_id)) ? trim($request->card_id) : NULL,
                 "passport" => (!empty($request->passport)) ? trim($request->passport) : NULL,
                 "hn" => (!empty($request->hn)) ? trim($request->hn) : NULL,
