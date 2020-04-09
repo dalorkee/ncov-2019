@@ -229,16 +229,16 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                 <select type="text" name="type_contact" class="form-control js-select-basic-single" placeholder="ประเภทผู้สัมผัส">
                                     <option value="">ประเภทผู้สัมผัส</option>
                                     <option value="">- เลือก -</option>
-                                    <option value="1">บุคลากรทางการแพทย์</option>
-                                    <option value="2">ผู้สัมผัสร่วมบ้าน</option>
-                                    <option value="3">ผู้ร่วมเดินทาง/ร่วมยานพาหนะ</option>
-                                    <option value="4">พนักงานโรงแรม</option>
-                                    <option value="5">คนขับแท๊กซี่/ยานพาหนะ</option>
-                                    <option value="6">พนักงานสนามบิน</option>
-                                    <option value="8">บุคคลร่วมที่ทำงาน</option>
-                                    <option value="9">บุคคลร่วมโรงเรียน</option>
-                                    <option value="10">ผู้ป่วยในโรงพยาบาล</option>
-                                    <option value="7">อื่นๆ</option>
+                                    <option value="40">บุคลากรทางการแพทย์</option>
+                                    <option value="10">ผู้สัมผัสร่วมบ้าน</option>
+                                    <option value="20">ผู้ร่วมเดินทาง/ร่วมยานพาหนะ</option>
+                                    <option value="52">พนักงานโรงแรม</option>
+                                    <option value="23">คนขับแท๊กซี่/ยานพาหนะ</option>
+                                    <option value="31">พนักงานสนามบิน</option>
+                                    <option value="32">บุคคลร่วมที่ทำงาน</option>
+                                    <option value="33">บุคคลร่วมโรงเรียน</option>
+                                    <option value="45">ผู้ป่วยในโรงพยาบาล</option>
+                                    <option value="99">อื่นๆ</option>
                                 </select>
                             </div>
                             <div class="col-sm-4">
