@@ -10,7 +10,15 @@ use App\RiskType;
 
 class ExportExcelController extends MasterController
 {
-  public function allcontactexport(Request $req)
+
+  // all table
+public function alltable(Request $req)
+{
+	return view('errors.405');
+  }
+
+
+	public function allcontactexport(Request $req)
 	{
 
  $uid = auth()->user()->id;
@@ -34,7 +42,7 @@ class ExportExcelController extends MasterController
 		foreach($risk_type as $val_risk_type){
 			$arr_risk_type[$val_risk_type['id']] = $val_risk_type['risk_name'];
 		}
-		 return view('export.allcontactexport',compact(
+		 return view('export.allcontacttableexport',compact(
 			 'arr',
 			 'arr_hos',
 			 'nation_list',
@@ -56,12 +64,52 @@ class ExportExcelController extends MasterController
 
    public function alltableexport(Request $req)
    {
-		  return view('export.allexport');
-   }
+
+	$uid = auth()->user()->id;
+		 $datenow = date('Y-m-d');
+		 $arr = parent::getStatus();
+		 $arr_hos = $this->arr_hos();
+		 $arrprov = $this->arrprov();
+		 $arr_city = $this->arr_city();
+		 $list_occupation = $this->list_occupation();
+		 $nation_list = $this->arrnation();
+		 $list_airport = $this->list_airport();
+		 $arr_refer_lab = $this->arr_refer_lab();
+		 $arr_refer_bidi = $this->arr_refer_bidi();
+		 $arr_op_opt = $this->arr_op_opt();
+		 $arrdistrict = $this->arrdistrict();
+		 $arrsub_district = $this->arrsub_district();
+		 $arr_op_dpc = $this->arr_op_dpc();
+		 $arr_hostype  = $this->arr_hostype();
+		 $arr_hostype_th  = $this->arr_hostype_th();
+		 $risk_type = RiskType::all()->toArray();
+		 foreach($risk_type as $val_risk_type){
+			 $arr_risk_type[$val_risk_type['id']] = $val_risk_type['risk_name'];
+		 }
+		  return view('export.allexport',compact(
+		    'arr',
+		    'arr_hos',
+		    'nation_list',
+		    'list_occupation',
+		    'arrprov',
+		    'list_airport',
+		    'arr_refer_bidi',
+		    'arr_refer_lab',
+		    'arr_op_opt',
+		   'arr_op_dpc',
+			'arr_city',
+		  'arr_hostype',
+		   'arr_hostype_th',
+			 'arr_risk_type',
+			 'arrdistrict',
+			 'arrsub_district'
+		  ));
+	}
 
 public function indexallexcel(Request $req)
 {
 	$uid = auth()->user()->id;
+	if ($uid == 2 || $uid == 97 || $uid == 30 || $uid == 35 || $uid == 76) {
 		 $arr = parent::getStatus();
 		 $arr_hos = $this->arr_hos();
 		 $arrprov = $this->arrprov();
@@ -94,20 +142,23 @@ public function indexallexcel(Request $req)
 		} else {
 			$notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
 		}
+
 		if (empty($req->notify_date_end) || $req->notify_date_end == null) {
 			$notify_date_end = Date('Y-m-d');
 		} else {
 			$notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
 		}
+
 		if ($req->pt_status == null || empty($req->pt_status)) {
 			$new_status = ['1', '2', '3', '4', '5'];
 		} else {
 			$new_status = $req->pt_status;
 		}
 		$data = InvestList::whereIn('pt_status', $new_status)
-						  ->whereBetween('notify_date', [$notify_date, $notify_date_end])
+						->whereBetween('notify_date', [$notify_date, $notify_date_end])
 						  ->whereNull('deleted_at')
 						  ->get();
+
 						 return view('export.allexport',compact(
 							'data',
 							'arr',
@@ -128,8 +179,9 @@ public function indexallexcel(Request $req)
 							'arrdistrict',
 							'arrsub_district'
 						  ));
-  }
+	}
 
+  }
     protected function convertDateToMySQL($date='00/00/0000') {
       if (!is_null($date) || !empty($date)) {
         $ep = explode("/", $date);

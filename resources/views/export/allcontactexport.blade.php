@@ -87,7 +87,7 @@ input.valid, textarea.valid{
 <div class="page-breadcrumb">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title">Download</h4>
+			<h4 class="page-title">รายชื่อผู้สัมผัส</h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
@@ -100,33 +100,30 @@ input.valid, textarea.valid{
 	</div>
 </div>
 <div class="container-fluid">
-  <h4 class="sub-title">ค้นหาข้อมูล</h4>
+  <h4 class="sub-title">Download</h4>
 
 <div class="row">
   <div class="col-md-12">
     <div class="card">
       <div class="card-body">
         <br>
-        <form action="{{ route('satexport') }}" method="post">
+        <form action="{{ route('exportcontactbyday') }}" method="post">
                 {{ csrf_field() }}
       <div class="form-group row">
         <div class="col-sm-6">
-        <input type="text" class="form-control" name="created_at" data-provide="datepicke" id="datecontact"  placeholder="วันที่รับแจ้งเริ่มต้น" autocomplete="off">
+        <input type="text" class="form-control" name="created_date1" data-provide="datepicke" id="datecontact"  placeholder="วันที่รับแจ้งเริ่มต้น" autocomplete="off">
         </div>
         <div class="col-sm-6">
-        <input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด" autocomplete="off">
+        <input type="text" class="form-control" name="created_date2" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด" autocomplete="off">
         </div>
       </div>
 			<div class="form-group row">
 				<div class="col-sm-4">
-						<label for="">สถานะผู้ป่วย</label>
+						<label for="">ระดับความเสี่ยง</label>
 						<div class="col-md-8">
 							<input type="checkbox" value="all" name="all" class="select-all" checked><label>(All)</label><br>
-							<input type="checkbox" value="1" name="pt_status[]" class="checkboxlistitem" checked><label>PUI </label><br>
-							<input type="checkbox" value="2" name="pt_status[]" class="checkboxlistitem" checked><label>Confirm </label><br>
-							<input type="checkbox" value="3" name="pt_status[]" class="checkboxlistitem" checked><label>Probable </label><br>
-							<input type="checkbox" value="4" name="pt_status[]" class="checkboxlistitem" checked><label>Suspected </label><br>
-							<input type="checkbox" value="5" name="pt_status[]" class="checkboxlistitem" checked><label>Excluded </label><br>
+							<input type="checkbox" value="1" name="risk_contact[]" class="checkboxlistitem" checked><label>เสี่ยงสูง </label><br>
+							<input type="checkbox" value="2" name="risk_contact[]" class="checkboxlistitem" checked><label>เสี่ยงต่ำ </label><br>
 						</div>
 				</div>
 				{{-- <div class="col-sm-6">
@@ -147,9 +144,6 @@ input.valid, textarea.valid{
 <script src="{{ URL::asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
-<script src="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js') }}"></script>
-<script src="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js') }}"></script>
-<script src="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 

@@ -3,6 +3,8 @@
 namespace App\Exports;
 use App\invest;
 use DB;
+use Auth;
+use Session;
 use App\Provinces;
 use App\District;
 use App\SubDistrict;
@@ -26,10 +28,28 @@ class SatExport  implements FromCollection, WithHeadings
     public function __construct($data) {
       $this->new_status = array_pull($data, 'new_status');
       $this->notify_date_end = array_pull($data, 'notify_date_end');
-      $this->notify_date = array_pull($data, 'notify_date');
+      $this->created_at = array_pull($data, 'created_at');
     }
     public function collection()
     {
+        $uid = auth()->user()->id;
+        $uid_prefix = auth()->user()->prefix_sat_id;
+        $roleArr = auth()->user()->getRoleNames()->toArray();
+        // dd($roleArr);
+        $uid_hospcode = auth()->user()->hospcode;
+        $uid_prov_code = auth()->user()->prov_code;
+        $uid_region = auth()->user()->region;
+
+        $uid_chosbyregion = DB::table('chospital_new')
+                            ->select('prov_code')
+                            ->where('region', $uid_region)
+                            ->groupBy('prov_code')
+                            ->get()->keyBy('prov_code');
+
+        // $new_prov = array_pull($uid_chosbyregion, 'prov_code');
+        // return      $uid_chosbyregion  ;
+        $uid_chosbyregion = $uid_chosbyregion->keys()->toArray();
+        // dd($uid_chosbyregion);
         $arr_province = Provinces::all()->keyBy('province_id')->toArray();
         $arr_district = District::all()->keyBy('district_id')->toArray();
         $arr_sub_district = SubDistrict::all()->keyBy('sub_district_id')->toArray();
@@ -83,91 +103,137 @@ class SatExport  implements FromCollection, WithHeadings
       										          '18'=>'โรงพยาบาลรัฐ',
       										          ''=>''
       							          );
-        $data=
-        DB::table('invest_pt')->select('id',
-                        'order_pt',
-                        'sat_id',
-                        'first_name',
-                        'mid_name',
-                        'last_name',
-                        'notify_date',
-                        'walkinplace_hosp_code',
-                        'airports_code',
-                        'walkinplace_hosp_province',
-                        'isolated_province',
-                        'isolated_hosp_code',
-                        'travel_from_country',
-                        'travel_from_city',
-                        'risk_stay_outbreak_arrive_date',
-                        'risk_stay_outbreak_airline',
-                        'risk_stay_outbreak_flight_no',
-                        'total_travel_in_group',
-                        'risk_stay_outbreak_arrive_date',
-                        'risk_stay_outbreak_airline',
-                        'risk_stay_outbreak_flight_no',
-                        'total_travel_in_group',
-                        'sex',
-                        'age',
-                        'nation',
-                        'occupation',
-                        'occupation_oth',
-                        'sick_house_no',
-                        'sick_village_no',
-                        'sick_village',
-                        'sick_lane',
-                        'sick_road',
-                        'sick_province',
-                        'sick_district',
-                        'sick_sub_district',
-                        'data3_3chk_lung',
-                        'data3_3chk_heart',
-                        'data3_3chk_cirrhosis',
-                        'data3_3chk_kidney',
-                        'data3_3chk_diabetes',
-                        'data3_3chk_blood',
-                        'data3_3chk_immune',
-                        'data3_3chk_anaemia',
-                        'data3_3chk_cerebral',
-                        'data3_3input_other',
-                        'data3_3chk_pregnant',
-                        'data3_3chk_fat',
-                        'data3_3chk_cancer_name',
-                        'risk_detail',
-                        'risk_type',
-                        'data3_1date_sickdate',
-                        'isolate_date',
-                        'fever_history',
-                        'fever_current',
-                        'sym_cough',
-                        'sym_snot',
-                        'sym_sore',
-                        'sym_dyspnea',
-                        'sym_breathe',
-                        'sym_stufefy',
-                        'xray_result',
-                        'lab_rapid_test_result',
-                        'first_diag',
-                        'last_diag',
-                        'letter_division_code',
-                        'letter_code',
-                        'refer_lab',
-                        'refer_bidi',
-                        'op_dpc',
-                        'op_opt',
-                        'pt_status',
-                        'pui_type',
-                        'news_st',
-                        'disch_st',
-                        'disch_st_date',
-                        'coordinator_tel',
-                        'send_information',
-                        'send_information_div',
-                        'receive_information',
-                      )
-              ->wherein('pt_status',$this->new_status)
-              ->whereBetween('notify_date', [$this->notify_date, $this->notify_date_end])
-              ->whereNull('deleted_at')
-              ->get()->toArray();
+                            $data_val = DB::table('invest_pt')
+                                      ->join('users','invest_pt.entry_user','=','users.id')
+                                      ->select('invest_pt.id',
+                                              'invest_pt.order_pt',
+                                              'invest_pt.sat_id',
+                                              'invest_pt.first_name',
+                                              'invest_pt.mid_name',
+                                              'invest_pt.last_name',
+                                              'invest_pt.created_at',
+                                              'invest_pt.notify_date',
+                                              'invest_pt.walkinplace_hosp_code',
+                                              'invest_pt.airports_code',
+                                              'invest_pt.walkinplace_hosp_province',
+                                              'invest_pt.isolated_province',
+                                              'invest_pt.isolated_hosp_code',
+                                              'invest_pt.travel_from_country',
+                                              'invest_pt.travel_from_city',
+                                              'invest_pt.risk_stay_outbreak_arrive_date',
+                                              'invest_pt.risk_stay_outbreak_airline',
+                                              'invest_pt.risk_stay_outbreak_flight_no',
+                                              'invest_pt.total_travel_in_group',
+                                              'invest_pt.risk_stay_outbreak_arrive_date',
+                                              'invest_pt.risk_stay_outbreak_airline',
+                                              'invest_pt.risk_stay_outbreak_flight_no',
+                                              'invest_pt.total_travel_in_group',
+                                              'invest_pt.sex',
+                                              'invest_pt.age',
+                                              'invest_pt.nation',
+                                              'invest_pt.occupation',
+                                              'invest_pt.occupation_oth',
+                                              'invest_pt.sick_house_no',
+                                              'invest_pt.sick_village_no',
+                                              'invest_pt.sick_village',
+                                              'invest_pt.sick_lane',
+                                              'invest_pt.sick_road',
+                                              'invest_pt.sick_province',
+                                              'invest_pt.sick_district',
+                                              'invest_pt.sick_sub_district',
+                                              'invest_pt.data3_3chk_lung',
+                                              'invest_pt.data3_3chk_heart',
+                                              'invest_pt.data3_3chk_cirrhosis',
+                                              'invest_pt.data3_3chk_kidney',
+                                              'invest_pt.data3_3chk_diabetes',
+                                              'invest_pt.data3_3chk_blood',
+                                              'invest_pt.data3_3chk_immune',
+                                              'invest_pt.data3_3chk_anaemia',
+                                              'invest_pt.data3_3chk_cerebral',
+                                              'invest_pt.data3_3input_other',
+                                              'invest_pt.data3_3chk_pregnant',
+                                              'invest_pt.data3_3chk_fat',
+                                              'invest_pt.data3_3chk_cancer_name',
+                                              'invest_pt.risk_detail',
+                                              'invest_pt.risk_type',
+                                              'invest_pt.data3_1date_sickdate',
+                                              'invest_pt.isolate_date',
+                                              'invest_pt.fever_history',
+                                              'invest_pt.fever_current',
+                                              'invest_pt.sym_cough',
+                                              'invest_pt.sym_snot',
+                                              'invest_pt.sym_sore',
+                                              'invest_pt.sym_dyspnea',
+                                              'invest_pt.sym_breathe',
+                                              'invest_pt.sym_stufefy',
+                                              'invest_pt.xray_result',
+                                              'invest_pt.lab_rapid_test_result',
+                                              'invest_pt.first_diag',
+                                              'invest_pt.last_diag',
+                                              'invest_pt.letter_division_code',
+                                              'invest_pt.letter_code',
+                                              'invest_pt.refer_lab',
+                                              'invest_pt.refer_bidi',
+                                              'invest_pt.op_dpc',
+                                              'invest_pt.op_opt',
+                                              'invest_pt.pt_status',
+                                              'invest_pt.pui_type',
+                                              'invest_pt.news_st',
+                                              'invest_pt.disch_st',
+                                              'invest_pt.disch_st_date',
+                                              'invest_pt.coordinator_tel',
+                                              'invest_pt.send_information',
+                                              'invest_pt.send_information_div',
+                                              'invest_pt.receive_information',
+                                            );
+                      if (count($roleArr) > 0) {
+                  			$user_role = $roleArr[0];
+                      switch ($user_role) {
+                        case 'hos':
+                          $data  = $data_val
+                                  ->where('invest_pt.isolated_hosp_code', $uid_hospcode)
+                                  ->where('invest_pt.walkinplace_hosp_code', $uid_hospcode)
+                                  ->wherein('invest_pt.pt_status',$this->new_status)
+                                  ->whereBetween('invest_pt.created_at', [$this->created_at, $this->notify_date_end])
+                                  ->whereNull('invest_pt.deleted_at')
+                                  ->get()->toArray();
+                          break;
+                          case 'pho':
+                            $data = $data_val
+                                    ->where('invest_pt.isolated_province','=', $uid_prov_code)
+                                    ->where('invest_pt.walkinplace_hosp_province','=', $uid_prov_code)
+                                    ->wherein('invest_pt.pt_status',$this->new_status)
+                                    ->whereBetween('invest_pt.created_at', [$this->created_at, $this->notify_date_end])
+                                    ->whereNull('invest_pt.deleted_at')
+                                    ->get()->toArray();
+                            break;
+                            case 'dpc':
+                              $data = $data_val
+                                      ->wherein('invest_pt.isolated_province', $uid_chosbyregion)
+                                      ->wherein('invest_pt.walkinplace_hosp_province', $uid_chosbyregion)
+                                      ->wherein('invest_pt.pt_status',$this->new_status)
+                                      ->whereBetween('invest_pt.created_at', [$this->created_at, $this->notify_date_end])
+                                      ->whereNull('invest_pt.deleted_at')
+                                      ->get()->toArray();
+                              break;
+                              case 'ddc':
+                                $data = $data_val
+                                        ->wherein('invest_pt.pt_status',$this->new_status)
+                                        ->whereBetween('invest_pt.created_at', [$this->created_at, $this->notify_date_end])
+                                        ->whereNull('invest_pt.deleted_at')
+                                        ->get()->toArray();
+                                break;
+                                case 'root':
+                                  $data = $data_val
+                                          ->wherein('invest_pt.pt_status',$this->new_status)
+                                          ->whereBetween('invest_pt.created_at', [$this->created_at, $this->notify_date_end])
+                                          ->whereNull('invest_pt.deleted_at')
+                                          ->get()->toArray();
+                                  break;
+                        default:
+                          break;
+                      }
+                    }
           		$result = collect();
           		foreach($data as $value) {
                   if (!empty($value->nation) || $value->nation != null || $value->nation != null) {
@@ -235,7 +301,8 @@ class SatExport  implements FromCollection, WithHeadings
                                         $value->walkinplace_hosp_code == '00570'||
                                         $value->walkinplace_hosp_code == '00800'||
                                         $value->walkinplace_hosp_code == '00830'||
-                                        $value->walkinplace_hosp_code == '04007')  {
+                                        $value->walkinplace_hosp_code == '04007'||
+                                        $value->walkinplace_hosp_code == '14189')  {
                       $walkinplace_hosp_code= '-';
                     }else {
                       $walkinplace_hosp_code = $arr_hospital[$value->walkinplace_hosp_code]['hosp_name'];
@@ -275,7 +342,8 @@ class SatExport  implements FromCollection, WithHeadings
                                         $value->isolated_hosp_code == '00570'||
                                         $value->isolated_hosp_code == '00800'||
                                         $value->isolated_hosp_code == '00830'||
-                                        $value->isolated_hosp_code == '04007')  {
+                                        $value->isolated_hosp_code == '04007'||
+                                        $value->isolated_hosp_code == '14189')  {
                       $isolated_hosp_code = '-';
                     }else {
                       $isolated_hosp_code = $arr_hospital[$value->isolated_hosp_code]['hosp_name'];
@@ -376,7 +444,8 @@ class SatExport  implements FromCollection, WithHeadings
                                         $value->walkinplace_hosp_code == '00570'||
                                         $value->walkinplace_hosp_code == '00800'||
                                         $value->walkinplace_hosp_code == '00830'||
-                                        $value->walkinplace_hosp_code == '04007')  {
+                                        $value->walkinplace_hosp_code == '04007'||
+                                        $value->walkinplace_hosp_code == '14189')  {
                       $walkinplace_hosp_code_group = '';
                     }else {
                       $walkinplace_hosp_code_group = $arr_hospital[$value->walkinplace_hosp_code]['hosp_type_code'] ;
@@ -402,7 +471,8 @@ class SatExport  implements FromCollection, WithHeadings
                                         $value->isolated_hosp_code == '00570'||
                                         $value->isolated_hosp_code == '00800'||
                                         $value->isolated_hosp_code == '00830'||
-                                        $value->isolated_hosp_code == '04007')  {
+                                        $value->isolated_hosp_code == '04007'||
+                                        $value->isolated_hosp_code == '14189')  {
                       $isolated_hosp_code_group = '';
                     }else {
                       $isolated_hosp_code_group = $arr_hospital[$value->isolated_hosp_code]['hosp_type_code'] ;
@@ -423,6 +493,7 @@ class SatExport  implements FromCollection, WithHeadings
                   'first_name' => $value->first_name,
                   'mid_name' => $value->mid_name,
                   'last_name' =>$value->last_name,
+                  'created_at' => $value->created_at,
                   'notify_date' => $value->notify_date,
                   'walkinplace_hosp_code' => $walkinplace_hosp_code,
                   'walkinplace_hosp_code_group_th' => $walkinplace_hosp_code_group_th,
@@ -439,7 +510,7 @@ class SatExport  implements FromCollection, WithHeadings
                   'total_travel_in_group' => $value->total_travel_in_group,
                   'sex' => $value->sex,
                   'age' => $value->age,
-                  'nation' => $value->nation,
+                  'nation' => $nation,
                   'occupation' => $occupation,
                   'occupation_oth' => $value->occupation_oth,
                   'sick_house_no' => $value->sick_house_no,
@@ -508,6 +579,7 @@ class SatExport  implements FromCollection, WithHeadings
                 'ชื่อ',
                 'ชื่อกลาง',
                 'นามสกุล',
+                'วันที่กรอกข้อมูล',
                 'วันรับแจ้ง',
                 'โรงพยาบาลที่คัดกรอง',
                 'ประเภทโรงพยาบาลที่คัดกรอง',

@@ -392,12 +392,16 @@ if(auth()->user()->id==Auth::user()->id){
 
 	public function editcontact(Request $req)
 	{
+		$contact_rid=$req->contact_rid;
 		$contact_id=$req->contact_id;
 		$sat_id_confirm=DB::table('invest_pt')
 										->select('id','sat_id','first_name','last_name','nation')
 										->where('pt_status' ,"=" ,"2" )
 										->get();
-		$getdata_contact=DB::table('tbl_contact')->select('*')->where('contact_id',$contact_id)->get();
+		$getdata_contact=DB::table('tbl_contact')
+												->select('*')
+												->where('id',$contact_rid)
+												->get();
 		$getdata_hsc_contact=DB::table('tbl_contact_hsc')
 														->select('*')
 														->where('contact_id',$contact_id)->get();
