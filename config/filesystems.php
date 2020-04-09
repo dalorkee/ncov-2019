@@ -60,6 +60,11 @@ return [
 			'root' => public_path(). '/files/invest',
 		],
 
+		'excel' => [
+			'driver' => 'local',
+			'root' => public_path(). '/exports/excel',
+		],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

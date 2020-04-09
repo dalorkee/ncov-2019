@@ -1,4 +1,5 @@
 <?php
+/* auth */
 Auth::routes();
 
 /* Role & Permission Manage */
@@ -110,7 +111,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/clusters/doughnut', 'covidController@clusters')->name('maps.doughnut');
 
 	/* Export */
-	Route::get('invest/export/', 'ListInvestController@export');
+	Route::get('invest/export', 'ListInvestController@export')->name('iep');
 	Route::get('epi', function() {
 		return view('export.invest');
 	});
@@ -123,9 +124,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 	/* destroy */
 	Route::resource('item', 'InvestController');
-
-	/* test route for talek team only */
-	Route::get('/pj', 'TestController@store')->name('pj');
 });
 
 /* DashBoardGraph */
@@ -136,3 +134,11 @@ Route::prefix('dashboardgraph')->group(function () {
 });
 
 Route::resource('hospital', 'HospitalController');
+
+/* for testing only */
+Route::group(['middleware' => ['auth']], function() {
+	Route::get('/pjx', function() {
+		return view('export.invest');
+	});
+	Route::get('/pj', 'InvestController@exportFromQuery')->name('pj');
+});

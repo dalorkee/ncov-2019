@@ -8,15 +8,21 @@ use Spatie\Permission\Models\Role;
 use App\User;
 use DB;
 use Hash;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
 	protected $hospcode;
 	public function __construct() {
 		$this->middleware('auth');
-		//$this->middleware(['role:admin']);
-		//$this->middleware(['role:admin|hospital|lab']);
-		//$this->middleware('permission:manageuser|list|create|edit|delete', ['only' => ['index','store']]);
+	}
+
+	public function download(Request $request)
+	{
+		(new UsersExport)->store('users.csv', 'excel');
+		return 'Export started!';
+
 	}
 
 	public function index(Request $request) {

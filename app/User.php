@@ -26,6 +26,8 @@ class User extends Authenticatable
 		'lname',
 		'password',
 		'email',
+		'region',
+		'prov_code'
 	];
 
 	/**

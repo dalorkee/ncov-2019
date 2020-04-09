@@ -164,9 +164,11 @@ class ListInvestDataTable extends DataTable
 	* @return \Illuminate\Database\Eloquent\Builder
 	*/
 	public function query(InvestList $model) {
+		$user_role = Session::get('user_role');
 		$user_hosp = auth()->user()->hospcode;
 		$user_prov = auth()->user()->prov_code;
-		$user_role = Session::get('user_role');
+		$user_region = auth()->user()->region;
+
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
 		$dcs = $this->caseDischSt();
@@ -174,47 +176,50 @@ class ListInvestDataTable extends DataTable
 
 		switch ($user_role) {
 			case 'root':
-			$invest = InvestList::select(
-				'id',
-				\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
-				\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
-				'sat_id',
-				\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
-				\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
-				\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-				'sex',
-				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-				'inv')
-				->whereNull('deleted_at')->orderBy('id', 'DESC');
-				break;
+				$invest = InvestList::select(
+					'id',
+					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+					\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+					'sat_id',
+					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+					'sex',
+					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+					'inv')
+					->whereNull('deleted_at')->orderBy('id', 'DESC');
+					break;
 			case 'ddc':
-			$invest = InvestList::select(
-				'id',
-				\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
-				\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
-				'sat_id',
-				\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
-				\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
-				\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-				'sex',
-				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-				'inv')
-				->whereNull('deleted_at')->orderBy('id', 'DESC');
-				break;
+				$invest = InvestList::select(
+					'id',
+					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+					\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+					'sat_id',
+					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+					'sex',
+					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+					'inv')
+					->whereNull('deleted_at')->orderBy('id', 'DESC');
+					break;
 			case 'dpc':
-			$invest = InvestList::select(
-				'id',
-				\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
-				\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
-				'sat_id',
-				\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
-				\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
-				\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-				'sex',
-				\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-				'inv')
-				->whereNull('deleted_at')->orderBy('id', 'DESC');
-				break;
+				//$prov_arr = $this->getProvCodeByRegion($user_region=0);
+				//$prov_str = $this->arrayToString($prov_arr);
+				$invest = InvestList::select(
+					'id',
+					\DB::raw("CONCAT(first_name, ' ', last_name) as full_name"),
+					\DB::raw("CONCAT(first_name, ' ', LEFT(last_name, 3), '_') as ext_name"),
+					'sat_id',
+					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
+					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
+					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
+					'sex',
+					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
+					'inv')
+					->whereIn('isolated_province', $prov_arr)
+					->whereNull('deleted_at')->orderBy('id', 'DESC');
+					break;
 			case 'pho':
 				$invest = InvestList::select(
 					'id',
@@ -248,7 +253,7 @@ class ListInvestDataTable extends DataTable
 					->where('isolated_hosp_code', '=', $user_hosp)
 					->orWhere('walkinplace_hosp_code', '=', $user_hosp)
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
-				break;
+					break;
 			default:
 				return redirect()->route('logout');
 				break;
@@ -256,12 +261,38 @@ class ListInvestDataTable extends DataTable
 		return $invest;
 	}
 
+	private function getProvCodeByRegion($region=0) {
+		$prov_code = User::select('prov_code')
+			->where('region', '=', $user_region)
+			->groupBy('prov_code')
+			->get()
+			->keyBy('prov_code');
+		$prov_code_list = $prov_code->keys()->all();
+		return $prov_code_list;
+	}
+
+	private function arrayToString($array=array()) {
+		$str = NULL;
+		if (count($array) > 0) {
+			foreach ($array as $key => $value) {
+				if (is_null($str)) {
+					$str = "";
+				} else {
+					$str = $str.",";
+				}
+				$str = $str.$value;
+			}
+		}
+		return $str;
+	}
+/*
 	private function getHospCodeByHospCode() {
 		$user_hosp_code = auth()->user()->hospcode;
 		$hosp_code = User::select('hospcode')->where('hospcode', '=', $user_hosp_code)->get();
 		$hosp_code_arr = $hosp_code->pluck('hospcode')->toArray();
 		return $hosp_code_arr;
 	}
+
 
 	private function getPhoUserByProv() {
 		$prov_code = auth()->user()->prov_code;
@@ -282,7 +313,7 @@ class ListInvestDataTable extends DataTable
 		}
 		return $user_arr;
 	}
-
+	*/
 	/**
 	* Optional method if you want to use html builder.
 	*

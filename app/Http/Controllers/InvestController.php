@@ -25,6 +25,8 @@ use App\RiskType;
 use DB;
 use Session;
 use App\User;
+use App\Exports\InvestExportFromQuery;
+use Log;
 
 class InvestController extends MasterController
 {
@@ -35,6 +37,18 @@ class InvestController extends MasterController
 
 	public function index() {
 		//
+	}
+
+	public function exportFromQuery(Request $request) {
+		try {
+			(new InvestExportFromQuery)->store('export-file.csv', 'excel');
+			return [
+				'success' => true,
+				'path' => 'http://'.$request->server('HTTP_HOST').'/exports/excel/export-file.csv'
+			];
+		} catch(\Exception $e) {
+			Log::error($e->getMessage());
+		}
 	}
 
 	public function create(Request $request) {
@@ -50,8 +64,8 @@ class InvestController extends MasterController
 		$ref_specimen = Specimen::select('id', 'name_en')->where('specimen_status', '=', 1)->get()->keyBy('id')->toArray();
 		$risk_type = RiskType::all()->keyBy('id')->toArray();
 
-		$treat_first_hospital = Hospitals::where('new_hospcode', '=', $invest_pt[0]['treat_first_hospital'])->get()->toArray();
-		$treat_place_hospital = Hospitals::where('new_hospcode', '=', $invest_pt[0]['treat_place_hospital'])->get()->toArray();
+		$treat_first_hospital = Hospitals::where('hospcode', '=', $invest_pt[0]['treat_first_hospital'])->get()->toArray();
+		$treat_place_hospital = Hospitals::where('hospcode', '=', $invest_pt[0]['treat_place_hospital'])->get()->toArray();
 
 		$pt_activity = PatientActivity::where('ref_patient_id', '=', $invest_pt[0]['id'])->get()->keyBy('day')->toArray();
 		if (count($pt_activity) > 0) {
@@ -310,7 +324,7 @@ class InvestController extends MasterController
 				if (is_null($drugStr)) {
 					$drugStr = "";
 				} else {
-					$drugStr = $drugStr.", ";
+					$drugStr = $drugStr.",";
 				}
 				$drugStr = $drugStr.$value;
 			}

@@ -23,6 +23,7 @@
 		}
 		.topbar, #navbarSupportedContent {
 			background-color:#E84C93 !important;
+			background-color:#343A40 !important;
 		}
 		#navbarSupportedContent a {
 			color: white;

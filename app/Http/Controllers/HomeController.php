@@ -18,6 +18,30 @@ class HomeController extends Controller
 	}
 
 	public function index() {
+		/*
+		$user_region = auth()->user()->region;
+		$prov_code = User::select('prov_code')
+			->where('region', '=', $user_region)
+			->groupBy('prov_code')
+			->get()
+			->keyBy('prov_code');
+		$prov_code_arr = $prov_code->keys()->all();
+
+		if (count($prov_code_arr) > 0) {
+			$str = NULL;
+			foreach ($prov_code_arr as $key => $value) {
+				if (is_null($str)) {
+					$str = "";
+				} else {
+					$str = $str.",";
+				}
+				$str = $str.$value;
+			}
+		}
+		dd($str);
+
+*/
+
 		$roleArr = auth()->user()->getRoleNames()->toArray();
 		if (count($roleArr) > 0) {
 			$user_role = $roleArr[0];

@@ -56,9 +56,43 @@
 			</div>
 		</div>
 	</div>
+	<ul>
+		<li>
+			<a href="#" id="query">From Query</a>
+			<span class="loader" style="display:none;">Processing...</span>
+		</li>
+		<li>
+			<a href="#" id="array">From Array</a>
+			<span class="loader1" style="display:none;">Processing...</span>
+		</li>
+	</ul>
 </div>
 @endsection
 @section('bottom-script')
 	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+	<script>
+	$(document).ready(function() {
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		$('#query').click(function(e) {
+			$('.loader').show();
+			e.preventDefault();
+			$.ajax({
+				url: "{{ route('pj') }}",
+				complete: function(res) {
+					var path = res.responseJSON.path;
+					location.href = path;
+					$('.loader').hide();
+				}
+			});
+		});
+	});
+
+	</script>
 @endsection
