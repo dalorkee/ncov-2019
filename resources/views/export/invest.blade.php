@@ -1,33 +1,14 @@
 @extends('layouts.index')
-@section('custom-style')
-<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
-<style>
-	input:-moz-read-only { /* For Firefox */
-		background-color: #fafafa !important;
-	}
-	input:read-only {
-		background-color: #fafafa !important;
-	}
-	.select-custom select option {
-		padding: 18px!important;
-	}
-	.font-fira {
-		font-family: 'Fira-code' !important;
-	}
-	.input-group .bootstrap-select.form-control {
-		z-index: 0;
-	}
-</style>
-@endsection
 @section('meta-token')
 <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+@section('custom-style')
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 @section('contents')
 <div class="page-breadcrumb">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title">Export</h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
@@ -43,56 +24,87 @@
 	@include('flash::message')
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-			<div class="card">
-				<div class="card-body">
-					<div class="d-md-flex align-items-center mb-2">
-						<div>
-							<h4 class="card-title">Export</h4>
-							<h5 class="card-subtitle">COVID-19 Version 1.10</h5>
+			<article class="card" style="border: 2px dashed #eee">
+				<section class="card-body">
+					<form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
+						{{ csrf_field() }}
+						{{ method_field('POST') }}
+						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+							<div class="form-group">
+								<label for="date">เลือกช่วงเวลาที่ต้องการส่งออกข้อมูล (MM/DD/YYYY)</label>
+								<div class="input-group date" data-provide="datepicker" id="breathing_tube_date">
+									<div class="input-group-append">
+										<span class="input-group-text btn btn-outline-primary"><i class="mdi mdi-calendar"></i></span>
+									</div>
+									<input type="text" name="export_date_range" id="demo" class="form-control btn btn-outline-primary" style="cursor: pointer;">
+									<div class="input-group-append">
+										<button class="btn btn-outline btn-primary" type="button">Download</button>
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-
-				</div>
-			</div>
+					</form>
+				</section>
+			</article>
 		</div>
+		<ul>
+			<li>
+				<a href="#" id="query">From Query</a>
+				<span class="loader" style="display:none;">Processing...</span>
+			</li>
+		</ul>
 	</div>
-	<ul>
-		<li>
-			<a href="#" id="query">From Query</a>
-			<span class="loader" style="display:none;">Processing...</span>
-		</li>
-		<li>
-			<a href="#" id="array">From Array</a>
-			<span class="loader1" style="display:none;">Processing...</span>
-		</li>
-	</ul>
 </div>
 @endsection
 @section('bottom-script')
-	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
-	<script>
-	$(document).ready(function() {
-
-		$.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			}
-		});
-
-		$('#query').click(function(e) {
-			$('.loader').show();
-			e.preventDefault();
-			$.ajax({
-				url: "{{ route('pj') }}",
-				complete: function(res) {
-					var path = res.responseJSON.path;
-					location.href = path;
-					$('.loader').hide();
-				}
-			});
-		});
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script>
+$(document).ready(function() {
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
 	});
 
-	</script>
+	$('#query').click(function(e) {
+		$('.loader').show();
+		e.preventDefault();
+		$.ajax({
+			url: "{ route('pj') }}",
+			complete: function(res) {
+				var path = res.responseJSON.path;
+				location.href = path;
+				$('.loader').hide();
+			}
+		});
+	})
+	var currentdate = new Date();
+	var startDate =  (currentdate.getMonth()+1) + "/" + (currentdate.getDate()-7) +  "/" + currentdate.getFullYear();
+	var endDate =  (currentdate.getMonth()+1) + "/" +  currentdate.getDate() + "/" + currentdate.getFullYear();
+
+	/* date range */
+	$('#demo').daterangepicker({
+		"minYear": 2019,
+		"maxYear": 2023,
+		"maxSpan": {
+			"days": 31
+		},
+		ranges: {
+			'Today': [moment(), moment()],
+			'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+			'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+			'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+			'This Month': [moment().startOf('month'), moment().endOf('month')],
+			'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+		},
+		"alwaysShowCalendars": true,
+		"startDate": startDate,
+		"endDate": endDate,
+		"cancelClass": "btn-danger"
+	}, function(start, end, label) {
+		console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+	});
+});
+</script>
 @endsection

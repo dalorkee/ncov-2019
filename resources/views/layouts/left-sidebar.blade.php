@@ -7,8 +7,9 @@
 		<!-- Sidebar navigation-->
 		<nav class="sidebar-nav">
 			<ul id="sidebarnav" class="p-t-30">
-				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-database"></i><span class="hide-menu">Data </span></a>
+				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fas fa-tasks"></i><span class="hide-menu">Form </span></a>
 					<ul aria-expanded="false" class="collapse  first-level">
+						<li class="sidebar-item"><a href="{{ route('pui-screen') }}" class="sidebar-link"><i class="fas fa-filter"></i><span class="hide-menu"> PUI Screen</span></a></li>
 						@role('root|ddc|dpc')
 						<li class="sidebar-item"><a href="{{ route('list-data.sat') }}" class="sidebar-link"><i class="mdi mdi-folder-multiple-outline"></i><span class="hide-menu"> SAT</span></a></li>
 						@endrole
@@ -36,7 +37,7 @@
 				</li>
 				@endrole
 				@role('root')
-				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-account-settings-variant"></i><span class="hide-menu">Manage </span></a>
+				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-account-settings-variant"></i><span class="hide-menu">Users </span></a>
 					<ul aria-expanded="false" class="collapse  first-level">
 						<li class="sidebar-item"><a href="{{ route('users.index') }}" class="sidebar-link"><i class="mdi mdi-account-multiple"></i><span class="hide-menu"> List Users</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('roles.index') }}" class="sidebar-link"><i class="mdi mdi-account-settings-variant"></i><span class="hide-menu"> Role List</span></a></li>

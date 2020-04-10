@@ -250,6 +250,7 @@ return [
 		'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
 		'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
 		'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+		'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
 	],
 
 ];

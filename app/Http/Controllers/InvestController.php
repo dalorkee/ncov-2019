@@ -27,6 +27,7 @@ use Session;
 use App\User;
 use App\Exports\InvestExportFromQuery;
 use Log;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class InvestController extends MasterController
 {
@@ -39,6 +40,7 @@ class InvestController extends MasterController
 		//
 	}
 
+
 	public function exportFromQuery(Request $request) {
 		try {
 			(new InvestExportFromQuery)->store('export-file.csv', 'excel');
@@ -48,6 +50,20 @@ class InvestController extends MasterController
 			];
 		} catch(\Exception $e) {
 			Log::error($e->getMessage());
+		}
+	}
+
+	public function exportFastExcel() {
+		(new FastExcel($this->usersGenerator()))->export('test.csv');
+		return 'Done';
+	}
+
+	public function usersGenerator() {
+		foreach (User::select('id', 'name')->limit(10)->cursor() as $user) {
+			if ($user->id == 1) {
+				$user->id = '100';
+			}
+			yield $user;
 		}
 	}
 

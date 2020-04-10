@@ -95,6 +95,12 @@ Route::group(['middleware' => 'under-construction'], function () {
 
 /* list-data => datatable */
 Route::group(['middleware' => ['auth']], function() {
+	/* screen url */
+	Route::get('/pui/screen', function () {
+		$url = 'http://viral.ddc.moph.go.th/viral/screen-hosp/index.php';
+		return Redirect::to($url);
+	})->name('pui-screen');
+
 	/* List data */
 	Route::get('/invest/list', 'ListInvestController@index')->name('list-data.invest');
 	Route::get('/sat/list', 'ListSatController@index')->name('list-data.sat');
@@ -141,4 +147,5 @@ Route::group(['middleware' => ['auth']], function() {
 		return view('export.invest');
 	});
 	Route::get('/pj', 'InvestController@exportFromQuery')->name('pj');
+	Route::get('/pj1', 'InvestController@exportFastExcel')->name('pj1');
 });

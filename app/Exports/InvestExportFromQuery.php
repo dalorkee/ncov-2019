@@ -13,6 +13,6 @@ class InvestExportFromQuery implements FromQuery, ShouldQueue
 
 	public function query()
 	{
-		return Invest::query()->select('id', 'first_name', 'last_name')->where('id', '<=', 150);
+		return Invest::query()->select('id', 'first_name', 'last_name')->where('id', '<=', 1000);
 	}
 }
