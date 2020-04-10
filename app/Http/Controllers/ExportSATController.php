@@ -17,23 +17,24 @@ class ExportSATController extends MasterController
   		} else {
   			$new_status = $req->pt_status;
   		}
-      if (empty($req->created_at) || $req->created_at == null) {
-        $created_at = Date('Y-m-d');
+      if (empty($req->created_at_s) || $req->created_at_s == null) {
+        $created_at_s = Date('Y-m-d');
       } else {
-        $created_at=$this->convertDateToMySQL($req ->input ('created_at'));
+        $created_at_s=$this->convertDateToMySQL($req ->input ('created_at_s'));
       }
 
-      if (empty($req->notify_date_end) || $req->notify_date_end == null) {
-        $notify_date_end = Date('Y-m-d');
+      if (empty($req->created_at_e) || $req->created_at_e == null) {
+        $created_at_e = Date('Y-m-d');
       } else {
-        $notify_date_end= $this->convertDateToMySQL($req ->input ('notify_date_end'));
+        $created_at_e= $this->convertDateToMySQL($req ->input ('created_at_e'));
       }
       $data = array(
         // 'poe_id'=>$poe_id,
-        'notify_date_end'=>$notify_date_end,
-        'created_at'=>$created_at,
+        'created_at_s'=>$created_at_s,
+        'created_at_e'=>$created_at_e,
         'new_status'=>$new_status,
       );
+      // dd($data);
       // return $data;
 
           return Excel::download(new SatExport($data), 'SATEXPORT.xlsx');

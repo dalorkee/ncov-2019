@@ -27,8 +27,9 @@ class SatExport  implements FromCollection, WithHeadings
     private $data;
     public function __construct($data) {
       $this->new_status = array_pull($data, 'new_status');
-      $this->notify_date_end = array_pull($data, 'notify_date_end');
-      $this->created_at = array_pull($data, 'created_at');
+      $this->created_at_e = array_pull($data, 'created_at_e') . ' 23:59:59';
+      $this->created_at_s = array_pull($data, 'created_at_s') . ' 00:00:00';
+      // dd($this->created_at_e);
     }
     public function collection()
     {
@@ -194,7 +195,8 @@ class SatExport  implements FromCollection, WithHeadings
                                   ->where('invest_pt.isolated_hosp_code', $uid_hospcode)
                                   ->where('invest_pt.walkinplace_hosp_code', $uid_hospcode)
                                   ->wherein('invest_pt.pt_status',$this->new_status)
-                                  ->whereBetween('invest_pt.created_at', [$this->created_at, $this->notify_date_end])
+                                  // ->orwhere('invest_pt.created_at',$this->created_at_s)
+                                  ->whereBetween('invest_pt.created_at', [$this->created_at_s, $this->created_at_e])
                                   ->whereNull('invest_pt.deleted_at')
                                   ->get()->toArray();
                           break;
@@ -203,7 +205,8 @@ class SatExport  implements FromCollection, WithHeadings
                                     ->where('invest_pt.isolated_province','=', $uid_prov_code)
                                     ->where('invest_pt.walkinplace_hosp_province','=', $uid_prov_code)
                                     ->wherein('invest_pt.pt_status',$this->new_status)
-                                    ->whereBetween('invest_pt.created_at', [$this->created_at, $this->notify_date_end])
+                                    // ->orwhere('invest_pt.created_at',$this->created_at_s)
+                                    ->whereBetween('invest_pt.created_at', [$this->created_at_s, $this->created_at_e])
                                     ->whereNull('invest_pt.deleted_at')
                                     ->get()->toArray();
                             break;
@@ -212,21 +215,25 @@ class SatExport  implements FromCollection, WithHeadings
                                       ->wherein('invest_pt.isolated_province', $uid_chosbyregion)
                                       ->wherein('invest_pt.walkinplace_hosp_province', $uid_chosbyregion)
                                       ->wherein('invest_pt.pt_status',$this->new_status)
-                                      ->whereBetween('invest_pt.created_at', [$this->created_at, $this->notify_date_end])
+                                      // ->orwhere('invest_pt.created_at',$this->created_at_s)
+                                      ->whereBetween('invest_pt.created_at', [$this->created_at_s, $this->created_at_e])
                                       ->whereNull('invest_pt.deleted_at')
                                       ->get()->toArray();
                               break;
                               case 'ddc':
                                 $data = $data_val
                                         ->wherein('invest_pt.pt_status',$this->new_status)
-                                        ->whereBetween('invest_pt.created_at', [$this->created_at, $this->notify_date_end])
+                                        // ->orwhere('invest_pt.created_at',$this->created_at_s)
+                                        ->whereBetween('invest_pt.created_at', [$this->created_at_s, $this->created_at_e])
                                         ->whereNull('invest_pt.deleted_at')
                                         ->get()->toArray();
                                 break;
                                 case 'root':
                                   $data = $data_val
                                           ->wherein('invest_pt.pt_status',$this->new_status)
-                                          ->whereBetween('invest_pt.created_at', [$this->created_at, $this->notify_date_end])
+                                          // ->orwhere('invest_pt.created_at',$this->created_at_s)
+                                          ->whereBetween('invest_pt.created_at', [$this->created_at_s, $this->created_at_e])
+                                          // ->whereBetween('invest_pt.created_at', ['2020-04-04 00:00:00', '2020-04-05 24:00:00'])
                                           ->whereNull('invest_pt.deleted_at')
                                           ->get()->toArray();
                                   break;
