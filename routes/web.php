@@ -56,8 +56,9 @@ Route::get('/followuptablescon/typid/{typid}/id/{id}', 'ContactController@follow
 Route::get('/puifollowtable', 'ContactController@puifollowtable')->name('puifollowtable');
 Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
 
+
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
-Route::get('/editcontact/contact_id/{contact_id}', 'ContactController@editcontact')->name('editcontact');
+Route::get('/editcontact/contact_rid/{contact_rid}/contact_id/{contact_id}', 'ContactController@editcontact')->name('editcontact');
 Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetch');
 Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
 Route::post('/addcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
@@ -81,8 +82,9 @@ Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_exce
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');
 
 Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
-Route::post('/allexport', 'ExportExcelController@indexallexcel')->name('allexport');
+Route::get('/allcontactexport', 'ExportExcelController@allcontactexport')->name('allcontactexport');
 
+Route::post('/exportcontactbyday', 'ExportContactbyDayController@exportcontactbyday')->name('exportcontactbyday');
 /* Logout */
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 

@@ -392,12 +392,16 @@ if(auth()->user()->id==Auth::user()->id){
 
 	public function editcontact(Request $req)
 	{
+		$contact_rid=$req->contact_rid;
 		$contact_id=$req->contact_id;
 		$sat_id_confirm=DB::table('invest_pt')
 										->select('id','sat_id','first_name','last_name','nation')
 										->where('pt_status' ,"=" ,"2" )
 										->get();
-		$getdata_contact=DB::table('tbl_contact')->select('*')->where('contact_id',$contact_id)->get();
+		$getdata_contact=DB::table('tbl_contact')
+												->select('*')
+												->where('id',$contact_rid)
+												->get();
 		$getdata_hsc_contact=DB::table('tbl_contact_hsc')
 														->select('*')
 														->where('contact_id',$contact_id)->get();
@@ -1376,16 +1380,16 @@ echo $outputD;
 	}
 	protected function arr_type_contact(){
 		$arr_type_contact = array(
-			'1'=>'บุคลากรทางการแพทย์',
-			'2'=>'ผู้สัมผัสร่วมบ้าน',
-			'3'=>'ผู้ร่วมเดินทาง',
-			'4'=>'พนักงานโรงแรม',
-			'5'=>'คนขับแท๊กซี่/ยานพาหนะ',
-			'6'=>'พนักงานสนามบิน',
-			'8'=>'บุคคลร่วมที่ทำงาน',
-			'9'=>'บุคคลร่วมโรงเรียน',
-			'10'=>'ผู้ป่วยในโรงพยาบาล',
-			'7'=>'อื่นๆ',
+			'40'=>'บุคลากรทางการแพทย์',
+			'10'=>'ผู้สัมผัสร่วมบ้าน',
+			'20'=>'ผู้ร่วมเดินทาง',
+			'52'=>'พนักงานโรงแรม',
+			'23'=>'คนขับแท๊กซี่/ยานพาหนะ',
+			'31'=>'พนักงานสนามบิน',
+			'32'=>'บุคคลร่วมที่ทำงาน',
+			'33'=>'บุคคลร่วมโรงเรียน',
+			'45'=>'ผู้ป่วยในโรงพยาบาล',
+			'99'=>'อื่นๆ',
 			''=>''
 			);
 		// dd($list_sym_cough);

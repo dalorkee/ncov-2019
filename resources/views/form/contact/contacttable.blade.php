@@ -211,7 +211,7 @@ input.valid, textarea.valid{
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="/ncov-2019/{{ 'detailcontact'}}/contact_id/{{ $value->contact_id }}">
 										Info
 								</a>
-								<a class="btn btn-danger btn-sm" href="/ncov-2019/{{'editcontact'}}/contact_id/{{ $value->contact_id }}">
+								<a class="btn btn-danger btn-sm" href="/ncov-2019/{{'editcontact'}}/contact_rid/{{ $value->contact_rid }}/contact_id/{{ $value->contact_id }}">
 									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#"> --}}
 										Edit
 								</a>

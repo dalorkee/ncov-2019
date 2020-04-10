@@ -10,18 +10,17 @@ class ExportSATController extends MasterController
 {
     public function satexport(Request $req)
     {
-      $uid = auth()->user()->id;
-      if ($uid == 2 || $uid == 97 || $uid == 30 || $uid == 35 || $uid == 76) {
 
+      // dd($uid_prefix);
       if ($req->pt_status == null || empty($req->pt_status)) {
   			$new_status = ['1', '2', '3', '4', '5'];
   		} else {
   			$new_status = $req->pt_status;
   		}
-      if (empty($req->notify_date) || $req->notify_date == null) {
-        $notify_date = Date('Y-m-d');
+      if (empty($req->created_at) || $req->created_at == null) {
+        $created_at = Date('Y-m-d');
       } else {
-        $notify_date=$this->convertDateToMySQL($req ->input ('notify_date'));
+        $created_at=$this->convertDateToMySQL($req ->input ('created_at'));
       }
 
       if (empty($req->notify_date_end) || $req->notify_date_end == null) {
@@ -32,14 +31,14 @@ class ExportSATController extends MasterController
       $data = array(
         // 'poe_id'=>$poe_id,
         'notify_date_end'=>$notify_date_end,
-        'notify_date'=>$notify_date,
+        'created_at'=>$created_at,
         'new_status'=>$new_status,
       );
       // return $data;
 
           return Excel::download(new SatExport($data), 'SATEXPORT.xlsx');
     }
-}
+
     protected function convertDateToMySQL($date='00/00/0000') {
       if (!is_null($date) || !empty($date)) {
         $ep = explode("/", $date);
