@@ -86,7 +86,7 @@ input:read-only {
 										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-4">
 											<div class="form-group">
 												<label for="houseNo">PUI Code</label>
-												<input type="text" name="sat_id" value="{{ $data->sat_id }}" maxlength="12" placeholder="SATID/CASECODE"  class="form-control" readonly>
+												<input type="text" name="sat_id" value="{{ $data->sat_id }}" maxlength="16" placeholder="SATID/CASECODE"  class="form-control" readonly>
 											</div>
 										</div>
 									</div>
