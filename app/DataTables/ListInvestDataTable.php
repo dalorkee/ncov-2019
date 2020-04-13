@@ -218,7 +218,7 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
-					->whereRaw('(isolated_province = 45 OR walkinplace_hosp_province = 45 OR sick_province = 45 OR sick_province_first = 45)')
+					->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province = '.$user_prov.' OR sick_province_first = '.$user_prov.')')
 					//->where('isolated_province', '=',  $user_prov)
 					//->orWhere('walkinplace_hosp_province', '=',  $user_prov)
 					//->orWhere('sick_province', '=',  $user_prov)
