@@ -883,6 +883,8 @@ public function contactstupdate(Request $request) {
 					'age'=>$age,
 					'nation'=>$nation,
 					'pt_status'=>"2",
+					'created_at'=>date("Y-m-d h:i:s"),
+					'cont'=>"y"
 				);
 				$res2	= DB::table('invest_pt')->insert($data);
 			}
