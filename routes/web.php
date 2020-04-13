@@ -148,6 +148,8 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/pjx', function() {
 		return view('export.invest');
 	});
+	Route::get('/invest/select/export', 'InvestController@exportPage')->name('export-page');
 	Route::get('/pj', 'InvestController@exportFromQuery')->name('pj');
-	Route::get('/pj1', 'InvestController@exportFastExcel')->name('pj1');
+	Route::POST('/pj1', 'InvestController@exportFastExcel')->name('pj1');
+	Route::GET('/getFile/{file}', 'InvestController@downloadFile');
 });

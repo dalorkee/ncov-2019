@@ -426,26 +426,52 @@
 	</section>
 	<section class="card-body border-top">
 		<div class="form-row">
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg- col-xl-6">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+				<div class="form-group">
+					<label for="note">บันทึกช่วยจำ</label>
+					<textarea name="invest_note" class="form-control">{{ $invest_pt[0]['invest_note'] }}</textarea>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+				<div class="form-group">
+					<label for="investFile" class="text-primary">แนบไฟล์สอบสวนโรค</label>
+					<div class="input-group">
+						<div class="custom-file">
+							<input type="file" name="invest_file" class="custom-file-input" id="invest_file">
+							<label class="custom-file-label border-primary" for="customFile">Choose file</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			@if (!is_null($invest_pt[0]['invest_file']))
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					<div>Your file: {{ $invest_pt[0]['invest_file'] }}</div>
+				</div>
+			@endif
+		</div>
+	</section>
+	<section class="card-body border-top">
+		<div class="form-row">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 				<div class="form-group">
 					<label for="firstNameInput">ผู้รายงาน</label>
 					<input type="hidden" name="userIdInput" value="{{ auth()->user()->id }}">
 					<input type="text" name="userInput" value="{{ auth()->user()->username }}" class="form-control" readonly>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg- col-xl-6">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 				<div class="form-group">
 					<label for="user_hospital">หน่วยงาน</label>
 					<input type="text" name="userHospitalInput" value="{{ auth()->user()->name }}" class="form-control" readonly>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg- col-xl-6">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 				<div class="form-group">
 					<label for="user_phone">โทรศัพท์</label>
 					<input type="text" name="userPhoneInput" value="{{ auth()->user()->tel }}" class="form-control" placeholder="โทรศัพท์" readonly>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg- col-xl-6">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 				<div class="form-group">
 					<label for="report_date">วันที่สอบสวน</label>
 					<div class="input-group date" data-provide="datepicke" id="invest_date">

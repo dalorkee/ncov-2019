@@ -21,11 +21,11 @@
 					</ul>
 				</li>
 				@role('root|ddc|hos|dpc')
-				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-cloud-download"></i><span class="hide-menu">Download </span></a>
+				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-cloud-download"></i><span class="hide-menu">Export </span></a>
 					<ul aria-expanded="false" class="collapse  first-level">
 						<li class="sidebar-item"><a href="{{ route('allexport') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> PUI For SAT</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('allcontactexport') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> Contact For SAT</span></a></li>
-						<!--<li class="sidebar-item"><a href="" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> PUI For Dr.Darin</span></a></li> -->
+						<li class="sidebar-item"><a href="{{ route('export-page') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> PUI</span></a></li>
 					</ul>
 				</li>
 				@endrole

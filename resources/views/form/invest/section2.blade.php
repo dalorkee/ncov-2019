@@ -363,6 +363,11 @@
 					</div>
 				</div>
 			</div>
+			@if (!is_null($invest_pt[0]['lab_cxr1_file']))
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					<div>Your file: {{ $invest_pt[0]['lab_cxr1_file'] }}</div>
+				</div>
+			@endif
 		</div>
 	</section>
 	<section class="card-body border-top">

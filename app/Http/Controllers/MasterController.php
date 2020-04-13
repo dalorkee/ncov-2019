@@ -69,6 +69,11 @@ class MasterController extends Controller
 		return $status;
 	}
 
+	protected function selectStatus($status_name='name') {
+		$status = $this->setStatus();
+		return $status->get($status_name, null);
+	}
+
 	private function setDrug() {
 		$drug = collect([
 			'covid19' => [

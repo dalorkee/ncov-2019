@@ -28,6 +28,7 @@ use App\User;
 use App\Exports\InvestExportFromQuery;
 use Log;
 use Rap2hpoutre\FastExcel\FastExcel;
+use Carbon\Carbon;
 
 class InvestController extends MasterController
 {
@@ -35,11 +36,6 @@ class InvestController extends MasterController
 		$this->middleware('auth');
 		$this->middleware(['role:root|ddc|dpc|pho|hos']);
 	}
-
-	public function index() {
-		//
-	}
-
 
 	public function exportFromQuery(Request $request) {
 		try {
@@ -53,35 +49,129 @@ class InvestController extends MasterController
 		}
 	}
 
-	public function exportFastExcel() {
-		(new FastExcel($this->usersGenerator()))->export('test.csv');
-		return 'Done';
+	protected function setDateRange($date_range) {
+		$exp = explode("/", $date_range);
+		$result = $exp[2].'-'.$exp[0].'-'.$exp[1];
+		return $result;
 	}
 
-	public function usersGenerator() {
-		foreach (User::select('id', 'name')->limit(10)->cursor() as $user) {
-			if ($user->id == 1) {
-				$user->id = '100';
+	public function exportPage() {
+		$fileName = self::setExportFileName();
+		$pt_status = parent::selectStatus('pt_status');
+		return view('export.invest',
+			[
+				'pt_status' => $pt_status
+			]
+		);
+	}
+
+	protected function setExportFileName($extension='csv') {
+		$uid = auth()->user()->id;
+		$current_timestamp = Carbon::now()->timestamp;
+		$fileName = 'c'.$uid.'-'.$current_timestamp.'.'.$extension;
+		return $fileName;
+	}
+
+	protected function setDownloadDetail() {
+
+	}
+
+	public function downloadFile($fileName=null) {
+		$filePath = public_path('exports/excel/'.$fileName);
+		return response()->download($filePath);
+	}
+
+	public function exportFastExcel(Request $request) {
+		try {
+			$fileName = self::setExportFileName();
+			if ($pt_status = $request->pt_status <= 0) {
+				$pts = parent::selectStatus('pt_status');
+				$rs_status = array_keys($pts);
+			} else {
+				$rs_status = array($request->pt_status);
 			}
-			yield $user;
+			$exp_date = explode("-", $request->date_range);
+			$start_date = $this->setDateRange(trim($exp_date[0]));
+			$end_date = $this->setDateRange(trim($exp_date[1]));
+
+			(new FastExcel($this->dataGenerator($rs_status, $start_date, $end_date)))->export('exports/excel/'.$fileName, function($x) {
+				return [
+					'ID' => $x->id,
+					'ID Card' => $x->card_id,
+					'Passport' => $x->passport,
+					'HN' => $x->hn,
+					'ชื่อ' => $x->first_name,
+					'นามสกุล' => $x->last_name,
+					'เพศ' => $x->sex,
+					'อายุ' => $x->age,
+					'อาชีพ' => $x->occupation,
+					'สัญชาติ' => $x->nation,
+					'pt_status' => $x->pt_status
+				];
+			});
+			$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
+			$htm .= "<li><a href='".url("/getFile/{$fileName}")."'>Download your file here. </a></li>";
+			$htm .= "<li>Typically takes 30–45 minutes.</li>";
+			$htm .= "<li>1.2 MB CSV</li>";
+			$htm .= "</ul>";
+			return $htm;
+		} catch(\Exception $e) {
+			Log::error($e->getMessage());
+		}
+	}
+
+	public function dataGenerator($pt_status, $start_date, $end_date) {
+		$occupation = Occupation::all()->keyBy('id')->toArray();
+
+		foreach (Invest::select(
+			'id',
+			'card_id',
+			'passport',
+			'hn',
+			'first_name',
+			'last_name',
+			'sex',
+			'age',
+			'occupation',
+			'nation',
+			'pt_status'
+
+			)
+			->whereIn('pt_status', $pt_status)
+			->whereRaw("DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."'")
+			->whereNull('deleted_at')
+			->cursor() as $data) {
+				if (!is_null($data->occupation) || $data->occupation > 0) {
+					$data->occupation = $occupation[$data->occupation]['occu_name_th'];
+				}
+			yield $data;
 		}
 	}
 
 	public function create(Request $request) {
+		/* get default data */
 		$titleName = TitleName::all()->keyBy('id')->toArray();
 		$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
 		$globalCountry = GlobalCountry::all()->keyBy('country_id')->toArray();
 		$occupation = Occupation::all()->keyBy('id')->toArray();
-		$invest_pt = Invest::where('id', '=', $request->id)->get()->toArray();
-		$risk_stay_outbreak_city = GlobalCity::where('city_id', '=', $invest_pt[0]['risk_stay_outbreak_city'])->get()->toArray();
-		$treat_first_city = GlobalCity::where('city_id', '=', $invest_pt[0]['treat_first_city'])->get()->toArray();
-		$treat_place_city = GlobalCity::where('city_id', '=', $invest_pt[0]['treat_place_city'])->get()->toArray();
 		$labStation = LabStation::select('id', 'th_name')->get()->keyBy('id')->toArray();
 		$ref_specimen = Specimen::select('id', 'name_en')->where('specimen_status', '=', 1)->get()->keyBy('id')->toArray();
 		$risk_type = RiskType::all()->keyBy('id')->toArray();
 
-		$treat_first_hospital = Hospitals::where('hospcode', '=', $invest_pt[0]['treat_first_hospital'])->get()->toArray();
-		$treat_place_hospital = Hospitals::where('hospcode', '=', $invest_pt[0]['treat_place_hospital'])->get()->toArray();
+		/* patient data */
+		$invest_pt = Invest::where('id', '=', $request->id)->get()->toArray();
+
+		/* map the to patient data */
+
+		if (!is_null($invest_pt[0]['risk_stay_outbreak_city'])) {
+			$risk_stay_outbreak_city = GlobalCity::where('city_id', '=', $invest_pt[0]['risk_stay_outbreak_city'])->get()->toArray();
+		} else {
+			$risk_stay_outbreak_city = null;
+		}
+		$treat_first_city = !is_null($invest_pt[0]['treat_first_city']) ? GlobalCity::where('city_id', '=', $invest_pt[0]['treat_first_city'])->get()->toArray() : null;
+		$treat_place_city = !is_null($invest_pt[0]['treat_place_city']) ? GlobalCity::where('city_id', '=', $invest_pt[0]['treat_place_city'])->get()->toArray() : null;
+		$treat_first_hospital = !is_null($invest_pt[0]['treat_first_hospital']) ? Hospitals::where('hospcode', '=', $invest_pt[0]['treat_first_hospital'])->get()->toArray() : null;
+		$treat_place_hospital = !is_null($invest_pt[0]['treat_place_hospital']) ? Hospitals::where('hospcode', '=', $invest_pt[0]['treat_place_hospital'])->get()->toArray() : null;
 
 		$pt_activity = PatientActivity::where('ref_patient_id', '=', $invest_pt[0]['id'])->get()->keyBy('day')->toArray();
 		if (count($pt_activity) > 0) {
@@ -220,7 +310,6 @@ class InvestController extends MasterController
 				'drug_result' => $drug_result,
 				'risk_type' => $risk_type
 
-
 			]
 		);
 	}
@@ -335,7 +424,7 @@ class InvestController extends MasterController
 
 		/* set drug name to array */
 		$drugStr = NULL;
-		if (count($request->covid19_drug_medicate_name) > 0) {
+		if (!is_null($request->covid19_drug_medicate_name) || $request->covid19_drug_medicate_name != "") {
 			foreach ($request->covid19_drug_medicate_name as $key => $value) {
 				if (is_null($drugStr)) {
 					$drugStr = "";
@@ -391,7 +480,15 @@ class InvestController extends MasterController
 		$pt->risk_type = $request->risk_type;
 		$pt->risk_type_text = $request->risk_type_text;
 		$pt->entry_user_last_update = auth()->user()->id;
+		$pt->invest_note = $request->invest_note;
 
+		if (Input::hasFile('invest_file')) {
+			$inv_file_new_name = 'inv_file_cid'.$request->id;
+			$inv_file_extension = Input::file('invest_file')->getClientOriginalExtension();
+			$inv_file_name = $inv_file_new_name.'.'.$inv_file_extension;
+			$pt->invest_file = $inv_file_name;
+			Storage::disk('invest')->put($inv_file_name, File::get(Input::file('invest_file')));
+		}
 
 		for ($i=1; $i<=10; $i++) {
 			$activityDate = $request->input('activityDate'.$i);
@@ -409,6 +506,7 @@ class InvestController extends MasterController
 				continue;
 			}
 		}
+
 		$pt_saved = $pt->save();
 		if ($pt_saved) {
 			flash()->overlay('<i class="fas fa-check-circle text-success"></i> บันทึกข้อมูลสำเร็จแล้ว', 'DDC::Covid-19');
