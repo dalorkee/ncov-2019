@@ -194,6 +194,9 @@ return [
 		/* Maatwebsite Excel */
 		Maatwebsite\Excel\ExcelServiceProvider::class,
 
+		/* Rap2hpoutre Laravel Log Viewer */
+		Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+
     ],
 
     /*

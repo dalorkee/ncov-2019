@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a182e215c0bfc54e6a2147c787d747d",
+    "content-hash": "aec784f5d4071a214c790c86b414a2bd",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -950,6 +950,71 @@
             "time": "2020-03-03T15:50:52+00:00"
         },
         {
+            "name": "laravel-orion/laravel-orion",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-orion/laravel-orion.git",
+                "reference": "2b1fd90ca142daa058b6b11043234d27c9dcb9fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-orion/laravel-orion/zipball/2b1fd90ca142daa058b6b11043234d27c9dcb9fb",
+                "reference": "2b1fd90ca142daa058b6b11043234d27c9dcb9fb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/bus": ">=5.7",
+                "illuminate/contracts": ">=5.7",
+                "illuminate/database": ">=5.7",
+                "illuminate/http": ">=5.7",
+                "illuminate/pagination": ">=5.7",
+                "illuminate/support": ">=5.7",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^3.7|^4.0|^5.0",
+                "phpunit/phpunit": "^6.0|^7.0|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Orion\\OrionServiceProvider"
+                    ],
+                    "aliases": {
+                        "Orion": "Orion\\Facades\\Orion"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Orion\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksei Zarubin",
+                    "email": "alex@zarubin.co"
+                }
+            ],
+            "description": "Laravel Orion allows you to build a fully featured REST API based on your Eloquent models and relationships with the simplicity of Laravel as you love it.",
+            "keywords": [
+                "api",
+                "laravel"
+            ],
+            "time": "2020-03-29T06:51:30+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v5.8.37",
             "source": {
@@ -1878,16 +1943,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.3.0",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc"
+                "reference": "bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/9a9981c347c5c49d6dfe5cf826bb882b824080dc",
-                "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120",
+                "reference": "bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120",
                 "shasum": ""
             },
             "require": {
@@ -1926,7 +1991,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-11-08T13:50:10+00:00"
+            "time": "2020-04-10T16:34:50+00:00"
         },
         {
             "name": "opis/closure",
@@ -2635,6 +2700,65 @@
                 "xlsx"
             ],
             "time": "2020-02-20T11:02:08+00:00"
+        },
+        {
+            "name": "rap2hpoutre/laravel-log-viewer",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rap2hpoutre/laravel-log-viewer.git",
+                "reference": "3506baaddbe5661fc4482b048db2ec5cfc5f9025"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/3506baaddbe5661fc4482b048db2ec5cfc5f9025",
+                "reference": "3506baaddbe5661fc4482b048db2ec5cfc5f9025",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "4.2.*|5.*|^6.0|^7.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.7.*",
+                "phpunit/phpunit": "^7"
+            },
+            "type": "laravel-package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Rap2hpoutre\\LaravelLogViewer\\LaravelLogViewerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/controllers"
+                ],
+                "psr-0": {
+                    "Rap2hpoutre\\LaravelLogViewer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "rap2hpoutre",
+                    "email": "raphaelht@gmail.com"
+                }
+            ],
+            "description": "A Laravel log reader",
+            "keywords": [
+                "laravel",
+                "log",
+                "log-reader",
+                "log-viewer",
+                "logging",
+                "lumen"
+            ],
+            "time": "2020-03-05T20:25:07+00:00"
         },
         {
             "name": "simplesoftwareio/simple-qrcode",
@@ -4246,16 +4370,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v3.6.2",
+            "version": "v3.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "786a947e57086cf236cefdee80784634224b99fa"
+                "reference": "1b3103013797f04521c6cae5560f604649484066"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/786a947e57086cf236cefdee80784634224b99fa",
-                "reference": "786a947e57086cf236cefdee80784634224b99fa",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/1b3103013797f04521c6cae5560f604649484066",
+                "reference": "1b3103013797f04521c6cae5560f604649484066",
                 "shasum": ""
             },
             "require": {
@@ -4305,7 +4429,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2020-03-27T23:36:02+00:00"
+            "time": "2020-04-12T15:18:03+00:00"
         },
         {
             "name": "wemersonjanuario/wkhtmltopdf-windows",
@@ -6537,7 +6661,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "laravel-orion/laravel-orion": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

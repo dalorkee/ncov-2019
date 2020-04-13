@@ -94,6 +94,7 @@ class InvestController extends MasterController
 			$start_date = $this->setDateRange(trim($exp_date[0]));
 			$end_date = $this->setDateRange(trim($exp_date[1]));
 
+			/* create file */
 			(new FastExcel($this->dataGenerator($rs_status, $start_date, $end_date)))->export('exports/excel/'.$fileName, function($x) {
 				return [
 					'ID' => $x->id,
@@ -109,6 +110,18 @@ class InvestController extends MasterController
 					'pt_status' => $x->pt_status
 				];
 			});
+
+			/* get file detail */
+			$fileExists = Storage::disk('invest')->exists('inv_file_cid2.PNG');
+			if ($fileExists) {
+				$size = Storage::disk('invest')->size('inv_file_cid2.PNG');
+				$size = ((int)$size/1024);
+			}
+
+
+
+
+
 			$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
 			$htm .= "<li><a href='".url("/getFile/{$fileName}")."'>Download your file here. </a></li>";
 			$htm .= "<li>Typically takes 30–45 minutes.</li>";
@@ -319,202 +332,206 @@ class InvestController extends MasterController
 	}
 
 	public function store(Request $request) {
-		$pt = Invest::find($request->id);
-		$pt->card_id = $request->idcardInput;
-		$pt->passport = $request->passportInput;
-		$pt->title_name = $request->titleName;
-		$pt->first_name = $request->firstNameInput;
-		$pt->last_name = $request->lastNameInput;
-		$pt->sex = $request->sexInput;
-		$pt->age = $request->ageYearInput;
-		$pt->age_month = $request->ageMonthInput;
-		$pt->age_days = $request->ageDayInput;
-		$pt->nation = $request->nationalityInput;
-		$pt->occupation = $request->occupationInput;
-		$pt->occupation_oth = $request->occupationOthInput;
-		$pt->work_office = $request->workOfficeInput;
-		$pt->work_contact = $request->workContactInput;
-		$pt->work_phone = $request->workPhoneInput;
-		$pt->sick_stay_type = $request->sickStayTypeChk;
-		$pt->sick_stay_type_other = $request->sickStayTypeOtherInput;
-		$pt->sick_house_no = $request->sickHouseNoInput;
-		$pt->sick_village_no = $request->sickVillageNoInput;
-		$pt->sick_village = $request->sickVillageInput;
-		$pt->sick_lane = $request->sickLaneInput;
-		$pt->sick_road = $request->sickRoadInput;
-		$pt->sick_province = $request->sickProvinceInput;
-		$pt->sick_district = $request->sickDistrictInput;
-		$pt->sick_sub_district = $request->sickSubDistrictInput;
-		$pt->data3_3chk_heart = $request->data3_3chk_heart;
-		$pt->data3_3chk_cirrhosis = $request->data3_3chk_cirrhosis;
-		$pt->data3_3chk_kidney = $request->data3_3chk_kidney;
-		$pt->data3_3chk_cerebral = $request->data3_3chk_cerebral;
-		$pt->data3_3chk_pregnant = $request->data3_3chk_pregnant;
-		$pt->data3_3chk_cancer = $request->data3_3chk_cancer;
-		$pt->data3_3chk_cancer_name = $request->data3_3chk_cancer_name;
+		try {
+			$pt = Invest::find($request->id);
+			$pt->card_id = $request->idcardInput;
+			$pt->passport = $request->passportInput;
+			$pt->title_name = $request->titleName;
+			$pt->first_name = $request->firstNameInput;
+			$pt->last_name = $request->lastNameInput;
+			$pt->sex = $request->sexInput;
+			$pt->age = $request->ageYearInput;
+			$pt->age_month = $request->ageMonthInput;
+			$pt->age_days = $request->ageDayInput;
+			$pt->nation = $request->nationalityInput;
+			$pt->occupation = $request->occupationInput;
+			$pt->occupation_oth = $request->occupationOthInput;
+			$pt->work_office = $request->workOfficeInput;
+			$pt->work_contact = $request->workContactInput;
+			$pt->work_phone = $request->workPhoneInput;
+			$pt->sick_stay_type = $request->sickStayTypeChk;
+			$pt->sick_stay_type_other = $request->sickStayTypeOtherInput;
+			$pt->sick_house_no = $request->sickHouseNoInput;
+			$pt->sick_village_no = $request->sickVillageNoInput;
+			$pt->sick_village = $request->sickVillageInput;
+			$pt->sick_lane = $request->sickLaneInput;
+			$pt->sick_road = $request->sickRoadInput;
+			$pt->sick_province = $request->sickProvinceInput;
+			$pt->sick_district = $request->sickDistrictInput;
+			$pt->sick_sub_district = $request->sickSubDistrictInput;
+			$pt->data3_3chk_heart = $request->data3_3chk_heart;
+			$pt->data3_3chk_cirrhosis = $request->data3_3chk_cirrhosis;
+			$pt->data3_3chk_kidney = $request->data3_3chk_kidney;
+			$pt->data3_3chk_cerebral = $request->data3_3chk_cerebral;
+			$pt->data3_3chk_pregnant = $request->data3_3chk_pregnant;
+			$pt->data3_3chk_cancer = $request->data3_3chk_cancer;
+			$pt->data3_3chk_cancer_name = $request->data3_3chk_cancer_name;
 
-		$pt->data3_1date_sickdate = $this->convertDateToMySQL($request->data3_1date_sickdate);
-		$pt->sick_province_first = $request->sick_province_first;
-		$pt->sick_district_first = $request->sick_district_first;
-		$pt->sick_sub_district_first = $request->sick_sub_district_first;
-		$pt->treat_first_date = $this->convertDateToMySQL($request->treat_first_date);
-		$pt->treat_first_province = $request->treatFirstProvinceInput;
-		$pt->treat_first_district = $request->treatFirstDistrictInput;
-		$pt->treat_first_sub_district = $request->treatFirstSubDistrictInput;
-		$pt->treat_first_hospital = $request->treat_first_hospital;
-		$pt->treat_place_province = $request->treatPlaceProvinceInput;
-		$pt->treat_place_district = $request->treatPlaceDistrictInput;
-		$pt->treat_place_sub_district = $request->treatPlaceSubDistrictInput;
-		$pt->treat_place_hospital = $request->treat_place_hospital;
-		$pt->fever_history = $request->fever_history;
-		$pt->body_temperature_first = $request->body_temperature_first;
-		$pt->oxygen_saturate = $request->oxygen_saturate;
-		$pt->sym_cough = $request->sym_cough;
-		$pt->sym_sore = $request->sym_sore;
-		$pt->sym_muscle = $request->sym_muscle;
-		$pt->sym_snot = $request->sym_snot;
-		$pt->sym_sputum = $request->sym_sputum;
-		$pt->sym_breathe = $request->sym_breathe;
-		$pt->sym_headache = $request->sym_headache;
-		$pt->sym_diarrhoea = $request->sym_diarrhoea;
-		$pt->sym_other = $request->sym_other;
-		$pt->sym_othertext = $request->sym_other_text;
-		$pt->breathing_tube_chk = $request->breathingTubeChk;
-		$pt->breathing_tube_date = $this->convertDateToMySQL($request->breathing_tube_date);
-		$pt->lab_cxr1_chk = $request->lab_cxr1_chk;
-		$pt->lab_cxr1_date = $this->convertDateToMySQL($request->labCxr1Date);
-		$pt->lab_cxr1_result = $request->labCxr1Result;
-		$pt->lab_cxr1_detail = $request->labCxr1Detail;
+			$pt->data3_1date_sickdate = $this->convertDateToMySQL($request->data3_1date_sickdate);
+			$pt->sick_province_first = $request->sick_province_first;
+			$pt->sick_district_first = $request->sick_district_first;
+			$pt->sick_sub_district_first = $request->sick_sub_district_first;
+			$pt->treat_first_date = $this->convertDateToMySQL($request->treat_first_date);
+			$pt->treat_first_province = $request->treatFirstProvinceInput;
+			$pt->treat_first_district = $request->treatFirstDistrictInput;
+			$pt->treat_first_sub_district = $request->treatFirstSubDistrictInput;
+			$pt->treat_first_hospital = $request->treat_first_hospital;
+			$pt->treat_place_province = $request->treatPlaceProvinceInput;
+			$pt->treat_place_district = $request->treatPlaceDistrictInput;
+			$pt->treat_place_sub_district = $request->treatPlaceSubDistrictInput;
+			$pt->treat_place_hospital = $request->treat_place_hospital;
+			$pt->fever_history = $request->fever_history;
+			$pt->body_temperature_first = $request->body_temperature_first;
+			$pt->oxygen_saturate = $request->oxygen_saturate;
+			$pt->sym_cough = $request->sym_cough;
+			$pt->sym_sore = $request->sym_sore;
+			$pt->sym_muscle = $request->sym_muscle;
+			$pt->sym_snot = $request->sym_snot;
+			$pt->sym_sputum = $request->sym_sputum;
+			$pt->sym_breathe = $request->sym_breathe;
+			$pt->sym_headache = $request->sym_headache;
+			$pt->sym_diarrhoea = $request->sym_diarrhoea;
+			$pt->sym_other = $request->sym_other;
+			$pt->sym_othertext = $request->sym_other_text;
+			$pt->breathing_tube_chk = $request->breathingTubeChk;
+			$pt->breathing_tube_date = $this->convertDateToMySQL($request->breathing_tube_date);
+			$pt->lab_cxr1_chk = $request->lab_cxr1_chk;
+			$pt->lab_cxr1_date = $this->convertDateToMySQL($request->labCxr1Date);
+			$pt->lab_cxr1_result = $request->labCxr1Result;
+			$pt->lab_cxr1_detail = $request->labCxr1Detail;
 
-		if (Input::hasFile('labCxr1File')) {
-			$lab_file1_new_name = 'cxr1_file_cid'.$request->id;
-			$lab_file1_extension = Input::file('labCxr1File')->getClientOriginalExtension();
-			$fileName1 = $lab_file1_new_name.'.'.$lab_file1_extension;
-			$pt->lab_cxr1_file = $fileName1;
-			Storage::disk('invest')->put($fileName1, File::get(Input::file('labCxr1File')));
-		}
+			if (Input::hasFile('labCxr1File')) {
+				$lab_file1_new_name = 'cxr1_file_cid'.$request->id;
+				$lab_file1_extension = Input::file('labCxr1File')->getClientOriginalExtension();
+				$fileName1 = $lab_file1_new_name.'.'.$lab_file1_extension;
+				$pt->lab_cxr1_file = $fileName1;
+				Storage::disk('invest')->put($fileName1, File::get(Input::file('labCxr1File')));
+			}
 
-		$pt->lab_cbc_date = $this->convertDateToMySQL($request->labCbcDate);
-		$pt->lab_cbc_hb = $request->labCbcHb;
-		$pt->lab_cbc_hct = $request->labCbcHct;
-		$pt->lab_cbc_platelet_count = $request->labCbcPlateletCount;
-		$pt->lab_cbc_wbc = $request->labCbcWbc;
-		$pt->lab_cbc_neutrophil = $request->labCbcNeutrophil;
-		$pt->lab_cbc_lymphocyte = $request->labCbcLymphocyte;
-		$pt->lab_cbc_atyp_lymph = $request->lab_cbc_atyp_lymph;
-		$pt->lab_cbc_mono = $request->lab_cbc_mono;
-		$pt->lab_cbc_other = $request->lab_cbc_other;
-		$pt->lab_rapid_test_method = $request->lab_rapid_test_method;
-		$pt->lab_rapid_test_date = $this->convertDateToMySQL($request->labRapidTestDate);
-		$pt->lab_rapid_test_result = $request->labRapidTestResult;
-		$pt->lab_rapid_test_pathogen_flu_a = $request->lab_rapid_test_pathogen_flu_a;
-		$pt->lab_rapid_test_pathogen_flu_b = $request->lab_rapid_test_pathogen_flu_b;
+			$pt->lab_cbc_date = $this->convertDateToMySQL($request->labCbcDate);
+			$pt->lab_cbc_hb = $request->labCbcHb;
+			$pt->lab_cbc_hct = $request->labCbcHct;
+			$pt->lab_cbc_platelet_count = $request->labCbcPlateletCount;
+			$pt->lab_cbc_wbc = $request->labCbcWbc;
+			$pt->lab_cbc_neutrophil = $request->labCbcNeutrophil;
+			$pt->lab_cbc_lymphocyte = $request->labCbcLymphocyte;
+			$pt->lab_cbc_atyp_lymph = $request->lab_cbc_atyp_lymph;
+			$pt->lab_cbc_mono = $request->lab_cbc_mono;
+			$pt->lab_cbc_other = $request->lab_cbc_other;
+			$pt->lab_rapid_test_method = $request->lab_rapid_test_method;
+			$pt->lab_rapid_test_date = $this->convertDateToMySQL($request->labRapidTestDate);
+			$pt->lab_rapid_test_result = $request->labRapidTestResult;
+			$pt->lab_rapid_test_pathogen_flu_a = $request->lab_rapid_test_pathogen_flu_a;
+			$pt->lab_rapid_test_pathogen_flu_b = $request->lab_rapid_test_pathogen_flu_b;
 
-		$pt->lab_sars_cov2_no_1 = 1;
-		$pt->lab_sars_cov2_no_1_date = $this->convertDateToMySQL($request->lab_sars_cov2_no_1_date);
-		$pt->lab_sars_cov2_no_1_specimen = $request->lab_sars_cov2_no_1_specimen;
-		$pt->lab_sars_cov2_no_1_lab = $request->lab_sars_cov2_no_1_lab;
-		$pt->lab_sars_cov2_no_1_result = $request->lab_sars_cov2_no_1_result;
-		$pt->lab_sars_cov2_no_2 = 2;
-		$pt->lab_sars_cov2_no_2_date = $this->convertDateToMySQL($request->lab_sars_cov2_no_2_date);
-		$pt->lab_sars_cov2_no_2_specimen = $request->lab_sars_cov2_no_2_specimen;
-		$pt->lab_sars_cov2_no_2_lab = $request->lab_sars_cov2_no_2_lab;
-		$pt->lab_sars_cov2_no_2_result = $request->lab_sars_cov2_no_2_result;
-		$pt->treat_patient_type = $request->treat_patient_type;
-		$pt->treat_place_date = $this->convertDateToMySQL($request->treat_place_date);
-		$pt->first_diag = $request->firstDiagInput;
-		$pt->covid19_drug_medicate = $request->covid19Drugchk;
-		$pt->covid19_drug_medicate_first_date = $this->convertDateToMySQL($request->covid19_drug_medicate_first_date);
+			$pt->lab_sars_cov2_no_1 = 1;
+			$pt->lab_sars_cov2_no_1_date = $this->convertDateToMySQL($request->lab_sars_cov2_no_1_date);
+			$pt->lab_sars_cov2_no_1_specimen = $request->lab_sars_cov2_no_1_specimen;
+			$pt->lab_sars_cov2_no_1_lab = $request->lab_sars_cov2_no_1_lab;
+			$pt->lab_sars_cov2_no_1_result = $request->lab_sars_cov2_no_1_result;
+			$pt->lab_sars_cov2_no_2 = 2;
+			$pt->lab_sars_cov2_no_2_date = $this->convertDateToMySQL($request->lab_sars_cov2_no_2_date);
+			$pt->lab_sars_cov2_no_2_specimen = $request->lab_sars_cov2_no_2_specimen;
+			$pt->lab_sars_cov2_no_2_lab = $request->lab_sars_cov2_no_2_lab;
+			$pt->lab_sars_cov2_no_2_result = $request->lab_sars_cov2_no_2_result;
+			$pt->treat_patient_type = $request->treat_patient_type;
+			$pt->treat_place_date = $this->convertDateToMySQL($request->treat_place_date);
+			$pt->first_diag = $request->firstDiagInput;
+			$pt->covid19_drug_medicate = $request->covid19Drugchk;
+			$pt->covid19_drug_medicate_first_date = $this->convertDateToMySQL($request->covid19_drug_medicate_first_date);
 
-		/* set drug name to array */
-		$drugStr = NULL;
-		if (!is_null($request->covid19_drug_medicate_name) || $request->covid19_drug_medicate_name != "") {
-			foreach ($request->covid19_drug_medicate_name as $key => $value) {
-				if (is_null($drugStr)) {
-					$drugStr = "";
-				} else {
-					$drugStr = $drugStr.",";
+			/* set drug name to array */
+			$drugStr = NULL;
+			if (!is_null($request->covid19_drug_medicate_name) || $request->covid19_drug_medicate_name != "") {
+				foreach ($request->covid19_drug_medicate_name as $key => $value) {
+					if (is_null($drugStr)) {
+						$drugStr = "";
+					} else {
+						$drugStr = $drugStr.",";
+					}
+					$drugStr = $drugStr.$value;
 				}
-				$drugStr = $drugStr.$value;
 			}
-		}
-		$pt->covid19_drug_medicate_name = $drugStr;
+			$pt->covid19_drug_medicate_name = $drugStr;
 
-		$pt->covid19_drug_medicate_name_other = $request->covid19_drug_medicate_name_other;
-		$pt->patient_treat_status = $request->patientTreatStatus;
-		$pt->patient_treat_status_refer = $request->patient_treat_status_refer;
-		$pt->patient_treat_status_other = $request->patient_treat_status_other;
-		$pt->data3_3chk = $request->data3_3chk;
-		$pt->data3_3chk_lung = $request->data3_3chk_lung;
-		$pt->data3_3chk_diabetes = $request->data3_3chk_diabetes;
-		$pt->data3_3chk_blood = $request->data3_3chk_blood;
-		$pt->data3_3chk_immune = $request->data3_3chk_immune;
-		$pt->data3_3chk_anaemia = $request->data3_3chk_anaemia;
-		$pt->data3_3chk_fat = $request->data3_3chk_fat;
-		$pt->data3_3chk_other = $request->data3_3chk_other;
-		$pt->data3_3input_other = $request->data3_3input_other;
-		$pt->risk_stay_outbreak_chk = $request->riskStayOutbreakChk;
-		$pt->risk_stay_outbreak_country = $request->riskStayOutbreakCountryInput;
-		$pt->risk_stay_outbreak_city = $request->riskStayOutbreakCityInput;
-		$pt->risk_stay_outbreak_city_other = $request->riskStayOutbreakCityOtherInput;
-		$pt->risk_stay_outbreak_arrive_date = $this->convertDateToMySQL($request->riskStayOutbreakArriveDate);
-		$pt->risk_stay_outbreak_arrive_thai_date = $this->convertDateToMySQL($request->riskStayOutbreakArriveThaiDate);
-		$pt->risk_stay_outbreak_airline = $request->riskStayOutbreakAirline;
-		$pt->risk_stay_outbreak_flight_no = $request->riskStayOutbreakFlightNoInput;
-		$pt->risk_stay_outbreak_seat_no = $request->riskStayOutbreakSeatNoInput;
-		$pt->risk_stay_outbreak_province = $request->riskStayOutbreakProvinceInput;
-		$pt->risk_stay_outbreak_district = $request->riskStayOutbreakDistrictInput;
-		$pt->risk_stay_outbreak_sub_district = $request->riskStayOutbreakSubDistrictInput;
-		$pt->risk_treat_or_visit_patient = $request->riskTreatOrVisitPatient;
-		$pt->risk_care_flu_patient = $request->riskCareFluPatient;
-		$pt->risk_contact_covid_19 = $request->risk_contact_covid_19;
-		$pt->risk_contact_covid_19_patient_name = $request->risk_contact_covid_19_patient_name;
-		$pt->risk_contact_covid_19_sat_id = $request->risk_contact_covid_19_sat_id;
-		$pt->risk_contact_covid_19_touch = $request->risk_contact_covid_19_touch;
-		$pt->risk_contact_covid_19_duration = $request->risk_contact_covid_19_duration;
-		$pt->risk_contact_tourist = $request->risk_contact_tourist;
-		$pt->risk_travel_to_arena = $request->risk_travel_to_arena;
-		$pt->risk_travel_arena_name = $request->risk_travel_arena_name;
-		$pt->be_patient_cluster = $request->be_patient_cluster;
-		$pt->be_patient_critical_unknown_cause = $request->be_patient_critical_unknown_cause;
-		$pt->be_health_personel = $request->be_health_personel;
-		$pt->risk_other = $request->risk_other;
-		$pt->invest_date =  $this->convertDateToMySQL($request->invest_date);
-		$pt->risk_detail = $request->risk_detail;
-		$pt->risk_type = $request->risk_type;
-		$pt->risk_type_text = $request->risk_type_text;
-		$pt->entry_user_last_update = auth()->user()->id;
-		$pt->invest_note = $request->invest_note;
+			$pt->covid19_drug_medicate_name_other = $request->covid19_drug_medicate_name_other;
+			$pt->patient_treat_status = $request->patientTreatStatus;
+			$pt->patient_treat_status_refer = $request->patient_treat_status_refer;
+			$pt->patient_treat_status_other = $request->patient_treat_status_other;
+			$pt->data3_3chk = $request->data3_3chk;
+			$pt->data3_3chk_lung = $request->data3_3chk_lung;
+			$pt->data3_3chk_diabetes = $request->data3_3chk_diabetes;
+			$pt->data3_3chk_blood = $request->data3_3chk_blood;
+			$pt->data3_3chk_immune = $request->data3_3chk_immune;
+			$pt->data3_3chk_anaemia = $request->data3_3chk_anaemia;
+			$pt->data3_3chk_fat = $request->data3_3chk_fat;
+			$pt->data3_3chk_other = $request->data3_3chk_other;
+			$pt->data3_3input_other = $request->data3_3input_other;
+			$pt->risk_stay_outbreak_chk = $request->riskStayOutbreakChk;
+			$pt->risk_stay_outbreak_country = $request->riskStayOutbreakCountryInput;
+			$pt->risk_stay_outbreak_city = $request->riskStayOutbreakCityInput;
+			$pt->risk_stay_outbreak_city_other = $request->riskStayOutbreakCityOtherInput;
+			$pt->risk_stay_outbreak_arrive_date = $this->convertDateToMySQL($request->riskStayOutbreakArriveDate);
+			$pt->risk_stay_outbreak_arrive_thai_date = $this->convertDateToMySQL($request->riskStayOutbreakArriveThaiDate);
+			$pt->risk_stay_outbreak_airline = $request->riskStayOutbreakAirline;
+			$pt->risk_stay_outbreak_flight_no = $request->riskStayOutbreakFlightNoInput;
+			$pt->risk_stay_outbreak_seat_no = $request->riskStayOutbreakSeatNoInput;
+			$pt->risk_stay_outbreak_province = $request->riskStayOutbreakProvinceInput;
+			$pt->risk_stay_outbreak_district = $request->riskStayOutbreakDistrictInput;
+			$pt->risk_stay_outbreak_sub_district = $request->riskStayOutbreakSubDistrictInput;
+			$pt->risk_treat_or_visit_patient = $request->riskTreatOrVisitPatient;
+			$pt->risk_care_flu_patient = $request->riskCareFluPatient;
+			$pt->risk_contact_covid_19 = $request->risk_contact_covid_19;
+			$pt->risk_contact_covid_19_patient_name = $request->risk_contact_covid_19_patient_name;
+			$pt->risk_contact_covid_19_sat_id = $request->risk_contact_covid_19_sat_id;
+			$pt->risk_contact_covid_19_touch = $request->risk_contact_covid_19_touch;
+			$pt->risk_contact_covid_19_duration = $request->risk_contact_covid_19_duration;
+			$pt->risk_contact_tourist = $request->risk_contact_tourist;
+			$pt->risk_travel_to_arena = $request->risk_travel_to_arena;
+			$pt->risk_travel_arena_name = $request->risk_travel_arena_name;
+			$pt->be_patient_cluster = $request->be_patient_cluster;
+			$pt->be_patient_critical_unknown_cause = $request->be_patient_critical_unknown_cause;
+			$pt->be_health_personel = $request->be_health_personel;
+			$pt->risk_other = $request->risk_other;
+			$pt->invest_date =  $this->convertDateToMySQL($request->invest_date);
+			$pt->risk_detail = $request->risk_detail;
+			$pt->risk_type = $request->risk_type;
+			$pt->risk_type_text = $request->risk_type_text;
+			$pt->entry_user_last_update = auth()->user()->id;
+			$pt->invest_note = $request->invest_note;
 
-		if (Input::hasFile('invest_file')) {
-			$inv_file_new_name = 'inv_file_cid'.$request->id;
-			$inv_file_extension = Input::file('invest_file')->getClientOriginalExtension();
-			$inv_file_name = $inv_file_new_name.'.'.$inv_file_extension;
-			$pt->invest_file = $inv_file_name;
-			Storage::disk('invest')->put($inv_file_name, File::get(Input::file('invest_file')));
-		}
-
-		for ($i=1; $i<=10; $i++) {
-			$activityDate = $request->input('activityDate'.$i);
-			if (!empty($activityDate) || $activityDate != NULL) {
-				$p2['ref_patient_id'] = $request->id;
-				$p2['day'] = $request->input('acc_day'.$i);
-				$p2['date_activity'] = $this->convertDateToMySQL($activityDate);
-				$p2['activity'] = $request->input('activity'.$i);
-				$p2['place'] = $request->input('activityPlace'.$i);
-				$p2['personal_amount'] = $request->input('activityAmount'.$i);
-				$p2['personal_name'] = $request->input('activityName'.$i);
-				$p1['id'] = $request->input('idx'.$i);
-				$act_saved = PatientActivity::updateOrCreate($p1, $p2);
-			} else {
-				continue;
+			if (Input::hasFile('invest_file')) {
+				$inv_file_new_name = 'inv_file_cid'.$request->id;
+				$inv_file_extension = Input::file('invest_file')->getClientOriginalExtension();
+				$inv_file_name = $inv_file_new_name.'.'.$inv_file_extension;
+				$pt->invest_file = $inv_file_name;
+				Storage::disk('invest')->put($inv_file_name, File::get(Input::file('invest_file')));
 			}
-		}
 
-		$pt_saved = $pt->save();
-		if ($pt_saved) {
-			flash()->overlay('<i class="fas fa-check-circle text-success"></i> บันทึกข้อมูลสำเร็จแล้ว', 'DDC::Covid-19');
-			return redirect()->route('list-data.invest');
+			for ($i=1; $i<=10; $i++) {
+				$activityDate = $request->input('activityDate'.$i);
+				if (!empty($activityDate) || $activityDate != NULL) {
+					$p2['ref_patient_id'] = $request->id;
+					$p2['day'] = $request->input('acc_day'.$i);
+					$p2['date_activity'] = $this->convertDateToMySQL($activityDate);
+					$p2['activity'] = $request->input('activity'.$i);
+					$p2['place'] = $request->input('activityPlace'.$i);
+					$p2['personal_amount'] = $request->input('activityAmount'.$i);
+					$p2['personal_name'] = $request->input('activityName'.$i);
+					$p1['id'] = $request->input('idx'.$i);
+					$act_saved = PatientActivity::updateOrCreate($p1, $p2);
+				} else {
+					continue;
+				}
+			}
+
+			$pt_saved = $pt->save();
+			if ($pt_saved) {
+				flash()->overlay('<i class="fas fa-check-circle text-success"></i> บันทึกข้อมูลสำเร็จแล้ว', 'DDC::Covid-19');
+				return redirect()->route('list-data.invest');
+			}
+		} catch(\Exception $e) {
+			Log::error($e->getMessage());
 		}
 	}
 
