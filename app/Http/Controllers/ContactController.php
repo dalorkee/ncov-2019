@@ -109,6 +109,9 @@ class ContactController extends MasterController
 															'patient_relation.contact_id',
 															'patient_relation.create_date',
 															'patient_relation.delete_at',
+															'tbl_contact.contact_cid',
+															'tbl_contact.title_contact',
+															'tbl_contact.mname_contact',
 															'tbl_contact.age_contact',
 															'tbl_contact.sex_contact',
 															'tbl_contact.phone_contact',
@@ -297,7 +300,7 @@ if(auth()->user()->id==Auth::user()->id){
 																 'passport_contact',
 																 'sex_contact',
 																 'age_contact',
-																 'passport_contact',
+																 'contact_cid',
 																 'national_contact',
 																 'address_contact',
 																 'phone_contact',
@@ -363,6 +366,7 @@ if(auth()->user()->id==Auth::user()->id){
 		$arr_hos=$this->arr_hos();
 		$arr_followup_address=$this->arr_followup_address();
     $listprovince=$this->province();
+		$contact_type=$this->contact_type();
 		$nation_list = $this->arrnation();
     $listcountry=$this->arrnation();
 		$arr_laboratory=$this->arr_laboratory();
@@ -385,13 +389,15 @@ if(auth()->user()->id==Auth::user()->id){
 			'arr_hos',
 			'arr_followup_address',
 			'arr_laboratory',
-			'ref_lab'
+			'ref_lab',
+			'contact_type'
     ));
 	}
 
 
 	public function editcontact(Request $req)
 	{
+		$pui_id=$req->pui_id;
 		$contact_rid=$req->contact_rid;
 		$contact_id=$req->contact_id;
 		$sat_id_confirm=DB::table('invest_pt')
@@ -404,7 +410,9 @@ if(auth()->user()->id==Auth::user()->id){
 												->get();
 		$getdata_hsc_contact=DB::table('tbl_contact_hsc')
 														->select('*')
-														->where('contact_id',$contact_id)->get();
+														->where('contact_rid',$contact_rid)
+														->where('pui_id',$pui_id)
+														->get();
 		$getdata_fucontact=DB::table('tbl_followup')
 													->select('*')
 													->where('patianid',$contact_id)
@@ -426,13 +434,14 @@ if(auth()->user()->id==Auth::user()->id){
 		// $arrtitlename = $this->arrtitlename();
 		// $sat_id=$req->sat_id;
 		$arrspecimen= $this->arrspecimen();
-				$arr_laboratory=$this->arr_laboratory();
-						$ref_lab=DB::table('laboratory')->select('id','th_name')->get();
+		$arr_laboratory=$this->arr_laboratory();
+		$ref_lab=DB::table('laboratory')->select('id','th_name')->get();
 		$arr_dms_pcr_contact= $this->arr_dms_pcr_contact();
 		$arr_other_pcr_result_contact= $this->arr_other_pcr_result_contact();
 		$contact_id=$req->contact_id;
 		$nation_list = $this->arrnation();
     $listprovince=$this->province();
+		$contact_type=$this->contact_type();
 		$arr_province=$this->arr_province();
 		$arrdistrict=$this->arrdistrict();
 		$arr_risk_contact=$this->arr_risk_contact();
@@ -470,7 +479,8 @@ if(auth()->user()->id==Auth::user()->id){
 			'arr_followup_address',
 			'getdata_hsc_contact',
 			'arr_laboratory',
-			'ref_lab'
+			'ref_lab',
+			'contact_type'
     ));
 	}
 
@@ -643,6 +653,7 @@ if(auth()->user()->id==Auth::user()->id){
   $sex_contact = $req ->input ('sex_contact');
   $age_contact = $req ->input ('age_contact');
 	$passport_contact = $req ->input ('passport_contact');
+	$contact_cid = $req ->input ('contact_cid');
   $national_contact = $req ->input ('national_contact');
   $province = $req ->input ('province');
   $district = $req ->input ('district');
@@ -673,6 +684,7 @@ if(auth()->user()->id==Auth::user()->id){
     'sex_contact'=>$sex_contact,
     'age_contact'=>$age_contact,
 		'passport_contact'=>$passport_contact,
+		'contact_cid'=>$contact_cid,
     'national_contact'=>$national_contact,
     'province'=>$province,
     'district'=>$district,
@@ -734,6 +746,7 @@ if(auth()->user()->id==Auth::user()->id){
 		// 'poe_id'=>$poe_id,
 		'sat_id'=>$sat_id,
 		'pui_id'=>$pui_id,
+		'contact_rid'=>$last_res1_insert_id,
 		'contact_id'=>$contact_id,
 		'patianid'=>$contact_id,
 		'typid'=>$typid,
@@ -807,9 +820,10 @@ if(auth()->user()->id==Auth::user()->id){
 				$x=0;
 					for ($i=0; $i < count($dms_time_contact); $i++) {
 						$data_hsc[]  = [
-								'contact_id'=>$contact_id,
-								'pui_id'=>$pui_id,
-								'no_lab'=>$no_lab[$i],
+									'contact_rid'=>$last_res1_insert_id,
+									'contact_id'=>$contact_id,
+									'pui_id'=>$pui_id,
+									'no_lab'=>$no_lab[$i],
 									'dms_pcr_contact'=>$dms_pcr_contact[$i],
 									'dms_time_contact'=>$dms_time_contact[$i],
 									'dms_date_contact'=>$dms_date_contact[$i],
@@ -832,10 +846,20 @@ if(auth()->user()->id==Auth::user()->id){
 
 public function contactstupdate(Request $request) {
 	$id = $request ->input ('id');
+	// dd($id);
 	$pui_id = $request ->input ('pui_id');
 	$contact_id = $request ->input ('contact_id');
 	$status_followup = $request ->input ('status_followup');
   $pt_status = $request ->input ('pt_status');
+	$sat_id  = $request ->input ('sat_id');
+	$card_id  = $request ->input ('card_id');
+	$title_name =  $request ->input ('title_name');
+	$first_name = $request ->input ('first_name');
+	$mid_name = $request ->input ('mid_name');
+	$last_name = $request ->input ('last_name');
+	$sex = $request ->input ('sex');
+	$age = $request ->input ('age');
+	$nation = $request ->input ('nation');
   $date_change_st = $this->convertDateToMySQL($request ->input ('date_change_st'));
 	// $date_change_st =date('Y-m-d');
 	$res1=DB::table('tbl_contact')
@@ -847,7 +871,25 @@ public function contactstupdate(Request $request) {
 					 'date_change_st' => $date_change_st
 				 ]
 	    );
-	if ($res1) {
+			if ($pt_status == "2") {
+				$data = array(
+					'sat_id'=>$sat_id,
+					'card_id'=>$card_id,
+					'title_name'=>$title_name,
+					'first_name'=>$first_name,
+					'mid_name'=>$mid_name,
+					'last_name'=>$last_name,
+					'sex'=>$sex,
+					'age'=>$age,
+					'nation'=>$nation,
+					'pt_status'=>"2",
+				);
+				$res2	= DB::table('invest_pt')->insert($data);
+			}
+	else {
+		return redirect()->route('contacttable',[$pui_id]);
+	}
+	if ($res2) {
 		return redirect()->route('contacttable',[$pui_id]);
 		exit;
 	}
@@ -963,6 +1005,8 @@ if ($res1){
 public function contactedit(Request $req){
 
 {
+$id = $req -> input ('id');
+// dd($id);
 $contact_id_r = $req ->input ('contact_id_r');
 $contact_id = $req ->input ('contact_id');
 $contact_id_temp = $req ->input ('contact_id_temp');
@@ -974,6 +1018,7 @@ if ($contact_id == $contact_id_temp) {
 $sat_id = $req ->input ('sat_id');
 $pui_id = $req ->input ('pui_id');
 $user_id = $req ->input ('user_id');
+$contact_cid = $req ->input ('contact_cid');
 $title_contact = $req ->input ('title_contact');
  $name_contact = $req ->input ('name_contact');
  $mname_contact = $req ->input ('mname_contact');
@@ -1003,6 +1048,7 @@ $res1 = DB::table('tbl_contact')
 				->where('pui_id',$pui_id)
 				->where('sat_id',$sat_id)
 				->where('contact_id',$contact_id_r)
+				->where('id',$id)
 				->update(
 						[ 	'sat_id'=>$sat_id,
 								'pui_id'=>$pui_id,
@@ -1015,6 +1061,7 @@ $res1 = DB::table('tbl_contact')
 								'sex_contact'=>$sex_contact,
 								'age_contact'=>$age_contact,
 								'passport_contact'=>$passport_contact,
+								'contact_cid'=>$contact_cid,
 								'national_contact'=>$national_contact,
 								'province'=>$province,
 								'district'=>$district,
@@ -1038,6 +1085,7 @@ $res1 = DB::table('tbl_contact')
 				);
 $sat_id = $req ->input ('sat_id');
 $pui_id = $req ->input ('pui_id');
+$card_id = $req ->input ('card_id');
 $patianid = $req ->input ('patianid');
 $typid = "2";
 $contact_id = $req ->input ('contact_id');
@@ -1070,6 +1118,7 @@ $hospcode = $req ->input ('hospcode');
 $follow_address_other = $req ->input ('follow_address_other');
 $res2	= DB::table('tbl_followup')
 			 ->where('contact_id',$contact_id_r)
+			 ->where('contact_rid',$id)
 			 ->where('followup_times','=','0')
 			 ->update(
 			[ 		 'sat_id'=>$sat_id,
@@ -1110,6 +1159,7 @@ $res2	= DB::table('tbl_followup')
 						->where('sat_id', $sat_id)
 						->where('pui_id', $pui_id)
 						->where('contact_id', $contact_id_r)
+						->where('contact_rid', $id)
 						->update([
 											'sat_id' => $sat_id ,
 											'pui_id' => $pui_id ,
@@ -1133,6 +1183,7 @@ $res2	= DB::table('tbl_followup')
  while($i < $count){
 
 		 $data[] = array(
+			 		'contact_rid'=>$id,
 					'contact_id'=>$contact_id,
 					'pui_id'=>$pui_id,
 					'no_lab'=>$no_lab[$i],
@@ -1149,7 +1200,21 @@ $res2	= DB::table('tbl_followup')
  }
  $res4 = DB::table('tbl_contact_hsc')->insert($data);
  // dd($data);
-
+//  if ($res4){
+// 	 $res5	= DB::table('invest_pt')
+//   						->where('sat_id', $contact_id)
+//   						->where('card_id', $card_id)
+//   						->update([
+//   											'sat_id' => $contact_id ,
+// 												'title_name'=>$title_contact,
+// 												'first_name'=>$name_contact,
+// 												'mid_name'=>$mname_contact,
+// 												'last_name'=>$lname_contact,
+// 												'sex'=>$sex_contact,
+// 												'age'=>$age_contact,
+// 												'nation'=>$national_contact
+//   											]);
+// }
  if ($res4){
  return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 }else{
@@ -1192,6 +1257,13 @@ foreach ($queryD as $rowD) {
 }
 echo $outputD;
 
+}
+public function contact_type(){
+	$contact_type=DB::table('ref_contact_type')
+	->orderBy('type', 'ASC')
+	->get();
+	 // return view('AEFI.Apps.form1')->with('list',$list);
+	 return $contact_type;
 }
   public function province(){
     $listprovince=DB::table('ref_province')
@@ -1379,21 +1451,28 @@ echo $outputD;
 		return $arr_other_pcr_result_contact;
 	}
 	protected function arr_type_contact(){
-		$arr_type_contact = array(
-			'40'=>'บุคลากรทางการแพทย์',
-			'10'=>'ผู้สัมผัสร่วมบ้าน',
-			'20'=>'ผู้ร่วมเดินทาง',
-			'52'=>'พนักงานโรงแรม',
-			'23'=>'คนขับแท๊กซี่/ยานพาหนะ',
-			'31'=>'พนักงานสนามบิน',
-			'32'=>'บุคคลร่วมที่ทำงาน',
-			'33'=>'บุคคลร่วมโรงเรียน',
-			'45'=>'ผู้ป่วยในโรงพยาบาล',
-			'99'=>'อื่นๆ',
-			''=>''
-			);
-		// dd($list_sym_cough);
+		$arr_type_contact = DB::table('ref_contact_type')->select('Index','type')->get();
+		foreach ($arr_type_contact as  $value) {
+			$arr_type_contact[$value->Index] =trim($value->type);
+		}
+		// dd($province_arr);
 		return $arr_type_contact;
+
+		// $arr_type_contact = array(
+			// '40'=>'บุคลากรทางการแพทย์',
+			// '10'=>'ผู้สัมผัสร่วมบ้าน',
+			// '20'=>'ผู้ร่วมเดินทาง',
+			// '52'=>'พนักงานโรงแรม',
+			// '23'=>'คนขับแท๊กซี่/ยานพาหนะ',
+			// '31'=>'พนักงานสนามบิน',
+			// '32'=>'บุคคลร่วมที่ทำงาน',
+			// '33'=>'บุคคลร่วมโรงเรียน',
+			// '45'=>'ผู้ป่วยในโรงพยาบาล',
+			// '99'=>'อื่นๆ',
+			// ''=>''
+			// );
+		// dd($list_sym_cough);
+		// return $arr_type_contact;
 	}
 	protected function arr_status_followup(){
 		$arr_status_followup = array(

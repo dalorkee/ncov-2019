@@ -52,6 +52,9 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                 {{ csrf_field() }}
 
                                 <div class="form-group row">
+                                  <div class="col-sm-12 col-md-3">
+                                      <input type="hidden" name="id" value="{{ $getdata_contact[0]->id }}" class="form-control" readonly>
+                                  </div>
                                     <div class="col-sm-12 col-md-3">
                                         <input type="hidden" name="pui_id" value="{{ $getdata_contact[0]->pui_id }}" class="form-control" readonly>
                                     </div>
@@ -141,7 +144,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="sex_contact">เพศ</label>
                                         <select type="text" name="sex_contact" class="form-control" placeholder="col-sm-2">
 																						<option value="{{ (isset($getdata_contact[0]->sex_contact)) ? $getdata_contact[0]->sex_contact : "" }}">{{ (isset($getdata_contact[0]->sex_contact)) ? $getdata_contact[0]->sex_contact : "ยังไม่มีการกรอกข้อมูล" }}</option>
@@ -150,13 +153,17 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                             <option value="หญิง">หญิง</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="age_contact">อายุ</label>
                                         <input type="text" name="age_contact" value="{{$getdata_contact[0]->age_contact}}" class="form-control" placeholder="อายุ">
                                     </div>
+                                    <div class="col-sm-3">
+                                        <label for="contact_cid">เลขบัตรประชาชน</label>
+                                        <input type="text" name="contact_cid" value="{{$getdata_contact[0]->contact_cid}}" class="form-control" placeholder="เลขบัตรประชาชน">
+                                    </div>
                                     <div class="col-sm-4">
-                                        <label for="passport_contact">เลขบัตรประชาชน / Passport ID</label>
-                                        <input type="text" name="passport_contact" value="{{$getdata_contact[0]->passport_contact}}" class="form-control" placeholder="เลขบัตรประชาชน / Passport ID">
+                                        <label for="passport_contact">Passport ID</label>
+                                        <input type="text" name="passport_contact" value="{{$getdata_contact[0]->passport_contact}}" class="form-control" placeholder="Passport ID">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -239,7 +246,10 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                 <select type="text" name="type_contact" class="form-control js-select-basic-single" placeholder="ประเภทผู้สัมผัส">
 																		<option value=""{{ (isset($getdata_contact[0]->type_contact)) ? $getdata_contact[0]->type_contact : "" }}"">{{ (isset($arr_type_contact[$getdata_contact[0]->type_contact])) ? $arr_type_contact[$getdata_contact[0]->type_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
 																		<option value="">ประเภทผู้สัมผัส</option>
-                                    <option value="40">บุคลากรทางการแพทย์</option>
+                                    @foreach ($contact_type as $row)
+                                    <option value="{{$row->Index}}">{{$row->type}}</option>
+                                    @endforeach
+                                    {{-- <option value="40">บุคลากรทางการแพทย์</option>
                                     <option value="10">ผู้สัมผัสร่วมบ้าน</option>
                                     <option value="20">ผู้ร่วมเดินทาง/ร่วมยานพาหนะ</option>
                                     <option value="52">พนักงานโรงแรม</option>
@@ -248,7 +258,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                     <option value="32">บุคคลร่วมที่ทำงาน</option>
                                     <option value="33">บุคคลร่วมโรงเรียน</option>
                                     <option value="45">ผู้ป่วยในโรงพยาบาล</option>
-                                    <option value="99">อื่นๆ</option>
+                                    <option value="99">อื่นๆ</option> --}}
                                 </select>
                             </div>
                             <div class="col-sm-4">

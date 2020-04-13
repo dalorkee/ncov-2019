@@ -136,7 +136,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="sex_contact">เพศ</label>
                                         <select type="text" name="sex_contact" class="form-control" placeholder="col-sm-2">
                                             <option value="">เพศ</option>
@@ -144,13 +144,17 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                             <option value="หญิง">หญิง</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="age_contact">อายุ</label>
                                         <input type="text" name="age_contact" class="form-control" placeholder="อายุ">
                                     </div>
-                                    <div class="col-sm-4">
-                                        <label for="passport_contact">เลขบัตรประชาชน / Passport ID</label>
-                                        <input type="text" name="passport_contact" class="form-control" placeholder="เลขบัตรประชาชน / Passport ID">
+                                    <div class="col-sm-3">
+                                        <label for="contact_cid">เลขบัตรประชาชน</label>
+                                        <input type="text" name="contact_cid" class="form-control" placeholder="เลขบัตรประชาชน">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="passport_contact">Passport ID</label>
+                                        <input type="text" name="passport_contact" class="form-control" placeholder="Passport ID">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -228,7 +232,10 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                 <label for="type_contact">ประเภทผู้สัมผัส</label>
                                 <select type="text" name="type_contact" class="form-control js-select-basic-single" placeholder="ประเภทผู้สัมผัส">
                                     <option value="">ประเภทผู้สัมผัส</option>
-                                    <option value="">- เลือก -</option>
+                                    @foreach ($contact_type as $row)
+                                    <option value="{{$row->Index}}">{{$row->type}}</option>
+                                    @endforeach
+                                    {{-- <option value="">- เลือก -</option>
                                     <option value="40">บุคลากรทางการแพทย์</option>
                                     <option value="10">ผู้สัมผัสร่วมบ้าน</option>
                                     <option value="20">ผู้ร่วมเดินทาง/ร่วมยานพาหนะ</option>
@@ -238,7 +245,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                     <option value="32">บุคคลร่วมที่ทำงาน</option>
                                     <option value="33">บุคคลร่วมโรงเรียน</option>
                                     <option value="45">ผู้ป่วยในโรงพยาบาล</option>
-                                    <option value="99">อื่นๆ</option>
+                                    <option value="99">อื่นๆ</option> --}}
                                 </select>
                             </div>
                             <div class="col-sm-4">

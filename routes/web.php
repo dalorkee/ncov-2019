@@ -58,7 +58,7 @@ Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name(
 
 
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
-Route::get('/editcontact/contact_rid/{contact_rid}/contact_id/{contact_id}', 'ContactController@editcontact')->name('editcontact');
+Route::get('/editcontact/pui_id/{pui_id}/contact_rid/{contact_rid}', 'ContactController@editcontact')->name('editcontact');
 Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetch');
 Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
 Route::post('/addcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
