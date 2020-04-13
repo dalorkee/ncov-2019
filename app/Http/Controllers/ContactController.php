@@ -81,21 +81,25 @@ class ContactController extends MasterController
 		$count_con=DB::table('patient_relation')
 															->select(DB::raw('count(*) as count_cont'))
 															->where('pui_id', $id)
+															->wherenull('delete_at')
 															->get();
 		$count_hrisk=DB::table('tbl_contact')
 															->select(DB::raw('count(*) as count_hrisk'))
 															->where('pui_id', $id)
 															->where('risk_contact', '=','1')
+															->wherenull('deleted_at')
 															->get();
 		$count_lrisk=DB::table('tbl_contact')
 															->select(DB::raw('count(*) as count_lrisk'))
 															->where('pui_id', $id)
 															->where('risk_contact', '=','2')
+															->wherenull('deleted_at')
 															->get();
 		$count_labcont=DB::table('tbl_contact_hsc')
 															->select(DB::raw('count(*) as count_labcont'))
 															->where('pui_id', $id)
 															->where('dms_pcr_contact', '>=','1')
+															->wherenotnull('dms_pcr_contact')
 															->get();
 		 // dd($arr_status_followup);
 		$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();

@@ -194,6 +194,7 @@ class SatExport  implements FromCollection, WithHeadings
                           $data  = $data_val
                                   ->where('invest_pt.isolated_hosp_code', $uid_hospcode)
                                   ->where('invest_pt.walkinplace_hosp_code', $uid_hospcode)
+                                  ->orwhere('invest_pt.treat_first_hospital', $uid_hospcode)
                                   ->wherein('invest_pt.pt_status',$this->new_status)
                                   // ->orwhere('invest_pt.created_at',$this->created_at_s)
                                   ->whereBetween('invest_pt.created_at', [$this->created_at_s, $this->created_at_e])
@@ -204,6 +205,7 @@ class SatExport  implements FromCollection, WithHeadings
                             $data = $data_val
                                     ->where('invest_pt.isolated_province','=', $uid_prov_code)
                                     ->where('invest_pt.walkinplace_hosp_province','=', $uid_prov_code)
+                                    ->orwhere('invest_pt.treat_first_province', $uid_prov_code)
                                     ->wherein('invest_pt.pt_status',$this->new_status)
                                     // ->orwhere('invest_pt.created_at',$this->created_at_s)
                                     ->whereBetween('invest_pt.created_at', [$this->created_at_s, $this->created_at_e])
@@ -214,6 +216,7 @@ class SatExport  implements FromCollection, WithHeadings
                               $data = $data_val
                                       ->wherein('invest_pt.isolated_province', $uid_chosbyregion)
                                       ->wherein('invest_pt.walkinplace_hosp_province', $uid_chosbyregion)
+                                      ->orwhere('invest_pt.treat_first_province', $uid_chosbyregion)
                                       ->wherein('invest_pt.pt_status',$this->new_status)
                                       // ->orwhere('invest_pt.created_at',$this->created_at_s)
                                       ->whereBetween('invest_pt.created_at', [$this->created_at_s, $this->created_at_e])
