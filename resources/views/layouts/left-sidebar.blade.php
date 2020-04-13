@@ -25,7 +25,6 @@
 					<ul aria-expanded="false" class="collapse  first-level">
 						<li class="sidebar-item"><a href="{{ route('allexport') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> PUI For SAT</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('allcontactexport') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> Contact For SAT</span></a></li>
-						<li class="sidebar-item"><a href="{{ route('export-page') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> PUI</span></a></li>
 					</ul>
 				</li>
 				@endrole
@@ -43,6 +42,7 @@
 						<li class="sidebar-item"><a href="{{ route('users.index') }}" class="sidebar-link"><i class="mdi mdi-account-multiple"></i><span class="hide-menu"> List Users</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('roles.index') }}" class="sidebar-link"><i class="mdi mdi-account-settings-variant"></i><span class="hide-menu"> Role List</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('permissions.index') }}" class="sidebar-link"><i class="mdi mdi-account-key"></i><span class="hide-menu"> Permission List</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('export-page') }}" class="sidebar-link"><i class="mdi mdi-file-document"></i><span class="hide-menu"> PUI</span></a></li>
 					</ul>
 				</li>
 				@endrole
