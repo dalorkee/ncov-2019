@@ -158,6 +158,21 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <label for="occupation">อาชีพ</label>
+                                        <select type="text" name="occupation" class="form-control js-select-basic-single" placeholder="สัญชาติ">
+                                            <option value="">เลือกอาชีพ</option>
+                                            @foreach ($listoccupation as $row)
+                                            <option value="{{$row->id}}">{{$row->occu_name_th}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="occupation_other">อาชีพอื่นๆ</label>
+                                        <input type="text" name="occupation_other" class="form-control" placeholder="อาชีพอื่นๆ">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
 
                                     <div class="col-sm-12 col-md-3">
                                         <label for="national_contact">สัญชาติผู้สัมผัส</label>

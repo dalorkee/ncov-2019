@@ -167,6 +167,22 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <label for="occupation">อาชีพ</label>
+                                        <select type="text" name="occupation" class="form-control js-select-basic-single" placeholder="สัญชาติ">
+                                          <option value="{{ (isset($getdata_contact[0]->occupation)) ? $getdata_contact[0]->occupation : "" }}">{{ (isset($arr_occupation[$getdata_contact[0]->occupation])) ? $arr_occupation[$getdata_contact[0]->occupation] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+                                            <option value="">เลือกอาชีพ</option>
+                                            @foreach ($listoccupation as $row)
+                                            <option value="{{$row->id}}">{{$row->occu_name_th}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="occupation_other">อาชีพอื่นๆ</label>
+                                        <input type="text" name="occupation_other" value="{{$getdata_contact[0]->occupation_other}}" class="form-control" placeholder="อาชีพอื่นๆ">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
 
                                     <div class="col-sm-12 col-md-3">
                                         <label for="national_contact">สัญชาติผู้สัมผัส</label>
@@ -181,7 +197,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                     <div class="col-sm-12 col-md-3">
                                         <label for="province">จังหวัดที่อยู่ในประเทศไทย</label>
                                         <select type="text" name="province" id="province" class="form-control province js-select-basic-single" placeholder="จังหวัด">
-																					<option value=""{{ (isset($getdata_contact[0]->province)) ? $getdata_contact[0]->province : "" }}"">{{ (isset($arr_province[$getdata_contact[0]->province])) ? $arr_province[$getdata_contact[0]->province] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																					<option value="{{ (isset($getdata_contact[0]->province)) ? $getdata_contact[0]->province : "" }}">{{ (isset($arr_province[$getdata_contact[0]->province])) ? $arr_province[$getdata_contact[0]->province] : "ยังไม่มีการกรอกข้อมูล" }}</option>
 																						<option value="">เลือกจังหวัดที่อยู่ในประเทศไทย</option>
                                             @foreach ($listprovince as $row)
                                             <option value="{{$row->province_id}}">{{$row->province_name}}</option>

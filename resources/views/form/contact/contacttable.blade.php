@@ -245,7 +245,7 @@ input.valid, textarea.valid{
 				</div>
 				<div class="modal-body" id="filechangest">
 					<input type="hidden" name="pui_id" value="{{$id}}">
-					<input type="hidden" name="id" value="{{ $value->id }}">
+					<input type="hidden" name="id" value="{{ $value->id}}">
 					<input type="hidden" name="contact_id" value="{{ $value->contact_id }}">
 					<input type="hidden" name="sat_id" value="{{$value->contact_id }}">
 					<input type="hidden" name="card_id" value="{{$value->contact_cid }}">
@@ -272,6 +272,9 @@ input.valid, textarea.valid{
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 							<div class="form-group">
 								<label for="news">สถานะผู้ป่วย</label>
+								@if ($value->pt_status == "2")
+									<input type="hidden" name="pt_status" value="{{ (isset($arr_pts[$value->pt_status])) ? $arr_pts[$value->pt_status] : "Contact" }}" readonly><p>{{ (isset($arr_pts[$value->pt_status])) ? $arr_pts[$value->pt_status] : "Contact" }}</p>
+								@else
 								<select name="pt_status" class="form-control selectpicker show-tick" data-style="btn-info" id="pt_status{{ $value->contact_id }}">
 									<option value="{{ (!empty($value->pt_status)) ? $value->pt_status : "99"  }}" selected="selected">{{ (isset($arr_pts[$value->pt_status])) ? $arr_pts[$value->pt_status] : "Contact" }}</option>
 									<option value="">-- สถานะผู้ป่วย --</option>
@@ -279,8 +282,8 @@ input.valid, textarea.valid{
 									@foreach ($ref_pt_status as $row)
 									<option value="{{$row->pts_id}}">{{$row->pts_name_en}}</option>
 									@endforeach
-
 								</select>
+								@endif
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -293,7 +296,12 @@ input.valid, textarea.valid{
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<input type="submit" class="btn btn-primary" value="Save changes">
+					@if ($value->pt_status == "2")
+
+					@else
+						<input type="submit" class="btn btn-primary" value="Save changes">
+					@endif
+
 				</div>
 			</div>
 		</form>

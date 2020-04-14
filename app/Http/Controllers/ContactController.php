@@ -374,6 +374,7 @@ if(auth()->user()->id==Auth::user()->id){
 		$nation_list = $this->arrnation();
     $listcountry=$this->arrnation();
 		$arr_laboratory=$this->arr_laboratory();
+		$listoccupation=$this->listoccupation();
 		$entry_user = Auth::user()->id;
 		$prefix_sat_id = Auth::user()->prefix_sat_id;
 		return view('form.contact.addcontact',compact(
@@ -394,7 +395,8 @@ if(auth()->user()->id==Auth::user()->id){
 			'arr_followup_address',
 			'arr_laboratory',
 			'ref_lab',
-			'contact_type'
+			'contact_type',
+			'listoccupation'
     ));
 	}
 
@@ -451,6 +453,8 @@ if(auth()->user()->id==Auth::user()->id){
 		$arr_risk_contact=$this->arr_risk_contact();
 		$arr_sub_district=$this->arr_sub_district();
     $listcountry=$this->arrnation();
+		$arr_occupation=$this->arr_occupation();
+		$listoccupation=$this->listoccupation();
 		$entry_user = Auth::user()->id;
 		$prefix_sat_id = Auth::user()->prefix_sat_id;
 		return view('form.contact.editcontact',compact(
@@ -484,7 +488,9 @@ if(auth()->user()->id==Auth::user()->id){
 			'getdata_hsc_contact',
 			'arr_laboratory',
 			'ref_lab',
-			'contact_type'
+			'contact_type',
+			'arr_occupation',
+			'listoccupation'
     ));
 	}
 
@@ -658,7 +664,9 @@ if(auth()->user()->id==Auth::user()->id){
   $age_contact = $req ->input ('age_contact');
 	$passport_contact = $req ->input ('passport_contact');
 	$contact_cid = $req ->input ('contact_cid');
-  $national_contact = $req ->input ('national_contact');
+	$national_contact = $req ->input ('national_contact');
+  $occupation = $req ->input ('occupation');
+	$occupation_other = $req ->input ('occupation_other');
   $province = $req ->input ('province');
   $district = $req ->input ('district');
   $sub_district = $req ->input ('sub_district');
@@ -689,7 +697,9 @@ if(auth()->user()->id==Auth::user()->id){
     'age_contact'=>$age_contact,
 		'passport_contact'=>$passport_contact,
 		'contact_cid'=>$contact_cid,
-    'national_contact'=>$national_contact,
+		'national_contact'=>$national_contact,
+    'occupation_other'=>$occupation_other,
+		'occupation'=>$occupation,
     'province'=>$province,
     'district'=>$district,
     'sub_district'=>$sub_district,
@@ -867,7 +877,7 @@ public function contactstupdate(Request $request) {
   $date_change_st = $this->convertDateToMySQL($request ->input ('date_change_st'));
 	// $date_change_st =date('Y-m-d');
 	$res1=DB::table('tbl_contact')
-			->where('pui_id',$pui_id)
+			// ->where('pui_id',$pui_id)
 			->where('contact_id',$contact_id)
 	    ->update(
 	        ['pt_status' => $pt_status,
@@ -1030,6 +1040,8 @@ $title_contact = $req ->input ('title_contact');
  $mname_contact = $req ->input ('mname_contact');
  $lname_contact = $req ->input ('lname_contact');
  $sex_contact = $req ->input ('sex_contact');
+ $occupation = $req ->input ('occupation');
+$occupation_other = $req ->input ('occupation_other');
  $age_contact = $req ->input ('age_contact');
  $passport_contact = $req ->input ('passport_contact');
  $national_contact = $req ->input ('national_contact');
@@ -1064,6 +1076,8 @@ $res1 = DB::table('tbl_contact')
 								'name_contact'=>$name_contact,
 								'mname_contact'=>$mname_contact,
 								'lname_contact'=>$lname_contact,
+								'occupation_other'=>$occupation_other,
+								'occupation'=>$occupation,
 								'sex_contact'=>$sex_contact,
 								'age_contact'=>$age_contact,
 								'passport_contact'=>$passport_contact,
@@ -1278,6 +1292,13 @@ public function contact_type(){
      // return view('AEFI.Apps.form1')->with('list',$list);
      return $listprovince;
   }
+	public function listoccupation(){
+		$listoccupation=DB::table('ref_occupation')
+		->orderBy('occu_name_th', 'ASC')
+		->get();
+		 // return view('AEFI.Apps.form1')->with('list',$list);
+		 return $listoccupation;
+	}
 	protected function arr_province(){
 		$arr_province = DB::table('ref_province')->select('province_id','province_name')->get();
 		foreach ($arr_province as  $value) {
@@ -1309,6 +1330,14 @@ public function contact_type(){
 		}
 		// dd($province_arr);
 		return $arr_hos;
+	}
+	protected function arr_occupation(){
+		$arr_occupation = DB::table('ref_occupation')->select('id','occu_name_th')->get();
+		foreach ($arr_occupation as  $value) {
+			$arr_occupation[$value->id] =trim($value->occu_name_th);
+		}
+		// dd($province_arr);
+		return $arr_occupation;
 	}
 	protected function arr_pts(){
 		$arr_pts = DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
