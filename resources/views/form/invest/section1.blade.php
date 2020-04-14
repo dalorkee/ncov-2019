@@ -7,14 +7,24 @@
 				<div class="form-row">
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
-							<label for="idcard">เลขบัตรประจำตัวประชาชน</label>
-							<input type="text" name="idcardInput" value="{{ $invest_pt[0]['card_id'] }}" class="form-control text-danger font-weight-bold font-fira" id="idcard" placeholder="ID Card">
+							<label for="idcard" class="text-danger">เลขบัตรประจำตัวประชาชน *</label>
+							<div class="input-group">
+								<div class="input-group-append">
+									<span class="input-group-text text-danger"><i class="far fa-id-card"></i></span>
+								</div>
+								<input type="text" name="idcardInput" value="{{ $invest_pt[0]['card_id'] }}" class="form-control text-danger font-weight-bold font-fira" id="idcard">
+							</div>
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
-							<label for="passport">Passport</label>
-							<input type="text" name="passportInput" value="{{ $invest_pt[0]['passport'] }}" class="form-control text-danger font-weight-bold font-fira" id="idcard" placeholder="Passport">
+							<label for="passport" class="text-danger">Passport</label>
+							<div class="input-group">
+								<div class="input-group-append">
+									<span class="input-group-text text-danger"><i class="fas fa-globe"></i></span>
+								</div>
+								<input type="text" name="passportInput" value="{{ $invest_pt[0]['passport'] }}" class="form-control text-danger font-weight-bold font-fira" id="idcard">
+							</div>
 						</div>
 					</div>
 				</div>
