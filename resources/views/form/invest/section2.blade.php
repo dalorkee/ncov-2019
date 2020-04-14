@@ -7,11 +7,14 @@
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
 					<label for="sickFirstDate" class="text-danger">วันที่เริ่มป่วย</label>
-					<div class="input-group date" data-provide="datepicker" id="data3_1date_sickdate">
+					<div class="input-group date">
 						<div class="input-group">
-							<input type="text" name="data3_1date_sickdate" value="{{ $data['data3_1date_sickdate'] }}" class="form-control border-outline border-danger">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+							</div>
+							<input type="text" name="data3_1date_sickdate" value="{{ $data['data3_1date_sickdate'] }}" data-provide="datepicker" class="form-control border-outline border-danger" id="data3_1date_sickdate" readonly>
+							<div class="input-group-append">
+								<button type="button" class="input-group-text text-danger" id="cls_data3_1date_sickdate"><i class="fas fa-times"></i></button>
 							</div>
 						</div>
 					</div>
@@ -60,10 +63,13 @@
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
 					<label for="date" class="text-cyan">วันที่เข้ารักษาครั้งแรก</label>
-					<div class="input-group date" data-provide="datepicker" id="treat_first_date">
-						<input type="text" name="treat_first_date" value="{{ $data['treat_first_date'] }}" class="form-control text-info border-outline border-cyan">
+					<div class="input-group date">
 						<div class="input-group-append">
 							<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+						</div>
+						<input type="text" name="treat_first_date" value="{{ $data['treat_first_date'] }}" data-provide="datepicker" class="form-control text-info border-outline border-cyan" id="treat_first_date" readonly>
+						<div class="input-group-append">
+							<button type="button" class="input-group-text text-danger" id="cls_treat_first_date"><i class="fas fa-times"></i></button>
 						</div>
 					</div>
 				</div>
@@ -293,10 +299,13 @@
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 				<div class="form-group">
 					<label for="date">ระบุวันที่ใส่ท่อช่วยหายใจ</label>
-					<div class="input-group date" data-provide="datepicker" id="breathing_tube_date">
-						<input  type="text" name="breathing_tube_date" value="{{ $data['breathing_tube_date'] }}" class="form-control" readonly>
+					<div class="input-group date">
 						<div class="input-group-append">
 							<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+						</div>
+						<input type="text" name="breathing_tube_date" value="{{ $data['breathing_tube_date'] }}" data-provide="datepicker" id="breathing_tube_date" class="form-control" readonly>
+						<div class="input-group-append">
+							<button type="button" class="input-group-text text-danger" id="cls_breathing_tube_date"><i class="fas fa-times"></i></button>
 						</div>
 					</div>
 				</div>
@@ -307,7 +316,7 @@
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 				<div class="form-group">
-					<label for="">เอ็กซเรย์ปอด (ครั้งแรก)</label>
+					<label for="xrayCxr">เอ็กซเรย์ปอด (ครั้งแรก)</label>
 					<div class="card">
 						<div class="custom-control custom-checkbox custom-control">
 							<input type="checkbox" name="lab_cxr1_chk" value="n" @if ($invest_pt[0]['lab_cxr1_chk'] == 'n') checked @endif class="custom-control-input chk_cxr" id="labCxrChkNo">
@@ -320,33 +329,38 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-				<label for="dateInput">เมื่อวันที่</label>
-				<div class="input-group date" data-provide="datepicke" id="lab_cxr1_date">
-					<div class="input-group">
-						<input type="text" name="labCxr1Date" value="{{ $data['lab_cxr1_date'] }}" class="form-control"placeholder="ระบุวันที่" readonly>
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+				<div class="form-group">
+					<label for="xRaydateInput">เมื่อวันที่</label>
+					<div class="input-group date">
 						<div class="input-group-append">
 							<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+						</div>
+						<input type="text" name="labCxr1Date" value="{{ $data['lab_cxr1_date'] }}" data-provide="datepicke" id="lab_cxr1_date" class="form-control" readonly>
+						<div class="input-group-append">
+							<button type="button" class="input-group-text text-danger" id="cls_lab_cxr1_date"><i class="fas fa-times"></i></button>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-				<label for="result">ผลเอ๊กเรย์</label>
-				<div>
-					<div class="custom-control custom-checkbox custom-control-inline">
+		</div>
+		<div class="form-row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+				<label for="xrayResult">ผลเอ็กเรย์</label>
+				<div class="card">
+					<div class="custom-control custom-checkbox">
 						<input type="checkbox" name="labCxr1Result" value="normal" @if ($invest_pt[0]['lab_cxr1_result'] == 'normal') checked @endif class="custom-control-input lab_cxr1_result" id="labCxr1ResultNormal">
 						<label for="labCxr1ResultNormal" class="custom-control-label normal-label">ปกติ</label>
 					</div>
-					<div class="custom-control custom-checkbox custom-control-inline">
+					<div class="custom-control custom-checkbox">
 						<input type="checkbox" name="labCxr1Result" value="unusual" @if ($invest_pt[0]['lab_cxr1_result'] == 'unusual') checked @endif class="custom-control-input lab_cxr1_result" id="labCxr1ResultUnusual">
 						<label for="labCxr1ResultUnusual" class="custom-control-label normal-label">ผิดปกติ</label>
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 				<div class="form-group">
-					<label for="detail">โปรดระบุ</label>
+					<label for="xrayOtherDetail">ผลเอ็กเรย์อื่นๆ โปรดระบุ</label>
 					<div class="input-group">
 						<input type="text" name="labCxr1Detail" value="{{ $invest_pt[0]['lab_cxr1_detail'] }}" class="form-control">
 					</div>
@@ -354,7 +368,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 				<div class="form-group">
-					<label for="fileInput" class="text-danger">อับโหลดภาพถ่าย X-ray</label>
+					<label for="fileInput" class="text-danger">อับโหลดภาพเอ็กเรย์</label>
 					<div class="input-group">
 						<div class="custom-file">
 							<input type="file" name="labCxr1File" class="custom-file-input" id="lab_cxr1_file">
@@ -373,12 +387,15 @@
 	<section class="card-body border-top">
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-				<label for="dateInput">CBC (ครั้งแรก): วันที่</label>
-				<div class="input-group date" data-provide="datepicke" id="lab_cbc_date">
-					<div class="input-group">
-						<input type="text" name="labCbcDate" value="{{ $data['lab_cbc_date'] }}" class="form-control" readonly>
+				<div class="form-group">
+					<label for="cbcDateInput">CBC (ครั้งแรก): วันที่</label>
+					<div class="input-group date">
 						<div class="input-group-append">
 							<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+						</div>
+						<input type="text" name="labCbcDate" value="{{ $data['lab_cbc_date'] }}" data-provide="datepicke" id="lab_cbc_date" class="form-control" readonly>
+						<div class="input-group-append">
+							<button type="button" class="input-group-text text-danger" id="cls_lab_cbc_date"><i class="fas fa-times"></i></button>
 						</div>
 					</div>
 				</div>
@@ -486,13 +503,14 @@
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
-					<label for="rapidtest">วันที่</label>
-					<div class="input-group date" data-provide="datepicke" id="lab_rapid_test_date">
-						<div class="input-group">
-							<input type="text" name="labRapidTestDate" value="{{ $data['lab_rapid_test_date'] }}" class="form-control" readonly>
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-							</div>
+					<label for="rapidtest">ตรวจเมื่อวันที่</label>
+					<div class="input-group date">
+						<div class="input-group-append">
+							<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+						</div>
+						<input type="text" name="labRapidTestDate" value="{{ $data['lab_rapid_test_date'] }}" data-provide="datepicke" id="lab_rapid_test_date" class="form-control" readonly>
+						<div class="input-group-append">
+							<button type="button" class="input-group-text text-danger" id="cls_lab_rapid_test_date"><i class="fas fa-times"></i></button>
 						</div>
 					</div>
 				</div>
@@ -513,7 +531,7 @@
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-				<label for="result">ชนิดเชื้อ</label>
+				<label for="result">ชนิดเชื้อ (เลือกได้มากกว่า 1 เชื้อ)</label>
 				<div>
 					<div class="custom-control custom-checkbox custom-control-inline">
 						<input type="checkbox" name="lab_rapid_test_pathogen_flu_a" value="y" @if ($invest_pt[0]['lab_rapid_test_pathogen_flu_a'] == 'y') checked @endif  class="custom-control-input lab_rapid_test_pathogen" id="labRapidTestResultFlua">
@@ -534,7 +552,7 @@
 				<div class="table-responsive">
 					<table class="table table-striped table-bordered">
 						<!--<caption>PCR for COVID-19</caption>-->
-						<thead class="bg-danger text-light">
+						<thead class="bg-success text-light">
 							<tr>
 								<th>ครั้งที่</th>
 								<th>วันที่เก็บ</th>
@@ -545,15 +563,16 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>{{ $invest_pt[0]['lab_sars_cov2_no_1'] }}</td>
+								<td>1</td>
 								<td>
 									<div class="form-group">
-										<div class="input-group date" data-provide="datepicke" id="sars_cov2_date1">
-											<div class="input-group">
-												<input type="text" name="lab_sars_cov2_no_1_date" value="{{ $data['lab_sars_cov2_no_1_date'] }}" class="form-control" readonly>
-												<div class="input-group-append">
-													<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-												</div>
+										<div class="input-group date">
+											<div class="input-group-append">
+												<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+											</div>
+											<input type="text" name="lab_sars_cov2_no_1_date" value="{{ $data['lab_sars_cov2_no_1_date'] }}" data-provide="datepicke" id="sars_cov2_date1" class="form-control" readonly>
+											<div class="input-group-append">
+												<button type="button" class="input-group-text text-danger" id="cls_sars_cov2_date1"><i class="fas fa-times"></i></button>
 											</div>
 										</div>
 									</div>
@@ -595,15 +614,16 @@
 								</td>
 							</tr>
 							<tr>
-								<td>{{ $invest_pt[0]['lab_sars_cov2_no_2'] }}</td>
+								<td>2</td>
 								<td>
 									<div class="form-group">
-										<div class="input-group date" data-provide="datepicke" id="sars_cov2_date2">
-											<div class="input-group">
-												<input type="text" name="lab_sars_cov2_no_2_date" value="{{ $data['lab_sars_cov2_no_2_date'] }}" class="form-control" readonly>
-												<div class="input-group-append">
-													<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-												</div>
+										<div class="input-group date">
+											<div class="input-group-append">
+												<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+											</div>
+											<input type="text" name="lab_sars_cov2_no_2_date" value="{{ $data['lab_sars_cov2_no_2_date'] }}" data-provide="datepicke" id="sars_cov2_date2" class="form-control" readonly>
+											<div class="input-group-append">
+												<button type="button" class="input-group-text text-danger" id="cls_sars_cov2_date2"><i class="fas fa-times"></i></button>
 											</div>
 										</div>
 									</div>
@@ -670,10 +690,13 @@
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 				<div class="form-group">
 					<label for="date">Admited วันที่</label>
-					<div class="input-group date" data-provide="datepicker" id="treat_place_date">
-						<input type="text" name="treat_place_date" value="{{ $data['treat_place_date'] }}" class="form-control">
+					<div class="input-group date">
 						<div class="input-group-append">
 							<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+						</div>
+						<input type="text" name="treat_place_date" value="{{ $data['treat_place_date'] }}" data-provide="datepicker" id="treat_place_date" class="form-control" readonly>
+						<div class="input-group-append">
+							<button type="button" class="input-group-text text-danger" id="cls_treat_place_date"><i class="fas fa-times"></i></button>
 						</div>
 					</div>
 				</div>
@@ -708,12 +731,13 @@
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 				<div class="form-group">
 					<label for="covidDrugDate">วันที่ให้ยาโดสแรก</label>
-					<div class="input-group date" data-provide="datepicke" id="covid19_drug_medicate_first_date">
-						<div class="input-group">
-							<input type="text" name="covid19_drug_medicate_first_date" value="{{ $data['covid19_drug_medicate_first_date'] }}" class="form-control" placeholder="ระบุวันที่" readonly>
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-							</div>
+					<div class="input-group date">
+						<div class="input-group-append">
+							<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+						</div>
+						<input type="text" name="covid19_drug_medicate_first_date" value="{{ $data['covid19_drug_medicate_first_date'] }}" data-provide="datepicke" id="covid19_drug_medicate_first_date" class="form-control" readonly>
+						<div class="input-group-append">
+							<button type="button" class="input-group-text text-danger" id="cls_covid19_drug_medicate_first_date"><i class="fas fa-times"></i></button>
 						</div>
 					</div>
 				</div>

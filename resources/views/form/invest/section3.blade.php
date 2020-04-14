@@ -87,10 +87,13 @@
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 				<div class="form-group">
 					<label for="date">วันที่เดินทางไปถึง</label>
-					<div class="input-group date" data-provide="datepicker" id="riskStayOutbreakArriveDate">
-						<input  type="text" name="riskStayOutbreakArriveDate" value="{{ $data['risk_stay_outbreak_arrive_date'] }}" class="form-control" readonly>
+					<div class="input-group date">
 						<div class="input-group-append">
 							<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+						</div>
+						<input  type="text" name="riskStayOutbreakArriveDate" value="{{ $data['risk_stay_outbreak_arrive_date'] }}" data-provide="datepicker" id="riskStayOutbreakArriveDate" class="form-control" readonly>
+						<div class="input-group-append">
+							<button type="button" class="input-group-text text-danger" id="cls_riskStayOutbreakArriveDate"><i class="fas fa-times"></i></button>
 						</div>
 					</div>
 				</div>
@@ -98,10 +101,13 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
 				<div class="form-group">
 					<label for="date">วันที่เดินทางมาถึงไทย</label>
-					<div class="input-group date" data-provide="datepicker" id="riskStayOutbreakArriveThaiDate">
-						<input  type="text" name="riskStayOutbreakArriveThaiDate" value="{{ $data['risk_stay_outbreak_arrive_thai_date'] }}" class="form-control" readonly>
+					<div class="input-group date">
 						<div class="input-group-append">
 							<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+						</div>
+						<input  type="text" name="riskStayOutbreakArriveThaiDate" value="{{ $data['risk_stay_outbreak_arrive_thai_date'] }}" data-provide="datepicker" id="riskStayOutbreakArriveThaiDate" class="form-control" readonly>
+						<div class="input-group-append">
+							<button type="button" class="input-group-text text-danger" id="cls_risk_stay_outbreak_arrive_thai_date"><i class="fas fa-times"></i></button>
 						</div>
 					</div>
 				</div>
@@ -387,10 +393,13 @@
 										</td>
 										<td>
 											<div class="form-group">
-												<div class="input-group date" data-provide="datepicker" id="activity_date_{{$i}}">
-													<input type="text" name="activityDate{{$i}}" value="{{ $pt_activity[$i]['date_activity'] ?? '' }}" class="form-control" readonly>
+												<div class="input-group date">
 													<div class="input-group-append">
 														<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+													</div>
+													<input type="text" name="activityDate{{$i}}" value="{{ $pt_activity[$i]['date_activity'] ?? '' }}" data-provide="datepicker" id="activity_date_{{$i}}" class="form-control" readonly>
+													<div class="input-group-append">
+														<button type="button" class="input-group-text text-danger" id="cls_activity_date_{{$i}}"><i class="fas fa-times"></i></button>
 													</div>
 												</div>
 											</div>
@@ -474,12 +483,13 @@
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 				<div class="form-group">
 					<label for="report_date">วันที่สอบสวน</label>
-					<div class="input-group date" data-provide="datepicke" id="invest_date">
-						<div class="input-group">
-							<input type="text" name="invest_date" value="{{ $data['invest_date'] }}" class="form-control" readonly required>
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-							</div>
+					<div class="input-group date">
+						<div class="input-group-append">
+							<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+						</div>
+						<input type="text" name="invest_date" value="{{ $data['invest_date'] }}" data-provide="datepicke" id="invest_date" class="form-control" readonly required>
+						<div class="input-group-append">
+							<button type="button" class="input-group-text text-danger" id="cls_invest_date"><i class="fas fa-times"></i></button>
 						</div>
 					</div>
 				</div>

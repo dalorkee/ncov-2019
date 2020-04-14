@@ -19,6 +19,9 @@
 	.input-group .bootstrap-select.form-control {
 		z-index: 0;
 	}
+	button {
+		cursor: pointer;
+	}
 </style>
 @endsection
 @section('meta-token')
@@ -425,9 +428,10 @@ $(document).ready(function() {
 		$('.be_health_personel').not(this).prop('checked', false);
 	});
 
-
-
 	/* date picker */
+	$('#cls_data3_1date_sickdate').click(function() {
+		$('input[name=data3_1date_sickdate]').val("");
+	});
 	$('#data3_1date_sickdate').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -435,6 +439,9 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
+	$('#cls_treat_first_date').click(function() {
+		$('#treat_first_date').val("");
+	});
 	$('#treat_first_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -442,6 +449,9 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
+	$('#cls_breathing_tube_date').click(function() {
+		$('#breathing_tube_date').val("");
+	});
 	$('#breathing_tube_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -449,6 +459,9 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
+	$('#cls_lab_cxr1_date').click(function() {
+		$('#lab_cxr1_date').val("");
+	});
 	$('#lab_cxr1_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -457,6 +470,9 @@ $(document).ready(function() {
 	});
 
 	/* cbc date */
+	$('#cls_lab_cbc_date').click(function() {
+		$('#lab_cbc_date').val("");
+	});
 	$('#lab_cbc_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -464,6 +480,9 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
+	$('#cls_lab_rapid_test_date').click(function() {
+		$('#lab_rapid_test_date').val("");
+	});
 	$('#lab_rapid_test_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -471,6 +490,9 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
+	$('#cls_sars_cov2_date1').click(function() {
+		$('#sars_cov2_date1').val("");
+	});
 	$('#sars_cov2_date1').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -478,6 +500,9 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
+	$('#cls_sars_cov2_date2').click(function() {
+		$('#sars_cov2_date2').val("");
+	});
 	$('#sars_cov2_date2').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -485,6 +510,9 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
+	$('#cls_treat_place_date').click(function() {
+		$('#treat_place_date').val("");
+	});
 	$('#treat_place_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -492,7 +520,9 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
-
+	$('#cls_covid19_drug_medicate_first_date').click(function() {
+		$('#covid19_drug_medicate_first_date').val("");
+	});
 	$('#covid19_drug_medicate_first_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -500,6 +530,9 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
+	$('#cls_riskStayOutbreakArriveDate').click(function() {
+		$('#riskStayOutbreakArriveDate').val("");
+	});
 	$('#riskStayOutbreakArriveDate').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -507,6 +540,9 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
+	$('#cls_risk_stay_outbreak_arrive_thai_date').click(function() {
+		$('#riskStayOutbreakArriveThaiDate').val("");
+	});
 	$('#riskStayOutbreakArriveThaiDate').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -514,6 +550,9 @@ $(document).ready(function() {
 		autoclose: true
 	});
 
+	$('#cls_invest_date').click(function() {
+		$('#invest_date').val("");
+	});
 	$('#invest_date').datepicker({
 		format: 'dd/mm/yyyy',
 		todayHighlight: true,
@@ -522,6 +561,9 @@ $(document).ready(function() {
 	});
 
 	@for ($i=1; $i<=10; $i++)
+		$('#cls_activity_date_{{$i}}').click(function() {
+			$('#activity_date_{{$i}}').val("");
+		});
 		$('#activity_date_{{$i}}').datepicker({
 			format: 'dd/mm/yyyy',
 			todayHighlight: true,
