@@ -15,8 +15,9 @@
 						@endrole
 						@role('root|ddc|dpc|pho|hos')
 						<li class="sidebar-item"><a href="{{ route('list-data.invest') }}" class="sidebar-link"><i class="mdi mdi-ambulance"></i><span class="hide-menu"> Invest</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('list.state_quarantine') }}" class="sidebar-link"><i class="mdi mdi-folder-account"></i><span class="hide-menu"> State Quarantine </span></a></li>
 						@endrole
-					<li class="sidebar-item"><a href="{{ route('contactfollowtable') }}" class="sidebar-link"><i class="mdi mdi-cube-unfolded"></i><span class="hide-menu"> FollowUp </span></a>
+						<li class="sidebar-item"><a href="{{ route('contactfollowtable') }}" class="sidebar-link"><i class="mdi mdi-cube-unfolded"></i><span class="hide-menu"> FollowUp </span></a>
 						</li>
 					</ul>
 				</li>
