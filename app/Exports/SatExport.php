@@ -27,9 +27,11 @@ class SatExport  implements FromCollection, WithHeadings
     private $data;
     public function __construct($data) {
       $this->new_status = array_pull($data, 'new_status');
+      // $this->created_at_e = array_pull($data, 'created_at_e');
+      // $this->created_at_s = array_pull($data, 'created_at_s');
       $this->created_at_e = array_pull($data, 'created_at_e') . ' 23:59:59';
       $this->created_at_s = array_pull($data, 'created_at_s') . ' 00:00:00';
-      // dd($this->created_at_e);
+      // dd($this->created_at_s);
     }
     public function collection()
     {
@@ -192,10 +194,12 @@ class SatExport  implements FromCollection, WithHeadings
                       switch ($user_role) {
                         case 'hos':
                           $data  = $data_val
-                                  ->where('invest_pt.isolated_hosp_code', $uid_hospcode)
-                                  ->where('invest_pt.walkinplace_hosp_code', $uid_hospcode)
-                                  ->orwhere('invest_pt.treat_first_hospital', $uid_hospcode)
+                                  // ->where('invest_pt.isolated_hosp_code', $uid_hospcode)
+                                  // ->where('invest_pt.walkinplace_hosp_code', $uid_hospcode)
+                                  // ->orwhere('invest_pt.treat_first_hospital', $uid_hospcode)
+                                  ->whereRaw('(invest_pt.isolated_hosp_code = '.$uid_hospcode.' OR invest_pt.walkinplace_hosp_code = '.$uid_hospcode.' OR invest_pt.treat_first_hospital = '.$uid_hospcode.' OR sick_province_first = '.$uid_hospcode.')')
                                   ->wherein('invest_pt.pt_status',$this->new_status)
+
                                   // ->orwhere('invest_pt.created_at',$this->created_at_s)
                                   ->whereBetween('invest_pt.created_at', [$this->created_at_s, $this->created_at_e])
                                   ->whereNull('invest_pt.deleted_at')
@@ -203,11 +207,14 @@ class SatExport  implements FromCollection, WithHeadings
                           break;
                           case 'pho':
                             $data = $data_val
-                                    ->where('invest_pt.isolated_province','=', $uid_prov_code)
-                                    ->where('invest_pt.walkinplace_hosp_province','=', $uid_prov_code)
-                                    ->orwhere('invest_pt.treat_first_province', $uid_prov_code)
+                                    // ->orwhere('invest_pt.isolated_province', $uid_prov_code)
+                                    // ->orwhere('invest_pt.walkinplace_hosp_province', $uid_prov_code)
+                                    // ->orwhere('invest_pt.treat_first_province', $uid_prov_code)
+                                    ->whereRaw('(invest_pt.isolated_province = '.$uid_prov_code.' OR invest_pt.walkinplace_hosp_province = '.$uid_prov_code.' OR invest_pt.treat_first_hospital = '.$uid_prov_code.' OR invest_pt.treat_first_province = '.$uid_prov_code.')')
                                     ->wherein('invest_pt.pt_status',$this->new_status)
                                     // ->orwhere('invest_pt.created_at',$this->created_at_s)
+                                    // ->whereDate('invest_pt.created_at', '>=', $this->created_at_s)
+                                    // ->whereDate('invest_pt.created_at', '<=', $this->created_at_e)
                                     ->whereBetween('invest_pt.created_at', [$this->created_at_s, $this->created_at_e])
                                     ->whereNull('invest_pt.deleted_at')
                                     ->get()->toArray();
