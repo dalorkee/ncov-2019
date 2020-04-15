@@ -26,6 +26,7 @@ use DB;
 use Session;
 use App\User;
 use App\Exports\InvestExportFromQuery;
+use App\Exports\LogExport;
 use Log;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Carbon\Carbon;
@@ -72,12 +73,8 @@ class InvestController extends MasterController
 		return $fileName;
 	}
 
-	protected function setDownloadDetail() {
-
-	}
-
 	public function downloadFile($fileName=null) {
-		$filePath = public_path('exports/excel/'.$fileName);
+		$filePath = public_path('exports/'.$fileName);
 		return response()->download($filePath);
 	}
 
@@ -94,8 +91,44 @@ class InvestController extends MasterController
 			$start_date = $this->setDateRange(trim($exp_date[0]));
 			$end_date = $this->setDateRange(trim($exp_date[1]));
 
+			/* get default data */
+			$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
+			$globalCountry = GlobalCountry::all()->keyBy('country_id')->toArray();
+
 			/* create file */
-			(new FastExcel($this->dataGenerator($rs_status, $start_date, $end_date)))->export('exports/excel/'.$fileName, function($x) {
+			$result = (new FastExcel($this->dataGenerator($rs_status, $start_date, $end_date)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces) {
+				$nation = (!empty($x->nation)) ? $globalCountry[$x->nation]['country_name_th'] : NULL;
+
+				$sick_prov_name = (!empty($x->sick_province)) ? $provinces[$x->sick_province]['province_name'] : NULL;
+				if (!empty($x->sick_district)) {
+					$sick_dist = self::getDistirctNameTh($x->sick_district);
+					$sick_dist_name = $sick_dist[0]['district_name'];
+				} else {
+					$sick_dist_name = NULL;
+				}
+				if (!empty($x->sick_sub_district)) {
+					$sick_sub_dist = self::getSubDistirctNameTh($x->sick_sub_district);
+					$sick_sub_dist_name = $sick_sub_dist[0]['sub_district_name'];
+				} else {
+					$sick_sub_dist_name = NULL;
+				}
+
+				$sick_prov_first = (!empty($x->sick_province_first)) ? $provinces[$x->sick_province_first]['province_name'] : NULL;
+				if (!empty($x->sick_district_first)) {
+					$sick_dist_first = self::getDistirctNameTh($x->sick_district_first);
+					$sick_dist_first_name = $sick_dist_first[0]['district_name'];
+				} else {
+					$sick_dist_first_name = NULL;
+				}
+				if (!empty($x->sick_sub_district_first)) {
+					$sick_sub_dist_first = self::getSubDistirctNameTh($x->sick_sub_district_first);
+					$sick_sub_dist_name_first = $sick_sub_dist_first[0]['sub_district_name'];
+				} else {
+					$sick_sub_dist_name_first = NULL;
+				}
+
+
+
 				return [
 					'ID' => $x->id,
 					'ID Card' => $x->card_id,
@@ -105,28 +138,169 @@ class InvestController extends MasterController
 					'นามสกุล' => $x->last_name,
 					'เพศ' => $x->sex,
 					'อายุ' => $x->age,
+					'สัญชาติ' => $nation,
 					'อาชีพ' => $x->occupation,
-					'สัญชาติ' => $x->nation,
+					'สถานที่ทำงาน/สถานศึกษา' => $x->work_office,
+					'ลักษณะงานที่เสี่ยงติดโรค' => $x->work_contact,
+					'โทรศัพท์ที่ติดต่อได้' => $x->work_phone,
+					'ที่อยู่ขณะป่วย' => $x->sick_stay_type,
+					'ที่อยู่ขณะป่วยอื่นๆ' => $x->sick_stay_type_other,
+					'บ้านเลขที่' => $x->sick_house_no,
+					'หมู่ที่' => $x->sick_village_no,
+					'หมู่บ้าน/ชุมชน' => $x->sick_village,
+					'ซอย' => $x->sick_lane,
+					'ถนน' => $x->sick_road,
+					'จังหวัด' => $sick_prov_name,
+					'อำเภอ' => $sick_dist_name,
+					'ตำบล' => $sick_sub_dist_name,
+					'data3_3chk' => $x->data3_3chk,
+					'data3_3chk_lung' => $x->data3_3chk_lung,
+					'data3_3chk_heart' => $x->data3_3chk_heart,
+					'data3_3chk_cirrhosis' => $x->data3_3chk_cirrhosis,
+					'data3_3chk_kidney' => $x->data3_3chk_kidney,
+					'data3_3chk_diabetes' => $x->data3_3chk_diabetes,
+					'data3_3chk_blood' => $x->data3_3chk_blood,
+					'data3_3chk_immune' => $x->data3_3chk_immune,
+					'data3_3chk_anaemia' => $x->data3_3chk_anaemia,
+					'data3_3chk_cerebral' => $x->data3_3chk_cerebral,
+					'data3_3chk_pregnant' => $x->data3_3chk_pregnant,
+					'data3_3chk_fat' => $x->data3_3chk_fat,
+					'data3_3chk_cancer' => $x->data3_3chk_cancer,
+					'data3_3chk_cancer_name' => $x->data3_3chk_cancer_name,
+					'data3_3chk_other' => $x->data3_3chk_other,
+					'data3_3input_other' => $x->data3_3input_other,
+					'data3_1date_sickdate' => $x->data3_1date_sickdate,
+					'sick_province_first' => $sick_prov_first,
+					'sick_district_first' => $sick_dist_first_name,
+					'sick_sub_district_first' => $sick_sub_dist_name_first,
+
+					/*
+					'treat_first_date' => $x->treat_first_date,
+					'treat_first_province' => $x->treat_first_province,
+					'treat_first_district' => $x->treat_first_district,
+					'treat_first_sub_district' => $x->treat_first_sub_district,
+					'treat_first_hospital' => $x->treat_first_hospital,
+					'treat_place_province' => $x->treat_place_province,
+					'treat_place_district' => $x->treat_place_district,
+					'treat_place_sub_district' => $x->treat_place_sub_district,
+					'treat_place_hospital' => $x->treat_place_hospital,
+					'fever_history' => $x->fever_history,
+					'body_temperature_first' => $x->body_temperature_first,
+					'oxygen_saturate' => $x->oxygen_saturate,
+					'sym_cough' => $x->sym_cough,
+					'sym_sore' => $x->sym_sore,
+					'sym_muscle' => $x->sym_muscle,
+					'sym_snot' => $x->sym_snot,
+					'sym_sputum' => $x->sym_sputum,
+					'sym_breathe' => $x->sym_breathe,
+					'sym_headache' => $x->sym_headache,
+					'sym_diarrhoea' => $x->sym_diarrhoea,
+					'sym_other' => $x->sym_other,
+					'sym_othertext' => $x->sym_othertext,
+					'breathing_tube_chk' => $x->breathing_tube_chk,
+					'breathing_tube_date' => $x->breathing_tube_date,
+					'lab_cxr1_chk' => $x->lab_cxr1_chk,
+					'lab_cxr1_date' => $x->lab_cxr1_date,
+					'lab_cxr1_result' => $x->lab_cxr1_result,
+					'lab_cxr1_detail' => $x->lab_cxr1_detail,
+					'lab_cxr1_file' => $x->lab_cxr1_file,
+					'lab_cbc_date' => $x->lab_cbc_date,
+					'lab_cbc_hb' => $x->lab_cbc_hb,
+					'lab_cbc_hct' => $x->lab_cbc_hct,
+					'lab_cbc_platelet_count' => $x->lab_cbc_platelet_count,
+					'lab_cbc_wbc' => $x->lab_cbc_wbc,
+					'lab_cbc_neutrophil' => $x->lab_cbc_neutrophil,
+					'lab_cbc_lymphocyte' => $x->lab_cbc_lymphocyte,
+					'lab_cbc_atyp_lymph' => $x->lab_cbc_atyp_lymph,
+					'lab_cbc_mono' => $x->lab_cbc_mono,
+					'lab_cbc_other' => $x->lab_cbc_other,
+					'lab_rapid_test_method' => $x->lab_rapid_test_method,
+					'lab_rapid_test_date' => $x->lab_rapid_test_date,
+					'lab_rapid_test_result' => $x->lab_rapid_test_result,
+					'lab_rapid_test_pathogen_flu_a' => $x->lab_rapid_test_pathogen_flu_a,
+					'lab_rapid_test_pathogen_flu_b' => $x->lab_rapid_test_pathogen_flu_b,
+					'lab_sars_cov2_no_1_date' => $x->lab_sars_cov2_no_1_date,
+					'lab_sars_cov2_no_1_specimen' => $x->lab_sars_cov2_no_1_specimen,
+					'lab_sars_cov2_no_1_lab' => $x->lab_sars_cov2_no_1_lab,
+					'lab_sars_cov2_no_1_result' => $x->lab_sars_cov2_no_1_result,
+					'lab_sars_cov2_no_2_date' => $x->lab_sars_cov2_no_2_date,
+					'lab_sars_cov2_no_2_specimen' => $x->lab_sars_cov2_no_2_specimen,
+					'lab_sars_cov2_no_2_lab' => $x->lab_sars_cov2_no_2_lab,
+					'lab_sars_cov2_no_2_result' => $x->lab_sars_cov2_no_2_result,
+					'treat_patient_type' => $x->treat_patient_type,
+					'treat_place_date' => $x->treat_place_date,
+					'first_diag' => $x->first_diag,
+					'covid19_drug_medicate' => $x->covid19_drug_medicate,
+					'covid19_drug_medicate_first_date' => $x->covid19_drug_medicate_first_date,
+					'covid19_drug_medicate_name' => $x->covid19_drug_medicate_name,
+					'covid19_drug_medicate_name_other' => $x->covid19_drug_medicate_name_other,
+					'patient_treat_status' => $x->patient_treat_status,
+					'patient_treat_status_other' => $x->patient_treat_status_other,
+					'risk_detail' => $x->risk_detail,
+					'risk_type' => $x->risk_type,
+					'risk_type_text' => $x->risk_type_text,
+					'risk_stay_outbreak_chk' => $x->risk_stay_outbreak_chk,
+					'risk_stay_outbreak_country' => $x->risk_stay_outbreak_country,
+					'risk_stay_outbreak_city' => $x->risk_stay_outbreak_city,
+					'risk_stay_outbreak_city_other' => $x->risk_stay_outbreak_city_other,
+					'risk_stay_outbreak_arrive_date' => $x->risk_stay_outbreak_arrive_date,
+					'risk_stay_outbreak_arrive_thai_date' => $x->risk_stay_outbreak_arrive_thai_date,
+					'risk_stay_outbreak_airline' => $x->risk_stay_outbreak_airline,
+					'risk_stay_outbreak_flight_no' => $x->risk_stay_outbreak_flight_no,
+					'risk_stay_outbreak_seat_no' => $x->risk_stay_outbreak_seat_no,
+					'risk_stay_outbreak_province' => $x->risk_stay_outbreak_province,
+					'risk_stay_outbreak_district' => $x->risk_stay_outbreak_district,
+					'risk_stay_outbreak_sub_district' => $x->risk_stay_outbreak_sub_district,
+					'risk_treat_or_visit_patient' => $x->risk_treat_or_visit_patient,
+					'risk_care_flu_patient' => $x->risk_care_flu_patient,
+					'risk_contact_covid_19' => $x->risk_contact_covid_19,
+					'risk_contact_covid_19_patient_name' => $x->risk_contact_covid_19_patient_name,
+					'risk_contact_covid_19_sat_id' => $x->risk_contact_covid_19_sat_id,
+					'risk_contact_covid_19_touch' => $x->risk_contact_covid_19_touch,
+					'risk_contact_covid_19_duration' => $x->risk_contact_covid_19_duration,
+					'risk_contact_tourist' => $x->risk_contact_tourist,
+					'risk_travel_to_arena' => $x->risk_travel_to_arena,
+					'risk_travel_arena_name' => $x->risk_travel_arena_name,
+					'be_patient_cluster' => $x->be_patient_cluster,
+					'be_patient_critical_unknown_cause' => $x->be_patient_critical_unknown_cause,
+					'be_health_personel' => $x->be_health_personel,
+					'risk_other' => $x->risk_other,
+					*/
 					'pt_status' => $x->pt_status
 				];
 			});
+			if ($result) {
+				$fileExists = Storage::disk('export')->exists($fileName);
+				if ($fileExists) {
+					$mimetype = Storage::disk('export')->mimeType($fileName);
+					$size = Storage::disk('export')->size($fileName);
+					$size_kb = ((double)$size/1024);
+					$expire_date = date('Y-m-d H:i:s', strtotime('+1 day'));
 
-			/* get file detail */
-			$fileExists = Storage::disk('invest')->exists('inv_file_cid2.PNG');
-			if ($fileExists) {
-				$size = Storage::disk('invest')->size('inv_file_cid2.PNG');
-				$size = ((int)$size/1024);
+					$export = LogExport::create([
+						'ref_user_id' => auth()->user()->id,
+						'file_name' => $fileName,
+						'file_imme_type' => $mimetype,
+						'file_size' => $size_kb,
+						'expire_date' => $expire_date
+					]);
+
+					$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
+					$htm .= "<li><a href='".url("/getFile/{$fileName}")."'>Download your file here. </a></li>";
+					$htm .= "<li>Size ".number_format($size_kb, 2, '.', '')." KB</li>";
+					$htm .= "<li>IMME Type CSV</li>";
+					$htm .= "</ul>";
+					return $htm;
+				} else {
+					$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
+					$htm .= "<li>File not found.</li>";
+					$htm .= "</ul>";
+				}
+			} else {
+				$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
+				$htm .= "<li>Can not write file.</li>";
+				$htm .= "</ul>";
 			}
-
-
-
-
-
-			$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
-			$htm .= "<li><a href='".url("/getFile/{$fileName}")."'>Download your file here. </a></li>";
-			$htm .= "<li>Typically takes 30–45 minutes.</li>";
-			$htm .= "<li>1.2 MB CSV</li>";
-			$htm .= "</ul>";
 			return $htm;
 		} catch(\Exception $e) {
 			Log::error($e->getMessage());
@@ -145,8 +319,135 @@ class InvestController extends MasterController
 			'last_name',
 			'sex',
 			'age',
-			'occupation',
 			'nation',
+			'occupation',
+			'occupation_oth',
+			'work_office',
+			'work_contact',
+			'work_phone',
+			'sick_stay_type',
+			'sick_stay_type_other',
+			'sick_house_no',
+			'sick_village_no',
+			'sick_village',
+			'sick_lane',
+			'sick_road',
+			'sick_province',
+			'sick_district',
+			'sick_sub_district',
+			'data3_3chk',
+			'data3_3chk_lung',
+			'data3_3chk_heart',
+			'data3_3chk_cirrhosis',
+			'data3_3chk_kidney',
+			'data3_3chk_diabetes',
+			'data3_3chk_blood',
+			'data3_3chk_immune',
+			'data3_3chk_anaemia',
+			'data3_3chk_cerebral',
+			'data3_3chk_pregnant',
+			'data3_3chk_fat',
+			'data3_3chk_cancer',
+			'data3_3chk_cancer_name',
+			'data3_3chk_other',
+			'data3_3input_other',
+			'data3_1date_sickdate',
+
+
+			'sick_province_first',
+			'sick_district_first',
+			'sick_sub_district_first',
+			/*
+			'treat_first_date',
+			'treat_first_province',
+			'treat_first_district',
+			'treat_first_sub_district',
+			'treat_first_hospital',
+			'treat_place_province',
+			'treat_place_district',
+			'treat_place_sub_district',
+			'treat_place_hospital',
+			'fever_history',
+			'body_temperature_first',
+			'oxygen_saturate',
+			'sym_cough',
+			'sym_sore',
+			'sym_muscle',
+			'sym_snot',
+			'sym_sputum',
+			'sym_breathe',
+			'sym_headache',
+			'sym_diarrhoea',
+			'sym_other',
+			'sym_othertext',
+			'breathing_tube_chk',
+			'breathing_tube_date',
+			'lab_cxr1_chk',
+			'lab_cxr1_date',
+			'lab_cxr1_result',
+			'lab_cxr1_detail',
+			'lab_cxr1_file',
+			'lab_cbc_date',
+			'lab_cbc_hb',
+			'lab_cbc_hct',
+			'lab_cbc_platelet_count',
+			'lab_cbc_wbc',
+			'lab_cbc_neutrophil',
+			'lab_cbc_lymphocyte',
+			'lab_cbc_atyp_lymph',
+			'lab_cbc_mono',
+			'lab_cbc_other',
+			'lab_rapid_test_method',
+			'lab_rapid_test_date',
+			'lab_rapid_test_result',
+			'lab_rapid_test_pathogen_flu_a',
+			'lab_rapid_test_pathogen_flu_b',
+			'lab_sars_cov2_no_1_date',
+			'lab_sars_cov2_no_1_specimen',
+			'lab_sars_cov2_no_1_lab',
+			'lab_sars_cov2_no_1_result',
+			'lab_sars_cov2_no_2_date',
+			'lab_sars_cov2_no_2_specimen',
+			'lab_sars_cov2_no_2_lab',
+			'lab_sars_cov2_no_2_result',
+			'treat_patient_type',
+			'treat_place_date',
+			'first_diag',
+			'covid19_drug_medicate',
+			'covid19_drug_medicate_first_date',
+			'covid19_drug_medicate_name',
+			'covid19_drug_medicate_name_other',
+			'patient_treat_status',
+			'patient_treat_status_other',
+			'risk_detail',
+			'risk_type',
+			'risk_type_text',
+			'risk_stay_outbreak_chk',
+			'risk_stay_outbreak_country',
+			'risk_stay_outbreak_city',
+			'risk_stay_outbreak_city_other',
+			'risk_stay_outbreak_arrive_date',
+			'risk_stay_outbreak_arrive_thai_date',
+			'risk_stay_outbreak_airline',
+			'risk_stay_outbreak_flight_no',
+			'risk_stay_outbreak_seat_no',
+			'risk_stay_outbreak_province',
+			'risk_stay_outbreak_district',
+			'risk_stay_outbreak_sub_district',
+			'risk_treat_or_visit_patient',
+			'risk_care_flu_patient',
+			'risk_contact_covid_19',
+			'risk_contact_covid_19_patient_name',
+			'risk_contact_covid_19_sat_id',
+			'risk_contact_covid_19_touch',
+			'risk_contact_covid_19_duration',
+			'risk_contact_tourist',
+			'risk_travel_to_arena',
+			'risk_travel_arena_name',
+			'be_patient_cluster',
+			'be_patient_critical_unknown_cause',
+			'be_health_personel',
+			'risk_other',*/
 			'pt_status'
 
 			)
@@ -163,6 +464,10 @@ class InvestController extends MasterController
 
 	public function create(Request $request) {
 		try {
+
+		//	$x =  self::getDistirctNameTh(1001);
+		//	dd($x);
+
 			/* get default data */
 			$titleName = TitleName::all()->keyBy('id')->toArray();
 			$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
@@ -589,6 +894,30 @@ class InvestController extends MasterController
 			->where('district_id', '=', $dist_code)
 			->orderBy('sub_district_id', 'asc')
 			->get();
+	}
+
+	protected function getDistirctNameTh($dist_code=0) {
+		if (!empty($dist_code) || $dist_code != 0) {
+			$dist_name = District::select('district_name')
+				->where('district_id', '=', $dist_code)
+				->get()
+				->toArray();
+		} else {
+			$dist_name = null;
+		}
+		return $dist_name;
+	}
+
+	protected function getSubDistirctNameTh($sub_dist_code=0) {
+		if (!empty($sub_dist_code) || $sub_dist_code != 0) {
+			$sub_dist_name = SubDistrict::select('sub_district_name')
+			->where('sub_district_id', '=', $sub_dist_code)
+			->get()
+			->toArray();
+		} else {
+			$sub_dist_name = null;
+		}
+		return $sub_dist_name;
 	}
 
 	public function districtFetch(Request $request) {

@@ -56,9 +56,9 @@ return [
 			'driver' => 'local',
 			'root' => public_path(). '/files/invest',
 		],
-		'excel' => [
+		'export' => [
 			'driver' => 'local',
-			'root' => public_path(). '/exports/excel',
+			'root' => public_path(). '/exports',
 		],
 		's3' => [
 			'driver' => 's3',
