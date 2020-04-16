@@ -50,9 +50,9 @@ class InvestController extends MasterController
 		}
 	}
 
-	protected function setDateRange($date_range) {
+	protected function setDateRange($date_range, $time="00:00:00") {
 		$exp = explode("/", $date_range);
-		$result = $exp[2].'-'.$exp[0].'-'.$exp[1];
+		$result = $exp[2].'-'.$exp[0].'-'.$exp[1].' '.$time;
 		return $result;
 	}
 
@@ -88,8 +88,8 @@ class InvestController extends MasterController
 				$rs_status = array($request->pt_status);
 			}
 			$exp_date = explode("-", $request->date_range);
-			$start_date = $this->setDateRange(trim($exp_date[0]));
-			$end_date = $this->setDateRange(trim($exp_date[1]));
+			$start_date = $this->setDateRange(trim($exp_date[0]), "00:00:00");
+			$end_date = $this->setDateRange(trim($exp_date[1]), "23:59:59");
 
 			/* get default data */
 			$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
@@ -98,39 +98,113 @@ class InvestController extends MasterController
 			/* create file */
 			$result = (new FastExcel($this->dataGenerator($rs_status, $start_date, $end_date)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces) {
 				$nation = (!empty($x->nation)) ? $globalCountry[$x->nation]['country_name_th'] : NULL;
-
-				$sick_prov_name = (!empty($x->sick_province)) ? $provinces[$x->sick_province]['province_name'] : NULL;
-				if (!empty($x->sick_district)) {
+				/* sick addr */
+				if (!empty($x->sick_province) || $x->sick_province != 0) {
+					$sick_prov_name = $provinces[$x->sick_province]['province_name'];
+				} else {
+					$sick_prov_name = NULL;
+				}
+				if (!empty($x->sick_district) || $x->sick_district != 0) {
 					$sick_dist = self::getDistirctNameTh($x->sick_district);
 					$sick_dist_name = $sick_dist[0]['district_name'];
 				} else {
 					$sick_dist_name = NULL;
 				}
-				if (!empty($x->sick_sub_district)) {
+				if (!empty($x->sick_sub_district) || $x->sick_sub_district != 0) {
 					$sick_sub_dist = self::getSubDistirctNameTh($x->sick_sub_district);
 					$sick_sub_dist_name = $sick_sub_dist[0]['sub_district_name'];
 				} else {
 					$sick_sub_dist_name = NULL;
 				}
 
-				$sick_prov_first = (!empty($x->sick_province_first)) ? $provinces[$x->sick_province_first]['province_name'] : NULL;
-				if (!empty($x->sick_district_first)) {
+				/* sick first addr */
+				if (!empty($x->sick_province_first) || $x->sick_province_first != 0) {
+					$sick_prov_first = $provinces[$x->sick_province_first]['province_name'];
+				} else {
+					$sick_prov_first = NULL;
+				}
+				if (!empty($x->sick_district_first) || $x->sick_district_first != 0) {
 					$sick_dist_first = self::getDistirctNameTh($x->sick_district_first);
 					$sick_dist_first_name = $sick_dist_first[0]['district_name'];
 				} else {
 					$sick_dist_first_name = NULL;
 				}
-				if (!empty($x->sick_sub_district_first)) {
+				if (!empty($x->sick_sub_district_first) || $x->sick_sub_district_first != 0) {
 					$sick_sub_dist_first = self::getSubDistirctNameTh($x->sick_sub_district_first);
 					$sick_sub_dist_name_first = $sick_sub_dist_first[0]['sub_district_name'];
 				} else {
 					$sick_sub_dist_name_first = NULL;
 				}
 
+				/* treat first addr */
+				if (!empty($x->treat_first_province) || $x->treat_first_province != 0) {
+					$treat_first_prov = $provinces[$x->treat_first_province]['province_name'];
+				} else {
+					$treat_first_prov = NULL;
+				}
+				if (!empty($x->treat_first_district) || $x->treat_first_district) {
+					$treat_first_dist = self::getDistirctNameTh($x->treat_first_district);
+					$treat_first_dist_name = $treat_first_dist[0]['district_name'];
+				} else {
+					$treat_first_dist_name = NULL;
+				}
+				if (!empty($x->treat_first_sub_district) || $x->treat_first_sub_district != 0) {
+					$treat_first_sub_dist = self::getSubDistirctNameTh($x->treat_first_sub_district);
+					$treat_first_sub_dist_name = $treat_first_sub_dist[0]['sub_district_name'];
+				} else {
+					$treat_first_sub_dist_name = NULL;
+				}
+				if (!empty($x->treat_first_hospital) || $x->treat_first_hospital != 0) {
+					$treat_first_hosp = self::getHospitalNameTh($x->treat_first_hospital);
+					$treat_first_hosp_name = $treat_first_hosp[0]['hosp_name'];
+				} else {
+					$treat_first_hosp_name = NULL;
+				}
+
+				/* treat place */
+				if (!empty($x->treat_place_province) || $x->treat_place_province != 0) {
+					$treat_place_prov = $provinces[$x->treat_place_province]['province_name'];
+				} else {
+					$treat_place_prov = NULL;
+				}
+				if (!empty($x->treat_place_district) || $x->treat_place_district != 0) {
+					$treat_place_dist = self::getDistirctNameTh($x->treat_place_district);
+					$treat_place_dist_name = $treat_place_dist[0]['district_name'];
+				} else {
+					$treat_place_dist_name = NULL;
+				}
+				if (!empty($x->treat_place_sub_district) || $x->treat_place_sub_district != 0) {
+					$treat_place_sub_dist = self::getSubDistirctNameTh($x->treat_place_sub_district);
+					$treat_place_sub_dist_name = $treat_place_sub_dist[0]['sub_district_name'];
+				} else {
+					$treat_place_sub_dist_name = NULL;
+				}
+				if (!empty($x->treat_place_hospital) || $x->treat_place_hospital != 0) {
+					$treat_place_hosp = self::getHospitalNameTh($x->treat_place_hospital);
+					$treat_place_hosp_name = $treat_place_hosp[0]['hosp_name'];
+				} else {
+					$treat_place_hosp_name = NULL;
+				}
+
+				/* lab x-ray */
+				switch ($x->lab_cxr1_result) {
+					case 'normal':
+						$lab_cxr1_result_name = 'ปกติ';
+						break;
+					case 'unusual':
+						$lab_cxr1_result_name = 'ผิดปกติ';
+						break;
+					default:
+						$lab_cxr1_result_name = NULL;
+						break;
+				}
+
+				/* covid19_drug_medicate */
 
 
 				return [
 					'ID' => $x->id,
+					/*
 					'ID Card' => $x->card_id,
 					'Passport' => $x->passport,
 					'HN' => $x->hn,
@@ -173,17 +247,15 @@ class InvestController extends MasterController
 					'sick_province_first' => $sick_prov_first,
 					'sick_district_first' => $sick_dist_first_name,
 					'sick_sub_district_first' => $sick_sub_dist_name_first,
-
-					/*
 					'treat_first_date' => $x->treat_first_date,
-					'treat_first_province' => $x->treat_first_province,
-					'treat_first_district' => $x->treat_first_district,
-					'treat_first_sub_district' => $x->treat_first_sub_district,
-					'treat_first_hospital' => $x->treat_first_hospital,
-					'treat_place_province' => $x->treat_place_province,
-					'treat_place_district' => $x->treat_place_district,
-					'treat_place_sub_district' => $x->treat_place_sub_district,
-					'treat_place_hospital' => $x->treat_place_hospital,
+					'treat_first_province' => $treat_first_prov,
+					'treat_first_district' => $treat_first_dist_name,
+					'treat_first_sub_district' => $treat_first_sub_dist_name,
+					'treat_first_hospital' => $treat_first_hosp_name,
+					'treat_place_province' => $treat_place_prov,
+					'treat_place_district' => $treat_place_dist_name,
+					'treat_place_sub_district' => $treat_place_sub_dist_name,
+					'treat_place_hospital' => $treat_place_hosp_name,
 					'fever_history' => $x->fever_history,
 					'body_temperature_first' => $x->body_temperature_first,
 					'oxygen_saturate' => $x->oxygen_saturate,
@@ -201,7 +273,7 @@ class InvestController extends MasterController
 					'breathing_tube_date' => $x->breathing_tube_date,
 					'lab_cxr1_chk' => $x->lab_cxr1_chk,
 					'lab_cxr1_date' => $x->lab_cxr1_date,
-					'lab_cxr1_result' => $x->lab_cxr1_result,
+					'lab_cxr1_result' => $lab_cxr1_result_name,
 					'lab_cxr1_detail' => $x->lab_cxr1_detail,
 					'lab_cxr1_file' => $x->lab_cxr1_file,
 					'lab_cbc_date' => $x->lab_cbc_date,
@@ -230,6 +302,7 @@ class InvestController extends MasterController
 					'treat_patient_type' => $x->treat_patient_type,
 					'treat_place_date' => $x->treat_place_date,
 					'first_diag' => $x->first_diag,
+					*/
 					'covid19_drug_medicate' => $x->covid19_drug_medicate,
 					'covid19_drug_medicate_first_date' => $x->covid19_drug_medicate_first_date,
 					'covid19_drug_medicate_name' => $x->covid19_drug_medicate_name,
@@ -265,8 +338,8 @@ class InvestController extends MasterController
 					'be_patient_critical_unknown_cause' => $x->be_patient_critical_unknown_cause,
 					'be_health_personel' => $x->be_health_personel,
 					'risk_other' => $x->risk_other,
-					*/
-					'pt_status' => $x->pt_status
+					'pt_status' => $x->pt_status,
+					'created_at' => $x->created_at
 				];
 			});
 			if ($result) {
@@ -352,12 +425,9 @@ class InvestController extends MasterController
 			'data3_3chk_other',
 			'data3_3input_other',
 			'data3_1date_sickdate',
-
-
 			'sick_province_first',
 			'sick_district_first',
 			'sick_sub_district_first',
-			/*
 			'treat_first_date',
 			'treat_first_province',
 			'treat_first_district',
@@ -447,9 +517,9 @@ class InvestController extends MasterController
 			'be_patient_cluster',
 			'be_patient_critical_unknown_cause',
 			'be_health_personel',
-			'risk_other',*/
-			'pt_status'
-
+			'risk_other',
+			'pt_status',
+			'created_at'
 			)
 			->whereIn('pt_status', $pt_status)
 			->whereRaw("DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."'")
@@ -465,7 +535,7 @@ class InvestController extends MasterController
 	public function create(Request $request) {
 		try {
 
-		//	$x =  self::getDistirctNameTh(1001);
+		//	$x =  self::getHospitalNameTh(13814);
 		//	dd($x);
 
 			/* get default data */
@@ -633,6 +703,7 @@ class InvestController extends MasterController
 			);
 		} catch(\Exception $e) {
 			Log::error($e->getMessage());
+			Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
 		}
 	}
 
@@ -837,33 +908,14 @@ class InvestController extends MasterController
 			}
 		} catch(\Exception $e) {
 			Log::error($e->getMessage());
+			Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
 		}
-	}
-
-	public function show(Invest $invest)
-	{
-		//
-	}
-
-	public function edit(Invest $invest)
-	{
-		//
-	}
-
-	public function update(Request $request, Invest $invest)
-	{
-
-	}
-
-	public function destroy(Invest $invest)
-	{
-		//
 	}
 
 	public function hospitalByProv($prov_code=0) {
 		return DB::connection('mysql')
 			->table('chospital_new')
-			->select('new_hospcode', 'hosp_name')
+			->select('hospcode', 'hosp_name')
 			->where('prov_code', '=', $prov_code)
 			->where('status_code', '=', '1')
 			->orderBy('hosp_name', 'asc')
@@ -872,12 +924,24 @@ class InvestController extends MasterController
 
 	public function hospitalFetch(Request $request) {
 		$coll = $this->hospitalByProv($request->pid);
-		$hospitals = $coll->keyBy('new_hospcode');
+		$hospitals = $coll->keyBy('hospcode');
 		$htm = "<option value=\"0\">-- โปรดเลือก --</option>";
 		foreach ($hospitals as $key => $val) {
-			$htm .= "<option value=\"".$val->new_hospcode."\">".$val->hosp_name."</option>";
+			$htm .= "<option value=\"".$val->hospcode."\">".$val->hosp_name."</option>";
 		}
 		return $htm;
+	}
+
+	protected function getHospitalNameTh($hosp_code=0) {
+		if (!empty($hosp_code) || $hosp_code != 0) {
+			$hosp_name = Hospitals::select('hosp_name')
+				->where('hospcode', '=', $hosp_code)
+				->get()
+				->toArray();
+		} else {
+			$hosp_name = null;
+		}
+		return $hosp_name;
 	}
 
 	public function districtByProv($prov_code=0) {

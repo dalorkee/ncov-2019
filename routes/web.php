@@ -60,6 +60,7 @@ Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name(
 
 
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
+Route::get('/allcontacttable', 'ContactController@allcontacttable')->name('allcontacttable');
 Route::get('/editcontact/pui_id/{pui_id}/contact_rid/{contact_rid}', 'ContactController@editcontact')->name('editcontact');
 Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetch');
 Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
@@ -74,6 +75,7 @@ Route::post('/followupinsert', 'ContactController@followupinsert')->name('follow
 Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
 Route::post('/contactedit', 'ContactController@contactedit')->name('contactedit');
 Route::post('/contact_st_update', 'ContactController@contactstupdate')->name('contact_st_update');
+Route::post('/allcontactstupdate', 'ContactController@allcontactstupdate')->name('allcontactstupdate');
 
 route::get('contactexport/id/{id}', 'ExportContactController@export')->name('contactexport');
 

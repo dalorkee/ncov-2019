@@ -42,7 +42,7 @@ public function alltable(Request $req)
 		foreach($risk_type as $val_risk_type){
 			$arr_risk_type[$val_risk_type['id']] = $val_risk_type['risk_name'];
 		}
-		 return view('export.allcontacttableexport',compact(
+		 return view('export.allcontactexport',compact(
 			 'arr',
 			 'arr_hos',
 			 'nation_list',

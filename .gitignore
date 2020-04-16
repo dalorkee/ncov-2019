@@ -2,7 +2,7 @@
 /public/hot
 /public/storage
 /public/files
-/public/export
+/public/exports
 /storage/*.key
 /vendor
 /public/.htaccess
