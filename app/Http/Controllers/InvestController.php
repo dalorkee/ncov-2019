@@ -50,9 +50,9 @@ class InvestController extends MasterController
 		}
 	}
 
-	protected function setDateRange($date_range) {
+	protected function setDateRange($date_range, $time="00:00:00") {
 		$exp = explode("/", $date_range);
-		$result = $exp[2].'-'.$exp[0].'-'.$exp[1];
+		$result = $exp[2].'-'.$exp[0].'-'.$exp[1].' '.$time;
 		return $result;
 	}
 
@@ -88,8 +88,8 @@ class InvestController extends MasterController
 				$rs_status = array($request->pt_status);
 			}
 			$exp_date = explode("-", $request->date_range);
-			$start_date = $this->setDateRange(trim($exp_date[0]));
-			$end_date = $this->setDateRange(trim($exp_date[1]));
+			$start_date = $this->setDateRange(trim($exp_date[0]), "00:00:00");
+			$end_date = $this->setDateRange(trim($exp_date[1]), "23:59:59");
 
 			/* get default data */
 			$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
@@ -199,8 +199,12 @@ class InvestController extends MasterController
 						break;
 				}
 
+				/* covid19_drug_medicate */
+
+
 				return [
 					'ID' => $x->id,
+					/*
 					'ID Card' => $x->card_id,
 					'Passport' => $x->passport,
 					'HN' => $x->hn,
@@ -252,7 +256,6 @@ class InvestController extends MasterController
 					'treat_place_district' => $treat_place_dist_name,
 					'treat_place_sub_district' => $treat_place_sub_dist_name,
 					'treat_place_hospital' => $treat_place_hosp_name,
-					/*
 					'fever_history' => $x->fever_history,
 					'body_temperature_first' => $x->body_temperature_first,
 					'oxygen_saturate' => $x->oxygen_saturate,
@@ -299,6 +302,7 @@ class InvestController extends MasterController
 					'treat_patient_type' => $x->treat_patient_type,
 					'treat_place_date' => $x->treat_place_date,
 					'first_diag' => $x->first_diag,
+					*/
 					'covid19_drug_medicate' => $x->covid19_drug_medicate,
 					'covid19_drug_medicate_first_date' => $x->covid19_drug_medicate_first_date,
 					'covid19_drug_medicate_name' => $x->covid19_drug_medicate_name,
@@ -334,8 +338,8 @@ class InvestController extends MasterController
 					'be_patient_critical_unknown_cause' => $x->be_patient_critical_unknown_cause,
 					'be_health_personel' => $x->be_health_personel,
 					'risk_other' => $x->risk_other,
-					*/
-					'pt_status' => $x->pt_status
+					'pt_status' => $x->pt_status,
+					'created_at' => $x->created_at
 				];
 			});
 			if ($result) {
@@ -433,7 +437,6 @@ class InvestController extends MasterController
 			'treat_place_district',
 			'treat_place_sub_district',
 			'treat_place_hospital',
-			/*
 			'fever_history',
 			'body_temperature_first',
 			'oxygen_saturate',
@@ -515,9 +518,8 @@ class InvestController extends MasterController
 			'be_patient_critical_unknown_cause',
 			'be_health_personel',
 			'risk_other',
-			*/
-			'pt_status'
-
+			'pt_status',
+			'created_at'
 			)
 			->whereIn('pt_status', $pt_status)
 			->whereRaw("DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."'")
@@ -701,6 +703,7 @@ class InvestController extends MasterController
 			);
 		} catch(\Exception $e) {
 			Log::error($e->getMessage());
+			Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
 		}
 	}
 
@@ -905,27 +908,8 @@ class InvestController extends MasterController
 			}
 		} catch(\Exception $e) {
 			Log::error($e->getMessage());
+			Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
 		}
-	}
-
-	public function show(Invest $invest)
-	{
-		//
-	}
-
-	public function edit(Invest $invest)
-	{
-		//
-	}
-
-	public function update(Request $request, Invest $invest)
-	{
-
-	}
-
-	public function destroy(Invest $invest)
-	{
-		//
 	}
 
 	public function hospitalByProv($prov_code=0) {
