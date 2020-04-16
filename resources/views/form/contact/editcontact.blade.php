@@ -229,8 +229,8 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                       <input name="sick_village_no" value="{{$getdata_contact[0]->sick_village_no}}" type="text" class="form-control" placeholder="ที่อยู่">
                                   </div>
                                   <div class="col-sm-4">
-                                      <label for="address_contact">หมู่บ้าน</label>
-                                      <input name="sick_village" value="{{$getdata_contact[0]->sick_village}}" type="text" class="form-control" placeholder="หมู่บ้าน">
+                                      <label for="address_contact">หมู่</label>
+                                      <input name="sick_village" value="{{$getdata_contact[0]->sick_village}}" type="text" class="form-control" placeholder="หมู่">
                                   </div>
                                   <div class="col-sm-4">
                                       <label for="address_contact">ซอย</label>

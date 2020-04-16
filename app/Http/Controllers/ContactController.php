@@ -154,6 +154,146 @@ class ContactController extends MasterController
   }
 }
 
+// indexcontact table
+public function allcontacttable(Request $req)
+{
+	if(auth()->user()->id==Auth::user()->id){
+		$roleArr = auth()->user()->getRoleNames()->toArray();
+		$uid_prov_code = auth()->user()->prov_code;
+		$uid_region = auth()->user()->region;
+		$uid_id = auth()->user()->id;
+		$uid_chosbyregion = DB::table('chospital_new')
+												->select('prov_code')
+												->where('region', $uid_region)
+												->groupBy('prov_code')
+												->get()->keyBy('prov_code');
+		$uid_chosbyregion = $uid_chosbyregion->keys()->toArray();
+		// dd($uid_id);
+	// $sat_id=$req->sat_id;
+	// $id=$req->id;
+	$nation_list = $this->arrnation();
+	$arr_occu = $this->arroccu();
+	$arrprov = $this->arrprov();
+	$arrdistrict = $this->arrdistrict();
+	$arr_sub_district = $this->arr_sub_district();
+	$arr_pts = $this->arr_pts();
+	$count_data = $this->arr_pts();
+	$arr_status_followup = $this->arr_status_followup();
+	$arr_risk_contact=$this->arr_risk_contact();
+	// $count_con=DB::table('patient_relation')
+	// 													->select(DB::raw('count(*) as count_cont'))
+	// 													->where('pui_id', $id)
+	// 													->wherenull('delete_at')
+	// 													->get();
+	// $count_hrisk=DB::table('tbl_contact')
+	// 													->select(DB::raw('count(*) as count_hrisk'))
+	// 													->where('pui_id', $id)
+	// 													->where('risk_contact', '=','1')
+	// 													->wherenull('deleted_at')
+	// 													->get();
+	// $count_lrisk=DB::table('tbl_contact')
+	// 													->select(DB::raw('count(*) as count_lrisk'))
+	// 													->where('pui_id', $id)
+	// 													->where('risk_contact', '=','2')
+	// 													->wherenull('deleted_at')
+	// 													->get();
+	// $count_labcont=DB::table('tbl_contact_hsc')
+	// 													->select(DB::raw('count(*) as count_labcont'))
+	// 													->where('pui_id', $id)
+	// 													->where('dms_pcr_contact', '>=','1')
+	// 													->wherenotnull('dms_pcr_contact')
+	// 													->get();
+	 // dd($arr_status_followup);
+	$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
+	$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
+	$contact_data_val= DB::table('patient_relation')
+									->join('tbl_contact', 'patient_relation.contact_rid', '=', 'tbl_contact.id')
+									->select(
+														'patient_relation.sat_id',
+														'patient_relation.pui_id',
+														'patient_relation.contact_rid',
+														'patient_relation.contact_id',
+														'tbl_contact.name_contact',
+														'tbl_contact.title_contact',
+														'tbl_contact.contact_cid',
+														'tbl_contact.mname_contact',
+														'tbl_contact.lname_contact',
+														'tbl_contact.age_contact',
+														'tbl_contact.sex_contact',
+														'tbl_contact.phone_contact',
+														'tbl_contact.national_contact',
+														'tbl_contact.province',
+														'tbl_contact.district',
+														'tbl_contact.sub_district',
+														'tbl_contact.sick_house_no',
+														'tbl_contact.sick_village_no',
+														'tbl_contact.sick_village',
+														'tbl_contact.sick_lane',
+														'tbl_contact.sick_road',
+														'tbl_contact.patient_contact',
+														'tbl_contact.risk_contact',
+														'tbl_contact.datecontact',
+														'tbl_contact.type_contact',
+														'tbl_contact.status_followup',
+														'tbl_contact.pt_status');
+														if (count($roleArr) > 0) {
+									            $user_role = $roleArr[0];
+									          switch ($user_role) {
+									            case 'hos':
+									              $contact_data  = $contact_data_val
+									                      ->where('tbl_contact.user_id',$uid_id)
+									                      ->whereNull('patient_relation.delete_at')
+									                      ->get()->toArray();
+									            break;
+									            case 'pho':
+									              $contact_data = $contact_data_val
+									                      ->where('tbl_contact.province',$uid_prov_code)
+									                      ->whereNull('patient_relation.delete_at')
+									                      ->get()->toArray();
+									              break;
+									              case 'dpc':
+									                $contact_data = $contact_data_val
+																					->wherein('tbl_contact.province',$uid_chosbyregion)
+									                        ->whereNull('patient_relation.delete_at')
+									                        ->get()->toArray();
+									                break;
+									                case 'ddc':
+									                  $contact_data = $contact_data_val
+									                  ->whereNull('patient_relation.delete_at')
+									                  ->get()->toArray();
+									                  break;
+									                  case 'root':
+									                    $contact_data = $contact_data_val
+									                    ->whereNull('patient_relation.delete_at')
+									                    ->get()->toArray();
+									                    break;
+									          default:
+									            break;
+									        }
+									      }
+
+	return view('form.contact.allcontacttable',compact(
+		'contact_data',
+		// 'id',
+		'patian_data',
+		'nation_list',
+		'arr_occu',
+		'arrprov',
+		'arrdistrict',
+		'arr_sub_district',
+		'ref_pt_status',
+		'arr_pts',
+		'arr_status_followup',
+		'arr_risk_contact',
+		// 'count_con',
+		// 'count_hrisk',
+		// 'count_lrisk',
+		// 'count_labcont'
+	));
+}
+}
+
+
   public function followuptablespui(Request $req)
   {
 		$arr = parent::getStatus();
@@ -907,6 +1047,59 @@ public function contactstupdate(Request $request) {
 	}
 	if ($res2) {
 		return redirect()->route('contacttable',[$pui_id]);
+		exit;
+	}
+}
+
+public function allcontactstupdate(Request $request) {
+	$id = $request ->input ('id');
+	// dd($id);
+	$pui_id = $request ->input ('pui_id');
+	$contact_id = $request ->input ('contact_id');
+	$status_followup = $request ->input ('status_followup');
+  $pt_status = $request ->input ('pt_status');
+	$sat_id  = $request ->input ('sat_id');
+	$card_id  = $request ->input ('card_id');
+	$title_name =  $request ->input ('title_name');
+	$first_name = $request ->input ('first_name');
+	$mid_name = $request ->input ('mid_name');
+	$last_name = $request ->input ('last_name');
+	$sex = $request ->input ('sex');
+	$age = $request ->input ('age');
+	$nation = $request ->input ('nation');
+  $date_change_st = $this->convertDateToMySQL($request ->input ('date_change_st'));
+	// $date_change_st =date('Y-m-d');
+	$res1=DB::table('tbl_contact')
+			// ->where('pui_id',$pui_id)
+			->where('contact_id',$contact_id)
+	    ->update(
+	        ['pt_status' => $pt_status,
+					 'status_followup' => $status_followup,
+					 'date_change_st' => $date_change_st
+				 ]
+	    );
+			if ($pt_status == "2") {
+				$data = array(
+					'sat_id'=>$sat_id,
+					'card_id'=>$card_id,
+					'title_name'=>$title_name,
+					'first_name'=>$first_name,
+					'mid_name'=>$mid_name,
+					'last_name'=>$last_name,
+					'sex'=>$sex,
+					'age'=>$age,
+					'nation'=>$nation,
+					'pt_status'=>"2",
+					'created_at'=>date("Y-m-d h:i:s"),
+					'cont'=>"y"
+				);
+				$res2	= DB::table('invest_pt')->insert($data);
+			}
+	else {
+		return redirect()->route('allcontacttable');
+	}
+	if ($res2) {
+		return redirect()->route('allcontacttable');
 		exit;
 	}
 }
