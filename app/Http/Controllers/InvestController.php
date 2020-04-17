@@ -447,7 +447,7 @@ class InvestController extends MasterController
 			}
 			return $htm;
 		} catch(\Exception $e) {
-			Log::error($e->getMessage());
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
 	}
 
