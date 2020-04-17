@@ -156,6 +156,7 @@ class ListInvestDataTable extends DataTable
 		$user_prov = auth()->user()->prov_code;
 		$user_region = auth()->user()->region;
 
+
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
 		$dcs = $this->caseDischSt();
@@ -191,7 +192,7 @@ class ListInvestDataTable extends DataTable
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'dpc':
-				$prov_arr = $this->getProvCodeByRegion($user_region=0);
+				$prov_arr = $this->getProvCodeByRegion($user_region);
 				$invest = InvestList::select(
 					'id',
 					'sat_id',
@@ -204,6 +205,9 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
 					->whereIn('isolated_province', $prov_arr)
+					->whereIn('walkinplace_hosp_province', $prov_arr)
+					->whereIn('sick_province', $prov_arr)
+					->whereIn('sick_province_first', $prov_arr)
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'pho':
@@ -251,7 +255,7 @@ class ListInvestDataTable extends DataTable
 
 	private function getProvCodeByRegion($region=0) {
 		$prov_code = User::select('prov_code')
-			->where('region', '=', $user_region)
+			->where('region', '=', $region)
 			->groupBy('prov_code')
 			->get()
 			->keyBy('prov_code');

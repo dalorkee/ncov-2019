@@ -74,18 +74,29 @@ class InvestController extends MasterController
 	}
 
 	public function downloadFile($fileName=null) {
-		$filePath = public_path('exports/'.$fileName);
-		return response()->download($filePath);
+		$exists = Storage::disk('export')->exists($fileName);
+		if ($exists) {
+			$log = DB::table('log_export')->select('export_amount', 'expire_date')->where('file_name', '=', $fileName)->get()->toArray();
+			$new_amount = ((int)$log[0]->export_amount+1);
+			$now = date('Y-m-d H:i:s');
+			$affected = DB::table('log_export')
+				->where('file_name', $fileName)
+				->update(['export_amount' => $new_amount, 'last_export_date' => $now]);
+			$filePath = public_path('exports/'.$fileName);
+			return response()->download($filePath);
+		} else {
+			return '<div>File not found.</div>';
+		}
 	}
 
 	public function exportFastExcel(Request $request) {
 		try {
 			$fileName = self::setExportFileName();
-			if ($pt_status = $request->pt_status <= 0) {
+			if ($request->pt_status == 'all') {
 				$pts = parent::selectStatus('pt_status');
-				$rs_status = array_keys($pts);
+				$result_status = array_keys($pts);
 			} else {
-				$rs_status = array($request->pt_status);
+				$result_status = array($request->pt_status);
 			}
 			$exp_date = explode("-", $request->date_range);
 			$start_date = $this->setDateRange(trim($exp_date[0]));
@@ -94,10 +105,17 @@ class InvestController extends MasterController
 			/* get default data */
 			$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
 			$globalCountry = GlobalCountry::all()->keyBy('country_id')->toArray();
+			$occupation = Occupation::all()->keyBy('id')->toArray();
 
 			/* create file */
-			$result = (new FastExcel($this->dataGenerator($rs_status, $start_date, $end_date)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces) {
+			$result = (new FastExcel($this->dataGenerator($result_status, $start_date, $end_date)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation) {
 				$nation = (!empty($x->nation)) ? $globalCountry[$x->nation]['country_name_th'] : NULL;
+				/* occupation */
+				if (!empty($x->occupation) || $x->occupation > 0 || !is_null($x->occupation)) {
+					$occupation_name = $occupation[$x->occupation]['occu_name_th'];
+				} else {
+					$occupation_name = NULL;
+				}
 				/* sick addr */
 				if (!empty($x->sick_province) || $x->sick_province != 0) {
 					$sick_prov_name = $provinces[$x->sick_province]['province_name'];
@@ -245,6 +263,11 @@ class InvestController extends MasterController
 				} else {
 					$risk_stay_outbreak_sub_dist_name = NULL;
 				}
+				if (!empty($x->pt_status) || $x->pt_status != 0 || !is_null($x->pt_status) || isset($x->pt_status)) {
+					$ptStatus = 'ok';
+				} else {
+					$ptStatus = 'xx';
+				}
 				return [
 					'ID' => $x->id,
 					'ID Card' => $x->card_id,
@@ -255,7 +278,8 @@ class InvestController extends MasterController
 					'เพศ' => $x->sex,
 					'อายุ' => $x->age,
 					'สัญชาติ' => $nation,
-					'อาชีพ' => $x->occupation,
+					'อาชีพ' => $occupation_name,
+					'อาชีพอื่นๆ' => $x->occupation_oth,
 					'สถานที่ทำงาน/สถานศึกษา' => $x->work_office,
 					'ลักษณะงานที่เสี่ยงติดโรค' => $x->work_contact,
 					'โทรศัพท์ที่ติดต่อได้' => $x->work_phone,
@@ -269,118 +293,120 @@ class InvestController extends MasterController
 					'จังหวัด' => $sick_prov_name,
 					'อำเภอ' => $sick_dist_name,
 					'ตำบล' => $sick_sub_dist_name,
-					'data3_3chk' => $x->data3_3chk,
-					'data3_3chk_lung' => $x->data3_3chk_lung,
-					'data3_3chk_heart' => $x->data3_3chk_heart,
-					'data3_3chk_cirrhosis' => $x->data3_3chk_cirrhosis,
-					'data3_3chk_kidney' => $x->data3_3chk_kidney,
-					'data3_3chk_diabetes' => $x->data3_3chk_diabetes,
-					'data3_3chk_blood' => $x->data3_3chk_blood,
-					'data3_3chk_immune' => $x->data3_3chk_immune,
-					'data3_3chk_anaemia' => $x->data3_3chk_anaemia,
-					'data3_3chk_cerebral' => $x->data3_3chk_cerebral,
-					'data3_3chk_pregnant' => $x->data3_3chk_pregnant,
-					'data3_3chk_fat' => $x->data3_3chk_fat,
-					'data3_3chk_cancer' => $x->data3_3chk_cancer,
-					'data3_3chk_cancer_name' => $x->data3_3chk_cancer_name,
-					'data3_3chk_other' => $x->data3_3chk_other,
-					'data3_3input_other' => $x->data3_3input_other,
-					'data3_1date_sickdate' => $x->data3_1date_sickdate,
-					'sick_province_first' => $sick_prov_first,
-					'sick_district_first' => $sick_dist_first_name,
-					'sick_sub_district_first' => $sick_sub_dist_name_first,
-					'treat_first_date' => $x->treat_first_date,
-					'treat_first_province' => $treat_first_prov,
-					'treat_first_district' => $treat_first_dist_name,
-					'treat_first_sub_district' => $treat_first_sub_dist_name,
-					'treat_first_hospital' => $treat_first_hosp_name,
-					'treat_place_province' => $treat_place_prov,
-					'treat_place_district' => $treat_place_dist_name,
-					'treat_place_sub_district' => $treat_place_sub_dist_name,
-					'treat_place_hospital' => $treat_place_hosp_name,
-					'fever_history' => $x->fever_history,
-					'body_temperature_first' => $x->body_temperature_first,
-					'oxygen_saturate' => $x->oxygen_saturate,
-					'sym_cough' => $x->sym_cough,
-					'sym_sore' => $x->sym_sore,
-					'sym_muscle' => $x->sym_muscle,
-					'sym_snot' => $x->sym_snot,
-					'sym_sputum' => $x->sym_sputum,
-					'sym_breathe' => $x->sym_breathe,
-					'sym_headache' => $x->sym_headache,
-					'sym_diarrhoea' => $x->sym_diarrhoea,
-					'sym_other' => $x->sym_other,
-					'sym_othertext' => $x->sym_othertext,
-					'breathing_tube_chk' => $x->breathing_tube_chk,
-					'breathing_tube_date' => $x->breathing_tube_date,
-					'lab_cxr1_chk' => $x->lab_cxr1_chk,
-					'lab_cxr1_date' => $x->lab_cxr1_date,
-					'lab_cxr1_result' => $lab_cxr1_result_name,
-					'lab_cxr1_detail' => $x->lab_cxr1_detail,
-					'lab_cxr1_file' => $x->lab_cxr1_file,
-					'lab_cbc_date' => $x->lab_cbc_date,
-					'lab_cbc_hb' => $x->lab_cbc_hb,
-					'lab_cbc_hct' => $x->lab_cbc_hct,
-					'lab_cbc_platelet_count' => $x->lab_cbc_platelet_count,
-					'lab_cbc_wbc' => $x->lab_cbc_wbc,
-					'lab_cbc_neutrophil' => $x->lab_cbc_neutrophil,
-					'lab_cbc_lymphocyte' => $x->lab_cbc_lymphocyte,
-					'lab_cbc_atyp_lymph' => $x->lab_cbc_atyp_lymph,
-					'lab_cbc_mono' => $x->lab_cbc_mono,
-					'lab_cbc_other' => $x->lab_cbc_other,
-					'lab_rapid_test_method' => $x->lab_rapid_test_method,
-					'lab_rapid_test_date' => $x->lab_rapid_test_date,
-					'lab_rapid_test_result' => $x->lab_rapid_test_result,
-					'lab_rapid_test_pathogen_flu_a' => $x->lab_rapid_test_pathogen_flu_a,
-					'lab_rapid_test_pathogen_flu_b' => $x->lab_rapid_test_pathogen_flu_b,
-					'lab_sars_cov2_no_1_date' => $x->lab_sars_cov2_no_1_date,
-					'lab_sars_cov2_no_1_specimen' => $x->lab_sars_cov2_no_1_specimen,
-					'lab_sars_cov2_no_1_lab' => $x->lab_sars_cov2_no_1_lab,
-					'lab_sars_cov2_no_1_result' => $x->lab_sars_cov2_no_1_result,
-					'lab_sars_cov2_no_2_date' => $x->lab_sars_cov2_no_2_date,
-					'lab_sars_cov2_no_2_specimen' => $x->lab_sars_cov2_no_2_specimen,
-					'lab_sars_cov2_no_2_lab' => $x->lab_sars_cov2_no_2_lab,
-					'lab_sars_cov2_no_2_result' => $x->lab_sars_cov2_no_2_result,
-					'treat_patient_type' => $x->treat_patient_type,
-					'treat_place_date' => $x->treat_place_date,
-					'first_diag' => $x->first_diag,
-					'covid19_drug_medicate' => $x->covid19_drug_medicate,
-					'covid19_drug_medicate_first_date' => $x->covid19_drug_medicate_first_date,
-					'covid19_drug_medicate_name' => $drug_concat_name,
-					'covid19_drug_medicate_name_other' => $x->covid19_drug_medicate_name_other,
-					'patient_treat_status' => $x->patient_treat_status,
-					'patient_treat_status_other' => $x->patient_treat_status_other,
-					'risk_detail' => $x->risk_detail,
-					'risk_type' => $x->risk_type,
-					'risk_type_text' => $x->risk_type_text,
-					'risk_stay_outbreak_chk' => $x->risk_stay_outbreak_chk,
-					'risk_stay_outbreak_country' => $risk_stay_outbreak_country,
-					'risk_stay_outbreak_city' => $risk_city_name,
-					'risk_stay_outbreak_city_other' => $x->risk_stay_outbreak_city_other,
-					'risk_stay_outbreak_arrive_date' => $x->risk_stay_outbreak_arrive_date,
-					'risk_stay_outbreak_arrive_thai_date' => $x->risk_stay_outbreak_arrive_thai_date,
-					'risk_stay_outbreak_airline' => $x->risk_stay_outbreak_airline,
-					'risk_stay_outbreak_flight_no' => $x->risk_stay_outbreak_flight_no,
-					'risk_stay_outbreak_seat_no' => $x->risk_stay_outbreak_seat_no,
-					'risk_stay_outbreak_province' => $risk_stay_outbreak_prov,
-					'risk_stay_outbreak_district' => $risk_stay_outbreak_dist_name,
-					'risk_stay_outbreak_sub_district' => $risk_stay_outbreak_sub_dist_name,
-					'risk_treat_or_visit_patient' => $x->risk_treat_or_visit_patient,
-					'risk_care_flu_patient' => $x->risk_care_flu_patient,
-					'risk_contact_covid_19' => $x->risk_contact_covid_19,
-					'risk_contact_covid_19_patient_name' => $x->risk_contact_covid_19_patient_name,
-					'risk_contact_covid_19_sat_id' => $x->risk_contact_covid_19_sat_id,
-					'risk_contact_covid_19_touch' => $x->risk_contact_covid_19_touch,
-					'risk_contact_covid_19_duration' => $x->risk_contact_covid_19_duration,
-					'risk_contact_tourist' => $x->risk_contact_tourist,
-					'risk_travel_to_arena' => $x->risk_travel_to_arena,
-					'risk_travel_arena_name' => $x->risk_travel_arena_name,
-					'be_patient_cluster' => $x->be_patient_cluster,
-					'be_patient_critical_unknown_cause' => $x->be_patient_critical_unknown_cause,
-					'be_health_personel' => $x->be_health_personel,
-					'risk_other' => $x->risk_other,
-					'pt_status' => $x->pt_status,
-					'created_at' => $x->created_at
+					'โรคประจำตัว' => $x->data3_3chk,
+					'โรคปอดเรื้อรัง' => $x->data3_3chk_lung,
+					'โรคหัวใจ' => $x->data3_3chk_heart,
+					'โรคตับเรื้อรัง' => $x->data3_3chk_cirrhosis,
+					'โรคไต' => $x->data3_3chk_kidney,
+					'เบาหวาน' => $x->data3_3chk_diabetes,
+					'ความดันโลหิตสูง' => $x->data3_3chk_blood,
+					'ภูมิคุ้มกันบกพร่อง' => $x->data3_3chk_immune,
+					'โลหิตจาง' => $x->data3_3chk_anaemia,
+					'พิการทางสมอง' => $x->data3_3chk_cerebral,
+					'ตั้งครรภ์' => $x->data3_3chk_pregnant,
+					'อ้วน' => $x->data3_3chk_fat,
+					'มะเร็ง' => $x->data3_3chk_cancer,
+					'ชนิดมะเร็ง' => $x->data3_3chk_cancer_name,
+					'โรคประจำตัวอื่นๆ' => $x->data3_3chk_other,
+					'โรคประจำตัวอื่นๆ ระบุ' => $x->data3_3input_other,
+					'วันที่เริ่มป่วย' => $x->data3_1date_sickdate,
+					'จังหวัดที่เริ่มป่วย' => $sick_prov_first,
+					'อำเภอที่เริ่มป่วย' => $sick_dist_first_name,
+					'ตำบลที่เริ่มป่วย' => $sick_sub_dist_name_first,
+					'วันที่เข้ารักษาครั้งแรก' => $x->treat_first_date,
+					'จังหวัดที่เข้ารักษาครั้งแรก' => $treat_first_prov,
+					'อำเภอที่เข้ารักษาครั้งแรก' => $treat_first_dist_name,
+					'ตำบลที่เข้ารักษาครั้งแรก' => $treat_first_sub_dist_name,
+					'สถานพยาบาลที่รักษาครั้งแรก' => $treat_first_hosp_name,
+					'จังหวัดที่รักษาปัจจุบัน' => $treat_place_prov,
+					'อำเภอที่รักษาปัจจุบัน' => $treat_place_dist_name,
+					'ตำบลที่รักษาปัจจุบัน' => $treat_place_sub_dist_name,
+					'สถานที่รักษาปัจจุบัน' => $treat_place_hosp_name,
+					'ประวัติมีไข้' => $x->fever_history,
+					'อุณหภูมิร่างกายแรกรับ' => $x->body_temperature_first,
+					'ความเข้มข้นของ Oxygen' => $x->oxygen_saturate,
+					'ไอ' => $x->sym_cough,
+					'เจ็บคอ' => $x->sym_sore,
+					'ปวดกล้ามเนื้อ' => $x->sym_muscle,
+					'มีน้ำมูก' => $x->sym_snot,
+					'มีเสมหะ' => $x->sym_sputum,
+					'หายใจลำบาก' => $x->sym_breathe,
+					'ปวดศีรษะ' => $x->sym_headache,
+					'ถ่ายเหลว' => $x->sym_diarrhoea,
+					'อาการอื่นๆ' => $x->sym_other,
+					'อาการอื่นๆ ระบุ' => $x->sym_othertext,
+					'ใส่ท่อช่วยหายใจ' => $x->breathing_tube_chk,
+					'วันที่ใส่ท่อช่วยหายใจ' => $x->breathing_tube_date,
+					'เอ็กซเรย์ปอด' => $x->lab_cxr1_chk,
+					'วันที่เอ็กซเรย์ปอด' => $x->lab_cxr1_date,
+					'ผลเอ็กเรย์' => $lab_cxr1_result_name,
+					'ผลเอ็กเรย์อื่นๆ' => $x->lab_cxr1_detail,
+					'ภาพเอ็กเรย์' => $x->lab_cxr1_file,
+					'CBC วันที่' => $x->lab_cbc_date,
+					'Hb' => $x->lab_cbc_hb,
+					'Hct' => $x->lab_cbc_hct,
+					'Platelet count' => $x->lab_cbc_platelet_count,
+					'WBC' => $x->lab_cbc_wbc,
+					'N' => $x->lab_cbc_neutrophil,
+					'L' => $x->lab_cbc_lymphocyte,
+					'Atyp lymph' => $x->lab_cbc_atyp_lymph,
+					'Mono' => $x->lab_cbc_mono,
+					'อื่นๆ ระบุ' => $x->lab_cbc_other,
+					'วิธีการตรวจ Influenza test' => $x->lab_rapid_test_method,
+					'ตรวจเมื่อวันที่' => $x->lab_rapid_test_date,
+					'ผลการตรวจ' => $x->lab_rapid_test_result,
+					'Influenza A' => $x->lab_rapid_test_pathogen_flu_a,
+					'Influenza B' => $x->lab_rapid_test_pathogen_flu_b,
+					'PCR 1 วันที่เก็บ' => $x->lab_sars_cov2_no_1_date,
+					'PCR 1 ชนิดตัวอย่าง' => $x->lab_sars_cov2_no_1_specimen,
+					'PCR 1 สถานที่ตรวจ' => $x->lab_sars_cov2_no_1_lab,
+					'PCR 1 ผลตรวจ' => $x->lab_sars_cov2_no_1_result,
+					'PCR 2 วันที่เก็บ' => $x->lab_sars_cov2_no_2_date,
+					'PCR 2 ชนิดตัวอย่าง' => $x->lab_sars_cov2_no_2_specimen,
+					'PCR 2 สถานที่ตรวจ' => $x->lab_sars_cov2_no_2_lab,
+					'PCR 2 ผลตรวจ' => $x->lab_sars_cov2_no_2_result,
+					'ประเภทผู้ป่วย' => $x->treat_patient_type,
+					'Admited วันที' => $x->treat_place_date,
+					'การวินิจฉัยเบื้องต้น' => $x->first_diag,
+					'การให้ยารักษาโรคติดเชื้อไวรัสโคโรนา 2019' => $x->covid19_drug_medicate,
+					'วันที่ให้ยาโดสแรก' => $x->covid19_drug_medicate_first_date,
+					'ชนิดยารักษาโรคติดเชื้อไวรัสโคโรนา 2019' => $drug_concat_name,
+					'ยาอื่นๆ ระบุ' => $x->covid19_drug_medicate_name_other,
+					'สถานะผู้ป่วย' => $x->patient_treat_status,
+					'สถานะอื่นๆ ระบุ' => $x->patient_treat_status_other,
+					'ประวัติเสี่ยง' => $x->risk_detail,
+					'ประเภทประวัติเสี่ยง' => $x->risk_type,
+					'ประเภทประวัติเสี่ยงอื่นๆ' => $x->risk_type_text,
+					'ช่วง 14 วันก่อนป่วย ท่านอาศัยอยู่ หรือ มีการเดินทางมาจากพื้นที่ที่มีการระบาด' => $x->risk_stay_outbreak_chk,
+					'ประเทศ' => $risk_stay_outbreak_country,
+					'เมือง' => $risk_city_name,
+					'เมืองอื่นๆ' => $x->risk_stay_outbreak_city_other,
+					'วันที่เดินทางไปถึง' => $x->risk_stay_outbreak_arrive_date,
+					'วันที่เดินทางมาถึงไทย' => $x->risk_stay_outbreak_arrive_thai_date,
+					'สายการบิน' => $x->risk_stay_outbreak_airline,
+					'เที่ยวบินที่' => $x->risk_stay_outbreak_flight_no,
+					'เลขที่นั่ง' => $x->risk_stay_outbreak_seat_no,
+					'จังหวัด' => $risk_stay_outbreak_prov,
+					'อำเภอ' => $risk_stay_outbreak_dist_name,
+					'ตำบล' => $risk_stay_outbreak_sub_dist_name,
+					'ช่วง 14 วันก่อนป่วย ท่านได้เข้ารับการรักษาหรือเยี่ยมผู้ป่วยในโรงพยาบาลของพื้นที่ที่มีการระบาด' => $x->risk_treat_or_visit_patient,
+					'ช่วง 14 วันก่อนป่วย ท่านใด้ดูแลหรือสัมผัสใกล้ชิดกับผู้ป่วยอาการคล้ายไข้หวัดใหญ่หรือปอดอักเสบ' => $x->risk_care_flu_patient,
+					'ช่วง 14 วันก่อนป่วย ท่านมีประวัติสัมผัสกับผู้ป่วยยืนยันโรคติดเชื้อไวรัสโคโรนา 2019' => $x->risk_contact_covid_19,
+					'ชื่อ-นามสกุล' => $x->risk_contact_covid_19_patient_name,
+					'รหัส SAT ID' => $x->risk_contact_covid_19_sat_id,
+					'ลักษณะการสัมผัส' => $x->risk_contact_covid_19_touch,
+					'ช่วงระยะเวลาที่มีการสัมผัส' => $x->risk_contact_covid_19_duration,
+					'ช่วง 14 วันก่อนป่วย ท่านประกอบอาชีพที่สัมผัสใกล้ชิดกับนักท่องเที่ยวต่างชาติ' => $x->risk_contact_tourist,
+					'ช่วง 14 วันก่อนป่วย ท่านมีประวัติเดินทางไปในสถานที่ที่มีคนหนาแน่น เช่น ผับ สนามมวย' => $x->risk_travel_to_arena,
+					'ระบุชื่อสถานที่' => $x->risk_travel_arena_name,
+					'เป็นผู้ป่วยอาการทางเดินหายใจหรือปอดอักเสบเป็นกลุ่มก้อน' => $x->be_patient_cluster,
+					'เป็นผู้ป่วยปอดอักเสบรุนแรงหรือเสียชีวิตที่หาสาเหตุไม่ได้' => $x->be_patient_critical_unknown_cause,
+					'เป็นบุคลากรทางการแพทย์และสาธารณสุขหรือเจ้าหน้าที่ห้องปฏิบัติการ' => $x->be_health_personel,
+					'อื่นๆ โปรดระบุ' => $x->risk_other,
+					'บันทึกช่วยจำ' => $x->invest_note,
+					'ไฟล์สอบสวนโรค' => $x->invest_file,
+					'วันที่สอบสวน' => $x->invest_date,
+					'สถานะผู้ป่วย' => $ptStatus
 				];
 			});
 			if ($result) {
@@ -412,7 +438,7 @@ class InvestController extends MasterController
 				}
 			} else {
 				$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
-				$htm .= "<li>Can not write file.</li>";
+				$htm .= "<li>Can not write the file.</li>";
 				$htm .= "</ul>";
 			}
 			return $htm;
@@ -422,9 +448,12 @@ class InvestController extends MasterController
 	}
 
 	public function dataGenerator($pt_status, $start_date, $end_date) {
-		$occupation = Occupation::all()->keyBy('id')->toArray();
+		$user_role = Session::get('user_role');
+		$user_hosp = auth()->user()->hospcode;
+		$user_prov = auth()->user()->prov_code;
+		$user_region = auth()->user()->region;
 
-		foreach (Invest::select(
+		$fields = array(
 			'id',
 			'card_id',
 			'passport',
@@ -559,18 +588,78 @@ class InvestController extends MasterController
 			'be_patient_critical_unknown_cause',
 			'be_health_personel',
 			'risk_other',
-			'pt_status',
-			'created_at'
-			)
-			->whereIn('pt_status', $pt_status)
-			->whereRaw("DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."'")
-			->whereNull('deleted_at')
-			->cursor() as $data) {
-				if (!is_null($data->occupation) || $data->occupation > 0) {
-					$data->occupation = $occupation[$data->occupation]['occu_name_th'];
-				}
-			yield $data;
+			'invest_note',
+			'invest_file',
+			'invest_date',
+			'pt_status'
+		);
+
+		switch ($user_role) {
+			case 'root':
+				foreach (Invest::select($fields)
+					->whereIn('pt_status', $pt_status)
+					->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+					->whereNull('deleted_at')
+					->cursor() as $data) {
+						yield $data;
+					}
+				break;
+			case 'ddc':
+				foreach (Invest::select($fields)
+					->whereIn('pt_status', $pt_status)
+					->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+					->whereNull('deleted_at')
+					->cursor() as $data) {
+						yield $data;
+					}
+				break;
+			case 'dpc':
+				$prov_arr = $this->getProvCodeByRegion($user_region);
+				foreach (Invest::select($fields)
+					->whereIn('pt_status', $pt_status)
+					->whereIn('isolated_province', $prov_arr)
+					->whereIn('walkinplace_hosp_province', $prov_arr)
+					->whereIn('sick_province', $prov_arr)
+					->whereIn('sick_province_first', $prov_arr)
+					->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+					->whereNull('deleted_at')
+					->cursor() as $data) {
+						yield $data;
+					}
+				break;
+			case 'pho':
+				foreach (Invest::select($fields)
+					->whereIn('pt_status', $pt_status)
+					->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+					->whereNull('deleted_at')
+					->cursor() as $data) {
+						yield $data;
+					}
+				break;
+			case 'hos':
+				foreach (Invest::select($fields)
+					->whereIn("pt_status", $pt_status)
+					->whereRaw("(isolated_hosp_code = '".$user_hosp."' OR walkinplace_hosp_code = '".$user_hosp."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+					->whereNull('deleted_at')
+					->cursor() as $data) {
+						yield $data;
+					}
+				break;
+			default:
+				return redirect()->route('logout');
+				break;
 		}
+	}
+
+
+	protected function getProvCodeByRegion($region=0) {
+		$prov_code = User::select('prov_code')
+			->where('region', '=', $region)
+			->groupBy('prov_code')
+			->get()
+			->keyBy('prov_code');
+		$prov_code_list = $prov_code->keys()->all();
+		return $prov_code_list;
 	}
 
 	public function create(Request $request) {
@@ -739,7 +828,7 @@ class InvestController extends MasterController
 				]
 			);
 		} catch(\Exception $e) {
-			Log::error($e->getMessage());
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 			// Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
 		}
 	}
@@ -944,8 +1033,8 @@ class InvestController extends MasterController
 				return redirect()->route('list-data.invest');
 			}
 		} catch(\Exception $e) {
-			Log::error($e->getMessage());
-			Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
+			//Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
 		}
 	}
 

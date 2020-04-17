@@ -148,7 +148,7 @@
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 						<div class="form-group">
 							<label for="workPhone">โทรศัพท์ที่ติดต่อได้</label>
-							<input type="text" name="workPhoneInput" value="{{ $invest_pt[0]['work_phone'] }}" class="form-control" placeholder="โทรศัพท์ที่ทำงาน">
+							<input type="text" name="workPhoneInput" value="{{ $invest_pt[0]['work_phone'] }}" class="form-control" placeholder="โทรศัพท์ที่ติดต่อได้">
 						</div>
 					</div>
 				</div>

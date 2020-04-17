@@ -11,6 +11,7 @@ class Invest extends Model
 	public $timestamps = true;
 
 	protected $fillable = [
+		'pt_status',
 		'created_at'
 	];
 }

@@ -34,7 +34,7 @@
 						<div class="form-group">
 							<label for="patient_status">สถานะผู้ป่วย</label>
 							<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
-								<option value="0">-- โปรดเลือก --</option>
+								<option value="all">-- All --</option>
 								@foreach ($pt_status as $key => $value)
 									<option value="{{ $key }}">{{ $value }}</option>
 								@endforeach
@@ -58,8 +58,8 @@
 					</div>
 				</div>
 			</form>
-			<div class="loader fa-3x" style="display:none;font-size:2em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล...</div>
-			<div id="progressbar" style="border:1px solid #ccc; border-radius: 5px; "></div>
+			<div class="loader fa-3x" style="display:none;font-size:2em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอ...</div>
+			<div id="progressbar" style="border:1px solid #ccc; "></div>
 			<div class="dl-section">
 				<div id="dl-detail">
 				</div>
