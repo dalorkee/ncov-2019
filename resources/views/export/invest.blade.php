@@ -59,6 +59,7 @@
 				</div>
 			</form>
 			<div class="loader fa-3x" style="display:none;font-size:2em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล...</div>
+			<div id="progressbar" style="border:1px solid #ccc; border-radius: 5px; "></div>
 			<div class="dl-section">
 				<div id="dl-detail">
 				</div>

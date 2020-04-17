@@ -50,9 +50,9 @@ class InvestController extends MasterController
 		}
 	}
 
-	protected function setDateRange($date_range, $time="00:00:00") {
+	protected function setDateRange($date_range) {
 		$exp = explode("/", $date_range);
-		$result = $exp[2].'-'.$exp[0].'-'.$exp[1].' '.$time;
+		$result = $exp[2].'-'.$exp[0].'-'.$exp[1];
 		return $result;
 	}
 
@@ -88,8 +88,8 @@ class InvestController extends MasterController
 				$rs_status = array($request->pt_status);
 			}
 			$exp_date = explode("-", $request->date_range);
-			$start_date = $this->setDateRange(trim($exp_date[0]), "00:00:00");
-			$end_date = $this->setDateRange(trim($exp_date[1]), "23:59:59");
+			$start_date = $this->setDateRange(trim($exp_date[0]));
+			$end_date = $this->setDateRange(trim($exp_date[1]));
 
 			/* get default data */
 			$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
@@ -200,11 +200,53 @@ class InvestController extends MasterController
 				}
 
 				/* covid19_drug_medicate */
+				$covid19_drug_medicate_name = parent::getDrug('covid19');
+				if (strlen($x->covid19_drug_medicate_name) > 0) {
+					$drug_on_db = explode(',', $x->covid19_drug_medicate_name);
+				} else {
+					$drug_on_db = array();
+				}
+				$drug_concat_name = null;
+				foreach ($covid19_drug_medicate_name as $key => $value) {
+					if (in_array($key, $drug_on_db)) {
+						if (is_null($drug_concat_name)) {
+							$drug_concat_name = "";
+						} else {
+							$drug_concat_name = $drug_concat_name.", ";
+						}
+						$drug_concat_name = $drug_concat_name.$value;
+					}
+				}
 
+				/* risk_stay_outbreak_country  */
+				$risk_stay_outbreak_country = (!empty($x->risk_stay_outbreak_country)) ? $globalCountry[$x->risk_stay_outbreak_country]['country_name_th'] : NULL;
+				if (!empty($x->risk_stay_outbreak_city)) {
+					$risk_city = self::getCityName($x->risk_stay_outbreak_city);
+					$risk_city_name = $risk_city[0]['city_name'];
+				} else {
+					$risk_city_name = NULL;
+				}
 
+				/* treat place */
+				if (!empty($x->risk_stay_outbreak_province) || $x->risk_stay_outbreak_province != 0) {
+					$risk_stay_outbreak_prov = $provinces[$x->risk_stay_outbreak_province]['province_name'];
+				} else {
+					$risk_stay_outbreak_prov = NULL;
+				}
+				if (!empty($x->risk_stay_outbreak_district) || $x->risk_stay_outbreak_district != 0) {
+					$risk_stay_outbreak_dist = self::getDistirctNameTh($x->risk_stay_outbreak_district);
+					$risk_stay_outbreak_dist_name = $risk_stay_outbreak_dist[0]['district_name'];
+				} else {
+					$risk_stay_outbreak_dist_name = NULL;
+				}
+				if (!empty($x->risk_stay_outbreak_sub_district) || $x->risk_stay_outbreak_sub_district != 0) {
+					$risk_stay_outbreak_sub_dist = self::getSubDistirctNameTh($x->risk_stay_outbreak_sub_district);
+					$risk_stay_outbreak_sub_dist_name = $risk_stay_outbreak_sub_dist[0]['sub_district_name'];
+				} else {
+					$risk_stay_outbreak_sub_dist_name = NULL;
+				}
 				return [
 					'ID' => $x->id,
-					/*
 					'ID Card' => $x->card_id,
 					'Passport' => $x->passport,
 					'HN' => $x->hn,
@@ -302,10 +344,9 @@ class InvestController extends MasterController
 					'treat_patient_type' => $x->treat_patient_type,
 					'treat_place_date' => $x->treat_place_date,
 					'first_diag' => $x->first_diag,
-					*/
 					'covid19_drug_medicate' => $x->covid19_drug_medicate,
 					'covid19_drug_medicate_first_date' => $x->covid19_drug_medicate_first_date,
-					'covid19_drug_medicate_name' => $x->covid19_drug_medicate_name,
+					'covid19_drug_medicate_name' => $drug_concat_name,
 					'covid19_drug_medicate_name_other' => $x->covid19_drug_medicate_name_other,
 					'patient_treat_status' => $x->patient_treat_status,
 					'patient_treat_status_other' => $x->patient_treat_status_other,
@@ -313,17 +354,17 @@ class InvestController extends MasterController
 					'risk_type' => $x->risk_type,
 					'risk_type_text' => $x->risk_type_text,
 					'risk_stay_outbreak_chk' => $x->risk_stay_outbreak_chk,
-					'risk_stay_outbreak_country' => $x->risk_stay_outbreak_country,
-					'risk_stay_outbreak_city' => $x->risk_stay_outbreak_city,
+					'risk_stay_outbreak_country' => $risk_stay_outbreak_country,
+					'risk_stay_outbreak_city' => $risk_city_name,
 					'risk_stay_outbreak_city_other' => $x->risk_stay_outbreak_city_other,
 					'risk_stay_outbreak_arrive_date' => $x->risk_stay_outbreak_arrive_date,
 					'risk_stay_outbreak_arrive_thai_date' => $x->risk_stay_outbreak_arrive_thai_date,
 					'risk_stay_outbreak_airline' => $x->risk_stay_outbreak_airline,
 					'risk_stay_outbreak_flight_no' => $x->risk_stay_outbreak_flight_no,
 					'risk_stay_outbreak_seat_no' => $x->risk_stay_outbreak_seat_no,
-					'risk_stay_outbreak_province' => $x->risk_stay_outbreak_province,
-					'risk_stay_outbreak_district' => $x->risk_stay_outbreak_district,
-					'risk_stay_outbreak_sub_district' => $x->risk_stay_outbreak_sub_district,
+					'risk_stay_outbreak_province' => $risk_stay_outbreak_prov,
+					'risk_stay_outbreak_district' => $risk_stay_outbreak_dist_name,
+					'risk_stay_outbreak_sub_district' => $risk_stay_outbreak_sub_dist_name,
 					'risk_treat_or_visit_patient' => $x->risk_treat_or_visit_patient,
 					'risk_care_flu_patient' => $x->risk_care_flu_patient,
 					'risk_contact_covid_19' => $x->risk_contact_covid_19,
@@ -533,11 +574,11 @@ class InvestController extends MasterController
 	}
 
 	public function create(Request $request) {
+		$risk_stay_outbreak_city = self::getCityName(100002);
+		echo $risk_stay_outbreak_city[0]['city_name'];
+		exit;
+
 		try {
-
-		//	$x =  self::getHospitalNameTh(13814);
-		//	dd($x);
-
 			/* get default data */
 			$titleName = TitleName::all()->keyBy('id')->toArray();
 			$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
@@ -702,8 +743,8 @@ class InvestController extends MasterController
 				]
 			);
 		} catch(\Exception $e) {
-			Log::error($e->getMessage());
-			Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
+			Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__) . $e->getMessage());
+			// Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
 		}
 	}
 
@@ -942,6 +983,18 @@ class InvestController extends MasterController
 			$hosp_name = null;
 		}
 		return $hosp_name;
+	}
+
+	protected function getCityName($city_id=0) {
+		if (!empty($city_id) || $city_id != 0) {
+			$city_name = GlobalCity::select('city_name')
+				->where('city_id', '=', $city_id)
+				->get()
+				->toArray();
+		} else {
+			$city_name = null;
+		}
+		return $city_name;
 	}
 
 	public function districtByProv($prov_code=0) {
