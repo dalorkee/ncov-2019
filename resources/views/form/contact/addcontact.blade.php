@@ -212,11 +212,11 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="address_contact">ที่อยู่</label>
-                                        <input name="sick_village_no" type="text" class="form-control" placeholder="ที่อยู่">
+                                        <input name="sick_village" type="text" class="form-control" placeholder="ที่อยู่">
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="address_contact">หมู่</label>
-                                        <input name="sick_village" type="text" class="form-control" placeholder="หมู่">
+                                        <input name="sick_village_no" type="text" class="form-control" placeholder="หมู่">
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="address_contact">ซอย</label>

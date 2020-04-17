@@ -1410,6 +1410,7 @@ $res2	= DB::table('tbl_followup')
 		 );
 		 $i++;
  }
+ // dd($i);
  }
  $res4 = DB::table('tbl_contact_hsc')->insert($data);
  // dd($data);
