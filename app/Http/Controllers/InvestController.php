@@ -574,10 +574,6 @@ class InvestController extends MasterController
 	}
 
 	public function create(Request $request) {
-		$risk_stay_outbreak_city = self::getCityName(100002);
-		echo $risk_stay_outbreak_city[0]['city_name'];
-		exit;
-
 		try {
 			/* get default data */
 			$titleName = TitleName::all()->keyBy('id')->toArray();
@@ -743,7 +739,7 @@ class InvestController extends MasterController
 				]
 			);
 		} catch(\Exception $e) {
-			Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__) . $e->getMessage());
+			Log::error($e->getMessage());
 			// Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
 		}
 	}
