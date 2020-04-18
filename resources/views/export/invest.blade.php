@@ -49,7 +49,7 @@
 								<div class="input-group-append">
 									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
 								</div>
-								<input type="text" name="export_date_range" id="export_date" class="form-control" style="cursor: pointer;">
+								<input type="text" name="date_range" id="export_date" class="form-control" style="cursor: pointer;">
 								<div class="input-group-append">
 									<button type="button" class="btn btn-outline btn-primary" id="export_btn">ค้นหา</button>
 								</div>
@@ -80,26 +80,29 @@ $(document).ready(function() {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
-
 	$('#export_btn').click(function(e) {
-		e.preventDefault();
-		$('.loader').show();
-		var date_range = $('#export_date').val();
-		var pt_status = $('#pt_status').val();
-		$.ajax({
-			method: 'POST',
-			url: "{{ route('pj1') }}",
-			data: {date_range:date_range, pt_status:pt_status},
-			dataType: "JSON",
-			success: function(response) {
-				$('.loader').hide();
-				$('.dl-section').show();
-				$('#dl-detail').html(response);
-			},
-			error: function(xhr) {
-				alert(xhr.errorMessage);
-			}
-		});
+		try {
+			e.preventDefault();
+			$('.loader').show();
+			var date_range = $('#export_date').val();
+			var pt_status = $('#pt_status').val();
+			$.ajax({
+				method: 'POST',
+				url: "{{ route('pj1') }}",
+				data: {date_range:date_range, pt_status:pt_status},
+				dataType: "HTML",
+				success: function(response) {
+					$('.loader').hide();
+					$('.dl-section').show();
+					$('#dl-detail').html(response);
+				},
+				error: function(xhr) {
+					alert(xhr.errorMessage + xhr.status);
+				}
+			});
+		} catch(err) {
+			err.message;
+		}
 	});
 /*
 	$('#export_btn_').click(function(e) {

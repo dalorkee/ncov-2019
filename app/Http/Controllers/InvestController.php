@@ -102,6 +102,7 @@ class InvestController extends MasterController
 			} else {
 				$result_status = array($request->pt_status);
 			}
+
 			$exp_date = explode("-", $request->date_range);
 			$start_date = $this->setDateRange(trim($exp_date[0]));
 			$end_date = $this->setDateRange(trim($exp_date[1]));
@@ -113,16 +114,34 @@ class InvestController extends MasterController
 
 			/* create file */
 			$result = (new FastExcel($this->dataGenerator($result_status, $start_date, $end_date)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation) {
-				$nation = (!empty($x->nation)) ? $globalCountry[$x->nation]['country_name_th'] : NULL;
+				//$nation = (!empty($x->nation)) ? $globalCountry[$x->nation]['country_name_th'] : NULL;
+				if (!empty($x->nation) || $x->nation != 0 || !is_null($x->nation)) {
+					if (array_key_exists($x->nation, $globalCountry)) {
+						$nation = $globalCountry[$x->nation]['country_name_th'];
+					} else {
+						$nation = 'NaN';
+					}
+				} else {
+					$nation = NULL;
+				}
+
 				/* occupation */
-				if (!empty($x->occupation) || $x->occupation > 0 || !is_null($x->occupation)) {
-					$occupation_name = $occupation[$x->occupation]['occu_name_th'];
+				if (!empty($x->occupation) || $x->occupation != 0 || !is_null($x->occupation)) {
+					if (array_key_exists($x->occupation, $occupation)) {
+						$occupation_name = $occupation[$x->occupation]['occu_name_th'];
+					} else {
+						$occupation_name = 'NaN';
+					}
 				} else {
 					$occupation_name = NULL;
 				}
 				/* sick addr */
 				if (!empty($x->sick_province) || $x->sick_province != 0) {
-					$sick_prov_name = $provinces[$x->sick_province]['province_name'];
+					if (array_key_exists($x->sick_province, $provinces)) {
+						$sick_prov_name = $provinces[$x->sick_province]['province_name'];
+					} else {
+						$sick_prov_name = 'NaN';
+					}
 				} else {
 					$sick_prov_name = NULL;
 				}
@@ -141,7 +160,11 @@ class InvestController extends MasterController
 
 				/* sick first addr */
 				if (!empty($x->sick_province_first) || $x->sick_province_first != 0) {
-					$sick_prov_first = $provinces[$x->sick_province_first]['province_name'];
+					if (array_key_exists($x->sick_province_first, $provinces)) {
+						$sick_prov_first = $provinces[$x->sick_province_first]['province_name'];
+					} else {
+						$sick_prov_first = 'NaN';
+					}
 				} else {
 					$sick_prov_first = NULL;
 				}
@@ -160,7 +183,11 @@ class InvestController extends MasterController
 
 				/* treat first addr */
 				if (!empty($x->treat_first_province) || $x->treat_first_province != 0) {
-					$treat_first_prov = $provinces[$x->treat_first_province]['province_name'];
+					if (array_key_exists($x->treat_first_province, $provinces)) {
+						$treat_first_prov = $provinces[$x->treat_first_province]['province_name'];
+					} else {
+						$treat_first_prov = 'NaN';
+					}
 				} else {
 					$treat_first_prov = NULL;
 				}
@@ -1063,7 +1090,7 @@ class InvestController extends MasterController
 	}
 
 	protected function getHospitalNameTh($hosp_code=0) {
-		if (!empty($hosp_code) || $hosp_code != 0) {
+		if (!empty($hosp_code) || $hosp_code != 0 || !is_null($hosp_code)) {
 			$hosp_name = Hospitals::select('hosp_name')
 				->where('hospcode', '=', $hosp_code)
 				->get()
@@ -1075,7 +1102,7 @@ class InvestController extends MasterController
 	}
 
 	protected function getCityName($city_id=0) {
-		if (!empty($city_id) || $city_id != 0) {
+		if (!empty($city_id) || $city_id != 0 || !is_null($city_id)) {
 			$city_name = GlobalCity::select('city_name')
 				->where('city_id', '=', $city_id)
 				->get()
@@ -1103,7 +1130,7 @@ class InvestController extends MasterController
 	}
 
 	protected function getDistirctNameTh($dist_code=0) {
-		if (!empty($dist_code) || $dist_code != 0) {
+		if (!empty($dist_code) || $dist_code != 0 || !is_null($dist_code)) {
 			$dist_name = District::select('district_name')
 				->where('district_id', '=', $dist_code)
 				->get()
@@ -1115,7 +1142,7 @@ class InvestController extends MasterController
 	}
 
 	protected function getSubDistirctNameTh($sub_dist_code=0) {
-		if (!empty($sub_dist_code) || $sub_dist_code != 0) {
+		if (!empty($sub_dist_code) || $sub_dist_code != 0 || !is_null($sub_dist_code)) {
 			$sub_dist_name = SubDistrict::select('sub_district_name')
 			->where('sub_district_id', '=', $sub_dist_code)
 			->get()
