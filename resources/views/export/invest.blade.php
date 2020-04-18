@@ -90,7 +90,7 @@ $(document).ready(function() {
 			method: 'POST',
 			url: "{{ route('pj1') }}",
 			data: {date_range:date_range, pt_status:pt_status},
-			dataType: "HTML",
+			dataType: "JSON",
 			success: function(response) {
 				$('.loader').hide();
 				$('.dl-section').show();

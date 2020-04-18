@@ -75,7 +75,7 @@ class InvestController extends MasterController
 
 	public function downloadFile($fileName=null) {
 		try {
-		$exists = Storage::disk('export')->exists($fileName);
+			$exists = Storage::disk('export')->exists($fileName);
 			if ($exists) {
 				$log = DB::table('log_export')->select('export_amount', 'expire_date')->where('file_name', '=', $fileName)->get()->toArray();
 				$new_amount = ((int)$log[0]->export_amount+1);
@@ -267,11 +267,13 @@ class InvestController extends MasterController
 				} else {
 					$risk_stay_outbreak_sub_dist_name = NULL;
 				}
-				if (!empty($x->pt_status) || $x->pt_status != 0 || !is_null($x->pt_status) || isset($x->pt_status)) {
+				/*
+				if (!empty($x->pt_status) || $x->pt_status != 0 || !is_null($x->pt_status)) {
 					$ptStatus = 'ok';
 				} else {
 					$ptStatus = 'xx';
 				}
+				*/
 				return [
 					'ID' => $x->id,
 					'ID Card' => $x->card_id,
@@ -409,8 +411,7 @@ class InvestController extends MasterController
 					'อื่นๆ โปรดระบุ' => $x->risk_other,
 					'บันทึกช่วยจำ' => $x->invest_note,
 					'ไฟล์สอบสวนโรค' => $x->invest_file,
-					'วันที่สอบสวน' => $x->invest_date,
-					'สถานะผู้ป่วย' => $ptStatus
+					'วันที่สอบสวน' => $x->invest_date
 				];
 			});
 			if ($result) {
@@ -594,8 +595,7 @@ class InvestController extends MasterController
 			'risk_other',
 			'invest_note',
 			'invest_file',
-			'invest_date',
-			'pt_status'
+			'invest_date'
 		);
 
 		switch ($user_role) {
