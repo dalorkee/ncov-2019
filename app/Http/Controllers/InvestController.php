@@ -93,6 +93,37 @@ class InvestController extends MasterController
 		}
 	}
 
+	public function process() {
+		$total = 5;
+		$arr_content = array();
+
+		for ($i=1; $i<=$total; $i++) {
+			$percent = intval($i/$total * 100);
+			$arr_content['percent'] = $percent;
+			$arr_content['message'] = $i . " row(s) processed.";
+			file_put_contents(public_path("tmp/" . "aa.txt"), json_encode($arr_content));
+			sleep(5);
+		}
+	}
+
+	public function checkerFile($file) {
+		header('Content-Type: application/json');
+		$file = str_replace(".", "", $file);
+		$file = public_path("tmp/" . $file . ".txt");
+
+		if (file_exists($file)) {
+			$text = file_get_contents($file);
+			echo $text;
+
+			$obj = json_decode($text);
+			if ($obj->percent == 100) {
+				unlink($file);
+			}
+		} else {
+			echo json_encode(array("percent" => null, "message" => null));
+		}
+	}
+
 	public function exportFastExcel(Request $request) {
 		try {
 			$fileName = self::setExportFileName();
@@ -113,8 +144,7 @@ class InvestController extends MasterController
 			$occupation = Occupation::all()->keyBy('id')->toArray();
 
 			/* create file */
-			$result = (new FastExcel($this->dataGenerator($result_status, $start_date, $end_date)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation) {
-				//$nation = (!empty($x->nation)) ? $globalCountry[$x->nation]['country_name_th'] : NULL;
+			(new FastExcel($this->dataGenerator($result_status, $start_date, $end_date)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation) {
 				if (!empty($x->nation) || $x->nation != 0 || !is_null($x->nation)) {
 					if (array_key_exists($x->nation, $globalCountry)) {
 						$nation = $globalCountry[$x->nation]['country_name_th'];
@@ -136,6 +166,7 @@ class InvestController extends MasterController
 					$occupation_name = NULL;
 				}
 				/* sick addr */
+
 				if (!empty($x->sick_province) || $x->sick_province != 0) {
 					if (array_key_exists($x->sick_province, $provinces)) {
 						$sick_prov_name = $provinces[$x->sick_province]['province_name'];
@@ -147,18 +178,27 @@ class InvestController extends MasterController
 				}
 				if (!empty($x->sick_district) || $x->sick_district != 0) {
 					$sick_dist = self::getDistirctNameTh($x->sick_district);
-					$sick_dist_name = $sick_dist[0]['district_name'];
+					if (count($sick_dist) > 0) {
+						$sick_dist_name = $sick_dist[0]['district_name'];
+					} else {
+						$sick_dist_name = 'NaN';
+					}
 				} else {
 					$sick_dist_name = NULL;
 				}
 				if (!empty($x->sick_sub_district) || $x->sick_sub_district != 0) {
 					$sick_sub_dist = self::getSubDistirctNameTh($x->sick_sub_district);
-					$sick_sub_dist_name = $sick_sub_dist[0]['sub_district_name'];
+					if (count($sick_sub_dist) > 0) {
+						$sick_sub_dist_name = $sick_sub_dist[0]['sub_district_name'];
+					} else {
+						$sick_sub_dist_name = 'NaN';
+					}
 				} else {
 					$sick_sub_dist_name = NULL;
 				}
 
 				/* sick first addr */
+
 				if (!empty($x->sick_province_first) || $x->sick_province_first != 0) {
 					if (array_key_exists($x->sick_province_first, $provinces)) {
 						$sick_prov_first = $provinces[$x->sick_province_first]['province_name'];
@@ -170,18 +210,27 @@ class InvestController extends MasterController
 				}
 				if (!empty($x->sick_district_first) || $x->sick_district_first != 0) {
 					$sick_dist_first = self::getDistirctNameTh($x->sick_district_first);
-					$sick_dist_first_name = $sick_dist_first[0]['district_name'];
+					if (count($sick_dist_first) > 0) {
+						$sick_dist_first_name = $sick_dist_first[0]['district_name'];
+					} else {
+						$sick_dist_first_name = 'NaN';
+					}
 				} else {
 					$sick_dist_first_name = NULL;
 				}
 				if (!empty($x->sick_sub_district_first) || $x->sick_sub_district_first != 0) {
 					$sick_sub_dist_first = self::getSubDistirctNameTh($x->sick_sub_district_first);
-					$sick_sub_dist_name_first = $sick_sub_dist_first[0]['sub_district_name'];
+					if (count($sick_sub_dist_first) > 0) {
+						$sick_sub_dist_name_first = $sick_sub_dist_first[0]['sub_district_name'];
+					} else {
+						$sick_sub_dist_name_first = 'NaN';
+					}
 				} else {
 					$sick_sub_dist_name_first = NULL;
 				}
 
 				/* treat first addr */
+
 				if (!empty($x->treat_first_province) || $x->treat_first_province != 0) {
 					if (array_key_exists($x->treat_first_province, $provinces)) {
 						$treat_first_prov = $provinces[$x->treat_first_province]['province_name'];
@@ -191,50 +240,79 @@ class InvestController extends MasterController
 				} else {
 					$treat_first_prov = NULL;
 				}
-				if (!empty($x->treat_first_district) || $x->treat_first_district) {
+				if (!empty($x->treat_first_district) || $x->treat_first_district != 0) {
 					$treat_first_dist = self::getDistirctNameTh($x->treat_first_district);
-					$treat_first_dist_name = $treat_first_dist[0]['district_name'];
+					if (count($treat_first_dist) > 0) {
+						$treat_first_dist_name = $treat_first_dist[0]['district_name'];
+					} else {
+						$treat_first_dist_name = 'NaN';
+					}
 				} else {
 					$treat_first_dist_name = NULL;
 				}
+
 				if (!empty($x->treat_first_sub_district) || $x->treat_first_sub_district != 0) {
 					$treat_first_sub_dist = self::getSubDistirctNameTh($x->treat_first_sub_district);
-					$treat_first_sub_dist_name = $treat_first_sub_dist[0]['sub_district_name'];
+					if (count($treat_first_sub_dist) > 0) {
+						$treat_first_sub_dist_name = $treat_first_sub_dist[0]['sub_district_name'];
+					} else {
+						$treat_first_sub_dist_name = 'NaN';
+					}
 				} else {
 					$treat_first_sub_dist_name = NULL;
 				}
+
 				if (!empty($x->treat_first_hospital) || $x->treat_first_hospital != 0) {
 					$treat_first_hosp = self::getHospitalNameTh($x->treat_first_hospital);
-					$treat_first_hosp_name = $treat_first_hosp[0]['hosp_name'];
+					if (count($treat_first_hosp) > 0) {
+						$treat_first_hosp_name = $treat_first_hosp[0]['hosp_name'];
+					} else {
+						$treat_first_hosp_name = 'NaN';
+					}
 				} else {
 					$treat_first_hosp_name = NULL;
 				}
 
 				/* treat place */
 				if (!empty($x->treat_place_province) || $x->treat_place_province != 0) {
-					$treat_place_prov = $provinces[$x->treat_place_province]['province_name'];
+					if (array_key_exists($x->treat_place_province, $provinces)) {
+						$treat_place_prov = $provinces[$x->treat_place_province]['province_name'];
+					} else {
+						$treat_place_prov = 'NaN';
+					}
 				} else {
 					$treat_place_prov = NULL;
 				}
 				if (!empty($x->treat_place_district) || $x->treat_place_district != 0) {
 					$treat_place_dist = self::getDistirctNameTh($x->treat_place_district);
-					$treat_place_dist_name = $treat_place_dist[0]['district_name'];
+					if (count($treat_place_dist) > 0) {
+						$treat_place_dist_name = $treat_place_dist[0]['district_name'];
+					} else {
+						$treat_place_dist_name = 'NaN';
+					}
 				} else {
 					$treat_place_dist_name = NULL;
 				}
 				if (!empty($x->treat_place_sub_district) || $x->treat_place_sub_district != 0) {
 					$treat_place_sub_dist = self::getSubDistirctNameTh($x->treat_place_sub_district);
-					$treat_place_sub_dist_name = $treat_place_sub_dist[0]['sub_district_name'];
+					if (count($treat_place_sub_dist) > 0) {
+						$treat_place_sub_dist_name = $treat_place_sub_dist[0]['sub_district_name'];
+					} else {
+						$treat_place_sub_dist_name = 'NaN';
+					}
 				} else {
 					$treat_place_sub_dist_name = NULL;
 				}
 				if (!empty($x->treat_place_hospital) || $x->treat_place_hospital != 0) {
 					$treat_place_hosp = self::getHospitalNameTh($x->treat_place_hospital);
-					$treat_place_hosp_name = $treat_place_hosp[0]['hosp_name'];
+					if (count($treat_place_hosp)) {
+						$treat_place_hosp_name = $treat_place_hosp[0]['hosp_name'];
+					} else {
+						$treat_place_hosp_name = 'NaN';
+					}
 				} else {
 					$treat_place_hosp_name = NULL;
 				}
-
 				/* lab x-ray */
 				switch ($x->lab_cxr1_result) {
 					case 'normal':
@@ -266,41 +344,59 @@ class InvestController extends MasterController
 						$drug_concat_name = $drug_concat_name.$value;
 					}
 				}
-
 				/* risk_stay_outbreak_country  */
-				$risk_stay_outbreak_country = (!empty($x->risk_stay_outbreak_country)) ? $globalCountry[$x->risk_stay_outbreak_country]['country_name_th'] : NULL;
+				if (!empty($x->risk_stay_outbreak_country) || $x->risk_stay_outbreak_country != 0 || !is_null($x->risk_stay_outbreak_country)) {
+					if (array_key_exists($x->risk_stay_outbreak_country, $globalCountry)) {
+						$risk_stay_outbreak_country = $globalCountry[$x->risk_stay_outbreak_country]['country_name_th'];
+					} else {
+						$risk_stay_outbreak_country = 'NaN';
+					}
+				} else {
+					$risk_stay_outbreak_country = NULL;
+				}
+
 				if (!empty($x->risk_stay_outbreak_city)) {
 					$risk_city = self::getCityName($x->risk_stay_outbreak_city);
-					$risk_city_name = $risk_city[0]['city_name'];
+					if (count($risk_city) > 0) {
+						$risk_city_name = $risk_city[0]['city_name'];
+					} else {
+						$risk_city_name = 'NaN';
+					}
 				} else {
 					$risk_city_name = NULL;
 				}
 
 				/* treat place */
 				if (!empty($x->risk_stay_outbreak_province) || $x->risk_stay_outbreak_province != 0) {
-					$risk_stay_outbreak_prov = $provinces[$x->risk_stay_outbreak_province]['province_name'];
+					if (array_key_exists($x->risk_stay_outbreak_province, $provinces)) {
+						$risk_stay_outbreak_prov = $provinces[$x->risk_stay_outbreak_province]['province_name'];
+					} else {
+						$risk_stay_outbreak_prov = 'NaN';
+					}
 				} else {
 					$risk_stay_outbreak_prov = NULL;
 				}
 				if (!empty($x->risk_stay_outbreak_district) || $x->risk_stay_outbreak_district != 0) {
 					$risk_stay_outbreak_dist = self::getDistirctNameTh($x->risk_stay_outbreak_district);
-					$risk_stay_outbreak_dist_name = $risk_stay_outbreak_dist[0]['district_name'];
+					if (count($risk_stay_outbreak_dist)) {
+						$risk_stay_outbreak_dist_name = $risk_stay_outbreak_dist[0]['district_name'];
+					} else {
+						$risk_stay_outbreak_dist_name = 'NaN';
+					}
 				} else {
 					$risk_stay_outbreak_dist_name = NULL;
 				}
 				if (!empty($x->risk_stay_outbreak_sub_district) || $x->risk_stay_outbreak_sub_district != 0) {
 					$risk_stay_outbreak_sub_dist = self::getSubDistirctNameTh($x->risk_stay_outbreak_sub_district);
-					$risk_stay_outbreak_sub_dist_name = $risk_stay_outbreak_sub_dist[0]['sub_district_name'];
+					if (count($risk_stay_outbreak_sub_dist) > 0) {
+						$risk_stay_outbreak_sub_dist_name = $risk_stay_outbreak_sub_dist[0]['sub_district_name'];
+					} else {
+						$risk_stay_outbreak_sub_dist_name = 'NaN';
+					}
 				} else {
 					$risk_stay_outbreak_sub_dist_name = NULL;
 				}
-				/*
-				if (!empty($x->pt_status) || $x->pt_status != 0 || !is_null($x->pt_status)) {
-					$ptStatus = 'ok';
-				} else {
-					$ptStatus = 'xx';
-				}
-				*/
+
 				return [
 					'ID' => $x->id,
 					'ID Card' => $x->card_id,
@@ -440,8 +536,10 @@ class InvestController extends MasterController
 					'ไฟล์สอบสวนโรค' => $x->invest_file,
 					'วันที่สอบสวน' => $x->invest_date
 				];
+
+
+
 			});
-			if ($result) {
 				$fileExists = Storage::disk('export')->exists($fileName);
 				if ($fileExists) {
 					$mimetype = Storage::disk('export')->mimeType($fileName);
@@ -468,12 +566,9 @@ class InvestController extends MasterController
 					$htm .= "<li>File not found.</li>";
 					$htm .= "</ul>";
 				}
-			} else {
-				$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
-				$htm .= "<li>Can not write the file.</li>";
-				$htm .= "</ul>";
-			}
+
 			return $htm;
+
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}

@@ -7,6 +7,19 @@
 <link href="{{ URL::asset('assets/libs/date-range-picker/daterangepicker.css') }}" rel="stylesheet">
 <link href="{{ URL::asset('fonts/fontawesome-free-5.13.0-web/css/fontawesome.min.css') }}" rel="stylesheet">
 @endsection
+@section('internal-style')
+	<style>
+      #progress {
+        width: 500px;
+        border: 1px solid #aaa;
+        height: 20px;
+      }
+      #progress .bar {
+        background-color: red;
+        height: 20px;
+      }
+    </style>
+@endsection
 @section('contents')
 <div class="page-breadcrumb">
 	<div class="row">
@@ -58,8 +71,9 @@
 					</div>
 				</div>
 			</form>
-			<div class="loader fa-3x" style="display:none;font-size:2em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอ...</div>
-			<div id="progressbar" style="border:1px solid #ccc; "></div>
+			<!--<div id="progress"></div>
+			<div id="message"></div>-->
+			<div class="loader fa-2x" style="display:none;font-size:2em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอ...</div>
 			<div class="dl-section">
 				<div id="dl-detail">
 				</div>
@@ -73,6 +87,30 @@
 <script type="text/javascript" src="{{ URL::asset('assets/libs/date-range-picker/moment-2.18.1.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('assets/libs/date-range-picker/daterangepicker.min.js') }}"></script>
 <script>
+/*
+var timer;
+function refreshProgress() {
+	$.ajax({
+		url: "{{ route('getPg', ['aa']) }}",
+		success:function(data){
+			$("#progress").html('<div class="bar" style="width:' + data.percent + '%"></div>');
+			$("#message").html(data.message);
+			alert(data.percent);
+			if (data.percent == 100) {
+				window.clearInterval(timer);
+				timer = window.setInterval(completed, 1000);
+			}
+		},
+		error: function(xhr) {
+			alert(xhr.status);
+		}
+	});
+}
+function completed() {
+	$("#message").html("Completed");
+	window.clearInterval(timer);
+}
+*/
 $(document).ready(function() {
 	$('.dl-section').hide();
 	$.ajaxSetup({
@@ -80,6 +118,10 @@ $(document).ready(function() {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
+
+	//$.ajax({url: "{{ route('process') }}"});
+	//timer = window.setInterval(refreshProgress, 1000);
+
 	$('#export_btn').click(function(e) {
 		try {
 			e.preventDefault();
@@ -104,20 +146,7 @@ $(document).ready(function() {
 			err.message;
 		}
 	});
-/*
-	$('#export_btn_').click(function(e) {
-		$('.loader').show();
-		e.preventDefault();
-		$.ajax({
-			url: "{ route('pj') }}",
-			complete: function(res) {
-				var path = res.responseJSON.path;
-				location.href = path;
-				$('.loader').hide();
-			}
-		});
-	})
-	*/
+
 	var currentdate = new Date();
 	var startDate =  (currentdate.getMonth()+1) + "/" + (currentdate.getDate()-7) +  "/" + currentdate.getFullYear();
 	var endDate =  (currentdate.getMonth()+1) + "/" +  currentdate.getDate() + "/" + currentdate.getFullYear();
@@ -146,4 +175,5 @@ $(document).ready(function() {
 	});
 });
 </script>
+
 @endsection
