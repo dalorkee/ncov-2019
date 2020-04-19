@@ -57,7 +57,7 @@
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 						<div class="form-group">
-							<label for="date">เลือกช่วงเวลาที่ต้องการส่งออกข้อมูล (ครั้งละไม่เกิน 1 เดือน)</label>
+							<label for="date">เลือกช่วงเวลาที่ต้องการส่งออกข้อมูล (ครั้งละไม่เกิน 7 วัน)</label>
 							<div class="input-group date" data-provide="datepicker" id="breathing_tube_date">
 								<div class="input-group-append">
 									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -73,7 +73,7 @@
 			</form>
 			<!--<div id="progress"></div>
 			<div id="message"></div>-->
-			<div class="loader fa-2x" style="display:none;font-size:2em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอ...</div>
+			<div class="loader fa-2x" style="display:none;font-size:1.875em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอ...</div>
 			<div class="dl-section">
 				<div id="dl-detail">
 				</div>
