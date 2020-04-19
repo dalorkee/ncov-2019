@@ -57,7 +57,7 @@
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 						<div class="form-group">
-							<label for="date">เลือกช่วงเวลาที่ต้องการส่งออกข้อมูล (ครั้งละไม่เกิน 7 วัน)</label>
+							<label for="date">เลือกช่วงเวลาที่ต้องการส่งออกข้อมูล (ไม่ควรเกิน 7 วัน/ครั้ง)</label>
 							<div class="input-group date" data-provide="datepicker" id="breathing_tube_date">
 								<div class="input-group-append">
 									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
