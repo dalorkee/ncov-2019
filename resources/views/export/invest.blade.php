@@ -28,7 +28,7 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Export</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Form</li>
+						<li class="breadcrumb-item active" aria-current="page">PUI</li>
 					</ol>
 				</nav>
 			</div>
@@ -72,7 +72,7 @@
 				</div>
 			</form>
 			<!--<div id="progress"></div>
-			<div id="message"></div>-->
+			<div id="message"></div> -->
 			<div class="loader fa-2x" style="display:none;font-size:1.875em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอ...</div>
 			<div class="dl-section">
 				<div id="dl-detail">
@@ -91,11 +91,12 @@
 var timer;
 function refreshProgress() {
 	$.ajax({
-		url: "{{ route('getPg', ['aa']) }}",
+		method: 'GET',
+		url: "{{ route('checker', [Session::getId()]) }}",
+		dataType: 'JSON',
 		success:function(data){
-			$("#progress").html('<div class="bar" style="width:' + data.percent + '%"></div>');
+			$("#progress").html('<div class="bar" style="width:' + data.percent + '%">' + data.percent + '%</div>');
 			$("#message").html(data.message);
-			alert(data.percent);
 			if (data.percent == 100) {
 				window.clearInterval(timer);
 				timer = window.setInterval(completed, 1000);
@@ -119,8 +120,8 @@ $(document).ready(function() {
 		}
 	});
 
-	//$.ajax({url: "{{ route('process') }}"});
-	//timer = window.setInterval(refreshProgress, 1000);
+//	$.ajax({url: "{{ route('process') }}"});
+//	timer = window.setInterval(refreshProgress, 1000);
 
 	$('#export_btn').click(function(e) {
 		try {

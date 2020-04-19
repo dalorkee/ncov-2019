@@ -93,16 +93,16 @@ class InvestController extends MasterController
 		}
 	}
 
-	public function process() {
-		$total = 5;
+	public function process($set_total=0) {
+		$total = $set_total;
 		$arr_content = array();
 
 		for ($i=1; $i<=$total; $i++) {
 			$percent = intval($i/$total * 100);
 			$arr_content['percent'] = $percent;
 			$arr_content['message'] = $i . " row(s) processed.";
-			file_put_contents(public_path("tmp/" . "aa.txt"), json_encode($arr_content));
-			sleep(5);
+			file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
+			sleep(1);
 		}
 	}
 
@@ -355,7 +355,7 @@ class InvestController extends MasterController
 					$risk_stay_outbreak_country = NULL;
 				}
 
-				if (!empty($x->risk_stay_outbreak_city)) {
+				if (!empty($x->risk_stay_outbreak_city) || $x->risk_stay_outbreak_city != 0) {
 					$risk_city = self::getCityName($x->risk_stay_outbreak_city);
 					if (count($risk_city) > 0) {
 						$risk_city_name = $risk_city[0]['city_name'];
@@ -399,6 +399,7 @@ class InvestController extends MasterController
 
 				return [
 					'ID' => $x->id,
+					'SAT_Code' => $x->sat_id,
 					'ID Card' => $x->card_id,
 					'Passport' => $x->passport,
 					'HN' => $x->hn,
@@ -582,6 +583,7 @@ class InvestController extends MasterController
 
 		$fields = array(
 			'id',
+			'sat_id',
 			'card_id',
 			'passport',
 			'hn',
