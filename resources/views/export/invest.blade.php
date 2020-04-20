@@ -8,17 +8,21 @@
 <link href="{{ URL::asset('fonts/fontawesome-free-5.13.0-web/css/fontawesome.min.css') }}" rel="stylesheet">
 @endsection
 @section('internal-style')
-	<style>
-      #progress {
-        width: 500px;
-        border: 1px solid #aaa;
-        height: 20px;
-      }
-      #progress .bar {
-        background-color: red;
-        height: 20px;
-      }
-    </style>
+<style>
+	#progress {
+		margin: 2px 0;
+		border: 1px solid #aaa;
+		height: 16px;
+	}
+	#progress .bar {
+		background-color: #1f262d;
+		height: 16px;
+		color: white;
+	}
+	#message {
+		padding: 4px 0;
+	}
+</style>
 @endsection
 @section('contents')
 <div class="page-breadcrumb">
@@ -62,7 +66,7 @@
 								<div class="input-group-append">
 									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
 								</div>
-								<input type="text" name="date_range" id="export_date" class="form-control" style="cursor: pointer;">
+								<input type="text" name="date_range" id="export_date" class="form-control" style="cursor: pointer;" readonly>
 								<div class="input-group-append">
 									<button type="button" class="btn btn-outline btn-primary" id="export_btn">ค้นหา</button>
 								</div>
@@ -71,11 +75,16 @@
 					</div>
 				</div>
 			</form>
-			<!--<div id="progress"></div>
-			<div id="message"></div> -->
-			<div class="loader fa-2x" style="display:none;font-size:1.875em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอ...</div>
-			<div class="dl-section">
-				<div id="dl-detail">
+			<div class="form-row">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div id="progress"></div>
+					<div id="message"></div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					<div class="loader fa-2x" style="display:none;font-size:1.675em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอ...</div>
+					<div class="dl-section">
+						<div id="dl-detail"></div>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -87,7 +96,7 @@
 <script type="text/javascript" src="{{ URL::asset('assets/libs/date-range-picker/moment-2.18.1.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('assets/libs/date-range-picker/daterangepicker.min.js') }}"></script>
 <script>
-/*
+
 var timer;
 function refreshProgress() {
 	$.ajax({
@@ -99,20 +108,21 @@ function refreshProgress() {
 			$("#message").html(data.message);
 			if (data.percent == 100) {
 				window.clearInterval(timer);
-				timer = window.setInterval(completed, 1000);
+				timer = window.setInterval(completed(data.message), 100);
 			}
 		},
 		error: function(xhr) {
-			alert(xhr.status);
+			alert(xhr.status + xhr.errorMessage);
 		}
 	});
 }
-function completed() {
-	$("#message").html("Completed");
+function completed(rows) {
+	$("#message").html("Completed " + rows);
 	window.clearInterval(timer);
 }
-*/
+
 $(document).ready(function() {
+	$('#progress').hide();
 	$('.dl-section').hide();
 	$.ajaxSetup({
 		headers: {
@@ -120,12 +130,14 @@ $(document).ready(function() {
 		}
 	});
 
-//	$.ajax({url: "{{ route('process') }}"});
+//	$.ajax({url: "{ route('process') }"});
 //	timer = window.setInterval(refreshProgress, 1000);
 
 	$('#export_btn').click(function(e) {
 		try {
 			e.preventDefault();
+			timer = window.setInterval(refreshProgress, 1000);
+			$('#progress').show();
 			$('.loader').show();
 			var date_range = $('#export_date').val();
 			var pt_status = $('#pt_status').val();

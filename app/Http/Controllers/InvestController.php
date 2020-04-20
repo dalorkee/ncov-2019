@@ -93,19 +93,6 @@ class InvestController extends MasterController
 		}
 	}
 
-	public function process($set_total=0) {
-		$total = $set_total;
-		$arr_content = array();
-
-		for ($i=1; $i<=$total; $i++) {
-			$percent = intval($i/$total * 100);
-			$arr_content['percent'] = $percent;
-			$arr_content['message'] = $i . " row(s) processed.";
-			file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
-			sleep(1);
-		}
-	}
-
 	public function checkerFile($file) {
 		header('Content-Type: application/json');
 		$file = str_replace(".", "", $file);
@@ -120,15 +107,28 @@ class InvestController extends MasterController
 				unlink($file);
 			}
 		} else {
-			echo json_encode(array("percent" => null, "message" => null));
+			echo json_encode(array("percent" => 0, "message" => null));
 		}
 	}
 
-	public function exportFastExcel(Request $request) {
+	public function process($set_total=0) {
+		$total = $set_total;
+		$arr_content = array();
+
+		for ($i=1; $i<=$total; $i++) {
+			$percent = intval($i/$total * 100);
+			$arr_content['percent'] = $percent;
+			$arr_content['message'] = $i . " row(s) processed.";
+			file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
+			//usleep(1000);
+		}
+	}
+
+	public function exportFastExcel(Request $request, $set_total=0) {
 		try {
+			$pts = parent::selectStatus('pt_status');
 			$fileName = self::setExportFileName();
 			if ($request->pt_status == 'all') {
-				$pts = parent::selectStatus('pt_status');
 				$result_status = array_keys($pts);
 			} else {
 				$result_status = array($request->pt_status);
@@ -142,14 +142,15 @@ class InvestController extends MasterController
 			$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
 			$globalCountry = GlobalCountry::all()->keyBy('country_id')->toArray();
 			$occupation = Occupation::all()->keyBy('id')->toArray();
+			$riskType = RiskType::all()->keyBy('id')->toArray();
 
 			/* create file */
-			(new FastExcel($this->dataGenerator($result_status, $start_date, $end_date)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation) {
+			(new FastExcel($this->dataGenerator($result_status, $start_date, $end_date)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation, $pts, $riskType) {
 				if (!empty($x->nation) || $x->nation != 0 || !is_null($x->nation)) {
 					if (array_key_exists($x->nation, $globalCountry)) {
 						$nation = $globalCountry[$x->nation]['country_name_th'];
 					} else {
-						$nation = 'NaN';
+						$nation = 'nt-err';
 					}
 				} else {
 					$nation = NULL;
@@ -160,18 +161,18 @@ class InvestController extends MasterController
 					if (array_key_exists($x->occupation, $occupation)) {
 						$occupation_name = $occupation[$x->occupation]['occu_name_th'];
 					} else {
-						$occupation_name = 'NaN';
+						$occupation_name = 'occu-err';
 					}
 				} else {
 					$occupation_name = NULL;
 				}
-				/* sick addr */
 
+				/* sick addr */
 				if (!empty($x->sick_province) || $x->sick_province != 0) {
 					if (array_key_exists($x->sick_province, $provinces)) {
 						$sick_prov_name = $provinces[$x->sick_province]['province_name'];
 					} else {
-						$sick_prov_name = 'NaN';
+						$sick_prov_name = 'spv-err';
 					}
 				} else {
 					$sick_prov_name = NULL;
@@ -181,7 +182,7 @@ class InvestController extends MasterController
 					if (count($sick_dist) > 0) {
 						$sick_dist_name = $sick_dist[0]['district_name'];
 					} else {
-						$sick_dist_name = 'NaN';
+						$sick_dist_name = 'sdt-err';
 					}
 				} else {
 					$sick_dist_name = NULL;
@@ -191,19 +192,18 @@ class InvestController extends MasterController
 					if (count($sick_sub_dist) > 0) {
 						$sick_sub_dist_name = $sick_sub_dist[0]['sub_district_name'];
 					} else {
-						$sick_sub_dist_name = 'NaN';
+						$sick_sub_dist_name = 'ssd-err';
 					}
 				} else {
 					$sick_sub_dist_name = NULL;
 				}
 
 				/* sick first addr */
-
 				if (!empty($x->sick_province_first) || $x->sick_province_first != 0) {
 					if (array_key_exists($x->sick_province_first, $provinces)) {
 						$sick_prov_first = $provinces[$x->sick_province_first]['province_name'];
 					} else {
-						$sick_prov_first = 'NaN';
+						$sick_prov_first = 'spf-err';
 					}
 				} else {
 					$sick_prov_first = NULL;
@@ -213,7 +213,7 @@ class InvestController extends MasterController
 					if (count($sick_dist_first) > 0) {
 						$sick_dist_first_name = $sick_dist_first[0]['district_name'];
 					} else {
-						$sick_dist_first_name = 'NaN';
+						$sick_dist_first_name = 'sdf-err';
 					}
 				} else {
 					$sick_dist_first_name = NULL;
@@ -223,19 +223,18 @@ class InvestController extends MasterController
 					if (count($sick_sub_dist_first) > 0) {
 						$sick_sub_dist_name_first = $sick_sub_dist_first[0]['sub_district_name'];
 					} else {
-						$sick_sub_dist_name_first = 'NaN';
+						$sick_sub_dist_name_first = 'ssdt-err';
 					}
 				} else {
 					$sick_sub_dist_name_first = NULL;
 				}
 
 				/* treat first addr */
-
 				if (!empty($x->treat_first_province) || $x->treat_first_province != 0) {
 					if (array_key_exists($x->treat_first_province, $provinces)) {
 						$treat_first_prov = $provinces[$x->treat_first_province]['province_name'];
 					} else {
-						$treat_first_prov = 'NaN';
+						$treat_first_prov = 'tfp-err';
 					}
 				} else {
 					$treat_first_prov = NULL;
@@ -245,7 +244,7 @@ class InvestController extends MasterController
 					if (count($treat_first_dist) > 0) {
 						$treat_first_dist_name = $treat_first_dist[0]['district_name'];
 					} else {
-						$treat_first_dist_name = 'NaN';
+						$treat_first_dist_name = 'tfd-err';
 					}
 				} else {
 					$treat_first_dist_name = NULL;
@@ -256,7 +255,7 @@ class InvestController extends MasterController
 					if (count($treat_first_sub_dist) > 0) {
 						$treat_first_sub_dist_name = $treat_first_sub_dist[0]['sub_district_name'];
 					} else {
-						$treat_first_sub_dist_name = 'NaN';
+						$treat_first_sub_dist_name = 'tfsd-err';
 					}
 				} else {
 					$treat_first_sub_dist_name = NULL;
@@ -267,7 +266,7 @@ class InvestController extends MasterController
 					if (count($treat_first_hosp) > 0) {
 						$treat_first_hosp_name = $treat_first_hosp[0]['hosp_name'];
 					} else {
-						$treat_first_hosp_name = 'NaN';
+						$treat_first_hosp_name = 'tfh-err';
 					}
 				} else {
 					$treat_first_hosp_name = NULL;
@@ -278,7 +277,7 @@ class InvestController extends MasterController
 					if (array_key_exists($x->treat_place_province, $provinces)) {
 						$treat_place_prov = $provinces[$x->treat_place_province]['province_name'];
 					} else {
-						$treat_place_prov = 'NaN';
+						$treat_place_prov = 'tpp-err';
 					}
 				} else {
 					$treat_place_prov = NULL;
@@ -288,7 +287,7 @@ class InvestController extends MasterController
 					if (count($treat_place_dist) > 0) {
 						$treat_place_dist_name = $treat_place_dist[0]['district_name'];
 					} else {
-						$treat_place_dist_name = 'NaN';
+						$treat_place_dist_name = 'tpd-err';
 					}
 				} else {
 					$treat_place_dist_name = NULL;
@@ -298,7 +297,7 @@ class InvestController extends MasterController
 					if (count($treat_place_sub_dist) > 0) {
 						$treat_place_sub_dist_name = $treat_place_sub_dist[0]['sub_district_name'];
 					} else {
-						$treat_place_sub_dist_name = 'NaN';
+						$treat_place_sub_dist_name = 'tpsd-err';
 					}
 				} else {
 					$treat_place_sub_dist_name = NULL;
@@ -308,7 +307,7 @@ class InvestController extends MasterController
 					if (count($treat_place_hosp)) {
 						$treat_place_hosp_name = $treat_place_hosp[0]['hosp_name'];
 					} else {
-						$treat_place_hosp_name = 'NaN';
+						$treat_place_hosp_name = 'tph-err';
 					}
 				} else {
 					$treat_place_hosp_name = NULL;
@@ -349,7 +348,7 @@ class InvestController extends MasterController
 					if (array_key_exists($x->risk_stay_outbreak_country, $globalCountry)) {
 						$risk_stay_outbreak_country = $globalCountry[$x->risk_stay_outbreak_country]['country_name_th'];
 					} else {
-						$risk_stay_outbreak_country = 'NaN';
+						$risk_stay_outbreak_country = 'rsuct-err';
 					}
 				} else {
 					$risk_stay_outbreak_country = NULL;
@@ -360,7 +359,7 @@ class InvestController extends MasterController
 					if (count($risk_city) > 0) {
 						$risk_city_name = $risk_city[0]['city_name'];
 					} else {
-						$risk_city_name = 'NaN';
+						$risk_city_name = 'rsoc-err';
 					}
 				} else {
 					$risk_city_name = NULL;
@@ -371,7 +370,7 @@ class InvestController extends MasterController
 					if (array_key_exists($x->risk_stay_outbreak_province, $provinces)) {
 						$risk_stay_outbreak_prov = $provinces[$x->risk_stay_outbreak_province]['province_name'];
 					} else {
-						$risk_stay_outbreak_prov = 'NaN';
+						$risk_stay_outbreak_prov = 'rsop-err';
 					}
 				} else {
 					$risk_stay_outbreak_prov = NULL;
@@ -381,7 +380,7 @@ class InvestController extends MasterController
 					if (count($risk_stay_outbreak_dist)) {
 						$risk_stay_outbreak_dist_name = $risk_stay_outbreak_dist[0]['district_name'];
 					} else {
-						$risk_stay_outbreak_dist_name = 'NaN';
+						$risk_stay_outbreak_dist_name = 'rsod-err';
 					}
 				} else {
 					$risk_stay_outbreak_dist_name = NULL;
@@ -391,10 +390,56 @@ class InvestController extends MasterController
 					if (count($risk_stay_outbreak_sub_dist) > 0) {
 						$risk_stay_outbreak_sub_dist_name = $risk_stay_outbreak_sub_dist[0]['sub_district_name'];
 					} else {
-						$risk_stay_outbreak_sub_dist_name = 'NaN';
+						$risk_stay_outbreak_sub_dist_name = 'rsosd-err';
 					}
 				} else {
 					$risk_stay_outbreak_sub_dist_name = NULL;
+				}
+
+				/* pt status */
+				if (!empty($x->pt_status) || $x->pt_status != 0 || !is_null($x->pt_status)) {
+					if (array_key_exists($x->pt_status, $pts)) {
+						$pt_status_name = $pts[$x->pt_status];
+					} else {
+						$pt_status_name = 'pts-err';
+					}
+				} else {
+					$pt_status_name = NULL;
+				}
+
+				/* risk type */
+				if (!empty($x->risk_type) || $x->risk_type != 0 || !is_null($x->risk_type)) {
+					if (array_key_exists($x->risk_type, $riskType)) {
+						$risk_type_name = $riskType[$x->risk_type]['risk_name'];
+					} else {
+						$risk_type_name = 'rt-rr';
+					}
+				} else {
+					$risk_type_name = NULL;
+				}
+
+				/* patient treat status */
+				$ptTreatStatus = parent::selectStatus('pt_treat_status');
+				if (!empty($x->patient_treat_status) || $x->patient_treat_status != 0 || !is_null($x->patient_treat_status)) {
+					if (array_key_exists($x->patient_treat_status, $ptTreatStatus)) {
+						if ($x->patient_treat_status == 4) {
+							$patient_treat_status_name = $ptTreatStatus[$x->patient_treat_status] . $x->patient_treat_status_refer;
+						} else {
+							$patient_treat_status_name = $ptTreatStatus[$x->patient_treat_status];
+						}
+					} else {
+						$patient_treat_status_name = 'ptst-err';
+					}
+				} else {
+					$patient_treat_status_name = NULL;
+				}
+
+				/* created at */
+				if (!empty($x->created_at) || !is_null($x->created_at)) {
+					$epd = explode(" ", $x->created_at);
+					$created_date_only = $epd[0];
+				} else {
+					$created_date_only = NULL;
 				}
 
 				return [
@@ -502,10 +547,10 @@ class InvestController extends MasterController
 					'วันที่ให้ยาโดสแรก' => $x->covid19_drug_medicate_first_date,
 					'ชนิดยารักษาโรคติดเชื้อไวรัสโคโรนา 2019' => $drug_concat_name,
 					'ยาอื่นๆ ระบุ' => $x->covid19_drug_medicate_name_other,
-					'สถานะผู้ป่วย' => $x->patient_treat_status,
+					'สถานะผู้ป่วย' => $patient_treat_status_name,
 					'สถานะอื่นๆ ระบุ' => $x->patient_treat_status_other,
 					'ประวัติเสี่ยง' => $x->risk_detail,
-					'ประเภทประวัติเสี่ยง' => $x->risk_type,
+					'ประเภทประวัติเสี่ยง' => $risk_type_name,
 					'ประเภทประวัติเสี่ยงอื่นๆ' => $x->risk_type_text,
 					'ช่วง 14 วันก่อนป่วย ท่านอาศัยอยู่ หรือ มีการเดินทางมาจากพื้นที่ที่มีการระบาด' => $x->risk_stay_outbreak_chk,
 					'ประเทศ' => $risk_stay_outbreak_country,
@@ -535,11 +580,10 @@ class InvestController extends MasterController
 					'อื่นๆ โปรดระบุ' => $x->risk_other,
 					'บันทึกช่วยจำ' => $x->invest_note,
 					'ไฟล์สอบสวนโรค' => $x->invest_file,
-					'วันที่สอบสวน' => $x->invest_date
+					'วันที่สอบสวน' => $x->invest_date,
+					'สถานะ' => $pt_status_name,
+					'วันที่บันทึก' => $created_date_only
 				];
-
-
-
 			});
 				$fileExists = Storage::disk('export')->exists($fileName);
 				if ($fileExists) {
@@ -687,6 +731,7 @@ class InvestController extends MasterController
 			'covid19_drug_medicate_name',
 			'covid19_drug_medicate_name_other',
 			'patient_treat_status',
+			'patient_treat_status_refer',
 			'patient_treat_status_other',
 			'risk_detail',
 			'risk_type',
@@ -719,18 +764,33 @@ class InvestController extends MasterController
 			'risk_other',
 			'invest_note',
 			'invest_file',
-			'invest_date'
+			'invest_date',
+			'pt_status',
+			'created_at'
 		);
 
 		switch ($user_role) {
 			case 'root':
+				$total = Invest::whereIn('pt_status', $pt_status)
+				->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+				->whereNull('deleted_at')->count();
+
+				$i = 1;
+
 				foreach (Invest::select($fields)
 					->whereIn('pt_status', $pt_status)
 					->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 					->whereNull('deleted_at')
 					->cursor() as $data) {
 						yield $data;
+						$arr_content = array();
+						$percent = intval($i/$total * 100);
+						$arr_content['percent'] = $percent;
+						$arr_content['message'] = $i . " row(s) processed.";
+						file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
+						$i++;
 					}
+					sleep(0);
 				break;
 			case 'ddc':
 				foreach (Invest::select($fields)
@@ -779,7 +839,6 @@ class InvestController extends MasterController
 		}
 	}
 
-
 	protected function getProvCodeByRegion($region=0) {
 		$prov_code = User::select('prov_code')
 			->where('region', '=', $region)
@@ -792,6 +851,7 @@ class InvestController extends MasterController
 
 	public function create(Request $request) {
 		try {
+
 			/* get default data */
 			$titleName = TitleName::all()->keyBy('id')->toArray();
 			$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
