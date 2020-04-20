@@ -771,26 +771,28 @@ class InvestController extends MasterController
 
 		switch ($user_role) {
 			case 'root':
-				$total = Invest::whereIn('pt_status', $pt_status)
+			/*	$total = Invest::whereIn('pt_status', $pt_status)
 				->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 				->whereNull('deleted_at')->count();
 
 				$i = 1;
-
+*/
 				foreach (Invest::select($fields)
 					->whereIn('pt_status', $pt_status)
 					->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 					->whereNull('deleted_at')
 					->cursor() as $data) {
 						yield $data;
+					/*
 						$arr_content = array();
 						$percent = intval($i/$total * 100);
 						$arr_content['percent'] = $percent;
 						$arr_content['message'] = $i . " row(s) processed.";
 						file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 						$i++;
+						*/
 					}
-					sleep(0);
+//					sleep(0);
 				break;
 			case 'ddc':
 				foreach (Invest::select($fields)
