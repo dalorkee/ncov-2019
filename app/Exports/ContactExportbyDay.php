@@ -17,6 +17,7 @@ use App\Occupation;
 use App\RiskType;
 use App\LabContactLists;
 use App\ContactList;
+use App\FollowContactLists;
 use Illuminate\Http\Request;
 use App\LaboratoryLists;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -39,24 +40,59 @@ class ContactExportbyDay  implements FromCollection, WithHeadings
       // dd($uid_prov_code);
       $arr_risk_contact = array('1'=>'เสี่ยงสูง','2'=>'เสี่ยงต่ำ','0'=>'',''=>'');
       $arr_type_contact = array(
-        '1'=>'บุคลากรทางการแพทย์',
-        '2'=>'ผู้สัมผัสร่วมบ้าน',
-        '3'=>'ผู้ร่วมเดินทาง',
-        '4'=>'พนักงานโรงแรม',
-        '5'=>'คนขับแท๊กซี่/ยานพาหนะ',
-        '6'=>'พนักงานสนามบิน',
-        '8'=>'บุคคลร่วมที่ทำงาน',
-        '9'=>'บุคคลร่วมโรงเรียน',
-        '10'=>'ผู้ป่วยในโรงพยาบาล',
-        '7'=>'อื่นๆ',
+        '10'=>'บุคคลในครอบครัวไม่ระบุประเภท',
+        '11'=>'บิดา/มารดา',
+        '13'=>'บุตร',
+        '14'=>'สามี/ภรรยา',
+        '16'=>'ญาติ',
+        '17'=>'เพื่อน',
+        '20'=>'บุคคลร่วมเดินทางไม่ระบุประเภท',
+        '21'=>'บุคคลร่วมกรุ๊ฟทัวร์',
+        '22'=>'บคคลร่วมโดยสารเครื่องบิน',
+        '23'=>'บุคคลร่วมTaxi/Grab',
+        '24'=>'บุคคลร่วมรถประจำทาง',
+        '25'=>'บุคคลร่วมรถตู้โดยสาร',
+        '26'=>'บุคคลร่วมรถส่วนตัว',
+        '31'=>'เจ้าหน้าที่สนามบิน/เจ้าหน้าที่เครื่องบิน',
+        '32'=>'เพื่อนร่วมทำงาน',
+        '33'=>'บุคคลร่วมโรงเรียน/สถานศึกษา',
+        '34'=>'บุคคลร่วมเรือนจำ',
+        '40'=>'บุคลากรทางการแพทย์ไม่ระบุประเภท',
+        '41'=>'แพทย์',
+        '42'=>'พยาบาล',
+        '43'=>'เจ้าหน้าที่ห้องปฏิบัติการ',
+        '45'=>'ผู้ป่วยร่วมบริเวณ',
+        '51'=>'บุคคลร่วมหอพัก',
+        '52'=>'บุคคลร่วมโรงแรม/คอนโด',
+        '54'=>'บุคคลที่พักอื่นๆ',
+        '55'=>'บุคคลร่วมชุมชน',
+        '56'=>'บุคคลร่วมพื้นที่กักกัน',
+        '61'=>'บุคคลร่วมสถานที่สาธารณะ เช่น ห้าง ตลาด',
+        '62'=>'บุคคลร่วมงานประชุม/สัมมนา',
+        '63'=>'บุคคลร่วมศาสนาพิธี',
+        '64'=>'บุคคลร่วมร้านอาหาร',
+        '65'=>'บุคคลร่วมกิจกรรมท่องเที่ยว',
+        '66'=>'บุคคลร่วมชม/แข่งขันกีฬา',
+        '99'=>'อื่นๆ',
         ''=>''
         );
       $arr_status_followup = array('1'=>'จบการติดตาม','2'=>'ยังต้องติดตาม',''=>'');
+      $arr_pt_status = array(
+        '1' => 'PUI (รอผลแลป)',
+				'2' => 'Confirmed (ผลแลปยืนยัน)',
+				'3' => 'Probable',
+				'4' => 'Suspected',
+				'5' => 'Excluded (ผลแลปเป็นลบ)',
+        '99' => 'อื่นๆ',
+        '' => 'อื่นๆ',
+                           );
       $arr_province = Provinces::all()->keyBy('province_id')->toArray();
       $arr_district = District::all()->keyBy('district_id')->toArray();
       $arr_sub_district = SubDistrict::all()->keyBy('sub_district_id')->toArray();
       $arr_national_contact = GlobalCountry::all()->keyBy('country_id')->toArray();
       $arr_laboratory_name = LaboratoryLists::all()->keyBy('id')->toArray();
+      $arr_pt_status_detail = FollowContactLists::all()->where('followup_times', '=','0')->keyBy('contact_id')->toArray();
+      // dd($arr_pt_status_detail);
       $arr_labstation_contact1 = LabContactLists::all()->where('no_lab', '=','1')->keyBy('contact_id')->toArray();
       $arr_labstation_contact2 = LabContactLists::all()->where('no_lab', '=','2')->keyBy('contact_id')->toArray();
       $contact_data_val= DB::table('patient_relation')
@@ -152,13 +188,18 @@ class ContactExportbyDay  implements FromCollection, WithHeadings
             $sub_district = '-';
           }
           if (!empty($value->contact_id) || $value->contact_id != null) {
-            $lab1_name = $arr_labstation_contact1[$value->contact_id]['dms_pcr_contact'] ;
+            if ($value->contact_id == 'Code_BIDI' || $value->contact_id == '' || $value->contact_id!=$arr_labstation_contact1) {
+              $lab1_name = "";
+            }
+            else {
+                $lab1_name = $arr_labstation_contact1[$value->contact_id]['dms_pcr_contact'] ;
+            }
           } else {
             $lab1_name = '-';
           }
           if (!empty($lab1_name) || $lab1_name != null ) {
-            if ($lab1_name == '-' ||$lab1_name == '46')  {
-              $lab1 = '';
+            if ($lab1_name == '-' ||$lab1_name == '46' || $lab1_name == "Code_BIDI")  {
+              $lab1 = '-';
             }else {
               $lab1 = $arr_laboratory_name[$lab1_name]['th_name'] ;
             }
@@ -166,14 +207,18 @@ class ContactExportbyDay  implements FromCollection, WithHeadings
             $lab1= '-';
           }
             // dd($lab1);
-          if (!empty($value->contact_id) || $value->contact_id != null) {
-            $lab2_name = $arr_labstation_contact2[$value->contact_id]['dms_pcr_contact'] ;
+          if (!empty($value->contact_id) || $value->contact_id != null || $value->contact_id != "Code_BIDI") {
+            if ($value->contact_id == 'Code_BIDI' || $value->contact_id!=$arr_labstation_contact2) {
+              $lab2_name = "";
+            }else {
+                  $lab2_name = $arr_labstation_contact2[$value->contact_id]['dms_pcr_contact'] ;
+            }
           } else {
             $lab2_name = '-';
           }
           if (!empty($lab2_name) || $lab2_name != null ) {
-            if ($lab2_name == '-' ||$lab2_name == '46')  {
-              $lab2= '';
+            if ($lab2_name == '-' ||$lab2_name == '46' || $lab2_name == "Code_BIDI" || $lab2_name == "")  {
+              $lab2= '-';
             }else {
                 $lab2 = $arr_laboratory_name[$lab2_name]['th_name'] ;
             }
@@ -182,12 +227,20 @@ class ContactExportbyDay  implements FromCollection, WithHeadings
             $lab2= '-';
           }
           if (!empty($value->contact_id) || $value->contact_id != null) {
-            $labresult1 = $arr_labstation_contact1[$value->contact_id]['other_pcr_result_contact'] ;
+            if ($value->contact_id == 'Code_BIDI' || $value->contact_id == '' || $value->contact_id!=$arr_labstation_contact1) {
+              $labresult1 = "-";
+            }else{
+                $labresult1 = $arr_labstation_contact1[$value->contact_id]['other_pcr_result_contact'] ;
+            }
           } else {
             $labresult1 = '-';
           }
           if (!empty($value->contact_id) || $value->contact_id != null) {
-            $labresult2 = $arr_labstation_contact2[$value->contact_id]['other_pcr_result_contact'] ;
+            if ($value->contact_id == 'Code_BIDI' || $value->contact_id!=$arr_labstation_contact2) {
+              $labresult2 = "-";
+            }else {
+                $labresult2 = $arr_labstation_contact2[$value->contact_id]['other_pcr_result_contact'] ;
+            }
           } else {
             $labresult2 = '-';
           }
@@ -206,6 +259,16 @@ class ContactExportbyDay  implements FromCollection, WithHeadings
           } else {
             $status_followup = '-';
           }
+          // if (!empty($value->contact_id) || $value->contact_id != null) {
+          //       // $arr_pt_status_detail = $value->contact_id ;
+          //       if ($value->contact_id == 'Code_BIDI' || $value->contact_id == '' || $value->contact_id != $arr_pt_status_detail) {
+          //         $pt_status_detail = "-";
+          //       }else{
+          //           $pt_status_detail = $arr_pt_status_detail[$value->contact_id]['pt_status'] ;
+          //       }
+          // } else {
+          //   $pt_status_detail= '-';
+          // }
           $arr = array(
             'sat_id' => $value->sat_id,
             'contact_id' => $value->contact_id,
@@ -229,7 +292,7 @@ class ContactExportbyDay  implements FromCollection, WithHeadings
             'datecontact' => $value->datecontact,
             'type_contact' => $type_contact,
             'status_followup' => $status_followup,
-            'pt_status'=> $value->pt_status,
+            // 'pt_status'=> $pt_status_detail,
             'lab1' =>  $lab1,
             'labresult1'=> $labresult1,
             'lab2' => $lab2,
@@ -261,7 +324,7 @@ class ContactExportbyDay  implements FromCollection, WithHeadings
                 'การสัมผัส',
                 'ระดับความเสี่ยง',
                 'วันที่สัมผัส',
-                'ประเภทผู้สัมผัส',
+                // 'ประเภทผู้สัมผัส',
                 'สถานะการติดตาม',
                 'สถานะผู้ป่วย',
                 'สถานที่ส่งตรวจตัวอย่าง1',
