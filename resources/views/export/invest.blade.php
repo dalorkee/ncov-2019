@@ -77,8 +77,8 @@
 			</form>
 			<div class="form-row">
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-					<!--<div id="progress"></div>
-					<div id="message"></div> -->
+					<div id="progress"></div>
+					<div id="message"></div>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="loader fa-2x" style="display:none;font-size:1.675em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอ...</div>
@@ -96,7 +96,7 @@
 <script type="text/javascript" src="{{ URL::asset('assets/libs/date-range-picker/moment-2.18.1.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('assets/libs/date-range-picker/daterangepicker.min.js') }}"></script>
 <script>
-/*
+
 var timer;
 function refreshProgress() {
 	$.ajax({
@@ -108,11 +108,11 @@ function refreshProgress() {
 			$("#message").html(data.message);
 			if (data.percent == 100) {
 				window.clearInterval(timer);
-				timer = window.setInterval(completed(data.message), 100);
+				timer = window.setInterval(completed(data.message), 1000);
 			}
 		},
 		error: function(xhr) {
-			alert(xhr.status + xhr.errorMessage);
+			alert(xhr.status + xhr.errorMessage + ' jet');
 			window.clearInterval(timer);
 		}
 	});
@@ -121,10 +121,9 @@ function completed(rows) {
 	$("#message").html("Completed " + rows);
 	window.clearInterval(timer);
 }
-*/
 
 $(document).ready(function() {
-	//$('#progress').hide();
+	$('#progress').hide();
 	$('.dl-section').hide();
 	$.ajaxSetup({
 		headers: {
@@ -134,8 +133,8 @@ $(document).ready(function() {
 	$('#export_btn').click(function(e) {
 		try {
 			e.preventDefault();
-			//timer = window.setInterval(refreshProgress, 1000);
-			//$('#progress').show();
+			timer = window.setInterval(refreshProgress, 1000);
+			$('#progress').show();
 			$('.loader').show();
 			var date_range = $('#export_date').val();
 			var pt_status = $('#pt_status').val();
@@ -151,10 +150,11 @@ $(document).ready(function() {
 				},
 				error: function(xhr) {
 					alert(xhr.errorMessage + xhr.status);
+					window.clearInterval(timer);
 				}
 			});
 		} catch(err) {
-			err.message;
+			alert(err.message);
 			window.clearInterval(timer);
 		}
 	});

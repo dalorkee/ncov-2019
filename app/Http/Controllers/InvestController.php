@@ -771,40 +771,55 @@ class InvestController extends MasterController
 
 		switch ($user_role) {
 			case 'root':
-			/*	$total = Invest::whereIn('pt_status', $pt_status)
-				->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
-				->whereNull('deleted_at')->count();
-
+				$total = Invest::whereIn('pt_status', $pt_status)
+					->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+					->whereNull('deleted_at')->count();
 				$i = 1;
-*/
 				foreach (Invest::select($fields)
 					->whereIn('pt_status', $pt_status)
 					->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 					->whereNull('deleted_at')
 					->cursor() as $data) {
 						yield $data;
-					/*
 						$arr_content = array();
 						$percent = intval($i/$total * 100);
 						$arr_content['percent'] = $percent;
 						$arr_content['message'] = $i . " row(s) processed.";
 						file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 						$i++;
-						*/
-					}
-//					sleep(0);
+				}
+				sleep(1);
 				break;
 			case 'ddc':
+				$total = Invest::whereIn('pt_status', $pt_status)
+					->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+					->whereNull('deleted_at')->count();
+				$i = 1;
 				foreach (Invest::select($fields)
 					->whereIn('pt_status', $pt_status)
 					->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 					->whereNull('deleted_at')
 					->cursor() as $data) {
 						yield $data;
-					}
+						$arr_content = array();
+						$percent = intval($i/$total * 100);
+						$arr_content['percent'] = $percent;
+						$arr_content['message'] = $i . " row(s) processed.";
+						file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
+						$i++;
+				}
+				sleep(1);
 				break;
 			case 'dpc':
 				$prov_arr = $this->getProvCodeByRegion($user_region);
+				$total = Invest::whereIn('pt_status', $pt_status)
+					->whereIn('isolated_province', $prov_arr)
+					->whereIn('walkinplace_hosp_province', $prov_arr)
+					->whereIn('sick_province', $prov_arr)
+					->whereIn('sick_province_first', $prov_arr)
+					->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+					->whereNull('deleted_at')->count();
+				$i = 1;
 				foreach (Invest::select($fields)
 					->whereIn('pt_status', $pt_status)
 					->whereIn('isolated_province', $prov_arr)
@@ -815,25 +830,56 @@ class InvestController extends MasterController
 					->whereNull('deleted_at')
 					->cursor() as $data) {
 						yield $data;
-					}
+						$arr_content = array();
+						$percent = intval($i/$total * 100);
+						$arr_content['percent'] = $percent;
+						$arr_content['message'] = $i . " row(s) processed.";
+						file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
+						$i++;
+				}
+				sleep(1);
 				break;
 			case 'pho':
-				foreach (Invest::select($fields)
-					->whereIn('pt_status', $pt_status)
+				$total = Invest::whereIn('pt_status', $pt_status)
 					->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
-					->whereNull('deleted_at')
-					->cursor() as $data) {
-						yield $data;
+					->whereNull('deleted_at')->count();
+				if ($toatl > 0) {
+					$i = 1;
+					foreach (Invest::select($fields)
+						->whereIn('pt_status', $pt_status)
+						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+						->whereNull('deleted_at')
+						->cursor() as $data) {
+							yield $data;
+							$arr_content = array();
+							$percent = intval($i/$total * 100);
+							$arr_content['percent'] = $percent;
+							$arr_content['message'] = $i . " row(s) processed.";
+							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
+							$i++;
 					}
+					sleep(1);
+				}
 				break;
 			case 'hos':
+			$total = Invest::whereIn('pt_status', $pt_status)
+					->whereRaw("(isolated_hosp_code = '".$user_hosp."' OR walkinplace_hosp_code = '".$user_hosp."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+					->whereNull('deleted_at')->count();
+				$i = 1;
 				foreach (Invest::select($fields)
 					->whereIn("pt_status", $pt_status)
 					->whereRaw("(isolated_hosp_code = '".$user_hosp."' OR walkinplace_hosp_code = '".$user_hosp."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 					->whereNull('deleted_at')
 					->cursor() as $data) {
 						yield $data;
-					}
+						$arr_content = array();
+						$percent = intval($i/$total * 100);
+						$arr_content['percent'] = $percent;
+						$arr_content['message'] = $i . " row(s) processed.";
+						file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
+						$i++;
+				}
+				sleep(1);
 				break;
 			default:
 				return redirect()->route('logout');

@@ -58,7 +58,6 @@ Route::get('/followuptablescon/typid/{typid}/id/{id}', 'ContactController@follow
 Route::get('/puifollowtable', 'ContactController@puifollowtable')->name('puifollowtable');
 Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
 
-
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
 Route::get('/allcontacttable', 'ContactController@allcontacttable')->name('allcontacttable');
 Route::get('/editcontact/pui_id/{pui_id}/contact_rid/{contact_rid}', 'ContactController@editcontact')->name('editcontact');
