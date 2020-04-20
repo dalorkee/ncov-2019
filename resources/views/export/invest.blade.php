@@ -113,6 +113,7 @@ function refreshProgress() {
 		},
 		error: function(xhr) {
 			alert(xhr.status + xhr.errorMessage);
+			window.clearInterval(timer);
 		}
 	});
 }
@@ -129,10 +130,6 @@ $(document).ready(function() {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
-
-//	$.ajax({url: "{ route('process') }"});
-//	timer = window.setInterval(refreshProgress, 1000);
-
 	$('#export_btn').click(function(e) {
 		try {
 			e.preventDefault();
@@ -157,6 +154,7 @@ $(document).ready(function() {
 			});
 		} catch(err) {
 			err.message;
+			window.clearInterval(timer);
 		}
 	});
 
