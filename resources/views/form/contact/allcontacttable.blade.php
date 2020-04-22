@@ -225,7 +225,7 @@ input.valid, textarea.valid{
 							<div class="form-group">
 								<label for="news">สถานะผู้ป่วย</label>
 								@if ($value->pt_status == "2")
-									<input type="hidden" name="pt_status" value="{{ (isset($arr_pts[$value->pt_status])) ? $arr_pts[$value->pt_status] : "Contact" }}" readonly><p>{{ (isset($arr_pts[$value->pt_status])) ? $arr_pts[$value->pt_status] : "Contact" }}</p>
+									<input type="hidden" name="pt_status" value="{{ $value->pt_status }}" readonly><p>{{ (isset($arr_pts[$value->pt_status])) ? $arr_pts[$value->pt_status] : "Contact" }}</p>
 								@else
 								<select name="pt_status" class="form-control selectpicker show-tick" data-style="btn-info" id="pt_status{{ $value->contact_id }}">
 									<option value="{{ (!empty($value->pt_status)) ? $value->pt_status : "99"  }}" selected="selected">{{ (isset($arr_pts[$value->pt_status])) ? $arr_pts[$value->pt_status] : "Contact" }}</option>
@@ -249,7 +249,7 @@ input.valid, textarea.valid{
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					@if ($value->pt_status == "2")
-
+<input type="submit" class="btn btn-primary" value="Save changes">
 					@else
 						<input type="submit" class="btn btn-primary" value="Save changes">
 					@endif

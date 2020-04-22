@@ -319,7 +319,8 @@ class SatExport  implements FromCollection, WithHeadings
                                         $value->walkinplace_hosp_code == '00800'||
                                         $value->walkinplace_hosp_code == '00830'||
                                         $value->walkinplace_hosp_code == '04007'||
-                                        $value->walkinplace_hosp_code == '14189')  {
+                                        $value->walkinplace_hosp_code == '14189'||
+                                        $value->walkinplace_hosp_code == '13783')  {
                       $walkinplace_hosp_code= '-';
                     }else {
                       $walkinplace_hosp_code = $arr_hospital[$value->walkinplace_hosp_code]['hosp_name'];
@@ -360,7 +361,8 @@ class SatExport  implements FromCollection, WithHeadings
                                         $value->isolated_hosp_code == '00800'||
                                         $value->isolated_hosp_code == '00830'||
                                         $value->isolated_hosp_code == '04007'||
-                                        $value->isolated_hosp_code == '14189')  {
+                                        $value->isolated_hosp_code == '14189'||
+                                      $value->isolated_hosp_code == '13783')  {
                       $isolated_hosp_code = '-';
                     }else {
                       $isolated_hosp_code = $arr_hospital[$value->isolated_hosp_code]['hosp_name'];
@@ -462,7 +464,8 @@ class SatExport  implements FromCollection, WithHeadings
                                         $value->walkinplace_hosp_code == '00800'||
                                         $value->walkinplace_hosp_code == '00830'||
                                         $value->walkinplace_hosp_code == '04007'||
-                                        $value->walkinplace_hosp_code == '14189')  {
+                                        $value->walkinplace_hosp_code == '14189'||
+                                      $value->walkinplace_hosp_code == '13783')  {
                       $walkinplace_hosp_code_group = '';
                     }else {
                       $walkinplace_hosp_code_group = $arr_hospital[$value->walkinplace_hosp_code]['hosp_type_code'] ;
@@ -489,7 +492,8 @@ class SatExport  implements FromCollection, WithHeadings
                                         $value->isolated_hosp_code == '00800'||
                                         $value->isolated_hosp_code == '00830'||
                                         $value->isolated_hosp_code == '04007'||
-                                        $value->isolated_hosp_code == '14189')  {
+                                        $value->isolated_hosp_code == '14189'||
+                                      $value->isolated_hosp_code == '13783')  {
                       $isolated_hosp_code_group = '';
                     }else {
                       $isolated_hosp_code_group = $arr_hospital[$value->isolated_hosp_code]['hosp_type_code'] ;

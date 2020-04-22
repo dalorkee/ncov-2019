@@ -31,7 +31,7 @@ Route::get('/sat-delete/{id}', array('as' => 'screenpui.satdel', 'uses' => 'Scre
 // 	return view('hospital.screenhos');
 // });
 /* state quarantine */
-Route::get('/List-State-Quarantine', array('as' => 'list.state_quarantine', 'uses' => 'StateQuarantineController@index'));
+// Route::get('/List-State-Quarantine', array('as' => 'list.state_quarantine', 'uses' => 'StateQuarantineController@index'));
 
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
