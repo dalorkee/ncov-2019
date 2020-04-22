@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -199,17 +200,17 @@ class InvestController extends MasterController
 				/* TODO:verify all data to Export */
 				$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
 				$globalCountry = GlobalCountry::all()->keyBy('country_id')->toArray();
-				$occupation = Occupation::all()->keyBy('id')->toArray();
+				$occupation_arr = Occupation::all()->keyBy('id')->toArray();
 				$riskType = RiskType::all()->keyBy('id')->toArray();
 
 				/* create file */
-				(new FastExcel($this->dataGenerator($pt_status, $start_date, $end_date, $total)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation, $pts, $riskType) {
+				(new FastExcel($this->dataGenerator($pt_status, $start_date, $end_date, $total)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation_arr, $pts, $riskType) {
 					if (!empty($x->nation) || $x->nation != 0 || !is_null($x->nation)) {
 						if (array_key_exists($x->nation, $globalCountry)) {
 							$nation = $globalCountry[$x->nation]['country_name_th'];
 						} else {
 							$nation = 'err';
-							Log::error('Export: Nations not exists');
+							//Log::error('Export: Nations not exists');
 						}
 					} else {
 						$nation = NULL;
@@ -217,11 +218,11 @@ class InvestController extends MasterController
 
 					/* occupation */
 					if (!empty($x->occupation) || $x->occupation != 0 || !is_null($x->occupation)) {
-						if (array_key_exists($x->occupation, $occupation)) {
-							$occupation_name = $occupation[$x->occupation]['occu_name_th'];
+						if (array_key_exists($x->occupation, $occupation_arr)) {
+							$occupation_name = $occupation_arr[$x->occupation]['occu_name_th'];
 						} else {
 							$occupation_name = 'err';
-							Log::error('Export: Occupation not exists');
+							//Log::error('Export: Occupation not exists');
 						}
 					} else {
 						$occupation_name = NULL;
@@ -233,7 +234,7 @@ class InvestController extends MasterController
 							$sick_prov_name = $provinces[$x->sick_province]['province_name'];
 						} else {
 							$sick_prov_name = 'err';
-							Log::error('Export: Sick province not exists');
+							//Log::error('Export: Sick province not exists');
 						}
 					} else {
 						$sick_prov_name = NULL;
@@ -246,7 +247,7 @@ class InvestController extends MasterController
 							$sick_dist_name = $sick_dist[0]['district_name'];
 						} else {
 							$sick_dist_name = 'err';
-							Log::error('Export: Sick district not exists');
+							//Log::error('Export: Sick district not exists');
 						}
 					} else {
 						$sick_dist_name = NULL;
@@ -259,7 +260,7 @@ class InvestController extends MasterController
 							$sick_sub_dist_name = $sick_sub_dist[0]['sub_district_name'];
 						} else {
 							$sick_sub_dist_name = 'err';
-							Log::error('Export: Sick sub district not exists');
+							//Log::error('Export: Sick sub district not exists');
 						}
 					} else {
 						$sick_sub_dist_name = NULL;
@@ -271,7 +272,7 @@ class InvestController extends MasterController
 							$sick_prov_first = $provinces[$x->sick_province_first]['province_name'];
 						} else {
 							$sick_prov_first = 'err';
-							Log::error('Export: Sick province first not exists');
+							//Log::error('Export: Sick province first not exists');
 						}
 					} else {
 						$sick_prov_first = NULL;
@@ -284,7 +285,7 @@ class InvestController extends MasterController
 							$sick_dist_first_name = $sick_dist_first[0]['district_name'];
 						} else {
 							$sick_dist_first_name = 'err';
-							Log::error('Export: Sick district first not exists');
+							//Log::error('Export: Sick district first not exists');
 						}
 					} else {
 						$sick_dist_first_name = NULL;
@@ -297,7 +298,7 @@ class InvestController extends MasterController
 							$sick_sub_dist_name_first = $sick_sub_dist_first[0]['sub_district_name'];
 						} else {
 							$sick_sub_dist_name_first = 'err';
-							Log::error('Export: Sick sub district first not exists');
+							//Log::error('Export: Sick sub district first not exists');
 						}
 					} else {
 						$sick_sub_dist_name_first = NULL;
@@ -309,7 +310,7 @@ class InvestController extends MasterController
 							$treat_first_prov = $provinces[$x->treat_first_province]['province_name'];
 						} else {
 							$treat_first_prov = 'err';
-							Log::error('Export: Treat first province not exists');
+							//Log::error('Export: Treat first province not exists');
 						}
 					} else {
 						$treat_first_prov = NULL;
@@ -322,7 +323,7 @@ class InvestController extends MasterController
 							$treat_first_dist_name = $treat_first_dist[0]['district_name'];
 						} else {
 							$treat_first_dist_name = 'err';
-							Log::error('Export: Treat first district not exists');
+							//Log::error('Export: Treat first district not exists');
 						}
 					} else {
 						$treat_first_dist_name = NULL;
@@ -335,7 +336,7 @@ class InvestController extends MasterController
 							$treat_first_sub_dist_name = $treat_first_sub_dist[0]['sub_district_name'];
 						} else {
 							$treat_first_sub_dist_name = 'err';
-							Log::error('Export: Treat first sub district not exists');
+							//Log::error('Export: Treat first sub district not exists');
 						}
 					} else {
 						$treat_first_sub_dist_name = NULL;
@@ -348,7 +349,7 @@ class InvestController extends MasterController
 							$treat_first_hosp_name = $treat_first_hosp[0]['hosp_name'];
 						} else {
 							$treat_first_hosp_name = 'err';
-							Log::error('Export: Treat first hospital not exists');
+							//Log::error('Export: Treat first hospital not exists');
 						}
 					} else {
 						$treat_first_hosp_name = NULL;
@@ -360,7 +361,7 @@ class InvestController extends MasterController
 							$treat_place_prov = $provinces[$x->treat_place_province]['province_name'];
 						} else {
 							$treat_place_prov = 'err';
-							Log::error('Export: Treat place province not exists');
+							//Log::error('Export: Treat place province not exists');
 						}
 					} else {
 						$treat_place_prov = NULL;
@@ -373,7 +374,7 @@ class InvestController extends MasterController
 							$treat_place_dist_name = $treat_place_dist[0]['district_name'];
 						} else {
 							$treat_place_dist_name = 'err';
-							Log::error('Export: Treat place district not exists');
+							//Log::error('Export: Treat place district not exists');
 						}
 					} else {
 						$treat_place_dist_name = NULL;
@@ -386,7 +387,7 @@ class InvestController extends MasterController
 							$treat_place_sub_dist_name = $treat_place_sub_dist[0]['sub_district_name'];
 						} else {
 							$treat_place_sub_dist_name = 'err';
-							Log::error('Export: Treat place sub district not exists');
+							//Log::error('Export: Treat place sub district not exists');
 						}
 					} else {
 						$treat_place_sub_dist_name = NULL;
@@ -399,7 +400,7 @@ class InvestController extends MasterController
 							$treat_place_hosp_name = $treat_place_hosp[0]['hosp_name'];
 						} else {
 							$treat_place_hosp_name = 'err';
-							Log::error('Export: Treat place hospital not exists');
+							//Log::error('Export: Treat place hospital not exists');
 						}
 					} else {
 						$treat_place_hosp_name = NULL;
@@ -443,7 +444,7 @@ class InvestController extends MasterController
 							$risk_stay_outbreak_country = $globalCountry[$x->risk_stay_outbreak_country]['country_name_th'];
 						} else {
 							$risk_stay_outbreak_country = 'err';
-							Log::error('Export: Risk stay outbreak country not exists');
+							//Log::error('Export: Risk stay outbreak country not exists');
 						}
 					} else {
 						$risk_stay_outbreak_country = NULL;
@@ -456,7 +457,7 @@ class InvestController extends MasterController
 							$risk_city_name = $risk_city[0]['city_name'];
 						} else {
 							$risk_city_name = 'err';
-							Log::error('Export: Risk stay outbreak city not exists');
+							//Log::error('Export: Risk stay outbreak city not exists');
 						}
 					} else {
 						$risk_city_name = NULL;
@@ -468,7 +469,7 @@ class InvestController extends MasterController
 							$risk_stay_outbreak_prov = $provinces[$x->risk_stay_outbreak_province]['province_name'];
 						} else {
 							$risk_stay_outbreak_prov = 'err';
-							Log::error('Export: Risk stay outbreak province not exists');
+							//Log::error('Export: Risk stay outbreak province not exists');
 						}
 					} else {
 						$risk_stay_outbreak_prov = NULL;
@@ -481,7 +482,7 @@ class InvestController extends MasterController
 							$risk_stay_outbreak_dist_name = $risk_stay_outbreak_dist[0]['district_name'];
 						} else {
 							$risk_stay_outbreak_dist_name = 'err';
-							Log::error('Export: Risk stay outbreak district not exists');
+							//Log::error('Export: Risk stay outbreak district not exists');
 						}
 					} else {
 						$risk_stay_outbreak_dist_name = NULL;
@@ -494,7 +495,7 @@ class InvestController extends MasterController
 							$risk_stay_outbreak_sub_dist_name = $risk_stay_outbreak_sub_dist[0]['sub_district_name'];
 						} else {
 							$risk_stay_outbreak_sub_dist_name = 'err';
-							Log::error('Export: Risk stay outbreak sub district not exists');
+							//Log::error('Export: Risk stay outbreak sub district not exists');
 						}
 					} else {
 						$risk_stay_outbreak_sub_dist_name = NULL;
@@ -506,7 +507,7 @@ class InvestController extends MasterController
 							$pt_status_name = $pts[$x->pt_status];
 						} else {
 							$pt_status_name = 'err';
-							Log::error('Export: Patient status not exists');
+							//Log::error('Export: Patient status not exists');
 						}
 					} else {
 						$pt_status_name = NULL;
@@ -518,7 +519,7 @@ class InvestController extends MasterController
 							$risk_type_name = $riskType[$x->risk_type]['risk_name'];
 						} else {
 							$risk_type_name = 'err';
-							Log::error('Export: Risk type not exists');
+							//Log::error('Export: Risk type not exists');
 						}
 					} else {
 						$risk_type_name = NULL;
@@ -535,7 +536,7 @@ class InvestController extends MasterController
 							}
 						} else {
 							$patient_treat_status_name = 'err';
-							Log::error('Export: Patient treat name not exists');
+							//Log::error('Export: Patient treat name not exists');
 						}
 					} else {
 						$patient_treat_status_name = NULL;
@@ -556,7 +557,7 @@ class InvestController extends MasterController
 							$walkin_place_hosp_name = $walkin_place_hosp[0]['hosp_name'];
 						} else {
 							$walkin_place_hosp_name = 'err';
-							Log::error('Export: Walk in place hospital not exists');
+							//Log::error('Export: Walk in place hospital not exists');
 						}
 					} else {
 						$walkin_place_hosp_name = NULL;
@@ -572,7 +573,7 @@ class InvestController extends MasterController
 							$walkinplace_hosp_province_name = $provinces[$x->walkinplace_hosp_province]['province_name'];
 						} else {
 							$walkinplace_hosp_province_name = 'err';
-							Log::error('Export: Walkin place hospital province not exists');
+							//Log::error('Export: Walkin place hospital province not exists');
 						}
 					} else {
 						$walkinplace_hosp_province_name = NULL;
@@ -584,7 +585,7 @@ class InvestController extends MasterController
 							$isolated_province_name = $provinces[$x->isolated_province]['province_name'];
 						} else {
 							$isolated_province_name = 'err';
-							Log::error('Export: Isolate province not exists');
+							//Log::error('Export: Isolate province not exists');
 						}
 					} else {
 						$isolated_province_name = NULL;
@@ -597,7 +598,7 @@ class InvestController extends MasterController
 							$isolated_hosp_name = $isolatedHospCode[0]['hosp_name'];
 						} else {
 							$isolated_hosp_name = 'err';
-							Log::error('Export: Isolate hospital not exists');
+							//Log::error('Export: Isolate hospital not exists');
 						}
 					} else {
 						$isolated_hosp_name = NULL;
@@ -609,7 +610,7 @@ class InvestController extends MasterController
 							$travel_from_country_name = $globalCountry[$x->travel_from_country]['country_name_th'];
 						} else {
 							$travel_from_country_name = 'err';
-							Log::error('Export: Treat from country not exists');
+							//Log::error('Export: Treat from country not exists');
 						}
 					} else {
 						$travel_from_country_name = NULL;
@@ -622,7 +623,7 @@ class InvestController extends MasterController
 							$travel_from_city_name = $travelFromCity[0]['city_name'];
 						} else {
 							$travel_from_city_name = 'err';
-							Log::error('Export: Treat from city not exists');
+							//Log::error('Export: Treat from city not exists');
 						}
 					} else {
 						$travel_from_city_name = NULL;
@@ -635,7 +636,7 @@ class InvestController extends MasterController
 							$pui_type_name = $pui_type_arr[$x->pui_type];
 						} else {
 							$pui_type_name = 'err';
-							Log::error('Export: PUI type not exists');
+							//Log::error('Export: PUI type not exists');
 						}
 					} else {
 						$pui_type_name = NULL;
@@ -648,7 +649,7 @@ class InvestController extends MasterController
 							$news_st_name = $news_st_arr[$x->news_st];
 						} else {
 							$news_st_name = 'err';
-							Log::error('Export: Nesw status not exists');
+							//Log::error('Export: Nesw status not exists');
 						}
 					} else {
 						$news_st_name = NULL;
@@ -661,7 +662,7 @@ class InvestController extends MasterController
 							$disch_st_name = $disch_st_arr[$x->disch_st];
 						} else {
 							$disch_st_name = 'err';
-							Log::error('Export: Dischart status not exists');
+							//Log::error('Export: Dischart status not exists');
 						}
 					} else {
 						$disch_st_name = NULL;
@@ -1131,17 +1132,6 @@ class InvestController extends MasterController
 		}
 	}
 
-/*
-	protected function getProvCodeByRegion($region=0) {
-		$prov_code = User::select('prov_code')
-			->where('region', '=', $region)
-			->groupBy('prov_code')
-			->get()
-			->keyBy('prov_code');
-		$prov_code_list = $prov_code->keys()->all();
-		return $prov_code_list;
-	}
-*/
 	public function create(Request $request) {
 		try {
 			/* get default data */
@@ -1315,6 +1305,14 @@ class InvestController extends MasterController
 
 	public function store(Request $request) {
 		try {
+			/* validate */
+/*
+			$validatedData = $request->validate([
+				'idcard' => 'required|max:13:min:10',
+				'passport' => 'max:20'
+			]);
+*/
+			/* store data */
 			$pt = Invest::find($request->id);
 			$pt->card_id = $request->idcardInput;
 			$pt->passport = $request->passportInput;

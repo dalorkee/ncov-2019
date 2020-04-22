@@ -22,6 +22,9 @@
 	button {
 		cursor: pointer;
 	}
+	.has-error input[type="text"], .has-error input[type="email"], .has-error select {
+		border: 1px solid #a94442;
+	}
 </style>
 @endsection
 @section('meta-token')
@@ -55,7 +58,7 @@
 							<h5 class="card-subtitle">COVID-19 Version 1.10</h5>
 						</div>
 					</div>
-					<form action="{{ route('store') }}" method="POST" enctype="multipart/form-data" class="form-horizontal" novalidate>
+					<form action="{{ route('store') }}" method="POST" enctype="multipart/form-data" class="form-horizontal" role="form" data-toggle="validator" novalidate="true">
 						{{ csrf_field() }}
 						{{ method_field('POST') }}
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
