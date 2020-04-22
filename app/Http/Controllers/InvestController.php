@@ -1482,9 +1482,10 @@ class InvestController extends MasterController
 				Storage::disk('invest')->put($inv_file_name, File::get(Input::file('invest_file')));
 			}
 
+			/* save activity */
 			for ($i=1; $i<=10; $i++) {
 				$activityDate = $request->input('activityDate'.$i);
-				if (!empty($activityDate) || $activityDate != NULL) {
+				if (!empty($activityDate) || !is_null($activityDate)) {
 					$p2['ref_patient_id'] = $request->id;
 					$p2['day'] = $request->input('acc_day'.$i);
 					$p2['date_activity'] = $this->convertDateToMySQL($activityDate);
@@ -1492,7 +1493,8 @@ class InvestController extends MasterController
 					$p2['place'] = $request->input('activityPlace'.$i);
 					$p2['personal_amount'] = $request->input('activityAmount'.$i);
 					$p2['personal_name'] = $request->input('activityName'.$i);
-					$p1['id'] = $request->input('idx'.$i);
+					$p1['day'] = $request->input('acc_day'.$i);
+					$p1['ref_patient_id'] = $request->id;
 					$act_saved = PatientActivity::updateOrCreate($p1, $p2);
 				} else {
 					continue;
