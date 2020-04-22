@@ -148,6 +148,7 @@ class InvestController extends MasterController
 
 			/* check data on db have or not */
 			$user_role = Session::get('user_role');
+			$user = auth()->user()->id;
 			$user_hosp = auth()->user()->hospcode;
 			$user_prov = auth()->user()->prov_code;
 			$user_region = auth()->user()->region;
@@ -166,7 +167,7 @@ class InvestController extends MasterController
 						->whereNull('deleted_at')->count();
 					break;
 				case 'dpc':
-					$prov_arr = $this->getProvCodeByRegion($user_region);
+					$prov_arr = parent::getProvCodeByRegion($user_region);
 					$total = Invest::whereIn('pt_status', $pt_status)
 						->whereIn('isolated_province', $prov_arr)
 						->whereIn('walkinplace_hosp_province', $prov_arr)
@@ -189,8 +190,6 @@ class InvestController extends MasterController
 					return redirect()->route('logout');
 					break;
 			}
-
-
 
 			if ($total > 0) {
 				/* TODO:verify all data to Export */
@@ -218,7 +217,7 @@ class InvestController extends MasterController
 							$occupation_name = $occupation[$x->occupation]['occu_name_th'];
 						} else {
 							$occupation_name = 'err';
-							Log::error('Export: Nations not exists');
+							Log::error('Export: Occupation not exists');
 						}
 					} else {
 						$occupation_name = NULL;

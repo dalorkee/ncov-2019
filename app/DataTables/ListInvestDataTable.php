@@ -11,6 +11,7 @@ use App\Http\Controllers\MasterController;
 use App\GlobalCountry;
 use Session;
 use DB;
+use App\Provinces;
 use Barryvdh\DomPDF\PDF;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -58,6 +59,14 @@ class ListInvestDataTable extends DataTable
 			$str .= "WHEN nation = \"".$value['country_id']."\" THEN \"".$value['country_name']."\" ";
 		}
 		return $str;
+	}
+
+	private function getProvCodeByRegion($region=0) {
+		$prov_code = Provinces::select('province_id')
+			->where('zone_id', '=', $region)
+			->get()->keyBy('province_id');
+		$prov_code_list = $prov_code->keys()->all();
+		return $prov_code_list;
 	}
 
 	public function dataTable($query) {
@@ -192,7 +201,7 @@ class ListInvestDataTable extends DataTable
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'dpc':
-				$prov_arr = $this->getProvCodeByRegion($user_region);
+				$prov_arr = self::getProvCodeByRegion($user_region);
 				$invest = InvestList::select(
 					'id',
 					'sat_id',
@@ -253,16 +262,6 @@ class ListInvestDataTable extends DataTable
 		return $invest;
 	}
 
-	private function getProvCodeByRegion($region=0) {
-		$prov_code = User::select('prov_code')
-			->where('region', '=', $region)
-			->groupBy('prov_code')
-			->get()
-			->keyBy('prov_code');
-		$prov_code_list = $prov_code->keys()->all();
-		return $prov_code_list;
-	}
-
 	private function arrayToString($array=array()) {
 		$str = NULL;
 		if (count($array) > 0) {
@@ -277,40 +276,7 @@ class ListInvestDataTable extends DataTable
 		}
 		return $str;
 	}
-/*
-	private function getHospCodeByHospCode() {
-		$user_hosp_code = auth()->user()->hospcode;
-		$hosp_code = User::select('hospcode')->where('hospcode', '=', $user_hosp_code)->get();
-		$hosp_code_arr = $hosp_code->pluck('hospcode')->toArray();
-		return $hosp_code_arr;
-	}
 
-
-	private function getPhoUserByProv() {
-		$prov_code = auth()->user()->prov_code;
-		$users = User::select('id')->where('prov_code', '=', $prov_code)->get()->toArray();
-		$user_arr = array();
-		foreach ($users as $key => $val) {
-			array_push($user_arr, $val['id']);
-		}
-		return $user_arr;
-	}
-
-	private function getUserByHospCode() {
-		$hosp_code = auth()->user()->hosp_code;
-		$users = User::select('id')->where('hospcode', '=', $hosp_code)->get()->toArray();
-		$user_arr = array();
-		foreach ($users as $key => $val) {
-			array_push($user_arr, $val['id']);
-		}
-		return $user_arr;
-	}
-	*/
-	/**
-	* Optional method if you want to use html builder.
-	*
-	* @return \Yajra\DataTables\Html\Builder
-	*/
 	public function html() {
 		return $this->builder()
 			->setTableId('list-data-table')
@@ -335,11 +301,6 @@ class ListInvestDataTable extends DataTable
 			);
 	}
 
-	/**
-	* Get columns.
-	*
-	* @return array
-	*/
 	protected function getColumns() {
 		return [
 			Column::make('id')->title('id'),
@@ -360,11 +321,6 @@ class ListInvestDataTable extends DataTable
 			];
 	}
 
-	/**
-	* Get filename for export.
-	*
-	* @return string
-	*/
 	protected function filename() {
 		return 'DataList_' . date('YmdHis');
 	}

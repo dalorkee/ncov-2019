@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Hospitals;
+use App\Provinces;
+use App\User;
 use Illuminate\Support\Str;
 
 class MasterController extends Controller
@@ -115,6 +117,42 @@ class MasterController extends Controller
 			$hospTypeName = NULL;
 		}
 		return $hospTypeName;
+	}
+
+	protected function getProvCodeByRegion($region=0) {
+		$prov_code = Provinces::select('province_id')
+			->where('zone_id', '=', $region)
+			->get()->keyBy('province_id');
+		$prov_code_list = $prov_code->keys()->all();
+		return $prov_code_list;
+	}
+
+	private function getHospCodeByHospCode() {
+		$user_hosp_code = auth()->user()->hospcode;
+		$hosp_code = User::select('hospcode')->where('hospcode', '=', $user_hosp_code)->get();
+		$hosp_code_arr = $hosp_code->pluck('hospcode')->toArray();
+		return $hosp_code_arr;
+	}
+
+
+	private function getPhoUserByProv() {
+		$prov_code = auth()->user()->prov_code;
+		$users = User::select('id')->where('prov_code', '=', $prov_code)->get()->toArray();
+		$user_arr = array();
+		foreach ($users as $key => $val) {
+			array_push($user_arr, $val['id']);
+		}
+		return $user_arr;
+	}
+
+	private function getUserByHospCode() {
+		$hosp_code = auth()->user()->hosp_code;
+		$users = User::select('id')->where('hospcode', '=', $hosp_code)->get()->toArray();
+		$user_arr = array();
+		foreach ($users as $key => $val) {
+			array_push($user_arr, $val['id']);
+		}
+		return $user_arr;
 	}
 
 }
