@@ -69,7 +69,6 @@
 								<input type="text" name="date_range" id="export_date" class="form-control" style="cursor: pointer;" readonly>
 								<div class="input-group-append">
 									<button type="button" class="btn btn-outline btn-primary" id="export_btn">ค้นหา</button>
-									<button type="submit" class="btn btn-outline btn-primary">jungko</button>
 								</div>
 							</div>
 						</div>
