@@ -119,6 +119,21 @@ class MasterController extends Controller
 		return $hospTypeName;
 	}
 
+	protected function arrayToString($array=array()) {
+		$str = NULL;
+		if (count($array) > 0) {
+			foreach ($array as $key => $value) {
+				if (is_null($str)) {
+					$str = "";
+				} else {
+					$str = $str.",";
+				}
+				$str = $str.$value;
+			}
+		}
+		return $str;
+	}
+
 	protected function getProvCodeByRegion($region=0) {
 		$prov_code = Provinces::select('province_id')
 			->where('zone_id', '=', $region)

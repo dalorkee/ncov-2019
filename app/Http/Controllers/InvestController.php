@@ -168,11 +168,15 @@ class InvestController extends MasterController
 					break;
 				case 'dpc':
 					$prov_arr = parent::getProvCodeByRegion($user_region);
+					$prov_str = parent::arrayToString($prov_arr);
 					$total = Invest::whereIn('pt_status', $pt_status)
+						/*
 						->whereIn('isolated_province', $prov_arr)
 						->whereIn('walkinplace_hosp_province', $prov_arr)
 						->whereIn('sick_province', $prov_arr)
 						->whereIn('sick_province_first', $prov_arr)
+						*/
+						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str."))")
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')->count();
 					break;
@@ -1083,13 +1087,17 @@ class InvestController extends MasterController
 					}
 					break;
 				case 'dpc':
-					$prov_arr = $this->getProvCodeByRegion($user_region);
+					$prov_arr = parent::getProvCodeByRegion($user_region);
+					$prov_str = parent::arrayToString($prov_arr);
 					foreach (Invest::select($fields)
 						->whereIn('pt_status', $pt_status)
+						/*
 						->whereIn('isolated_province', $prov_arr)
 						->whereIn('walkinplace_hosp_province', $prov_arr)
 						->whereIn('sick_province', $prov_arr)
 						->whereIn('sick_province_first', $prov_arr)
+						*/
+						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str."))")
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
@@ -1123,6 +1131,7 @@ class InvestController extends MasterController
 		}
 	}
 
+/*
 	protected function getProvCodeByRegion($region=0) {
 		$prov_code = User::select('prov_code')
 			->where('region', '=', $region)
@@ -1132,7 +1141,7 @@ class InvestController extends MasterController
 		$prov_code_list = $prov_code->keys()->all();
 		return $prov_code_list;
 	}
-
+*/
 	public function create(Request $request) {
 		try {
 			/* get default data */

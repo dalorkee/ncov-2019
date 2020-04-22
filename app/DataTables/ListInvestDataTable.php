@@ -202,6 +202,7 @@ class ListInvestDataTable extends DataTable
 					break;
 			case 'dpc':
 				$prov_arr = self::getProvCodeByRegion($user_region);
+				$prov_str = self::arrayToString($prov_arr);
 				$invest = InvestList::select(
 					'id',
 					'sat_id',
@@ -213,10 +214,14 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
+					/*
 					->whereIn('isolated_province', $prov_arr)
 					->whereIn('walkinplace_hosp_province', $prov_arr)
 					->whereIn('sick_province', $prov_arr)
 					->whereIn('sick_province_first', $prov_arr)
+					->whereNull('deleted_at')->orderBy('id', 'DESC');
+					*/
+					->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str."))")
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'pho':
