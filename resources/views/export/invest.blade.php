@@ -44,6 +44,7 @@
 	<article class="card" style="border:2px dashed #eee">
 		<section class="card-body">
 			<form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<!-- <form action="{route('pj1')}" method="POST" enctype="multipart/form-data" class="form-horizontal"> -->
 				{{ csrf_field() }}
 				{{ method_field('POST') }}
 				<div class="form-row">
@@ -55,7 +56,6 @@
 								@foreach ($pt_status as $key => $value)
 									<option value="{{ $key }}">{{ $value }}</option>
 								@endforeach
-
 							</select>
 						</div>
 					</div>
@@ -69,6 +69,7 @@
 								<input type="text" name="date_range" id="export_date" class="form-control" style="cursor: pointer;" readonly>
 								<div class="input-group-append">
 									<button type="button" class="btn btn-outline btn-primary" id="export_btn">ค้นหา</button>
+									<button type="submit" class="btn btn-outline btn-primary">jungko</button>
 								</div>
 							</div>
 						</div>
@@ -76,12 +77,14 @@
 				</div>
 			</form>
 			<div class="form-row">
+				<!--
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 					<div id="progress"></div>
 					<div id="message"></div>
 				</div>
+			-->
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-					<div class="loader fa-2x" style="display:none;font-size:1.675em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอ...</div>
+					<div class="loader" style="display:none;font-size:1.275em;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอ...</div>
 					<div class="dl-section">
 						<div id="dl-detail"></div>
 					</div>
@@ -96,34 +99,34 @@
 <script type="text/javascript" src="{{ URL::asset('assets/libs/date-range-picker/moment-2.18.1.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('assets/libs/date-range-picker/daterangepicker.min.js') }}"></script>
 <script>
-
+/*
 var timer;
 function refreshProgress() {
 	$.ajax({
 		method: 'GET',
-		url: "{{ route('checker', [Session::getId()]) }}",
+		url: "{ route('checker', []) }",
 		dataType: 'JSON',
 		success:function(data){
 			$("#progress").html('<div class="bar" style="width:' + data.percent + '%">' + data.percent + '%</div>');
 			$("#message").html(data.message);
 			if (data.percent == 100) {
 				window.clearInterval(timer);
-				timer = window.setInterval(completed(data.message), 1000);
+				timer = window.setInterval(completed(data.message), 100);
 			}
 		},
 		error: function(xhr) {
-			alert(xhr.status + xhr.errorMessage + ' jet');
 			window.clearInterval(timer);
+			alert(xhr.status + xhr.errorMessage + ' jet');
 		}
 	});
 }
 function completed(rows) {
-	$("#message").html("Completed " + rows);
+	$("#message").html("Completed. " + rows);
 	window.clearInterval(timer);
 }
-
+*/
 $(document).ready(function() {
-	$('#progress').hide();
+	//$('#progress').hide();
 	$('.dl-section').hide();
 	$.ajaxSetup({
 		headers: {
@@ -133,8 +136,7 @@ $(document).ready(function() {
 	$('#export_btn').click(function(e) {
 		try {
 			e.preventDefault();
-			timer = window.setInterval(refreshProgress, 1000);
-			$('#progress').show();
+			//$('#progress').show();
 			$('.loader').show();
 			var date_range = $('#export_date').val();
 			var pt_status = $('#pt_status').val();
@@ -150,12 +152,13 @@ $(document).ready(function() {
 				},
 				error: function(xhr) {
 					alert(xhr.errorMessage + xhr.status);
-					window.clearInterval(timer);
+					//window.clearInterval(timer);
 				}
 			});
+			//timer = window.setInterval(refreshProgress, 100);
 		} catch(err) {
 			alert(err.message);
-			window.clearInterval(timer);
+			//window.clearInterval(timer);
 		}
 	});
 

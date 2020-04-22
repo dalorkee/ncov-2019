@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+use App\Hospitals;
 use Illuminate\Support\Str;
 
 class MasterController extends Controller
@@ -38,7 +38,7 @@ class MasterController extends Controller
 				1 => 'New PUI',
 				2 => 'Contact PUI',
 				3 => 'PUO',
-				//4 => 'Confirmed nCoV-2019',
+				4 => 'Confirmed nCoV-2019',
 			],
 			'screen_pt' => [
 				1 => 'คัดกรองที่สนามบิน',
@@ -58,7 +58,7 @@ class MasterController extends Controller
 				3 => 'เสียชีวิต',
 				4 => 'ส่งต่อ',
 				5 => 'อื่นๆ'
-			],
+			]
 
 		]);
 		return $status;
@@ -98,5 +98,23 @@ class MasterController extends Controller
 		}
 	}
 
+	public function getHospitalType($hosp_code=0) {
+		if (!empty($hosp_code) || $hosp_code != 0 || !is_null($hosp_code)) {
+			$hospType = Hospitals::select('hosp_type_code')->where('hospcode', '=', $hosp_code)->first()->toArray();
+			$hosp_type = (int)$hospType['hosp_type_code'];
+			if ($hosp_type <= 18) {
+				if ($hosp_type == 15 || $hosp_type == 16) {
+					$hospTypeName = 'โรงพยาบาลเอกชน';
+				} else {
+					$hospTypeName = 'โรงพยาบาลรัฐ';
+				}
+			} else {
+				$hospTypeName = NULL;
+			}
+		} else {
+			$hospTypeName = NULL;
+		}
+		return $hospTypeName;
+	}
 
 }
