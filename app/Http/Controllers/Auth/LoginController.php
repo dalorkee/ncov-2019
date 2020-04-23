@@ -145,7 +145,7 @@ class LoginController extends Controller
 						$response = "มีคุณ ".$findUser->name." ".$findUser->lname." สิทธิ์ ".$findUser->wposi."เข้าใช้งานระบบ ByPassAuthen ที่ IP ".request()->ip();
 						$this->line_notify($line_notify_token,$response);
 						//Auth successful here
-						return redirect('/home');
+						return redirect('/');
 					}else{
 						//Auth failed
 						// $error = [];
