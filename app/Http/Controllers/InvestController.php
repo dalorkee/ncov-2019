@@ -28,6 +28,7 @@ use Session;
 use App\User;
 use App\Exports\InvestExportFromQuery;
 use App\Exports\LogExport;
+use App\Port;
 use Log;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Carbon\Carbon;
@@ -131,6 +132,11 @@ class InvestController extends MasterController
 	}
 	*/
 
+	public function testja() {
+		$port_arr = Port::all()->keyBy('port_id')->toArray();
+		echo $port_arr[1]['port_name'];
+	}
+
 	public function exportFastExcel(Request $request) {
 		try {
 			/* set default data */
@@ -202,15 +208,15 @@ class InvestController extends MasterController
 				$globalCountry = GlobalCountry::all()->keyBy('country_id')->toArray();
 				$occupation_arr = Occupation::all()->keyBy('id')->toArray();
 				$riskType = RiskType::all()->keyBy('id')->toArray();
+				$port_arr = Port::all()->keyBy('port_id')->toArray();
 
 				/* create file */
-				(new FastExcel($this->dataGenerator($pt_status, $start_date, $end_date, $total)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation_arr, $pts, $riskType) {
+				(new FastExcel($this->dataGenerator($pt_status, $start_date, $end_date, $total)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation_arr, $pts, $riskType, $port_arr) {
 					if (!empty($x->nation) || $x->nation != 0 || !is_null($x->nation)) {
 						if (array_key_exists($x->nation, $globalCountry)) {
 							$nation = $globalCountry[$x->nation]['country_name_th'];
 						} else {
-							$nation = 'err';
-							//Log::error('Export: Nations not exists');
+							$nation = NULL;
 						}
 					} else {
 						$nation = NULL;
@@ -221,8 +227,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->occupation, $occupation_arr)) {
 							$occupation_name = $occupation_arr[$x->occupation]['occu_name_th'];
 						} else {
-							$occupation_name = 'err';
-							//Log::error('Export: Occupation not exists');
+							$occupation_name = NULL;
 						}
 					} else {
 						$occupation_name = NULL;
@@ -233,8 +238,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->sick_province, $provinces)) {
 							$sick_prov_name = $provinces[$x->sick_province]['province_name'];
 						} else {
-							$sick_prov_name = 'err';
-							//Log::error('Export: Sick province not exists');
+							$sick_prov_name = NULL;
 						}
 					} else {
 						$sick_prov_name = NULL;
@@ -246,8 +250,7 @@ class InvestController extends MasterController
 						if (count($sick_dist) > 0) {
 							$sick_dist_name = $sick_dist[0]['district_name'];
 						} else {
-							$sick_dist_name = 'err';
-							//Log::error('Export: Sick district not exists');
+							$sick_dist_name = NULL;
 						}
 					} else {
 						$sick_dist_name = NULL;
@@ -259,8 +262,7 @@ class InvestController extends MasterController
 						if (count($sick_sub_dist) > 0) {
 							$sick_sub_dist_name = $sick_sub_dist[0]['sub_district_name'];
 						} else {
-							$sick_sub_dist_name = 'err';
-							//Log::error('Export: Sick sub district not exists');
+							$sick_sub_dist_name = NULL;
 						}
 					} else {
 						$sick_sub_dist_name = NULL;
@@ -271,8 +273,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->sick_province_first, $provinces)) {
 							$sick_prov_first = $provinces[$x->sick_province_first]['province_name'];
 						} else {
-							$sick_prov_first = 'err';
-							//Log::error('Export: Sick province first not exists');
+							$sick_prov_first = NULL;
 						}
 					} else {
 						$sick_prov_first = NULL;
@@ -284,8 +285,7 @@ class InvestController extends MasterController
 						if (count($sick_dist_first) > 0) {
 							$sick_dist_first_name = $sick_dist_first[0]['district_name'];
 						} else {
-							$sick_dist_first_name = 'err';
-							//Log::error('Export: Sick district first not exists');
+							$sick_dist_first_name = NULL;
 						}
 					} else {
 						$sick_dist_first_name = NULL;
@@ -297,8 +297,7 @@ class InvestController extends MasterController
 						if (count($sick_sub_dist_first) > 0) {
 							$sick_sub_dist_name_first = $sick_sub_dist_first[0]['sub_district_name'];
 						} else {
-							$sick_sub_dist_name_first = 'err';
-							//Log::error('Export: Sick sub district first not exists');
+							$sick_sub_dist_name_first = NULL;
 						}
 					} else {
 						$sick_sub_dist_name_first = NULL;
@@ -309,8 +308,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->treat_first_province, $provinces)) {
 							$treat_first_prov = $provinces[$x->treat_first_province]['province_name'];
 						} else {
-							$treat_first_prov = 'err';
-							//Log::error('Export: Treat first province not exists');
+							$treat_first_prov = NULL;
 						}
 					} else {
 						$treat_first_prov = NULL;
@@ -322,8 +320,7 @@ class InvestController extends MasterController
 						if (count($treat_first_dist) > 0) {
 							$treat_first_dist_name = $treat_first_dist[0]['district_name'];
 						} else {
-							$treat_first_dist_name = 'err';
-							//Log::error('Export: Treat first district not exists');
+							$treat_first_dist_name = NULL;
 						}
 					} else {
 						$treat_first_dist_name = NULL;
@@ -335,8 +332,7 @@ class InvestController extends MasterController
 						if (count($treat_first_sub_dist) > 0) {
 							$treat_first_sub_dist_name = $treat_first_sub_dist[0]['sub_district_name'];
 						} else {
-							$treat_first_sub_dist_name = 'err';
-							//Log::error('Export: Treat first sub district not exists');
+							$treat_first_sub_dist_name = NULL;
 						}
 					} else {
 						$treat_first_sub_dist_name = NULL;
@@ -348,8 +344,7 @@ class InvestController extends MasterController
 						if (count($treat_first_hosp) > 0) {
 							$treat_first_hosp_name = $treat_first_hosp[0]['hosp_name'];
 						} else {
-							$treat_first_hosp_name = 'err';
-							//Log::error('Export: Treat first hospital not exists');
+							$treat_first_hosp_name = NULL;
 						}
 					} else {
 						$treat_first_hosp_name = NULL;
@@ -360,8 +355,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->treat_place_province, $provinces)) {
 							$treat_place_prov = $provinces[$x->treat_place_province]['province_name'];
 						} else {
-							$treat_place_prov = 'err';
-							//Log::error('Export: Treat place province not exists');
+							$treat_place_prov = NULL;
 						}
 					} else {
 						$treat_place_prov = NULL;
@@ -373,8 +367,7 @@ class InvestController extends MasterController
 						if (count($treat_place_dist) > 0) {
 							$treat_place_dist_name = $treat_place_dist[0]['district_name'];
 						} else {
-							$treat_place_dist_name = 'err';
-							//Log::error('Export: Treat place district not exists');
+							$treat_place_dist_name = NULL;
 						}
 					} else {
 						$treat_place_dist_name = NULL;
@@ -386,8 +379,7 @@ class InvestController extends MasterController
 						if (count($treat_place_sub_dist) > 0) {
 							$treat_place_sub_dist_name = $treat_place_sub_dist[0]['sub_district_name'];
 						} else {
-							$treat_place_sub_dist_name = 'err';
-							//Log::error('Export: Treat place sub district not exists');
+							$treat_place_sub_dist_name = NULL;
 						}
 					} else {
 						$treat_place_sub_dist_name = NULL;
@@ -399,8 +391,7 @@ class InvestController extends MasterController
 						if (count($treat_place_hosp)) {
 							$treat_place_hosp_name = $treat_place_hosp[0]['hosp_name'];
 						} else {
-							$treat_place_hosp_name = 'err';
-							//Log::error('Export: Treat place hospital not exists');
+							$treat_place_hosp_name = NULL;
 						}
 					} else {
 						$treat_place_hosp_name = NULL;
@@ -443,8 +434,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->risk_stay_outbreak_country, $globalCountry)) {
 							$risk_stay_outbreak_country = $globalCountry[$x->risk_stay_outbreak_country]['country_name_th'];
 						} else {
-							$risk_stay_outbreak_country = 'err';
-							//Log::error('Export: Risk stay outbreak country not exists');
+							$risk_stay_outbreak_country = NULL;
 						}
 					} else {
 						$risk_stay_outbreak_country = NULL;
@@ -456,8 +446,7 @@ class InvestController extends MasterController
 						if (count($risk_city) > 0) {
 							$risk_city_name = $risk_city[0]['city_name'];
 						} else {
-							$risk_city_name = 'err';
-							//Log::error('Export: Risk stay outbreak city not exists');
+							$risk_city_name = NULL;
 						}
 					} else {
 						$risk_city_name = NULL;
@@ -468,8 +457,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->risk_stay_outbreak_province, $provinces)) {
 							$risk_stay_outbreak_prov = $provinces[$x->risk_stay_outbreak_province]['province_name'];
 						} else {
-							$risk_stay_outbreak_prov = 'err';
-							//Log::error('Export: Risk stay outbreak province not exists');
+							$risk_stay_outbreak_prov = NULL;
 						}
 					} else {
 						$risk_stay_outbreak_prov = NULL;
@@ -481,8 +469,7 @@ class InvestController extends MasterController
 						if (count($risk_stay_outbreak_dist)) {
 							$risk_stay_outbreak_dist_name = $risk_stay_outbreak_dist[0]['district_name'];
 						} else {
-							$risk_stay_outbreak_dist_name = 'err';
-							//Log::error('Export: Risk stay outbreak district not exists');
+							$risk_stay_outbreak_dist_name = NULL;
 						}
 					} else {
 						$risk_stay_outbreak_dist_name = NULL;
@@ -494,8 +481,7 @@ class InvestController extends MasterController
 						if (count($risk_stay_outbreak_sub_dist) > 0) {
 							$risk_stay_outbreak_sub_dist_name = $risk_stay_outbreak_sub_dist[0]['sub_district_name'];
 						} else {
-							$risk_stay_outbreak_sub_dist_name = 'err';
-							//Log::error('Export: Risk stay outbreak sub district not exists');
+							$risk_stay_outbreak_sub_dist_name = NULL;
 						}
 					} else {
 						$risk_stay_outbreak_sub_dist_name = NULL;
@@ -506,8 +492,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->pt_status, $pts)) {
 							$pt_status_name = $pts[$x->pt_status];
 						} else {
-							$pt_status_name = 'err';
-							//Log::error('Export: Patient status not exists');
+							$pt_status_name = NULL;
 						}
 					} else {
 						$pt_status_name = NULL;
@@ -518,8 +503,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->risk_type, $riskType)) {
 							$risk_type_name = $riskType[$x->risk_type]['risk_name'];
 						} else {
-							$risk_type_name = 'err';
-							//Log::error('Export: Risk type not exists');
+							$risk_type_name = NULL;
 						}
 					} else {
 						$risk_type_name = NULL;
@@ -535,8 +519,7 @@ class InvestController extends MasterController
 								$patient_treat_status_name = $ptTreatStatus[$x->patient_treat_status];
 							}
 						} else {
-							$patient_treat_status_name = 'err';
-							//Log::error('Export: Patient treat name not exists');
+							$patient_treat_status_name = NULL;
 						}
 					} else {
 						$patient_treat_status_name = NULL;
@@ -556,8 +539,7 @@ class InvestController extends MasterController
 						if (count($walkin_place_hosp) > 0) {
 							$walkin_place_hosp_name = $walkin_place_hosp[0]['hosp_name'];
 						} else {
-							$walkin_place_hosp_name = 'err';
-							//Log::error('Export: Walk in place hospital not exists');
+							$walkin_place_hosp_name = NULL;
 						}
 					} else {
 						$walkin_place_hosp_name = NULL;
@@ -572,8 +554,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->walkinplace_hosp_province, $provinces)) {
 							$walkinplace_hosp_province_name = $provinces[$x->walkinplace_hosp_province]['province_name'];
 						} else {
-							$walkinplace_hosp_province_name = 'err';
-							//Log::error('Export: Walkin place hospital province not exists');
+							$walkinplace_hosp_province_name = NULL;
 						}
 					} else {
 						$walkinplace_hosp_province_name = NULL;
@@ -584,8 +565,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->isolated_province, $provinces)) {
 							$isolated_province_name = $provinces[$x->isolated_province]['province_name'];
 						} else {
-							$isolated_province_name = 'err';
-							//Log::error('Export: Isolate province not exists');
+							$isolated_province_name = NULL;
 						}
 					} else {
 						$isolated_province_name = NULL;
@@ -597,8 +577,7 @@ class InvestController extends MasterController
 						if (count($isolatedHospCode) > 0) {
 							$isolated_hosp_name = $isolatedHospCode[0]['hosp_name'];
 						} else {
-							$isolated_hosp_name = 'err';
-							//Log::error('Export: Isolate hospital not exists');
+							$isolated_hosp_name = NULL;
 						}
 					} else {
 						$isolated_hosp_name = NULL;
@@ -609,8 +588,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->travel_from_country, $globalCountry)) {
 							$travel_from_country_name = $globalCountry[$x->travel_from_country]['country_name_th'];
 						} else {
-							$travel_from_country_name = 'err';
-							//Log::error('Export: Treat from country not exists');
+							$travel_from_country_name = NULL;
 						}
 					} else {
 						$travel_from_country_name = NULL;
@@ -622,8 +600,7 @@ class InvestController extends MasterController
 						if (count($travelFromCity) > 0) {
 							$travel_from_city_name = $travelFromCity[0]['city_name'];
 						} else {
-							$travel_from_city_name = 'err';
-							//Log::error('Export: Treat from city not exists');
+							$travel_from_city_name = NULL;
 						}
 					} else {
 						$travel_from_city_name = NULL;
@@ -635,8 +612,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->pui_type, $pui_type_arr)) {
 							$pui_type_name = $pui_type_arr[$x->pui_type];
 						} else {
-							$pui_type_name = 'err';
-							//Log::error('Export: PUI type not exists');
+							$pui_type_name = NULL;
 						}
 					} else {
 						$pui_type_name = NULL;
@@ -648,8 +624,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->news_st, $news_st_arr)) {
 							$news_st_name = $news_st_arr[$x->news_st];
 						} else {
-							$news_st_name = 'err';
-							//Log::error('Export: Nesw status not exists');
+							$news_st_name = NULL;
 						}
 					} else {
 						$news_st_name = NULL;
@@ -661,8 +636,7 @@ class InvestController extends MasterController
 						if (array_key_exists($x->disch_st, $disch_st_arr)) {
 							$disch_st_name = $disch_st_arr[$x->disch_st];
 						} else {
-							$disch_st_name = 'err';
-							//Log::error('Export: Dischart status not exists');
+							$disch_st_name = NULL;
 						}
 					} else {
 						$disch_st_name = NULL;
@@ -670,6 +644,17 @@ class InvestController extends MasterController
 
 					/* coordinate telephone */
 					$coordinate_str = (string)$x->coordinator_tel;
+
+					/*port */
+					if (!empty($x->airports_code) || $x->airports_code != 0 || !is_null($x->airports_code)) {
+						if (array_key_exists($x->airports_code, $port_arr)) {
+							$port_name = $port_arr[$x->airports_code]['port_name'];
+						} else {
+							$port_name = NULL;
+						}
+					} else {
+						$port_name = NULL;
+					}
 
 					return [
 						'ID' => $x->id,
@@ -691,7 +676,7 @@ class InvestController extends MasterController
 						'โทรศัพท์ที่ติดต่อได้' => $x->work_phone,
 						'โรงพยาบาลที่คัดกรอง' => $walkin_place_hosp_name,
 						'ประเภทโรงพยาบาลที่คัดกรอง' => $walkin_place_hosp_type_name,
-						'สนามบินที่คัดกรอง' => $x->airports_code,
+						'สนามบินที่คัดกรอง' => $port_name,
 						'จังหวัดที่รักษาตัว' => $walkinplace_hosp_province_name,
 						'วันที่ Isolae' => $x->isolate_date,
 						'จังหวัดที่ Isolated' => $isolated_province_name,
@@ -859,9 +844,9 @@ class InvestController extends MasterController
 					]);
 
 					$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
-					$htm .= "<li><a href='".url("/getFile/{$fileName}")."'>Download your file here. </a></li>";
-					$htm .= "<li>Size ".number_format($size_kb, 2, '.', '')." KB</li>";
-					$htm .= "<li>IMME Type CSV</li>";
+					$htm .= "<li style='margin-bottom:8px;'><a href='".url("/getFile/{$fileName}")."' class='btn btn-danger btn-lg'>ดาวน์โหลดไฟล์ของคุณ คลิกที่นี่!!. </a></li>";
+					$htm .= "<li>File size ".number_format($size_kb, 2, '.', '')." KB</li>";
+					$htm .= "<li>Type CSV</li>";
 					$htm .= "</ul>";
 					return $htm;
 				} else {
