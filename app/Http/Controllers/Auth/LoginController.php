@@ -131,6 +131,7 @@ class LoginController extends Controller
 				// AUTH with user & redirect to page.
 				//check username_ad in MysqlDB
 				$findUser = User::where('id',trim($user))->get()->first();
+				//dd($findUser);
 				if(!is_null($findUser)){
 					if(Auth::loginUsingId($findUser->id)){
 						$data = [
@@ -140,8 +141,11 @@ class LoginController extends Controller
 						];
 						//dd($data);
 						DB::table('log_bypass_auth')->insert($data);
+						$line_notify_token = "1ATz8CaB3sG9NIKo7RNO39vyuMG5Ze2Orq6GWGiRabW";
+						$response = "มีคุณ ".$findUser->name." ".$findUser->lname." สิทธิ์ ".$findUser->wposi."เข้าใช้งานระบบ ByPassAuthen ที่ IP ".request()->ip();
+						//$this->line_notify($line_notify_token,$response);
 						//Auth successful here
-						return redirect('/home');
+						return redirect('/');
 					}else{
 						//Auth failed
 						// $error = [];
@@ -164,4 +168,34 @@ class LoginController extends Controller
 					]);
 				}
 	}
+	public function line_notify($Token, $message)
+  {
+    $lineapi = $Token;
+  	$mms =  trim($message);
+  	date_default_timezone_set("Asia/Bangkok");
+  	$chOne = curl_init();
+  	curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+  	// SSL USE
+  	curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
+  	curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
+  	//POST
+  	curl_setopt( $chOne, CURLOPT_POST, 1);
+  	curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$mms");
+  	curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
+  	$headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$lineapi.'', );
+          curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+  	curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
+  	$result = curl_exec( $chOne );
+  	//Check error
+  	if(curl_error($chOne))
+  	{
+             echo 'error:' . curl_error($chOne);
+  	}
+  	else {
+  	$result_ = json_decode($result, true);
+  	   //echo "status : ".$result_['status']; echo "message : ". $result_['message'];
+       echo $result_['message'];
+          }
+  	curl_close( $chOne );
+  }
 }

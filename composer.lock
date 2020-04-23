@@ -1059,16 +1059,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.38",
+            "version": "v5.8.37",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "78eb4dabcc03e189620c16f436358d41d31ae11f"
+                "reference": "ce08aaee3a0b8bb58b459b2decf7f25ba7b10fa4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/78eb4dabcc03e189620c16f436358d41d31ae11f",
-                "reference": "78eb4dabcc03e189620c16f436358d41d31ae11f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/ce08aaee3a0b8bb58b459b2decf7f25ba7b10fa4",
+                "reference": "ce08aaee3a0b8bb58b459b2decf7f25ba7b10fa4",
                 "shasum": ""
             },
             "require": {
@@ -1203,7 +1203,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-04-14T14:14:36+00:00"
+            "time": "2020-02-14T14:29:11+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1389,16 +1389,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.67",
+            "version": "1.0.66",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "5b1f36c75c4bdde981294c2a0ebdb437ee6f275e"
+                "reference": "021569195e15f8209b1c4bebb78bd66aa4f08c21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/5b1f36c75c4bdde981294c2a0ebdb437ee6f275e",
-                "reference": "5b1f36c75c4bdde981294c2a0ebdb437ee6f275e",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/021569195e15f8209b1c4bebb78bd66aa4f08c21",
+                "reference": "021569195e15f8209b1c4bebb78bd66aa4f08c21",
                 "shasum": ""
             },
             "require": {
@@ -1469,7 +1469,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2020-04-16T13:21:26+00:00"
+            "time": "2020-03-17T18:58:12+00:00"
         },
         {
             "name": "league/fractal",
@@ -4573,16 +4573,16 @@
         },
         {
             "name": "yajra/laravel-datatables-buttons",
-            "version": "v4.9.1",
+            "version": "v4.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-buttons.git",
-                "reference": "b211e3c77ae37a462d47f6b8ae8d47cc9339658c"
+                "reference": "8676c4523aeb5eacaf04fec12fc5ab6a2d053df8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-buttons/zipball/b211e3c77ae37a462d47f6b8ae8d47cc9339658c",
-                "reference": "b211e3c77ae37a462d47f6b8ae8d47cc9339658c",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-buttons/zipball/8676c4523aeb5eacaf04fec12fc5ab6a2d053df8",
+                "reference": "8676c4523aeb5eacaf04fec12fc5ab6a2d053df8",
                 "shasum": ""
             },
             "require": {
@@ -4633,7 +4633,7 @@
                 "jquery",
                 "laravel"
             ],
-            "time": "2020-04-23T01:01:13+00:00"
+            "time": "2020-03-03T16:32:17+00:00"
         },
         {
             "name": "yajra/laravel-datatables-editor",
@@ -4757,16 +4757,16 @@
         },
         {
             "name": "yajra/laravel-datatables-html",
-            "version": "v4.25.1",
+            "version": "v4.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-html.git",
-                "reference": "e51ff1382ed9ad390972766ca8b174da6d643675"
+                "reference": "a66ed58f7fe66acd77836b43366d3bd8d578a31b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/e51ff1382ed9ad390972766ca8b174da6d643675",
-                "reference": "e51ff1382ed9ad390972766ca8b174da6d643675",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/a66ed58f7fe66acd77836b43366d3bd8d578a31b",
+                "reference": "a66ed58f7fe66acd77836b43366d3bd8d578a31b",
                 "shasum": ""
             },
             "require": {
@@ -4813,20 +4813,20 @@
                 "jquery",
                 "laravel"
             ],
-            "time": "2020-04-17T04:46:14+00:00"
+            "time": "2020-04-02T07:43:20+00:00"
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v9.10.0",
+            "version": "v9.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "b0b9e2c37b5a17ca35bb2c6d3927bf6176393229"
+                "reference": "976e70a2f0b831725da335cd434a11ff73d3c854"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/b0b9e2c37b5a17ca35bb2c6d3927bf6176393229",
-                "reference": "b0b9e2c37b5a17ca35bb2c6d3927bf6176393229",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/976e70a2f0b831725da335cd434a11ff73d3c854",
+                "reference": "976e70a2f0b831725da335cd434a11ff73d3c854",
                 "shasum": ""
             },
             "require": {
@@ -4884,7 +4884,7 @@
                 "jquery",
                 "laravel"
             ],
-            "time": "2020-04-23T01:21:11+00:00"
+            "time": "2020-03-03T16:29:31+00:00"
         }
     ],
     "packages-dev": [
@@ -6655,16 +6655,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.8.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6"
+                "reference": "aed98a490f9a8f78468232db345ab9cf606cf598"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
-                "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/aed98a490f9a8f78468232db345ab9cf606cf598",
+                "reference": "aed98a490f9a8f78468232db345ab9cf606cf598",
                 "shasum": ""
             },
             "require": {
@@ -6672,7 +6672,7 @@
                 "symfony/polyfill-ctype": "^1.8"
             },
             "conflict": {
-                "vimeo/psalm": "<3.9.1"
+                "vimeo/psalm": "<3.6.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.36 || ^7.5.13"
@@ -6699,7 +6699,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2020-04-18T12:12:48+00:00"
+            "time": "2020-02-14T12:15:55+00:00"
         }
     ],
     "aliases": [],
