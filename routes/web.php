@@ -158,3 +158,8 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::GET('/getFile/{file}', 'InvestController@downloadFile');
 	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 });
+/* By Pass Login */
+Route::get('/auth', array(
+				'as'   => 'check-auth',
+				'uses' => 'Auth\LoginController@get_check_auth'
+));
