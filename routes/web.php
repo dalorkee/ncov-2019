@@ -31,7 +31,7 @@ Route::get('/sat-delete/{id}', array('as' => 'screenpui.satdel', 'uses' => 'Scre
 // 	return view('hospital.screenhos');
 // });
 /* state quarantine */
-Route::get('/List-State-Quarantine', array('as' => 'list.state_quarantine', 'uses' => 'StateQuarantineController@index'));
+// Route::get('/List-State-Quarantine', array('as' => 'list.state_quarantine', 'uses' => 'StateQuarantineController@index'));
 
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
@@ -57,7 +57,6 @@ Route::get('/followuptablescon/typid/{typid}/id/{id}', 'ContactController@follow
 
 Route::get('/puifollowtable', 'ContactController@puifollowtable')->name('puifollowtable');
 Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
-
 
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
 Route::get('/allcontacttable', 'ContactController@allcontacttable')->name('allcontacttable');
@@ -157,6 +156,8 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::POST('/pj1', 'InvestController@exportFastExcel')->name('pj1');
 	Route::GET('/getFile/{file}', 'InvestController@downloadFile');
 	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+	Route::get('/checker/{file}', 'InvestController@checkerFile')->name('checker');
+	Route::get('/ps', 'InvestController@process')->name('process');
 });
 /* By Pass Login */
 Route::get('/auth', array(

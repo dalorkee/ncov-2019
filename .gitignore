@@ -3,6 +3,7 @@
 /public/storage
 /public/files
 /public/exports
+/public/tmp
 /storage/*.key
 /vendor
 /public/.htaccess

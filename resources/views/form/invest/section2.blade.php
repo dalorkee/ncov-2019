@@ -590,7 +590,7 @@
 								</td>
 								<td>
 									<div class="form-group">
-										<select name="lab_sars_cov2_no_1_lab" class="form-control">
+										<select name="lab_sars_cov2_no_1_lab" class="form-control selectpicker show-tick">
 											@if (!empty($invest_pt[0]['lab_sars_cov2_no_1_lab']))
 												<option value="{{ $invest_pt[0]['lab_sars_cov2_no_1_lab'] }}" selected="selected">{{ $lab_station[$invest_pt[0]['lab_sars_cov2_no_1_lab']]['th_name'] }}</option>
 											@endif
