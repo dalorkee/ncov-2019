@@ -215,7 +215,7 @@ input.valid, textarea.valid{
 <script src="{{ URL::asset('assets/libs/datatables-1.10.20/datatables.min.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/datatables-1.10.20/Buttons-1.6.1/js/buttons.bootstrap4.min.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/js/responsive.bootstrap.min.js') }}"></script>
-<script src="{{ URL::asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
+<!--<script src="{ URL::asset('assets/libs/select2/dist/js/select2.full.min.js') }"></script> -->
 <script src="{{ URL::asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
 <script>

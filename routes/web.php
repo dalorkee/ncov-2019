@@ -157,5 +157,5 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::GET('/getFile/{file}', 'InvestController@downloadFile');
 	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 	Route::get('/checker/{file}', 'InvestController@checkerFile')->name('checker');
-	Route::get('/ps', 'InvestController@process')->name('process');
+	Route::get('/testja', 'InvestController@testja')->name('testja');
 });
