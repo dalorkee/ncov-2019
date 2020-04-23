@@ -155,9 +155,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/pj', 'InvestController@exportFromQuery')->name('pj');
 	Route::post('/pj1', 'InvestController@exportFastExcel')->name('pj1');
 	Route::get('/getFile/{file}', 'InvestController@downloadFile');
-	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 	Route::get('/checker/{file}', 'InvestController@checkerFile')->name('checker');
 	Route::get('/testja', 'InvestController@testja')->name('testja');
+	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 });
 /* By Pass Login */
 Route::get('/auth', array(

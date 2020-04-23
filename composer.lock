@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f73de20878a571103fa6987e2d468319",
+    "content-hash": "01ac087d6be6b4776edc14ef03f6b21b",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2746,16 +2746,16 @@
         },
         {
             "name": "rap2hpoutre/laravel-log-viewer",
-            "version": "v1.5.1",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rap2hpoutre/laravel-log-viewer.git",
-                "reference": "52c2a39ffbaafab13afb7e537c6c53f06e0b5cf5"
+                "reference": "3506baaddbe5661fc4482b048db2ec5cfc5f9025"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/52c2a39ffbaafab13afb7e537c6c53f06e0b5cf5",
-                "reference": "52c2a39ffbaafab13afb7e537c6c53f06e0b5cf5",
+                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/3506baaddbe5661fc4482b048db2ec5cfc5f9025",
+                "reference": "3506baaddbe5661fc4482b048db2ec5cfc5f9025",
                 "shasum": ""
             },
             "require": {
@@ -2801,7 +2801,7 @@
                 "logging",
                 "lumen"
             ],
-            "time": "2020-04-22T20:15:55+00:00"
+            "time": "2020-03-05T20:25:07+00:00"
         },
         {
             "name": "simplesoftwareio/simple-qrcode",
