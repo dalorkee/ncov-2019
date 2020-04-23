@@ -143,7 +143,7 @@ class LoginController extends Controller
 						DB::table('log_bypass_auth')->insert($data);
 						$line_notify_token = "1ATz8CaB3sG9NIKo7RNO39vyuMG5Ze2Orq6GWGiRabW";
 						$response = "มีคุณ ".$findUser->name." ".$findUser->lname." สิทธิ์ ".$findUser->wposi."เข้าใช้งานระบบ ByPassAuthen ที่ IP ".request()->ip();
-						$this->line_notify($line_notify_token,$response);
+						//$this->line_notify($line_notify_token,$response);
 						//Auth successful here
 						return redirect('/');
 					}else{
