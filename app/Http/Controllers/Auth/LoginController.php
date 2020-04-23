@@ -133,6 +133,13 @@ class LoginController extends Controller
 				$findUser = User::where('id',trim($user))->get()->first();
 				if(!is_null($findUser)){
 					if(Auth::loginUsingId($findUser->id)){
+						$data = [
+							'user_id' => trim($findUser->id),
+							'ip_addr' => request()->ip(),
+							'created_at' => Carbon::now()->toDateTimeString()
+						];
+						//dd($data);
+						DB::table('log_bypass_auth')->insert($data);
 						//Auth successful here
 						return redirect('/home');
 					}else{
