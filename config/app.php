@@ -196,8 +196,7 @@ return [
 
 		/* Rap2hpoutre Laravel Log Viewer */
 		Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
-
-    ],
+	],
 
     /*
     |--------------------------------------------------------------------------
@@ -254,6 +253,7 @@ return [
 		'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
 		'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 		'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
+		//'LogViewer' => Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 	],
 
 ];

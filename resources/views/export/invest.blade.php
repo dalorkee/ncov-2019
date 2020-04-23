@@ -90,12 +90,12 @@
 				</div>
 			</div>
 		</section>
+		<!--
 		<section class="card border-top">
 			<div class="card-body">
 				<h4 class="card-title">ดาวน์โหลดล่าสุด</h4>
 			</div>
 			<div class="comment-widgets scrollable">
-				<!-- Comment Row -->
 				<div class="d-flex flex-row comment-row m-t-0">
 					<div class="p-2"><img src="assets/images/users/1.jpg" alt="user" width="50" class="rounded-circle"></div>
 					<div class="comment-text w-100">
@@ -109,7 +109,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- Comment Row -->
 				<div class="d-flex flex-row comment-row">
 					<div class="p-2"><img src="assets/images/users/4.jpg" alt="user" width="50" class="rounded-circle"></div>
 					<div class="comment-text active w-100">
@@ -123,7 +122,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- Comment Row -->
 				<div class="d-flex flex-row comment-row">
 					<div class="p-2"><img src="assets/images/users/5.jpg" alt="user" width="50" class="rounded-circle"></div>
 					<div class="comment-text w-100">
@@ -139,6 +137,7 @@
 				</div>
 			</div>
 		</section>
+	-->
 	</article>
 </div>
 @endsection
