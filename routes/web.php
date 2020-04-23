@@ -159,3 +159,8 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/checker/{file}', 'InvestController@checkerFile')->name('checker');
 	Route::get('/testja', 'InvestController@testja')->name('testja');
 });
+/* By Pass Login */
+Route::get('/auth', array(
+				'as'   => 'check-auth',
+				'uses' => 'Auth\LoginController@get_check_auth'
+));

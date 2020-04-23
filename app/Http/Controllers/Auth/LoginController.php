@@ -8,6 +8,9 @@ use Auth;
 use Illuminate\Http\Request;
 use Session;
 use App\User;
+use Carbon\Carbon;
+use Validator;
+use DB;
 
 class LoginController extends Controller
 {
@@ -70,5 +73,95 @@ class LoginController extends Controller
 		Auth::logout();
 		Session::flush();
 		return redirect('/login');
+	}
+
+	public function get_check_auth(Request $request) {
+
+	$rules = [
+			'userid'=>'required',
+			'ts'=>'required|digits_between:10,15',
+			'sig'=>'required'
+	];
+
+	$validator = Validator::make($request->all(), $rules);
+
+				if ($validator->fails()) {
+						$error = [];
+						$error["status"]    = "error";
+						$error["message"]   = "error_require_data";
+						//$error["hospital"]  = [];
+
+						return response()->json($error,200);
+				}
+
+				$signature = env('SIGNATURE_KEY');
+				$user = $request->input('userid');
+				$ts = $request->input('ts');
+				$sig = $request->input('sig');
+
+				$to     = Carbon::createFromTimestamp($ts);
+				$from   = Carbon::createFromFormat('Y-m-d H:i:s', date("Y-m-d H:i:s"));
+				$diff_in_minutes = $to->diffInMinutes($from);
+
+				// check timestamp expire
+				if($diff_in_minutes>30) {
+						// $error = [];
+						// $error["status"]    = "error";
+						// $error["message"]   = "error_time_expire";
+						//return response()->json($error,200);
+						$message = "รหัสหมดอายุ (Token Expire) กรุณา Refresh หน้า Login ( http://viral.ddc.moph.go.th/viral/main/index.php ) อีกครั้ง";
+						return response()->view('errors.auth_key',[
+							"message" => $message
+						]);
+				}
+
+				// check signature
+				$signatureMD5 = sha1($user.$ts.$signature);
+
+				if($sig!=$signatureMD5) {
+						// $error = [];
+						// $error["status"]    = "error";
+						// $error["message"]   = "error_signature";
+						// return response()->json($error,200);
+						$message = "รหัสไม่ถูกต้อง(Token Invalid)";
+						return response()->view('errors.auth_key',[
+							"message" => $message
+						]);
+				}
+				// AUTH with user & redirect to page.
+				//check username_ad in MysqlDB
+				$findUser = User::where('id',trim($user))->get()->first();
+				if(!is_null($findUser)){
+					if(Auth::loginUsingId($findUser->id)){
+						$data = [
+							'user_id' => trim($findUser->id),
+							'ip_addr' => request()->ip(),
+							'created_at' => Carbon::now()->toDateTimeString()
+						];
+						//dd($data);
+						DB::table('log_bypass_auth')->insert($data);
+						//Auth successful here
+						return redirect('/home');
+					}else{
+						//Auth failed
+						// $error = [];
+						// $error["status"]    = "error";
+						// $error["message"]   = "error_userID_not_found";
+						// return response()->json($error,200);
+						$message = "ไม่พบ User ในระบบฐานข้้อมูล !";
+						return response()->view('errors.auth_key',[
+							"message" => $message
+						]);
+					}
+				}else{
+					// $error = [];
+					// $error["status"]    = "error";
+					// $error["message"]   = "error_username_ad_not_found";
+					// return response()->json($error,200);
+					$message = "ไม่พบชื่อผู้ใช้งาน ".$user." ในระบบฐานข้้อมูล GISTDA-HR !";
+					return response()->view('errors.auth_key',[
+						"message" => $message
+					]);
+				}
 	}
 }
