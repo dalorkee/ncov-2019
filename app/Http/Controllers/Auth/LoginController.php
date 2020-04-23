@@ -89,7 +89,7 @@ class LoginController extends Controller
 						$error = [];
 						$error["status"]    = "error";
 						$error["message"]   = "error_require_data";
-						$error["hospital"]  = [];
+						//$error["hospital"]  = [];
 
 						return response()->json($error,200);
 				}
@@ -118,8 +118,6 @@ class LoginController extends Controller
 				// check signature
 				$signatureMD5 = sha1($user.$ts.$signature);
 
-				dd($sig,$signatureMD5);
-
 				if($sig!=$signatureMD5) {
 						// $error = [];
 						// $error["status"]    = "error";
@@ -132,7 +130,7 @@ class LoginController extends Controller
 				}
 				// AUTH with user & redirect to page.
 				//check username_ad in MysqlDB
-				$findUser = User::where('username_ad',trim($user))->get()->first();
+				$findUser = User::where('id',trim($user))->get()->first();
 				if(!is_null($findUser)){
 					if(Auth::loginUsingId($findUser->id)){
 						//Auth successful here
@@ -143,7 +141,7 @@ class LoginController extends Controller
 						// $error["status"]    = "error";
 						// $error["message"]   = "error_userID_not_found";
 						// return response()->json($error,200);
-						$message = "ไม่พบ UserID ในระบบฐานข้้อมูล GISTDA-HR !";
+						$message = "ไม่พบ User ในระบบฐานข้้อมูล !";
 						return response()->view('errors.auth_key',[
 							"message" => $message
 						]);
