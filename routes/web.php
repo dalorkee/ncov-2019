@@ -153,8 +153,8 @@ Route::group(['middleware' => ['auth']], function() {
 	});
 	Route::get('/invest/select/export', 'InvestController@exportPage')->name('export-page');
 	Route::get('/pj', 'InvestController@exportFromQuery')->name('pj');
-	Route::POST('/pj1', 'InvestController@exportFastExcel')->name('pj1');
-	Route::GET('/getFile/{file}', 'InvestController@downloadFile');
+	Route::post('/pj1', 'InvestController@exportFastExcel')->name('pj1');
+	Route::get('/getFile/{file}', 'InvestController@downloadFile');
 	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 	Route::get('/checker/{file}', 'InvestController@checkerFile')->name('checker');
 	Route::get('/testja', 'InvestController@testja')->name('testja');
