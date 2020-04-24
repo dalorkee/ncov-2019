@@ -12,8 +12,8 @@
 								<div class="input-group-append">
 									<span class="input-group-text text-danger"><i class="far fa-id-card"></i></span>
 								</div>
-								<input type="text" name="idcardInput" value="{{ $invest_pt[0]['card_id'] }}" class="form-control text-danger font-weight-bold font-fira @error('idcard') is-invalid @enderror" id="idcard">
-								@error('idcard')
+								<input type="text" name="idcardInput" value="{{ $invest_pt[0]['card_id'] }}" class="form-control text-danger font-weight-bold font-fira @error('idcardInput') is-invalid @enderror" id="idcardInput">
+								@error('idcardInput')
 									<div class="alert alert-danger">{{ $message }}</div>
 								@enderror
 							</div>
@@ -26,8 +26,10 @@
 								<div class="input-group-append">
 									<span class="input-group-text text-danger"><i class="fas fa-globe"></i></span>
 								</div>
-								<input type="text" name="passportInput" value="{{ $invest_pt[0]['passport'] }}" class="form-control text-danger font-weight-bold font-fira" id="passport">
-								<div class="help-block with-errors"></div>
+								<input type="text" name="passportInput" value="{{ $invest_pt[0]['passport'] }}" class="form-control text-danger font-weight-bold font-fira @error('passportInput') is-invalid @enderror" id="passportInput" id="passport">
+								@error('passportInput')
+									<div class="alert alert-danger">{{ $message }}</div>
+								@enderror
 							</div>
 						</div>
 					</div>

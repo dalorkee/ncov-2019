@@ -115,8 +115,8 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
 
 	/* invest */
-	Route::get('/invest/{id}', 'InvestController@create')->name('invest');
-	Route::post('/invest/store', 'InvestController@store')->name('store');
+	Route::get('/invest/create/{id}', 'InvestController@create')->name('invest.create');
+	Route::post('invest', 'InvestController@store')->name('invest.store');
 
 	/* map */
 	Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');

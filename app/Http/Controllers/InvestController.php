@@ -133,28 +133,7 @@ class InvestController extends MasterController
 	*/
 
 	public function testja() {
-		$hosp_code = '0000x1';
-		if (!empty($hosp_code) || $hosp_code != 0 || !is_null($hosp_code)) {
-			$hospType = Hospitals::select('hosp_type_code')->where('hospcode', '=', $hosp_code)->first();
-			if ($hospType != null) {
-				$hospType = $hospType->toArray();
-				$hosp_type = (int)$hospType['hosp_type_code'];
-				if ($hosp_type <= 18) {
-					if ($hosp_type == 15 || $hosp_type == 16) {
-						$hospTypeName = 'โรงพยาบาลเอกชน';
-					} else {
-						$hospTypeName = 'โรงพยาบาลรัฐ';
-					}
-				} else {
-					$hospTypeName = NULL;
-				}
-			} else {
-				$hospTypeName = NULL;
-			}
-		} else {
-			$hospType = NULL;
-		}
-		dd($hospTypeName);
+		
 	}
 
 	public function exportFastExcel(Request $request) {

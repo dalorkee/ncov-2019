@@ -119,7 +119,7 @@ class MasterController extends Controller
 				$hospTypeName = NULL;
 			}
 		} else {
-			$hospType = NULL;
+			$hospTypeName = NULL;
 		}
 		return $hospTypeName;
 	}

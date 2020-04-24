@@ -11,6 +11,8 @@ class Invest extends Model
 	public $timestamps = true;
 
 	protected $fillable = [
+		'card_id',
+		'passport',
 		'pt_status',
 		'created_at'
 	];

@@ -58,7 +58,16 @@
 							<h5 class="card-subtitle">COVID-19 Version 1.10</h5>
 						</div>
 					</div>
-					<form action="{{ route('store') }}" method="POST" enctype="multipart/form-data" class="form-horizontal" role="form" data-toggle="validator" novalidate="true">
+					@if ($errors->any())
+						<div class="alert alert-danger">
+							<ul>
+								@foreach ($errors->all() as $error)
+									<li>{{ $error }}</li>
+								@endforeach
+							</ul>
+						</div><br />
+					@endif
+					<form action="{{ route('invest.store') }}" method="POST" enctype="multipart/form-data" class="form-horizontal" role="form" data-toggle="validator" novalidate="true">
 						{{ csrf_field() }}
 						{{ method_field('POST') }}
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
