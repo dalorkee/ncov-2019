@@ -94,7 +94,7 @@ class LoginController extends Controller
 						return response()->json($error,200);
 				}
 
-				$signature = env('SIGNATURE_KEY');
+				$signature = "bd6efdd618ef8e481ba2e247b10735b801fbdefe";
 				$user = $request->input('userid');
 				$ts = $request->input('ts');
 				$sig = $request->input('sig');
