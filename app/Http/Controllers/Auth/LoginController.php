@@ -104,7 +104,7 @@ class LoginController extends Controller
 				$diff_in_minutes = $to->diffInMinutes($from);
 
 				// check timestamp expire
-				if($diff_in_minutes>30) {
+				if($diff_in_minutes>60) {
 						// $error = [];
 						// $error["status"]    = "error";
 						// $error["message"]   = "error_time_expire";
@@ -117,6 +117,8 @@ class LoginController extends Controller
 
 				// check signature
 				$signatureMD5 = sha1($user.$ts.$signature);
+
+				dd($signatureMD5,$sig);
 
 				if($sig!=$signatureMD5) {
 						// $error = [];
@@ -137,12 +139,12 @@ class LoginController extends Controller
 						$data = [
 							'user_id' => trim($findUser->id),
 							'ip_addr' => request()->ip(),
-							'created_at' => Carbon::now()->toDateTimeString()
+							'created_at' => Carbon::now()->toDateTimeString(),
 						];
 						//dd($data);
 						DB::table('log_bypass_auth')->insert($data);
-						$line_notify_token = "1ATz8CaB3sG9NIKo7RNO39vyuMG5Ze2Orq6GWGiRabW";
-						$response = "มีคุณ ".$findUser->name." ".$findUser->lname." สิทธิ์ ".$findUser->wposi."เข้าใช้งานระบบ ByPassAuthen ที่ IP ".request()->ip();
+						//$line_notify_token = "1ATz8CaB3sG9NIKo7RNO39vyuMG5Ze2Orq6GWGiRabW";
+						//$response = "มีคุณ ".$findUser->name." ".$findUser->lname." สิทธิ์ ".$findUser->wposi."เข้าใช้งานระบบ ByPassAuthen ที่ IP ".request()->ip();
 						//$this->line_notify($line_notify_token,$response);
 						//Auth successful here
 						return redirect('/');
