@@ -85,7 +85,7 @@ route::post('satexport', 'ExportSATController@satexport')->name('satexport');
 Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');
 
-Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
+//Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
 Route::get('/allcontactexport', 'ExportExcelController@allcontactexport')->name('allcontactexport');
 
 Route::post('/exportcontactbyday', 'ExportContactbyDayController@exportcontactbyday')->name('exportcontactbyday');
