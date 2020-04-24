@@ -85,7 +85,7 @@ route::post('satexport', 'ExportSATController@satexport')->name('satexport');
 Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
 Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');
 
-Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
+//Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
 Route::get('/allcontactexport', 'ExportExcelController@allcontactexport')->name('allcontactexport');
 
 Route::post('/exportcontactbyday', 'ExportContactbyDayController@exportcontactbyday')->name('exportcontactbyday');
@@ -156,9 +156,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/pj', 'InvestController@exportFromQuery')->name('pj');
 	Route::post('/pj1', 'InvestController@exportFastExcel')->name('pj1');
 	Route::get('/getFile/{file}', 'InvestController@downloadFile');
-	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 	Route::get('/checker/{file}', 'InvestController@checkerFile')->name('checker');
 	Route::get('/testja', 'InvestController@testja')->name('testja');
+	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 });
 /* By Pass Login */
 Route::get('/auth', array(

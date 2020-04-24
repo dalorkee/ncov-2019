@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="robots" content="noindex, nofollow">
-  <title>Laravel log viewer</title>
+  <title>Covid  log viewer</title>
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -73,8 +73,8 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col sidebar mb-3">
-      <h1><i class="fa fa-calendar" aria-hidden="true"></i> Laravel Log Viewer</h1>
-      <p class="text-muted"><i>by Rap2h</i></p>
+      <h1><i class="fa fa-bug text-danger" aria-hidden="true"></i> <span class="text-danger">Covid Log Viewer</span></h1>
+      <p class="text-muted"><i>by Talek Team</i></p>
       <div class="list-group div-scroll">
         @foreach($folders as $folder)
           <div class="list-group-item">
