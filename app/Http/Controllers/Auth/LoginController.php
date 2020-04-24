@@ -118,7 +118,7 @@ class LoginController extends Controller
 				// check signature
 				$signatureMD5 = sha1($user.$ts.$signature);
 
-				dd($user,$ts,$signature,$signatureMD5,$sig);
+				//dd($user,$ts,$signature,$signatureMD5,$sig);
 
 				if($sig!=$signatureMD5) {
 						// $error = [];
