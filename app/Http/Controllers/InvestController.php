@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -32,6 +33,7 @@ use App\Port;
 use Log;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Carbon\Carbon;
+
 
 class InvestController extends MasterController
 {
@@ -133,7 +135,7 @@ class InvestController extends MasterController
 	*/
 
 	public function testja() {
-		
+
 	}
 
 	public function exportFastExcel(Request $request) {
@@ -176,24 +178,18 @@ class InvestController extends MasterController
 					$prov_arr = parent::getProvCodeByRegion($user_region);
 					$prov_str = parent::arrayToString($prov_arr);
 					$total = Invest::whereIn('pt_status', $pt_status)
-						/*
-						->whereIn('isolated_province', $prov_arr)
-						->whereIn('walkinplace_hosp_province', $prov_arr)
-						->whereIn('sick_province', $prov_arr)
-						->whereIn('sick_province_first', $prov_arr)
-						*/
-						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str."))")
+						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')->count();
 					break;
 				case 'pho':
 					$total = Invest::whereIn('pt_status', $pt_status)
-						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province ='".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')->count();
 					break;
 				case 'hos':
 					$total = Invest::whereIn('pt_status', $pt_status)
-						->whereRaw("(isolated_hosp_code = '".$user_hosp."' OR walkinplace_hosp_code = '".$user_hosp."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+						->whereRaw("(isolated_hosp_code = '".$user_hosp."' OR walkinplace_hosp_code = '".$user_hosp."' OR treat_first_hospital = '".$user_hosp."' OR treat_place_hospital = '".$user_hosp."' ) AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')->count();
 					break;
 				default:
@@ -1082,7 +1078,7 @@ class InvestController extends MasterController
 						->whereIn('sick_province', $prov_arr)
 						->whereIn('sick_province_first', $prov_arr)
 						*/
-						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str."))")
+						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
@@ -1092,7 +1088,7 @@ class InvestController extends MasterController
 				case 'pho':
 					foreach (Invest::select($fields)
 						->whereIn('pt_status', $pt_status)
-						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
@@ -1101,7 +1097,7 @@ class InvestController extends MasterController
 				case 'hos':
 					foreach (Invest::select($fields)
 						->whereIn("pt_status", $pt_status)
-						->whereRaw("(isolated_hosp_code = '".$user_hosp."' OR walkinplace_hosp_code = '".$user_hosp."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+						->whereRaw("(isolated_hosp_code = '".$user_hosp."' OR walkinplace_hosp_code = '".$user_hosp."' OR treat_first_hospital = '".$user_hosp."' OR treat_place_hospital = '".$user_hosp."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
@@ -1283,19 +1279,67 @@ class InvestController extends MasterController
 			);
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
-			// Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
 		}
 	}
 
 	public function store(Request $request) {
+		/* validate */
+		$request->validate([
+			'idcardInput' => 'nullable|numeric|digits:13',
+			'passportInput' => 'nullable|max:20',
+			'firstNameInput' => 'max:60',
+			'lastNameInput' => 'max:60',
+			'ageYearInput' => 'nullable|numeric|max:120',
+			'ageMonthInput' => 'nullable|numeric|max:12',
+			'ageDayInput' => 'nullable|numeric|max:31',
+			'occupationOthInput' => 'max:60',
+			'workOfficeInput' => 'max:60',
+			'workContactInput' => 'max:60',
+			'workPhoneInput' => 'max:20',
+			'sickStayTypeOtherInput' => 'max:50',
+			'sickHouseNoInput' => 'max:10',
+			'sickVillageNoInput' => 'max:10',
+			'sickVillageInput' => 'max:60',
+			'sickLaneInput' => 'max:60',
+			'sickRoadInput' => 'max:60',
+			'data3_3chk_cancer_name' => 'max:60',
+			'data3_3input_other' => 'max:150',
+			'body_temperature_first' => 'max:9',
+			'oxygen_saturate' => 'max:9',
+			'sym_other_text' => 'max:200',
+			'labCxr1Detail' => 'max:90',
+			'labCbcHb' => 'nullable|numeric|max:9',
+			'labCbcHct' => 'nullable|numeric|max:9',
+			'labCbcPlateletCount' => 'nullable|numeric|max:9',
+			'labCbcWbc' => 'nullable|numeric|max:9',
+			'labCbcNeutrophil' => 'nullable|numeric|max:9',
+			'labCbcLymphocyte' => 'nullable|numeric|max:9',
+			'lab_cbc_atyp_lymph' => 'nullable|numeric|max:9',
+			'lab_cbc_mono' => 'nullable|numeric|max:9',
+			'lab_cbc_other' => 'max:50',
+			'lab_rapid_test_method' => 'max:40',
+			'firstDiagInput' => 'max:200',
+			'covid19_drug_medicate_name_other' => 'max:60',
+			'patient_treat_status_refer' => 'max:50',
+			'patient_treat_status_other' => 'max:50',
+			'risk_detail' => 'max:250',
+			'risk_type_text' => 'max:250',
+			'riskStayOutbreakAirline' => 'max:30',
+			'riskStayOutbreakFlightNoInput' => 'max:30',
+			'riskStayOutbreakSeatNoInput' => 'max:20',
+			'risk_contact_covid_19_patient_name' => 'max:60',
+			'risk_contact_covid_19_sat_id' => 'max:20',
+			'risk_contact_covid_19_touch' => 'max:60',
+			'risk_contact_covid_19_duration' => 'max:80',
+			'risk_travel_arena_name' => 'max:60',
+			'risk_other' => 'max:250',
+			'invest_note' => 'max:250',
+		],[
+			'idcardInput.numeric' => 'หมายเลขบัตรประจำตัวประชาชนต้องเป็นตัวเลข',
+			'idcardInput.digits' => 'หมายเลขบัตรประจำตัวประชาชนต้องมี 13 หลัก',
+			'passportInput.max' => 'หมายเลขพาสปอร์ตต้องไม่เกิน 20 หลัก'
+		]);
 		try {
-			/* validate */
-/*
-			$validatedData = $request->validate([
-				'idcard' => 'required|max:13:min:10',
-				'passport' => 'max:20'
-			]);
-*/
 			/* store data */
 			$pt = Invest::find($request->id);
 			$pt->card_id = $request->idcardInput;
@@ -1493,12 +1537,12 @@ class InvestController extends MasterController
 
 			$pt_saved = $pt->save();
 			if ($pt_saved) {
-				flash()->overlay('<i class="fas fa-check-circle text-success"></i> บันทึกข้อมูลสำเร็จแล้ว', 'DDC::Covid-19');
-				return redirect()->route('list-data.invest');
+				return redirect()->back()->with('success', 'บันทึกข้อมูลสำเร็จแล้ว');
+				//flash()->overlay('<i class="fas fa-check-circle text-success"></i> บันทึกข้อมูลสำเร็จแล้ว', 'DDC::Covid-19');
+				//return redirect()->route('list-data.invest');
 			}
 		} catch(\Exception $e) {
-			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
-			//Log::error(sprintf("%s - line %d - Ahihi", __FILE__, __LINE__));
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage().' jet');
 		}
 	}
 

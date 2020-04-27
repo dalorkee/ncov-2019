@@ -25,6 +25,13 @@
 	.has-error input[type="text"], .has-error input[type="email"], .has-error select {
 		border: 1px solid #a94442;
 	}
+	ul.err-msg {
+		list-style: none;
+		padding: 0;
+	}
+	ul.err-msg li > i {
+		padding-right: 8px;
+	}
 </style>
 @endsection
 @section('meta-token')
@@ -34,7 +41,7 @@
 <div class="page-breadcrumb">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title">Invest Form V 1.10</h4>
+			<h4 class="page-title">Invest Form</h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
@@ -55,24 +62,32 @@
 					<div class="d-md-flex align-items-center mb-2">
 						<div>
 							<h4 class="card-title">แบบสอบสวนของผู้ป่วยโรคปอดอักเสบจากเชื้อไวรัสโคโรนาสายพันธุ์ใหม่ 2019</h4>
-							<h5 class="card-subtitle">COVID-19 Version 1.10</h5>
+							<h5 class="card-subtitle">COVID-19 Version 1.20</h5>
 						</div>
 					</div>
-					@if ($errors->any())
-						<div class="alert alert-danger">
-							<ul>
+					@if(Session::has('success'))
+						<div class="alert alert-success">
+							<i class="fas fa-check-circle"></i> {{ Session::get('success') }}
+							@php
+								Session::forget('success');
+							@endphp
+						</div>
+					@endif
+					@if (count($errors) > 0)
+						<div class = "alert alert-danger">
+							<h1 class="error-title text-danger">Error !</h1>
+							<ul class="err-msg">
 								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
+									<li><i class="fas fa-times text-danger"></i> {{ $error }}</li>
 								@endforeach
 							</ul>
-						</div><br />
+						</div>
 					@endif
-					<form action="{{ route('invest.store') }}" method="POST" enctype="multipart/form-data" class="form-horizontal" role="form" data-toggle="validator" novalidate="true">
+					<form method="POST" action="{{ route('invest.store') }}" enctype="multipart/form-data" class="form-horizontal">
 						{{ csrf_field() }}
-						{{ method_field('POST') }}
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
 							<div style="position:absolute;top:10px;right:10px;z-index:1">
-								<span class="btn btn-danger font-weight-bold font-fira">{{ $invest_pt[0]['sat_id'] }}</span>
+								<span class="btn btn-info font-weight-bold font-fira">{{ $invest_pt[0]['sat_id'] }}</span>
 							</div>
 							@include('form.invest.section1')
 						</div><!-- bd-collout1 -->
@@ -593,6 +608,6 @@ $(".custom-file-input").on("change", function() {
 });
 </script>
 <script>
-	$('#flash-overlay-modal').modal();
+	//$('#flash-overlay-modal').modal();
 </script>
 @endsection

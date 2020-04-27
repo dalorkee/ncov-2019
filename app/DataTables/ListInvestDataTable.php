@@ -214,14 +214,7 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
-					/*
-					->whereIn('isolated_province', $prov_arr)
-					->whereIn('walkinplace_hosp_province', $prov_arr)
-					->whereIn('sick_province', $prov_arr)
-					->whereIn('sick_province_first', $prov_arr)
-					->whereNull('deleted_at')->orderBy('id', 'DESC');
-					*/
-					->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str."))")
+					->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'pho':
@@ -236,11 +229,7 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
-					->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province = '.$user_prov.' OR sick_province_first = '.$user_prov.')')
-					//->where('isolated_province', '=',  $user_prov)
-					//->orWhere('walkinplace_hosp_province', '=',  $user_prov)
-					//->orWhere('sick_province', '=',  $user_prov)
-					//->orWhere('sick_province_first', '=',  $user_prov)
+					->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
 					->whereNull('deleted_at')
 					->orderBy('id', 'DESC');
 					break;
@@ -256,8 +245,11 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
+					->whereRaw('(isolated_hosp_code = '.$user_hosp.' OR walkinplace_hosp_code = '.$user_hosp.' OR treat_first_hospital = '.$user_hosp. ' OR treat_place_hospital = '.$user_hosp.')')
+					/*
 					->where('isolated_hosp_code', '=', $user_hosp)
 					->orWhere('walkinplace_hosp_code', '=', $user_hosp)
+					*/
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			default:

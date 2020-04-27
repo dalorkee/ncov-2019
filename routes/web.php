@@ -116,7 +116,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 	/* invest */
 	Route::get('/invest/create/{id}', 'InvestController@create')->name('invest.create');
-	Route::post('invest', 'InvestController@store')->name('invest.store');
+	Route::post('invest/store', 'InvestController@store')->name('invest.store');
 
 	/* map */
 	Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');
