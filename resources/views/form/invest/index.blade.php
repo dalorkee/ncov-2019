@@ -75,12 +75,14 @@
 					@endif
 					@if (count($errors) > 0)
 						<div class = "alert alert-danger">
-							<h1 class="error-title text-danger">Error !</h1>
+							<h4 class="alert-heading">Error!</h4>
 							<ul class="err-msg">
 								@foreach ($errors->all() as $error)
 									<li><i class="fas fa-times text-danger"></i> {{ $error }}</li>
 								@endforeach
 							</ul>
+							<hr>
+							<p>โปรดตรวจสอบข้อมูลทุกช่องข้อมูลอีกครั้ง ก่อนบันทึกใหม่</p>
 						</div>
 					@endif
 					<form method="POST" action="{{ route('invest.store') }}" enctype="multipart/form-data" class="form-horizontal">
