@@ -26,8 +26,11 @@
 		border: 1px solid #a94442;
 	}
 	ul.err-msg {
-		list-style: none;
+		list-style-type: none;
 		padding: 0;
+	}
+	ul.err-msg li {
+		margin-left: 20px;
 	}
 	ul.err-msg li > i {
 		padding-right: 8px;
@@ -74,15 +77,15 @@
 						</div>
 					@endif
 					@if (count($errors) > 0)
-						<div class = "alert alert-danger">
-							<h4 class="alert-heading">Error!</h4>
+						<div class = "alert alert-danger" style="margin-left:15px;">
+							<h4 class="alert-heading"><i class=" fas fa-times-circle text-danger"></i> Error!</h4>
 							<ul class="err-msg">
 								@foreach ($errors->all() as $error)
-									<li><i class="fas fa-times text-danger"></i> {{ $error }}</li>
+									<li><i class="mdi mdi-alert-octagon text-danger"></i> {{ $error }}</li>
 								@endforeach
 							</ul>
 							<hr>
-							<p>โปรดตรวจสอบข้อมูลทุกช่องข้อมูลอีกครั้ง ก่อนบันทึกใหม่</p>
+							<p class="text-danger">โปรดตรวจสอบข้อมูลให้ถูกต้องอีกครั้ง ก่อนบันทึกใหม่</p>
 						</div>
 					@endif
 					<form method="POST" action="{{ route('invest.store') }}" enctype="multipart/form-data" class="form-horizontal">
