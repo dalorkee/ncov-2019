@@ -35,6 +35,10 @@
 	ul.err-msg li > i {
 		padding-right: 8px;
 	}
+	.span-80 {
+		width: 80px !important;
+		display: inline-block;
+	}
 </style>
 @endsection
 @section('meta-token')

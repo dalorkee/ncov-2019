@@ -441,6 +441,9 @@
 					<textarea name="invest_note" class="form-control">{{ old('invest_note') ?? $invest_pt[0]['invest_note'] }}</textarea>
 				</div>
 			</div>
+		</div>
+	</section>
+	<section class="card-body border-top">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 				<div class="form-group">
 					<label for="investFile" class="text-primary">แนบไฟล์สอบสวนโรค</label>
@@ -454,7 +457,20 @@
 			</div>
 			@if (!is_null($invest_pt[0]['invest_file']))
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-					<div>Your file: {{ $invest_pt[0]['invest_file'] }}</div>
+					<div class="alert alert-success" role="alert">
+						<h5 class="alert-heading">ไฟล์แนบของคุณ</h5>
+						<ul style="list-style-type:none;">
+							<li><span class="span-80">ชื่อไฟล์:</span> {{ $invest_pt[0]['invest_file'] }}</li>
+							<li><span class="span-80">ขนาด:</span> {{ number_format($invest_file_size, 2, '.', ',') }} KB</li>
+							<li><span class="span-80">ดาวน์โหลด:</span><a href="{{ route('invest.downloadFile', [$invest_pt[0]['id']]) }}">คลิกที่นี่</a></li>
+						</ul>
+					</div>
+				</div>
+			@else
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					<div class="alert alert-danger" role="alert">
+						<h5 class="alert-heading">ยังไม่มีไฟล์แนบ</h5>
+					</div>
 				</div>
 			@endif
 		</div>

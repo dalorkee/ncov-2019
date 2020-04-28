@@ -77,6 +77,15 @@ class InvestController extends MasterController
 		return $fileName;
 	}
 
+	public function DownloadInvestFile($pt_id=null) {
+		$fileName = Invest::select('invest_file')->where('id', '=', $pt_id)->get();
+		if (!is_null($fileName[0]->invest_file)) {
+			return Storage::disk('invest')->download($fileName[0]->invest_file);
+		} else {
+			return null;
+		}
+	}
+
 	public function downloadFile($fileName=null) {
 		try {
 			$exists = Storage::disk('export')->exists($fileName);
@@ -1245,6 +1254,18 @@ class InvestController extends MasterController
 				$treat_place_sub_district = null;
 			}
 
+			/* invest attach file */
+			if (!empty($invest_pt[0]['invest_file']) || !is_null($invest_pt[0]['invest_file'])) {
+				if (Storage::disk('invest')->exists($invest_pt[0]['invest_file'])) {
+					$invest_file_size = Storage::disk('invest')->size($invest_pt[0]['invest_file']);
+					$invest_file_size = ($invest_file_size/1024);
+				} else {
+					$invest_file_size = NULL;
+				}
+			} else {
+				$invest_file_size = NULL;
+			}
+
 			return view('form.invest.index',
 				[
 					'globalCountry' => $globalCountry,
@@ -1273,7 +1294,8 @@ class InvestController extends MasterController
 					'pt_activity' => $pt_activity,
 					'covid19_drug_medicate_name' => $covid19_drug_medicate_name,
 					'drug_result' => $drug_result,
-					'risk_type' => $risk_type
+					'risk_type' => $risk_type,
+					'invest_file_size' => $invest_file_size
 
 				]
 			);
