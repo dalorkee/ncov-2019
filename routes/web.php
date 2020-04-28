@@ -117,7 +117,8 @@ Route::group(['middleware' => ['auth']], function() {
 	/* invest */
 	Route::get('/invest/create/{id}', 'InvestController@create')->name('invest.create');
 	Route::post('invest/store', 'InvestController@store')->name('invest.store');
-	Route::get('invest/download/{id}', 'InvestController@DownloadInvestFile')->name('invest.downloadFile');
+	Route::get('invest/download/invest/{id}', 'InvestController@downloadInvestFile')->name('invest.downloadInvestFile');
+	Route::get('invest/download/xray/{id}', 'InvestController@downloadXrayFile')->name('invest.downloadXrayFile');
 
 	/* map */
 	Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');

@@ -77,12 +77,33 @@ class InvestController extends MasterController
 		return $fileName;
 	}
 
-	public function DownloadInvestFile($pt_id=null) {
+	public function downloadInvestFile($pt_id=null) {
 		$fileName = Invest::select('invest_file')->where('id', '=', $pt_id)->get();
 		if (!is_null($fileName[0]->invest_file)) {
-			return Storage::disk('invest')->download($fileName[0]->invest_file);
+			if (Storage::disk('invest')->exists($fileName[0]->invest_file)) {
+				//return Storage::disk('invest')->download($fileName[0]->invest_file);
+				$filePath = public_path('files/invest/'.$fileName[0]->invest_file);
+				return response()->download($filePath);
+			} else {
+				return '<div>File not exists.</div>';
+			}
 		} else {
-			return null;
+			return '<div>File variable is null.</div>';
+		}
+	}
+
+	public function downloadXrayFile($pt_id=null) {
+		$fileName = Invest::select('lab_cxr1_file')->where('id', '=', $pt_id)->get();
+		if (!is_null($fileName[0]->lab_cxr1_file)) {
+			if (Storage::disk('invest')->exists($fileName[0]->lab_cxr1_file)) {
+				//return Storage::disk('invest')->download($fileName[0]->invest_file);
+				$filePath = public_path('files/invest/'.$fileName[0]->lab_cxr1_file);
+				return response()->download($filePath);
+			} else {
+				return '<div>File not exists.</div>';
+			}
+		} else {
+			return '<div>File variable is null.</div>';
 		}
 	}
 
@@ -1266,6 +1287,19 @@ class InvestController extends MasterController
 				$invest_file_size = NULL;
 			}
 
+			/* x-ray file */
+			/* invest attach file */
+			if (!empty($invest_pt[0]['lab_cxr1_file']) || !is_null($invest_pt[0]['lab_cxr1_file'])) {
+				if (Storage::disk('invest')->exists($invest_pt[0]['lab_cxr1_file'])) {
+					$xray_file_size = Storage::disk('invest')->size($invest_pt[0]['lab_cxr1_file']);
+					$xray_file_size = ($xray_file_size/1024);
+				} else {
+					$xray_file_size = NULL;
+				}
+			} else {
+				$xray_file_size = NULL;
+			}
+
 			return view('form.invest.index',
 				[
 					'globalCountry' => $globalCountry,
@@ -1295,7 +1329,8 @@ class InvestController extends MasterController
 					'covid19_drug_medicate_name' => $covid19_drug_medicate_name,
 					'drug_result' => $drug_result,
 					'risk_type' => $risk_type,
-					'invest_file_size' => $invest_file_size
+					'invest_file_size' => $invest_file_size,
+					'xray_file_size' => $xray_file_size
 
 				]
 			);

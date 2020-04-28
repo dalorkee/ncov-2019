@@ -444,6 +444,7 @@
 		</div>
 	</section>
 	<section class="card-body border-top">
+		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 				<div class="form-group">
 					<label for="investFile" class="text-primary">แนบไฟล์สอบสวนโรค</label>
@@ -461,8 +462,8 @@
 						<h5 class="alert-heading">ไฟล์แนบของคุณ</h5>
 						<ul style="list-style-type:none;">
 							<li><span class="span-80">ชื่อไฟล์:</span> {{ $invest_pt[0]['invest_file'] }}</li>
-							<li><span class="span-80">ขนาด:</span> {{ number_format($invest_file_size, 2, '.', ',') }} KB</li>
-							<li><span class="span-80">ดาวน์โหลด:</span><a href="{{ route('invest.downloadFile', [$invest_pt[0]['id']]) }}">คลิกที่นี่</a></li>
+							<li><span class="span-80">ขนาด:</span> {{ number_format($invest_file_size, 2, '.', '') }} KB</li>
+							<li><span class="span-80">ดาวน์โหลด:</span><a href="{{ route('invest.downloadInvestFile', [$invest_pt[0]['id']]) }}">คลิกที่นี่</a></li>
 						</ul>
 					</div>
 				</div>
