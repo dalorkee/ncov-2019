@@ -379,7 +379,7 @@
 			</div>
 			@if (!is_null($invest_pt[0]['lab_cxr1_file']))
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-					<div class="alert alert-success" role="alert">
+					<div class="alert alert-primary" role="alert">
 						<h5 class="alert-heading">ไฟล์แนบของคุณ</h5>
 						<ul style="list-style-type:none;">
 							<li><span class="span-80">ชื่อไฟล์:</span> {{ $invest_pt[0]['lab_cxr1_file'] }}</li>
@@ -390,7 +390,7 @@
 				</div>
 			@else
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-					<div class="alert alert-danger" role="alert">
+					<div class="alert alert-warning" role="alert">
 						<h5 class="alert-heading">ยังไม่มีไฟล์แนบ</h5>
 					</div>
 				</div>

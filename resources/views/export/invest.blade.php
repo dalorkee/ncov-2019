@@ -90,54 +90,35 @@
 				</div>
 			</div>
 		</section>
-		<!--
 		<section class="card border-top">
 			<div class="card-body">
-				<h4 class="card-title">ดาวน์โหลดล่าสุด</h4>
+				<h4 class="card-title m-t-0 m-b-0">Recent Exports</h4>
 			</div>
 			<div class="comment-widgets scrollable">
-				<div class="d-flex flex-row comment-row m-t-0">
-					<div class="p-2"><img src="assets/images/users/1.jpg" alt="user" width="50" class="rounded-circle"></div>
-					<div class="comment-text w-100">
-						<h6 class="font-medium">James Anderson</h6>
-						<span class="m-b-15 d-block">Lorem Ipsum is simply dummy text of the printing and type setting industry. </span>
-						<div class="comment-footer">
-							<span class="text-muted float-right">April 14, 2016</span>
-							<button type="button" class="btn btn-cyan btn-sm">Edit</button>
-							<button type="button" class="btn btn-success btn-sm">Publish</button>
-							<button type="button" class="btn btn-danger btn-sm">Delete</button>
+				@if (!is_null($recent_export_tasks))
+					@php
+						$i = 1;
+					@endphp
+					@foreach ($recent_export_tasks as $key => $value)
+						<div class="d-flex flex-row comment-row m-t-0 {{ (($i > 1) ? 'border-top' : '') }}">
+							<div class="p-2"><h1 class="error-title text-danger">{{ $i }}</h1></div>
+							<div class="comment-text w-100">
+								<h6 class="font-medium text-primary">{{ $value['file_name'] }}</h6>
+								<span class="m-b-2 d-block">ดาวน์โหลดไปแล้ว: {{ $value['export_amount'] }} ครั้ง</span>
+								<span class="m-b-2 d-block">ขนาด: {{ $value['file_size'] }} KB</span>
+								<span class="m-b-10 d-block">สร้างไฟล์เมื่อ: {{ $value['created_at'] }}</span>
+								<div class="comment-footer">
+									<a href="{{ route('export.file', [$value['file_name']]) }}" title="Export" class="btn btn-cyan btn-sm btn-rounded waves-effect waves-light">ดาวน์โหลด</a>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div class="d-flex flex-row comment-row">
-					<div class="p-2"><img src="assets/images/users/4.jpg" alt="user" width="50" class="rounded-circle"></div>
-					<div class="comment-text active w-100">
-						<h6 class="font-medium">Michael Jorden</h6>
-						<span class="m-b-15 d-block">Lorem Ipsum is simply dummy text of the printing and type setting industry. </span>
-						<div class="comment-footer">
-							<span class="text-muted float-right">May 10, 2016</span>
-							<button type="button" class="btn btn-cyan btn-sm">Edit</button>
-							<button type="button" class="btn btn-success btn-sm">Publish</button>
-							<button type="button" class="btn btn-danger btn-sm">Delete</button>
-						</div>
-					</div>
-				</div>
-				<div class="d-flex flex-row comment-row">
-					<div class="p-2"><img src="assets/images/users/5.jpg" alt="user" width="50" class="rounded-circle"></div>
-					<div class="comment-text w-100">
-						<h6 class="font-medium">Johnathan Doeting</h6>
-						<span class="m-b-15 d-block">Lorem Ipsum is simply dummy text of the printing and type setting industry. </span>
-						<div class="comment-footer">
-							<span class="text-muted float-right">August 1, 2016</span>
-							<button type="button" class="btn btn-cyan btn-sm">Edit</button>
-							<button type="button" class="btn btn-success btn-sm">Publish</button>
-							<button type="button" class="btn btn-danger btn-sm">Delete</button>
-						</div>
-					</div>
-				</div>
+						@php
+							$i++;
+						@endphp
+					@endforeach
+				@endif
 			</div>
 		</section>
-	-->
 	</article>
 </div>
 @endsection
@@ -237,5 +218,8 @@ $(document).ready(function() {
 	});
 });
 </script>
-
+<script>
+	$('[data-toggle="tooltip"]').tooltip();
+	$(".preloader").fadeOut();
+</script>
 @endsection

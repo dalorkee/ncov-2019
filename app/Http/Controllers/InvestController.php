@@ -60,12 +60,39 @@ class InvestController extends MasterController
 		return $result;
 	}
 
+
+	protected function exportRecentByUser() {
+		$tasks = LogExport::where('ref_user_id', '=', auth()->user()->id)->orderBy('id', 'DESC')->limit(3)->get();
+		if (count($tasks) > 0) {
+			$tasks = $tasks->toArray();
+			$tasks_result = array();
+			foreach ($tasks as $key => $value) {
+				$result['file_name'] = $value['file_name'];
+				$result['file_size'] = $value['file_size'];
+				$result['export_amount'] = $value['export_amount'];
+				$exp_data = explode(" ", $value['created_at']);
+				$exp_date = explode("-", $exp_data[0]);
+				$result['created_at'] = $exp_date[2].'/'.$exp_date[1]."/".$exp_date[0]." ".$exp_data[1];
+				array_push($tasks_result, $result);
+			}
+			return $tasks_result;
+		} else {
+			return null;
+		}
+	}
+
 	public function exportPage() {
 		$fileName = self::setExportFileName();
 		$pt_status = parent::selectStatus('pt_status');
+
+		$recentExportTasks = $this->exportRecentByUser();
+
+		//dd($recentExportTasks);
+
 		return view('export.invest',
 			[
-				'pt_status' => $pt_status
+				'pt_status' => $pt_status,
+				'recent_export_tasks' => $recentExportTasks
 			]
 		);
 	}
@@ -869,9 +896,9 @@ class InvestController extends MasterController
 					]);
 
 					$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
-					$htm .= "<li style='margin-bottom:8px;'><a href='".url("/getFile/{$fileName}")."' class='btn btn-danger btn-lg'>ดาวน์โหลดไฟล์ของคุณ คลิกที่นี่!!. </a></li>";
-					$htm .= "<li>File size ".number_format($size_kb, 2, '.', '')." KB</li>";
-					$htm .= "<li>Type CSV</li>";
+					$htm .= "<li style='margin-bottom:8px;'><a href='".url("/getFile/{$fileName}")."' class='btn btn-danger btn-lg'>ดาวน์โหลดไฟล์ล่าสุดของคุณ คลิกที่นี่!!. </a></li>";
+					$htm .= "<li>ขนาด: ".number_format($size_kb, 2, '.', '')." KB</li>";
+					$htm .= "<li>ชนิด: csv</li>";
 					$htm .= "</ul>";
 					return $htm;
 				} else {
