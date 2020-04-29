@@ -283,8 +283,8 @@ class ListInvestDataTable extends DataTable
 			->orderBy(0)
 			->responsive(true)
 			->parameters(
-				[ "language"=>[
-						"url" => "assets/libs/datatables-1.10.20/i18n/thai.json"
+				[ 'language'=>[
+						'url' => url('/assets/libs/datatables-1.10.20/i18n/thai.json')
 					]
 				]
 			)
