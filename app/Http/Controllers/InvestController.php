@@ -169,7 +169,7 @@ class InvestController extends MasterController
 					unlink($file);
 				}
 			} else {
-				echo json_encode(array("percent" => null, "message" => 'Data not exists.'));
+				echo json_encode(array("percent" => null, "message" => null));
 			}
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
@@ -1109,7 +1109,7 @@ class InvestController extends MasterController
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							sleep(1);
+							usleep(300000);
 
 					}
 					break;
@@ -1127,7 +1127,7 @@ class InvestController extends MasterController
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							sleep(1);
+							usleep(300000);
 					}
 					break;
 				case 'dpc':
@@ -1147,7 +1147,7 @@ class InvestController extends MasterController
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							sleep(1);
+							usleep(300000);
 					}
 					break;
 				case 'pho':
@@ -1164,7 +1164,7 @@ class InvestController extends MasterController
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							sleep(1);
+							usleep(300000);
 					}
 					break;
 				case 'hos':
@@ -1181,7 +1181,7 @@ class InvestController extends MasterController
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							sleep(1);
+							usleep(300000);
 					}
 					break;
 				default:
