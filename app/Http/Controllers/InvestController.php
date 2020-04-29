@@ -1096,44 +1096,44 @@ class InvestController extends MasterController
 			);
 			switch ($user_role) {
 				case 'root':
-					$i = 1;
+					//$i = 1;
 					foreach (Invest::select($fields)
 						->whereIn('pt_status', $pt_status)
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
-							$arr_content = array();
+					/*		$arr_content = array();
 							$percent = intval($i/$total * 100);
 							$arr_content['percent'] = $percent;
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
 							usleep(300000);
-
+					*/
 					}
 					break;
 				case 'ddc':
-					$i = 1;
+					//$i = 1;
 					foreach (Invest::select($fields)
 						->whereIn('pt_status', $pt_status)
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
-							$arr_content = array();
+							/*$arr_content = array();
 							$percent = intval($i/$total * 100);
 							$arr_content['percent'] = $percent;
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							usleep(300000);
+							usleep(300000);*/
 					}
 					break;
 				case 'dpc':
 					$prov_arr = parent::getProvCodeByRegion($user_region);
 					$prov_str = parent::arrayToString($prov_arr);
-					$i = 1;
+					//$i = 1;
 					foreach (Invest::select($fields)
 						->whereIn('pt_status', $pt_status)
 						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
@@ -1141,47 +1141,47 @@ class InvestController extends MasterController
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
-							$arr_content = array();
+							/*$arr_content = array();
 							$percent = intval($i/$total * 100);
 							$arr_content['percent'] = $percent;
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							usleep(300000);
+							usleep(300000);*/
 					}
 					break;
 				case 'pho':
-					$i = 1;
+					//$i = 1;
 					foreach (Invest::select($fields)
 						->whereIn('pt_status', $pt_status)
 						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
-							$arr_content = array();
+							/*$arr_content = array();
 							$percent = intval($i/$total * 100);
 							$arr_content['percent'] = $percent;
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							usleep(300000);
+							usleep(300000);*/
 					}
 					break;
 				case 'hos':
-					$i = 1;
+					//$i = 1;
 					foreach (Invest::select($fields)
 						->whereIn("pt_status", $pt_status)
 						->whereRaw("(isolated_hosp_code = '".$user_hosp."' OR walkinplace_hosp_code = '".$user_hosp."' OR treat_first_hospital = '".$user_hosp."' OR treat_place_hospital = '".$user_hosp."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
-							$arr_content = array();
+							/*$arr_content = array();
 							$percent = intval($i/$total * 100);
 							$arr_content['percent'] = $percent;
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							usleep(300000);
+							usleep(300000);*/
 					}
 					break;
 				default:
