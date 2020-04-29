@@ -1,3 +1,12 @@
+<?php
+$ts = time();
+$signature = "bd6efdd618ef8e481ba2e247b10735b801fbdefe";
+$uid = Auth::user()->id;
+$sig = sha1($uid.$ts.$signature);
+
+$url_to_voravit = "http://viral.ddc.moph.go.th/viral/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig;
+?>
+
 <!-- ============================================================== -->
 <!-- Left Sidebar - style you can find in sidebar.scss  -->
 <!-- ============================================================== -->
@@ -9,7 +18,7 @@
 			<ul id="sidebarnav" class="p-t-30">
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa far fa-list-alt"></i><span class="hide-menu">Form </span></a>
 					<ul aria-expanded="false" class="collapse  first-level">
-						<li class="sidebar-item"><a href="{{ route('pui-screen') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> PUI Screen</span></a></li>
+						<li class="sidebar-item"><a href="{{ $url_to_voravit }}" target="_blank" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> PUI Screen</span></a></li>
 						@role('root|ddc|dpc')
 						<li class="sidebar-item"><a href="{{ route('list-data.sat') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> SAT</span></a></li>
 						@endrole
