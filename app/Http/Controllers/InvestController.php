@@ -169,7 +169,7 @@ class InvestController extends MasterController
 					unlink($file);
 				}
 			} else {
-				echo json_encode(array("percent" => null, "message" => null));
+				echo json_encode(array("percent" => null, "message" => 'Data not exists.'));
 			}
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
@@ -897,18 +897,17 @@ class InvestController extends MasterController
 
 					$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
 					$htm .= "<li style='margin-bottom:8px;'><a href='".url("/getFile/{$fileName}")."' class='btn btn-danger btn-lg'>ดาวน์โหลดไฟล์ล่าสุดของคุณ คลิกที่นี่!!. </a></li>";
-					$htm .= "<li>ขนาด: ".number_format($size_kb, 2, '.', '')." KB</li>";
-					$htm .= "<li>ชนิด: csv</li>";
+					$htm .= "<li>".number_format($size_kb, 2, '.', '')." KB, CSV</li>";
 					$htm .= "</ul>";
 					return $htm;
 				} else {
 					$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
-					$htm .= "<li>File not found.</li>";
+					$htm .= "<li>ไม่พบไฟล์ข้อมูล</li>";
 					$htm .= "</ul>";
 				}
 			} else {
 				$htm = "<ul style='list-style-type:none;margin:10px 0 0 0;padding:0'>";
-				$htm .= "<li>Data not found.</li>";
+				$htm .= "<li>ไม่พบข้อมูลตามเงื่อนไข</li>";
 				$htm .= "</ul>";
 			}
 			return $htm;
@@ -1097,67 +1096,92 @@ class InvestController extends MasterController
 			);
 			switch ($user_role) {
 				case 'root':
-					//$i = 1;
+					$i = 1;
 					foreach (Invest::select($fields)
 						->whereIn('pt_status', $pt_status)
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
-							/*
 							$arr_content = array();
 							$percent = intval($i/$total * 100);
 							$arr_content['percent'] = $percent;
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							usleep(100000);
-							*/
+							usleep(10000);
+
 					}
 					break;
 				case 'ddc':
+					$i = 1;
 					foreach (Invest::select($fields)
 						->whereIn('pt_status', $pt_status)
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
+							$arr_content = array();
+							$percent = intval($i/$total * 100);
+							$arr_content['percent'] = $percent;
+							$arr_content['message'] = $i . " row(s) processed.";
+							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
+							$i++;
+							usleep(10000);
 					}
 					break;
 				case 'dpc':
 					$prov_arr = parent::getProvCodeByRegion($user_region);
 					$prov_str = parent::arrayToString($prov_arr);
+					$i = 1;
 					foreach (Invest::select($fields)
 						->whereIn('pt_status', $pt_status)
-						/*
-						->whereIn('isolated_province', $prov_arr)
-						->whereIn('walkinplace_hosp_province', $prov_arr)
-						->whereIn('sick_province', $prov_arr)
-						->whereIn('sick_province_first', $prov_arr)
-						*/
 						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
+							$arr_content = array();
+							$percent = intval($i/$total * 100);
+							$arr_content['percent'] = $percent;
+							$arr_content['message'] = $i . " row(s) processed.";
+							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
+							$i++;
+							usleep(10000);
 					}
 					break;
 				case 'pho':
+					$i = 1;
 					foreach (Invest::select($fields)
 						->whereIn('pt_status', $pt_status)
 						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
+							$arr_content = array();
+							$percent = intval($i/$total * 100);
+							$arr_content['percent'] = $percent;
+							$arr_content['message'] = $i . " row(s) processed.";
+							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
+							$i++;
+							usleep(10000);
 					}
 					break;
 				case 'hos':
+					$i = 1;
 					foreach (Invest::select($fields)
 						->whereIn("pt_status", $pt_status)
 						->whereRaw("(isolated_hosp_code = '".$user_hosp."' OR walkinplace_hosp_code = '".$user_hosp."' OR treat_first_hospital = '".$user_hosp."' OR treat_place_hospital = '".$user_hosp."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
+							$arr_content = array();
+							$percent = intval($i/$total * 100);
+							$arr_content['percent'] = $percent;
+							$arr_content['message'] = $i . " row(s) processed.";
+							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
+							$i++;
+							usleep(10000);
 					}
 					break;
 				default:
