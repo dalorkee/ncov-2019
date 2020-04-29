@@ -255,6 +255,12 @@ class ScreenPUIController extends MasterController
           "card_id" => (!empty($request->card_id)) ? trim($request->card_id) : NULL,
           "passport" => (!empty($request->passport)) ? trim($request->passport) : NULL,
           "hn" => (!empty($request->hn)) ? trim($request->hn) : NULL,
+          //Add NEW 29-04-63
+          "treat_first_province" => (!empty($request->walkinplace_hosp_province)) ? trim($request->walkinplace_hosp_province) : NULL,
+          "treat_first_hospital" => (!empty($request->walkinplace_hosp)) ? trim($request->walkinplace_hosp) : NULL,
+          "treat_place_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
+          "treat_place_hospital" => (!empty($request->isolated_hosp_code)) ? trim($request->isolated_hosp_code) : NULL,
+          "treat_place_date" => (!empty($request->isolate_date)) ? trim($this->Convert_Date($request->isolate_date)) : NULL,
         ];
 
         $result = InvestList::insert($data);
@@ -493,6 +499,12 @@ class ScreenPUIController extends MasterController
                 "card_id" => (!empty($request->card_id)) ? trim($request->card_id) : NULL,
                 "passport" => (!empty($request->passport)) ? trim($request->passport) : NULL,
                 "hn" => (!empty($request->hn)) ? trim($request->hn) : NULL,
+                //Add NEW 29-04-63
+                "treat_first_province" => (!empty($request->walkinplace_hosp_province)) ? trim($request->walkinplace_hosp_province) : NULL,
+                "treat_first_hospital" => (!empty($request->walkinplace_hosp)) ? trim($request->walkinplace_hosp) : NULL,
+                "treat_place_province" => (!empty($request->isolated_province)) ? trim($request->isolated_province) : NULL,
+                "treat_place_hospital" => (!empty($request->isolated_hosp_code)) ? trim($request->isolated_hosp_code) : NULL,
+                "treat_place_date" => (!empty($request->isolate_date)) ? trim($this->Convert_Date($request->isolate_date)) : NULL,
                       ]);
 
               //return redirect()->route('screenpui.edit', ['id' => $request->id])->with('message','Edit Success!');
