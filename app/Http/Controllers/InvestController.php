@@ -1109,7 +1109,7 @@ class InvestController extends MasterController
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							usleep(10000);
+							sleep(1);
 
 					}
 					break;
@@ -1127,7 +1127,7 @@ class InvestController extends MasterController
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							usleep(10000);
+							sleep(1);
 					}
 					break;
 				case 'dpc':
@@ -1147,7 +1147,7 @@ class InvestController extends MasterController
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							usleep(10000);
+							sleep(1);
 					}
 					break;
 				case 'pho':
@@ -1164,7 +1164,7 @@ class InvestController extends MasterController
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							usleep(10000);
+							sleep(1);
 					}
 					break;
 				case 'hos':
@@ -1181,7 +1181,7 @@ class InvestController extends MasterController
 							$arr_content['message'] = $i . " row(s) processed.";
 							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
 							$i++;
-							usleep(10000);
+							sleep(1);
 					}
 					break;
 				default:
