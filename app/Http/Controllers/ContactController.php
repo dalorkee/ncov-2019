@@ -130,7 +130,7 @@ class ContactController extends MasterController
 															'tbl_contact.lname_contact',
 															'tbl_followup.walkin_province',
 															'tbl_followup.walkin_district',
-															'tbl_followup.walkin_sub_district',
+															'tbl_followup.walkin_subdistrict',
 															'tbl_followup.walkin_hospital_code',
 															'tbl_contact.status_followup')
 										->where('patient_relation.pui_id', $id)
@@ -243,7 +243,7 @@ public function allcontacttable(Request $req)
 														'tbl_contact.status_followup',
 														'tbl_followup.walkin_province',
 														'tbl_followup.walkin_district',
-														'tbl_followup.walkin_sub_district',
+														'tbl_followup.walkin_subdistrict',
 														'tbl_followup.walkin_hospital_code',
 														'tbl_contact.pt_status');
 														if (count($roleArr) > 0) {
@@ -1285,7 +1285,7 @@ public function contactstupdate(Request $request) {
 	$id = $request ->input ('id');
 	$walkin_province = $request ->input ('walkin_province');
 	$walkin_district = $request  ->input ('walkin_district');
-	$walkin_sub_district = $request  ->input ('walkin_sub_district ');
+	$walkin_subdistrict = $request  ->input ('walkin_subdistrict ');
 	$walkin_hospital_code =  $request ->input ('walkin_hospital_code');
 	// dd($id);
 	$pui_id = $request ->input ('pui_id');
@@ -1325,7 +1325,7 @@ public function contactstupdate(Request $request) {
 					'nation'=>$nation,
 					'treat_first_province'=>$walkin_province,
 					'treat_first_district'=>$walkin_district,
-					'treat_first_sub_district'=>$walkin_sub_district,
+					'treat_first_sub_district'=>$walkin_subdistrict,
 					'treat_first_hospital'=>$walkin_hospital_code,
 					'pt_status'=>"2",
 					'created_at'=>date("Y-m-d h:i:s"),
