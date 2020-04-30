@@ -187,7 +187,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                     <div class="col-sm-12 col-md-3">
                                         <label for="national_contact">สัญชาติผู้สัมผัส</label>
                                         <select type="text" name="national_contact" class="form-control js-select-basic-single" placeholder="สัญชาติ">
-																					<option value=""{{ (isset($getdata_contact[0]->national_contact)) ? $getdata_contact[0]->national_contact : "" }}"">{{ (isset($listcountry[$getdata_contact[0]->national_contact])) ? $listcountry[$getdata_contact[0]->national_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																					<option value="{{ (isset($getdata_contact[0]->national_contact)) ? $getdata_contact[0]->national_contact : "" }}">{{ (isset($listcountry[$getdata_contact[0]->national_contact])) ? $listcountry[$getdata_contact[0]->national_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
 																						<option value="">เลือกสัญชาติ</option>
                                             @foreach ($ref_global_country as $row)
                                             <option value="{{$row->country_id}}">{{$row->country_name}}</option>
@@ -207,14 +207,14 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                     <div class="col-sm-12 col-md-3">
                                         <label for="district">อำเภอ/เขตที่อยู่ในประเทศไทย</label>
                                         <select name="district" id="district" class="form-control district js-select-basic-single" placeholder="อำเภอ">
-																					<option value=""{{ (isset($getdata_contact[0]->district)) ? $getdata_contact[0]->district : "" }}"">{{ (isset($arrdistrict[$getdata_contact[0]->district])) ? $arrdistrict[$getdata_contact[0]->district] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																					<option value="{{ (isset($getdata_contact[0]->district)) ? $getdata_contact[0]->district : "" }}">{{ (isset($arrdistrict[$getdata_contact[0]->district])) ? $arrdistrict[$getdata_contact[0]->district] : "ยังไม่มีการกรอกข้อมูล" }}</option>
                                             <option value="">เลือกอำเภอ/เขตที่อยู่ในประเทศไทย</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-12 col-md-3">
                                         <label for="subdistrict">ตำบลที่อยู่ในประเทศไทย</label>
                                         <select name="sub_district" id="subdistrict" class="form-control subdistrict js-select-basic-single" placeholder="ตำบล">
-																				<option value=""{{ (isset($getdata_contact[0]->sub_district)) ? $getdata_contact[0]->sub_district : "" }}"">{{ (isset($arr_sub_district[$getdata_contact[0]->sub_district])) ? $arr_sub_district[$getdata_contact[0]->sub_district] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																				<option value="{{ (isset($getdata_contact[0]->sub_district)) ? $getdata_contact[0]->sub_district : "" }}">{{ (isset($arr_sub_district[$getdata_contact[0]->sub_district])) ? $arr_sub_district[$getdata_contact[0]->sub_district] : "ยังไม่มีการกรอกข้อมูล" }}</option>
 																						<option value="">เลือกตำบลที่อยู่ในประเทศไทย</option>
                                         </select>
                                     </div>
@@ -260,7 +260,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             <div class="col-sm-4">
                                 <label for="type_contact">ประเภทผู้สัมผัส</label>
                                 <select type="text" name="type_contact" class="form-control js-select-basic-single" placeholder="ประเภทผู้สัมผัส">
-																		<option value=""{{ (isset($getdata_contact[0]->type_contact)) ? $getdata_contact[0]->type_contact : "" }}"">{{ (isset($arr_type_contact[$getdata_contact[0]->type_contact])) ? $arr_type_contact[$getdata_contact[0]->type_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																		{{-- <option value="{{ (isset($getdata_contact[0]->type_contact)) ? $getdata_contact[0]->type_contact : "" }}">{{ (isset($arr_type_contact[$getdata_contact[0]->type_contact])) ? $arr_type_contact[$getdata_contact[0]->type_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option> --}}
 																		<option value="">ประเภทผู้สัมผัส</option>
                                     @foreach ($contact_type as $row)
                                     <option value="{{$row->Index}}">{{$row->type}}</option>
@@ -352,6 +352,8 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             </div>
                         </div>
                     </div>
+
+                      {{-- <input type="text" id="checkBoxID2" name="no_lab1" value="{{ $getdata_hsc_1 }}" checked>test --}}
                     <div class="bd-callout bd-callout-warning" style="margin-top:0;position:relative">
                         {{-- <div style="position:absolute;top:10px;right:10px;z-index:1"> --}}
                             {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
@@ -397,53 +399,256 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <?php foreach($getdata_hsc_contact as  $value) : ?>
-                        							<tr>
+                                    {{-- {{$getdata_hsc_1}} --}}
+                                    @if (count($getdata_hsc_1) <= 0)
+                                      <tr>
                                         <td>
-                                          <input type="text" id="dms_time_contact" name="no_lab[]" value="{{ $value->no_lab }}"  class="form-control dms_time_contact01" readonly>
-                                        </td>
-                                        <td>
-                                          <select class="form-control" name="dms_pcr_contact[]">
-                                            <option value="{{ $value->dms_pcr_contact }}">{{ (isset( $arr_laboratory[$value->dms_pcr_contact])) ?  $arr_laboratory[$value->dms_pcr_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
-                                            <option value="">- เลือก -</option>
-                                            @foreach ($ref_lab as $row)
-                                            <option value="{{$row->id}}">{{$row->th_name}}</option>
-                                            @endforeach
+                                          <input type="checkbox" id="checkBoxID1" name="no_lab1" value="1">
+                                          {{-- <input type="text" name="no_lab1" value="1" class="form-control"></td> --}}
+                                          <td>
+                                            <select name="dms_pcr_contact1" class="form-control divID1">
+                                                <option value="">- เลือก -</option>
+                                              @foreach ($ref_lab as $row)
+                                              <option value="{{$row->id}}">{{$row->th_name}}</option>
+                                              @endforeach
+                                            </select>
+                                          </td>
+                                          <td>
+                                            <input type="text" name="dms_time_contact1" class="form-control divID1">
+                                          </td>
+                                          <td>
+                                            <input type="text" name="dms_date_contact1" id="date_dms_date_contact" class="form-control divID1">
+                                          <td>
+                                            <select name="dms_specimen_contact1" class="form-control divID1">
+                                              <option value="">- เลือก -</option>
+                                              @foreach ($ref_specimen as $row)
+                                              <option value="{{$row->id}}">{{$row->name_en}}</option>
+                                              @endforeach
+                                            </select>
+                                          </td>
+                                          <td>
+                                            <input type="text" name="chkspec_other_contact1"  class="form-control divID1">
+                                          </td>
+                                          <td>
+                                            <select name="other_pcr_result_contact1" class="form-control divID1">
+                                              <option value="">- เลือก -</option>
+                                            <option value="รอผล">รอผล</option>
+                                            <option value="Negative">Negative</option>
+                                            <option value="Positive">Positive</option>
                                           </select>
                                         </td>
-                                        <td>
-                                          <input type="text" id="" name="dms_time_contact[]" value="{{ $value->dms_time_contact }}"  class="form-control dms_time_contact" onkeyup="autocomplet()">
-                                        </td>
-                                        <td>
-                                          <input type="text" id="date_dms_date_contact" name="dms_date_contact[]" value="{{ $value->dms_date_contact }}"  class="form-control dms_time_contact" onkeyup="autocomplet()">
-                                        </td>
-                                        <td>
-                                          <select class="form-control" name="dms_specimen_contact[]">
-                                            <option value="{{ (isset($value->dms_specimen_contact)) ? $value->dms_specimen_contact : "" }}">{{ (isset( $arrspecimen[$value->dms_specimen_contact])) ?  $arrspecimen[$value->dms_specimen_contact] : "ยังไม่มียังไม่มีการกรอกข้อมูล" }}</option>
-                                            <option value="">- เลือก -</option>
-                                            @foreach ($ref_specimen as $row)
-                                            <option value="{{$row->id}}">{{$row->name_en}}</option>
-                                            @endforeach
-                                          </select>
-                                        </td>
-                                        <td>
-                                          <input type="text" id="chkspec_other_contact" name="chkspec_other_contact[]" value="{{ $value->chkspec_other_contact }}"  class="form-control chkspec_other_contact01" onkeyup="autocomplet()">
-                                        </td>
-                                        <td>
-                                          <select class="form-control" name="other_pcr_result_contact[]">
-                                            <option value="{{ $value->other_pcr_result_contact }}">{{ $value->other_pcr_result_contact }}</option>
-                                            <option value="">- เลือก -</option>
-                                          <option value="รอผล">รอผล</option>
-                                          <option value="Negative">Negative</option>
-                                          <option value="Positive">Positive</option>
-                                        </select>
-                                      </td>
                                       </tr>
-                        							<?php endforeach;?>
-                                      {{-- <td>
-                                          <button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd">Add More</button>
-                                      </td> --}}
-                                    </tr>
+                                    @elseif (count($getdata_hsc_1) >= 0)
+                                    {{-- @elseif ($getdata_hsc_1 != NULL) --}}
+                                      <?php foreach($getdata_hsc_contact1 as  $value) : ?>
+                                        <tr>
+                                          <td>
+                                            <input type="checkbox" id="checkBoxID1" name="no_lab1_e" value="1">
+                                          </td>
+                                          <td>
+                                            <select class="form-control divID1" name="dms_pcr_contact1">
+                                              <option value="{{ $value->dms_pcr_contact }}">{{ (isset( $arr_laboratory[$value->dms_pcr_contact])) ?  $arr_laboratory[$value->dms_pcr_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+                                              <option value="">- เลือก -</option>
+                                              @foreach ($ref_lab as $row)
+                                              <option value="{{$row->id}}">{{$row->th_name}}</option>
+                                              @endforeach
+                                            </select>
+                                          </td>
+                                          <td>
+                                            <input type="text" id="" name="dms_time_contact1" value="{{ $value->dms_time_contact }}"  class="form-control dms_time_contact divID1" onkeyup="autocomplet()">
+                                          </td>
+                                          <td>
+                                            <input type="text" id="date_dms_date_contact" name="dms_date_contact1" value="{{ $value->dms_date_contact }}"  class="form-control dms_time_contact divID1" onkeyup="autocomplet()" autocomplete="off">
+                                          </td>
+                                          <td>
+                                            <select class="form-control divID1" name="dms_specimen_contact1">
+                                              <option value="{{ (isset($value->dms_specimen_contact)) ? $value->dms_specimen_contact : "" }}">{{ (isset( $arrspecimen[$value->dms_specimen_contact])) ?  $arrspecimen[$value->dms_specimen_contact] : "ยังไม่มียังไม่มีการกรอกข้อมูล" }}</option>
+                                              <option value="">- เลือก -</option>
+                                              @foreach ($ref_specimen as $row)
+                                              <option value="{{$row->id}}">{{$row->name_en}}</option>
+                                              @endforeach
+                                            </select>
+                                          </td>
+                                          <td>
+                                            <input type="text" id="chkspec_other_contact" name="chkspec_other_contact1" value="{{ $value->chkspec_other_contact }}"  class="form-control chkspec_other_contact01 divID1" onkeyup="autocomplet()">
+                                          </td>
+                                          <td>
+                                            <select class="form-control divID1" name="other_pcr_result_contact1">
+                                              <option value="{{ $value->other_pcr_result_contact }}">{{ $value->other_pcr_result_contact }}</option>
+                                              <option value="">- เลือก -</option>
+                                            <option value="รอผล">รอผล</option>
+                                            <option value="Negative">Negative</option>
+                                            <option value="Positive">Positive</option>
+                                          </select>
+                                        </td>
+                                        </tr>
+                                        <?php endforeach;?>
+                                    @endif
+                                    @if (count($getdata_hsc_2) <= 0)
+                                      <tr>
+                                        <td>
+                                          <input type="checkbox" id="checkBoxID2" name="no_lab2" value="2">
+                                          <td>
+                                            <select name="dms_pcr_contact2" class="form-control divID2">
+                                                <option value="">- เลือก -</option>
+                                              @foreach ($ref_lab as $row)
+                                              <option value="{{$row->id}}">{{$row->th_name}}</option>
+                                              @endforeach
+                                            </select>
+                                          </td>
+                                          <td>
+                                            <input type="text" name="dms_time_contact2" class="form-control divID2">
+                                          </td>
+                                          <td>
+                                            <input type="text" name="dms_date_contact2" id="date_dms_date_contact" class="form-control divID2">
+                                          <td>
+                                            <select name="dms_specimen_contact2" class="form-control divID2">
+                                              <option value="">- เลือก -</option>
+                                              @foreach ($ref_specimen as $row)
+                                              <option value="{{$row->id}}">{{$row->name_en}}</option>
+                                              @endforeach
+                                            </select>
+                                          </td>
+                                          <td>
+                                            <input type="text" name="chkspec_other_contact2"  class="form-control divID2">
+                                          </td>
+                                          <td>
+                                            <select name="other_pcr_result_contact2" class="form-control divID2">
+                                              <option value="">- เลือก -</option>
+                                            <option value="รอผล">รอผล</option>
+                                            <option value="Negative">Negative</option>
+                                            <option value="Positive">Positive</option>
+                                          </select>
+                                        </td>
+                                      </tr>
+                                    @elseif (count($getdata_hsc_2) >= 0)
+                                      <?php foreach($getdata_hsc_contact2 as  $value) : ?>
+                                        <tr>
+                                          <td>
+                                            <input type="checkbox" id="checkBoxID2" name="no_lab2_e" value="2">
+                                          </td>
+                                          <td>
+                                            <select class="form-control divID2" name="dms_pcr_contact2">
+                                              <option value="{{ $value->dms_pcr_contact }}">{{ (isset( $arr_laboratory[$value->dms_pcr_contact])) ?  $arr_laboratory[$value->dms_pcr_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+                                              <option value="">- เลือก -</option>
+                                              @foreach ($ref_lab as $row)
+                                              <option value="{{$row->id}}">{{$row->th_name}}</option>
+                                              @endforeach
+                                            </select>
+                                          </td>
+                                          <td>
+                                            <input type="text" id="" name="dms_time_contact2" value="{{ $value->dms_time_contact }}"  class="form-control dms_time_contact divID2" onkeyup="autocomplet()">
+                                          </td>
+                                          <td>
+                                            <input type="text" id="date_dms_date_contact" name="dms_date_contact2" value="{{ $value->dms_date_contact }}"  class="form-control dms_time_contact divID2" onkeyup="autocomplet()" autocomplete="off">
+                                          </td>
+                                          <td>
+                                            <select class="form-control divID1" name="dms_specimen_contact2">
+                                              <option value="{{ (isset($value->dms_specimen_contact)) ? $value->dms_specimen_contact : "" }}">{{ (isset( $arrspecimen[$value->dms_specimen_contact])) ?  $arrspecimen[$value->dms_specimen_contact] : "ยังไม่มียังไม่มีการกรอกข้อมูล" }}</option>
+                                              <option value="">- เลือก -</option>
+                                              @foreach ($ref_specimen as $row)
+                                              <option value="{{$row->id}}">{{$row->name_en}}</option>
+                                              @endforeach
+                                            </select>
+                                          </td>
+                                          <td>
+                                            <input type="text" id="chkspec_other_contact" name="chkspec_other_contact2" value="{{ $value->chkspec_other_contact }}"  class="form-control chkspec_other_contact01 divID2" onkeyup="autocomplet()">
+                                          </td>
+                                          <td>
+                                            <select class="form-control divID2" name="other_pcr_result_contact2">
+                                              <option value="{{ $value->other_pcr_result_contact }}">{{ $value->other_pcr_result_contact }}</option>
+                                              <option value="">- เลือก -</option>
+                                            <option value="รอผล">รอผล</option>
+                                            <option value="Negative">Negative</option>
+                                            <option value="Positive">Positive</option>
+                                          </select>
+                                        </td>
+                                        </tr>
+                                        <?php endforeach;?>
+                                    @endif
+                                    @if (count($getdata_hsc_3) <= 0)
+                                      <tr>
+                                        <td>
+                                          <input type="checkbox" id="checkBoxID3" name="no_lab3" value="3">
+                                          <td>
+                                            <select name="dms_pcr_contact3" class="form-control divID3">
+                                                <option value="">- เลือก -</option>
+                                              @foreach ($ref_lab as $row)
+                                              <option value="{{$row->id}}">{{$row->th_name}}</option>
+                                              @endforeach
+                                            </select>
+                                          </td>
+                                          <td>
+                                            <input type="text" name="dms_time_contact3" class="form-control divID3">
+                                          </td>
+                                          <td>
+                                            <input type="text" name="dms_date_contact3" id="date_dms_date_contact" class="form-control divID3">
+                                          <td>
+                                            <select name="dms_specimen_contact3" class="form-control divID3">
+                                              <option value="">- เลือก -</option>
+                                              @foreach ($ref_specimen as $row)
+                                              <option value="{{$row->id}}">{{$row->name_en}}</option>
+                                              @endforeach
+                                            </select>
+                                          </td>
+                                          <td>
+                                            <input type="text" name="chkspec_other_contact3"  class="form-control divID3">
+                                          </td>
+                                          <td>
+                                            <select name="other_pcr_result_contact3" class="form-control divID3">
+                                              <option value="">- เลือก -</option>
+                                            <option value="รอผล">รอผล</option>
+                                            <option value="Negative">Negative</option>
+                                            <option value="Positive">Positive</option>
+                                          </select>
+                                        </td>
+                                      </tr>
+                                    @elseif (count($getdata_hsc_3) >= 0)
+                                      <?php foreach($getdata_hsc_contact3 as  $value) : ?>
+                                          <tr>
+                                             <td>
+                                               <input type="checkbox" id="checkBoxID3" name="no_lab3_e" value="3">
+                                             </td>
+                                               <td>
+                                                 <select name="dms_pcr_contact3" class="form-control divID3">
+                                                   <option value="{{ $value->dms_pcr_contact }}">{{ (isset( $arr_laboratory[$value->dms_pcr_contact])) ?  $arr_laboratory[$value->dms_pcr_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+                                                     <option value="">- เลือก -</option>
+                                                   @foreach ($ref_lab as $row)
+                                                   <option value="{{$row->id}}">{{$row->th_name}}</option>
+                                                   @endforeach
+                                                 </select>
+                                               </td>
+                                               <td>
+                                                 <input type="text" name="dms_time_contact3" value="{{ $value->dms_time_contact }}" class="form-control divID3">
+                                               </td>
+                                               <td>
+                                                 <input type="text" name="dms_date_contact3" id="date_dms_date_contact3" value="{{ $value->dms_date_contact }}" class="form-control divID3">
+
+                                               <td>
+                                                 <select name="dms_specimen_contact3" class="form-control divID3">
+                                                   <option value="{{ (isset($value->dms_specimen_contact)) ? $value->dms_specimen_contact : "" }}">{{ (isset( $arrspecimen[$value->dms_specimen_contact])) ?  $arrspecimen[$value->dms_specimen_contact] : "ยังไม่มียังไม่มีการกรอกข้อมูล" }}</option>
+                                                   <option value="">- เลือก -</option>
+                                                   @foreach ($ref_specimen as $row)
+                                                   <option value="{{$row->id}}">{{$row->name_en}}</option>
+                                                   @endforeach
+                                                 </select>
+                                               </td>
+                                               <td>
+                                                 <input type="text" name="chkspec_other_contact3" value="{{ $value->chkspec_other_contact }}"  class="form-control divID3">
+                                               </td>
+                                               <td>
+                                                 <select name="other_pcr_result_contact3" class="form-control divID3">
+                                                   <option value="{{ $value->other_pcr_result_contact }}">{{ $value->other_pcr_result_contact }}</option>
+                                                   <option value="">- เลือก -</option>
+                                                 <option value="รอผล">รอผล</option>
+                                                 <option value="Negative">Negative</option>
+                                                 <option value="Positive">Positive</option>
+                                               </select>
+                                             </td>
+                                           </tr>
+                                           <?php endforeach;?>
+                                    @endif
+
                                   </tbody>
                                 </table>
                               </div>
@@ -478,7 +683,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             <div class="col-sm-3">
                                 <label for="status_followup">สถานะการติดตาม</label>
                                 <select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
-																	<option value=""{{ (isset($getdata_fucontact[0]->status_followup)) ? $getdata_fucontact[0]->status_followup : "" }}"">{{ (isset($arr_status_followup[$getdata_fucontact[0]->status_followup])) ? $arr_status_followup[$getdata_fucontact[0]->status_followup] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																	<option value="{{ (isset($getdata_fucontact[0]->status_followup)) ? $getdata_fucontact[0]->status_followup : "" }}">{{ (isset($arr_status_followup[$getdata_fucontact[0]->status_followup])) ? $arr_status_followup[$getdata_fucontact[0]->status_followup] : "ยังไม่มีการกรอกข้อมูล" }}</option>
 																	  <option value="">สถานะการติดตาม</option>
                                     <option value="1">จบการติดตาม</option>
                                     <option value="2">ยังต้องติดตาม</option>
@@ -490,7 +695,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                           <div class="col-sm-3">
                          <label for="followup_address">สถานที่ที่ติดตามผู้ป่วย</label>
                           <select type="text"  name="followup_address" id="hosdivshow" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-													<option value=""{{ (isset($getdata_fucontact[0]->followup_address)) ? $getdata_fucontact[0]->followup_address : "" }}"">{{ (isset($arr_followup_address[$getdata_fucontact[0]->followup_address])) ? $arr_followup_address[$getdata_fucontact[0]->followup_address] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+													<option value="{{ (isset($getdata_fucontact[0]->followup_address)) ? $getdata_fucontact[0]->followup_address : "" }}">{{ (isset($arr_followup_address[$getdata_fucontact[0]->followup_address])) ? $arr_followup_address[$getdata_fucontact[0]->followup_address] : "ยังไม่มีการกรอกข้อมูล" }}</option>
 													<option value="">สถานที่ที่ติดตามผู้ป่วย</option>
                           <option value="1">บ้าน</option>
                           <option value="2">โรงแรม</option>
@@ -530,7 +735,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             <div class="col-sm-3">
                                 <label for="division_follow_contact">หน่วยงานที่ติดตามผู้สัมผัส</label>
                                 <select type="text" name="division_follow_contact" id="division_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-																	<option value=""{{ (isset($getdata_fucontact[0]->division_follow_contact)) ? $getdata_fucontact[0]->division_follow_contact : "" }}"">{{ (isset($arr_division_follow_contact[$getdata_fucontact[0]->division_follow_contact])) ? $arr_division_follow_contact[$getdata_fucontact[0]->division_follow_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
+																	<option value="{{ (isset($getdata_fucontact[0]->division_follow_contact)) ? $getdata_fucontact[0]->division_follow_contact : "" }}">{{ (isset($arr_division_follow_contact[$getdata_fucontact[0]->division_follow_contact])) ? $arr_division_follow_contact[$getdata_fucontact[0]->division_follow_contact] : "ยังไม่มีการกรอกข้อมูล" }}</option>
 																		<option value="">หน่วยงานที่ติดตามผู้สัมผัส</option>
                                     <option value="99">ส่วนกลาง</option>
                                     <option value="13">สปคม.</option>
@@ -646,6 +851,23 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
             $('#lab').show();
         });
     });
+    $(document).ready(function() {
+
+      handleStatusChanged();
+
+    });
+      $(".divID1").attr("disabled", !this.checked);
+    $("#checkBoxID1").click(function() {
+      $(".divID1").attr("disabled", !this.checked);
+    });
+    $(".divID2").attr("disabled", !this.checked);
+    $("#checkBoxID2").click(function() {
+      $(".divID2").attr("disabled", !this.checked);
+    });
+    $(".divID3").attr("disabled", !this.checked);
+  $("#checkBoxID3").click(function() {
+    $(".divID3").attr("disabled", !this.checked);
+  });
     // $('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
 </script>
 <script>
@@ -682,6 +904,12 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
     });
     /* date of birth */
     $('#date_dms_date_contact2').datepicker({
+        format: 'yyyy-mm-dd',
+        todayHighlight: true,
+        todayBtn: true,
+        autoclose: true
+    });
+    $('#date_dms_date_contact3').datepicker({
         format: 'yyyy-mm-dd',
         todayHighlight: true,
         todayBtn: true,

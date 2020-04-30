@@ -62,6 +62,7 @@ Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name(
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
 Route::get('/allcontacttable', 'ContactController@allcontacttable')->name('allcontacttable');
 Route::get('/editcontact/pui_id/{pui_id}/contact_rid/{contact_rid}', 'ContactController@editcontact')->name('editcontact');
+// Route::get('/editcontact/id/{id}', 'ContactController@editcontact')->name('editcontact');
 Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetch');
 Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
 Route::post('/addcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
@@ -81,9 +82,6 @@ route::get('contactexport/id/{id}', 'ExportContactController@export')->name('con
 
 // excel download
 route::post('satexport', 'ExportSATController@satexport')->name('satexport');
-
-Route::get('/export_excel', 'ExportExcelController@alltable')->name('export_excel');
-Route::post('/export_excel', 'ExportExcelController@index')->name('export_excel');
 
 //Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
 Route::get('/allcontactexport', 'ExportExcelController@allcontactexport')->name('allcontactexport');

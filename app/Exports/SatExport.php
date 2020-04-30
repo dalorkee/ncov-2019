@@ -329,16 +329,16 @@ class SatExport  implements FromCollection, WithHeadings
                   } else {
                     $walkinplace_hosp_code = '-';
                   }
-                  if (!empty($value->airports_code) || $value->airports_code != null) {
-                    if ($value->airports_code == '0') {
-                      $airports_code = '-';
-                    }else {
-                      $airports_code = $arr_airport[$value->airports_code]['right'];
-                    }
-
-                  } else {
-                    $airports_code = '-';
-                  }
+                  // if (!empty($value->airports_code) || $value->airports_code != null) {
+                  //   if ($value->airports_code == '0') {
+                  //     $airports_code = '-';
+                  //   }else {
+                  //     $airports_code = $arr_airport[$value->airports_code]['right'];
+                  //   }
+                  //
+                  // } else {
+                  //   $airports_code = '-';
+                  // }
                   if (!empty($value->isolated_province) || $value->isolated_province != null) {
                     if ($value->isolated_province == '0') {
                       $isolated_province = '-';

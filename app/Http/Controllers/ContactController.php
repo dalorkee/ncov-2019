@@ -106,6 +106,7 @@ class ContactController extends MasterController
 		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
 		$contact_data=DB::table('patient_relation')
 										->join('tbl_contact', 'patient_relation.contact_rid', '=', 'tbl_contact.id')
+										->join('tbl_followup', 'tbl_contact.id', '=', 'tbl_followup.contact_rid')
 										->select('patient_relation.id',
 															'patient_relation.pui_id',
 															'patient_relation.sat_id',
@@ -127,6 +128,10 @@ class ContactController extends MasterController
 															'tbl_contact.risk_contact',
 															'tbl_contact.name_contact',
 															'tbl_contact.lname_contact',
+															'tbl_followup.walkin_province',
+															'tbl_followup.walkin_district',
+															'tbl_followup.walkin_sub_district',
+															'tbl_followup.walkin_hospital_code',
 															'tbl_contact.status_followup')
 										->where('patient_relation.pui_id', $id)
 										->whereNull('delete_at')
@@ -208,6 +213,7 @@ public function allcontacttable(Request $req)
 	$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
 	$contact_data_val= DB::table('patient_relation')
 									->join('tbl_contact', 'patient_relation.contact_rid', '=', 'tbl_contact.id')
+									->join('tbl_followup', 'tbl_contact.id', '=', 'tbl_followup.contact_rid')
 									->select(
 														'patient_relation.sat_id',
 														'patient_relation.pui_id',
@@ -235,6 +241,10 @@ public function allcontacttable(Request $req)
 														'tbl_contact.datecontact',
 														'tbl_contact.type_contact',
 														'tbl_contact.status_followup',
+														'tbl_followup.walkin_province',
+														'tbl_followup.walkin_district',
+														'tbl_followup.walkin_sub_district',
+														'tbl_followup.walkin_hospital_code',
 														'tbl_contact.pt_status');
 														if (count($roleArr) > 0) {
 									            $user_role = $roleArr[0];
@@ -546,6 +556,27 @@ if(auth()->user()->id==Auth::user()->id){
 		$pui_id=$req->pui_id;
 		$contact_rid=$req->contact_rid;
 		$contact_id=$req->contact_id;
+		// dd($contact_id);
+		$getdata_hsc_1=DB::table('tbl_contact_hsc')
+														->select('no_lab')
+														->where('contact_rid',$contact_rid)
+														->where('pui_id',$pui_id)
+														->where('no_lab', '=' ,'1')
+														->get();
+		// dd (count($getdata_hsc_1));
+		$getdata_hsc_2=DB::table('tbl_contact_hsc')
+														->select('no_lab')
+														->where('contact_rid',$contact_rid)
+														->where('pui_id',$pui_id)
+														->where('no_lab', '=' ,'2')
+														->get();
+		$getdata_hsc_3=DB::table('tbl_contact_hsc')
+														->select('no_lab')
+														->where('contact_rid',$contact_rid)
+														->where('pui_id',$pui_id)
+														->where('no_lab', '=' ,'3')
+														->get();
+		 // dd($getdata_hsc_1);
 		$sat_id_confirm=DB::table('invest_pt')
 										->select('id','sat_id','first_name','last_name','nation')
 										->where('pt_status' ,"=" ,"2" )
@@ -554,14 +585,28 @@ if(auth()->user()->id==Auth::user()->id){
 												->select('*')
 												->where('id',$contact_rid)
 												->get();
-		$getdata_hsc_contact=DB::table('tbl_contact_hsc')
+		$getdata_hsc_contact1=DB::table('tbl_contact_hsc')
 														->select('*')
 														->where('contact_rid',$contact_rid)
 														->where('pui_id',$pui_id)
+														->where('no_lab', '=' ,'1')
+														->get();
+		$getdata_hsc_contact2=DB::table('tbl_contact_hsc')
+														->select('*')
+														->where('contact_rid',$contact_rid)
+														->where('pui_id',$pui_id)
+														->where('no_lab', '=' ,'2')
+														->get();
+		$getdata_hsc_contact3=DB::table('tbl_contact_hsc')
+														->select('*')
+														->where('contact_rid',$contact_rid)
+														->where('pui_id',$pui_id)
+														->where('no_lab', '=' ,'3')
 														->get();
 		$getdata_fucontact=DB::table('tbl_followup')
 													->select('*')
-													->where('patianid',$contact_id)
+													->where('pui_id', $pui_id)
+													->where('contact_rid',$contact_rid)
 													->where('followup_times','=',"0")
 													->get();
 
@@ -625,7 +670,12 @@ if(auth()->user()->id==Auth::user()->id){
 			'arr_follow_results',
 			'getdata_fucontact',
 			'arr_followup_address',
-			'getdata_hsc_contact',
+			'getdata_hsc_contact1',
+			'getdata_hsc_contact2',
+			'getdata_hsc_contact3',
+			'getdata_hsc_1',
+			'getdata_hsc_2',
+			'getdata_hsc_3',
 			'arr_laboratory',
 			'ref_lab',
 			'contact_type',
@@ -772,10 +822,238 @@ if(auth()->user()->id==Auth::user()->id){
 	    ));
 	  }
 
+  public function contactinsert(Request $req){
+	 $contact_id = $req ->input ('contact_id');
+ 	 $contact_id_temp = $req ->input ('contact_id_temp');
+	 // dd($contact_id_temp);
+	 $id = $req ->input ('pui_id');
+	 // dd($id);
+ 	 if ($contact_id == $contact_id_temp) {
+ 		 $contact_id_temp = $req ->input ('contact_id_temp');
+ 	 } else {
+ 		 $contact_id_temp = "";
+ 	 }
+		 $update_pt = DB::table('invest_pt')
+ 								->where('id', $id)
+ 								->update(['cont' => "y"]);
+
+		$sat_id = $req ->input ('sat_id');
+ 		$pui_id = $req ->input ('pui_id');
+		$user_id = $req ->input ('user_id');
+		$title_contact = $req ->input ('title_contact');
+	  $name_contact = $req ->input ('name_contact');
+	  $mname_contact = $req ->input ('mname_contact');
+	  $lname_contact = $req ->input ('lname_contact');
+	  $sex_contact = $req ->input ('sex_contact');
+	  $age_contact = $req ->input ('age_contact');
+		$passport_contact = $req ->input ('passport_contact');
+		$contact_cid = $req ->input ('contact_cid');
+		$national_contact = $req ->input ('national_contact');
+	  $occupation = $req ->input ('occupation');
+		$occupation_other = $req ->input ('occupation_other');
+	  $province = $req ->input ('province');
+	  $district = $req ->input ('district');
+	  $sub_district = $req ->input ('sub_district');
+	  $sick_house_no = $req ->input ('sick_house_no');
+		$sick_village_no = $req ->input ('sick_village_no');
+		$sick_village = $req ->input ('sick_village');
+		$sick_lane = $req ->input ('sick_lane');
+		$sick_road = $req ->input ('sick_road');
+	  $phone_contact = $req ->input ('phone_contact');
+	  $patient_contact = $req ->input ('patient_contact');
+	  $risk_contact = $req ->input ('risk_contact');
+	  $datecontact = $this->convertDatefollowToMySQL($req ->input ('datecontact'));
+	  $datefollow = $this->convertDatefollowToMySQL($req ->input ('datefollow'));
+		$date_followup = $this->convertDateToMySQL($req ->input ('date_followup'));
+	  $type_contact = $req ->input ('type_contact');
+	  $date_entry = date('Y-m-d') ;
+		$data = array(
+			'sat_id'=>$sat_id,
+			'pui_id'=>$pui_id,
+			'contact_id'=>$contact_id,
+			'contact_id_temp'=>$contact_id_temp,
+			'title_contact'=>$title_contact,
+			'name_contact'=>$name_contact,
+			'mname_contact'=>$mname_contact,
+			'lname_contact'=>$lname_contact,
+			'sex_contact'=>$sex_contact,
+			'age_contact'=>$age_contact,
+			'passport_contact'=>$passport_contact,
+			'contact_cid'=>$contact_cid,
+			'national_contact'=>$national_contact,
+			'occupation_other'=>$occupation_other,
+			'occupation'=>$occupation,
+			'province'=>$province,
+			'district'=>$district,
+			'sub_district'=>$sub_district,
+			'sick_house_no'=>$sick_house_no,
+			'sick_village_no'=>$sick_village_no,
+			'sick_village'=>$sick_village,
+			'sick_lane'=>$sick_lane,
+			'sick_road'=>$sick_road,
+			'phone_contact'=>$phone_contact,
+			'patient_contact'=>$patient_contact,
+			'risk_contact'=>$risk_contact,
+			'datecontact'=>$datecontact,
+			'datefollow'=>$datefollow,
+			'date_followup'=>$date_followup,
+			'type_contact'=>$type_contact,
+			'user_id'=>$user_id,
+			'date_entry'=>$date_entry
+		);
+				// dd($data);
+		$res1	= DB::table('tbl_contact')->insert($data);
+		// $res1 = $data;
+	 		$last_res1_insert_id = DB::getPdo()->lastInsertId();
+			$sat_id = $req ->input ('sat_id');
+			$pui_id = $req ->input ('pui_id');
+			$patianid = $req ->input ('patianid');
+			$typid = "2";
+			$contact_id = $req ->input ('contact_id');
+			$followup_times= "0";
+			$date_no = date('Y-m-d') ;
+			$clinical = $req ->input ('clinical');
+			$fever = $req ->input ('fever');
+			$cough = $req ->input ('cough');
+			$sore_throat = $req ->input ('sore_throat');
+			$mucous = $req ->input ('mucous');
+			$sputum = $req ->input ('sputum');
+			$breath_labored = $req ->input ('breath_labored');
+			$suffocate = $req ->input ('suffocate');
+			$muscle_aches = $req ->input ('muscle_aches');
+			$headache = $req ->input ('headache');
+			$diarrhea = $req ->input ('diarrhea');
+			$other_symtom = $req ->input ('other_symtom');
+			$status_followup = $req ->input ('status_followup');
+			$available_contact = $req ->input ('available_contact');
+			$follow_results = $req ->input ('follow_results');
+			$user_id = $req ->input ('user_id');
+			$followup_address = $req ->input ('followup_address');
+			$sat_id_class = $req ->input ('sat_id_class');
+			$province_follow_contact = $req ->input ('province_follow_contact');
+			$division_follow_contact = $req ->input ('division_follow_contact');
+			$division_follow_contact_other = $req ->input ('division_follow_contact_other');
+			$datesymtom = $this->convertDatefollowToMySQL($req ->input ('datesymtom'));
+			$date_entry = date('Y-m-d') ;
+			$hospcode = $req ->input ('hospcode');
+			$follow_address_other = $req ->input ('follow_address_other');
+			$data_followup = array(
+				'sat_id'=>$sat_id,
+				'pui_id'=>$pui_id,
+				'contact_rid'=>$last_res1_insert_id,
+				'contact_id'=>$contact_id,
+				'patianid'=>$contact_id,
+				'typid'=>$typid,
+				'followup_times'=>$followup_times,
+				'followup_address'=>$followup_address,
+				'date_no'=>$date_no,
+				'clinical'=>$clinical,
+				'fever'=>$fever,
+				'cough'=>$cough,
+				'sore_throat'=>$sore_throat,
+				'mucous'=>$mucous,
+				'sputum'=>$sputum,
+				'breath_labored'=>$breath_labored,
+				'suffocate'=>$suffocate,
+				'muscle_aches'=>$muscle_aches,
+				'headache'=>$headache,
+				'diarrhea'=>$diarrhea,
+				'other_symtom'=>$other_symtom,
+				'status_followup'=>$status_followup,
+				'available_contact'=>$available_contact,
+				'follow_results'=>$follow_results,
+				'user_id'=>$user_id,
+				'province_follow_contact'=>$province_follow_contact,
+				'division_follow_contact'=>$division_follow_contact,
+				'division_follow_contact_other'=>$division_follow_contact_other,
+				'sat_id_class'=>$sat_id_class,
+				'datesymtom'=>$datesymtom,
+				'date_entry'=>$date_entry,
+				'follow_address_other'=>$follow_address_other,
+				'hospcode'=>$hospcode
+			);
+			$res2	= DB::table('tbl_followup')->insert($data_followup);
+			// $res2 = $data_followup;
+			$sat_id_relation = $req->input('sat_id_relation');
+			$pui_id_r= $req->input('pui_id_r');
+			$contact_id_code =$req->input('contact_code');
+			$contact_rid =$last_res1_insert_id;
+			$contact_id =$req->input('contact_id');
+			$create_date=date('Y-m-d');
+				for ($i=0; $i < count($sat_id_relation); $i++) {
+					$exp = explode('|', $sat_id_relation[$i]);
+					$sat_id_relation_arr[$i] = $exp;
+					$data_pt[]  = [
+								'contact_rid'=>$contact_rid,
+								'contact_id'=>$contact_id,
+								'pui_id'=>$sat_id_relation_arr[$i][1],
+								'sat_id'=>$sat_id_relation_arr[$i][0],
+								'create_date' => $create_date
+											];
+				}
+				$res3	= DB::table('patient_relation')->insert($data_pt);
+				// $res3 = $data_pt ;
+				$pui_id = $req->input('pui_id');
+				$no_lab1 = $req->input('no_lab1');
+				$dms_pcr_contact1 = $req->input('dms_pcr_contact1');
+				$dms_time_contact1 = $req->input('dms_time_contact1');
+				$dms_date_contact1 =$req->input('dms_date_contact1');
+				$dms_specimen_contact1 =$req->input('dms_specimen_contact1');
+				$chkspec_other_contact1 =$req->input('chkspec_other_contact1');
+				$other_pcr_result_contact1 =$req->input('other_pcr_result_contact1');
+				$no_lab2 = $req->input('no_lab2');
+				// dd($no_lab2);
+				$dms_pcr_contact2 = $req->input('dms_pcr_contact2');
+				$dms_time_contact2 = $req->input('dms_time_contact2');
+				$dms_date_contact2 =$req->input('dms_date_contact2');
+				$dms_specimen_contact2 =$req->input('dms_specimen_contact2');
+				$chkspec_other_contact2 =$req->input('chkspec_other_contact2');
+				$other_pcr_result_contact2 =$req->input('other_pcr_result_contact2');
+				$date_entry=date('Y-m-d') ;
+				if ($no_lab1 !="") {
+					$data_lab1 = array(
+					'no_lab'=>$no_lab1,
+					'contact_rid'=>$last_res1_insert_id,
+					'contact_id'=>$contact_id,
+					'pui_id'=>$pui_id,
+					'dms_pcr_contact'=>$dms_pcr_contact1,
+					'dms_time_contact'=>$dms_time_contact1,
+					'dms_date_contact'=>$dms_date_contact1,
+					'dms_specimen_contact'=>$dms_specimen_contact1,
+					'chkspec_other_contact'=>$chkspec_other_contact1,
+					'other_pcr_result_contact'=>$other_pcr_result_contact1,
+					'date_entry' => $date_entry
+ 					);
+				$res4	= DB::table('tbl_contact_hsc')->insert($data_lab1);
+			 }if ($no_lab2 !="") {
+				 $data_lab2 = array(
+ 					 'no_lab'=>$no_lab2,
+ 					 'contact_rid'=>$last_res1_insert_id,
+ 					 'contact_id'=>$contact_id,
+ 					 'pui_id'=>$pui_id,
+ 					 'dms_pcr_contact'=>$dms_pcr_contact2,
+ 					 'dms_time_contact'=>$dms_time_contact2,
+ 					 'dms_date_contact'=>$dms_date_contact2,
+ 					 'dms_specimen_contact'=>$dms_specimen_contact2,
+ 					 'chkspec_other_contact'=>$chkspec_other_contact2,
+ 					 'other_pcr_result_contact'=>$other_pcr_result_contact2,
+ 					 'date_entry' => $date_entry
+				 );
+				 $res4	= DB::table('tbl_contact_hsc')->insert($data_lab2);
+			 }
+			 if ($no_lab1 =="") {
+			 return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+			}
+			if ($no_lab2 =="") {
+			return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+		 }
+			 else{
+				 return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+			 }
+	}
 
 
-
-  public function contactinsert(Request $req) {
+  public function contactinsert_old(Request $req) {
 	 $contact_id = $req ->input ('contact_id');
 	 $contact_id_temp = $req ->input ('contact_id_temp');
 	 if ($contact_id == $contact_id_temp) {
@@ -783,7 +1061,6 @@ if(auth()->user()->id==Auth::user()->id){
 	 } else {
 		 $contact_id_temp = "";
 	 }
-
 	$update_pt = DB::table('invest_pt')
 							->where('id', $req ->input ('pui_id'))
 							->update(['cont' => "y"]);
@@ -859,8 +1136,9 @@ if(auth()->user()->id==Auth::user()->id){
     'date_entry'=>$date_entry
   );
       // dd($data);
-  $res1	= DB::table('tbl_contact')->insert($data);
-
+  // $res1	= DB::table('tbl_contact')->insert($data);
+	$res1 = $data;
+	// echo $res1;
 	$last_res1_insert_id = DB::getPdo()->lastInsertId();
 	// dd($last_res1_insert_id);
   if ($res1)
@@ -896,7 +1174,7 @@ if(auth()->user()->id==Auth::user()->id){
 	$date_entry = date('Y-m-d') ;
 	$hospcode = $req ->input ('hospcode');
 	$follow_address_other = $req ->input ('follow_address_other');
-	$data = array(
+	$data_followup = array(
 		// 'poe_id'=>$poe_id,
 		'sat_id'=>$sat_id,
 		'pui_id'=>$pui_id,
@@ -933,13 +1211,15 @@ if(auth()->user()->id==Auth::user()->id){
 		'hospcode'=>$hospcode
 	);
 	 // dd($data);
-	$res2	= DB::table('tbl_followup')->insert($data);
+	// $res2	= DB::table('tbl_followup')->insert($data);
+	$res2 = $data_followup;
+	// echo $res2;
 	if ($res2) {
 		$sat_id_relation = $req->input('sat_id_relation');
 		$pui_id_r= $req->input('pui_id_r');
 		$contact_id_code =$req->input('contact_code');
 		$contact_rid =$last_res1_insert_id;
-		// dd($contact_rid);
+		 // dd($contact_rid);
 		$contact_id =$req->input('contact_id');
 		// $sat_id_relation = $req->input('sat_id_relation');
 		//dd($sat_id_relation);
@@ -956,23 +1236,24 @@ if(auth()->user()->id==Auth::user()->id){
 							'create_date' => $create_date
 										];
 			}
-			// dd($data_pt);
+			 // dd($data_pt);
 			$x++;
-			$res3	= DB::table('patient_relation')->insert($data_pt);
+		}
+			// $res3	= DB::table('patient_relation')->insert($data_pt);
+			$res3 = $data_pt;
+			// echo $res3;
 			if ($res3)
-			{
 				$no_lab = $req->input('no_lab');
 				$pui_id = $req->input('pui_id');
 				$dms_pcr_contact = $req->input('dms_pcr_contact');
 				$dms_time_contact = $req->input('dms_time_contact');
 				$dms_date_contact =$req->input('dms_date_contact');
-				// dd($dms_date_contact);
 				$dms_specimen_contact =$req->input('dms_specimen_contact');
 				$chkspec_other_contact =$req->input('chkspec_other_contact');
 				$other_pcr_result_contact =$req->input('other_pcr_result_contact');
 				$date_entry=date('Y-m-d') ;
-				$x=0;
-					for ($i=0; $i < count($dms_time_contact); $i++) {
+				$y=0;
+					for ($i=0; $i < count($no_lab); $i++) {
 						$data_hsc[]  = [
 									'contact_rid'=>$last_res1_insert_id,
 									'contact_id'=>$contact_id,
@@ -986,20 +1267,26 @@ if(auth()->user()->id==Auth::user()->id){
 									'other_pcr_result_contact'=>$other_pcr_result_contact[$i],
 									'date_entry' => $date_entry
 												];
-					$x++;
-										}
-										 // dd($data_hsc);
+
+					// dd($i);
+				}
+									$y++;
+					dd($data_hsc,$res1,$res2,$res3);
 					$res4	= DB::table('tbl_contact_hsc')->insert($data_hsc);
+					if ($res4) {
 				return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 			} else {
 				return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
 			}
 	}
 }
-}
 
 public function contactstupdate(Request $request) {
 	$id = $request ->input ('id');
+	$walkin_province = $request ->input ('walkin_province');
+	$walkin_district = $request  ->input ('walkin_district');
+	$walkin_sub_district = $request  ->input ('walkin_sub_district ');
+	$walkin_hospital_code =  $request ->input ('walkin_hospital_code');
 	// dd($id);
 	$pui_id = $request ->input ('pui_id');
 	$contact_id = $request ->input ('contact_id');
@@ -1036,6 +1323,10 @@ public function contactstupdate(Request $request) {
 					'sex'=>$sex,
 					'age'=>$age,
 					'nation'=>$nation,
+					'treat_first_province'=>$walkin_province,
+					'treat_first_district'=>$walkin_district,
+					'treat_first_sub_district'=>$walkin_sub_district,
+					'treat_first_hospital'=>$walkin_hospital_code,
 					'pt_status'=>"2",
 					'created_at'=>date("Y-m-d h:i:s"),
 					'cont'=>"y"
@@ -1129,7 +1420,6 @@ public function fustupdate(Request $request) {
 
 public function followupinsert(Request $req)
 {
-
 // $poe_id = $req ->input ('poe_id');
 $sat_id = $req ->input ('sat_id');
 $pui_id = $req ->input ('pui_id');
@@ -1376,43 +1666,168 @@ $res2	= DB::table('tbl_followup')
 						->update([
 											'sat_id' => $sat_id ,
 											'pui_id' => $pui_id ,
-											'contact_id' => $contact_id
-											]);
+											'contact_rid' => $id
+										]);
+										$pui_id = $req->input('pui_id');
+										$no_lab1 = $req->input('no_lab1');
+										$no_lab1_e = $req->input('no_lab1_e');
+										// dd($no_lab1);
+										$dms_pcr_contact1 = $req->input('dms_pcr_contact1');
+										$dms_time_contact1 = $req->input('dms_time_contact1');
+										$dms_date_contact1 =$req->input('dms_date_contact1');
+										$dms_specimen_contact1 =$req->input('dms_specimen_contact1');
+										$chkspec_other_contact1 =$req->input('chkspec_other_contact1');
+										$other_pcr_result_contact1 =$req->input('other_pcr_result_contact1');
+										$no_lab2 = $req->input('no_lab2');
+										$no_lab2_e = $req->input('no_lab2_e');
+										$no_lab3 = $req->input('no_lab3');
+										$no_lab3_e = $req->input('no_lab3_e');
+										// dd($no_lab3);
+										$dms_pcr_contact2 = $req->input('dms_pcr_contact2');
+										$dms_time_contact2 = $req->input('dms_time_contact2');
+										$dms_date_contact2 =$req->input('dms_date_contact2');
+										$dms_specimen_contact2 =$req->input('dms_specimen_contact2');
+										$chkspec_other_contact2 =$req->input('chkspec_other_contact2');
+										$other_pcr_result_contact2 =$req->input('other_pcr_result_contact2');
+										$dms_pcr_contact3 = $req->input('dms_pcr_contact3');
+										$dms_time_contact3 = $req->input('dms_time_contact3');
+										$dms_date_contact3 =$req->input('dms_date_contact3');
+										$dms_specimen_contact3 =$req->input('dms_specimen_contact3');
+										$chkspec_other_contact3 =$req->input('chkspec_other_contact3');
+										$other_pcr_result_contact3 =$req->input('other_pcr_result_contact3');
+										$date_entry=date('Y-m-d') ;
+				if ($no_lab1_e != "") {
+						$res3	= DB::table('tbl_contact_hsc')
+											->where('no_lab', "=","1")
+											->where('pui_id', $pui_id)
+											->where('contact_id', $contact_id_r)
+											->where('contact_rid', $id)
+											->update([
+																'dms_pcr_contact' => $dms_pcr_contact1,
+																'dms_time_contact' => $dms_time_contact1,
+																'dms_date_contact' => $dms_date_contact1,
+																'dms_specimen_contact' => $dms_specimen_contact1,
+																'chkspec_other_contact' => $chkspec_other_contact1,
+																'other_pcr_result_contact' => $other_pcr_result_contact1,
+															]);
+				}
+				if ($no_lab2_e != "") {
+						$res3	= DB::table('tbl_contact_hsc')
+											->where('no_lab', "=","2")
+											->where('pui_id', $pui_id)
+											->where('contact_id', $contact_id_r)
+											->where('contact_rid', $id)
+											->update([
+																'dms_pcr_contact' => $dms_pcr_contact2,
+																'dms_time_contact' => $dms_time_contact2,
+																'dms_date_contact' => $dms_date_contact2,
+																'dms_specimen_contact' => $dms_specimen_contact2,
+																'chkspec_other_contact' => $chkspec_other_contact2,
+																'other_pcr_result_contact' => $other_pcr_result_contact2,
+															]);
+				}
+				if ($no_lab3_e != "") {
+						$res3	= DB::table('tbl_contact_hsc')
+											->where('no_lab', "=","3")
+											->where('pui_id', $pui_id)
+											->where('contact_id', $contact_id_r)
+											->where('contact_rid', $id)
+											->update([
+																'dms_pcr_contact' => $dms_pcr_contact2,
+																'dms_time_contact' => $dms_time_contact2,
+																'dms_date_contact' => $dms_date_contact2,
+																'dms_specimen_contact' => $dms_specimen_contact2,
+																'chkspec_other_contact' => $chkspec_other_contact2,
+																'other_pcr_result_contact' => $other_pcr_result_contact2,
+															]);
+				}
+				if ($no_lab1 == "1") {
+					 $data_lab1= array(
+		 					 'no_lab'=>$no_lab1,
+		 					 'contact_rid'=>$id,
+		 					 'contact_id'=>$contact_id,
+		 					 'pui_id'=>$pui_id,
+		 					 'dms_pcr_contact'=>$dms_pcr_contact1,
+		 					 'dms_time_contact'=>$dms_time_contact1,
+		 					 'dms_date_contact'=>$dms_date_contact1,
+		 					 'dms_specimen_contact'=>$dms_specimen_contact1,
+		 					 'chkspec_other_contact'=>$chkspec_other_contact1,
+		 					 'other_pcr_result_contact'=>$other_pcr_result_contact1,
+		 					 'date_entry' => $date_entry
+						 );
+						 $res4	= DB::table('tbl_contact_hsc')->insert($data_lab1);
+				}
+				if ($no_lab2 == "2") {
+					$data_lab2= array(
+							'no_lab'=>$no_lab2,
+							'contact_rid'=>$id,
+							'contact_id'=>$contact_id,
+							'pui_id'=>$pui_id,
+							'dms_pcr_contact'=>$dms_pcr_contact2,
+							'dms_time_contact'=>$dms_time_contact2,
+							'dms_date_contact'=>$dms_date_contact2,
+							'dms_specimen_contact'=>$dms_specimen_contact2,
+							'chkspec_other_contact'=>$chkspec_other_contact2,
+							'other_pcr_result_contact'=>$other_pcr_result_contact2,
+							'date_entry' => $date_entry
+						);
+						$res4	= DB::table('tbl_contact_hsc')->insert($data_lab2);
+				}
+				if ($no_lab3 == "3") {
+					$data_lab3 = array(
+							'no_lab'=>$no_lab3,
+							'contact_rid'=>$id,
+							'contact_id'=>$contact_id,
+							'pui_id'=>$pui_id,
+							'dms_pcr_contact'=>$dms_pcr_contact3,
+							'dms_time_contact'=>$dms_time_contact3,
+							'dms_date_contact'=>$dms_date_contact3,
+							'dms_specimen_contact'=>$dms_specimen_contact3,
+							'chkspec_other_contact'=>$chkspec_other_contact3,
+							'other_pcr_result_contact'=>$other_pcr_result_contact3,
+							'date_entry' => $date_entry
+						);
+						$res4	= DB::table('tbl_contact_hsc')->insert($data_lab3);
+				}
+				if ($no_lab1 =="") {
+				return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+			 }
+			 	if ($no_lab2 =="") {
+			 	return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+			}
+			if ($no_lab3 =="") {
+			return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+		}
 
-		$delete1 = DB::table('tbl_contact_hsc')->where('contact_id','=', $contact_id_r)->delete();
-	if ($delete1)
- {
- $no_lab = $req->input('no_lab');
- $pui_id = $req->input('pui_id');
- $dms_pcr_contact = $req->input('dms_pcr_contact');
- $dms_time_contact = $req->input('dms_time_contact');
- $dms_date_contact =$req->input('dms_date_contact');
- $dms_specimen_contact =$req->input('dms_specimen_contact');
- $chkspec_other_contact =$req->input('chkspec_other_contact');
- $other_pcr_result_contact =$req->input('other_pcr_result_contact');
- $date_entry=date('Y-m-d') ;
- $i = 0;
- $count = count($req->input('no_lab'));
- while($i < $count){
-
-		 $data[] = array(
-			 		'contact_rid'=>$id,
-					'contact_id'=>$contact_id,
-					'pui_id'=>$pui_id,
-					'no_lab'=>$no_lab[$i],
-				 'dms_pcr_contact'=>$dms_pcr_contact[$i],
-				 'dms_time_contact'=>$dms_time_contact[$i],
-				 'dms_date_contact'=>$dms_date_contact[$i],
-				 'dms_specimen_contact'=>$dms_specimen_contact[$i],
-				 'chkspec_other_contact'=>$chkspec_other_contact[$i],
-				 'other_pcr_result_contact'=>$other_pcr_result_contact[$i],
-				 'date_entry' => $date_entry
-		 );
-		 $i++;
- }
+ // $no_lab = $req->input('no_lab');
+ // $pui_id = $req->input('pui_id');
+ // $dms_pcr_contact = $req->input('dms_pcr_contact');
+ // $dms_time_contact = $req->input('dms_time_contact');
+ // $dms_date_contact =$req->input('dms_date_contact');
+ // $dms_specimen_contact =$req->input('dms_specimen_contact');
+ // $chkspec_other_contact =$req->input('chkspec_other_contact');
+ // $other_pcr_result_contact =$req->input('other_pcr_result_contact');
+ // $date_entry=date('Y-m-d') ;
+ // $i = 0;
+ // $count = count($req->input('no_lab'));
+ // while($i < $count){
+	// 	 $data[] = array(
+	// 		 		'contact_rid'=>$id,
+	// 				'contact_id'=>$contact_id,
+	// 				'pui_id'=>$pui_id,
+	// 				'no_lab'=>$no_lab[$i],
+	// 			 'dms_pcr_contact'=>$dms_pcr_contact[$i],
+	// 			 'dms_time_contact'=>$dms_time_contact[$i],
+	// 			 'dms_date_contact'=>$dms_date_contact[$i],
+	// 			 'dms_specimen_contact'=>$dms_specimen_contact[$i],
+	// 			 'chkspec_other_contact'=>$chkspec_other_contact[$i],
+	// 			 'other_pcr_result_contact'=>$other_pcr_result_contact[$i],
+	// 			 'date_entry' => $date_entry
+	// 	 );
+	// 	 $i++;
+ // }
  // dd($i);
- }
- $res4 = DB::table('tbl_contact_hsc')->insert($data);
+ // $res4 = DB::table('tbl_contact_hsc')->insert($data);
  // dd($data);
 //  if ($res4){
 // 	 $res5	= DB::table('invest_pt')
@@ -1429,10 +1844,8 @@ $res2	= DB::table('tbl_followup')
 // 												'nation'=>$national_contact
 //   											]);
 // }
- if ($res4){
+ else{
  return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
-}else{
- return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
  }
 }
 }
@@ -1707,6 +2120,7 @@ public function contact_type(){
 		$arr_status_followup = array(
 			'1'=>'จบการติดตาม',
 			'2'=>'ยังต้องติดตาม',
+			'0'=>'',
 			''=>''
 			);
 		// dd($list_sym_cough);
