@@ -72,6 +72,10 @@ class ContactController extends MasterController
 		$nation_list = $this->arrnation();
 		$arr_occu = $this->arroccu();
 		$arrprov = $this->arrprov();
+		$arrfollowprov =$this->arrfollowprov();
+		$arrfollowdistrict =$this->arrfollowdistrict();
+		$arrfollowsubdistrict =$this->arrfollowsubdistrict();
+		$arrfollowhosp =$this->arrfollowhosp();
 		$arrdistrict = $this->arrdistrict();
 		$arr_sub_district = $this->arr_sub_district();
 		$arr_pts = $this->arr_pts();
@@ -106,7 +110,7 @@ class ContactController extends MasterController
 		$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
 		$contact_data=DB::table('patient_relation')
 										->join('tbl_contact', 'patient_relation.contact_rid', '=', 'tbl_contact.id')
-										->join('tbl_followup', 'tbl_contact.id', '=', 'tbl_followup.contact_rid')
+										// ->join('tbl_followup', 'tbl_contact.id', '=', 'tbl_followup.contact_rid')
 										->select('patient_relation.id',
 															'patient_relation.pui_id',
 															'patient_relation.sat_id',
@@ -114,6 +118,7 @@ class ContactController extends MasterController
 															'patient_relation.contact_id',
 															'patient_relation.create_date',
 															'patient_relation.delete_at',
+															'tbl_contact.id as conid',
 															'tbl_contact.contact_cid',
 															'tbl_contact.title_contact',
 															'tbl_contact.mname_contact',
@@ -128,10 +133,10 @@ class ContactController extends MasterController
 															'tbl_contact.risk_contact',
 															'tbl_contact.name_contact',
 															'tbl_contact.lname_contact',
-															'tbl_followup.walkin_province',
-															'tbl_followup.walkin_district',
-															'tbl_followup.walkin_subdistrict',
-															'tbl_followup.walkin_hospital',
+															// 'tbl_followup.walkin_province',
+															// 'tbl_followup.walkin_district',
+															// 'tbl_followup.walkin_subdistrict',
+															// 'tbl_followup.walkin_hospital',
 															'tbl_contact.status_followup')
 										->where('patient_relation.pui_id', $id)
 										->whereNull('delete_at')
@@ -154,7 +159,11 @@ class ContactController extends MasterController
 			'count_con',
 			'count_hrisk',
 			'count_lrisk',
-			'count_labcont'
+			'count_labcont',
+			'arrfollowprov',
+			'arrfollowdistrict',
+			'arrfollowsubdistrict',
+			'arrfollowhosp',
     ));
   }
 }
@@ -167,6 +176,10 @@ public function allcontacttable(Request $req)
 		$uid_prov_code = auth()->user()->prov_code;
 		$uid_region = auth()->user()->region;
 		$uid_id = auth()->user()->id;
+		$arrfollowprov = $this->arrfollowprov();
+		$arrfollowdistrict =$this->arrfollowdistrict();
+		$arrfollowsubdistrict =$this->arrfollowsubdistrict();
+		$arrfollowhosp =$this->arrfollowhosp();
 		$uid_chosbyregion = DB::table('chospital_new')
 												->select('prov_code')
 												->where('region', $uid_region)
@@ -213,12 +226,13 @@ public function allcontacttable(Request $req)
 	$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
 	$contact_data_val= DB::table('patient_relation')
 									->join('tbl_contact', 'patient_relation.contact_rid', '=', 'tbl_contact.id')
-									->join('tbl_followup', 'tbl_contact.id', '=', 'tbl_followup.contact_rid')
+									// ->join('tbl_followup', 'tbl_contact.id', '=', 'tbl_followup.contact_rid')
 									->select(
 														'patient_relation.sat_id',
 														'patient_relation.pui_id',
 														'patient_relation.contact_rid',
 														'patient_relation.contact_id',
+														'tbl_contact.id as conid',
 														'tbl_contact.name_contact',
 														'tbl_contact.title_contact',
 														'tbl_contact.contact_cid',
@@ -241,10 +255,10 @@ public function allcontacttable(Request $req)
 														'tbl_contact.datecontact',
 														'tbl_contact.type_contact',
 														'tbl_contact.status_followup',
-														'tbl_followup.walkin_province',
-														'tbl_followup.walkin_district',
-														'tbl_followup.walkin_subdistrict',
-														'tbl_followup.walkin_hospital',
+														// 'tbl_followup.walkin_province',
+														// 'tbl_followup.walkin_district',
+														// 'tbl_followup.walkin_subdistrict',
+														// 'tbl_followup.walkin_hospital',
 														'tbl_contact.pt_status');
 														if (count($roleArr) > 0) {
 									            $user_role = $roleArr[0];
@@ -295,6 +309,10 @@ public function allcontacttable(Request $req)
 		'arr_pts',
 		'arr_status_followup',
 		'arr_risk_contact',
+		'arrfollowprov',
+		'arrfollowdistrict',
+		'arrfollowsubdistrict',
+		'arrfollowhosp',
 		// 'count_con',
 		// 'count_hrisk',
 		// 'count_lrisk',
@@ -2011,6 +2029,50 @@ public function contact_type(){
 		}
 		// dd($province_arr);
 		return $arrspecimen;
+	}
+	protected function arrfollowprov(){
+		$arrfollowprov = DB::table('tbl_followup')
+		->select('contact_id','walkin_province')
+		->where('followup_times', '=' , '0')
+		->get();
+		foreach ($arrfollowprov as  $value) {
+			$arrfollowprov[$value->contact_id] =trim($value->walkin_province);
+		}
+		// dd($province_arr);
+		return $arrfollowprov;
+	}
+	protected function arrfollowdistrict(){
+		$arrfollowdistrict = DB::table('tbl_followup')
+		->select('contact_id','walkin_district')
+		->where('followup_times', '=' , '0')
+		->get();
+		foreach ($arrfollowdistrict  as  $value) {
+			$arrfollowdistrict[$value->contact_id] =trim($value->walkin_district);
+		}
+		// dd($province_arr);
+		return $arrfollowdistrict;
+	}
+	protected function arrfollowsubdistrict(){
+		$arrfollowsubdistrict = DB::table('tbl_followup')
+		->select('contact_id','walkin_subdistrict')
+		->where('followup_times', '=' , '0')
+		->get();
+		foreach ($arrfollowsubdistrict  as  $value) {
+			$arrfollowsubdistrict[$value->contact_id] =trim($value->walkin_subdistrict);
+		}
+		// dd($province_arr);
+		return $arrfollowsubdistrict;
+	}
+	protected function arrfollowhosp(){
+		$arrfollowhosp = DB::table('tbl_followup')
+		->select('contact_id','walkin_hospital')
+		->where('followup_times', '=' , '0')
+		->get();
+		foreach ($arrfollowhosp  as  $value) {
+			$arrfollowhosp[$value->contact_id] =trim($value->walkin_hospital);
+		}
+		// dd($province_arr);
+		return $arrfollowhosp;
 	}
 	// protected function arrtitlename(){
 	// 	$arrtitlename = DB::table('ref_title_name')->select('id','title_name')->get();

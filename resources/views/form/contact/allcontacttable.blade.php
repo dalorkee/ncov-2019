@@ -208,10 +208,10 @@ input.valid, textarea.valid{
 					<input type="hidden" name="sex" value="{{$value->sex_contact }}">
 					<input type="hidden" name="age" value="{{$value->age_contact }}">
 					<input type="hidden" name="nation" value="{{$value->national_contact }}">
-					<input type="hidden" name="walkin_province" value="{{$value->walkin_province }}">
-					<input type="hidden" name="walkin_district" value="{{$value->walkin_district }}">
-					<input type="hidden" name="walkin_subdistrict" value="{{$value->walkin_subdistrict }}">
-					<input type="hidden" name="walkin_hospital" value="{{$value->walkin_hospital }}">
+					<input type="hidden" name="walkin_province" value="{{ (isset($arrfollowprov[$value->contact_id])) ? $arrfollowprov[$value->contact_id] : "" }}">
+					<input type="hidden" name="walkin_district" value="{{ (isset($arrfollowdistrict[$value->contact_id])) ? $arrfollowdistrict[$value->contact_id] : "" }}">
+					<input type="hidden" name="walkin_subdistrict" value="{{ (isset($arrfollowsubdistrict[$value->contact_id])) ? $arrfollowsubdistrict[$value->contact_id] : "" }}">
+					<input type="hidden" name="walkin_hospital" value="{{ (isset($arrfollowhosp[$value->contact_id])) ? $arrfollowhosp[$value->contact_id] : "" }}">
 					<div class="form-row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 							<div class="form-group">
