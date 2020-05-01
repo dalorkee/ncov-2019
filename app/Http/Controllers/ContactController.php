@@ -594,7 +594,14 @@ if(auth()->user()->id==Auth::user()->id){
 														->where('pui_id',$pui_id)
 														->where('no_lab', '=' ,'3')
 														->get();
-		 // dd($getdata_hsc_1);
+	  $getdata_followup_count=DB::table('tbl_followup')
+	  												->select('contact_rid')
+	  												->where('contact_rid',$contact_rid)
+	  												->where('pui_id',$pui_id)
+	  												->where('followup_times', '=' ,'0')
+	  												->get();
+
+		 // dd($getdata_hsc_3);
 		$sat_id_confirm=DB::table('invest_pt')
 										->select('id','sat_id','first_name','last_name','nation')
 										->where('pt_status' ,"=" ,"2" )
@@ -627,8 +634,7 @@ if(auth()->user()->id==Auth::user()->id){
 													->where('contact_rid',$contact_rid)
 													->where('followup_times','=',"0")
 													->get();
-
-			// dd($getdata_fucontact);
+													// dd(count($getdata_followup_count));
 		$ref_title_name=DB::table('ref_title_name')->select('*')->get();
 		$arr_followup_address=$this->arr_followup_address();
 		$ref_specimen=DB::table('ref_specimen')->select('*')->get();
@@ -694,6 +700,7 @@ if(auth()->user()->id==Auth::user()->id){
 			'getdata_hsc_1',
 			'getdata_hsc_2',
 			'getdata_hsc_3',
+			'getdata_followup_count',
 			'arr_laboratory',
 			'ref_lab',
 			'contact_type',
@@ -2128,7 +2135,9 @@ public function contact_type(){
 			'2'=>'โรงแรม',
 			'3'=>'โรงพยาบาล',
 			'4'=>'สถานที่กักกัน' ,
-			'5'=>'อื่นๆ'
+			'5'=>'อื่นๆ',
+			'0'=>'',
+			''=>''
 			);
 		// dd($list_sym_cough);
 		return $arr_followup_address;

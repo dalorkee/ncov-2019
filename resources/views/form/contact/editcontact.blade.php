@@ -679,6 +679,8 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
                             <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
                         </div>
+
+                        @if (count($getdata_followup_count) > 0)
                         <div class="form-group row">
                             <div class="col-sm-3">
                                 <label for="status_followup">สถานะการติดตาม</label>
@@ -759,6 +761,83 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                 <input type="text" class="form-control" name="division_follow_contact_other" value="{{$getdata_fucontact[0]->division_follow_contact_other}}" placeholder="หน่วยงานอื่นๆ" autocomplete="off">
                             </div>
                         </div>
+                      @elseif (count($getdata_followup_count) <= 0)
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                                <label for="status_followup">สถานะการติดตาม</label>
+                                <select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
+																	  <option value="">สถานะการติดตาม</option>
+                                    <option value="1">จบการติดตาม</option>
+                                    <option value="2">ยังต้องติดตาม</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row">
+                          <div class="col-sm-3">
+                         <label for="followup_address">สถานที่ที่ติดตามผู้ป่วย</label>
+                          <select type="text"  name="followup_address" id="hosdivshow" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+												<option value="">สถานที่ที่ติดตามผู้ป่วย</option>
+                          <option value="1">บ้าน</option>
+                          <option value="2">โรงแรม</option>
+                          <option value="3">โรงพยาบาล</option>
+                          <option value="4">สถานที่กักกัน</option>
+                          <option value="5">อื่นๆ</option>
+                          </select>
+                          </div>
+
+                      </div>
+                      <div id="follow_address_other" class="form-group row">
+                      <div class="col-sm-3">
+                        <label>ชื่อสถานที่ติดตามผู้ป่วย</label>
+                        <input type="text" name="follow_address_other"  class="form-control"placeholder="ชื่อสถานที่ติดตามผู้ป่วย" >
+                      </div>
+                    </div>
+                    	<div id="hosdiv" class="form-group row">
+                            <div class="col-sm-3">
+                                <label for="province_follow_contact">จังหวัดที่ติดตามผู้สัมผัส</label>
+                                <select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+																	<option value="">พื้นที่จังหวัดที่ติดตามผู้สัมผัส</option>
+                                    @foreach ($listprovince as $row)
+                                    <option value="{{$row->province_id}}">{{$row->province_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="hospcode">โรงพยาบาลที่รักษาตัว</label>
+                                <select name="hospcode" id="chospital_new" class="form-control chospital_new js-select-basic-single" placeholder="โรงพยาบาลที่รักษาตัว">
+																		<option value="">เลือกโรงพยาบาลที่รักษาตัว</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                                <label for="division_follow_contact">หน่วยงานที่ติดตามผู้สัมผัส</label>
+                                <select type="text" name="division_follow_contact" id="division_follow_contact" class="form-control js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
+																	<option value="">หน่วยงานที่ติดตามผู้สัมผัส</option>
+                                    <option value="99">ส่วนกลาง</option>
+                                    <option value="13">สปคม.</option>
+                                    <option value="1">สคร.1</option>
+                                    <option value="2">สคร.2</option>
+                                    <option value="3">สคร.3</option>
+                                    <option value="4">สคร.4</option>
+                                    <option value="5">สคร.5</option>
+                                    <option value="6">สคร.6</option>
+                                    <option value="7">สคร.7</option>
+                                    <option value="8">สคร.8</option>
+                                    <option value="9">สคร.9</option>
+                                    <option value="10">สคร.10</option>
+                                    <option value="11">สคร.11</option>
+                                    <option value="12">สคร.12</option>
+                                    <option value="999">อื่นๆ</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="name_contact">หน่วยงานอื่นๆ</label>
+                                <input type="text" class="form-control" name="division_follow_contact_other" placeholder="หน่วยงานอื่นๆ" autocomplete="off">
+                            </div>
+                        </div>
+                      @endif
                     </div>
         <div class="col-sm-12">
             <button type="submit" class="btn btn-success">บันทึกข้อมูล</button>
