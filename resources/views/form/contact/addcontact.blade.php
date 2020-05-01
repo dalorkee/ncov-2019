@@ -12,6 +12,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/contact/dualbox/bootstrap-duallistbox.css') }}">
 {{-- <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}"> --}}
+{{-- <link  rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> --}}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 <div class="page-breadcrumb">
     <div class="row">
@@ -138,7 +139,7 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                                 <div class="form-group row">
                                     <div class="col-sm-3">
                                         <label for="sex_contact">เพศ</label>
-                                        <select type="text" name="sex_contact" class="form-control" placeholder="col-sm-2">
+                                        <select type="text" name="sex_contact" class="form-control js-select-basic-single" placeholder="col-sm-2">
                                             <option value="">เพศ</option>
                                             <option value="ชาย">ชาย</option>
                                             <option value="หญิง">หญิง</option>
@@ -338,136 +339,100 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                         </div>
                     </div>
                     <div class="bd-callout bd-callout-warning" style="margin-top:0;position:relative">
-                        {{-- <div style="position:absolute;top:10px;right:10px;z-index:1"> --}}
-                            {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
-                            <!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
-                        {{-- </div> --}}
-                        {{-- <h6 class="sub-title">เป็นผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (มีอาการเข้าได้กับนิยามและมีผลยืนยันทางห้องปฏิบัติการณ์)</h6>
-                        <div class="form-group row">
-                            <div class="col-sm-3">
-                                <div class="col-sm-6">
-                                    <input type="radio" name="sat_id_class" value="Q" checked> ไม่ใช่
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="radio" name="sat_id_class" value="A"> ใช่
-                                </div>
-                            </div>
-                        </div>
-                        <h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้สัมผัสที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>
-                            ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6> --}}
+                      <div class="form-group row">
+                        <div class="col-sm-12">
+                                <table class="table table-bordered table-hover" id="tab_logic">
+<tr class="tr-header">
+  <th>#</th>
+  <th>สถานที่ส่งตรวจ PCR of Novel Coronavirus</th>
+  <th>ครั้งที่ตรวจ</th>
+  <th>วันที่ตรวจ</th>
+  <th>ตัวอย่างสิ่งส่งตรวจ</th>
+  <th>สิ่งส่งตรวจอื่นๆ</th>
+  <th>ผล PCR </th>
+  <tbody>
+  <tr>
+    <td>
+      <input type="checkbox" id="checkBoxID1" name="no_lab1" value="1">
+      {{-- <input type="text" name="no_lab1" value="1" class="form-control"></td> --}}
+      <td>
+        <select name="dms_pcr_contact1" class="form-control divID1">
+            <option value="">- เลือก -</option>
+          @foreach ($ref_lab as $row)
+          <option value="{{$row->id}}">{{$row->th_name}}</option>
+          @endforeach
+        </select>
+      </td>
+      <td>
+        <input type="text" name="dms_time_contact1" class="form-control divID1">
+      </td>
+      <td>
+        <input type="text" name="dms_date_contact1" id="date_dms_date_contact" class="form-control divID1">
 
-                            {{-- <div class="form-group row">
-                            <div class="col-sm-3">
-                            <button type="button" id="close" class="btn btn-s btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
-                            </div>
-                            <div class="col-sm-3">
-                            <button type="button" id="open" class="btn btn-s btn-success">มีตัวอย่างและสิ่งส่งตรวจ</button>
-                            </div>
-                            </div> --}}
-                            {{-- <div class="form-group row" id="lab"> --}}
-                            <div class="form-group row">
-                            <div class="col-sm-12">
-                              <div class="table-responsive">
-                              <table class="table" id="maintable">
-                                  <thead>
-                                    <tr>
-                                      <th>#</th>
-                                      <th>สถานที่ส่งตรวจ PCR of Novel Coronavirus</th>
-                                      <th>ครั้งที่ตรวจ</th>
-                                      <th>วันที่ตรวจ</th>
-                                      <th>ตัวอย่างสิ่งส่งตรวจ</th>
-                                      <th>สิ่งส่งตรวจอื่นๆ</th>
-                                      <th>ผล PCR </th>
-                                      {{-- <th>เพิ่ม / ลบ</th> --}}
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr class="data-contact-person">
-                                      <td>
-                                        <input type="text"  name="no_lab[]" value="1"  class="form-control " readonly>
-                                      </td>
-                                      <td>
-                                        <select class="form-control" name="dms_pcr_contact[]">
-                                          <option value="">- เลือก -</option>
-                                          @foreach ($ref_lab as $row)
-                                          <option value="{{$row->id}}">{{$row->th_name}}</option>
-                                          @endforeach
-                                        </select>
-                                      </td>
-                                      <td>
-                                        <input type="text" id="dms_time_contact" name="dms_time_contact[]"  class="form-control dms_time_contact01" onkeyup="autocomplet()">
-                                      </td>
-                                      <td>
-                                        <input type="text" id="date_dms_date_contact" name="dms_date_contact[]"  class="form-control dms_date_contact01" onkeyup="autocomplet()">
-                                      </td>
-                                      <td>
-                                        <select class="form-control" name="dms_specimen_contact[]">
-                                          <option value="">- เลือก -</option>
-                                          @foreach ($ref_specimen as $row)
-                                          <option value="{{$row->id}}">{{$row->name_en}}</option>
-                                          @endforeach
-                                        </select>
-                                      </td>
-                                      <td>
-                                        <input type="text" id="chkspec_other_contact" name="chkspec_other_contact[]"  class="form-control chkspec_other_contact01" onkeyup="autocomplet()">
-                                      </td>
-                                      <td>
-                                        <select class="form-control" name="other_pcr_result_contact[]">
-                                          <option value="">- เลือก -</option>
-                                        <option value="รอผล">รอผล</option>
-                                        <option value="Negative">Negative</option>
-                                        <option value="Positive">Positive</option>
-                                      </select>
-                                      {{-- <td>
-                                          <button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd">Add More</button>
-                                      </td> --}}
-                                    </tr>
-                                    <tr class="data-contact-person">
-                                      <td>
-                                        <input type="text"  name="no_lab[]" value="2"  class="form-control" readonly>
-                                      </td>
-                                      <td>
-                                        <select class="form-control" name="dms_pcr_contact[]">
-                                      <option value="">- เลือก -</option>
-                                          @foreach ($ref_lab as $row)
-                                          <option value="{{$row->id}}">{{$row->th_name}}</option>
-                                          @endforeach
-                                        </select>
-                                      </td>
-                                      <td>
-                                        <input type="text" id="dms_time_contact" name="dms_time_contact[]"  class="form-control dms_time_contact01" onkeyup="autocomplet()">
-                                      </td>
-                                      <td>
-                                        <input type="text" id="date_dms_date_contact2" name="dms_date_contact[]"  class="form-control dms_date_contact01" onkeyup="autocomplet()">
-                                      </td>
-                                      <td>
-                                        <select class="form-control" name="dms_specimen_contact[]">
-                                          <option value="">- เลือก -</option>
-                                          @foreach ($ref_specimen as $row)
-                                          <option value="{{$row->id}}">{{$row->name_en}}</option>
-                                          @endforeach
-                                        </select>
-                                      </td>
-                                      <td>
-                                        <input type="text" id="chkspec_other_contact" name="chkspec_other_contact[]"  class="form-control chkspec_other_contact01" onkeyup="autocomplet()">
-                                      </td>
-                                      <td>
-                                        <select class="form-control" name="other_pcr_result_contact[]">
-                                          <option value="">- เลือก -</option>
-                                        <option value="รอผล">รอผล</option>
-                                        <option value="Negative">Negative</option>
-                                        <option value="Positive">Positive</option>
-                                      </select>
-                                      {{-- <td>
-                                          <button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd">Add More</button>
-                                      </td> --}}
-                                    </tr>
-                                  </tbody>
-                                </table>
+      <td>
+        <select name="dms_specimen_contact1" class="form-control divID1">
+          <option value="">- เลือก -</option>
+          @foreach ($ref_specimen as $row)
+          <option value="{{$row->id}}">{{$row->name_en}}</option>
+          @endforeach
+        </select>
+      </td>
+      <td>
+        <input type="text" name="chkspec_other_contact1"  class="form-control divID1">
+      </td>
+      <td>
+        <select name="other_pcr_result_contact1" class="form-control divID1">
+          <option value="">- เลือก -</option>
+        <option value="รอผล">รอผล</option>
+        <option value="Negative">Negative</option>
+        <option value="Positive">Positive</option>
+      </select>
+    </td>
+  </tr>
+   <tr>
+      <td>
+        <input type="checkbox" id="checkBoxID2" name="no_lab2" value="2">
+      </td>
+        <td>
+          <select name="dms_pcr_contact2" class="form-control divID2">
+              <option value="">- เลือก -</option>
+            @foreach ($ref_lab as $row)
+            <option value="{{$row->id}}">{{$row->th_name}}</option>
+            @endforeach
+          </select>
+        </td>
+        <td>
+          <input type="text" name="dms_time_contact2" value="" class="form-control divID2">
+        </td>
+        <td>
+          <input type="text" name="dms_date_contact2" id="date_dms_date_contact2" class="form-control divID2">
+
+        <td>
+          <select name="dms_specimen_contact2" class="form-control divID2">
+            <option value="">- เลือก -</option>
+            @foreach ($ref_specimen as $row)
+            <option value="{{$row->id}}">{{$row->name_en}}</option>
+            @endforeach
+          </select>
+        </td>
+        <td>
+          <input type="text" name="chkspec_other_contact2"  class="form-control divID2">
+        </td>
+        <td>
+          <select name="other_pcr_result_contact2" class="form-control divID2">
+            <option value="">- เลือก -</option>
+          <option value="รอผล">รอผล</option>
+          <option value="Negative">Negative</option>
+          <option value="Positive">Positive</option>
+        </select>
+      </td>
+    </tr>
+</tbody>
+</table>
                               </div>
                             </div>
                             </div>
-                    </div>
+                    {{-- </div> --}}
                     <div class="bd-callout bd-callout-danger" style="margin-top:0;position:relative">
                         <div style="position:absolute;top:10px;right:10px;z-index:1">
                             {{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
@@ -554,59 +519,16 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
             <button type="submit" class="btn btn-success">บันทึกข้อมูล</button>
         </div>
         </form>
+      </br>
+      </br>
+            </br>
     </div>
-</div>
 </div>
 </div>
 </div>
 </div>
 @endsection
 @section('bottom-script')
-  <script type="text/javascript">
-  				$(document).ready(function () {
-  					$(document).on("click", ".classAdd", function () { //
-  						var rowCount = $('.data-contact-person').length + 1;
-  						var contactdiv = '<tr class="data-contact-person">' +
-              '<td><select class="form-control" name="dms_pcr_contact[]' + rowCount + '"">' +
-                        '<option value="">- เลือก -</option>' +
-                        '<option value="1">กรมวิทย์ฯ</option>' +
-                        '<option value="2">สถาบันบำราศฯ</option>' +
-                        '<option value="3">จุฬาลงกรณ์</option>' +
-                        '<option value="4">PCR for Mers ที่อื่นๆ</option>' +
-                        '</select></td>'+
-  									'<td><input type="text" id="dms_time_contact' + rowCount + '" name="dms_time_contact[]' + rowCount + '"  class="form-control  dms_time_contact01" onkeyup="autocomplet()" />' +
-                    '<td><input type="text" id="date_dms_date_contact' + rowCount + '" name="dms_date_contact[]' + rowCount + '"  class="form-control  dms_date_contact01" onkeyup="autocomplet()" />' +
-  									'<td><select class="form-control" name="dms_specimen_contact[]' + rowCount + '"">' +
-                                '<option value="">- เลือก -</option>'+
-  															@foreach ($ref_specimen as $row)
-  															'<option value="{{$row->id}}">{{$row->name_en}}</option>'+
-  															@endforeach
-  														'</select></td>'+
-                              '<td><input type="text" id="chkspec_other_contact' + rowCount + '" name="chkspec_other_contact[]' + rowCount + '"  class="form-control  chkspec_other_contact01" onkeyup="autocomplet()" />' +
-                              '<td><select class="form-control" name="other_pcr_result_contact[]' + rowCount + '"  title="ตำแหน่งในทีม" >' +
-                                '<option value="">- เลือก -</option>'+
-                                '<option value="รอผล">รอผล</option>'+
-                                '<option value="Negative">Negative</option>'+
-                                '<option value="Positive">Positive</option>'+
-  															'</select></td>' +
-  									'<td><button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd">Add More</button>' +
-  										'<button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs">Remove</button></td>' +
-  								'</tr>';
-  					$('#maintable').append(contactdiv); // Adding these controls to Main table class
-  					$('#date_dms_date_contact' + rowCount + '').datepicker({
-  						format: 'yyyy-mm-dd',
-  						todayHighlight: true,
-  						todayBtn: true,
-  						autoclose: true
-  					});
-  			});
-  			$(document).on("click", ".deleteContact", function () {
-  				$(this).closest("tr").remove(); // closest used to remove the respective 'tr' in which I have my controls
-  	});
-
-  		});
-  	</script>
-
 <script type="text/javascript">
     $('.province').change(function() {
         if ($(this).val() != '') {
@@ -667,26 +589,83 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
         }
     });
 </script>
+
 {{-- <script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script> --}}
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js'></script>
 <script src="{{ URL::asset('assets/contact/dualbox/jquery.bootstrap-duallistbox.js') }}"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 {{-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> --}}
-
-{{-- <script>
-    $(function() {
-        $('#lab').hide();
-        $('#close').on('click', function() {
-            $('#lab').hide();
-        });
-        $('#open').on('click', function() {
-            $('#lab').show();
-        });
+<script>
+$(function(){
+  $('#addMore').on('click', function() {
+            var data = $("#tb tr:eq(1)").clone(true).appendTo("#tb");
+            data.find("input").val('');
+   });
+   $(document).on('click', '.remove', function() {
+       var trIndex = $(this).closest("tr").index();
+          if(trIndex>1) {
+           $(this).closest("tr").remove();
+         } else {
+           alert("ไม่สามารถลบแถวแรกได้");
+         }
     });
-    // $('.selectpicker,#cb_send,#cb_result,#nps_ts1_result,#nps_ts2_send,#nps_ts3_send,#nps_ts2_result,#nps_ts1_send,#nps_ts1_result2,#nps_ts1_result3,#nps_ts2_result2,#nps_ts2_result3,#nps_ts3_result,#nps_ts3_result2,#nps_ts3_result3').selectpicker();
-</script> --}}
+});
+$(document).ready(function() {
+  var i = 1;
+  $("#add_row").click(function() {
+  $('tr').find('input').prop('disabled',true)
+    $('#addr' + i).html(
+    "<td>" + (i + 1) + "</td>"+
+    "<td><select class='form-control' name='dms_pcr_contact[]" + i + "'>"+
+    "<option value=''>- เลือก -</option>"+
+            @foreach ($ref_lab as $row)
+              "<option value='{{$row->id}}'>{{$row->th_name}}</option>"+
+            @endforeach
+            "</select></td>"+
+    "<td><input type='text' name='dms_time_contact[]" + i + "' class='form-control'></td>"+
+    "<td><input type='text' name='dms_date_contact[]" + i + "' class='form-control'></td>"+
+    "<td>"+
+      "<select name='dms_specimen_contact[]" + i + "' class='form-control'>"+
+        "<option value=''>- เลือก -</option>"+
+        @foreach ($ref_specimen as $row)
+        "<option value='{{$row->id}}'>{{$row->name_en}}</option>"+
+        @endforeach
+      "</select>"+
+    "</td>"+
+    "<td>"+
+      "<input type='text' id='chkspec_other_contact' name='chkspec_other_contact[]" + i + "'  class='form-control' onkeyup='autocomplet()'>"+
+    "</td>"+
+    "<td>"+
+      "<select name='other_pcr_result_contact[]" + i + "' class='form-control'>"+
+      "<option value=''>- เลือก -</option>"+
+      "<option value='รอผล'>รอผล</option>"+
+      "<option value='Negative'>Negative</option>"+
+      "<option value='Positive'>Positive</option>"+
+    "</select>"+
+  "</td>");
+
+    $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+    i++;
+  });
+});
+$(document).ready(function() {
+
+  handleStatusChanged();
+
+});
+  $(".divID1").attr("disabled", !this.checked);
+$("#checkBoxID1").click(function() {
+  $(".divID1").attr("disabled", !this.checked);
+});
+  $(".divID2").attr("disabled", !this.checked);
+$("#checkBoxID2").click(function() {
+  $(".divID2").attr("disabled", !this.checked);
+});
+</script>
+
 <script>
     $('.input-daterange')
         .datepicker({
