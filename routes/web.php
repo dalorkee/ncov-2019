@@ -111,15 +111,16 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/invest/list', 'ListInvestController@index')->name('list-data.invest');
 	Route::get('/sat/list', 'ListSatController@index')->name('list-data.sat');
 
-	/* ch status */
+	/* moaal change status on context menu */
 	Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
+	/* modal delete on context menu */
+	Route::post('invest/delete', 'ListInvestController@softDeleteInvest')->name('invest.delete');
 
 	/* invest */
 	Route::get('/invest/create/{id}', 'InvestController@create')->name('invest.create');
 	Route::post('invest/store', 'InvestController@store')->name('invest.store');
 	Route::get('invest/download/invest/{id}', 'InvestController@downloadInvestFile')->name('invest.downloadInvestFile');
 	Route::get('invest/download/xray/{id}', 'InvestController@downloadXrayFile')->name('invest.downloadXrayFile');
-	Route::get('export/{file_name}', 'InvestController@downloadFile')->name('export.file');
 
 	/* map */
 	Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');
@@ -130,6 +131,15 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('epi', function() {
 		return view('export.invest');
 	});
+	Route::get('/getFile/{file}', 'InvestController@downloadFile');
+	Route::get('/checker/{file}', 'ExportController@checkerFile')->name('checker');
+	Route::get('/export', 'ExportController@exportPage')->name('export-page');
+	Route::post('export', 'ExportController@exportFastExcel')->name('export.search');
+	Route::get('/export/{file_name}', 'ExportController@downloadFile')->name('export.file');
+
+	/* log */
+	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
 	/*
 	Route::get('/einvest', function(App\Exports\InvestExport $export) {
 		return $export->download('inv.xlsx');
@@ -150,21 +160,15 @@ Route::prefix('dashboardgraph')->group(function () {
 
 Route::resource('hospital', 'HospitalController');
 
-/* for testing only */
 Route::group(['middleware' => ['auth']], function() {
 	Route::get('/pjx', function() {
 		return view('export.invest');
 	});
-	Route::get('/invest/select/export', 'InvestController@exportPage')->name('export-page');
-	Route::get('/pj', 'InvestController@exportFromQuery')->name('pj');
-	Route::post('/pj1', 'InvestController@exportFastExcel')->name('pj1');
-	Route::get('/getFile/{file}', 'InvestController@downloadFile');
-	Route::get('/checker/{file}', 'InvestController@checkerFile')->name('checker');
-	Route::get('/testja', 'InvestController@testja')->name('testja');
-	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+	Route::get('/testConn', function() {
+		return view('test.pj2');
+	});
 });
+
 /* By Pass Login */
-Route::get('/auth', array(
-				'as'   => 'check-auth',
-				'uses' => 'Auth\LoginController@get_check_auth'
-));
+Route::get('/auth', array('as' => 'check-auth', 'uses' => 'Auth\LoginController@get_check_auth'));
