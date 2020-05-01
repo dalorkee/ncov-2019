@@ -22,6 +22,107 @@
 /* table.dataTable td { background-color: red;  border:1px lightgrey;} */
 table.dataTable tr.odd { background-color: #F6F6F6;  border:1px lightgrey;}
 table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
+
+/* modal confirm */
+.modal-confirm {
+	color: #636363;
+	width: 400px;
+}
+.modal-confirm .modal-content {
+	padding: 20px;
+	border-radius: 5px;
+	border: none;
+	text-align: center;
+	font-size: 14px;
+}
+.modal-confirm .modal-header {
+	border-bottom: none;
+	position: relative;
+	height: 140px;
+}
+.modal-confirm .modal-header:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+.modal-confirm .close {
+	position: absolute;
+	top: -5px;
+	right: -2px;
+}
+.modal-confirm .icon-box {
+	position: absolute;
+	top: 6px;
+	left: 140px;
+	width: 80px;
+	height: 80px;
+	/*margin: 0 auto;*/
+	border-radius: 50%;
+	z-index: 9;
+	/*text-align: center;*/
+	border: 3px solid #f15e5e;
+
+}
+.modal-confirm .icon-box i {
+	color: #f15e5e;
+	font-size: 46px;
+	display: inline-block;
+	margin-top: 2px;
+}
+.modal-confirm h4 {
+	width: 100%;
+	text-align: center;
+	font-size: 26px;
+	position: absolute;
+	left: 0;
+	top: 90px;
+	/*margin: 30px 0 -10px;*/
+}
+
+.modal-confirm .modal-body {
+	color: #999;
+}
+.modal-confirm .modal-footer {
+	border: none;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 13px;
+	padding: 10px 15px 25px;
+}
+.modal-confirm .modal-footer a {
+	color: #999;
+}
+
+.modal-confirm .btn {
+	color: #fff;
+	border-radius: 4px;
+	background: #60c7c1;
+	text-decoration: none;
+	transition: all 0.4s;
+	line-height: normal;
+	min-width: 120px;
+	border: none;
+	min-height: 40px;
+	border-radius: 3px;
+	margin: 0 5px;
+	outline: none !important;
+}
+.modal-confirm .btn-info {
+	background: #c1c1c1;
+}
+.modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
+	background: #a8a8a8;
+}
+.modal-confirm .btn-danger {
+	background: #f15e5e;
+}
+.modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
+	background: #ee3535;
+}
+.trigger-btn {
+	display: inline-block;
+	margin: 100px auto;
+}
 </style>
 @endsection
 @section('top-script')
@@ -55,14 +156,54 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	</div>
 </div>
 <div class="container-fluid">
-		@include('flash::message')
+	@include('flash::message')
+	@if(Session::has('success'))
+		<div class="alert alert-success">
+			<i class="fas fa-check-circle"></i> {{ Session::get('success') }}
+			@php
+				Session::forget('success');
+			@endphp
+		</div>
+	@elseif(Session::has('error'))
+		<div class="alert alert-danger">
+			<i class="fas fa-times-circle"></i> {{ Session::get('error') }}
+			@php
+				Session::forget('error');
+			@endphp
+		</div>
+	@endif
 	<!-- Modal change status-->
-	<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
+	<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="changeStatus" aria-hidden="true">
+		<div class="modal-dialog">
 			<form name="chStatusFrm" action="{{ route('chConfirmStatusServerSide') }}" method="POST">
 				{{ csrf_field() }}
 				<div class="modal-content" id="ajax-status"></div>
 			</form>
+		</div>
+	</div>
+	<!-- Modal Delete confirmation-->
+	<div class="modal fade delete-context" id="delete_context" tabindex="-1" role="dialog" aria-labelledby="deleteConfirm" aria-hidden="true">
+		<div class="modal-dialog modal-confirm">
+			<div class="modal-content" id="confirm_delete">
+				<form name="deleteContext" action="{{ route('invest.delete') }}" method="POST">
+					{{ csrf_field() }}
+					<input type="hidden" name="pid" id="del_id">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<div class="icon-box">
+							<i class="mdi mdi-close"></i>
+						</div>
+						<h4 class="modal-title">Are you sure?</h4>
+					</div>
+					<div class="modal-body">
+						<p>Do you really want to delete these records?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+						<input type="submit" class="btn btn-danger" value="Delete" data-dismiss>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 	{{ $dataTable->table() }}
@@ -102,6 +243,25 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				}
 			});
 		}); */
+		/* change status */
+		/*
+		$(document).on('click', '.delete-context', function () {
+			var id = $(this).attr('value');
+			$.ajax({
+				method: 'POST',
+				url: '{ route('ch-status') }}',
+				data: {id:id},
+				dataType: 'HTML',
+				success: function(data) {
+					//console.log(data);
+					$('#ajax-status').html(data);
+					$('#chstatus').modal('show');
+				},
+				error: function(data, status, error) {
+					alert(error);
+				}
+			});
+		});*/
 		/* context nav */
 		$.contextMenu({
 			selector: '.context-nav',
@@ -143,7 +303,16 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						window.open(cfurl, '_blank');
 						break;
 					case 'delete':
-						alert('Permission denied !');
+						@if (auth()->user()->id == 2 || auth()->user()->id == 76)
+							$('#del_id').val(id);
+							let x = $('#del_id').val();
+							$('.delete-context').modal('show');
+						@else
+							alert('Permission denie.');
+						@endif
+						break;
+					default:
+						alert('Something went wrong!');
 						break;
 				}
 			},

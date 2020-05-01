@@ -8,9 +8,9 @@
 <h1>Testing Ja</h1>
 <p>This is a paragraph.</p>
 <?php
-$servername = "10.200.2.233";
-$username = "talek";
-$password = "9kg]Hdmu,";
+$servername = "192.168.100.188";
+$username = "talekteam";
+$password = "9kg]Hdmu,gvl";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password);

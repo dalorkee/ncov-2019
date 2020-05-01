@@ -44,7 +44,7 @@
 	<article class="card" style="border:2px dashed #eee">
 		<section class="card-body">
 			<form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
-			<!-- <form action="{route('pj1')}" method="POST" enctype="multipart/form-data" class="form-horizontal"> -->
+			<!-- <form action="route" method="POST" enctype="multipart/form-data" class="form-horizontal"> -->
 				{{ csrf_field() }}
 				{{ method_field('POST') }}
 				<div class="form-row">
@@ -83,9 +83,23 @@
 				</div>
 
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-					<div class="loader" style="display:none;font-size:1.875em;color:#FF2D20;"><i class="fas fa-spinner fa-spin"></i> กำลังเขียนข้อมูล โปรดรอให้ข้อความนี้หายไป...</div>
-					<div class="dl-section">
-						<div id="dl-detail"></div>
+					<div class="card">
+						<div class="card-body">
+							<ul class="chat-list loader" style="display:none;">
+								<li class="chat-item">
+									<div class="chat-img text-danger" style="font-size:2em;">
+										<i class="fas fa-spinner fa-spin"></i>
+									</div>
+									<div class="chat-content">
+										<h2 class="text-danger">กำลังเขียนข้อมูล โปรดรอให้ข้อความนี้หายไป...</h2>
+										<div class="box text-info">ข้อมูลจำนวนมาก อาจใช้เวลานานหลายนาที</div>
+									</div>
+								</li>
+							</ul>
+							<div class="dl-section">
+								<div id="dl-detail"></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -171,11 +185,12 @@ $(document).ready(function() {
 			e.preventDefault();
 			//$('#progress').show();
 			$('.loader').show();
+			$('.dl-section').hide();
 			var date_range = $('#export_date').val();
 			var pt_status = $('#pt_status').val();
 			$.ajax({
 				method: 'POST',
-				url: "{{ route('pj1') }}",
+				url: "{{ route('export.search') }}",
 				data: {date_range:date_range, pt_status:pt_status},
 				dataType: "HTML",
 				success: function(response) {

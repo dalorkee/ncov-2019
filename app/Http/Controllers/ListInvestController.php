@@ -29,6 +29,16 @@ class ListInvestController extends Controller
 		return Excel::download(new InvestExport($id), 'invest.xlsx');
 	}
 
+	public function softDeleteInvest(Request $request) {
+		$pt = InvestList::destroy($request->pid);
+		if ($pt == 1) {
+			return redirect()->back()->with('success', 'ข้อมูลรหัสที่ '.$request->pid.' ถูกลบออกจากระบบแล้ว');
+		} else {
+			return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->pid.' ไม่สามารถลบออกจากระบบได้');
+		}
+
+	}
+
 	public function chStatus(Request $request) {
 		$pst = InvestList::select('id', 'sat_id', 'pt_status', 'news_st', 'disch_st')
 			->where('id', '=', $request->id)
@@ -60,7 +70,7 @@ class ListInvestController extends Controller
 
 		return "
 		<div class=\"modal-header\">
-			<h5 class=\"modal-title\" id=\"statusModalLabel".$pst['id']."\">CH STATUS ID: ".$pst['id']."</h5>
+			<h5 class=\"modal-title\" id=\"statusModalLabel".$pst['id']."\">Change status ID: ".$pst['id']."</h5>
 			<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
 				<span aria-hidden=\"true\">&times;</span>
 			</button>
@@ -101,8 +111,8 @@ class ListInvestController extends Controller
 			</div>
 		</div>
 		<div class=\"modal-footer\">
-			<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>
-			<input type=\"submit\" class=\"btn btn-primary\" value=\"Save changes\">
+			<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancel</button>
+			<input type=\"submit\" class=\"btn btn-success\" value=\"Save\">
 		</div>";
 	}
 }
