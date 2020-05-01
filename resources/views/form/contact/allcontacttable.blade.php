@@ -210,8 +210,8 @@ input.valid, textarea.valid{
 					<input type="hidden" name="nation" value="{{$value->national_contact }}">
 					<input type="hidden" name="walkin_province" value="{{$value->walkin_province }}">
 					<input type="hidden" name="walkin_district" value="{{$value->walkin_district }}">
-					<input type="hidden" name="walkin_sub_district" value="{{$value->walkin_sub_district }}">
-					<input type="hidden" name="walkin_hospital_code" value="{{$value->walkin_hospital_code }}">
+					<input type="hidden" name="walkin_subdistrict" value="{{$value->walkin_subdistrict }}">
+					<input type="hidden" name="walkin_hospital" value="{{$value->walkin_hospital }}">
 					<div class="form-row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 							<div class="form-group">
