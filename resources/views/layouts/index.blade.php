@@ -11,6 +11,7 @@
 	<!-- Favicon icon -->
 	<link rel="icon" type="image/png" sizes="16x16" href="{{ URL::asset('assets/images/small-moph-logo.png') }}">
 	<title>COVID-19</title>
+	@include('layouts.main-top-script')
 	@include('layouts.main-style')
 	@yield('custom-style')
 	@yield('internal-style')
