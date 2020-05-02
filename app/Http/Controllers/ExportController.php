@@ -30,7 +30,6 @@ use Carbon\Carbon;
 
 class ExportController extends MasterController
 {
-
 	public function exportPage() {
 		$fileName = self::setExportFileName();
 		$pt_status = parent::selectStatus('pt_status');
