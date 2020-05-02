@@ -54,6 +54,26 @@ class InvestController extends MasterController
 		}
 	}
 
+	public function downloadFile($fileName=null) {
+		try {
+			$exists = Storage::disk('export')->exists($fileName);
+			if ($exists) {
+				$log = DB::table('log_export')->select('export_amount', 'expire_date')->where('file_name', '=', $fileName)->get()->toArray();
+				$new_amount = ((int)$log[0]->export_amount+1);
+				$now = date('Y-m-d H:i:s');
+				$affected = DB::table('log_export')
+					->where('file_name', $fileName)
+					->update(['export_amount' => $new_amount, 'last_export_date' => $now]);
+				$filePath = public_path('exports/'.$fileName);
+				return response()->download($filePath);
+			} else {
+				return '<div>File not found.</div>';
+			}
+		} catch(\Exception $e) {
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
+		}
+	}
+
 	protected function setDateRange($date_range) {
 		$exp = explode("/", $date_range);
 		$result = $exp[2].'-'.$exp[0].'-'.$exp[1];
