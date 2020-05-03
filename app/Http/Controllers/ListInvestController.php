@@ -5,9 +5,9 @@ use Illuminate\Http\Request;
 use App\DataTables\ListInvestDataTable;
 use App\InvestList;
 use App\Http\Controllers\MasterController;
-
 use App\Exports\InvestExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 class ListInvestController extends Controller
 {
@@ -46,6 +46,7 @@ class ListInvestController extends Controller
 		$master = new MasterController;
 		$status = $master->getStatus();
 
+		/* pt status */
 		$pt_status = (!empty($pst['pt_status'])) ? $status['pt_status'][$pst['pt_status']] : "-";
 		$pt_status_opt = "";
 		foreach ($status['pt_status'] as $key => $val) {
@@ -56,21 +57,43 @@ class ListInvestController extends Controller
 			}
 		}
 
+		/* news status */
 		$news_st = (!empty($pst['news_st'])) ? $status['news_st'][$pst['news_st']] : "-";
 		$news_st_opt = "";
 		foreach ($status['news_st'] as $key => $val) {
 			$news_st_opt .= "<option value=\"".$key."\">".$val."</option>";
 		}
 
+		/* dischart status */
 		$disch_st = (!empty($pst['disch_st'])) ? $status['disch_st'][$pst['disch_st']] : "-";
 		$disch_st_opt = "";
 		foreach ($status['disch_st'] as $key => $val) {
 			$disch_st_opt .= "<option value=\"".$key."\">".$val."</option>";
 		}
 
+		/* check pt_status for disible select */
+		if ($pst['pt_status'] == 2) {
+			$pt_status_disabled = 'disabled';
+			$warning_pt_status_text = 'Confirmed ไม่สามารถเปลี่ยนสถานะได้แล้ว';
+		} else {
+			$pt_status_disabled = NULL;
+			$warning_pt_status_text = NULL;
+		}
+
+		/* check role for allow change news_st status and disible select */
+		$user_role = Session::get('user_role');
+		if ($user_role == 'root' || $user_role == 'ddc') {
+			$news_st_disabled = NULL;
+			$warning_news_st_text = NULL;
+		} else {
+			$news_st_disabled = 'disabled';
+			$warning_news_st_text = 'เปลี่ยนสถานะได้เฉพาะผู้ได้รับมอบหมายเท่านั้น';
+		}
+
+
 		return "
 		<div class=\"modal-header\">
-			<h5 class=\"modal-title\" id=\"statusModalLabel".$pst['id']."\">Change status ID: ".$pst['id']."</h5>
+			<h5 class=\"modal-title\" id=\"statusModalLabel".$pst['id']."\">เปลี่ยนสถานะ ID: ".$pst['id']."</h5>
 			<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
 				<span aria-hidden=\"true\">&times;</span>
 			</button>
@@ -79,23 +102,25 @@ class ListInvestController extends Controller
 			<div class=\"form-row\">
 				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
 					<div class=\"form-group\">
-						<label for=\"patient\">Status</label>
+						<label for=\"patient\">สถานะ <span class=\"badge badge-pill badge-danger\">".$warning_pt_status_text."</label>
 						<input type=\"hidden\" name=\"id\" value=\"".$pst['id']."\">
-						<select name=\"pt_status\" class=\"form-control\" id=\"pt_status".$pst['id']."\">
+						<select name=\"pt_status\" class=\"form-control selectpicker\" id=\"pt_status".$pst['id']."\" ".$pt_status_disabled.">
 							<option value=\"".$pst['pt_status']."\" selected=\"selected\">".$pt_status."</option>
 							<option value=\"\">-- โปรดเลือก --</option>"
 							.$pt_status_opt.
 						"</select>
+						<input type=\"hidden\" name=\"pt_status_hidden\" value=\"".$pst['pt_status']."\">
 					</div>
 				</div>
 				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
 					<div class=\"form-group\">
-						<label for=\"news\">News</label>
-						<select name=\"news_status\" class=\"form-control\" id=\"news_st".$pst['id']."\">
+						<label for=\"news\">แถลงข่าว <span class=\"badge badge-pill badge-danger\">".$warning_news_st_text."</label>
+						<select name=\"news_status\" class=\"form-control\" id=\"news_st".$pst['id']."\" ".$news_st_disabled.">
 							<option value=\"".$pst['news_st']."\" selected=\"selected>\">".$news_st."</option>
 							<option value=\"\">-- โปรดเลือก --</option>"
 							.$news_st_opt.
 						"</select>
+						<input type=\"hidden\" name=\"news_st_hidden\" value=\"".$pst['news_st']."\">
 					</div>
 				</div>
 				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
@@ -111,8 +136,8 @@ class ListInvestController extends Controller
 			</div>
 		</div>
 		<div class=\"modal-footer\">
-			<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancel</button>
-			<input type=\"submit\" class=\"btn btn-success\" value=\"Save\">
+			<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">ยกเลิก</button>
+			<input type=\"submit\" class=\"btn btn-danger\" value=\"เปลี่ยนทันที\">
 		</div>";
 	}
 }

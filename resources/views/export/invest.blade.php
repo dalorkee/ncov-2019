@@ -43,8 +43,8 @@
 	@include('flash::message')
 	<article class="card" style="border:2px dashed #eee">
 		<section class="card-body">
-			<form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
-			<!-- <form action="route" method="POST" enctype="multipart/form-data" class="form-horizontal"> -->
+			<!--<form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">-->
+			<form action="{{ route('export.search') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				{{ csrf_field() }}
 				{{ method_field('POST') }}
 				<div class="form-row">
@@ -68,7 +68,7 @@
 								</div>
 								<input type="text" name="date_range" id="export_date" class="form-control" style="cursor: pointer;" readonly>
 								<div class="input-group-append">
-									<button type="button" class="btn btn-outline btn-primary" id="export_btn">ค้นหา</button>
+									<button type="sumbit" class="btn btn-outline btn-primary" id="export_btnx">ค้นหา</button>
 								</div>
 							</div>
 						</div>

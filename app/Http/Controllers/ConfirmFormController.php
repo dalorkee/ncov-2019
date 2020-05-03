@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 use Storage;
 use App\TitleName;
 use App\Provinces;
@@ -17,7 +18,8 @@ use App\District;
 use App\SubDistrict;
 use App\GlobalCity;
 use App\GlobalCountry;
-use DB;
+use Log;
+use Session;
 
 class ConfirmFormController extends Controller
 {
@@ -40,15 +42,54 @@ class ConfirmFormController extends Controller
 	}
 
 	public function changeStatusSeverSide(Request $request) {
-		$pt = InvestList::find($request->id);
-		$pt->pt_status = $request->pt_status;
-		$pt->news_st = $request->news_status;
-		$pt->disch_st = $request->disch_st;
-		$pt->updated_at = date('Y-m-d H:i:s');
-		$pt_saved = $pt->save();
-		if ($pt_saved) {
-			return redirect()->route('list-data.invest');
-			exit;
+		try {
+			$pt = InvestList::find($request->id);
+			/* set current status aftr change */
+			$cur_pt_status = $pt->pt_status;
+			$cur_news_st = $pt->news_st;
+			$cur_disch_st = $pt->disch_st;
+
+			/* prepare change to new status */
+			if ($cur_pt_status == 2) {
+				$pt->pt_status = $cur_pt_status;
+				$ch_pt_status = $cur_pt_status;
+			} else {
+				$pt->pt_status = $request->pt_status;
+				$ch_pt_status = $request->pt_status;
+			}
+
+			$user_role = Session::get('user_role');
+			if ($user_role == 'root' || $user_role == 'ddc') {
+				$pt->news_st = $request->news_status;
+				$ch_news_st = $request->news_status;
+			} else {
+				$pt->news_st = $pt->news_st;
+				$ch_news_st = $pt->news_st;
+			}
+
+			$pt->disch_st = $request->disch_st;
+			$pt->updated_at = date('Y-m-d H:i:s');
+
+			/* save*/
+			$pt_saved = $pt->save();
+			if ($pt_saved) {
+				DB::table('log_ch_status')->insert([
+					'ref_pt_id' => $request->id,
+					'cur_pt_status' => $cur_pt_status,
+					'ch_pt_status' => $ch_pt_status,
+					'cur_news_st' => $cur_news_st,
+					'ch_news_st' => $ch_news_st,
+					'cur_disch_st' => $cur_disch_st,
+					'ch_disch_st' => $request->disch_st,
+					'ch_date' => date('Y-m-d H:i:s'),
+					'ref_user_id' => auth()->user()->id
+				]);
+				//return redirect()->route('list-data.invest');
+				return redirect()->back()->with('success', 'เปลี่ยนสถานะข้อมูลสำเร็จแล้ว');
+			}
+		} catch(\Exception $e) {
+			Log::error($e->getMessage());
+			return redirect()->back()->with('error', 'ไม่สามารถเปลี่ยนสถานะข้อมูล โปรดตรวจสอบ');
 		}
 	}
 

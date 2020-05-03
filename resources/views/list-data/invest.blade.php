@@ -22,107 +22,6 @@
 /* table.dataTable td { background-color: red;  border:1px lightgrey;} */
 table.dataTable tr.odd { background-color: #F6F6F6;  border:1px lightgrey;}
 table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
-
-/* modal confirm */
-.modal-confirm {
-	color: #636363;
-	width: 400px;
-}
-.modal-confirm .modal-content {
-	padding: 20px;
-	border-radius: 5px;
-	border: none;
-	text-align: center;
-	font-size: 14px;
-}
-.modal-confirm .modal-header {
-	border-bottom: none;
-	position: relative;
-	height: 140px;
-}
-.modal-confirm .modal-header:after {
-	content: '';
-	display: block;
-	clear: both;
-}
-.modal-confirm .close {
-	position: absolute;
-	top: -5px;
-	right: -2px;
-}
-.modal-confirm .icon-box {
-	position: absolute;
-	top: 6px;
-	left: 140px;
-	width: 80px;
-	height: 80px;
-	/*margin: 0 auto;*/
-	border-radius: 50%;
-	z-index: 9;
-	/*text-align: center;*/
-	border: 3px solid #f15e5e;
-
-}
-.modal-confirm .icon-box i {
-	color: #f15e5e;
-	font-size: 46px;
-	display: inline-block;
-	margin-top: 2px;
-}
-.modal-confirm h4 {
-	width: 100%;
-	text-align: center;
-	font-size: 26px;
-	position: absolute;
-	left: 0;
-	top: 90px;
-	/*margin: 30px 0 -10px;*/
-}
-
-.modal-confirm .modal-body {
-	color: #999;
-}
-.modal-confirm .modal-footer {
-	border: none;
-	text-align: center;
-	border-radius: 5px;
-	font-size: 13px;
-	padding: 10px 15px 25px;
-}
-.modal-confirm .modal-footer a {
-	color: #999;
-}
-
-.modal-confirm .btn {
-	color: #fff;
-	border-radius: 4px;
-	background: #60c7c1;
-	text-decoration: none;
-	transition: all 0.4s;
-	line-height: normal;
-	min-width: 120px;
-	border: none;
-	min-height: 40px;
-	border-radius: 3px;
-	margin: 0 5px;
-	outline: none !important;
-}
-.modal-confirm .btn-info {
-	background: #c1c1c1;
-}
-.modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
-	background: #a8a8a8;
-}
-.modal-confirm .btn-danger {
-	background: #f15e5e;
-}
-.modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
-	background: #ee3535;
-}
-.trigger-btn {
-	display: inline-block;
-	margin: 100px auto;
-}
 </style>
 @endsection
 @section('top-script')
@@ -184,7 +83,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	<!-- Modal Delete confirmation-->
 	<div class="modal fade delete-context" id="delete_context" tabindex="-1" role="dialog" aria-labelledby="deleteConfirm" aria-hidden="true">
 		<div class="modal-dialog modal-confirm">
-			<div class="modal-content" id="confirm_delete">
+			<div class="modal-content" id="confirm_delete" style="font-family: 'Fira-code'";>
 				<form name="deleteContext" action="{{ route('invest.delete') }}" method="POST">
 					{{ csrf_field() }}
 					<input type="hidden" name="pid" id="del_id">
@@ -193,14 +92,14 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						<div class="icon-box">
 							<i class="mdi mdi-close"></i>
 						</div>
-						<h4 class="modal-title">Are you sure?</h4>
+						<h4 class="modal-title">ยืนยันการลบข้อมูล?</h4>
 					</div>
 					<div class="modal-body">
-						<p>Do you really want to delete these records?</p>
+						<p class="text-primary">คุณต้องการลบข้อมูลออกจากระบบฯ ใช่หรือไม่ ?</p>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-						<input type="submit" class="btn btn-danger" value="Delete" data-dismiss>
+						<button type="button" class="btn btn-info" data-dismiss="modal">ยกเลิก</button>
+						<input type="submit" class="btn btn-danger" value="ลบทันที" data-dismiss>
 					</div>
 				</form>
 			</div>
@@ -317,14 +216,14 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				}
 			},
 			items: {
-				"chStatus": {name: "Change status", icon: "fas fa-check-circle"},
+				"chStatus": {name: "Change status", icon: "fas fa-check-circle", className: 'text-success'},
 				"sep1": "---------",
 				"labGen": {name: "Generate lab", icon: "fas fa-barcode"},
 				"labResult": {name: "Lab result", icon: "fas fa-flask"},
 				"contact": {name: "Contact", icon: "fas fa-handshake"},
 				"sep2": "---------",
-				"edit": {name: "Edit", icon: "fas fa-edit"},
-				"delete": {name: "Delete", icon: "fas fa-trash-alt"},
+				"edit": {name: "Edit (Invest Form:2)", icon: "fas fa-edit", className: 'text-color-custom-6'},
+				"delete": {name: "Delete", icon: "fas fa-trash-alt", className: 'text-danger'},
 				"sep3": "---------",
 				"quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
 			}
