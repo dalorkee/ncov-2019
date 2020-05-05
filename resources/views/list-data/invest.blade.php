@@ -95,7 +95,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						<h4 class="modal-title">ยืนยันการลบข้อมูล?</h4>
 					</div>
 					<div class="modal-body">
-						<p class="alert alert-warning">เงื่อนไข: สถานะไม่เท่ากับ Confirmed และวันที่ลงข้อมูลเท่ากับวันที่ปัจจุบัน</p>
+						<p class="alert alert-warning">เงื่อนไข: สถานะไม่เท่ากับ Confirmed และวันที่ลงข้อมูลเท่ากับวันที่ปัจจุบัน และเป็นผู้กรอกข้อมูล</p>
 						<p class="text-danger">คุณต้องการลบข้อมูลออกจากระบบฯ ใช่หรือไม่ ?</p>
 					</div>
 					<div class="modal-footer">
