@@ -83,7 +83,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	<!-- Modal Delete confirmation-->
 	<div class="modal fade delete-context" id="delete_context" tabindex="-1" role="dialog" aria-labelledby="deleteConfirm" aria-hidden="true">
 		<div class="modal-dialog modal-confirm">
-			<div class="modal-content" id="confirm_delete" style="font-family: 'Fira-code'";>
+			<div class="modal-content" id="confirm_delete" style="font-family: 'Fira-code';">
 				<form name="deleteContext" action="{{ route('invest.delete') }}" method="POST">
 					{{ csrf_field() }}
 					<input type="hidden" name="pid" id="del_id">
@@ -95,7 +95,8 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						<h4 class="modal-title">ยืนยันการลบข้อมูล?</h4>
 					</div>
 					<div class="modal-body">
-						<p class="text-primary">คุณต้องการลบข้อมูลออกจากระบบฯ ใช่หรือไม่ ?</p>
+						<p class="alert alert-warning">เงื่อนไข: สถานะไม่เท่ากับ Confirmed และวันที่ลงข้อมูลเท่ากับวันที่ปัจจุบัน</p>
+						<p class="text-danger">คุณต้องการลบข้อมูลออกจากระบบฯ ใช่หรือไม่ ?</p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-info" data-dismiss="modal">ยกเลิก</button>
@@ -123,44 +124,6 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			}
 		});
-		/* change status */
-		/*
-		$(document).on('click', '.chstatus', function () {
-			var id = $(this).attr('value');
-			$.ajax({
-				method: 'POST',
-				url: '{ route('ch-status') }}',
-				data: {id:id},
-				dataType: 'HTML',
-				success: function(data) {
-					//console.log(data);
-					$('#ajax-status').html(data);
-					$('#chstatus').modal('show');
-				},
-				error: function(data, status, error) {
-					alert(error);
-				}
-			});
-		}); */
-		/* change status */
-		/*
-		$(document).on('click', '.delete-context', function () {
-			var id = $(this).attr('value');
-			$.ajax({
-				method: 'POST',
-				url: '{ route('ch-status') }}',
-				data: {id:id},
-				dataType: 'HTML',
-				success: function(data) {
-					//console.log(data);
-					$('#ajax-status').html(data);
-					$('#chstatus').modal('show');
-				},
-				error: function(data, status, error) {
-					alert(error);
-				}
-			});
-		});*/
 		/* context nav */
 		$.contextMenu({
 			selector: '.context-nav',
@@ -202,13 +165,9 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						window.open(cfurl, '_blank');
 						break;
 					case 'delete':
-						@if (auth()->user()->id == 2 || auth()->user()->id == 76)
 							$('#del_id').val(id);
-							let x = $('#del_id').val();
+							//let x = $('#del_id').val();
 							$('.delete-context').modal('show');
-						@else
-							alert('Permission denie.');
-						@endif
 						break;
 					default:
 						alert('Something went wrong!');

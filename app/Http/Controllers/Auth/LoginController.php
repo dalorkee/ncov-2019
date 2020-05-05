@@ -54,12 +54,12 @@ class LoginController extends Controller
 	public function login(Request $request){
 		$user = User::where('username', $request->username)
 			->where('password', md5($request->password))->first();
-		if($user==null){
+		if ($user == null) {
 			$message = "ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน";
 			flash()->overlay($message, 'Message From System');
 			//return redirect('/login')->with('message','ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน');
 			return redirect('/login');
-		}else{
+		} else {
 			Auth::login($user);
 			return redirect('/');
 		}
@@ -70,6 +70,19 @@ class LoginController extends Controller
 
 
 	public function logout(Request $request) {
+		$user = auth()->user();
+		$user->revokePermissionTo([
+			'permission-edit',
+			'permission-delete',
+			'permission-create',
+			'role-create',
+			'role-edit',
+			'role-delete',
+			'new-pui-create',
+			'pui-delete',
+			'pui-create',
+			'pui-edit'
+		]);
 		Auth::logout();
 		Session::flush();
 		return redirect('/login');

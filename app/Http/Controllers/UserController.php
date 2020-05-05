@@ -22,13 +22,11 @@ class UserController extends Controller
 	{
 		(new UsersExport)->store('users.csv', 'excel');
 		return 'Export started!';
-
 	}
 
 	public function index(Request $request) {
-		$data = User::orderBy('id', 'DESC')->paginate(15);
-		return view('users.index', compact('data'))
-				->with('i', ($request->input('page', 1) - 1) * 15);
+		$data = User::orderBy('id', 'ASC')->paginate(15);
+		return view('users.index', compact('data'))->with('i', ($request->input('page', 1) - 1) * 15);
 	}
 
 	public function create() {

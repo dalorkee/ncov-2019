@@ -13,53 +13,65 @@ class HomeController extends Controller
 {
 	public function __construct() {
 		$this->middleware('auth');
-		//$this->middleware('chkUserRole');
 		$this->middleware(['role:root|ddc|dpc|pho|hos']);
 	}
 
 	public function index() {
-		/*
-		$user_region = auth()->user()->region;
-		$prov_code = User::select('prov_code')
-			->where('region', '=', $user_region)
-			->groupBy('prov_code')
-			->get()
-			->keyBy('prov_code');
-		$prov_code_arr = $prov_code->keys()->all();
-
-		if (count($prov_code_arr) > 0) {
-			$str = NULL;
-			foreach ($prov_code_arr as $key => $value) {
-				if (is_null($str)) {
-					$str = "";
-				} else {
-					$str = $str.",";
-				}
-				$str = $str.$value;
-			}
-		}
-		dd($str);
-
-*/
-
 		$roleArr = auth()->user()->getRoleNames()->toArray();
 		if (count($roleArr) > 0) {
 			$user_role = $roleArr[0];
 			Session::put('user_role', $roleArr[0]);
+			$user = auth()->user();
 			switch ($user_role) {
 				case "root":
+					$user->syncPermissions([
+						'permission-edit',
+						'permission-delete',
+						'permission-create',
+						'role-create',
+						'role-edit',
+						'role-delete',
+						'new-pui-create',
+						'pui-delete',
+						'pui-create',
+						'pui-edit'
+					]);
 					return redirect()->route('list-data.invest');
 					break;
 				case "ddc":
+					$user->syncPermissions([
+						'new-pui-create',
+						'pui-delete',
+						'pui-create',
+						'pui-edit'
+					]);
 					return redirect()->route('list-data.invest');
 					break;
 				case "dpc":
+					$user->syncPermissions([
+						'new-pui-create',
+						'pui-delete',
+						'pui-create',
+						'pui-edit'
+					]);
 					return redirect()->route('list-data.invest');
 					break;
 				case "pho":
+					$user->syncPermissions([
+						'new-pui-create',
+						'pui-delete',
+						'pui-create',
+						'pui-edit'
+					]);
 					return redirect()->route('list-data.invest');
 					break;
 				case "hos":
+					$user->syncPermissions([
+						'new-pui-create',
+						'pui-delete',
+						'pui-create',
+						'pui-edit'
+					]);
 					return redirect()->route('list-data.invest');
 					break;
 				case "lab":

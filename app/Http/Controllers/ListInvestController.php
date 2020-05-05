@@ -8,14 +8,14 @@ use App\Http\Controllers\MasterController;
 use App\Exports\InvestExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Session;
+use Carbon\Carbon;
 
 class ListInvestController extends Controller
 {
 	public function __construct() {
 		$this->middleware('auth');
-		//$this->middleware('chkUserRole');
 		$this->middleware(['role:root|ddc|dpc|pho|hos']);
-	 }
+	}
 
 	public function index(ListInvestDataTable $dataTable) {
 		return $dataTable->render('list-data.invest');
@@ -30,11 +30,30 @@ class ListInvestController extends Controller
 	}
 
 	public function softDeleteInvest(Request $request) {
-		$pt = InvestList::destroy($request->pid);
-		if ($pt == 1) {
-			return redirect()->back()->with('success', 'ข้อมูลรหัสที่ '.$request->pid.' ถูกลบออกจากระบบแล้ว');
+		$user = auth()->user();
+		if ($user->hasPermissionTo('pui-delete')) {
+			$user_role = Session::get('user_role');
+			$dt = Carbon::now();
+			$today = $dt->subDay();
+			switch ($user_role) {
+				case 'root' :
+					$pt = InvestList::where('id', '=', $request->pid)->delete();
+					break;
+				default :
+					$pt = InvestList::where('id', '=', $request->pid)
+						->where('entry_user', '=', $user->id)
+						->where('pt_status', '!=', 2)
+						->whereRaw("(DATE(created_at) = '".$today."')")
+						->delete();
+					break;
+			}
+			if ($pt == 1) {
+				return redirect()->back()->with('success', 'ข้อมูลรหัสที่ '.$request->pid.' ถูกลบออกจากระบบแล้ว');
+			} else {
+				return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->pid.' ไม่สามารถลบออกจากระบบได้');
+			}
 		} else {
-			return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->pid.' ไม่สามารถลบออกจากระบบได้');
+			return redirect()->back()->with('error', 'ท่านไม่มีสิทธิ์ลบข้อมูล !!');
 		}
 
 	}

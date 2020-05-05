@@ -246,10 +246,6 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
 					->whereRaw('(isolated_hosp_code = '.$user_hosp.' OR walkinplace_hosp_code = '.$user_hosp.' OR treat_first_hospital = '.$user_hosp. ' OR treat_place_hospital = '.$user_hosp.')')
-					/*
-					->where('isolated_hosp_code', '=', $user_hosp)
-					->orWhere('walkinplace_hosp_code', '=', $user_hosp)
-					*/
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			default:

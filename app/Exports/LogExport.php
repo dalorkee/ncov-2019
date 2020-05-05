@@ -3,9 +3,12 @@
 namespace App\Exports;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LogExport extends Model
 {
+	use SoftDeletes;
+	
 	protected $table = 'log_export';
 	protected $primaryKey = 'id';
 

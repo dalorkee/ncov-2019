@@ -31,6 +31,9 @@ use Carbon\Carbon;
 class ExportController extends MasterController
 {
 	public function exportPage() {
+		$dt = carbon::now();
+		$del_to_this_date = $dt->subDay(3)->toDateString();
+		self::deleteExpireFiles($del_to_this_date);
 		$fileName = self::setExportFileName();
 		$pt_status = parent::selectStatus('pt_status');
 		$recentExportTasks = $this->exportRecentByUser();
@@ -42,10 +45,16 @@ class ExportController extends MasterController
 		);
 	}
 
-	protected function setDateRange($date_range) {
-		$exp = explode("/", $date_range);
-		$result = $exp[2].'-'.$exp[0].'-'.$exp[1];
-		return $result;
+	private function DeleteExpireFiles($delete_date) {
+		$tasks = LogExport::select('id', 'file_name')->whereRaw("(DATE(created_at) < '".$delete_date."')")->get();
+		if (count($tasks) > 0) {
+			$tasks->each(function($item, $key) {
+				if (Storage::disk('export')->exists($item->file_name)){
+					Storage::disk('export')->delete($item->file_name);
+					LogExport::destroy($item->id);
+				}
+			});
+		}
 	}
 
 	protected function setExportFileName($extension='csv') {
@@ -55,8 +64,19 @@ class ExportController extends MasterController
 		return $fileName;
 	}
 
+	protected function setDateRange($date_range) {
+		$exp = explode("/", $date_range);
+		$result = $exp[2].'-'.$exp[0].'-'.$exp[1];
+		return $result;
+	}
+
 	protected function exportRecentByUser() {
-		$tasks = LogExport::where('ref_user_id', '=', auth()->user()->id)->orderBy('id', 'DESC')->limit(3)->get();
+		$user_id = auth()->user()->id;
+		$dt = carbon::now();
+		$get_over_this_date = $dt->subDay(3)->toDateString();
+		$tasks = LogExport::where('ref_user_id', '=', $user_id)
+			->whereRaw("(DATE(create_at) > '".$get_over_this_date."')")
+			->orderBy('id', 'DESC')->limit(10)->get();
 		if (count($tasks) > 0) {
 			$tasks = $tasks->toArray();
 			$tasks_result = array();
