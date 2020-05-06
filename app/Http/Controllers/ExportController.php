@@ -75,7 +75,7 @@ class ExportController extends MasterController
 		$dt = carbon::now();
 		$get_over_this_date = $dt->subDay(3)->toDateString();
 		$tasks = LogExport::where('ref_user_id', '=', $user_id)
-			->whereRaw("(DATE(create_at) > '".$get_over_this_date."')")
+			->whereRaw("(DATE(created_at) > '".$get_over_this_date."')")
 			->orderBy('id', 'DESC')->limit(10)->get();
 		if (count($tasks) > 0) {
 			$tasks = $tasks->toArray();
