@@ -12,35 +12,13 @@ use Carbon\Carbon;
 use Validator;
 use DB;
 
-class LoginController extends Controller
-{
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
+class LoginController extends Controller {
 	use AuthenticatesUsers;
 
-	/**
-	* Where to redirect users after login.
-	*
-	* @var string
-	*/
 	protected $redirectTo = '/home';
 	protected $username = 'username';
-	/**
-	* Create a new controller instance.
-	*
-	* @return void
-	*/
-	public function __construct()
-	{
+
+	public function __construct() {
 		$this->middleware('guest')->except('logout');
 	}
 
@@ -52,8 +30,7 @@ class LoginController extends Controller
 	/* *** *** *** */
 	/* Note *** Using md5() over bcrypt() is not recommended. *** */
 	public function login(Request $request){
-		$user = User::where('username', $request->username)
-			->where('password', md5($request->password))->first();
+		$user = User::where('username', $request->username)->where('password', md5($request->password))->first();
 		if ($user == null) {
 			$message = "ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน";
 			flash()->overlay($message, 'Message From System');
@@ -63,13 +40,20 @@ class LoginController extends Controller
 			Auth::login($user);
 			return redirect('/');
 		}
-		//return redirect('/');
 	}
 	/* Note *** if don't use md5 remove login override method at once  */
 	/* *** *** *** */
 
 
 	public function logout(Request $request) {
+		/* check session return from app or not */
+		if (Session::has('error')) {
+			$err_msg = Session::get('error');
+		} else {
+			$err_msg = null;
+		}
+
+		/* revoke all permission */
 		$user = auth()->user();
 		$user->revokePermissionTo([
 			'permission-edit',
@@ -83,37 +67,44 @@ class LoginController extends Controller
 			'pui-create',
 			'pui-edit'
 		]);
+
+		/* clear auth */
 		Auth::logout();
 		Session::flush();
-		return redirect('/login');
+
+		/* redirect with error or not */
+		if (!is_null($err_msg)) {
+			return redirect('/login')->with('error', $err_msg);
+		} else {
+			return redirect('/login');
+		}
 	}
 
 	public function get_check_auth(Request $request) {
+		$rules = [
+				'userid'=>'required',
+				'ts'=>'required|digits_between:10,15',
+				'sig'=>'required'
+		];
 
-	$rules = [
-			'userid'=>'required',
-			'ts'=>'required|digits_between:10,15',
-			'sig'=>'required'
-	];
+		$validator = Validator::make($request->all(), $rules);
 
-	$validator = Validator::make($request->all(), $rules);
+					if ($validator->fails()) {
+							$error = [];
+							$error["status"]    = "error";
+							$error["message"]   = "error_require_data";
+							//$error["hospital"]  = [];
 
-				if ($validator->fails()) {
-						$error = [];
-						$error["status"]    = "error";
-						$error["message"]   = "error_require_data";
-						//$error["hospital"]  = [];
-
-						return response()->json($error,200);
-				}
+							return response()->json($error,200);
+					}
 
 				$signature = "bd6efdd618ef8e481ba2e247b10735b801fbdefe";
 				$user = $request->input('userid');
 				$ts = $request->input('ts');
 				$sig = $request->input('sig');
 
-				$to     = Carbon::createFromTimestamp($ts);
-				$from   = Carbon::createFromFormat('Y-m-d H:i:s', date("Y-m-d H:i:s"));
+				$to = Carbon::createFromTimestamp($ts);
+				$from = Carbon::createFromFormat('Y-m-d H:i:s', date("Y-m-d H:i:s"));
 				$diff_in_minutes = $to->diffInMinutes($from);
 
 				// check timestamp expire
@@ -183,34 +174,32 @@ class LoginController extends Controller
 					]);
 				}
 	}
-	public function line_notify($Token, $message)
-  {
-    $lineapi = $Token;
-  	$mms =  trim($message);
-  	date_default_timezone_set("Asia/Bangkok");
-  	$chOne = curl_init();
-  	curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
-  	// SSL USE
-  	curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
-  	curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
-  	//POST
-  	curl_setopt( $chOne, CURLOPT_POST, 1);
-  	curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$mms");
-  	curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
-  	$headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$lineapi.'', );
-          curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
-  	curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
-  	$result = curl_exec( $chOne );
-  	//Check error
-  	if(curl_error($chOne))
-  	{
-             echo 'error:' . curl_error($chOne);
-  	}
-  	else {
-  	$result_ = json_decode($result, true);
-  	   //echo "status : ".$result_['status']; echo "message : ". $result_['message'];
-       echo $result_['message'];
-          }
-  	curl_close( $chOne );
-  }
-}
+
+	public function line_notify($Token, $message) {
+		$lineapi = $Token;
+		$mms =  trim($message);
+		date_default_timezone_set("Asia/Bangkok");
+		$chOne = curl_init();
+		curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+		// SSL USE
+		curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
+		//POST
+		curl_setopt( $chOne, CURLOPT_POST, 1);
+		curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$mms");
+		curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
+		$headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$lineapi.'', );
+			curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
+			$result = curl_exec( $chOne );
+			//Check error
+			if(curl_error($chOne)) {
+				echo 'error:' . curl_error($chOne);
+			} else {
+				$result_ = json_decode($result, true);
+				//echo "status : ".$result_['status']; echo "message : ". $result_['message'];
+				echo $result_['message'];
+			}
+			curl_close( $chOne );
+		}
+	}

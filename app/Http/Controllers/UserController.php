@@ -16,6 +16,7 @@ class UserController extends Controller
 	protected $hospcode;
 	public function __construct() {
 		$this->middleware('auth');
+		$this->middleware('onlyOneUser');
 	}
 
 	public function download(Request $request)

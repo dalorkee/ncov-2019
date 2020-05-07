@@ -14,6 +14,7 @@ class ListInvestController extends Controller
 {
 	public function __construct() {
 		$this->middleware('auth');
+		$this->middleware('onlyOneUser');
 		$this->middleware(['role:root|ddc|dpc|pho|hos']);
 	}
 

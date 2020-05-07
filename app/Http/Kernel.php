@@ -65,6 +65,8 @@ class Kernel extends HttpKernel
 		'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
 		'under-construction' => \LarsJanssen\UnderConstruction\UnderConstruction::class,
 		'chkUserRole' => \App\Http\Middleware\chkUserRole::class,
+		'checksinglesession' => \App\Http\Middleware\CheckSingleSession::class,
+		'onlyOneUser' => \App\Http\Middleware\ValidateSessionToken::class,
 	];
 
     /**

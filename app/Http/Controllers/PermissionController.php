@@ -17,6 +17,7 @@ class PermissionController extends Controller {
 
 	public function __construct() {
 		$this->middleware(['auth']);  //specific permission permission to access these resources
+		$this->middleware('onlyOneUser');
 		$this->middleware(['role:root']);
 	}
 

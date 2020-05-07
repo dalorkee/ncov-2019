@@ -11,6 +11,7 @@ class RoleController extends Controller
 {
 	function __construct() {
 		$this->middleware('auth');
+		$this->middleware('onlyOneUser');
 		$this->middleware(['role:root']);
 		// $this->middleware('permission:manageuser|list|create|edit|delete', ['only' => ['index','store']]);
 		// $this->middleware('permission:create', ['only' => ['create','store']]);

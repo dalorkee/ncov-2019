@@ -1,14 +1,41 @@
 @extends('layouts.app')
 @section('custom-style')
 <link rel="stylesheet" href="{{ URL::asset('dist/css/style.min.css') }}">
+<link rel="stylesheet" href="{{ URL::asset('css/boefrs.css') }}">
 @endsection
 @section('content')
+@if (Session::has('error'))
+	<div class="modal fade delete-context" id="error_modal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirm" aria-hidden="true">
+		<div class="modal-dialog modal-confirm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<div class="icon-box">
+						<i class="mdi mdi-account-convert"></i>
+					</div>
+					<h4 style="font-size:1.275em;">COVID-19</h4>
+				</div>
+					<div class="modal-body">
+						<div style="font-family:'sukhumvit';font-size:1.875em;color:#343A40;">{{ Session::get('error') }}</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	@php
+		Session::forget('error');
+	@endphp
+@endif
+
 <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-white-1">
 	<div class="auth-box">
 			<div class="text-center"><img src="{{ URL::asset('assets/images/logo-ddc.png') }}" alt="logo"></div>
 		<div id="loginform">
 			<div class="text-center p-t-20 p-b-20">
-				<span class="db" style="display:block;font-size: 1.675em;color:black;">Coronavirus disease (COVID-19)</span>
+				<span class="db" style="display:block;font-size:1.675em;color:black;">Coronavirus disease (COVID-19)</span>
 			</div>
 			<!-- Form -->
 			<form method="POST" action="{{ route('login') }}" class="form-horizontal m-t-20" id="loginform">
@@ -77,4 +104,11 @@
 		</div>
 	</div>
 </div>
+@endsection
+@section('bottom-script')
+	<script type="text/javascript">
+    $(window).on('load',function(){
+        $('#error_modal').modal('show');
+    });
+</script>
 @endsection

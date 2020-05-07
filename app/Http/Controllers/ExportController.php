@@ -30,6 +30,11 @@ use Carbon\Carbon;
 
 class ExportController extends MasterController
 {
+	public function __construct() {
+		$this->middleware('auth');
+		$this->middleware('onlyOneUser');
+	}
+
 	public function exportPage() {
 		$dt = carbon::now();
 		$del_to_this_date = $dt->subDay(3)->toDateString();
