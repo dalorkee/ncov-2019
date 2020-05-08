@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Auth;
 use Illuminate\Http\Request;
-use Session;
 use App\User;
 use Carbon\Carbon;
-use Validator;
-use DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Auth, Validator, DB, Log, Session;
 
 class LoginController extends Controller {
 	use AuthenticatesUsers;
@@ -29,54 +28,66 @@ class LoginController extends Controller {
 
 	/* *** *** *** */
 	/* Note *** Using md5() over bcrypt() is not recommended. *** */
-	public function login(Request $request){
-		$user = User::where('username', $request->username)->where('password', md5($request->password))->first();
-		if ($user == null) {
-			$message = "ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน";
-			flash()->overlay($message, 'Message From System');
-			//return redirect('/login')->with('message','ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน');
-			return redirect('/login');
-		} else {
-			Auth::login($user);
-			return redirect('/');
+	public function login(Request $request) {
+		try {
+			$user = User::where('username', $request->username)->where('password', md5($request->password))->first();
+			if ($user == null) {
+				$message = "ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน";
+				flash()->overlay($message, 'Message From System');
+				//return redirect('/login')->with('message','ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน');
+				return redirect('/login');
+			} else {
+				Auth::login($user);
+				return redirect('/');
+			}
+		} catch(\Exception $e) {
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
 	}
-	/* Note *** if don't use md5 remove login override method at once  */
-	/* *** *** *** */
-
 
 	public function logout(Request $request) {
-		/* check session return from app or not */
-		if (Session::has('error')) {
-			$err_msg = Session::get('error');
-		} else {
-			$err_msg = null;
-		}
+		try {
+			/* check session return from app or not */
+			if (Session::has('error')) {
+				$err_msg = Session::get('error');
+			} else {
+				$err_msg = null;
+			}
+			$all_permission = Permission::all()->pluck('name');
+			/* revoke all permission */
+			$user = auth()->user();
+			foreach ($all_permission as $key => $value) {
+				if ($user->hasPermissionTo($value)) {
+					$user->revokePermissionTo($value);
+				}
+			}
+			/*
+			$user->revokePermissionTo([
+				'permission-edit',
+				'permission-delete',
+				'permission-create',
+				'role-create',
+				'role-edit',
+				'role-delete',
+				'new-pui-create',
+				'pui-delete',
+				'pui-create',
+				'pui-edit'
+			]);
+			*/
 
-		/* revoke all permission */
-		$user = auth()->user();
-		$user->revokePermissionTo([
-			'permission-edit',
-			'permission-delete',
-			'permission-create',
-			'role-create',
-			'role-edit',
-			'role-delete',
-			'new-pui-create',
-			'pui-delete',
-			'pui-create',
-			'pui-edit'
-		]);
+			/* clear auth */
+			Auth::logout();
+			Session::flush();
 
-		/* clear auth */
-		Auth::logout();
-		Session::flush();
-
-		/* redirect with error or not */
-		if (!is_null($err_msg)) {
-			return redirect('/login')->with('error', $err_msg);
-		} else {
-			return redirect('/login');
+			/* redirect with error or not */
+			if (!is_null($err_msg)) {
+				return redirect('/login')->with('error', $err_msg);
+			} else {
+				return redirect('/login');
+			}
+		} catch(\Exception $e) {
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
 	}
 
