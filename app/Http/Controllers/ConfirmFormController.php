@@ -45,34 +45,65 @@ class ConfirmFormController extends Controller
 	public function changeStatusSeverSide(Request $request) {
 		try {
 			$pt = InvestList::find($request->id);
-			/* set current status aftr change */
+
+			/* set current status to variable after change */
 			$cur_pt_status = $pt->pt_status;
 			$cur_news_st = $pt->news_st;
 			$cur_disch_st = $pt->disch_st;
 
 			/* prepare change to new status */
-			if ($cur_pt_status == 2) {
-				$pt->pt_status = $cur_pt_status;
-				$ch_pt_status = $cur_pt_status;
-			} else {
-				$pt->pt_status = $request->pt_status;
-				$ch_pt_status = $request->pt_status;
-			}
-
 			$user_role = Session::get('user_role');
-			if ($user_role == 'root' || $user_role == 'ddc') {
-				$pt->news_st = $request->news_status;
-				$ch_news_st = $request->news_status;
-			} else {
-				$pt->news_st = $pt->news_st;
-				$ch_news_st = $pt->news_st;
+			switch ($user_role) {
+				case 'root':
+					/* pt status */
+					$pt->pt_status = $request->pt_status;
+					$ch_pt_status = $request->pt_status;
+					/* new st status */
+					$pt->news_st = $request->news_status;
+					$ch_news_st = $request->news_status;
+					/* discharge status */
+					$pt->disch_st = $request->disch_st;
+					break;
+				case 'ddc':
+					/* pt status */
+					if ($cur_pt_status == 2) {
+						$pt->pt_status = $cur_pt_status;
+						$ch_pt_status = $cur_pt_status;
+					} else {
+						$pt->pt_status = $request->pt_status;
+						$ch_pt_status = $request->pt_status;
+					}
+
+					/* new st status */
+					$pt->news_st = $request->news_status;
+					$ch_news_st = $request->news_status;
+
+					/* discharge status */
+					$pt->disch_st = $request->disch_st;
+					break;
+				default:
+					/* pt status */
+					if ($cur_pt_status == 2) {
+						$pt->pt_status = $cur_pt_status;
+						$ch_pt_status = $cur_pt_status;
+					} else {
+						$pt->pt_status = $request->pt_status;
+						$ch_pt_status = $request->pt_status;
+					}
+
+					/* new st status */
+					$pt->news_st = $pt->news_st;
+					$ch_news_st = $pt->news_st;
+
+					/* discharge status */
+					$pt->disch_st = $request->disch_st;
+					break;
 			}
 
-			$pt->disch_st = $request->disch_st;
 			$pt->updated_at = date('Y-m-d H:i:s');
-
-			/* save*/
 			$pt_saved = $pt->save();
+
+			/* log change status */
 			if ($pt_saved) {
 				DB::table('log_ch_status')->insert([
 					'ref_pt_id' => $request->id,

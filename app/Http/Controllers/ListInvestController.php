@@ -91,7 +91,25 @@ class ListInvestController extends Controller
 			$disch_st_opt .= "<option value=\"".$key."\">".$val."</option>";
 		}
 
+		$user_role = Session::get('user_role');
 		/* check pt_status for disible select */
+		switch ($user_role) {
+			case 'root':
+				$pt_status_disabled = NULL;
+				$warning_pt_status_text = NULL;
+				break;
+			default:
+				if ($pst['pt_status'] == 2) {
+					$pt_status_disabled = 'disabled';
+					$warning_pt_status_text = 'Confirmed ไม่สามารถเปลี่ยนสถานะได้แล้ว';
+				} else {
+					$pt_status_disabled = NULL;
+					$warning_pt_status_text = NULL;
+				}
+				break;
+		}
+
+/*
 		if ($pst['pt_status'] == 2) {
 			$pt_status_disabled = 'disabled';
 			$warning_pt_status_text = 'Confirmed ไม่สามารถเปลี่ยนสถานะได้แล้ว';
@@ -99,9 +117,8 @@ class ListInvestController extends Controller
 			$pt_status_disabled = NULL;
 			$warning_pt_status_text = NULL;
 		}
-
+*/
 		/* check role for allow change news_st status and disible select */
-		$user_role = Session::get('user_role');
 		if ($user_role == 'root' || $user_role == 'ddc') {
 			$news_st_disabled = NULL;
 			$warning_news_st_text = NULL;
