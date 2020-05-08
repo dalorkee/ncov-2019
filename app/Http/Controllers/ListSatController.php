@@ -11,7 +11,7 @@ class ListSatController extends Controller
 	public function __construct() {
 		$this->middleware('auth');
 		$this->middleware('onlyOneUser');
-		$this->middleware(['role:root|ddc']);
+		$this->middleware(['role:root|ddc|dpc']);
 	}
 
 	public function index(ListSatDataTable $dataTable) {
