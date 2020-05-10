@@ -136,6 +136,7 @@ class InvestController extends MasterController
 			$treat_place_city = !is_null($invest_pt[0]['treat_place_city']) ? GlobalCity::where('city_id', '=', $invest_pt[0]['treat_place_city'])->get()->toArray() : null;
 			$treat_first_hospital = !is_null($invest_pt[0]['treat_first_hospital']) ? Hospitals::where('hospcode', '=', $invest_pt[0]['treat_first_hospital'])->get()->toArray() : null;
 			$treat_place_hospital = !is_null($invest_pt[0]['treat_place_hospital']) ? Hospitals::where('hospcode', '=', $invest_pt[0]['treat_place_hospital'])->get()->toArray() : null;
+			$patient_treat_status_refer = !is_null($invest_pt[0]['patient_treat_status_refer']) ? Hospitals::where('hospcode', '=', $invest_pt[0]['patient_treat_status_refer'])->get()->toArray() : null;
 
 			$pt_activity = PatientActivity::where('ref_patient_id', '=', $invest_pt[0]['id'])->get()->keyBy('day')->toArray();
 			if (count($pt_activity) > 0) {
@@ -278,6 +279,7 @@ class InvestController extends MasterController
 					'treat_place_city' => $treat_place_city,
 					'treat_first_hospital' => $treat_first_hospital,
 					'treat_place_hospital' => $treat_place_hospital,
+					'patient_treat_status_refer' => $patient_treat_status_refer,
 					'data' => $data,
 					'titleName' => $titleName,
 					'provinces' => $provinces,
@@ -490,8 +492,9 @@ class InvestController extends MasterController
 
 			$pt->covid19_drug_medicate_name_other = $request->covid19_drug_medicate_name_other;
 			$pt->patient_treat_status = $request->patientTreatStatus;
-			$pt->patient_treat_status_refer = $request->patient_treat_status_refer;
 			$pt->patient_treat_status_other = $request->patient_treat_status_other;
+			$pt->patient_treat_status_refer = $request->patient_treat_status_refer;
+			$pt->patient_treat_status_refer_province = $request->patient_treat_status_refer_province;
 			$pt->data3_3chk = $request->data3_3chk;
 			$pt->data3_3chk_lung = $request->data3_3chk_lung;
 			$pt->data3_3chk_diabetes = $request->data3_3chk_diabetes;

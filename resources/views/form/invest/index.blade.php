@@ -39,6 +39,9 @@
 		width: 80px !important;
 		display: inline-block;
 	}
+	.child-box {
+		margin: 5px 0;
+	}
 </style>
 @endsection
 @section('meta-token')
@@ -365,6 +368,27 @@ $(document).ready(function() {
 			});
 		}
 	});
+
+	/* refer hospital */
+	$('#patient_treat_status_refer_province').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('hospitalFetch') }}",
+				dataType: "HTML",
+				data: {pid:id},
+				success: function(hosp) {
+					$('#patient_treat_status_refer').html(hosp);
+					$('#patient_treat_status_refer').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage) {
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
+
 
 	/* ประเภทที่พัก ขณะป่วย */
 	$('.sick_stay_type-chk').click(function() {
