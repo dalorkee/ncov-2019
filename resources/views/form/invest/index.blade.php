@@ -631,6 +631,16 @@ $(document).ready(function() {
 			autoclose: true
 		});
 	@endfor
+
+	$('#cls_patient_treat_status_refer_date').click(function() {
+		$('#patient_treat_status_refer_date').val("");
+	});
+	$('#patient_treat_status_refer_date').datepicker({
+		format: 'dd/mm/yyyy',
+		todayHighlight: true,
+		todayBtn: true,
+		autoclose: true
+	});
 });
 </script>
 <script>

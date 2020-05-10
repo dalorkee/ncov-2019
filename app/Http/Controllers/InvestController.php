@@ -174,6 +174,7 @@ class InvestController extends MasterController
 			$data['lab_sars_cov2_no_1_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_sars_cov2_no_1_date']);
 			$data['lab_sars_cov2_no_2_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_sars_cov2_no_2_date']);
 			$data['invest_date'] = self::convertMySQLDateFormat($invest_pt[0]['invest_date']);
+			$data['patient_treat_status_refer_date'] = self::convertMySQLDateFormat($invest_pt[0]['patient_treat_status_refer_date']);
 
 			/* sick district */
 			if (!empty($invest_pt[0]['sick_district'])) {
@@ -495,6 +496,9 @@ class InvestController extends MasterController
 			$pt->patient_treat_status_other = $request->patient_treat_status_other;
 			$pt->patient_treat_status_refer = $request->patient_treat_status_refer;
 			$pt->patient_treat_status_refer_province = $request->patient_treat_status_refer_province;
+			$pt->patient_treat_status_refer_date = $this->convertDateToMySQL($request->patient_treat_status_refer_date);
+
+
 			$pt->data3_3chk = $request->data3_3chk;
 			$pt->data3_3chk_lung = $request->data3_3chk_lung;
 			$pt->data3_3chk_diabetes = $request->data3_3chk_diabetes;

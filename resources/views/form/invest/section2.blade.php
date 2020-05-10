@@ -836,11 +836,21 @@
 									</select>
 								</div>
 							</div>
-
-							<!--<input type="text" name="patient_treat_status_refer" value="{ old('patient_treat_status_refer') ?? $invest_pt[0]['patient_treat_status_refer'] }}" class="form-control form-control-sm ml-2" style="width:200px"> -->
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+								<div class="form-group">
+									<label for="referDate">วันที่ส่งต่อไปรักษา</label>
+									<div class="input-group date">
+										<div class="input-group-append">
+											<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+										</div>
+										<input type="text" name="patient_treat_status_refer_date" value="{{ old('patient_treat_status_refer_date') ?? $data['patient_treat_status_refer_date'] }}" data-provide="datepicke" id="patient_treat_status_refer_date" class="form-control" readonly>
+										<div class="input-group-append">
+											<button type="button" class="input-group-text text-danger" id="cls_patient_treat_status_refer_date"><i class="fas fa-times"></i></button>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-
-
 						<div class="custom-control custom-checkbox">
 							<input type="checkbox" name="patientTreatStatus" value="5" @if ($invest_pt[0]['patient_treat_status'] == '5'  || old('patientTreatStatus') == '5') checked @endif class="custom-control-input chk-treatment" id="treatment_other">
 							<label for="treatment_other" class="custom-control-label normal-label">อื่นๆ โปรดระบุ</label>
