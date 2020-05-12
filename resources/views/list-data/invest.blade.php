@@ -170,19 +170,18 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 							$('.delete-context').modal('show');
 						break;
 					default:
-						alert('Something went wrong!');
 						break;
 				}
 			},
 			items: {
-				"chStatus": {name: "Change status", icon: "fas fa-check-circle", className: 'text-success'},
+				"chStatus": {name: "Change status", icon: "fas fa-check-circle"},
 				"sep1": "---------",
 				"labGen": {name: "Generate lab", icon: "fas fa-barcode"},
 				"labResult": {name: "Lab result", icon: "fas fa-flask"},
 				"contact": {name: "Contact", icon: "fas fa-handshake"},
 				"sep2": "---------",
-				"edit": {name: "Edit (Invest Form:2)", icon: "fas fa-edit", className: 'text-color-custom-6'},
-				"delete": {name: "Delete", icon: "fas fa-trash-alt", className: 'text-danger'},
+				"edit": {name: "Edit (Invest Form:2)", icon: "fas fa-edit"},
+				"delete": {name: "Delete", icon: "fas fa-trash-alt"},
 				"sep3": "---------",
 				"quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
 			}

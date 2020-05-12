@@ -574,6 +574,7 @@ class InvestController extends MasterController
 				//flash()->overlay('<i class="fas fa-check-circle text-success"></i> บันทึกข้อมูลสำเร็จแล้ว', 'DDC::Covid-19');
 				//return redirect()->route('list-data.invest');
 			}
+
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage().' jet');
 		}

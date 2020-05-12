@@ -45,7 +45,12 @@ class MasterController extends Controller
 			'screen_pt' => [
 				1 => 'คัดกรองที่สนามบิน',
 				2 => 'Walkin มาที่ รพ.',
-
+				3 => 'ผู้สัมผัส',
+				4 => 'ผู้ถูกกักกัน',
+				5 => 'Active Case Finding',
+				6 => 'Sentinel Surveillance',
+				7 => 'คัดกรอกก่อนทำหัตถการ',
+				8 => 'ไม่ผ่านเกณฑ์ แต่แพทย์สงสัย'
 			],
 			'arrfollowup_address' => [
 				1 => 'บ้าน',
