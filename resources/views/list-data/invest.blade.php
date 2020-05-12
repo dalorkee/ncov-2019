@@ -117,6 +117,14 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/js/dataTables.responsive.min.js') }}"></script>
 	<script src="{{ URL::asset('vendor/datatables/buttons.server-side.js') }}"></script>
 	{{ $dataTable->scripts() }}
+	<?php
+	$ts = time();
+	$signature = "bd6efdd618ef8e481ba2e247b10735b801fbdefe";
+	$uid = Auth::user()->id;
+	$sig = sha1($uid.$ts.$signature);
+	$url_gen_lab = "http://viral.ddc.moph.go.th/viral/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig."&typelab=1";
+	$url_lab_result = "http://viral.ddc.moph.go.th/viral/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig."&typelab=2";
+	?>
 	<script>
 	$(document).ready(function() {
 		$.ajaxSetup({
@@ -149,10 +157,10 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						});
 						break;
 					case 'labGen':
-						window.open('http://viral.ddc.moph.go.th/viral/lab/genlab.php?idx=' + satid, '_blank');
+						window.open('<?php echo $url_gen_lab; ?>&idx=' + satid, '_blank');
 						break;
 					case 'labResult':
-						window.open('http://viral.ddc.moph.go.th/viral/lab/labfollow.php?idx=' + satid, '_blank');
+						window.open('<?php echo $url_lab_result; ?>&idx=' + satid, '_blank');
 						break;
 					case 'contact':
 						let cturl = '{{ route("contacttable", ":id") }}';
