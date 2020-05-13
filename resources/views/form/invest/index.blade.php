@@ -375,12 +375,22 @@ $(document).ready(function() {
 			var id = $(this).val();
 			$.ajax({
 				method: "POST",
-				url: "{{ route('hospitalFetch') }}",
+				url: "{{ route('districtFetch') }}",
 				dataType: "HTML",
-				data: {pid:id},
-				success: function(hosp) {
-					$('#patient_treat_status_refer').html(hosp);
-					$('#patient_treat_status_refer').selectpicker("refresh");
+				data: {id:id},
+				success: function(response) {
+					$('#refer_district').html(response);
+					$('#refer_district').selectpicker("refresh");
+					$.ajax({
+						method: "POST",
+						url: "{{ route('hospitalFetch') }}",
+						dataType: "HTML",
+						data: {pid:id},
+						success: function(hosp) {
+							$('#patient_treat_status_refer').html(hosp);
+							$('#patient_treat_status_refer').selectpicker("refresh");
+						}
+					});
 				},
 				error: function(jqXhr, textStatus, errorMessage) {
 					alert('Error code: ' + jqXhr.status + errorMessage);
@@ -389,6 +399,24 @@ $(document).ready(function() {
 		}
 	});
 
+	$('#refer_district').change(function() {
+		if ($(this).val() != '') {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#refer_sub_district').html(response);
+					$('#refer_sub_district').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		}
+	});
 
 	/* ประเภทที่พัก ขณะป่วย */
 	$('.sick_stay_type-chk').click(function() {
@@ -433,6 +461,14 @@ $(document).ready(function() {
 	/* สถานะผู้ป่วย */
 	$('.chk-treatment').click(function() {
 		$('.chk-treatment').not(this).prop('checked', false);
+		let id = $(this).val();
+		if (id != 4) {
+			$('#patient_treat_status_refer_province').val(null).trigger('change');
+			$('#refer_district').val(null).trigger('change');
+			$('#refer_sub_district').val(null).trigger('change');
+			$('#patient_treat_status_refer').val(null).trigger('change');
+			$('#patient_treat_status_refer_date').val("");
+		}
 	});
 
 	/* covid-19 drug check */
@@ -440,11 +476,6 @@ $(document).ready(function() {
 		$('.chk_covid19_drug').not(this).prop('checked', false);
 	});
 
-	/* covid-19 drug name check */
-	/*$('.chk_covid_drug_name').click(function() {
-		$('.chk_covid_drug_name').not(this).prop('checked', false);
-	});
-*/
 	/* โรคประจำตัว */
 	$('.chk_congenital_disease').click(function() {
 		$('.chk_congenital_disease').not(this).prop('checked', false);
@@ -649,8 +680,5 @@ $(".custom-file-input").on("change", function() {
 	var fileName = $(this).val().split("\\").pop();
 	$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
-</script>
-<script>
-	//$('#flash-overlay-modal').modal();
 </script>
 @endsection

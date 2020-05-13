@@ -246,6 +246,20 @@ class InvestController extends MasterController
 				$treat_place_sub_district = null;
 			}
 
+			/* patient_treat_status_refer_district */
+			if (!empty($invest_pt[0]['patient_treat_status_refer_district'])) {
+				$patient_treat_status_refer_district = District::where('district_id', '=', $invest_pt[0]['patient_treat_status_refer_district'])->get()->toArray();
+			} else {
+				$patient_treat_status_refer_district = null;
+			}
+
+			/* patient_treat_status_refer_sub_district */
+			if (!empty($invest_pt[0]['patient_treat_status_refer_sub_district'])) {
+				$patient_treat_status_refer_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['patient_treat_status_refer_sub_district'])->get()->toArray();
+			} else {
+				$patient_treat_status_refer_sub_district = null;
+			}
+
 			/* invest attach file */
 			if (!empty($invest_pt[0]['invest_file']) || !is_null($invest_pt[0]['invest_file'])) {
 				if (Storage::disk('invest')->exists($invest_pt[0]['invest_file'])) {
@@ -258,8 +272,7 @@ class InvestController extends MasterController
 				$invest_file_size = NULL;
 			}
 
-			/* x-ray file */
-			/* invest attach file */
+			/* x-ray invest attach file */
 			if (!empty($invest_pt[0]['lab_cxr1_file']) || !is_null($invest_pt[0]['lab_cxr1_file'])) {
 				if (Storage::disk('invest')->exists($invest_pt[0]['lab_cxr1_file'])) {
 					$xray_file_size = Storage::disk('invest')->size($invest_pt[0]['lab_cxr1_file']);
@@ -302,8 +315,9 @@ class InvestController extends MasterController
 					'drug_result' => $drug_result,
 					'risk_type' => $risk_type,
 					'invest_file_size' => $invest_file_size,
-					'xray_file_size' => $xray_file_size
-
+					'xray_file_size' => $xray_file_size,
+					'refer_district' => $patient_treat_status_refer_district,
+					'refer_sub_district' => $patient_treat_status_refer_sub_district
 				]
 			);
 		} catch(\Exception $e) {
@@ -413,10 +427,7 @@ class InvestController extends MasterController
 			$pt->treat_first_district = $request->treatFirstDistrictInput;
 			$pt->treat_first_sub_district = $request->treatFirstSubDistrictInput;
 			$pt->treat_first_hospital = $request->treat_first_hospital;
-			$pt->treat_place_province = $request->treatPlaceProvinceInput;
-			$pt->treat_place_district = $request->treatPlaceDistrictInput;
-			$pt->treat_place_sub_district = $request->treatPlaceSubDistrictInput;
-			$pt->treat_place_hospital = $request->treat_place_hospital;
+
 			$pt->fever_history = $request->fever_history;
 			$pt->body_temperature_first = $request->body_temperature_first;
 			$pt->oxygen_saturate = $request->oxygen_saturate;
@@ -493,12 +504,48 @@ class InvestController extends MasterController
 
 			$pt->covid19_drug_medicate_name_other = $request->covid19_drug_medicate_name_other;
 			$pt->patient_treat_status = $request->patientTreatStatus;
+
+			/* log refer && set treatplace match this */
+			if ($request->patientTreatStatus == 4) {
+				$cur_log = DB::table('log_refer')->where('ref_pt_id', $request->id)->OrderBy('id', 'desc')->limit(1)->get()->toArray();
+				if (count($cur_log) <= 0) {
+					if (!is_null($request->patient_treat_status_refer) || $request->patient_treat_status_refer != 0) {
+						DB::table('log_refer')->insert([
+							'ref_pt_id' => $request->id,
+							'cur_hosp' => $pt->treat_place_hospital,
+							'refer_hosp' => $request->patient_treat_status_refer,
+							'refer_date' => $this->convertDateToMySQL($request->patient_treat_status_refer_date),
+							'ref_user_id' => Auth::user()->id
+						]);
+					}
+				} else {
+					if ($cur_log[0]->refer_hosp != $request->patient_treat_status_refer) {
+						DB::table('log_refer')->insert([
+							'ref_pt_id' => $request->id,
+							'cur_hosp' => $cur_log[0]->refer_hosp,
+							'refer_hosp' => $request->patient_treat_status_refer,
+							'refer_date' => $this->convertDateToMySQL($request->patient_treat_status_refer_date),
+							'ref_user_id' => Auth::user()->id
+						]);
+					}
+				}
+				$pt->treat_place_province = $request->patient_treat_status_refer_province;
+				$pt->treat_place_district = $request->patient_treat_status_refer_district;
+				$pt->treat_place_sub_district = $request->patient_treat_status_refer_sub_district;
+				$pt->treat_place_hospital = $request->patient_treat_status_refer;
+			} else {
+				$pt->treat_place_province = $request->treatPlaceProvinceInput;
+				$pt->treat_place_district = $request->treatPlaceDistrictInput;
+				$pt->treat_place_sub_district = $request->treatPlaceSubDistrictInput;
+				$pt->treat_place_hospital = $request->treat_place_hospital;
+			}
+
 			$pt->patient_treat_status_other = $request->patient_treat_status_other;
 			$pt->patient_treat_status_refer = $request->patient_treat_status_refer;
 			$pt->patient_treat_status_refer_province = $request->patient_treat_status_refer_province;
+			$pt->patient_treat_status_refer_district = $request->patient_treat_status_refer_district;
+			$pt->patient_treat_status_refer_sub_district = $request->patient_treat_status_refer_sub_district;
 			$pt->patient_treat_status_refer_date = $this->convertDateToMySQL($request->patient_treat_status_refer_date);
-
-
 			$pt->data3_3chk = $request->data3_3chk;
 			$pt->data3_3chk_lung = $request->data3_3chk_lung;
 			$pt->data3_3chk_diabetes = $request->data3_3chk_diabetes;
@@ -568,11 +615,11 @@ class InvestController extends MasterController
 				}
 			}
 
+
+
 			$pt_saved = $pt->save();
 			if ($pt_saved) {
 				return redirect()->back()->with('success', 'บันทึกข้อมูลสำเร็จแล้ว');
-				//flash()->overlay('<i class="fas fa-check-circle text-success"></i> บันทึกข้อมูลสำเร็จแล้ว', 'DDC::Covid-19');
-				//return redirect()->route('list-data.invest');
 			}
 
 		} catch(\Exception $e) {

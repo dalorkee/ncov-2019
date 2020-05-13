@@ -783,7 +783,7 @@
 	</section>
 	<section class="card-body border-top">
 		<div class="form-row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 				<div class="form-group">
 					<label for="treatment">สถานะผู้ป่วย</label>
 					<div class="card">
@@ -801,13 +801,13 @@
 						</div>
 						<div class="custom-control custom-checkbox">
 							<input type="checkbox" name="patientTreatStatus" value="4" @if ($invest_pt[0]['patient_treat_status'] == '4' || old('patientTreatStatus') == '4') checked @endif class="custom-control-input chk-treatment" id="treatment_refer">
-							<label for="treatment_refer" class="custom-control-label normal-label">ส่งต่อไปรักษาที่ โปรดระบุ</label>
+							<label for="treatment_refer" class="custom-control-label normal-label text-danger">ส่งต่อไปรักษาที่ โปรดระบุ</label>
 						</div>
-						<div class="child-box form-row">
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+						<div class="child-box form-row alert alert-danger">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 								<div class="form-group">
-									<label for="referProvince">จังหวัดที่ส่งต่อไปรักษา</label>
-									<select name="patient_treat_status_refer_province" class="form-control selectpicker show-tick text-info" data-live-search="true" id="patient_treat_status_refer_province">
+									<label for="referProvince" class="text-danger">จังหวัดที่ส่งต่อไปรักษา</label>
+									<select name="patient_treat_status_refer_province" class="form-control selectpicker show-tick" data-live-search="true" id="patient_treat_status_refer_province">
 										@if (!empty(old('patient_treat_status_refer_province')) || !empty($invest_pt[0]['patient_treat_status_refer_province']))
 											<option value="{{ old('patient_treat_status_refer_province') ?? $invest_pt[0]['patient_treat_status_refer_province'] }}" selected="selected">{{ $provinces[old('patient_treat_status_refer_province')]['province_name'] ?? $provinces[$invest_pt[0]['patient_treat_status_refer_province']]['province_name'] }}</option>
 										@endif
@@ -825,10 +825,32 @@
 									</select>
 								</div>
 							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 								<div class="form-group">
-									<label for="referHosp">สถานพยาบาลที่ส่งต่อไปรักษา</label>
-									<select name="patient_treat_status_refer" class="form-control selectpicker show-tick text-info" data-live-search="true" id="patient_treat_status_refer">
+									<label for="referDistrict" class="text-danger">อำเภอที่รักษาปัจจุบัน</label>
+									<select name="patient_treat_status_refer_district" class="form-control selectpicker show-tick" data-live-search="true" id="refer_district">
+										@if (!empty($invest_pt[0]['patient_treat_status_refer_district']))
+											<option value="{{ $refer_district[0]['district_id'] }}" selected="selected">{{ $refer_district[0]['district_name'] }}</option>
+										@endif
+										<option value="">-- โปรดเลือก --</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+								<div class="form-group">
+									<label for="refersubDistrict" class="text-danger">ตำบลที่รักษาปัจจุบัน</label>
+									<select name="patient_treat_status_refer_sub_district" class="form-control selectpicker show-tick" data-live-search="true" id="refer_sub_district">
+										@if (!empty($invest_pt[0]['patient_treat_status_refer_sub_district']))
+											<option value="{{ $refer_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $refer_sub_district[0]['sub_district_name'] }}</option>
+										@endif
+										<option value="">-- โปรดเลือก --</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+								<div class="form-group">
+									<label for="referHosp" class="text-danger">สถานพยาบาลที่ส่งต่อไปรักษา</label>
+									<select name="patient_treat_status_refer" class="form-control selectpicker show-tick" data-live-search="true" id="patient_treat_status_refer">
 										@if (!empty($invest_pt[0]['patient_treat_status_refer']))
 											<option value="{{ $invest_pt[0]['patient_treat_status_refer'] }}" selected="selected">{{ $patient_treat_status_refer[0]['hosp_name'] }}</option>
 										@endif
@@ -836,9 +858,9 @@
 									</select>
 								</div>
 							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 								<div class="form-group">
-									<label for="referDate">วันที่ส่งต่อไปรักษา</label>
+									<label for="referDate" class="text-danger">วันที่ส่งต่อไปรักษา</label>
 									<div class="input-group date">
 										<div class="input-group-append">
 											<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
