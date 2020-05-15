@@ -657,6 +657,14 @@ class ExportController extends MasterController
 						$port_name = NULL;
 					}
 
+					/* screen pt */
+					$ref_screen_pt = parent::selectStatus('screen_pt');
+					if (!empty($x->screen_pt) || $x->screen_pt != 0 || !is_null($x->screen_pt)) {
+						$screen_pt_name = $ref_screen_pt[$x->screen_pt];
+					} else {
+						$screen_pt_name = NULL;
+					}
+
 					return [
 						'ID' => $x->id,
 						'SAT_Code' => $x->sat_id,
@@ -675,6 +683,7 @@ class ExportController extends MasterController
 						'สถานที่ทำงาน/สถานศึกษา' => $x->work_office,
 						'ลักษณะงานที่เสี่ยงติดโรค' => $x->work_contact,
 						'โทรศัพท์ที่ติดต่อได้' => $x->work_phone,
+						'การคัดกรอง' => $screen_pt_name,
 						'โรงพยาบาลที่คัดกรอง' => $walkin_place_hosp_name,
 						'ประเภทโรงพยาบาลที่คัดกรอง' => $walkin_place_hosp_type_name,
 						'สนามบินที่คัดกรอง' => $port_name,
@@ -890,6 +899,7 @@ class ExportController extends MasterController
 				'work_office',
 				'work_contact',
 				'work_phone',
+				'screen_pt',
 				'walkinplace_hosp_code',
 				'airports_code',
 				'walkinplace_hosp_province',

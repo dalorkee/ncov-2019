@@ -245,7 +245,7 @@ class ListInvestController extends Controller
 		</div>
 		<div class=\"modal-footer\">
 			<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">ยกเลิก</button>
-			<input type=\"submit\" class=\"btn btn-danger\" value=\"บันทึกข้อมูล\">
+			<input type=\"submit\" class=\"btn btn-danger\" value=\"ส่งต่อผู้ป่วย\">
 		</div>
 		<script>
 			$(document).ready(function() {
