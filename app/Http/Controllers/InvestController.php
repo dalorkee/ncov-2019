@@ -284,6 +284,9 @@ class InvestController extends MasterController
 				$xray_file_size = NULL;
 			}
 
+			/* get last log refer */
+
+
 			return view('form.invest.index',
 				[
 					'globalCountry' => $globalCountry,
@@ -501,38 +504,38 @@ class InvestController extends MasterController
 				}
 			}
 			$pt->covid19_drug_medicate_name = $drugStr;
-
 			$pt->covid19_drug_medicate_name_other = $request->covid19_drug_medicate_name_other;
+
+			/* set cur patient treat statau to var */
+			$cur_patient_treat_status = $pt->patient_treat_status;
 			$pt->patient_treat_status = $request->patientTreatStatus;
 
 			/* log refer && set treatplace match this */
-			if ($request->patientTreatStatus == 4) {
-				$cur_log = DB::table('log_refer')->where('ref_pt_id', $request->id)->OrderBy('id', 'desc')->limit(1)->get()->toArray();
-				if (count($cur_log) <= 0) {
-					if (!is_null($request->patient_treat_status_refer) || $request->patient_treat_status_refer != 0) {
-						DB::table('log_refer')->insert([
-							'ref_pt_id' => $request->id,
-							'cur_hosp' => $pt->treat_place_hospital,
-							'refer_hosp' => $request->patient_treat_status_refer,
-							'refer_date' => $this->convertDateToMySQL($request->patient_treat_status_refer_date),
-							'ref_user_id' => Auth::user()->id
-						]);
-					}
-				} else {
-					if ($cur_log[0]->refer_hosp != $request->patient_treat_status_refer) {
-						DB::table('log_refer')->insert([
-							'ref_pt_id' => $request->id,
-							'cur_hosp' => $cur_log[0]->refer_hosp,
-							'refer_hosp' => $request->patient_treat_status_refer,
-							'refer_date' => $this->convertDateToMySQL($request->patient_treat_status_refer_date),
-							'ref_user_id' => Auth::user()->id
-						]);
-					}
+			$dt = Carbon::now();
+			$today = $dt->subDay();
+			if ($request->patientTreatStatus == 4 && !empty($request->patient_treat_status_refer_province) && !empty($request->patient_treat_status_refer_district) && !empty($request->patient_treat_status_refer)) {
+				/* check repeat log data */
+				$repeat_log = DB::table('log_refer')
+					->where('ref_pt_id', '=', $request->id)
+					->where('refer_hosp', '=', $request->patient_treat_status_refer)
+					->limit(1)
+					->get();
+				if (count($repeat_log) <= 0) {
+					DB::table('log_refer')->insert([
+						'ref_pt_id' => $request->id,
+						'cur_status' => $cur_patient_treat_status,
+						'ch_status' => 4,
+						'cur_hosp' => $pt->treat_place_hospital,
+						'refer_hosp' => $request->patient_treat_status_refer,
+						'refer_date' => $this->convertDateToMySQL($request->patient_treat_status_refer_date),
+						'ref_user_id' => Auth::user()->id,
+						'created_at' => $today
+					]);
+					$pt->treat_place_province = $request->patient_treat_status_refer_province;
+					$pt->treat_place_district = $request->patient_treat_status_refer_district;
+					$pt->treat_place_sub_district = $request->patient_treat_status_refer_sub_district;
+					$pt->treat_place_hospital = $request->patient_treat_status_refer;
 				}
-				$pt->treat_place_province = $request->patient_treat_status_refer_province;
-				$pt->treat_place_district = $request->patient_treat_status_refer_district;
-				$pt->treat_place_sub_district = $request->patient_treat_status_refer_sub_district;
-				$pt->treat_place_hospital = $request->patient_treat_status_refer;
 			} else {
 				$pt->treat_place_province = $request->treatPlaceProvinceInput;
 				$pt->treat_place_district = $request->treatPlaceDistrictInput;
@@ -614,18 +617,65 @@ class InvestController extends MasterController
 					continue;
 				}
 			}
-
-
-
 			$pt_saved = $pt->save();
 			if ($pt_saved) {
 				return redirect()->back()->with('success', 'บันทึกข้อมูลสำเร็จแล้ว');
 			}
-
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
 	}
+
+	public function storeReferOut(Request $request) {
+		try {
+			if (!empty($request->refer_province) && !empty($request->refer_district) && !empty($request->refer_hospital)) {
+				$dt = Carbon::now();
+				$today = $dt->subDay();
+				$pt = Invest::find($request->refer_pid);
+
+				/* set current data */
+				$cur_patient_treat_status = $pt->patient_treat_status;
+				$cur_prov = $pt->treat_place_province;
+				$cur_dist = $pt->treat_place_district;
+				$cur_sub_dist = $pt->treat_place_sub_district;
+				$cur_hosp = $pt->treat_place_hospital;
+
+				/* update to new data */
+				$pt->treat_place_province = $request->refer_province;
+				$pt->treat_place_district = $request->refer_district;
+				$pt->treat_place_sub_district = $request->refer_sub_district;
+				$pt->treat_place_hospital = $request->refer_hospital;
+
+				$pt->patient_treat_status = 4;
+				$pt->patient_treat_status_refer = $request->refer_hospital;
+				$pt->patient_treat_status_refer_province = $request->refer_province;
+				$pt->patient_treat_status_refer_district = $request->refer_district;
+				$pt->patient_treat_status_refer_sub_district = $request->refer_sub_district;
+				$pt->patient_treat_status_refer_date = $dt;
+
+				$pt_saved = $pt->save();
+
+				if ($pt_saved) {
+					DB::table('log_refer')->insert([
+						'ref_pt_id' => $request->refer_pid,
+						'cur_status' => $cur_patient_treat_status,
+						'ch_status' => 4,
+						'cur_hosp' => $cur_hosp,
+						'refer_hosp' => $request->refer_hospital,
+						'refer_date' => $today,
+						'ref_user_id' => Auth::user()->id,
+						'created_at' => $dt
+					]);
+					return redirect()->back()->with('success', 'ข้อมูลรหัสที่ '.$request->refer_pid.' บันทึกลงฐานข้อมูลสำเร็จแล้ว');
+				}
+			} else {
+				return redirect()->back()->with('error', 'บันทึกไม่สำเร็จ!! ข้อมูลไม่ครบหรือไม่ถูกต้อง โปรดตรวจสอบ?');
+			}
+		} catch(\Exception $e) {
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
+		}
+	}
+
 
 	public function hospitalByProv($prov_code=0) {
 		return DB::connection('mysql')
@@ -637,33 +687,41 @@ class InvestController extends MasterController
 			->get();
 	}
 
-	public function hospitalByDistrictCode2Digit($dist_code=0, $prov_code=0) {
+	public function hospitalFetch(Request $request) {
+		$coll = $this->hospitalByProv($request->pid);
+		$htm = "<option value=\"0\">-- โปรดเลือก --</option>";
+		if (count($coll) > 0) {
+			$hospitals = $coll->keyBy('hospcode');
+			foreach ($hospitals as $key => $val) {
+				$htm .= "<option value=\"".$val->hospcode."\">".$val->hosp_name."</option>";
+			}
+		}
+		return $htm;
+	}
+
+	public function hospitalByDistrictCode2Digit($prov_code=0, $dist_code=0) {
 		return DB::connection('mysql')
 			->table('chospital_new')
 			->select('hospcode', 'hosp_name')
 			->where('prov_code', '=', $prov_code)
 			->where('ampur_code', '=', $dist_code)
 			->where('status_code', '=', '1')
-			->orderBy('hosp_name', 'asc')
+			//->orderBy('hosp_name', 'asc')
 			->get();
 	}
 
-	public function hospitalFetch(Request $request) {
-		$coll = $this->hospitalByProv($request->pid);
-		$hospitals = $coll->keyBy('hospcode');
-		$htm = "<option value=\"0\">-- โปรดเลือก --</option>";
-		foreach ($hospitals as $key => $val) {
-			$htm .= "<option value=\"".$val->hospcode."\">".$val->hosp_name."</option>";
-		}
-		return $htm;
-	}
-
 	public function hospitalFetchByDistrict2Digit(Request $request) {
-		$coll = $this->hospitalByDistrictCode2Digit($request->dist_id, $request->prov_id);
-		$hospitals = $coll->keyBy('hospcode');
+		$dist_id_2_digit = substr($request->dist_id, -1, 2);
+		if (strlen($dist_id_2_digit) <= 1) {
+			$dist_id_2_digit = '0'.$dist_id_2_digit;
+		}
+		$coll = $this->hospitalByDistrictCode2Digit($request->prov_id, $dist_id_2_digit);
 		$htm = "<option value=\"0\">-- โปรดเลือก --</option>";
-		foreach ($hospitals as $key => $val) {
-			$htm .= "<option value=\"".$val->hospcode."\">".$val->hosp_name."</option>";
+		if (count($coll) > 0) {
+			$hospitals = $coll->keyBy('hospcode');
+			foreach ($hospitals as $key => $val) {
+				$htm .= "<option value=\"".$val->hospcode."\">".$val->hosp_name."</option>";
+			}
 		}
 		return $htm;
 	}

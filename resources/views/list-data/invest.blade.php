@@ -87,7 +87,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	<div class="modal fade" id="refer_out" tabindex="-1" role="dialog" aria-labelledby="referConfirm" aria-hidden="true" style="font-family:'sukhumvit'">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form name="refer" action="#" method="POST">
+				<form name="refer" action="{{ route('store.refer') }}" method="POST">
 					{{ csrf_field() }}
 					<div id="ajax-refer"></div>
 				</form>
@@ -172,6 +172,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						});
 						break;
 					case 'refer':
+						$('#refer_pid').val(id);
 						$.ajax({
 							method: 'POST',
 							url: '{{ route('refer') }}',

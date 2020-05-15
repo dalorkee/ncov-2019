@@ -127,6 +127,9 @@
 	</section>
 	<section class="card-body border-top">
 		<div class="form-row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+				<div class="alert alert-success text-info">*** ข้อมูล <span class="text-danger">การรักษาปัจจุบัน</span> จะเปลี่ยนตามข้อมูล <span class="text-danger">การส่งต่อผู้ป่วย</span> โปรดตรวจสอบก่อนบันทึกข้อมูล</div>
+			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
 					<label for="country" class="text-success">จังหวัดที่รักษาปัจจุบัน</label>
@@ -179,6 +182,115 @@
 						@endif
 						<option value="">-- โปรดเลือก --</option>
 					</select>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="card-body border-top">
+		<div class="form-row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+				<div class="form-group">
+					<label for="treatment">สถานะผู้ป่วย</label>
+					<div class="card">
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" name="patientTreatStatus" value="1" @if ($invest_pt[0]['patient_treat_status'] == '1' || old('patientTreatStatus') == '1') checked @endif class="custom-control-input chk-treatment" id="treatment_cured">
+							<label for="treatment_cured" class="custom-control-label normal-label">หาย</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" name="patientTreatStatus" value="2" @if ($invest_pt[0]['patient_treat_status'] == '2' || old('patientTreatStatus') == '2') checked @endif class="custom-control-input chk-treatment" id="treatment_treat">
+							<label for="treatment_treat" class="custom-control-label normal-label">อยู่ระหว่างการรักษา</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" name="patientTreatStatus" value="3" @if ($invest_pt[0]['patient_treat_status'] == '3' || old('patientTreatStatus') == '3') checked @endif class="custom-control-input chk-treatment" id="treatment_dead">
+							<label for="treatment_dead" class="custom-control-label normal-label">เสียชีวิต</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" name="patientTreatStatus" value="4" @if ($invest_pt[0]['patient_treat_status'] == '4' || old('patientTreatStatus') == '4') checked @endif class="custom-control-input chk-treatment" id="treatment_refer">
+							<label for="treatment_refer" class="custom-control-label normal-label text-danger">ส่งต่อไปรักษาที่ *** สัมพันธ์กับข้อมูลการรักษาปัจจุบัน</label>
+						</div>
+						<div class="child-box form-row alert alert-success">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+								<div class="form-group">
+									<label for="referProvince" class="text-danger">จังหวัดที่ส่งต่อไปรักษา</label>
+									<select name="patient_treat_status_refer_province" class="form-control selectpicker show-tick" data-live-search="true" id="patient_treat_status_refer_province">
+										@if (!empty(old('patient_treat_status_refer_province')) || !empty($invest_pt[0]['patient_treat_status_refer_province']))
+											<option value="{{ old('patient_treat_status_refer_province') ?? $invest_pt[0]['patient_treat_status_refer_province'] }}" selected="selected">{{ $provinces[old('patient_treat_status_refer_province')]['province_name'] ?? $provinces[$invest_pt[0]['patient_treat_status_refer_province']]['province_name'] }}</option>
+										@endif
+										<option value="">-- เลือกจังหวัด --</option>
+										@php
+											foreach($provinces as $key=>$val) {
+												$htm = "<option value=\"".$val['province_id']."\"";
+													if (old('provinceInput') == $val['province_id']) {
+														$htm .= " selected=\"selected\"";
+													}
+												$htm .= ">".$val['province_name']."</option>\n";
+												echo $htm;
+											}
+										@endphp
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+								<div class="form-group">
+									<label for="referDistrict" class="text-danger">อำเภอที่ส่งต่อไปรักษา</label>
+									<select name="patient_treat_status_refer_district" class="form-control selectpicker show-tick" data-live-search="true" id="refer_district">
+										@if (!empty($invest_pt[0]['patient_treat_status_refer_district']))
+											<option value="{{ $refer_district[0]['district_id'] }}" selected="selected">{{ $refer_district[0]['district_name'] }}</option>
+										@endif
+										<option value="">-- โปรดเลือก --</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+								<div class="form-group">
+									<label for="refersubDistrict" class="text-danger">ตำบลที่ส่งต่อไปรักษา</label>
+									<select name="patient_treat_status_refer_sub_district" class="form-control selectpicker show-tick" data-live-search="true" id="refer_sub_district">
+										@if (!empty($invest_pt[0]['patient_treat_status_refer_sub_district']))
+											<option value="{{ $refer_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $refer_sub_district[0]['sub_district_name'] }}</option>
+										@endif
+										<option value="">-- โปรดเลือก --</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+								<div class="form-group">
+									<label for="referHosp" class="text-danger">สถานพยาบาลที่ส่งต่อไปรักษา</label>
+									<select name="patient_treat_status_refer" class="form-control selectpicker show-tick" data-live-search="true" id="patient_treat_status_refer">
+										@if (!empty($invest_pt[0]['patient_treat_status_refer']))
+											<option value="{{ $invest_pt[0]['patient_treat_status_refer'] }}" selected="selected">{{ $patient_treat_status_refer[0]['hosp_name'] }}</option>
+										@endif
+										<option value="">-- โปรดเลือก --</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+								<div class="form-group">
+									<label for="referDate" class="text-danger">วันที่ส่งต่อไปรักษา</label>
+									<div class="input-group date">
+										<div class="input-group-append">
+											<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+										</div>
+										<input type="text" name="patient_treat_status_refer_date" value="{{ old('patient_treat_status_refer_date') ?? $data['patient_treat_status_refer_date'] }}" data-provide="datepicke" id="patient_treat_status_refer_date" class="form-control" readonly>
+										<div class="input-group-append">
+											<button type="button" class="input-group-text text-danger" id="cls_patient_treat_status_refer_date"><i class="fas fa-times"></i></button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" name="patientTreatStatus" value="5" @if ($invest_pt[0]['patient_treat_status'] == '5'  || old('patientTreatStatus') == '5') checked @endif class="custom-control-input chk-treatment" id="treatment_other">
+							<label for="treatment_other" class="custom-control-label normal-label">อื่นๆ โปรดระบุ</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+				<div class="form-group">
+					<label for="status">สถานะอื่นๆ ระบุ</label>
+					<div class="input-group">
+						<input type="text" name="patient_treat_status_other" value="{{ old('patient_treat_status_other') ?? $invest_pt[0]['patient_treat_status_other'] }}" class="form-control" placeholder="โปรดระบุ">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -776,115 +888,6 @@
 					<label for="lane">ยาอื่นๆ ระบุ</label>
 					<div class="input-group">
 						<input type="text" name="covid19_drug_medicate_name_other" value="{{ old('covid19_drug_medicate_name_other') ?? $invest_pt[0]['covid19_drug_medicate_name_other'] }}" class="form-control" placeholder="โปรดระบุ">
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<section class="card-body border-top">
-		<div class="form-row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-				<div class="form-group">
-					<label for="treatment">สถานะผู้ป่วย</label>
-					<div class="card">
-						<div class="custom-control custom-checkbox">
-							<input type="checkbox" name="patientTreatStatus" value="1" @if ($invest_pt[0]['patient_treat_status'] == '1' || old('patientTreatStatus') == '1') checked @endif class="custom-control-input chk-treatment" id="treatment_cured">
-							<label for="treatment_cured" class="custom-control-label normal-label">หาย</label>
-						</div>
-						<div class="custom-control custom-checkbox">
-							<input type="checkbox" name="patientTreatStatus" value="2" @if ($invest_pt[0]['patient_treat_status'] == '2' || old('patientTreatStatus') == '2') checked @endif class="custom-control-input chk-treatment" id="treatment_treat">
-							<label for="treatment_treat" class="custom-control-label normal-label">อยู่ระหว่างการรักษา</label>
-						</div>
-						<div class="custom-control custom-checkbox">
-							<input type="checkbox" name="patientTreatStatus" value="3" @if ($invest_pt[0]['patient_treat_status'] == '3' || old('patientTreatStatus') == '3') checked @endif class="custom-control-input chk-treatment" id="treatment_dead">
-							<label for="treatment_dead" class="custom-control-label normal-label">เสียชีวิต</label>
-						</div>
-						<div class="custom-control custom-checkbox">
-							<input type="checkbox" name="patientTreatStatus" value="4" @if ($invest_pt[0]['patient_treat_status'] == '4' || old('patientTreatStatus') == '4') checked @endif class="custom-control-input chk-treatment" id="treatment_refer">
-							<label for="treatment_refer" class="custom-control-label normal-label text-danger">ส่งต่อไปรักษาที่ โปรดระบุ</label>
-						</div>
-						<div class="child-box form-row alert alert-danger">
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-								<div class="form-group">
-									<label for="referProvince" class="text-danger">จังหวัดที่ส่งต่อไปรักษา</label>
-									<select name="patient_treat_status_refer_province" class="form-control selectpicker show-tick" data-live-search="true" id="patient_treat_status_refer_province">
-										@if (!empty(old('patient_treat_status_refer_province')) || !empty($invest_pt[0]['patient_treat_status_refer_province']))
-											<option value="{{ old('patient_treat_status_refer_province') ?? $invest_pt[0]['patient_treat_status_refer_province'] }}" selected="selected">{{ $provinces[old('patient_treat_status_refer_province')]['province_name'] ?? $provinces[$invest_pt[0]['patient_treat_status_refer_province']]['province_name'] }}</option>
-										@endif
-										<option value="">-- เลือกจังหวัด --</option>
-										@php
-											foreach($provinces as $key=>$val) {
-												$htm = "<option value=\"".$val['province_id']."\"";
-													if (old('provinceInput') == $val['province_id']) {
-														$htm .= " selected=\"selected\"";
-													}
-												$htm .= ">".$val['province_name']."</option>\n";
-												echo $htm;
-											}
-										@endphp
-									</select>
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-								<div class="form-group">
-									<label for="referDistrict" class="text-danger">อำเภอที่รักษาปัจจุบัน</label>
-									<select name="patient_treat_status_refer_district" class="form-control selectpicker show-tick" data-live-search="true" id="refer_district">
-										@if (!empty($invest_pt[0]['patient_treat_status_refer_district']))
-											<option value="{{ $refer_district[0]['district_id'] }}" selected="selected">{{ $refer_district[0]['district_name'] }}</option>
-										@endif
-										<option value="">-- โปรดเลือก --</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-								<div class="form-group">
-									<label for="refersubDistrict" class="text-danger">ตำบลที่รักษาปัจจุบัน</label>
-									<select name="patient_treat_status_refer_sub_district" class="form-control selectpicker show-tick" data-live-search="true" id="refer_sub_district">
-										@if (!empty($invest_pt[0]['patient_treat_status_refer_sub_district']))
-											<option value="{{ $refer_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $refer_sub_district[0]['sub_district_name'] }}</option>
-										@endif
-										<option value="">-- โปรดเลือก --</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-								<div class="form-group">
-									<label for="referHosp" class="text-danger">สถานพยาบาลที่ส่งต่อไปรักษา</label>
-									<select name="patient_treat_status_refer" class="form-control selectpicker show-tick" data-live-search="true" id="patient_treat_status_refer">
-										@if (!empty($invest_pt[0]['patient_treat_status_refer']))
-											<option value="{{ $invest_pt[0]['patient_treat_status_refer'] }}" selected="selected">{{ $patient_treat_status_refer[0]['hosp_name'] }}</option>
-										@endif
-										<option value="">-- โปรดเลือก --</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-								<div class="form-group">
-									<label for="referDate" class="text-danger">วันที่ส่งต่อไปรักษา</label>
-									<div class="input-group date">
-										<div class="input-group-append">
-											<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-										</div>
-										<input type="text" name="patient_treat_status_refer_date" value="{{ old('patient_treat_status_refer_date') ?? $data['patient_treat_status_refer_date'] }}" data-provide="datepicke" id="patient_treat_status_refer_date" class="form-control" readonly>
-										<div class="input-group-append">
-											<button type="button" class="input-group-text text-danger" id="cls_patient_treat_status_refer_date"><i class="fas fa-times"></i></button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="custom-control custom-checkbox">
-							<input type="checkbox" name="patientTreatStatus" value="5" @if ($invest_pt[0]['patient_treat_status'] == '5'  || old('patientTreatStatus') == '5') checked @endif class="custom-control-input chk-treatment" id="treatment_other">
-							<label for="treatment_other" class="custom-control-label normal-label">อื่นๆ โปรดระบุ</label>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-				<div class="form-group">
-					<label for="status">สถานะอื่นๆ ระบุ</label>
-					<div class="input-group">
-						<input type="text" name="patient_treat_status_other" value="{{ old('patient_treat_status_other') ?? $invest_pt[0]['patient_treat_status_other'] }}" class="form-control" placeholder="โปรดระบุ">
 					</div>
 				</div>
 			</div>

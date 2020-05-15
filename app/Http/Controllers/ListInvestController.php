@@ -206,6 +206,7 @@ class ListInvestController extends Controller
 				<div class=\"form-row\">
 					<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
 						<div class=\"alert alert-warning\">โรงพยาบาลที่รักษาปัจจุบัน: <span class=\"text-info\">".$cur_hosp_str."</span></div>
+						<input type=\"hidden\" name=\"refer_pid\" value=\"".$request->id."\">
 					</div>
 					<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
 						<div class=\"form-group\">
@@ -244,7 +245,7 @@ class ListInvestController extends Controller
 		</div>
 		<div class=\"modal-footer\">
 			<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">ยกเลิก</button>
-			<input type=\"button\" class=\"btn btn-danger\" value=\"บันทึกข้อมูล\" data-dismiss=\"modal\">
+			<input type=\"submit\" class=\"btn btn-danger\" value=\"บันทึกข้อมูล\">
 		</div>
 		<script>
 			$(document).ready(function() {
@@ -283,7 +284,7 @@ class ListInvestController extends Controller
 									method: 'POST',
 									url: '".route('hospitalFetchByDistrict2Digit')."',
 									dataType: 'HTML',
-									data: {dist_id:id, prov_id:prov_id},
+									data: {prov_id:prov_id, dist_id:id},
 									success: function(hosp) {
 										$('#refer_hospital').html(hosp);
 										$('#refer_hospital').selectpicker('refresh');

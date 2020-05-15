@@ -52,6 +52,7 @@ Route::post('province/district', 'ConfirmFormController@districtFetch')->name('d
 Route::post('province/district/sub-district', 'ConfirmFormController@subDistrictFetch')->name('subDistrictFetch');
 Route::post('hospitalFetch', 'InvestController@hospitalFetch')->name('hospitalFetch');
 Route::post('hospital/fetch/hospital', 'InvestController@hospitalFetchByDistrict2Digit')->name('hospitalFetchByDistrict2Digit');
+Route::post('hospital/refer/store', 'InvestController@storeReferOut')->name('store.refer');
 
 /* Contact */
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
