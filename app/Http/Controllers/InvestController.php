@@ -623,7 +623,7 @@ class InvestController extends MasterController
 			}
 
 		} catch(\Exception $e) {
-			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage().' jet');
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
 	}
 
@@ -637,8 +637,29 @@ class InvestController extends MasterController
 			->get();
 	}
 
+	public function hospitalByDistrictCode2Digit($dist_code=0, $prov_code=0) {
+		return DB::connection('mysql')
+			->table('chospital_new')
+			->select('hospcode', 'hosp_name')
+			->where('prov_code', '=', $prov_code)
+			->where('ampur_code', '=', $dist_code)
+			->where('status_code', '=', '1')
+			->orderBy('hosp_name', 'asc')
+			->get();
+	}
+
 	public function hospitalFetch(Request $request) {
 		$coll = $this->hospitalByProv($request->pid);
+		$hospitals = $coll->keyBy('hospcode');
+		$htm = "<option value=\"0\">-- โปรดเลือก --</option>";
+		foreach ($hospitals as $key => $val) {
+			$htm .= "<option value=\"".$val->hospcode."\">".$val->hosp_name."</option>";
+		}
+		return $htm;
+	}
+
+	public function hospitalFetchByDistrict2Digit(Request $request) {
+		$coll = $this->hospitalByDistrictCode2Digit($request->dist_id, $request->prov_id);
 		$hospitals = $coll->keyBy('hospcode');
 		$htm = "<option value=\"0\">-- โปรดเลือก --</option>";
 		foreach ($hospitals as $key => $val) {

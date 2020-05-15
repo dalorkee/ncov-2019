@@ -1,5 +1,6 @@
 @extends('layouts.index')
 @section('custom-style')
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
 	<link rel="stylesheet" href="{{ URL::asset('assets/libs/jquery-contextmenu/dist/jquery.contextMenu.min.css') }}">
 	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/datatables-1.10.20/css/jquery.dataTables.min.css') }}">
 	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/Buttons-1.6.1/css/buttons.dataTables.min.css') }}">
@@ -72,18 +73,31 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 		</div>
 	@endif
 	<!-- Modal change status-->
-	<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="changeStatus" aria-hidden="true">
+	<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="changeStatus" aria-hidden="true" style="font-family:'sukhumvit'">
 		<div class="modal-dialog">
-			<form name="chStatusFrm" action="{{ route('chConfirmStatusServerSide') }}" method="POST">
-				{{ csrf_field() }}
-				<div class="modal-content" id="ajax-status"></div>
-			</form>
+			<div class="modal-content">
+				<form name="chStatusFrm" action="{{ route('chConfirmStatusServerSide') }}" method="POST">
+					{{ csrf_field() }}
+					<div id="ajax-status"></div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- modal refer out -->
+	<div class="modal fade" id="refer_out" tabindex="-1" role="dialog" aria-labelledby="referConfirm" aria-hidden="true" style="font-family:'sukhumvit'">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form name="refer" action="#" method="POST">
+					{{ csrf_field() }}
+					<div id="ajax-refer"></div>
+				</form>
+			</div>
 		</div>
 	</div>
 	<!-- Modal Delete confirmation-->
-	<div class="modal fade delete-context" id="delete_context" tabindex="-1" role="dialog" aria-labelledby="deleteConfirm" aria-hidden="true">
+	<div class="modal fade delete-context" id="delete_context" tabindex="-1" role="dialog" aria-labelledby="deleteConfirm" aria-hidden="true" style="font-family:'sukhumvit'">
 		<div class="modal-dialog modal-confirm">
-			<div class="modal-content" id="confirm_delete" style="font-family: 'Fira-code';">
+			<div class="modal-content" id="confirm_delete">
 				<form name="deleteContext" action="{{ route('invest.delete') }}" method="POST">
 					{{ csrf_field() }}
 					<input type="hidden" name="pid" id="del_id">
@@ -95,8 +109,8 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						<h4 class="modal-title">ยืนยันการลบข้อมูล?</h4>
 					</div>
 					<div class="modal-body">
-						<p class="alert alert-warning">เงื่อนไข: สถานะไม่เท่ากับ Confirmed และวันที่ลงข้อมูลเท่ากับวันที่ปัจจุบัน และเป็นผู้กรอกข้อมูล</p>
-						<p class="text-danger">คุณต้องการลบข้อมูลออกจากระบบฯ ใช่หรือไม่ ?</p>
+						<p class="alert alert-warning font-16">เงื่อนไข: สถานะไม่เท่ากับ Confirmed และวันที่ลงข้อมูลเท่ากับวันที่ปัจจุบัน และเป็นผู้กรอกข้อมูล</p>
+						<p class="text-danger font-18">คุณต้องการลบข้อมูลออกจากระบบฯ ใช่หรือไม่ ?</p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-info" data-dismiss="modal">ยกเลิก</button>
@@ -110,6 +124,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 </div><!-- flu-contrainer -->
 @endsection
 @section('bottom-script')
+	<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/libs/jquery-contextmenu/dist/jquery.contextMenu.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/libs/jquery-contextmenu/dist/jquery.ui.position.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/datatables-1.10.20/js/jquery.dataTables.min.js') }}"></script>
@@ -156,6 +171,21 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 							}
 						});
 						break;
+					case 'refer':
+						$.ajax({
+							method: 'POST',
+							url: '{{ route('refer') }}',
+							data: {id:id},
+							dataType: 'HTML',
+							success: function(data) {
+								$('#ajax-refer').html(data);
+								$('#refer_out').modal('show');
+							},
+							error: function(data, status, error) {
+								alert(error);
+							}
+						});
+						break;
 					case 'labGen':
 						window.open('<?php echo $url_gen_lab; ?>&idx=' + satid, '_blank');
 						break;
@@ -183,6 +213,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 			},
 			items: {
 				"chStatus": {name: "Change status", icon: "fas fa-check-circle"},
+				"refer": {name: "Refer Out", icon: "fas fa-ambulance"},
 				"sep1": "---------",
 				"labGen": {name: "Generate lab", icon: "fas fa-barcode"},
 				"labResult": {name: "Lab result", icon: "fas fa-flask"},

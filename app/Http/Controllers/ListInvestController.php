@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\DataTables\ListInvestDataTable;
 use App\InvestList;
+use App\Hospitals;
+use App\Provinces;
 use App\Http\Controllers\MasterController;
 use App\Exports\InvestExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -109,15 +111,6 @@ class ListInvestController extends Controller
 				break;
 		}
 
-/*
-		if ($pst['pt_status'] == 2) {
-			$pt_status_disabled = 'disabled';
-			$warning_pt_status_text = 'Confirmed ไม่สามารถเปลี่ยนสถานะได้แล้ว';
-		} else {
-			$pt_status_disabled = NULL;
-			$warning_pt_status_text = NULL;
-		}
-*/
 		/* check role for allow change news_st status and disible select */
 		if ($user_role == 'root' || $user_role == 'ddc') {
 			$news_st_disabled = NULL;
@@ -127,10 +120,9 @@ class ListInvestController extends Controller
 			$warning_news_st_text = 'เปลี่ยนสถานะได้เฉพาะผู้ได้รับมอบหมายเท่านั้น';
 		}
 
-
 		return "
 		<div class=\"modal-header\">
-			<h5 class=\"modal-title\" id=\"statusModalLabel".$pst['id']."\">เปลี่ยนสถานะ ID: ".$pst['id']."</h5>
+			<h5 class=\"modal-title\" id=\"statusModalLabel".$pst['id']."\"><i class=\" fas fa-check-circle\"></i> เปลี่ยนสถานะ ID: ".$pst['id']."</h5>
 			<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
 				<span aria-hidden=\"true\">&times;</span>
 			</button>
@@ -139,9 +131,9 @@ class ListInvestController extends Controller
 			<div class=\"form-row\">
 				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
 					<div class=\"form-group\">
-						<label for=\"patient\">สถานะ <span class=\"badge badge-pill badge-danger\">".$warning_pt_status_text."</label>
+						<label for=\"patient\" class=\"text-danger font-16\">สถานะ <span class=\"badge badge-pill badge-danger\">".$warning_pt_status_text."</label>
 						<input type=\"hidden\" name=\"id\" value=\"".$pst['id']."\">
-						<select name=\"pt_status\" class=\"form-control selectpicker\" id=\"pt_status".$pst['id']."\" ".$pt_status_disabled.">
+						<select name=\"pt_status\" class=\"form-control selectpicker show-tick\" id=\"pt_status".$pst['id']."\" ".$pt_status_disabled.">
 							<option value=\"".$pst['pt_status']."\" selected=\"selected\">".$pt_status."</option>
 							<option value=\"\">-- โปรดเลือก --</option>"
 							.$pt_status_opt.
@@ -151,8 +143,8 @@ class ListInvestController extends Controller
 				</div>
 				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
 					<div class=\"form-group\">
-						<label for=\"news\">แถลงข่าว <span class=\"badge badge-pill badge-danger\">".$warning_news_st_text."</label>
-						<select name=\"news_status\" class=\"form-control\" id=\"news_st".$pst['id']."\" ".$news_st_disabled.">
+						<label for=\"news\" class=\"text-info font-16\">แถลงข่าว <span class=\"badge badge-pill badge-danger\">".$warning_news_st_text."</label>
+						<select name=\"news_status\" class=\"form-control selectpicker show-tick\" id=\"news_st".$pst['id']."\" ".$news_st_disabled.">
 							<option value=\"".$pst['news_st']."\" selected=\"selected>\">".$news_st."</option>
 							<option value=\"\">-- โปรดเลือก --</option>"
 							.$news_st_opt.
@@ -162,8 +154,8 @@ class ListInvestController extends Controller
 				</div>
 				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
 					<div class=\"form-group\">
-						<label for=\"discharge\">Discharge</label>
-						<select name=\"disch_st\" class=\"form-control\" id=\"disch_st".$pst['id']."\">
+						<label for=\"discharge font-16\" class=\"text-success\">Discharge</label>
+						<select name=\"disch_st\" class=\"form-control selectpicker show-tick\" id=\"disch_st".$pst['id']."\">
 							<option value=\"".$pst['disch_st']."\" selected=\"selected\">".$disch_st."</option>
 							<option value=\"\">-- โปรดเลือก --</option>"
 							.$disch_st_opt.
@@ -175,6 +167,137 @@ class ListInvestController extends Controller
 		<div class=\"modal-footer\">
 			<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">ยกเลิก</button>
 			<input type=\"submit\" class=\"btn btn-danger\" value=\"เปลี่ยนทันที\">
-		</div>";
+		</div>
+		<script>
+			$(document).ready(function() {
+				$('.selectpicker').selectpicker();
+			});
+		</script>";
+	}
+
+	public function referOut(Request $request) {
+		/* get hospital data */
+		$pst = InvestList::select('id', 'treat_place_hospital')->where('id', '=', $request->id)->first();
+		if (is_null($pst->treat_place_hospital)) {
+			$cur_hosp_str = 'ยังไม่มีข้อมูล';
+		} else {
+			$hosp = Hospitals::select('hospcode', 'hosp_name')->where('hospcode', '=', $pst->treat_place_hospital)->first();
+			if (!is_null($hosp)) {
+				$cur_hosp_str = $hosp->hosp_name;
+			} else {
+				$cur_hosp_str = 'ไม่พบข้อมูลโรงพยาบาลรหัส: '.$pst->treat_place_hospital;
+			}
+		}
+
+		/* get provinces */
+		$provinces = Provinces::select('province_id', 'province_name')->orderBy('province_name', 'ASC')->get();
+		$prov_list = "";
+		$provinces->each(function($item, $key) use (&$prov_list) {
+			$prov_list .= "<option value=\"".$item->province_id."\">".$item->province_name."</option>";
+		});
+		return "
+		<div class=\"modal-header\">
+			<h5 class=\"modal-title text-danger\"><i class=\" fas fa-ambulance\"></i> ส่งต่อผู้ป่วยรหัส: <span class=\"text-info\">".$request->id."</span></h5>
+			<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
+				<span aria-hidden=\"true\">&times;</span>
+			</button>
+		</div>
+		<div class=\"modal-body\">
+				<div class=\"form-row\">
+					<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
+						<div class=\"alert alert-warning\">โรงพยาบาลที่รักษาปัจจุบัน: <span class=\"text-info\">".$cur_hosp_str."</span></div>
+					</div>
+					<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
+						<div class=\"form-group\">
+							<label for=\"province\" class=\"font-16\">เลือกจังหวัด</label>
+							<select name=\"refer_province\" class=\"form-control selectpicker show-tick\" id=\"refer_province\">
+								<option value=\"\">-- โปรดเลือก --</option>"
+								.$prov_list.
+							"</select>
+						</div>
+					</div>
+					<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
+						<div class=\"form-group\">
+							<label for=\"district\" class=\"font-16\">เลือกอำเภอ</label>
+							<select name=\"refer_district\" class=\"form-control selectpicker show-tick\" id=\"refer_district\">
+								<option value=\"\">-- โปรดเลือก --</option>
+							</select>
+						</div>
+					</div>
+					<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
+						<div class=\"form-group\">
+							<label for=\"subDistrict\" class=\"font-16\">เลือกตำบล</label>
+							<select name=\"refer_sub_district\" class=\"form-control selectpicker show-tick\" id=\"refer_sub_district\">
+								<option value=\"\">-- โปรดเลือก --</option>
+							</select>
+						</div>
+					</div>
+					<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
+						<div class=\"form-group\">
+							<label for=\"hospital\" class=\"text-primary font-16\">เลือกโรงพยาบาลที่ต้องการส่งต่อ</label>
+							<select name=\"refer_hospital\" class=\"form-control selectpicker show-tick\" data-style=\"btn btn-primary\" data-live-search=\"true\" id=\"refer_hospital\">
+								<option value=\"\">-- โปรดเลือก --</option>
+							</select>
+						</div>
+					</div>
+				</div>
+		</div>
+		<div class=\"modal-footer\">
+			<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">ยกเลิก</button>
+			<input type=\"button\" class=\"btn btn-danger\" value=\"บันทึกข้อมูล\" data-dismiss=\"modal\">
+		</div>
+		<script>
+			$(document).ready(function() {
+				$('.selectpicker').selectpicker();
+				$('#refer_province').change(function() {
+					if ($(this).val() != '') {
+						var id = $(this).val();
+						$.ajax({
+							method: 'POST',
+							url: '".route('districtFetch')."',
+							dataType: 'HTML',
+							data: {id:id},
+							success: function(response) {
+								$('#refer_district').html(response);
+								$('#refer_district').selectpicker('refresh');
+							},
+							error: function(jqXhr, textStatus, errorMessage){
+								alert('Error code: ' + jqXhr.status + errorMessage);
+							}
+						});
+					}
+				});
+				$('#refer_district').change(function() {
+					if ($(this).val() != '') {
+						var id = $(this).val();
+						var prov_id = $('#refer_province').val();
+						$.ajax({
+							method: 'POST',
+							url: '".route('subDistrictFetch')."',
+							dataType: 'HTML',
+							data: {id:id},
+							success: function(response) {
+								$('#refer_sub_district').html(response);
+								$('#refer_sub_district').selectpicker('refresh');
+								$.ajax({
+									method: 'POST',
+									url: '".route('hospitalFetchByDistrict2Digit')."',
+									dataType: 'HTML',
+									data: {dist_id:id, prov_id:prov_id},
+									success: function(hosp) {
+										$('#refer_hospital').html(hosp);
+										$('#refer_hospital').selectpicker('refresh');
+
+									}
+								});
+							},
+							error: function(jqXhr, textStatus, errorMessage){
+								alert('Error code: ' + jqXhr.status + errorMessage);
+							}
+						});
+					}
+				});
+			});
+		</script>";
 	}
 }

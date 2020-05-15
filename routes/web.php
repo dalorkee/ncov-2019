@@ -51,6 +51,7 @@ Route::post('country/city', 'ConfirmFormController@cityFetch')->name('cityFetch'
 Route::post('province/district', 'ConfirmFormController@districtFetch')->name('districtFetch');
 Route::post('province/district/sub-district', 'ConfirmFormController@subDistrictFetch')->name('subDistrictFetch');
 Route::post('hospitalFetch', 'InvestController@hospitalFetch')->name('hospitalFetch');
+Route::post('hospital/fetch/hospital', 'InvestController@hospitalFetchByDistrict2Digit')->name('hospitalFetchByDistrict2Digit');
 
 /* Contact */
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
@@ -116,6 +117,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 	/* moaal change status on context menu */
 	Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
+	/* modal refer out */
+	Route::post('refer', 'ListInvestController@referOut')->name('refer');
 	/* modal delete on context menu */
 	Route::post('invest/delete', 'ListInvestController@softDeleteInvest')->name('invest.delete');
 
