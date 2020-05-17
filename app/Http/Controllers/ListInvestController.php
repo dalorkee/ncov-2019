@@ -40,7 +40,7 @@ class ListInvestController extends Controller
 			$today = $dt->subDay();
 			$exp_today = explode(" ", $today);
 			switch ($user_role) {
-				case 'roott' :
+				case 'root' :
 					$pt = InvestList::where('id', '=', $request->pid)->delete();
 					break;
 				default :
