@@ -38,15 +38,16 @@ class ListInvestController extends Controller
 			$user_role = Session::get('user_role');
 			$dt = Carbon::now();
 			$today = $dt->subDay();
+			$exp_today = explode(" ", $today);
 			switch ($user_role) {
-				case 'root' :
+				case 'roott' :
 					$pt = InvestList::where('id', '=', $request->pid)->delete();
 					break;
 				default :
 					$pt = InvestList::where('id', '=', $request->pid)
 						->where('entry_user', '=', $user->id)
 						->where('pt_status', '!=', 2)
-						->whereRaw("(DATE(created_at) = '".$today."')")
+						->whereRaw("(DATE(created_at) = '".$exp_today[0]."')")
 						->delete();
 					break;
 			}
