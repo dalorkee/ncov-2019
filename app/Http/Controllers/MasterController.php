@@ -28,7 +28,8 @@ class MasterController extends Controller
 			],
 			'news_st' => [
 				1 => 'Confirmed publish',
-				2 => 'Confirmed not yet released'
+				2 => 'Confirmed not yet released',
+				3 => 'Not yet publish (ตกหล่น)'
 			],
 			'disch_st' => [
 				1 => 'Recovered',
@@ -50,7 +51,7 @@ class MasterController extends Controller
 				5 => 'Active Case Finding',
 				6 => 'Sentinel Surveillance',
 				7 => 'คัดกรอกก่อนทำหัตถการ',
-				8 => 'ไม่ผ่านเกณฑ์ แต่แพทย์สงสัย',
+				8 => 'PUI แพทย์สงสัย',
 				99 => 'อื่นๆ'
 			],
 			'arrfollowup_address' => [
