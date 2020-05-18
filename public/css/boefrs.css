@@ -385,7 +385,7 @@ a.link-color-white:hover {
 
 .modal-confirm {
   color: #636363;
-  width: 400px;
+  min-width: 400px;
 }
 
 .modal-confirm .modal-content {
@@ -417,7 +417,7 @@ a.link-color-white:hover {
 .modal-confirm .icon-box {
   position: absolute;
   top: 6px;
-  left: 140px;
+  left: 41%;
   width: 80px;
   height: 80px;
   /*margin: 0 auto;*/
@@ -427,9 +427,25 @@ a.link-color-white:hover {
   border: 3px solid #f15e5e;
 }
 
+.modal-confirm .icon-box-no-border {
+  position: absolute;
+  top: 6px;
+  left: 41%;
+  width: 80px;
+  height: 80px;
+  z-index: 9;
+}
+
 .modal-confirm .icon-box i {
   color: #f15e5e;
   font-size: 46px;
+  display: inline-block;
+  margin-top: 2px;
+}
+
+.modal-confirm .icon-box-no-border i {
+  color: #f15e5e;
+  font-size: 60px;
   display: inline-block;
   margin-top: 2px;
 }

@@ -134,6 +134,27 @@
 			</div>
 		</section>
 	</article>
+	<!-- Modal Warning Message-->
+	<div class="modal fade" id="warning_msg" tabindex="-1" role="dialog" aria-labelledby="warningMessage" aria-hidden="true" style="font-family:'sukhumvit'">
+		<div class="modal-dialog modal-confirm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<div class="icon-box-no-border">
+						<i class="mdi mdi-alert-octagram"></i>
+					</div>
+					<h4 class="modal-title">ข้อควรทราบ!</h4>
+				</div>
+				<div class="modal-body">
+					<p class="alert alert-danger font-16">ระบบฯ ได้บันทึกข้อมูลการใช้งานของท่านไว้ ตาม พรบ. ว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ และ พรบ. ข้อมูลข่าวสารของทางราชการ </p>
+					<p class="text-danger font-18">โปรดระมัดระวังในการส่งต่อ หรือเผยแพร่ข้อมูล!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">ตกลง</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 @endsection
 @section('bottom-script')
@@ -173,13 +194,15 @@ function completed(rows) {
 }
 */
 $(document).ready(function() {
-	//$('#progress').hide();
-	$('.dl-section').hide();
 	$.ajaxSetup({
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
+	//$('#progress').hide();
+	$('.dl-section').hide();
+	/* warning msg */
+	$('#warning_msg').modal('show');
 	$('#export_btn').click(function(e) {
 		try {
 			e.preventDefault();
