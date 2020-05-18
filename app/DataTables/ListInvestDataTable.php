@@ -142,6 +142,7 @@ class ListInvestDataTable extends DataTable
 				}
 				return $pts_rs;
 			})
+			/*
 			->editColumn('inv', function($iv) {
 				if (!isset($iv->inv) || empty($iv->inv)) {
 					$inv_rs = "<span class=\"badge badge-light\">-</span>";
@@ -152,6 +153,7 @@ class ListInvestDataTable extends DataTable
 				}
 				return $inv_rs;
 			})
+			*/
 			->editColumn('visit_number', function($vn) {
 				if (isset($vn->visit_number) || !empty($vn->visit_number) || !is_null($vn->visit_number)) {
 					if ($vn->visit_number == 0) {
@@ -166,7 +168,7 @@ class ListInvestDataTable extends DataTable
 			})
 			->addColumn('action',
 				 '<button class="context-nav btn btn-custom-1 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-angle-down"></i></button>')
-			->rawColumns(['pt_status', 'inv', 'disch_st', 'visit_number', 'action']);
+			->rawColumns(['pt_status', 'disch_st', 'visit_number', 'action']);
 	}
 
 	public function query(InvestList $model) {
@@ -191,9 +193,10 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-					'sex',
+					//'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-					'inv', 'visit_number')
+					//'inv',
+					'visit_number')
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'ddc':
@@ -205,9 +208,10 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-					'sex',
+					//'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-					'inv', 'visit_number')
+					//'inv',
+					'visit_number')
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'dpc':
@@ -221,9 +225,10 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-					'sex',
+					//'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-					'inv', 'visit_number')
+					//'inv',
+					'visit_number')
 					//->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 					->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
@@ -237,9 +242,10 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-					'sex',
+					//'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-					'inv', 'visit_number')
+					//'inv',
+					'visit_number')
 					//->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
 					->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
 					->whereNull('deleted_at')
@@ -254,9 +260,10 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-					'sex',
+					//'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-					'inv', 'visit_number')
+					//'inv',
+					'visit_number')
 					->whereRaw('(isolated_hosp_code = '.$user_hosp.' OR walkinplace_hosp_code = '.$user_hosp.' OR treat_first_hospital = '.$user_hosp. ' OR treat_place_hospital = '.$user_hosp.')')
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
@@ -315,9 +322,9 @@ class ListInvestDataTable extends DataTable
 			Column::make('pt_status')->title('สถานะ'),
 			Column::make('news_st')->title('แถลงข่าว'),
 			Column::make('disch_st')->title('Discharge'),
-			Column::make('sex')->title('เพศ'),
+			//Column::make('sex')->title('เพศ'),
 			Column::make('nation')->title('สัญชาติ'),
-			Column::make('inv')->title('สอบสวนโรค'),
+			//Column::make('inv')->title('สอบสวนโรค'),
 			Column::make('visit_number')->title('ครั้งที่รักษา'),
 
 			Column::computed('action')
