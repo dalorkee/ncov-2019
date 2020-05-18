@@ -214,7 +214,8 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
-					->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
+					//->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
+					->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'pho':
@@ -229,7 +230,8 @@ class ListInvestDataTable extends DataTable
 					'sex',
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					'inv')
-					->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
+					//->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
+					->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
 					->whereNull('deleted_at')
 					->orderBy('id', 'DESC');
 					break;

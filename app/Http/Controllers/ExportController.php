@@ -168,7 +168,6 @@ class ExportController extends MasterController
 
 			/* get total before query */
 
-
 			switch ($user_role) {
 				case 'root':
 					$total = Invest2::whereIn('pt_status', [2])
@@ -184,13 +183,15 @@ class ExportController extends MasterController
 					$prov_arr = parent::getProvCodeByRegion($user_region);
 					$prov_str = parent::arrayToString($prov_arr);
 					$total = Invest2::whereIn('pt_status', $pt_status)
-						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
+						//->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
+						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')->count();
 					break;
 				case 'pho':
 					$total = Invest2::whereIn('pt_status', $pt_status)
-						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province ='".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+						//->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province ='".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province ='".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')->count();
 					break;
 				case 'hos':
@@ -840,6 +841,7 @@ class ExportController extends MasterController
 				});
 				$fileExists = Storage::disk('export')->exists($fileName);
 				if ($fileExists) {
+					/* prepare log data */
 					$mimetype = Storage::disk('export')->mimeType($fileName);
 					$size = Storage::disk('export')->size($fileName);
 					$size_kb = ((double)$size/1024);
@@ -847,6 +849,9 @@ class ExportController extends MasterController
 
 					$export = LogExport::create([
 						'ref_user_id' => auth()->user()->id,
+						'pt_status' => $request->pt_status,
+						'start_date' => $start_date,
+						'end_date' => $end_date,
 						'file_name' => $fileName,
 						'file_imme_type' => $mimetype,
 						'file_size' => $size_kb,
@@ -1095,7 +1100,8 @@ class ExportController extends MasterController
 					//$i = 1;
 					foreach (Invest2::select($fields)
 						->whereIn('pt_status', $pt_status)
-						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
+						//->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
+						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
@@ -1113,7 +1119,8 @@ class ExportController extends MasterController
 					//$i = 1;
 					foreach (Invest2::select($fields)
 						->whereIn('pt_status', $pt_status)
-						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+						//->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
 							yield $data;
