@@ -67,6 +67,9 @@ class MasterController extends Controller
 				3 => 'เสียชีวิต',
 				4 => 'ส่งต่อ',
 				5 => 'อื่นๆ'
+			],
+			'visit_number' => [
+				'0' => 'Duplicate'
 			]
 
 		]);
