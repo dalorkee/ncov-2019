@@ -138,11 +138,10 @@ class ContactController extends MasterController
 															// 'tbl_followup.walkin_subdistrict',
 															// 'tbl_followup.walkin_hospital',
 															'tbl_contact.status_followup')
+										// >where('tbl_contact.pt_status','!=',"2")
 										->where('patient_relation.pui_id', $id)
-										->whereNull('delete_at')
+										->whereNull('tbl_contact.deleted_at')
 										->get();
-
-
     return view('form.contact.contacttable',compact(
 			'contact_data',
 			'id',
@@ -198,30 +197,7 @@ public function allcontacttable(Request $req)
 	$count_data = $this->arr_pts();
 	$arr_status_followup = $this->arr_status_followup();
 	$arr_risk_contact=$this->arr_risk_contact();
-	// $count_con=DB::table('patient_relation')
-	// 													->select(DB::raw('count(*) as count_cont'))
-	// 													->where('pui_id', $id)
-	// 													->wherenull('delete_at')
-	// 													->get();
-	// $count_hrisk=DB::table('tbl_contact')
-	// 													->select(DB::raw('count(*) as count_hrisk'))
-	// 													->where('pui_id', $id)
-	// 													->where('risk_contact', '=','1')
-	// 													->wherenull('deleted_at')
-	// 													->get();
-	// $count_lrisk=DB::table('tbl_contact')
-	// 													->select(DB::raw('count(*) as count_lrisk'))
-	// 													->where('pui_id', $id)
-	// 													->where('risk_contact', '=','2')
-	// 													->wherenull('deleted_at')
-	// 													->get();
-	// $count_labcont=DB::table('tbl_contact_hsc')
-	// 													->select(DB::raw('count(*) as count_labcont'))
-	// 													->where('pui_id', $id)
-	// 													->where('dms_pcr_contact', '>=','1')
-	// 													->wherenotnull('dms_pcr_contact')
-	// 													->get();
-	 // dd($arr_status_followup);
+
 	$ref_pt_status=DB::table('ref_pt_status')->select('pts_id','pts_name_en')->get();
 	$patian_data=DB::table('invest_pt')->select('*')->where('id', [$req->id] )->get();
 	$contact_data_val= DB::table('patient_relation')
@@ -265,30 +241,35 @@ public function allcontacttable(Request $req)
 									          switch ($user_role) {
 									            case 'hos':
 									              $contact_data  = $contact_data_val
+																->where('tbl_contact.pt_status','!=',"2")
 									                      ->where('tbl_contact.user_id',$uid_id)
-									                      ->whereNull('patient_relation.delete_at')
+									                      ->whereNull('tbl_contact.deleted_at')
 									                      ->get()->toArray();
 									            break;
 									            case 'pho':
 									              $contact_data = $contact_data_val
+																->where('tbl_contact.pt_status','!=',"2")
 									                      ->where('tbl_contact.province',$uid_prov_code)
-									                      ->whereNull('patient_relation.delete_at')
+									                      ->whereNull('tbl_contact.deleted_at')
 									                      ->get()->toArray();
 									              break;
 									              case 'dpc':
 									                $contact_data = $contact_data_val
+																	->where('tbl_contact.pt_status','!=',"2")
 																					->wherein('tbl_contact.province',$uid_chosbyregion)
-									                        ->whereNull('patient_relation.delete_at')
+									                        ->whereNull('tbl_contact.deleted_at')
 									                        ->get()->toArray();
 									                break;
 									                case 'ddc':
 									                  $contact_data = $contact_data_val
-									                  ->whereNull('patient_relation.delete_at')
+																		->where('tbl_contact.pt_status','!=',"2")
+									                  ->whereNull('tbl_contact.deleted_at')
 									                  ->get()->toArray();
 									                  break;
 									                  case 'root':
 									                    $contact_data = $contact_data_val
-									                    ->whereNull('patient_relation.delete_at')
+																			->where('tbl_contact.pt_status','!=',"2")
+									                    ->whereNull('tbl_contact.deleted_at')
 									                    ->get()->toArray();
 									                    break;
 									          default:
@@ -572,7 +553,8 @@ if(auth()->user()->id==Auth::user()->id){
 	public function editcontact(Request $req)
 	{
 		$pui_id=$req->pui_id;
-		$contact_rid=$req->contact_rid;
+		$id=$req->id;
+		$contact_rid=$req->id;
 		$contact_id=$req->contact_id;
 		// dd($contact_id);
 		$getdata_hsc_1=DB::table('tbl_contact_hsc')
@@ -608,7 +590,7 @@ if(auth()->user()->id==Auth::user()->id){
 										->get();
 		$getdata_contact=DB::table('tbl_contact')
 												->select('*')
-												->where('id',$contact_rid)
+												->where('id',$id)
 												->get();
 		$getdata_hsc_contact1=DB::table('tbl_contact_hsc')
 														->select('*')
@@ -745,18 +727,31 @@ if(auth()->user()->id==Auth::user()->id){
 		$pui_id = $req->pui_id;
 		// dd($pui_id);
 		$delete_at = date('Y-m-d');
-		$update =DB::table('patient_relation')
+		// $update =DB::table('patient_relation')
+		// 					->where('contact_rid',$id)
+		$update =DB::table('tbl_contact')
 							->where('id',$id)
-							->where('pui_id',$pui_id)
+							// ->where('pui_id',$pui_id)
 							->update([
-								'delete_at' => $delete_at
+								// 'delete_at' => $delete_at
+								'deleted_at' => $delete_at
 			]);
 			// dd($update);
+			if ($update) {
+				$update =DB::table('patient_relation')
+									// ->where('id',$id)
+									->where('contact_rid',$id)
+									->update([
+										'delete_at' => $delete_at
+										// 'deleted_at' => $delete_at
+					]);
+			}
+
 		if ($update)
 		{
-		return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+		return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 	} else {
-		return redirect()->route('contacttable',[$pui_id])->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
+		return redirect()->route('list-data.contact')->with('alert', 'นำเข้าข้อมูลไม่สำเร็จ');
 	}
 	 echo $url_rediect;
 	}
@@ -1310,9 +1305,9 @@ public function contactstupdate(Request $request) {
 	$id = $request ->input ('id');
 	$walkin_province = $request ->input ('walkin_province');
 	$walkin_district = $request  ->input ('walkin_district');
-	$walkin_subdistrict = $request  ->input ('walkin_subdistrict ');
+	$walkin_subdistrict = $request  ->input ('walkin_subdistrict');
 	$walkin_hospital =  $request ->input ('walkin_hospital');
-	// dd($id);
+	// dd($walkin_subdistrict);
 	$pui_id = $request ->input ('pui_id');
 	$contact_id = $request ->input ('contact_id');
 	$status_followup = $request ->input ('status_followup');
@@ -1326,18 +1321,22 @@ public function contactstupdate(Request $request) {
 	$sex = $request ->input ('sex');
 	$age = $request ->input ('age');
 	$nation = $request ->input ('nation');
-  $date_change_st = $this->convertDateToMySQL($request ->input ('date_change_st'));
-	// $date_change_st =date('Y-m-d');
-	$res1=DB::table('tbl_contact')
-			// ->where('pui_id',$pui_id)
-			->where('contact_id',$contact_id)
-	    ->update(
-	        ['pt_status' => $pt_status,
-					 'status_followup' => $status_followup,
-					 'date_change_st' => $date_change_st
-				 ]
-	    );
-			if ($pt_status == "2") {
+	$entry_user = Auth::user()->id;
+	$pt_status_hidden = $request ->input ('pt_status_hidden');
+  $date_change_st = $this->convertDatefollowToMySQL($request ->input ('date_change_st'));
+	if ($contact_id != Null ) {
+		$res1=DB::table('tbl_contact')
+				->where('id',$id)
+				->update(
+						[
+							'contact_id' => $sat_id,
+							'pt_status' => $pt_status,
+							'status_followup' => $status_followup,
+							'date_change_st' => $date_change_st
+					 ]
+				);
+	}
+	if ($pt_status == "2") {
 				$data = array(
 					'sat_id'=>$sat_id,
 					'card_id'=>$card_id,
@@ -1358,12 +1357,20 @@ public function contactstupdate(Request $request) {
 				);
 				$res2	= DB::table('invest_pt')->insert($data);
 			}
-	else {
-		return redirect()->route('contacttable',[$pui_id]);
-	}
-	if ($res2) {
-		return redirect()->route('contacttable',[$pui_id]);
-		exit;
+if ($contact_id != Null ) {
+				$data_log = array(
+					'ref_pt_id'=>$sat_id,
+					'cur_pt_status'=>$pt_status_hidden,
+					'ch_pt_status'=>$pt_status,
+					'ch_date'=>date("Y-m-d h:i:s"),
+					'ref_user_id'=>$entry_user
+				);
+				$res3	= DB::table('log_ch_status')->insert($data_log);
+			}
+			if ($contact_id != Null) {
+				return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+			}else {
+		return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 	}
 }
 
@@ -1384,7 +1391,8 @@ public function allcontactstupdate(Request $request) {
 	$age = $request ->input ('age');
 	$nation = $request ->input ('nation');
   $date_change_st = $this->convertDateToMySQL($request ->input ('date_change_st'));
-	// $date_change_st =date('Y-m-d');
+	$date_change_st_f =date('Y-m-d');
+	dd($date_change_st_f);
 	$res1=DB::table('tbl_contact')
 			// ->where('pui_id',$pui_id)
 			->where('contact_id',$contact_id)
@@ -1410,12 +1418,26 @@ public function allcontactstupdate(Request $request) {
 					'cont'=>"y"
 				);
 				$res2	= DB::table('invest_pt')->insert($data);
+
+				$res2_con_tbl=DB::table('tbl_contact')
+						->where('id',$id)
+						->where('contact_id',$contact_id)
+						->update(
+								['pt_status' => $pt_status,
+								 'status_followup' => $status_followup,
+								 'date_change_st' => $date_change_st
+							 ]
+						);
+			}
+			if ($pt_status == "2") {
+				return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+				exit;
 			}
 	else {
-		return redirect()->route('allcontacttable');
+		return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 	}
 	if ($res2) {
-		return redirect()->route('allcontacttable');
+		return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 		exit;
 	}
 }
@@ -1815,70 +1837,23 @@ $res2	= DB::table('tbl_followup')
 						$res4	= DB::table('tbl_contact_hsc')->insert($data_lab3);
 				}
 				if ($no_lab1 =="") {
-				return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+					return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+				// return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 			 }
 			 	if ($no_lab2 =="") {
-			 	return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+					return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+			 	// return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 			}
 			if ($no_lab3 =="") {
-			return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+				return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+			// return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
 		}
-
- // $no_lab = $req->input('no_lab');
- // $pui_id = $req->input('pui_id');
- // $dms_pcr_contact = $req->input('dms_pcr_contact');
- // $dms_time_contact = $req->input('dms_time_contact');
- // $dms_date_contact =$req->input('dms_date_contact');
- // $dms_specimen_contact =$req->input('dms_specimen_contact');
- // $chkspec_other_contact =$req->input('chkspec_other_contact');
- // $other_pcr_result_contact =$req->input('other_pcr_result_contact');
- // $date_entry=date('Y-m-d') ;
- // $i = 0;
- // $count = count($req->input('no_lab'));
- // while($i < $count){
-	// 	 $data[] = array(
-	// 		 		'contact_rid'=>$id,
-	// 				'contact_id'=>$contact_id,
-	// 				'pui_id'=>$pui_id,
-	// 				'no_lab'=>$no_lab[$i],
-	// 			 'dms_pcr_contact'=>$dms_pcr_contact[$i],
-	// 			 'dms_time_contact'=>$dms_time_contact[$i],
-	// 			 'dms_date_contact'=>$dms_date_contact[$i],
-	// 			 'dms_specimen_contact'=>$dms_specimen_contact[$i],
-	// 			 'chkspec_other_contact'=>$chkspec_other_contact[$i],
-	// 			 'other_pcr_result_contact'=>$other_pcr_result_contact[$i],
-	// 			 'date_entry' => $date_entry
-	// 	 );
-	// 	 $i++;
- // }
- // dd($i);
- // $res4 = DB::table('tbl_contact_hsc')->insert($data);
- // dd($data);
-//  if ($res4){
-// 	 $res5	= DB::table('invest_pt')
-//   						->where('sat_id', $contact_id)
-//   						->where('card_id', $card_id)
-//   						->update([
-//   											'sat_id' => $contact_id ,
-// 												'title_name'=>$title_contact,
-// 												'first_name'=>$name_contact,
-// 												'mid_name'=>$mname_contact,
-// 												'last_name'=>$lname_contact,
-// 												'sex'=>$sex_contact,
-// 												'age'=>$age_contact,
-// 												'nation'=>$national_contact
-//   											]);
-// }
  else{
- return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+	 return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+ // return redirect()->route('contacttable',[$pui_id])->with('alert', 'เพิ่มข้อมูลสำเร็จ');
  }
 }
 }
-
-
-
-
-
 
 public function fetch(Request $request){
 $id=$request->get('select');
@@ -1987,14 +1962,6 @@ public function contact_type(){
 		 // dd($arr_laboratory);
 		return $arr_laboratory;
 	}
-
-	// public function ref_title_name(){
-	// 	$ref_title_name=DB::table('ref_title_name')
-	// 	->orderBy('id', 'ASC')
-	// 	->get();
-	// 	 // return view('AEFI.Apps.form1')->with('list',$list);
-	// 	 return $ref_title_name;
-	// }
 	protected function arrnation(){
 		$arrnation = DB::table('ref_global_country')->select('country_id','country_name')->get();
 		foreach ($arrnation as  $value) {
@@ -2081,14 +2048,6 @@ public function contact_type(){
 		// dd($province_arr);
 		return $arrfollowhosp;
 	}
-	// protected function arrtitlename(){
-	// 	$arrtitlename = DB::table('ref_title_name')->select('id','title_name')->get();
-	// 	foreach ($arrtitlename as  $value) {
-	// 		$arrtitlename[$value->id] =trim($arrtitlename->title_name);
-	// 	}
-	// 	// dd($province_arr);
-	// 	return $arrtitlename;
-	// }
 	protected function arrfollowup_address(){
 		$arrfollowup_address = DB::table('ref_specimen')->select('id','name_en')->get();
 		foreach ($arrfollowup_address as  $value) {
@@ -2170,22 +2129,6 @@ public function contact_type(){
 		}
 		// dd($province_arr);
 		return $arr_type_contact;
-
-		// $arr_type_contact = array(
-			// '40'=>'บุคลากรทางการแพทย์',
-			// '10'=>'ผู้สัมผัสร่วมบ้าน',
-			// '20'=>'ผู้ร่วมเดินทาง',
-			// '52'=>'พนักงานโรงแรม',
-			// '23'=>'คนขับแท๊กซี่/ยานพาหนะ',
-			// '31'=>'พนักงานสนามบิน',
-			// '32'=>'บุคคลร่วมที่ทำงาน',
-			// '33'=>'บุคคลร่วมโรงเรียน',
-			// '45'=>'ผู้ป่วยในโรงพยาบาล',
-			// '99'=>'อื่นๆ',
-			// ''=>''
-			// );
-		// dd($list_sym_cough);
-		// return $arr_type_contact;
 	}
 	protected function arr_status_followup(){
 		$arr_status_followup = array(
