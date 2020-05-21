@@ -5,6 +5,7 @@ $uid = Auth::user()->id;
 $sig = sha1($uid.$ts.$signature);
 
 $url_to_voravit = "http://viral.ddc.moph.go.th/viral/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig;
+$url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig=".$sig;
 ?>
 
 <!-- ============================================================== -->
@@ -19,6 +20,7 @@ $url_to_voravit = "http://viral.ddc.moph.go.th/viral/token.php?uid=".$uid."&ts="
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa far fa-list-alt"></i><span class="hide-menu">Form </span></a>
 					<ul aria-expanded="false" class="collapse  first-level">
 						<li class="sidebar-item"><a href="{{ $url_to_voravit }}" target="_blank" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> PUI Screen</span></a></li>
+						<li class="sidebar-item"><a href="{{ $url_to_ddc_ilab }}" target="_blank" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> DDC iLab</span></a></li>
 						@role('root|ddc|dpc')
 						<li class="sidebar-item"><a href="{{ route('list-data.sat') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> SAT</span></a></li>
 						@endrole
