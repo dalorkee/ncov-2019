@@ -1,7 +1,6 @@
 @extends('layouts.index')
 <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/bootstrap.css') }}" rel="stylesheet">
 <link type="text/css" href="{{ URL::asset('assets/contact/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-{{-- <link rel="stylesheet" href="../files/assets/pages/waves/css/waves.min.css" type="text/css" media="all"> --}}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 @section('contents')
@@ -33,27 +32,18 @@
             <br>
 						<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
 							<div style="position:absolute;top:10px;right:10px;z-index:1">
-								{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
-								<!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
 							</div>
             <div class="card-block">
             <h4 class="sub-title">ข้อมูลทั่วไปผู้ป่วย</h4>
             <form action="{{route('followupinsert')}}" method="post">
               			{{ csrf_field() }}
-
 						<div class="form-group row">
 						<div class="col-sm-3">
 						<input type="hidden" name="typid" value="{{$typid}}" class="form-control">
 						</div>
-						{{-- <div class="col-sm-3">
-						<input type="text" name="patianid" value="{{$pui_id}}" class="form-control">
-						</div> --}}
 						<div class="col-sm-3">
 						<input type="hidden" name="patianid" value="{{$id}}" class="form-control">
 						</div>
-						{{-- <div class="col-sm-3">
-						<input type="hidden" name="contact_id" value="{{$contact_id}}" class="form-control">
-						</div> --}}
 						<div class="form-group row">
 									<div class="col-sm-3">
 									<input type="hidden" name="user_id" value="{{$entry_user}}"  class="form-control" placeholder="รหัสผู้ป่วย" readonly>
@@ -74,8 +64,6 @@
 					</div>
 					<div class="bd-callout bd-callout-custom-2" style="margin-top:0;position:relative">
 						<div style="position:absolute;top:10px;right:10px;z-index:1">
-							{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
-							<!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
 						</div>
 						<h5 class="sub-title">อาการปัจจุบันของผู้ป่วย</h5>
 						<div class="form-group row">
@@ -96,8 +84,6 @@
 				</div>
 				<div class="bd-callout bd-callout-warning" style="margin-top:0;position:relative">
 					<div style="position:absolute;top:10px;right:10px;z-index:1">
-						{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
-						<!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-3">
@@ -111,7 +97,6 @@
 						<option value="5">อื่นๆ</option>
 						</select>
 						</div>
-
 				</div>
 				<div id="follow_address_other" class="form-group row">
 				<div class="col-sm-3">
@@ -123,7 +108,6 @@
 			<div class="col-sm-3">
 	<label for="province_follow_contact">จังหวัดที่ติดตามผู้ป่วย</label>
 			<select type="text" name="province_follow_contact" id="provincehos" class="form-control provincehos js-select-basic-single" placeholder="พื้นที่จังหวัดที่ติดตามผู้ป่วย">
-
 			<option value="">พื้นที่จังหวัดที่ติดตามผู้ป่วย</option>
 			@foreach ($listprovince as $row)
 			<option value="{{$row->province_id}}">{{$row->province_name}}</option>
@@ -166,28 +150,8 @@
             </div>
             </div>
 					</div>
-					{{-- <div class="bd-callout  bd-callout-danger" style="margin-top:0;position:relative">
-						<div style="position:absolute;top:10px;right:10px;z-index:1"> --}}
-							{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
-							<!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
-						{{-- </div>
-						<h6 class="sub-title">ผู้ป่วยมีอาการเข้าได้กับนิยามผู้ป่วยติดเชื้อโคโรนาสายพันธ์ใหม่ 2019 (PUI 2019-nCoV)</h6>
-						<div class="form-group row">
-						<div class="col-sm-3">
-							<div class="col-sm-6">
-							<input type="radio" name="sat_id_class"  value="Q" checked> ไม่ใช่
-							</div>
-							<div class="col-sm-6">
-							<input type="radio" name="sat_id_class"  value="A" > ใช่
-							</div>
-						</div>
-						</div>
-						<h6 class="sub-title">หมายเหตุ นิยาม: เป็นผู้ป่วยที่มี มีประวัติไข้ หรือ วัดอุณหภูมิได้ตั้งแต่ 37.5 องศาขึ้นไป <br>ร่วมกับ มีอาการระบบทางเดินหายใจอย่างใดอย่างหนึ่ง (ไอ น้ำมูก เจ็บคอ หายใจเร็ว หายใจเหนื่อย หรือ หายใจลำบาก)</h6>
-					</div> --}}
 					<div class="bd-callout bd-callout-info" style="margin-top:0;position:relative">
 						<div style="position:absolute;top:10px;right:10px;z-index:1">
-							{{-- <a type="button" href="http://ncov2019.local/sat/list" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back To Lists SAT</a> --}}
-							<!-- <a type="button" href="http://ncov2019.local/screen-pui" class="btn btn-info"><i class="fas fa-user-plus"></i> New patient</a> -->
 						</div>
 						<div class="form-group row">
 						<div class="col-sm-3">
@@ -201,68 +165,7 @@
 						</div>
 						</div>
 					</div>
-						{{-- <div class="form-group row">
-						<div class="col-sm-3">
-						<button type="button" id="close" class="btn btn-xs btn-danger">ไม่มีตัวอย่างและสิ่งส่งตรวจ</button>
-						</div>
-						<div class="col-sm-3">
-						<button type="button" id="open" class="btn btn-xs btn-success">มีตัวอย่างและสิ่งส่งตรวจ</button>
-						</div>
-						</div> --}}
-            {{-- <div class="form-group row">
-            <div class="col-sm-12">
-							<div class="table-responsive">
-              <table class="table" id="maintable">
-                  <thead>
-                    <tr>
-                      <th>สถานที่ส่งตรวจ PCR of Novel Coronavirus</th>
-											<th>ตัวอย่างสิ่งส่งตรวจ</th>
-											<th>สิ่งส่งตรวจอื่นๆ</th>
-                      <th>ผล PCR </th>
-                      <th>เพิ่ม / ลบ</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="data-contact-person">
-
-                      <td>
-                        <select class="form-control" name="pcr_contact[]">
-                          <option value="">- เลือก -</option>
-                          <option value="1">กรมวิทย์ฯ</option>
-                          <option value="2">สถาบันบำราศฯ</option>
-                          <option value="3">จุฬาลงกรณ์</option>
-                          <option value="4">PCR for Mers ที่อื่นๆ</option>
-                        </select>
-                      </td>
-                      <td>
-                        <select class="form-control" name="specimen_contact[]">
-                          <option value="">- เลือก -</option>
-													@foreach ($ref_specimen as $row)
-													<option value="{{$row->id}}">{{$row->name_en}}</option>
-													@endforeach
-                        </select>
-                      </td>
-											<td>
-												<input type="text" id="chkspec_other_contact" name="chkspec_other_contact[]"  class="form-control chkspec_other_contact01" onkeyup="autocomplet()">
-											</td>
-                      <td>
-                        <select class="form-control" name="other_pcr_result_contact[]">
-                          <option value="">- เลือก -</option>
-                        <option value="รอผล">รอผล</option>
-                        <option value="Negative">Negative</option>
-                        <option value="Positive">Positive</option>
-                      </select>
-											</td>
-                      <td>
-                          <button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd">Add More</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-							</div>
-            </div>
-            </div> --}}
-            <div class="col-sm-12">
+					<div class="col-sm-12">
               <button type="submit" class="btn btn-success">บันทึกข้อมูล</button>
             </div>
           </form>

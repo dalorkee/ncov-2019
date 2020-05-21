@@ -211,11 +211,12 @@ input.valid, textarea.valid{
 										<a class="btn btn-info btn-sm" data-toggle="tooltip" title="Info" data-placement="top" href="/ncov-2019/{{ 'detailcontact'}}/contact_id/{{ $value->contact_id }}">
 										Info
 								</a>
-								<a class="btn btn-danger btn-sm" href="/ncov-2019/{{'editcontact'}}/pui_id/{{ $value->pui_id }}/contact_rid/{{ $value->contact_rid }}">
-									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#"> --}}
+								<a class="btn btn-warning btn-sm" href="/ncov-2019/{{'editcontact'}}/id/{{ $value->contact_rid }}">
+								{{-- <a class="btn btn-danger btn-sm" href="/ncov-2019/{{'editcontact'}}/pui_id/{{ $value->pui_id }}/contact_rid/{{ $value->contact_rid }}"> --}}
+									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="ftop" href="#"> --}}
 										Edit
 								</a>
-								<a class="btn btn-danger btn-sm" href="/ncov-2019/{{'deletecontact'}}/id/{{ $value->id }}/pui_id/{{ $value->pui_id }}" onclick="return confirm('ต้องการลบข้อมูล ผู้สัมผัส{{ $value->contact_id }} ของผู้ป่วย {{ $value->sat_id }} ใช่หรือไม่?');">
+								<a class="btn btn-danger btn-sm" href="/ncov-2019/{{'deletecontact'}}/id/{{ $value->id }}" onclick="return confirm('ต้องการลบข้อมูล ผู้สัมผัส{{ $value->contact_id }} ของผู้ป่วย {{ $value->sat_id }} ใช่หรือไม่?');">
 									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#"> --}}
 										delete
 								</a>

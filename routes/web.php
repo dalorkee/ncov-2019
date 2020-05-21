@@ -58,18 +58,18 @@ Route::post('hospital/refer/store', 'InvestController@storeReferOut')->name('sto
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
 Route::get('/detailcontact/contact_id/{contact_id}', 'ContactController@detailcontact')->name('detailcontact');
 Route::get('/contacttable/id/{id}', 'ContactController@contacttable')->name('contacttable');
-Route::get('/deletecontact/id/{id}/pui_id/{pui_id}', 'ContactController@deletecontact')->name('deletecontact');
+Route::get('/deletecontact/id/{id}', 'ContactController@deletecontact')->name('deletecontact');
 Route::get('/followuptablespui/typid/{typid}/id/{id}', 'ContactController@followuptablespui')->name('followuptablespui');
 Route::get('/followuptablescon/typid/{typid}/id/{id}', 'ContactController@followuptablescon')->name('followuptablescon');
 
 Route::get('/puifollowtable', 'ContactController@puifollowtable')->name('puifollowtable');
 Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
-
-
+	Route::get('/contact/list', 'ListContactController@index')->name('list-data.contact');
+	Route::post('ch-status-con', 'ListContactController@chStatus')->name('ch-status-con');
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
 Route::get('/allcontacttable', 'ContactController@allcontacttable')->name('allcontacttable');
-Route::get('/editcontact/pui_id/{pui_id}/contact_rid/{contact_rid}', 'ContactController@editcontact')->name('editcontact');
-// Route::get('/editcontact/id/{id}', 'ContactController@editcontact')->name('editcontact');
+// Route::get('/editcontact/pui_id/{pui_id}/contact_rid/{contact_rid}', 'ContactController@editcontact')->name('editcontact');
+Route::get('/editcontact/id/{id}', 'ContactController@editcontact')->name('editcontact');
 Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetch');
 Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
 Route::post('/addcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');

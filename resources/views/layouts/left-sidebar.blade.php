@@ -27,9 +27,10 @@ $url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig="
 						@role('root|ddc|dpc|pho|hos')
 						<li class="sidebar-item"><a href="{{ route('list-data.invest') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> Invest</span></a></li>
 						{{-- <li class="sidebar-item"><a href="{{ route('list.state_quarantine') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> State Quarantine </span></a></li> --}}
+
 						@endrole
-						<li class="sidebar-item"><a href="{{ route('allcontacttable') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> Contact </span></a>
-						{{-- <li class="sidebar-item"><a href="{{ route('contactfollowtable') }}" class="sidebar-link"><i class="mdi mdi-cube-unfolded"></i><span class="hide-menu"> FollowUp </span></a> --}}
+						<li class="sidebar-item"><a href="{{ route('list-data.contact') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> Contact</span></a></li>
+						{{-- <li class="sidebar-item"><a href="{{ route('allcontacttable') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> Contact </span></a> --}}
 						</li>
 					</ul>
 				</li>
