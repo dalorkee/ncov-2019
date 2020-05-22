@@ -443,9 +443,9 @@ $contact_id = Haruncpi\LaravelIdGenerator\IdGenerator::generate($config);
                             <div class="col-sm-3">
                                 <label for="status_followup">สถานะการติดตาม</label>
                                 <select type="text" name="status_followup" class="form-control js-select-basic-single" placeholder="การค้นหาผู้สัมผัส">
-                                    <option value="">สถานะการติดตาม</option>
-                                    <option value="1">จบการติดตาม</option>
-                                    <option value="2">ยังต้องติดตาม</option>
+                                    <option value="">อยู่ระหว่างการติดตาม</option>
+                                    <option value="1">สิ้นสุดการติดตาม</option>
+                                    <option value="2">Confirmed Case</option>
                                 </select>
                             </div>
                         </div>

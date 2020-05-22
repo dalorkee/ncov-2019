@@ -50,7 +50,6 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                             <h4 class="sub-title">ข้อมูลทั่วไปผู้สัมผัส </h4>
                             <form action="{{route('contactedit')}}" method="post">
                                 {{ csrf_field() }}
-
                                 <div class="form-group row">
                                   <div class="col-sm-12 col-md-3">
                                       <input type="hidden" name="id" value="{{ $getdata_contact[0]->id }}" class="form-control" readonly>
@@ -78,37 +77,7 @@ $datefollow = (!empty($getdata_contact[0]->datefollow)) ? ContactController::Con
                                   </div>
                                   <div>
                                     <h5 class="card-title">ผู้สัมผัสของผู้ป่วยรหัส : {{$getdata_contact[0]->sat_id}}</h5>
-                                    {{-- <h4 class="card-title">และ รหัส:<br>
-                                    @foreach ($sat_id_relation as $row)
-                                    {{$row->sat_id}}<br>
-                                    @endforeach
-                                  </h4> --}}
                                   </div>
-                                {{-- <h5 class="sub-title">เพิ่มผู้ป่วยของผู้สัมผัส กรณีเป็นผู้สัมผัสของผู้ป่วยหลายราย</h5>
-                                <div class="form-group row">
-                                    <div class="col-sm-3">
-                                        <input type="radio" name="pa1" value="n" onclick="show21();" checked> ไม่มี
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input type="radio" name="pa1" value="y" onclick="show22();"> มี
-                                    </div>
-
-                                </div>
-                                <div id="div2" class="hide">
-                                <div class="form-group row">
-                                    <div class="col-sm-12 col-md-6">
-                                        <select multiple="multiple" size="10" name="sat_id_relation[]">
-                                          @foreach ($sat_id_confirm as $row)
-                                          <option value="{{$row->sat_id.'|'.$row->id}}">{{$row->sat_id}} [{{$row->first_name}} {{$row->last_name}}/{{$nation_list[$row->nation]}}]
-                                          </option>
-                                          @endforeach
-                                          <option value="{{$getdata_contact[0]->sat_id.'|'.$getdata_contact[0]->pui_id}}" selected>รหัสตั้งต้นผู้ป่วยหลัก {{$getdata_contact[0]->sat_id}}</option>
-                                        </select>
-                                        <br>
-                                    </div>
-                                </div>
-                              </div> --}}
-
                                 <div class="form-group row">
                                     <div class="col-sm-12 col-md-3">
                                         <input type="hidden" id="contact_id_temp" name="contact_id_temp" value="{{$getdata_contact[0]->contact_id}}" class="form-control" placeholder="รหัสผู้สัมผัส" readonly>

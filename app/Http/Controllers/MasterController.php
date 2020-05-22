@@ -70,6 +70,18 @@ class MasterController extends Controller
 			],
 			'visit_number' => [
 				'0' => 'Duplicate'
+			],
+			'status_followup' => [
+				1 => 'สิ้นสุดการติดตาม',
+				2 => 'เปลี่ยนสถานะเป็น Confirmed Case',
+				0 => '-',
+				"" => 'อยู่ระหว่างการติดตาม'
+			],
+			'risk_contact' => [
+				1 => 'เสี่ยงสูง',
+				2 => 'เสี่ยงต่ำ',
+				0 => '-',
+				"" => 'ไม่ระบุความเสี่ยง'
 			]
 
 		]);
