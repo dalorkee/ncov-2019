@@ -167,7 +167,7 @@ class ListInvestDataTable extends DataTable
 				return $vn_rs;
 			})
 			->addColumn('action',
-				 '<button class="context-nav btn btn-custom-1 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-angle-down"></i></button>')
+				'<button class="context-nav btn btn-custom-1 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-angle-down"></i></button>')
 			->rawColumns(['pt_status', 'disch_st', 'visit_number', 'action']);
 	}
 

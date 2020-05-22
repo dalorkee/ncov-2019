@@ -128,6 +128,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::post('invest/store', 'InvestController@store')->name('invest.store');
 	Route::get('invest/download/invest/{id}', 'InvestController@downloadInvestFile')->name('invest.downloadInvestFile');
 	Route::get('invest/download/xray/{id}', 'InvestController@downloadXrayFile')->name('invest.downloadXrayFile');
+	Route::get('/colab/send/{id}', 'ListInvestController@colabSend')->name('colab.send');
 
 	/* map */
 	Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');
@@ -175,6 +176,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/testConn', function() {
 		return view('test.pj2');
 	});
+
 });
 
 /* By Pass Login */

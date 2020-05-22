@@ -2,6 +2,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use App\DataTables\ListInvestDataTable;
 use App\InvestList;
 use App\Hospitals;
@@ -9,8 +12,9 @@ use App\Provinces;
 use App\Http\Controllers\MasterController;
 use App\Exports\InvestExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Session;
+use Session, Helper, DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class ListInvestController extends Controller
 {
@@ -44,11 +48,17 @@ class ListInvestController extends Controller
 					$pt = InvestList::where('id', '=', $request->pid)->delete();
 					break;
 				default :
-					$pt = InvestList::where('id', '=', $request->pid)
-						->where('entry_user', '=', $user->id)
-						->where('pt_status', '!=', 2)
-						->whereRaw("(DATE(created_at) = '".$exp_today[0]."')")
-						->delete();
+					$created_at = InvestList::select('created_at')->where('id', '=', $request->pid)->get();
+					if (count($created_at) > 0) {
+						$exp_created_at = explode(" ", $created_at[0]->created_at);
+						$pt = InvestList::where('id', '=', $request->pid)
+							->where('entry_user', '=', $user->id)
+							->where('pt_status', '!=', 2)
+							->whereRaw("('".$exp_created_at[0]."' = '".$exp_today[0]."')")
+							->delete();
+					} else {
+						$pt = 0;
+					}
 					break;
 			}
 			if ($pt == 1) {
@@ -59,7 +69,6 @@ class ListInvestController extends Controller
 		} else {
 			return redirect()->back()->with('error', 'ท่านไม่มีสิทธิ์ลบข้อมูล !!');
 		}
-
 	}
 
 	public function chStatus(Request $request) {
@@ -302,4 +311,54 @@ class ListInvestController extends Controller
 			});
 		</script>";
 	}
+
+	public function colabSend(Request $request) {
+		try {
+			$data = InvestList::select('id', 'sat_id', 'card_id', 'passport', 'hn', 'mobile', 'pt_status')->where('id', '=', $request->id)->get();
+			$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
+			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
+				'PatientType' => 'inv',
+				'DDCPatientId' => $data[0]->id,
+				'UserName'=> auth()->user()->username,
+				'UserGroup' => auth()->user()->usergroup,
+				'FirstName' => auth()->user()->name,
+				'LastName' => auth()->user()->lname,
+				'Email' => auth()->user()->email,
+				'UserMobile' => auth()->user()->tel,
+				'ScreenType' => 'detail',
+				'PatientHN' =>  $data[0]->hn,
+				'PatientSatCode' => $data[0]->sat_id,
+				'PatientCID' => $data[0]->card_id,
+				'PatientPassport' => $data[0]->passport,
+				'PatientMobile' => $data[0]->mobile
+			]);
+
+			/* log to sent */
+			if (count($data) > 0) {
+				$dt = Carbon::now();
+				$today = $dt->subDay();
+				DB::table('log_colab')->insert([
+					'ref_pt_id' => $request->id,
+					'sat_id' => $data[0]->sat_id,
+					'send_method' => 'GET',
+					'send_url' => $send_url,
+					'send_date' => $dt,
+					'ref_user_id' => Auth::user()->id,
+					'created_at' => $today
+				]);
+
+				/* update invest pt after sent */
+				$inv = InvestList::find($request->id);
+				$inv->colab_send = 'Y';
+				$inv->save();
+
+			} else {
+				$send_url = 0;
+			}
+			return redirect($send_url);
+		} catch(\Exception $e) {
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
+		}
+	}
+
 }

@@ -170,7 +170,7 @@ class ExportController extends MasterController
 
 			switch ($user_role) {
 				case 'root':
-					$total = Invest2::whereIn('pt_status', [2])
+					$total = Invest2::whereIn('pt_status', $pt_status)
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->count();
 					break;

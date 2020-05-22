@@ -143,9 +143,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	<script>
 	$(document).ready(function() {
 		$.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			}
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 		});
 		/* context nav */
 		$.contextMenu({
@@ -189,10 +187,16 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						break;
 					case 'labGen':
 						window.open('<?php echo $url_gen_lab; ?>&idx=' + satid, '_blank');
+						/*
+						let labUrl = '{ route('colab.send', ':id') }';
+						labUrl = labUrl.replace(':id', id);
+						window.open(labUrl, '_blank');
+						*/
 						break;
 					case 'labResult':
 						window.open('<?php echo $url_lab_result; ?>&idx=' + satid, '_blank');
 						break;
+
 					case 'contact':
 						let cturl = '{{ route("contacttable", ":id") }}';
 						cturl = cturl.replace(':id', id);
@@ -216,13 +220,14 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				"chStatus": {name: "Change status", icon: "fas fa-check-circle"},
 				"refer": {name: "Refer Out", icon: "fas fa-ambulance"},
 				"sep1": "---------",
-				"labGen": {name: "Generate lab", icon: "fas fa-barcode"},
-				"labResult": {name: "Lab result", icon: "fas fa-flask"},
-				"contact": {name: "Contact", icon: "fas fa-handshake"},
+				"labGen": {name: "Lab Send", icon: "fas fa-arrow-right"},
+				"labResult": {name: "Lab result", icon: "fas fa-arrow-left"},
 				"sep2": "---------",
+				"contact": {name: "Contact", icon: "fas fa-handshake"},
+				"sep3": "---------",
 				"edit": {name: "Edit (Invest Form:2)", icon: "fas fa-edit"},
 				"delete": {name: "Delete", icon: "fas fa-trash-alt"},
-				"sep3": "---------",
+				"sep4": "---------",
 				"quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
 			}
 		});

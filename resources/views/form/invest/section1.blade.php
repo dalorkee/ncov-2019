@@ -92,7 +92,7 @@
 						<div class="form-group">
 							<label for="nationality">สัญชาติ</label>
 							<select name="nationalityInput" class="form-control selectpicker show-tick" id="select_nationality">
-								@if (!empty(old('nationalityInput')) || !empty($invest_pt[0]['nation']))
+								@if (!empty(old('nationalityInput')) || !empty($invest_pt[0]['nation']) || !is_null($invest_pt[0]['nation']))
 									<option value="{{ old('nationalityInput') ?? $invest_pt[0]['nation'] }}" selected="selected">{{ $globalCountry[old('nationalityInput')]['country_name'] ?? $globalCountry[$invest_pt[0]['nation']]['country_name'] }}</option>
 								@endif
 								<option value="">-- โปรดเลือก --</option>
@@ -108,7 +108,7 @@
 						<div class="form-group">
 							<label for="occupation">อาชีพ</label>
 							<select name="occupationInput" class="form-control selectpicker show-tick" id="select_occupation">
-								@if (!empty(old('occupationInput')) || !empty($invest_pt[0]['occupation']))
+								@if (!empty(old('occupationInput')) || !empty($invest_pt[0]['occupation']) || !is_null($invest_pt[0]['occupation']))
 									<option value="{{ old('occupationInput') ?? $invest_pt[0]['occupation'] }}" selected="selected">{{ $occupation[old('occupationInput')]['occu_name_th'] ?? $occupation[$invest_pt[0]['occupation']]['occu_name_th'] }}</option>
 								@endif
 								<option value="">-- โปรดเลือก --</option>
@@ -206,7 +206,7 @@
 						<div class="form-group">
 							<label for="provinceSickDate" class="text-primary">จังหวัด</label>
 							<select name="sickProvinceInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-primary" id="select_sick_province">
-								@if (!empty(old('sickProvinceInput')) || !empty($invest_pt[0]['sick_province']))
+								@if (!empty(old('sickProvinceInput')) || !empty($invest_pt[0]['sick_province']) || !is_null($invest_pt[0]['sick_province']))
 									<option value="{{ old('sickProvinceInput') ?? $invest_pt[0]['sick_province'] }}" selected="selected">{{ $provinces[old('sickProvinceInput')]['province_name'] ?? $provinces[$invest_pt[0]['sick_province']]['province_name'] }}</option>
 								@endif
 								<option value="">-- เลือกจังหวัด --</option>
@@ -220,7 +220,7 @@
 						<div class="form-group">
 							<label for="district" class="text-primary">อำเภอ</label>
 							<select name="sickDistrictInput" class="form-control selectpicker show-tick" data-style="btn-outline-primary" id="select_sick_district">
-								@if (!empty($invest_pt[0]['sick_district']))
+								@if (!empty($invest_pt[0]['sick_district']) || !is_null($invest_pt[0]['sick_district']))
 									<option value="{{ $sick_district[0]['district_id'] }}" selected="selected">{{ $sick_district[0]['district_name'] }}</option>
 								@endif
 								<option value="">-- โปรดเลือก --</option>
@@ -231,7 +231,7 @@
 						<div class="form-group">
 							<label for="subDistrict" class="text-primary">ตำบล</label>
 							<select name="sickSubDistrictInput" class="form-control selectpicker show-tick" data-style="btn-outline-primary" id="select_sick_sub_district">
-								@if (!empty($invest_pt[0]['sick_sub_district']))
+								@if (!empty($invest_pt[0]['sick_sub_district']) || !is_null($invest_pt[0]['sick_sub_district']))
 									<option value="{{ $sick_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $sick_sub_district[0]['sub_district_name'] }}</option>
 								@endif
 								<option value="">-- โปรดเลือก --</option>

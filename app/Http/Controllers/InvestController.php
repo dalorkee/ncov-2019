@@ -126,7 +126,6 @@ class InvestController extends MasterController
 			$invest_pt = Invest::where('id', '=', $request->id)->get()->toArray();
 
 			/* map the to patient data */
-
 			if (!is_null($invest_pt[0]['risk_stay_outbreak_city'])) {
 				$risk_stay_outbreak_city = GlobalCity::where('city_id', '=', $invest_pt[0]['risk_stay_outbreak_city'])->get()->toArray();
 			} else {

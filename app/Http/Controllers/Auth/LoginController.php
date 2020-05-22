@@ -31,7 +31,7 @@ class LoginController extends Controller {
 	public function login(Request $request) {
 		try {
 			$user = User::where('username', $request->username)->where('password', md5($request->password))->first();
-			if ($user == null) {
+			if (is_null($user)) {
 				$message = "ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน";
 				flash()->overlay($message, 'Message From System');
 				//return redirect('/login')->with('message','ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน');
