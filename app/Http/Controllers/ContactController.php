@@ -1307,9 +1307,7 @@ public function contactstupdate(Request $request) {
 	$walkin_district = $request  ->input ('walkin_district');
 	$walkin_subdistrict = $request  ->input ('walkin_subdistrict');
 	$walkin_hospital =  $request ->input ('walkin_hospital');
-	// dd($walkin_subdistrict);
 	$pui_id = $request ->input ('pui_id');
-	$contact_id = $request ->input ('contact_id');
 	$status_followup = $request ->input ('status_followup');
   $pt_status = $request ->input ('pt_status');
 	$sat_id  = $request ->input ('sat_id');
@@ -1324,55 +1322,64 @@ public function contactstupdate(Request $request) {
 	$entry_user = Auth::user()->id;
 	$pt_status_hidden = $request ->input ('pt_status_hidden');
   $date_change_st = $this->convertDatefollowToMySQL($request ->input ('date_change_st'));
-	if ($contact_id != Null ) {
-		$res1=DB::table('tbl_contact')
-				->where('id',$id)
-				->update(
-						[
-							'contact_id' => $sat_id,
-							'pt_status' => $pt_status,
-							'status_followup' => $status_followup,
-							'date_change_st' => $date_change_st
-					 ]
-				);
-	}
-	if ($pt_status == "2") {
-				$data = array(
-					'sat_id'=>$sat_id,
-					'card_id'=>$card_id,
-					'title_name'=>$title_name,
-					'first_name'=>$first_name,
-					'mid_name'=>$mid_name,
-					'last_name'=>$last_name,
-					'sex'=>$sex,
-					'age'=>$age,
-					'nation'=>$nation,
-					'treat_first_province'=>$walkin_province,
-					'treat_first_district'=>$walkin_district,
-					'treat_first_sub_district'=>$walkin_subdistrict,
-					'treat_first_hospital'=>$walkin_hospital,
-					'pt_status'=>"2",
-					'created_at'=>date("Y-m-d h:i:s"),
-					'cont'=>"y"
-				);
-				$res2	= DB::table('invest_pt')->insert($data);
+	// dd($walkin_subdistrict);
+	$contact_id = $request ->input ('contact_id');
+	// dd($contact_id);
+				$sat_id_check= DB::table('invest_pt')
+								 ->select('sat_id')
+								 ->where('sat_id', $contact_id)
+								 ->get();
+				 // dd(count($sat_id_check));
+				if ($pt_status == "2" &&  count($sat_id_check) <= 0) {
+					$data_invest = array(
+						'sat_id'=>$sat_id,
+						'card_id'=>$card_id,
+						'title_name'=>$title_name,
+						'first_name'=>$first_name,
+						'mid_name'=>$mid_name,
+						'last_name'=>$last_name,
+						'sex'=>$sex,
+						'age'=>$age,
+						'nation'=>$nation,
+						'treat_first_province'=>$walkin_province,
+						'treat_first_district'=>$walkin_district,
+						'treat_first_sub_district'=>$walkin_subdistrict,
+						'treat_first_hospital'=>$walkin_hospital,
+						'pt_status'=>"2",
+						'created_at'=>date("Y-m-d h:i:s"),
+						'cont'=>"y"
+					);
+						$res2	= DB::table('invest_pt')->insert($data_invest);
+						// dd($data_invest);
+				} ;
+				if (!is_null($contact_id)) {
+					$res1=DB::table('tbl_contact')
+							->where('id',$id)
+							->update(
+									[
+										'contact_id' => $sat_id,
+										'pt_status' => $pt_status,
+										'status_followup' => $status_followup,
+										'date_change_st' => $date_change_st
+								 ]
+							);
+				}
+			if (!is_null($contact_id)) {
+							$data_log = array(
+								'ref_pt_id'=>$sat_id,
+								'cur_pt_status'=>$pt_status_hidden,
+								'ch_pt_status'=>$pt_status,
+								'ch_date'=>date("Y-m-d h:i:s"),
+								'ref_user_id'=>$entry_user
+							);
+							$res3	= DB::table('log_ch_status')->insert($data_log);
+						}
+						if (!is_null($contact_id)) {
+							return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+						}else {
+					return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
+				}
 			}
-if ($contact_id != Null ) {
-				$data_log = array(
-					'ref_pt_id'=>$sat_id,
-					'cur_pt_status'=>$pt_status_hidden,
-					'ch_pt_status'=>$pt_status,
-					'ch_date'=>date("Y-m-d h:i:s"),
-					'ref_user_id'=>$entry_user
-				);
-				$res3	= DB::table('log_ch_status')->insert($data_log);
-			}
-			if ($contact_id != Null) {
-				return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
-			}else {
-		return redirect()->route('list-data.contact')->with('alert', 'เพิ่มข้อมูลสำเร็จ');
-	}
-}
 
 public function allcontactstupdate(Request $request) {
 	$id = $request ->input ('id');
