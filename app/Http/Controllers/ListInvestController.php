@@ -40,9 +40,8 @@ class ListInvestController extends Controller
 		$user = auth()->user();
 		if ($user->hasPermissionTo('pui-delete')) {
 			$user_role = Session::get('user_role');
-			$dt = Carbon::now();
-			$today = $dt->subDay();
-			$exp_today = explode(" ", $today);
+			$dt = Carbon::today();
+			$last_3_days = $dt->sub('3 days')->toDateString();
 			switch ($user_role) {
 				case 'root' :
 					$pt = InvestList::where('id', '=', $request->pid)->delete();
@@ -54,7 +53,7 @@ class ListInvestController extends Controller
 						$pt = InvestList::where('id', '=', $request->pid)
 							->where('entry_user', '=', $user->id)
 							->where('pt_status', '!=', 2)
-							->whereRaw("('".$exp_created_at[0]."' = '".$exp_today[0]."')")
+							->whereRaw("('".$exp_created_at[0]."' >= '".$last_3_days."')")
 							->delete();
 					} else {
 						$pt = 0;
@@ -315,28 +314,38 @@ class ListInvestController extends Controller
 	public function colabSend(Request $request) {
 		try {
 			$data = InvestList::select('id', 'sat_id', 'card_id', 'passport', 'hn', 'mobile', 'pt_status')->where('id', '=', $request->id)->get();
+			$userGroup = auth()->user()->usergroup ?? '-';
+			$firstname = auth()->user()->name ?? '-';
+			$lastname = auth()->user()->lname ?? '-';
+			$email = auth()->user()->email ?? '-';
+			$userMobile = auth()->user()->tel ?? '-';
+			$patientHN =  $data[0]->hn ?? '-';
+			$patientSatCode = $data[0]->sat_id ?? '-';
+			$patientCID = $data[0]->card_id ?? '-';
+			$patientPassport = $data[0]->passport ?? '-';
+			$patientMobile = $data[0]->mobile ?? '-';
 			$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
 			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
-				'PatientType' => 'inv',
+				'PatientType' => '1',
 				'DDCPatientId' => $data[0]->id,
 				'UserName'=> auth()->user()->username,
-				'UserGroup' => auth()->user()->usergroup,
-				'FirstName' => auth()->user()->name,
-				'LastName' => auth()->user()->lname,
-				'Email' => auth()->user()->email,
-				'UserMobile' => auth()->user()->tel,
+				'UserGroup' => $userGroup,
+				'FirstName' => $firstname,
+				'LastName' => $lastname,
+				'Email' => $email,
+				'UserMobile' => $userMobile,
 				'ScreenType' => 'detail',
-				'PatientHN' =>  $data[0]->hn,
-				'PatientSatCode' => $data[0]->sat_id,
-				'PatientCID' => $data[0]->card_id,
-				'PatientPassport' => $data[0]->passport,
-				'PatientMobile' => $data[0]->mobile
+				'PatientHN' =>  $patientHN,
+				'PatientSatCode' => $patientSatCode,
+				'PatientCID' => $patientCID,
+				'PatientPassport' => $patientPassport,
+				'PatientMobile' => $patientMobile
 			]);
 
 			/* log to sent */
 			if (count($data) > 0) {
-				$dt = Carbon::now();
-				$today = $dt->subDay();
+				$dt = Carbon::today();
+				$today = $dt->toDateTimeString();
 				DB::table('log_colab')->insert([
 					'ref_pt_id' => $request->id,
 					'sat_id' => $data[0]->sat_id,
@@ -359,6 +368,49 @@ class ListInvestController extends Controller
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
+	}
+
+	public function colabResult(Request $request) {
+		try {
+			$data = InvestList::select('id', 'sat_id', 'card_id', 'passport', 'hn', 'mobile', 'pt_status')->where('id', '=', $request->id)->get();
+			$userGroup = auth()->user()->usergroup ?? '-';
+			$firstname = auth()->user()->name ?? '-';
+			$lastname = auth()->user()->lname ?? '-';
+			$email = auth()->user()->email ?? '-';
+			$userMobile = auth()->user()->tel ?? '-';
+			$patientHN =  $data[0]->hn ?? '-';
+			$patientSatCode = $data[0]->sat_id ?? '-';
+			$patientCID = $data[0]->card_id ?? '-';
+			$patientPassport = $data[0]->passport ?? '-';
+			$patientMobile = $data[0]->mobile ?? '-';
+			$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
+			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
+				'PatientType' => '1',
+				'DDCPatientId' => $data[0]->id,
+				'UserName'=> auth()->user()->username,
+				'UserGroup' => $userGroup,
+				'FirstName' => $firstname,
+				'LastName' => $lastname,
+				'Email' => $email,
+				'UserMobile' => $userMobile,
+				'ScreenType' => 'query',
+				'PatientHN' =>  $patientHN,
+				'PatientSatCode' => $patientSatCode,
+				'PatientCID' => $patientCID,
+				'PatientPassport' => $patientPassport,
+				'PatientMobile' => $patientMobile
+			]);
+			return redirect($send_url);
+		} catch(\Exception $e) {
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
+		}
+	}
+
+	private function addHyphen($str) {
+		if (empty($str) || is_null($str) || (strlen($str) <= 0) || $str == "") {
+			$str = "-";
+		}
+		return $str;
 	}
 
 }

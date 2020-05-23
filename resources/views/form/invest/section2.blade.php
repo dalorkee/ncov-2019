@@ -27,7 +27,7 @@
 						@if (!empty(old('sick_province_first')) || !empty($invest_pt[0]['sick_province_first']) || !is_null($invest_pt[0]['sick_province_first']))
 							<option value="{{ old('sick_province_first') ?? $invest_pt[0]['sick_province_first'] }}" selected="selected">{{ $provinces[old('sick_province_first')]['province_name'] ?? $provinces[$invest_pt[0]['sick_province_first']]['province_name'] }}</option>
 						@endif
-						<option value="">-- เลือกจังหวัด --</option>
+						<option value="0">-- เลือกจังหวัด --</option>
 						@foreach($provinces as $key => $val)
 							<option value="{{ $val['province_id'] }}" @if ($invest_pt[0]['sick_province_first'] == $val['province_id']) selected @endif>{{ $val['province_name'] }}</option>
 						@endforeach
@@ -41,7 +41,7 @@
 						@if (!empty($invest_pt[0]['sick_district_first']) || !is_null($invest_pt[0]['sick_district_first']))
 							<option value="{{ $sick_district_first[0]['district_id'] }}" selected="selected">{{ $sick_district_first[0]['district_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 					</select>
 				</div>
 			</div>
@@ -52,7 +52,7 @@
 						@if (!empty($invest_pt[0]['sick_sub_district_first']) || !is_null($invest_pt[0]['sick_sub_district_first']))
 							<option value="{{ $sick_sub_district_first[0]['sub_district_id'] }}" selected="selected">{{ $sick_sub_district_first[0]['sub_district_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 					</select>
 				</div>
 			</div>
@@ -83,7 +83,7 @@
 						@if (!empty(old('treatFirstProvinceInput')) || !empty($invest_pt[0]['treat_first_province']) || !is_null($invest_pt[0]['treat_first_province']))
 							<option value="{{ old('treatFirstProvinceInput') ?? $invest_pt[0]['treat_first_province'] }}" selected="selected">{{ $provinces[old('treatFirstProvinceInput')]['province_name'] ?? $provinces[$invest_pt[0]['treat_first_province']]['province_name'] }}</option>
 						@endif
-						<option value="">-- เลือกจังหวัด --</option>
+						<option value="0">-- เลือกจังหวัด --</option>
 							@foreach($provinces as $key=>$val)
 								<option value="{{ $val['province_id'] }}" @if ($invest_pt[0]['treat_first_province'] == $val['province_id']) selected @endif>{{ $val['province_name'] }}</option>
 							@endforeach
@@ -97,7 +97,7 @@
 						@if (!empty($invest_pt[0]['treat_first_district']) || !is_null($invest_pt[0]['treat_first_district']))
 							<option value="{{ $treat_first_district[0]['district_id'] }}" selected="selected">{{ $treat_first_district[0]['district_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 					</select>
 				</div>
 			</div>
@@ -108,18 +108,18 @@
 						@if (!empty($invest_pt[0]['treat_first_sub_district']) || !is_null($invest_pt[0]['treat_first_sub_district']))
 							<option value="{{ $treat_first_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $treat_first_sub_district[0]['sub_district_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 					</select>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
-					<label for="firstHosp" class="text-cyan">สถานพยาบาลที่รักษาครั้งแรก</label>
+					<label for="treatFirstHosp" class="text-cyan">สถานพยาบาลที่รักษาครั้งแรก</label>
 					<select name="treat_first_hospital" class="form-control selectpicker show-tick text-info" data-live-search="true" data-style="btn btn-outline-cyan" id="treatFirstHospital">
 						@if (!empty($invest_pt[0]['treat_first_hospital']) || !is_null($invest_pt[0]['treat_first_hospital']))
 							<option value="{{ $invest_pt[0]['treat_first_hospital'] }}" selected="selected">{{ $treat_first_hospital[0]['hosp_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 					</select>
 				</div>
 			</div>
@@ -137,7 +137,7 @@
 						@if (!empty(old('treatPlaceProvinceInput')) || !empty($invest_pt[0]['treat_place_province']) || !is_null($invest_pt[0]['treat_place_province']))
 							<option value="{{ old('treatPlaceProvinceInput') ?? $invest_pt[0]['treat_place_province'] }}" selected="selected">{{ $provinces[old('treatPlaceProvinceInput')]['province_name'] ?? $provinces[$invest_pt[0]['treat_place_province']]['province_name'] }}</option>
 						@endif
-						<option value="">-- เลือกจังหวัด --</option>
+						<option value="0">-- เลือกจังหวัด --</option>
 						@php
 							foreach($provinces as $key=>$val) {
 								$htm = "<option value=\"".$val['province_id']."\"";
@@ -158,7 +158,7 @@
 						@if (!empty($invest_pt[0]['treat_place_district']) || !is_null($invest_pt[0]['treat_place_district']))
 							<option value="{{ $treat_place_district[0]['district_id'] }}" selected="selected">{{ $treat_place_district[0]['district_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 					</select>
 				</div>
 			</div>
@@ -169,7 +169,7 @@
 						@if (!empty($invest_pt[0]['treat_place_sub_district']) || !is_null($invest_pt[0]['treat_place_sub_district']))
 							<option value="{{ $treat_place_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $treat_place_sub_district[0]['sub_district_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 					</select>
 				</div>
 			</div>
@@ -180,7 +180,7 @@
 						@if (!empty($invest_pt[0]['treat_place_hospital']) || !is_null($invest_pt[0]['treat_place_hospital']))
 							<option value="{{ $invest_pt[0]['treat_place_hospital'] }}" selected="selected">{{ $treat_place_hospital[0]['hosp_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 					</select>
 				</div>
 			</div>
@@ -216,7 +216,7 @@
 										@if (!empty(old('patient_treat_status_refer_province')) || !empty($invest_pt[0]['patient_treat_status_refer_province']) || !is_null($invest_pt[0]['patient_treat_status_refer_province']))
 											<option value="{{ old('patient_treat_status_refer_province') ?? $invest_pt[0]['patient_treat_status_refer_province'] }}" selected="selected">{{ $provinces[old('patient_treat_status_refer_province')]['province_name'] ?? $provinces[$invest_pt[0]['patient_treat_status_refer_province']]['province_name'] }}</option>
 										@endif
-										<option value="">-- เลือกจังหวัด --</option>
+										<option value="0">-- เลือกจังหวัด --</option>
 										@php
 											foreach($provinces as $key=>$val) {
 												$htm = "<option value=\"".$val['province_id']."\"";
@@ -237,7 +237,7 @@
 										@if (!empty($invest_pt[0]['patient_treat_status_refer_district']) || !is_null($invest_pt[0]['patient_treat_status_refer_district']))
 											<option value="{{ $refer_district[0]['district_id'] }}" selected="selected">{{ $refer_district[0]['district_name'] }}</option>
 										@endif
-										<option value="">-- โปรดเลือก --</option>
+										<option value="0">-- โปรดเลือก --</option>
 									</select>
 								</div>
 							</div>
@@ -248,7 +248,7 @@
 										@if (!empty($invest_pt[0]['patient_treat_status_refer_sub_district']) || !is_null($invest_pt[0]['patient_treat_status_refer_sub_district']))
 											<option value="{{ $refer_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $refer_sub_district[0]['sub_district_name'] }}</option>
 										@endif
-										<option value="">-- โปรดเลือก --</option>
+										<option value="0">-- โปรดเลือก --</option>
 									</select>
 								</div>
 							</div>
@@ -259,7 +259,7 @@
 										@if (!empty($invest_pt[0]['patient_treat_status_refer']) || !is_null($invest_pt[0]['patient_treat_status_refer']))
 											<option value="{{ $invest_pt[0]['patient_treat_status_refer'] }}" selected="selected">{{ $patient_treat_status_refer[0]['hosp_name'] }}</option>
 										@endif
-										<option value="">-- โปรดเลือก --</option>
+										<option value="0">-- โปรดเลือก --</option>
 									</select>
 								</div>
 							</div>

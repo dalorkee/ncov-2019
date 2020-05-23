@@ -19,6 +19,9 @@
 #list-data-table {
 	width: 100% !important;
 }
+.link-colab {
+	color: #FF1543;
+}
 /* table.dataTable td.sorting_1 { background-color: #eee; border:1px lightgrey; } */
 /* table.dataTable td { background-color: red;  border:1px lightgrey;} */
 table.dataTable tr.odd { background-color: #F6F6F6;  border:1px lightgrey;}
@@ -109,7 +112,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						<h4 class="modal-title">ยืนยันการลบข้อมูล?</h4>
 					</div>
 					<div class="modal-body">
-						<p class="alert alert-warning font-16">เงื่อนไข: สถานะไม่เท่ากับ Confirmed และวันที่ลงข้อมูลเท่ากับวันที่ปัจจุบัน และเป็นผู้กรอกข้อมูล</p>
+						<p class="alert alert-warning font-16">เงื่อนไข: สถานะไม่เท่ากับ Confirmed และวันที่ลงข้อมูลไม่เกิน 3 วัน และเป็นผู้กรอกข้อมูล</p>
 						<p class="text-danger font-18">คุณต้องการลบข้อมูลออกจากระบบฯ ใช่หรือไม่ ?</p>
 					</div>
 					<div class="modal-footer">
@@ -185,18 +188,20 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 							}
 						});
 						break;
-					case 'labGen':
-						window.open('<?php echo $url_gen_lab; ?>&idx=' + satid, '_blank');
-						/*
-						let labUrl = '{ route('colab.send', ':id') }';
-						labUrl = labUrl.replace(':id', id);
-						window.open(labUrl, '_blank');
-						*/
+					case 'labSendColab':
+						//window.open('<php echo $url_gen_lab;>&idx=' + satid, '_blank');
+						let labSendUrl = '{{ route('colab.send', ':id') }}';
+						labSendUrl = labSendUrl.replace(':id', id);
+						window.open(labSendUrl, '_blank');
+						break;
+					case 'labResultColab':
+						let labResultUrl = '{{ route('colab.result', ':id') }}';
+						labResultUrl = labResultUrl.replace(':id', id);
+						window.open(labResultUrl, '_blank');
 						break;
 					case 'labResult':
 						window.open('<?php echo $url_lab_result; ?>&idx=' + satid, '_blank');
 						break;
-
 					case 'contact':
 						let cturl = '{{ route("contacttable", ":id") }}';
 						cturl = cturl.replace(':id', id);
@@ -217,18 +222,19 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				}
 			},
 			items: {
-				"chStatus": {name: "Change status", icon: "fas fa-check-circle"},
-				"refer": {name: "Refer Out", icon: "fas fa-ambulance"},
+				"chStatus": {name: "เปลี่ยนสถานะ", icon: "fas fa-check-circle"},
+				"refer": {name: "ส่งต่อผู้ป่วย", icon: "fas fa-ambulance"},
 				"sep1": "---------",
-				"labGen": {name: "Lab Send", icon: "fas fa-arrow-right"},
-				"labResult": {name: "Lab result", icon: "fas fa-arrow-left"},
+				"labSendColab": {name: "ส่งแลป::CO-LAB", icon: "fas fa-external-link-alt", className: 'link-colab'},
+				"labResultColab": {name: "ดูผลแลป::CO-LAB", icon: "fas fa-external-link-alt", className: 'link-colab'},
+				"labResult": {name: "ดูผลแลป::DDC", icon: "fas fa-flask"},
 				"sep2": "---------",
-				"contact": {name: "Contact", icon: "fas fa-handshake"},
+				"contact": {name: "ผู้สัมผัส", icon: "fas fa-handshake"},
 				"sep3": "---------",
-				"edit": {name: "Edit (Invest Form:2)", icon: "fas fa-edit"},
-				"delete": {name: "Delete", icon: "fas fa-trash-alt"},
+				"edit": {name: "แก้ไขข้อมูล (Invest Form:2)", icon: "fas fa-edit"},
+				"delete": {name: "ลบข้อมูล", icon: "fas fa-trash-alt"},
 				"sep4": "---------",
-				"quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+				"quit": {name: "ปิด", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
 			}
 		});
 	});

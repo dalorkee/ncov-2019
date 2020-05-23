@@ -136,7 +136,7 @@ $(document).ready(function() {
 
 	/* sick district */
 	$('#select_sick_province').change(function() {
-		if ($(this).val() != '') {
+		if ($(this).val() != "0") {
 			var id = $(this).val();
 			$.ajax({
 				method: "POST",
@@ -144,19 +144,22 @@ $(document).ready(function() {
 				dataType: "HTML",
 				data: {id:id},
 				success: function(response) {
-					$('#select_sick_district').html(response);
-					$('#select_sick_district').selectpicker("refresh");
+					$('#select_sick_district').html(response).selectpicker("refresh");
+					$('#select_sick_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);
 				}
 			});
+		} else {
+			$('#select_sick_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker('refresh');
+			$('#select_sick_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
 		}
 	});
 
 	/* sick sub district */
 	$('#select_sick_district').change(function() {
-		if ($(this).val() != '') {
+		if ($(this).val() != "0") {
 			var id = $(this).val();
 			$.ajax({
 				method: "POST",
@@ -164,19 +167,20 @@ $(document).ready(function() {
 				dataType: "HTML",
 				data: {id:id},
 				success: function(response) {
-					$('#select_sick_sub_district').html(response);
-					$('#select_sick_sub_district').selectpicker("refresh");
+					$('#select_sick_sub_district').html(response).selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);
 				}
 			});
+		} else {
+			$('#select_sick_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
 		}
 	});
 
 	/* sick district first */
 	$('#select_sick_province_first').change(function() {
-		if ($(this).val() != '') {
+		if ($(this).val() != "0") {
 			var id = $(this).val();
 			$.ajax({
 				method: "POST",
@@ -184,19 +188,22 @@ $(document).ready(function() {
 				dataType: "HTML",
 				data: {id:id},
 				success: function(response) {
-					$('#select_sick_district_first').html(response);
-					$('#select_sick_district_first').selectpicker("refresh");
+					$('#select_sick_district_first').html(response).selectpicker("refresh");
+					$('#select_sick_sub_district_first').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);
 				}
 			});
+		} else {
+			$('#select_sick_district_first').html('<option value="0">-- โปรดเลือก --</option>').selectpicker('refresh');
+			$('#select_sick_sub_district_first').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
 		}
 	});
 
 	/* sick sub district first */
 	$('#select_sick_district_first').change(function() {
-		if ($(this).val() != '') {
+		if ($(this).val() != "0") {
 			var id = $(this).val();
 			$.ajax({
 				method: "POST",
@@ -204,18 +211,19 @@ $(document).ready(function() {
 				dataType: "HTML",
 				data: {id:id},
 				success: function(response) {
-					$('#select_sick_sub_district_first').html(response);
-					$('#select_sick_sub_district_first').selectpicker("refresh");
+					$('#select_sick_sub_district_first').html(response).selectpicker("refresh");
 				},
-				error: function(jqXhr, textStatus, errorMessage){
+				error: function(jqXhr, textStatus, errorMessage) {
 					alert('Error code: ' + jqXhr.status + errorMessage);
 				}
 			});
+		} else {
+			$('#select_sick_sub_district_first').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
 		}
 	});
 
 	$('#treat_first_province').change(function() {
-		if ($(this).val() != '') {
+		if ($(this).val() != "0") {
 			var id = $(this).val();
 			$.ajax({
 				method: "POST",
@@ -223,172 +231,15 @@ $(document).ready(function() {
 				dataType: "HTML",
 				data: {id:id},
 				success: function(response) {
-					$('#treat_first_district').html(response);
-					$('#treat_first_district').selectpicker("refresh");
+					$('#treat_first_district').html(response).selectpicker("refresh");
+					$('#treat_first_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
 					$.ajax({
 						method: "POST",
 						url: "{{ route('hospitalFetch') }}",
 						dataType: "HTML",
 						data: {pid:id},
 						success: function(hosp) {
-							$('#treatFirstHospital').html(hosp);
-							$('#treatFirstHospital').selectpicker("refresh");
-
-						}
-					});
-				},
-				error: function(jqXhr, textStatus, errorMessage){
-					alert('Error code: ' + jqXhr.status + errorMessage);
-				}
-			});
-		}
-	});
-
-	$('#treat_first_district').change(function() {
-		if ($(this).val() != '') {
-			var id = $(this).val();
-			$.ajax({
-				method: "POST",
-				url: "{{ route('subDistrictFetch') }}",
-				dataType: "HTML",
-				data: {id:id},
-				success: function(response) {
-					$('#treat_first_sub_district').html(response);
-					$('#treat_first_sub_district').selectpicker("refresh");
-				},
-				error: function(jqXhr, textStatus, errorMessage){
-					alert('Error code: ' + jqXhr.status + errorMessage);
-				}
-			});
-		}
-	});
-
-	$('#treat_place_province').change(function() {
-		if ($(this).val() != '') {
-			var id = $(this).val();
-			$.ajax({
-				method: "POST",
-				url: "{{ route('districtFetch') }}",
-				dataType: "HTML",
-				data: {id:id},
-				success: function(response) {
-					$('#treat_place_district').html(response);
-					$('#treat_place_district').selectpicker("refresh");
-					$.ajax({
-						method: "POST",
-						url: "{{ route('hospitalFetch') }}",
-						dataType: "HTML",
-						data: {pid:id},
-						success: function(hosp) {
-							$('#treatPlaceHospital').html(hosp);
-							$('#treatPlaceHospital').selectpicker("refresh");
-
-						}
-					});
-				},
-				error: function(jqXhr, textStatus, errorMessage){
-					alert('Error code: ' + jqXhr.status + errorMessage);
-				}
-			});
-		}
-	});
-
-	$('#treat_place_district').change(function() {
-		if ($(this).val() != '') {
-			var id = $(this).val();
-			$.ajax({
-				method: "POST",
-				url: "{{ route('subDistrictFetch') }}",
-				dataType: "HTML",
-				data: {id:id},
-				success: function(response) {
-					$('#treat_place_sub_district').html(response);
-					$('#treat_place_sub_district').selectpicker("refresh");
-				},
-				error: function(jqXhr, textStatus, errorMessage){
-					alert('Error code: ' + jqXhr.status + errorMessage);
-				}
-			});
-		}
-	});
-
-	$('#risk_stay_outbreak_country').change(function() {
-		if ($(this).val() != '') {
-			var id = $(this).val();
-			$.ajax({
-				method: "POST",
-				url: "{{ route('cityFetch') }}",
-				dataType: "HTML",
-				data: {id:id},
-				success: function(response) {
-					$('#select_risk_stay_outbreak_city').html(response);
-					$('#select_risk_stay_outbreak_city').selectpicker("refresh");
-				},
-				error: function(jqXhr, textStatus, errorMessage){
-					alert('Error code: ' + jqXhr.status + errorMessage);
-				}
-			});
-		}
-	});
-
-	$('#risk_stay_outbreak_province').change(function() {
-		if ($(this).val() != '') {
-			var id = $(this).val();
-			$.ajax({
-				method: "POST",
-				url: "{{ route('districtFetch') }}",
-				dataType: "HTML",
-				data: {id:id},
-				success: function(response) {
-					$('#risk_stay_outbreak_district').html(response);
-					$('#risk_stay_outbreak_district').selectpicker("refresh");
-				},
-				error: function(jqXhr, textStatus, errorMessage){
-					alert('Error code: ' + jqXhr.status + errorMessage);
-				}
-			});
-		}
-	});
-
-	$('#risk_stay_outbreak_district').change(function() {
-		if ($(this).val() != '') {
-			var id = $(this).val();
-			$.ajax({
-				method: "POST",
-				url: "{{ route('subDistrictFetch') }}",
-				dataType: "HTML",
-				data: {id:id},
-				success: function(response) {
-					$('#risk_stay_outbreak_sub_district').html(response);
-					$('#risk_stay_outbreak_sub_district').selectpicker("refresh");
-				},
-				error: function(jqXhr, textStatus, errorMessage){
-					alert('Error code: ' + jqXhr.status + errorMessage);
-				}
-			});
-		}
-	});
-
-	/* refer hospital */
-	$('#patient_treat_status_refer_province').change(function() {
-		if ($(this).val() != '') {
-			var id = $(this).val();
-			$.ajax({
-				method: "POST",
-				url: "{{ route('districtFetch') }}",
-				dataType: "HTML",
-				data: {id:id},
-				success: function(response) {
-					$('#refer_district').html(response);
-					$('#refer_district').selectpicker("refresh");
-					$.ajax({
-						method: "POST",
-						url: "{{ route('hospitalFetch') }}",
-						dataType: "HTML",
-						data: {pid:id},
-						success: function(hosp) {
-							$('#patient_treat_status_refer').html(hosp);
-							$('#patient_treat_status_refer').selectpicker("refresh");
+							$('#treatFirstHospital').html(hosp).selectpicker("refresh");
 						}
 					});
 				},
@@ -396,11 +247,15 @@ $(document).ready(function() {
 					alert('Error code: ' + jqXhr.status + errorMessage);
 				}
 			});
+		} else {
+			$('#treat_first_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+			$('#treat_first_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+			$('#treatFirstHospital').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
 		}
 	});
 
-	$('#refer_district').change(function() {
-		if ($(this).val() != '') {
+	$('#treat_first_district').change(function() {
+		if ($(this).val() != "0") {
 			var id = $(this).val();
 			$.ajax({
 				method: "POST",
@@ -408,15 +263,187 @@ $(document).ready(function() {
 				dataType: "HTML",
 				data: {id:id},
 				success: function(response) {
-					$('#refer_sub_district').html(response);
-					$('#refer_sub_district').selectpicker("refresh");
+					$('#treat_first_sub_district').html(response).selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);
 				}
 			});
+		} else {
+			$('#treat_first_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
 		}
 	});
+
+	$('#treat_place_province').change(function() {
+		if ($(this).val() != "0") {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('districtFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#treat_place_district').html(response).selectpicker("refresh");
+					$('#treat_place_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+					$.ajax({
+						method: "POST",
+						url: "{{ route('hospitalFetch') }}",
+						dataType: "HTML",
+						data: {pid:id},
+						success: function(hosp) {
+							$('#treatPlaceHospital').html(hosp).selectpicker("refresh");
+						}
+					});
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		} else {
+			$('#treat_place_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+			$('#treat_place_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+			$('#treatPlaceHospital').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+		}
+	});
+
+	$('#treat_place_district').change(function() {
+		if ($(this).val() != "0") {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#treat_place_sub_district').html(response).selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		} else {
+			$('#treat_place_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+		}
+	});
+
+
+	/* refer province */
+	$('#patient_treat_status_refer_province').change(function() {
+		if ($(this).val() != "0") {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('districtFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#refer_district').html(response).selectpicker("refresh");
+					$('#refer_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+					$.ajax({
+						method: "POST",
+						url: "{{ route('hospitalFetch') }}",
+						dataType: "HTML",
+						data: {pid:id},
+						success: function(hosp) {
+							$('#patient_treat_status_refer').html(hosp).selectpicker("refresh");
+						}
+					});
+				},
+				error: function(jqXhr, textStatus, errorMessage) {
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		} else {
+			$('#refer_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+			$('#refer_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+			$('#patient_treat_status_refer').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+		}
+	});
+
+	/* refer district */
+	$('#refer_district').change(function() {
+		if ($(this).val() != "0") {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#refer_sub_district').html(response).selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		} else {
+			$('#refer_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+		}
+	});
+
+	/* outbreak countery */
+	$('#risk_stay_outbreak_country').change(function() {
+		if ($(this).val() != "0") {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('cityFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#select_risk_stay_outbreak_city').html(response).selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		} else {
+			$('#select_risk_stay_outbreak_city').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+		}
+	});
+
+	$('#risk_stay_outbreak_province').change(function() {
+		if ($(this).val() != "0") {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('districtFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#risk_stay_outbreak_district').html(response).selectpicker("refresh");
+					$('#risk_stay_outbreak_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		} else {
+			$('#risk_stay_outbreak_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+			$('#risk_stay_outbreak_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+		}
+	});
+
+	$('#risk_stay_outbreak_district').change(function() {
+		if ($(this).val() != "0") {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('subDistrictFetch') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#risk_stay_outbreak_sub_district').html(response).selectpicker("refresh");
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+		} else {
+			$('#risk_stay_outbreak_sub_district').html('<option value="0">-- โปรดเลือก --</option>').selectpicker("refresh");
+		}
+	});
+
 
 	/* ประเภทที่พัก ขณะป่วย */
 	$('.sick_stay_type-chk').click(function() {

@@ -129,6 +129,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('invest/download/invest/{id}', 'InvestController@downloadInvestFile')->name('invest.downloadInvestFile');
 	Route::get('invest/download/xray/{id}', 'InvestController@downloadXrayFile')->name('invest.downloadXrayFile');
 	Route::get('/colab/send/{id}', 'ListInvestController@colabSend')->name('colab.send');
+	Route::get('/colab/result/{id}', 'ListInvestController@colabResult')->name('colab.result');
 
 	/* map */
 	Route::get('/clusters/circle', 'covidController@index')->name('maps.circle');

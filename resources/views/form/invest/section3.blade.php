@@ -58,7 +58,7 @@
 						@if (!empty(old('riskStayOutbreakCountryInput')) || !empty($invest_pt[0]['risk_stay_outbreak_country']))
 							<option value="{{ old('riskStayOutbreakCountryInput') ?? $invest_pt[0]['risk_stay_outbreak_country'] }}" selected="selected">{{ $globalCountry[$invest_pt[0]['risk_stay_outbreak_country']]['country_name'] }}</option>
 						@endif
-						<option value="">-- เลือกประเทศ --</option>
+						<option value="0">-- เลือกประเทศ --</option>
 						@foreach ($globalCountry as $key => $value)
 							<option value="{{ $value['country_id'] }}">{{ $value['country_name'] }}</option>
 						@endforeach
@@ -72,7 +72,7 @@
 						@if (!empty($invest_pt[0]['risk_stay_outbreak_city']))
 							<option value="{{ $invest_pt[0]['risk_stay_outbreak_city'] }}" selected="selected">{{ $risk_stay_outbreak_city[0]['city_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 					</select>
 				</div>
 			</div>
@@ -139,7 +139,7 @@
 						@if (!empty(old('riskStayOutbreakProvinceInput')) || !empty($invest_pt[0]['risk_stay_outbreak_province']))
 							<option value="{{ old('riskStayOutbreakProvinceInput') ?? $invest_pt[0]['risk_stay_outbreak_province'] }}" selected="selected">{{ $provinces[old('riskStayOutbreakProvinceInput')]['province_name'] ?? $provinces[$invest_pt[0]['risk_stay_outbreak_province']]['province_name'] }}</option>
 						@endif
-						<option value="">-- เลือกจังหวัด --</option>
+						<option value="0">-- เลือกจังหวัด --</option>
 						@foreach($provinces as $key=>$val)
 							<option value="{{ $val['province_id'] }}" @if (old('riskStayOutbreakProvinceInput') == $val['province_id']) selected @endif>{{ $val['province_name'] }}</option>
 						@endforeach
@@ -153,7 +153,7 @@
 						@if (!empty($invest_pt[0]['risk_stay_outbreak_district']))
 							<option value="{{ $risk_district[0]['district_id'] }}" selected="selected">{{ $risk_district[0]['district_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 					</select>
 				</div>
 			</div>
@@ -164,7 +164,7 @@
 						@if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district']))
 							<option value="{{ $risk_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $risk_sub_district[0]['sub_district_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 					</select>
 				</div>
 			</div>

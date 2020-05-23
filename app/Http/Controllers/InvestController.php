@@ -409,9 +409,9 @@ class InvestController extends MasterController
 			$pt->sick_village = $request->sickVillageInput;
 			$pt->sick_lane = $request->sickLaneInput;
 			$pt->sick_road = $request->sickRoadInput;
-			$pt->sick_province = $request->sickProvinceInput;
-			$pt->sick_district = $request->sickDistrictInput;
-			$pt->sick_sub_district = $request->sickSubDistrictInput;
+			$pt->sick_province = ($request->sickProvinceInput != 0) ? $request->sickProvinceInput : NULL;
+			$pt->sick_district = ($request->sickDistrictInput != 0) ? $request->sickDistrictInput : NULL;
+			$pt->sick_sub_district = ($request->sickSubDistrictInput != 0) ? $request->sickSubDistrictInput : NULL;
 			$pt->data3_3chk_heart = $request->data3_3chk_heart;
 			$pt->data3_3chk_cirrhosis = $request->data3_3chk_cirrhosis;
 			$pt->data3_3chk_kidney = $request->data3_3chk_kidney;
@@ -421,14 +421,14 @@ class InvestController extends MasterController
 			$pt->data3_3chk_cancer_name = $request->data3_3chk_cancer_name;
 
 			$pt->data3_1date_sickdate = $this->convertDateToMySQL($request->data3_1date_sickdate);
-			$pt->sick_province_first = $request->sick_province_first;
-			$pt->sick_district_first = $request->sick_district_first;
-			$pt->sick_sub_district_first = $request->sick_sub_district_first;
+			$pt->sick_province_first = ($request->sick_province_first != 0) ? $request->sick_province_first : NULL;
+			$pt->sick_district_first = ($request->sick_district_first != 0) ? $request->sick_district_first : NULL;
+			$pt->sick_sub_district_first = ($request->sick_sub_district_first != 0) ? $request->sick_sub_district_first : NULL;
 			$pt->treat_first_date = $this->convertDateToMySQL($request->treat_first_date);
-			$pt->treat_first_province = $request->treatFirstProvinceInput;
-			$pt->treat_first_district = $request->treatFirstDistrictInput;
-			$pt->treat_first_sub_district = $request->treatFirstSubDistrictInput;
-			$pt->treat_first_hospital = $request->treat_first_hospital;
+			$pt->treat_first_province = ($request->treatFirstProvinceInput != 0) ? $request->treatFirstProvinceInput : NULL;
+			$pt->treat_first_district = ($request->treatFirstDistrictInput != 0) ? $request->treatFirstDistrictInput : NULL;
+			$pt->treat_first_sub_district = ($request->treatFirstSubDistrictInput != 0) ? $request->treatFirstSubDistrictInput : NULL;
+			$pt->treat_first_hospital = ($request->treat_first_hospital != 0) ? $request->treat_first_hospital : NULL;
 
 			$pt->fever_history = $request->fever_history;
 			$pt->body_temperature_first = $request->body_temperature_first;
@@ -510,10 +510,9 @@ class InvestController extends MasterController
 			$pt->patient_treat_status = $request->patientTreatStatus;
 
 			/* log refer && set treatplace match this */
-			$dt = Carbon::now();
-			$today = $dt->subDay();
 			if ($request->patientTreatStatus == 4 && !empty($request->patient_treat_status_refer_province) && !empty($request->patient_treat_status_refer_district) && !empty($request->patient_treat_status_refer)) {
 				/* check repeat log data */
+				$today_now = date('Y-m-d H:i:s');
 				$repeat_log = DB::table('log_refer')
 					->where('ref_pt_id', '=', $request->id)
 					->where('refer_hosp', '=', $request->patient_treat_status_refer)
@@ -528,25 +527,25 @@ class InvestController extends MasterController
 						'refer_hosp' => $request->patient_treat_status_refer,
 						'refer_date' => $this->convertDateToMySQL($request->patient_treat_status_refer_date),
 						'ref_user_id' => Auth::user()->id,
-						'created_at' => $today
+						'created_at' => $today_now
 					]);
-					$pt->treat_place_province = $request->patient_treat_status_refer_province;
-					$pt->treat_place_district = $request->patient_treat_status_refer_district;
-					$pt->treat_place_sub_district = $request->patient_treat_status_refer_sub_district;
-					$pt->treat_place_hospital = $request->patient_treat_status_refer;
+					$pt->treat_place_province = ($request->patient_treat_status_refer_province != 0) ? $request->patient_treat_status_refer_province : NULL;
+					$pt->treat_place_district = ($request->patient_treat_status_refer_district != 0) ? $request->patient_treat_status_refer_district : NULL;
+					$pt->treat_place_sub_district = ($request->patient_treat_status_refer_sub_district != 0) ? $request->patient_treat_status_refer_sub_district : NULL;
+					$pt->treat_place_hospital = ($request->patient_treat_status_refer != 0) ? $request->patient_treat_status_refer : NULL;
 				}
 			} else {
-				$pt->treat_place_province = $request->treatPlaceProvinceInput;
-				$pt->treat_place_district = $request->treatPlaceDistrictInput;
-				$pt->treat_place_sub_district = $request->treatPlaceSubDistrictInput;
-				$pt->treat_place_hospital = $request->treat_place_hospital;
+				$pt->treat_place_province = ($request->treatPlaceProvinceInput != 0) ? $request->treatPlaceProvinceInput : NULL;
+				$pt->treat_place_district = ($request->treatPlaceDistrictInput != 0) ? $request->treatPlaceDistrictInput : NULL;
+				$pt->treat_place_sub_district = ($request->treatPlaceSubDistrictInput != 0) ? $request->treatPlaceSubDistrictInput : NULL;
+				$pt->treat_place_hospital = ($request->treat_place_hospital != 0) ? $request->treat_place_hospital : NULL;
 			}
 
 			$pt->patient_treat_status_other = $request->patient_treat_status_other;
-			$pt->patient_treat_status_refer = $request->patient_treat_status_refer;
-			$pt->patient_treat_status_refer_province = $request->patient_treat_status_refer_province;
-			$pt->patient_treat_status_refer_district = $request->patient_treat_status_refer_district;
-			$pt->patient_treat_status_refer_sub_district = $request->patient_treat_status_refer_sub_district;
+			$pt->patient_treat_status_refer = ($request->patient_treat_status_refer != 0) ? $request->patient_treat_status_refer : NULL;
+			$pt->patient_treat_status_refer_province = ($request->patient_treat_status_refer_province != 0) ? $request->patient_treat_status_refer_province : NULL;
+			$pt->patient_treat_status_refer_district = ($request->patient_treat_status_refer_district != 0) ? $request->patient_treat_status_refer_district : NULL;
+			$pt->patient_treat_status_refer_sub_district = ($request->patient_treat_status_refer_sub_district != 0) ? $request->patient_treat_status_refer_sub_district : NULL;
 			$pt->patient_treat_status_refer_date = $this->convertDateToMySQL($request->patient_treat_status_refer_date);
 			$pt->data3_3chk = $request->data3_3chk;
 			$pt->data3_3chk_lung = $request->data3_3chk_lung;
@@ -558,17 +557,17 @@ class InvestController extends MasterController
 			$pt->data3_3chk_other = $request->data3_3chk_other;
 			$pt->data3_3input_other = $request->data3_3input_other;
 			$pt->risk_stay_outbreak_chk = $request->riskStayOutbreakChk;
-			$pt->risk_stay_outbreak_country = $request->riskStayOutbreakCountryInput;
-			$pt->risk_stay_outbreak_city = $request->riskStayOutbreakCityInput;
+			$pt->risk_stay_outbreak_country = ($request->riskStayOutbreakCountryInput != 0) ? $request->riskStayOutbreakCountryInput : NULL;
+			$pt->risk_stay_outbreak_city = ($request->riskStayOutbreakCityInput != 0) ? $request->riskStayOutbreakCityInput : NULL;
 			$pt->risk_stay_outbreak_city_other = $request->riskStayOutbreakCityOtherInput;
 			$pt->risk_stay_outbreak_arrive_date = $this->convertDateToMySQL($request->riskStayOutbreakArriveDate);
 			$pt->risk_stay_outbreak_arrive_thai_date = $this->convertDateToMySQL($request->riskStayOutbreakArriveThaiDate);
 			$pt->risk_stay_outbreak_airline = $request->riskStayOutbreakAirline;
 			$pt->risk_stay_outbreak_flight_no = $request->riskStayOutbreakFlightNoInput;
 			$pt->risk_stay_outbreak_seat_no = $request->riskStayOutbreakSeatNoInput;
-			$pt->risk_stay_outbreak_province = $request->riskStayOutbreakProvinceInput;
-			$pt->risk_stay_outbreak_district = $request->riskStayOutbreakDistrictInput;
-			$pt->risk_stay_outbreak_sub_district = $request->riskStayOutbreakSubDistrictInput;
+			$pt->risk_stay_outbreak_province = ($request->riskStayOutbreakProvinceInput != 0) ? $request->riskStayOutbreakProvinceInput : NULL;
+			$pt->risk_stay_outbreak_district = ($request->riskStayOutbreakDistrictInput != 0) ? $request->riskStayOutbreakDistrictInput : NULL;
+			$pt->risk_stay_outbreak_sub_district = ($request->riskStayOutbreakSubDistrictInput != 0) ? $request->riskStayOutbreakSubDistrictInput : NULL;
 			$pt->risk_treat_or_visit_patient = $request->riskTreatOrVisitPatient;
 			$pt->risk_care_flu_patient = $request->riskCareFluPatient;
 			$pt->risk_contact_covid_19 = $request->risk_contact_covid_19;
@@ -628,8 +627,7 @@ class InvestController extends MasterController
 	public function storeReferOut(Request $request) {
 		try {
 			if (!empty($request->refer_province) && !empty($request->refer_district) && !empty($request->refer_hospital)) {
-				$dt = Carbon::now();
-				$today = $dt->subDay();
+				$today_now = date('Y-m-d H:i:s');
 				$pt = Invest::find($request->refer_pid);
 
 				/* set current data */
@@ -650,7 +648,7 @@ class InvestController extends MasterController
 				$pt->patient_treat_status_refer_province = $request->refer_province;
 				$pt->patient_treat_status_refer_district = $request->refer_district;
 				$pt->patient_treat_status_refer_sub_district = $request->refer_sub_district;
-				$pt->patient_treat_status_refer_date = $dt;
+				$pt->patient_treat_status_refer_date = $today_now;
 
 				$pt_saved = $pt->save();
 
@@ -663,7 +661,7 @@ class InvestController extends MasterController
 						'refer_hosp' => $request->refer_hospital,
 						'refer_date' => $today,
 						'ref_user_id' => Auth::user()->id,
-						'created_at' => $dt
+						'created_at' => $today_now
 					]);
 					return redirect()->back()->with('success', 'ข้อมูลรหัสที่ '.$request->refer_pid.' บันทึกลงฐานข้อมูลสำเร็จแล้ว');
 				}
