@@ -314,32 +314,33 @@ class ListInvestController extends Controller
 	public function colabSend(Request $request) {
 		try {
 			$data = InvestList::select('id', 'sat_id', 'card_id', 'passport', 'hn', 'mobile', 'pt_status')->where('id', '=', $request->id)->get();
-			$userGroup = auth()->user()->usergroup ?? '-';
-			$firstname = auth()->user()->name ?? '-';
-			$lastname = auth()->user()->lname ?? '-';
-			$email = auth()->user()->email ?? '-';
-			$userMobile = auth()->user()->tel ?? '-';
-			$patientHN =  $data[0]->hn ?? '-';
-			$patientSatCode = $data[0]->sat_id ?? '-';
-			$patientCID = $data[0]->card_id ?? '-';
-			$patientPassport = $data[0]->passport ?? '-';
-			$patientMobile = $data[0]->mobile ?? '-';
+			$firstname = self::addHyphen(auth()->user()->name);
+			$lastname = self::addHyphen(auth()->user()->lname);
+			$email = self::addHyphen(auth()->user()->email);
+			$userMobile = self::addHyphen(auth()->user()->tel);
+			$patientHN =  self::addHyphen($data[0]->hn);
+			$patientSatCode = self::addHyphen($data[0]->sat_id);
+			$patientCID = self::addHyphen($data[0]->card_id);
+			$patientPassport = self::addHyphen($data[0]->passport);
+			$patientMobile = self::addHyphen($data[0]->mobile);
+			$hospcode = self::addHyphen(auth()->user()->hospcode);
 			$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
 			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
-				'PatientType' => '1',
-				'DDCPatientId' => $data[0]->id,
 				'UserName'=> auth()->user()->username,
-				'UserGroup' => $userGroup,
 				'FirstName' => $firstname,
 				'LastName' => $lastname,
 				'Email' => $email,
 				'UserMobile' => $userMobile,
+				'UserPosition' => '-',
 				'ScreenType' => 'detail',
+				'DDCPatientID' => $data[0]->id,
+				'PatientDDCType' => '1',
 				'PatientHN' =>  $patientHN,
 				'PatientSatCode' => $patientSatCode,
 				'PatientCID' => $patientCID,
 				'PatientPassport' => $patientPassport,
-				'PatientMobile' => $patientMobile
+				'PatientMobile' => $patientMobile,
+				'HospitalCode' => $hospcode
 			]);
 
 			/* log to sent */
@@ -372,32 +373,33 @@ class ListInvestController extends Controller
 	public function colabResult(Request $request) {
 		try {
 			$data = InvestList::select('id', 'sat_id', 'card_id', 'passport', 'hn', 'mobile', 'pt_status')->where('id', '=', $request->id)->get();
-			$userGroup = auth()->user()->usergroup ?? '-';
-			$firstname = auth()->user()->name ?? '-';
-			$lastname = auth()->user()->lname ?? '-';
-			$email = auth()->user()->email ?? '-';
-			$userMobile = auth()->user()->tel ?? '-';
-			$patientHN =  $data[0]->hn ?? '-';
-			$patientSatCode = $data[0]->sat_id ?? '-';
-			$patientCID = $data[0]->card_id ?? '-';
-			$patientPassport = $data[0]->passport ?? '-';
-			$patientMobile = $data[0]->mobile ?? '-';
+			$firstname = self::addHyphen(auth()->user()->name);
+			$lastname = self::addHyphen(auth()->user()->lname);
+			$email = self::addHyphen(auth()->user()->email);
+			$userMobile = self::addHyphen(auth()->user()->tel);
+			$patientHN =  self::addHyphen($data[0]->hn);
+			$patientSatCode = self::addHyphen($data[0]->sat_id);
+			$patientCID = self::addHyphen($data[0]->card_id);
+			$patientPassport = self::addHyphen($data[0]->passport);
+			$patientMobile = self::addHyphen($data[0]->mobile);
+			$hospcode = self::addHyphen(auth()->user()->hospcode);
 			$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
 			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
-				'PatientType' => '1',
-				'DDCPatientId' => $data[0]->id,
 				'UserName'=> auth()->user()->username,
-				'UserGroup' => $userGroup,
 				'FirstName' => $firstname,
 				'LastName' => $lastname,
 				'Email' => $email,
 				'UserMobile' => $userMobile,
-				'ScreenType' => 'query',
+				'UserPosition' => '-',
+				'ScreenType' => 'detail',
+				'DDCPatientID' => $data[0]->id,
+				'PatientDDCType' => '1',
 				'PatientHN' =>  $patientHN,
 				'PatientSatCode' => $patientSatCode,
 				'PatientCID' => $patientCID,
 				'PatientPassport' => $patientPassport,
-				'PatientMobile' => $patientMobile
+				'PatientMobile' => $patientMobile,
+				'HospitalCode' => $hospcode
 			]);
 			return redirect($send_url);
 		} catch(\Exception $e) {
