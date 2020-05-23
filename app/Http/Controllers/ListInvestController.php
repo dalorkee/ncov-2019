@@ -324,8 +324,8 @@ class ListInvestController extends Controller
 			$patientCID = $data[0]->card_id ?? '-';
 			$patientPassport = $data[0]->passport ?? '-';
 			$patientMobile = $data[0]->mobile ?? '-';
-			//$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
-			$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
+			$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
+			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
 				'PatientType' => '1',
 				'DDCPatientId' => $data[0]->id,
 				'UserName'=> auth()->user()->username,
@@ -382,8 +382,8 @@ class ListInvestController extends Controller
 			$patientCID = $data[0]->card_id ?? '-';
 			$patientPassport = $data[0]->passport ?? '-';
 			$patientMobile = $data[0]->mobile ?? '-';
-			//$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
-			$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
+			$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
+			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
 				'PatientType' => '1',
 				'DDCPatientId' => $data[0]->id,
 				'UserName'=> auth()->user()->username,
