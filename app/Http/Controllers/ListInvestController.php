@@ -344,8 +344,7 @@ class ListInvestController extends Controller
 
 			/* log to sent */
 			if (count($data) > 0) {
-				$dt = Carbon::today();
-				$today = $dt->toDateTimeString();
+				$today = date('Y-m-d H:i:s');
 				DB::table('log_colab')->insert([
 					'ref_pt_id' => $request->id,
 					'sat_id' => $data[0]->sat_id,
