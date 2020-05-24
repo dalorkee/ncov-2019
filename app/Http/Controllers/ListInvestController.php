@@ -391,7 +391,7 @@ class ListInvestController extends Controller
 				'Email' => $email,
 				'UserMobile' => $userMobile,
 				'UserPosition' => '-',
-				'ScreenType' => 'detail',
+				'ScreenType' => 'query',
 				'DDCPatientID' => $data[0]->id,
 				'PatientDDCType' => '1',
 				'PatientHN' =>  $patientHN,
