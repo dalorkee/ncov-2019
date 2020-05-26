@@ -326,7 +326,6 @@ class ListInvestDataTable extends DataTable
 			Column::make('nation')->title('สัญชาติ'),
 			//Column::make('inv')->title('สอบสวนโรค'),
 			Column::make('visit_number')->title('ครั้งที่รักษา'),
-
 			Column::computed('action')
 				->exportable(false)
 				->printable(false)

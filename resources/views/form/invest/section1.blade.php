@@ -36,7 +36,7 @@
 								@if (!empty(old('titleName')) || !empty($invest_pt[0]['title_name']))
 									<option value="{{ old('titleName') ?? $invest_pt[0]['title_name'] }}" selected="selected">{{ $titleName[old('titleName')]['title_name'] ?? $titleName[$invest_pt[0]['title_name']]['title_name'] }}</option>
 								@endif
-								<option value="">-- โปรดเลือก --</option>
+								<option value="0">-- โปรดเลือก --</option>
 								@foreach ($titleName as $key => $value)
 									<option value="{{ $value['id'] }}">{{ $value['title_name'] }}</option>
 								@endforeach
@@ -64,7 +64,7 @@
 								@if (!empty(old('sexInput')) || !empty($invest_pt[0]['sex']))
 									<option value="{{ old('sexInput') ?? $invest_pt[0]['sex'] }}" selected="selected">{{ old('sexInput') ?? $invest_pt[0]['sex'] }}</option>
 								@endif
-								<option value="">-- โปรดเลือก --</option>
+								<option value="0">-- โปรดเลือก --</option>
 								<option value="ชาย">ชาย</option>
 								<option value="หญิง">หญิง</option>
 							</select>
@@ -95,7 +95,7 @@
 								@if (!empty(old('nationalityInput')) || !empty($invest_pt[0]['nation']) || !is_null($invest_pt[0]['nation']))
 									<option value="{{ old('nationalityInput') ?? $invest_pt[0]['nation'] }}" selected="selected">{{ $globalCountry[old('nationalityInput')]['country_name'] ?? $globalCountry[$invest_pt[0]['nation']]['country_name'] }}</option>
 								@endif
-								<option value="">-- โปรดเลือก --</option>
+								<option value="0">-- โปรดเลือก --</option>
 								@foreach ($globalCountry as $key => $value)
 									<option value="{{ $value['country_id'] }}">{{ $value['country_name'] }}</option>
 								@endforeach
@@ -108,10 +108,10 @@
 						<div class="form-group">
 							<label for="occupation">อาชีพ</label>
 							<select name="occupationInput" class="form-control selectpicker show-tick" id="select_occupation">
-								@if (!empty(old('occupationInput')) || !empty($invest_pt[0]['occupation']) || !is_null(old('occupationInput')) || !is_null($invest_pt[0]['occupation']))
+								@if (!empty(old('occupationInput')) || old('occupationInput') != "0" || !is_null(old('occupationInput')) || !empty($invest_pt[0]['occupation']) || $invest_pt[0]['occupation'] != "0" || !is_null($invest_pt[0]['occupation']))
 									<option value="{{ old('occupationInput') ?? $invest_pt[0]['occupation'] }}" selected="selected">{{ $occupation[old('occupationInput')]['occu_name_th'] ?? $occupation[$invest_pt[0]['occupation']]['occu_name_th'] }}</option>
 								@endif
-								<option value="">-- โปรดเลือก --</option>
+								<option value="0">-- โปรดเลือก --</option>
 								@foreach ($occupation as $key => $value)
 									<option value="{{ $value['id'] }}">{{ $value['occu_name_th'] }}</option>
 								@endforeach
