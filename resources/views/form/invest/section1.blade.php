@@ -108,7 +108,7 @@
 						<div class="form-group">
 							<label for="occupation">อาชีพ</label>
 							<select name="occupationInput" class="form-control selectpicker show-tick" id="select_occupation">
-								@if (!empty(old('occupationInput')) || old('occupationInput') != "0" || !is_null(old('occupationInput')) || !empty($invest_pt[0]['occupation']) || $invest_pt[0]['occupation'] != "0" || !is_null($invest_pt[0]['occupation']))
+								@if (!empty(old('occupationInput')) || !empty($invest_pt[0]['occupation']))
 									<option value="{{ old('occupationInput') ?? $invest_pt[0]['occupation'] }}" selected="selected">{{ $occupation[old('occupationInput')]['occu_name_th'] ?? $occupation[$invest_pt[0]['occupation']]['occu_name_th'] }}</option>
 								@endif
 								<option value="0">-- โปรดเลือก --</option>
