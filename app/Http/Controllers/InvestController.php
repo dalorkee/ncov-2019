@@ -708,10 +708,12 @@ class InvestController extends MasterController
 	}
 
 	public function hospitalFetchByDistrict2Digit(Request $request) {
-		$dist_id_2_digit = substr($request->dist_id, -1, 2);
+		$dist_id_2_digit = substr($request->dist_id, -2);
+
 		if (strlen($dist_id_2_digit) <= 1) {
 			$dist_id_2_digit = '0'.$dist_id_2_digit;
 		}
+
 		$coll = $this->hospitalByDistrictCode2Digit($request->prov_id, $dist_id_2_digit);
 		$htm = "<option value=\"0\">-- โปรดเลือก --</option>";
 		if (count($coll) > 0) {
