@@ -24,7 +24,7 @@
 				<div class="form-group">
 					<label for="provinceSickFirst" class="text-danger">จังหวัดที่เริ่มป่วย</label>
 					<select name="sick_province_first" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="select_sick_province_first">
-						@if (!empty(old('sick_province_first')) || !empty($invest_pt[0]['sick_province_first']) || !is_null($invest_pt[0]['sick_province_first']))
+						@if (!empty(old('sick_province_first')) || !empty($invest_pt[0]['sick_province_first']))
 							<option value="{{ old('sick_province_first') ?? $invest_pt[0]['sick_province_first'] }}" selected="selected">{{ $provinces[old('sick_province_first')]['province_name'] ?? $provinces[$invest_pt[0]['sick_province_first']]['province_name'] }}</option>
 						@endif
 						<option value="0">-- เลือกจังหวัด --</option>
@@ -80,7 +80,7 @@
 				<div class="form-group">
 					<label for="provinceFirst" class="text-cyan">จังหวัดที่เข้ารักษาครั้งแรก</label>
 					<select name="treatFirstProvinceInput" class="form-control selectpicker show-tick text-info" data-live-search="true" data-style="btn btn-outline-cyan" id="treat_first_province">
-						@if (!empty(old('treatFirstProvinceInput')) || !empty($invest_pt[0]['treat_first_province']) || !is_null($invest_pt[0]['treat_first_province']))
+						@if (!empty(old('treatFirstProvinceInput')) || !empty($invest_pt[0]['treat_first_province']))
 							<option value="{{ old('treatFirstProvinceInput') ?? $invest_pt[0]['treat_first_province'] }}" selected="selected">{{ $provinces[old('treatFirstProvinceInput')]['province_name'] ?? $provinces[$invest_pt[0]['treat_first_province']]['province_name'] }}</option>
 						@endif
 						<option value="0">-- เลือกจังหวัด --</option>
@@ -134,7 +134,7 @@
 				<div class="form-group">
 					<label for="country" class="text-success">จังหวัดที่รักษาปัจจุบัน</label>
 					<select name="treatPlaceProvinceInput" class="form-control selectpicker show-tick text-info" data-live-search="true" data-style="btn btn-outline-success" id="treat_place_province">
-						@if (!empty(old('treatPlaceProvinceInput')) || !empty($invest_pt[0]['treat_place_province']) || !is_null($invest_pt[0]['treat_place_province']))
+						@if (!empty(old('treatPlaceProvinceInput')) || !empty($invest_pt[0]['treat_place_province']))
 							<option value="{{ old('treatPlaceProvinceInput') ?? $invest_pt[0]['treat_place_province'] }}" selected="selected">{{ $provinces[old('treatPlaceProvinceInput')]['province_name'] ?? $provinces[$invest_pt[0]['treat_place_province']]['province_name'] }}</option>
 						@endif
 						<option value="0">-- เลือกจังหวัด --</option>
@@ -213,7 +213,7 @@
 								<div class="form-group">
 									<label for="referProvince" class="text-danger">จังหวัดที่ส่งต่อไปรักษา</label>
 									<select name="patient_treat_status_refer_province" class="form-control selectpicker show-tick" data-live-search="true" id="patient_treat_status_refer_province">
-										@if (!empty(old('patient_treat_status_refer_province')) || !empty($invest_pt[0]['patient_treat_status_refer_province']) || !is_null($invest_pt[0]['patient_treat_status_refer_province']))
+										@if (!empty(old('patient_treat_status_refer_province')) || !empty($invest_pt[0]['patient_treat_status_refer_province']))
 											<option value="{{ old('patient_treat_status_refer_province') ?? $invest_pt[0]['patient_treat_status_refer_province'] }}" selected="selected">{{ $provinces[old('patient_treat_status_refer_province')]['province_name'] ?? $provinces[$invest_pt[0]['patient_treat_status_refer_province']]['province_name'] }}</option>
 										@endif
 										<option value="0">-- เลือกจังหวัด --</option>
