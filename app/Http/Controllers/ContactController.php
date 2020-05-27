@@ -140,7 +140,7 @@ class ContactController extends MasterController
 															'tbl_contact.status_followup')
 										// >where('tbl_contact.pt_status','!=',"2")
 										->where('patient_relation.pui_id', $id)
-										->whereNull('tbl_contact.deleted_at')
+										->whereNull('patient_relation.delete_at')
 										->get();
     return view('form.contact.contacttable',compact(
 			'contact_data',
@@ -1640,6 +1640,7 @@ $res1 = DB::table('tbl_contact')
 								'date_entry'=>$date_entry
 					 ]
 				);
+		// dd($res1);
 $sat_id = $req ->input ('sat_id');
 $pui_id = $req ->input ('pui_id');
 $card_id = $req ->input ('card_id');
@@ -1715,12 +1716,13 @@ $res2	= DB::table('tbl_followup')
 	$res3	= DB::table('patient_relation')
 						->where('sat_id', $sat_id)
 						->where('pui_id', $pui_id)
-						->where('contact_id', $contact_id_r)
 						->where('contact_rid', $id)
 						->update([
-											'sat_id' => $sat_id ,
-											'pui_id' => $pui_id ,
-											'contact_rid' => $id
+											'pui_id' => $pui_id,
+											'sat_id' => $sat_id,
+											'contact_rid' => $id,
+											'contact_id' => $contact_id_r
+
 										]);
 										$pui_id = $req->input('pui_id');
 										$no_lab1 = $req->input('no_lab1');

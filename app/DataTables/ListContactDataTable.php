@@ -274,7 +274,7 @@ class ListContactDataTable  extends DataTable
 							\DB::raw('(CASE '.$sub_district.' ELSE "-" END) AS sub_district'),
 						)
 							// ->where('pt_status',"!=" , "2")
-							->wherein('province',$uid_chosbyregion)
+							// ->wherein('province',$uid_chosbyregion)
 							->whereNull('deleted_at')
 							->orderBy('id');
 
@@ -314,7 +314,6 @@ class ListContactDataTable  extends DataTable
 											\DB::raw('(CASE '.$district.' ELSE "-" END) AS district'),
 											\DB::raw('(CASE '.$sub_district.' ELSE "-" END) AS sub_district'),
 											)
-											// ->where('pt_status',"!=" , "2")
 											->where('province', $user_prov)
 											->whereNull('deleted_at')
 											->orderBy('id');

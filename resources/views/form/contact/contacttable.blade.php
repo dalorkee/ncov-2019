@@ -216,7 +216,7 @@ input.valid, textarea.valid{
 									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="ftop" href="#"> --}}
 										Edit
 								</a>
-								<a class="btn btn-danger btn-sm" href="/ncov-2019/{{'deletecontact'}}/id/{{ $value->id }}" onclick="return confirm('ต้องการลบข้อมูล ผู้สัมผัส{{ $value->contact_id }} ของผู้ป่วย {{ $value->sat_id }} ใช่หรือไม่?');">
+								<a class="btn btn-danger btn-sm" href="/ncov-2019/{{'deletecontact'}}/id/{{ $value->contact_rid }}" onclick="return confirm('ต้องการลบข้อมูล ผู้สัมผัส{{ $value->contact_id }} ของผู้ป่วย {{ $value->sat_id }} ใช่หรือไม่?');">
 									{{-- <a class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit" data-placement="top" href="#"> --}}
 										delete
 								</a>
