@@ -65,6 +65,21 @@
 </div>
 <div class="container-fluid">
 	@include('flash::message')
+	@if(Session::has('success'))
+		<div class="alert alert-success">
+			<i class="fas fa-check-circle"></i> {{ Session::get('success') }}
+			@php
+				Session::forget('success');
+			@endphp
+		</div>
+	@elseif(Session::has('error'))
+		<div class="alert alert-danger">
+			<i class="fas fa-times-circle"></i> {{ Session::get('error') }}
+			@php
+				Session::forget('error');
+			@endphp
+		</div>
+	@endif
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 			<div class="card">

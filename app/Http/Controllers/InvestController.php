@@ -124,204 +124,207 @@ class InvestController extends MasterController
 
 			/* patient data */
 			$invest_pt = Invest::where('id', '=', $request->id)->get()->toArray();
-
-			/* map the to patient data */
-			if (!is_null($invest_pt[0]['risk_stay_outbreak_city'])) {
-				$risk_stay_outbreak_city = GlobalCity::where('city_id', '=', $invest_pt[0]['risk_stay_outbreak_city'])->get()->toArray();
-			} else {
-				$risk_stay_outbreak_city = null;
-			}
-			$treat_first_city = !is_null($invest_pt[0]['treat_first_city']) ? GlobalCity::where('city_id', '=', $invest_pt[0]['treat_first_city'])->get()->toArray() : null;
-			$treat_place_city = !is_null($invest_pt[0]['treat_place_city']) ? GlobalCity::where('city_id', '=', $invest_pt[0]['treat_place_city'])->get()->toArray() : null;
-			$treat_first_hospital = !is_null($invest_pt[0]['treat_first_hospital']) ? Hospitals::where('hospcode', '=', $invest_pt[0]['treat_first_hospital'])->get()->toArray() : null;
-			$treat_place_hospital = !is_null($invest_pt[0]['treat_place_hospital']) ? Hospitals::where('hospcode', '=', $invest_pt[0]['treat_place_hospital'])->get()->toArray() : null;
-			$patient_treat_status_refer = !is_null($invest_pt[0]['patient_treat_status_refer']) ? Hospitals::where('hospcode', '=', $invest_pt[0]['patient_treat_status_refer'])->get()->toArray() : null;
-
-			$pt_activity = PatientActivity::where('ref_patient_id', '=', $invest_pt[0]['id'])->get()->keyBy('day')->toArray();
-			if (count($pt_activity) > 0) {
-				foreach ($pt_activity as $key => $value) {
-					$pt_activity[$key]['date_activity'] = $this->convertMySQLDateFormat($value['date_activity']);
-				}
-			}
-
-			$covid19_drug_medicate_name = parent::getDrug('covid19');
-			/* set drug name to array where edit data */
-			if (strlen($invest_pt[0]['covid19_drug_medicate_name']) > 0) {
-				$drug_on_db = explode(',', $invest_pt[0]['covid19_drug_medicate_name']);
-			} else {
-				$drug_on_db = array();
-			}
-			foreach ($covid19_drug_medicate_name as $key => $value) {
-				if (in_array($key, $drug_on_db)) {
-					$drug_result[$key] = $key;
+			if (count($invest_pt) > 0) {
+				/* map the to patient data */
+				if (!is_null($invest_pt[0]['risk_stay_outbreak_city'])) {
+					$risk_stay_outbreak_city = GlobalCity::where('city_id', '=', $invest_pt[0]['risk_stay_outbreak_city'])->get()->toArray();
 				} else {
-					$drug_result[$key] = 0;
+					$risk_stay_outbreak_city = null;
 				}
-			}
+				$treat_first_city = !is_null($invest_pt[0]['treat_first_city']) ? GlobalCity::where('city_id', '=', $invest_pt[0]['treat_first_city'])->get()->toArray() : null;
+				$treat_place_city = !is_null($invest_pt[0]['treat_place_city']) ? GlobalCity::where('city_id', '=', $invest_pt[0]['treat_place_city'])->get()->toArray() : null;
+				$treat_first_hospital = !is_null($invest_pt[0]['treat_first_hospital']) ? Hospitals::where('hospcode', '=', $invest_pt[0]['treat_first_hospital'])->get()->toArray() : null;
+				$treat_place_hospital = !is_null($invest_pt[0]['treat_place_hospital']) ? Hospitals::where('hospcode', '=', $invest_pt[0]['treat_place_hospital'])->get()->toArray() : null;
+				$patient_treat_status_refer = !is_null($invest_pt[0]['patient_treat_status_refer']) ? Hospitals::where('hospcode', '=', $invest_pt[0]['patient_treat_status_refer'])->get()->toArray() : null;
 
-			$data['breathing_tube_date'] = self::convertMySQLDateFormat($invest_pt[0]['breathing_tube_date']);
-			$data['risk_stay_outbreak_arrive_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk_stay_outbreak_arrive_date']);
-			$data['risk_stay_outbreak_arrive_thai_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk_stay_outbreak_arrive_thai_date']);
-			$data['lab_cbc_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_cbc_date']);
-			$data['lab_cxr1_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_cxr1_date']);
-			$data['lab_rapid_test_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_rapid_test_date']);
-			$data['lab_other_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_other_date']);
-			$data['data3_1date_sickdate'] = self::convertMySQLDateFormat($invest_pt[0]['data3_1date_sickdate']);
-			$data['treat_first_date'] = self::convertMySQLDateFormat($invest_pt[0]['treat_first_date']);
-			$data['treat_place_date'] = self::convertMySQLDateFormat($invest_pt[0]['treat_place_date']);
-			$data['covid19_drug_medicate_first_date'] = self::convertMySQLDateFormat($invest_pt[0]['covid19_drug_medicate_first_date']);
-			$data['lab_sars_cov2_no_1_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_sars_cov2_no_1_date']);
-			$data['lab_sars_cov2_no_2_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_sars_cov2_no_2_date']);
-			$data['invest_date'] = self::convertMySQLDateFormat($invest_pt[0]['invest_date']);
-			$data['patient_treat_status_refer_date'] = self::convertMySQLDateFormat($invest_pt[0]['patient_treat_status_refer_date']);
+				$pt_activity = PatientActivity::where('ref_patient_id', '=', $invest_pt[0]['id'])->get()->keyBy('day')->toArray();
+				if (count($pt_activity) > 0) {
+					foreach ($pt_activity as $key => $value) {
+						$pt_activity[$key]['date_activity'] = $this->convertMySQLDateFormat($value['date_activity']);
+					}
+				}
 
-			/* sick district */
-			if (!empty($invest_pt[0]['sick_district'])) {
-				$sick_district = District::where('district_id', '=', $invest_pt[0]['sick_district'])->get()->toArray();
-			} else {
-				$sick_district = null;
-			}
+				$covid19_drug_medicate_name = parent::getDrug('covid19');
+				/* set drug name to array where edit data */
+				if (strlen($invest_pt[0]['covid19_drug_medicate_name']) > 0) {
+					$drug_on_db = explode(',', $invest_pt[0]['covid19_drug_medicate_name']);
+				} else {
+					$drug_on_db = array();
+				}
+				foreach ($covid19_drug_medicate_name as $key => $value) {
+					if (in_array($key, $drug_on_db)) {
+						$drug_result[$key] = $key;
+					} else {
+						$drug_result[$key] = 0;
+					}
+				}
 
-			/* sick sub district */
-			if (!empty($invest_pt[0]['sick_sub_district'])) {
-				$sick_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['sick_sub_district'])->get()->toArray();
-			} else {
-				$sick_sub_district = null;
-			}
+				$data['breathing_tube_date'] = self::convertMySQLDateFormat($invest_pt[0]['breathing_tube_date']);
+				$data['risk_stay_outbreak_arrive_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk_stay_outbreak_arrive_date']);
+				$data['risk_stay_outbreak_arrive_thai_date'] = self::convertMySQLDateFormat($invest_pt[0]['risk_stay_outbreak_arrive_thai_date']);
+				$data['lab_cbc_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_cbc_date']);
+				$data['lab_cxr1_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_cxr1_date']);
+				$data['lab_rapid_test_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_rapid_test_date']);
+				$data['lab_other_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_other_date']);
+				$data['data3_1date_sickdate'] = self::convertMySQLDateFormat($invest_pt[0]['data3_1date_sickdate']);
+				$data['treat_first_date'] = self::convertMySQLDateFormat($invest_pt[0]['treat_first_date']);
+				$data['treat_place_date'] = self::convertMySQLDateFormat($invest_pt[0]['treat_place_date']);
+				$data['covid19_drug_medicate_first_date'] = self::convertMySQLDateFormat($invest_pt[0]['covid19_drug_medicate_first_date']);
+				$data['lab_sars_cov2_no_1_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_sars_cov2_no_1_date']);
+				$data['lab_sars_cov2_no_2_date'] = self::convertMySQLDateFormat($invest_pt[0]['lab_sars_cov2_no_2_date']);
+				$data['invest_date'] = self::convertMySQLDateFormat($invest_pt[0]['invest_date']);
+				$data['patient_treat_status_refer_date'] = self::convertMySQLDateFormat($invest_pt[0]['patient_treat_status_refer_date']);
 
-			/* sick district first */
-			if (!empty($invest_pt[0]['sick_district_first'])) {
-				$sick_district_first = District::where('district_id', '=', $invest_pt[0]['sick_district_first'])->get()->toArray();
-			} else {
-				$sick_district_first = null;
-			}
+				/* sick district */
+				if (!empty($invest_pt[0]['sick_district'])) {
+					$sick_district = District::where('district_id', '=', $invest_pt[0]['sick_district'])->get()->toArray();
+				} else {
+					$sick_district = null;
+				}
 
-			/* sick sub district first */
-			if (!empty($invest_pt[0]['sick_sub_district_first'])) {
-				$sick_sub_district_first = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['sick_sub_district_first'])->get()->toArray();
-			} else {
-				$sick_sub_district_first = null;
-			}
+				/* sick sub district */
+				if (!empty($invest_pt[0]['sick_sub_district'])) {
+					$sick_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['sick_sub_district'])->get()->toArray();
+				} else {
+					$sick_sub_district = null;
+				}
 
-			/* risk district */
-			if (!empty($invest_pt[0]['risk_stay_outbreak_district'])) {
-				$risk_district = District::where('district_id', '=', $invest_pt[0]['risk_stay_outbreak_district'])->get()->toArray();
-			} else {
-				$risk_district = null;
-			}
+				/* sick district first */
+				if (!empty($invest_pt[0]['sick_district_first'])) {
+					$sick_district_first = District::where('district_id', '=', $invest_pt[0]['sick_district_first'])->get()->toArray();
+				} else {
+					$sick_district_first = null;
+				}
 
-			/* risk sub district */
-			if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district'])) {
-				$risk_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['risk_stay_outbreak_sub_district'])->get()->toArray();
-			} else {
-				$risk_sub_district = null;
-			}
+				/* sick sub district first */
+				if (!empty($invest_pt[0]['sick_sub_district_first'])) {
+					$sick_sub_district_first = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['sick_sub_district_first'])->get()->toArray();
+				} else {
+					$sick_sub_district_first = null;
+				}
 
-			/* treaf first district */
-			if (!empty($invest_pt[0]['treat_first_district'])) {
-				$treat_first_district = District::where('district_id', '=', $invest_pt[0]['treat_first_district'])->get()->toArray();
-			} else {
-				$treat_first_district = null;
-			}
+				/* risk district */
+				if (!empty($invest_pt[0]['risk_stay_outbreak_district'])) {
+					$risk_district = District::where('district_id', '=', $invest_pt[0]['risk_stay_outbreak_district'])->get()->toArray();
+				} else {
+					$risk_district = null;
+				}
 
-			/* treaf first sub district */
-			if (!empty($invest_pt[0]['treat_first_sub_district'])) {
-				$treat_first_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['treat_first_sub_district'])->get()->toArray();
-			} else {
-				$treat_first_sub_district = null;
-			}
+				/* risk sub district */
+				if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district'])) {
+					$risk_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['risk_stay_outbreak_sub_district'])->get()->toArray();
+				} else {
+					$risk_sub_district = null;
+				}
 
-			/* treaf place district */
-			if (!empty($invest_pt[0]['treat_place_district'])) {
-				$treat_place_district = District::where('district_id', '=', $invest_pt[0]['treat_place_district'])->get()->toArray();
-			} else {
-				$treat_place_district = null;
-			}
+				/* treaf first district */
+				if (!empty($invest_pt[0]['treat_first_district']) || !is_null($invest_pt[0]['treat_first_district']) || $invest_pt[0]['treat_first_district'] != 0) {
+					$treat_first_district = District::where('district_id', '=', $invest_pt[0]['treat_first_district'])->get()->toArray();
+				} else {
+					$treat_first_district = null;
+				}
 
-			/* treaf place sub district */
-			if (!empty($invest_pt[0]['treat_place_sub_district'])) {
-				$treat_place_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['treat_place_sub_district'])->get()->toArray();
-			} else {
-				$treat_place_sub_district = null;
-			}
+				/* treaf first sub district */
+				if (!empty($invest_pt[0]['treat_first_sub_district']) || !is_null($invest_pt[0]['treat_first_sub_district']) || $invest_pt[0]['treat_first_sub_district'] != 0) {
+					$treat_first_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['treat_first_sub_district'])->get()->toArray();
+				} else {
+					$treat_first_sub_district = null;
+				}
 
-			/* patient_treat_status_refer_district */
-			if (!empty($invest_pt[0]['patient_treat_status_refer_district'])) {
-				$patient_treat_status_refer_district = District::where('district_id', '=', $invest_pt[0]['patient_treat_status_refer_district'])->get()->toArray();
-			} else {
-				$patient_treat_status_refer_district = null;
-			}
+				/* treaf place district */
+				if (!empty($invest_pt[0]['treat_place_district'])) {
+					$treat_place_district = District::where('district_id', '=', $invest_pt[0]['treat_place_district'])->get()->toArray();
+				} else {
+					$treat_place_district = null;
+				}
 
-			/* patient_treat_status_refer_sub_district */
-			if (!empty($invest_pt[0]['patient_treat_status_refer_sub_district'])) {
-				$patient_treat_status_refer_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['patient_treat_status_refer_sub_district'])->get()->toArray();
-			} else {
-				$patient_treat_status_refer_sub_district = null;
-			}
+				/* treaf place sub district */
+				if (!empty($invest_pt[0]['treat_place_sub_district'])) {
+					$treat_place_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['treat_place_sub_district'])->get()->toArray();
+				} else {
+					$treat_place_sub_district = null;
+				}
 
-			/* invest attach file */
-			if (!empty($invest_pt[0]['invest_file']) || !is_null($invest_pt[0]['invest_file'])) {
-				if (Storage::disk('invest')->exists($invest_pt[0]['invest_file'])) {
-					$invest_file_size = Storage::disk('invest')->size($invest_pt[0]['invest_file']);
-					$invest_file_size = ($invest_file_size/1024);
+				/* patient_treat_status_refer_district */
+				if (!empty($invest_pt[0]['patient_treat_status_refer_district'])) {
+					$patient_treat_status_refer_district = District::where('district_id', '=', $invest_pt[0]['patient_treat_status_refer_district'])->get()->toArray();
+				} else {
+					$patient_treat_status_refer_district = null;
+				}
+
+				/* patient_treat_status_refer_sub_district */
+				if (!empty($invest_pt[0]['patient_treat_status_refer_sub_district'])) {
+					$patient_treat_status_refer_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['patient_treat_status_refer_sub_district'])->get()->toArray();
+				} else {
+					$patient_treat_status_refer_sub_district = null;
+				}
+
+				/* invest attach file */
+				if (!empty($invest_pt[0]['invest_file']) || !is_null($invest_pt[0]['invest_file'])) {
+					if (Storage::disk('invest')->exists($invest_pt[0]['invest_file'])) {
+						$invest_file_size = Storage::disk('invest')->size($invest_pt[0]['invest_file']);
+						$invest_file_size = ($invest_file_size/1024);
+					} else {
+						$invest_file_size = NULL;
+					}
 				} else {
 					$invest_file_size = NULL;
 				}
-			} else {
-				$invest_file_size = NULL;
-			}
 
-			/* x-ray invest attach file */
-			if (!empty($invest_pt[0]['lab_cxr1_file']) || !is_null($invest_pt[0]['lab_cxr1_file'])) {
-				if (Storage::disk('invest')->exists($invest_pt[0]['lab_cxr1_file'])) {
-					$xray_file_size = Storage::disk('invest')->size($invest_pt[0]['lab_cxr1_file']);
-					$xray_file_size = ($xray_file_size/1024);
+				/* x-ray invest attach file */
+				if (!empty($invest_pt[0]['lab_cxr1_file']) || !is_null($invest_pt[0]['lab_cxr1_file'])) {
+					if (Storage::disk('invest')->exists($invest_pt[0]['lab_cxr1_file'])) {
+						$xray_file_size = Storage::disk('invest')->size($invest_pt[0]['lab_cxr1_file']);
+						$xray_file_size = ($xray_file_size/1024);
+					} else {
+						$xray_file_size = NULL;
+					}
 				} else {
 					$xray_file_size = NULL;
 				}
+
+				/* get last log refer */
+
+
+				return view('form.invest.index',
+					[
+						'globalCountry' => $globalCountry,
+						'invest_pt' => $invest_pt,
+						'risk_stay_outbreak_city' => $risk_stay_outbreak_city,
+						'treat_first_city' => $treat_first_city,
+						'treat_place_city' => $treat_place_city,
+						'treat_first_hospital' => $treat_first_hospital,
+						'treat_place_hospital' => $treat_place_hospital,
+						'patient_treat_status_refer' => $patient_treat_status_refer,
+						'data' => $data,
+						'titleName' => $titleName,
+						'provinces' => $provinces,
+						'occupation' => $occupation,
+						'sick_district' => $sick_district,
+						'sick_sub_district' => $sick_sub_district,
+						'sick_district_first' => $sick_district_first,
+						'sick_sub_district_first' => $sick_sub_district_first,
+						'risk_district' => $risk_district,
+						'risk_sub_district' => $risk_sub_district,
+						'treat_first_district' => $treat_first_district,
+						'treat_first_sub_district' => $treat_first_sub_district,
+						'treat_place_district' => $treat_place_district,
+						'treat_place_sub_district' => $treat_place_sub_district,
+						'lab_station' => $labStation,
+						'ref_specimen' => $ref_specimen,
+						'pt_activity' => $pt_activity,
+						'covid19_drug_medicate_name' => $covid19_drug_medicate_name,
+						'drug_result' => $drug_result,
+						'risk_type' => $risk_type,
+						'invest_file_size' => $invest_file_size,
+						'xray_file_size' => $xray_file_size,
+						'refer_district' => $patient_treat_status_refer_district,
+						'refer_sub_district' => $patient_treat_status_refer_sub_district
+					]
+				);
 			} else {
-				$xray_file_size = NULL;
+				return redirect()->back()->with('error', 'ไม่พบข้อมูล');
 			}
-
-			/* get last log refer */
-
-
-			return view('form.invest.index',
-				[
-					'globalCountry' => $globalCountry,
-					'invest_pt' => $invest_pt,
-					'risk_stay_outbreak_city' => $risk_stay_outbreak_city,
-					'treat_first_city' => $treat_first_city,
-					'treat_place_city' => $treat_place_city,
-					'treat_first_hospital' => $treat_first_hospital,
-					'treat_place_hospital' => $treat_place_hospital,
-					'patient_treat_status_refer' => $patient_treat_status_refer,
-					'data' => $data,
-					'titleName' => $titleName,
-					'provinces' => $provinces,
-					'occupation' => $occupation,
-					'sick_district' => $sick_district,
-					'sick_sub_district' => $sick_sub_district,
-					'sick_district_first' => $sick_district_first,
-					'sick_sub_district_first' => $sick_sub_district_first,
-					'risk_district' => $risk_district,
-					'risk_sub_district' => $risk_sub_district,
-					'treat_first_district' => $treat_first_district,
-					'treat_first_sub_district' => $treat_first_sub_district,
-					'treat_place_district' => $treat_place_district,
-					'treat_place_sub_district' => $treat_place_sub_district,
-					'lab_station' => $labStation,
-					'ref_specimen' => $ref_specimen,
-					'pt_activity' => $pt_activity,
-					'covid19_drug_medicate_name' => $covid19_drug_medicate_name,
-					'drug_result' => $drug_result,
-					'risk_type' => $risk_type,
-					'invest_file_size' => $invest_file_size,
-					'xray_file_size' => $xray_file_size,
-					'refer_district' => $patient_treat_status_refer_district,
-					'refer_sub_district' => $patient_treat_status_refer_sub_district
-				]
-			);
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
