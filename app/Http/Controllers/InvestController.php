@@ -125,8 +125,8 @@ class InvestController extends MasterController
 			/* patient data */
 			$invest_pt = Invest::where('id', '=', $request->id)->get()->toArray();
 			if (count($invest_pt) > 0) {
-				/* map the to patient data */
-				if (!is_null($invest_pt[0]['risk_stay_outbreak_city'])) {
+				/* map to patient data */
+				if (!empty($invest_pt[0]['risk_stay_outbreak_city']) || !is_null($invest_pt[0]['risk_stay_outbreak_city']) || $invest_pt[0]['risk_stay_outbreak_city'] != 0) {
 					$risk_stay_outbreak_city = GlobalCity::where('city_id', '=', $invest_pt[0]['risk_stay_outbreak_city'])->get()->toArray();
 				} else {
 					$risk_stay_outbreak_city = null;
@@ -176,42 +176,42 @@ class InvestController extends MasterController
 				$data['patient_treat_status_refer_date'] = self::convertMySQLDateFormat($invest_pt[0]['patient_treat_status_refer_date']);
 
 				/* sick district */
-				if (!empty($invest_pt[0]['sick_district'])) {
+				if (!empty($invest_pt[0]['sick_district']) || !is_null($invest_pt[0]['sick_district']) || $invest_pt[0]['sick_district'] != 0) {
 					$sick_district = District::where('district_id', '=', $invest_pt[0]['sick_district'])->get()->toArray();
 				} else {
 					$sick_district = null;
 				}
 
 				/* sick sub district */
-				if (!empty($invest_pt[0]['sick_sub_district'])) {
+				if (!empty($invest_pt[0]['sick_sub_district']) || !is_null($invest_pt[0]['sick_sub_district']) || $invest_pt[0]['sick_sub_district'] != 0) {
 					$sick_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['sick_sub_district'])->get()->toArray();
 				} else {
 					$sick_sub_district = null;
 				}
 
 				/* sick district first */
-				if (!empty($invest_pt[0]['sick_district_first'])) {
+				if (!empty($invest_pt[0]['sick_district_first']) || !is_null($invest_pt[0]['sick_district_first']) || $invest_pt[0]['sick_district_first'] != 0) {
 					$sick_district_first = District::where('district_id', '=', $invest_pt[0]['sick_district_first'])->get()->toArray();
 				} else {
 					$sick_district_first = null;
 				}
 
 				/* sick sub district first */
-				if (!empty($invest_pt[0]['sick_sub_district_first'])) {
+				if (!empty($invest_pt[0]['sick_sub_district_first']) || !is_null($invest_pt[0]['sick_sub_district_first']) || $invest_pt[0]['sick_sub_district_first'] != 0) {
 					$sick_sub_district_first = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['sick_sub_district_first'])->get()->toArray();
 				} else {
 					$sick_sub_district_first = null;
 				}
 
 				/* risk district */
-				if (!empty($invest_pt[0]['risk_stay_outbreak_district'])) {
+				if (!empty($invest_pt[0]['risk_stay_outbreak_district']) || !is_null($invest_pt[0]['risk_stay_outbreak_district']) || $invest_pt[0]['risk_stay_outbreak_district'] != 0) {
 					$risk_district = District::where('district_id', '=', $invest_pt[0]['risk_stay_outbreak_district'])->get()->toArray();
 				} else {
 					$risk_district = null;
 				}
 
 				/* risk sub district */
-				if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district'])) {
+				if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district']) || !is_null($invest_pt[0]['risk_stay_outbreak_sub_district']) || $invest_pt[0]['risk_stay_outbreak_sub_district'] != 0) {
 					$risk_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['risk_stay_outbreak_sub_district'])->get()->toArray();
 				} else {
 					$risk_sub_district = null;
@@ -232,35 +232,35 @@ class InvestController extends MasterController
 				}
 
 				/* treaf place district */
-				if (!empty($invest_pt[0]['treat_place_district'])) {
+				if (!empty($invest_pt[0]['treat_place_district']) || !is_null($invest_pt[0]['treat_place_district']) || $invest_pt[0]['treat_place_district'] != 0) {
 					$treat_place_district = District::where('district_id', '=', $invest_pt[0]['treat_place_district'])->get()->toArray();
 				} else {
 					$treat_place_district = null;
 				}
 
 				/* treaf place sub district */
-				if (!empty($invest_pt[0]['treat_place_sub_district'])) {
+				if (!empty($invest_pt[0]['treat_place_sub_district']) || !is_null($invest_pt[0]['treat_place_sub_district']) || $invest_pt[0]['treat_place_sub_district'] != 0) {
 					$treat_place_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['treat_place_sub_district'])->get()->toArray();
 				} else {
 					$treat_place_sub_district = null;
 				}
 
 				/* patient_treat_status_refer_district */
-				if (!empty($invest_pt[0]['patient_treat_status_refer_district'])) {
+				if (!empty($invest_pt[0]['patient_treat_status_refer_district']) || !is_null($invest_pt[0]['patient_treat_status_refer_district']) || $invest_pt[0]['patient_treat_status_refer_district'] != 0) {
 					$patient_treat_status_refer_district = District::where('district_id', '=', $invest_pt[0]['patient_treat_status_refer_district'])->get()->toArray();
 				} else {
 					$patient_treat_status_refer_district = null;
 				}
 
 				/* patient_treat_status_refer_sub_district */
-				if (!empty($invest_pt[0]['patient_treat_status_refer_sub_district'])) {
+				if (!empty($invest_pt[0]['patient_treat_status_refer_sub_district']) || !is_null($invest_pt[0]['patient_treat_status_refer_sub_district']) || $invest_pt[0]['patient_treat_status_refer_sub_district'] != 0) {
 					$patient_treat_status_refer_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['patient_treat_status_refer_sub_district'])->get()->toArray();
 				} else {
 					$patient_treat_status_refer_sub_district = null;
 				}
 
 				/* invest attach file */
-				if (!empty($invest_pt[0]['invest_file']) || !is_null($invest_pt[0]['invest_file'])) {
+				if (!empty($invest_pt[0]['invest_file']) || !is_null($invest_pt[0]['invest_file']) || $invest_pt[0]['invest_file'] != 0) {
 					if (Storage::disk('invest')->exists($invest_pt[0]['invest_file'])) {
 						$invest_file_size = Storage::disk('invest')->size($invest_pt[0]['invest_file']);
 						$invest_file_size = ($invest_file_size/1024);
@@ -272,7 +272,7 @@ class InvestController extends MasterController
 				}
 
 				/* x-ray invest attach file */
-				if (!empty($invest_pt[0]['lab_cxr1_file']) || !is_null($invest_pt[0]['lab_cxr1_file'])) {
+				if (!empty($invest_pt[0]['lab_cxr1_file']) || !is_null($invest_pt[0]['lab_cxr1_file']) || $invest_pt[0]['lab_cxr1_file'] != 0) {
 					if (Storage::disk('invest')->exists($invest_pt[0]['lab_cxr1_file'])) {
 						$xray_file_size = Storage::disk('invest')->size($invest_pt[0]['lab_cxr1_file']);
 						$xray_file_size = ($xray_file_size/1024);
