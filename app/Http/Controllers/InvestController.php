@@ -30,7 +30,7 @@ use App\User;
 use App\Exports\InvestExportFromQuery;
 use App\Exports\LogExport;
 use App\Port;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Carbon\Carbon;
 
@@ -178,6 +178,9 @@ class InvestController extends MasterController
 				/* sick district */
 				if (!empty($invest_pt[0]['sick_district']) || !is_null($invest_pt[0]['sick_district']) || $invest_pt[0]['sick_district'] != 0) {
 					$sick_district = District::where('district_id', '=', $invest_pt[0]['sick_district'])->get()->toArray();
+					if (count($sick_district) <= 0) {
+						Log::warning('sick_district field not match - uid:  '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$sick_district = null;
 				}
@@ -185,6 +188,9 @@ class InvestController extends MasterController
 				/* sick sub district */
 				if (!empty($invest_pt[0]['sick_sub_district']) || !is_null($invest_pt[0]['sick_sub_district']) || $invest_pt[0]['sick_sub_district'] != 0) {
 					$sick_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['sick_sub_district'])->get()->toArray();
+					if (count($sick_sub_district) <= 0) {
+						Log::warning('sick_sub_district field not match - uid: '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$sick_sub_district = null;
 				}
@@ -192,6 +198,9 @@ class InvestController extends MasterController
 				/* sick district first */
 				if (!empty($invest_pt[0]['sick_district_first']) || !is_null($invest_pt[0]['sick_district_first']) || $invest_pt[0]['sick_district_first'] != 0) {
 					$sick_district_first = District::where('district_id', '=', $invest_pt[0]['sick_district_first'])->get()->toArray();
+					if (count($sick_district_first) <= 0) {
+						Log::warning('sick_district_first field not match - uid: '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$sick_district_first = null;
 				}
@@ -199,6 +208,9 @@ class InvestController extends MasterController
 				/* sick sub district first */
 				if (!empty($invest_pt[0]['sick_sub_district_first']) || !is_null($invest_pt[0]['sick_sub_district_first']) || $invest_pt[0]['sick_sub_district_first'] != 0) {
 					$sick_sub_district_first = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['sick_sub_district_first'])->get()->toArray();
+					if (count($sick_sub_district_first) <= 0) {
+						Log::warning('sick_sub_district_first field not match - uid: '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$sick_sub_district_first = null;
 				}
@@ -206,6 +218,9 @@ class InvestController extends MasterController
 				/* risk district */
 				if (!empty($invest_pt[0]['risk_stay_outbreak_district']) || !is_null($invest_pt[0]['risk_stay_outbreak_district']) || $invest_pt[0]['risk_stay_outbreak_district'] != 0) {
 					$risk_district = District::where('district_id', '=', $invest_pt[0]['risk_stay_outbreak_district'])->get()->toArray();
+					if (count($risk_district) <= 0) {
+						Log::warning('risk_stay_outbreak_district field not match - uid: '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$risk_district = null;
 				}
@@ -213,6 +228,9 @@ class InvestController extends MasterController
 				/* risk sub district */
 				if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district']) || !is_null($invest_pt[0]['risk_stay_outbreak_sub_district']) || $invest_pt[0]['risk_stay_outbreak_sub_district'] != 0) {
 					$risk_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['risk_stay_outbreak_sub_district'])->get()->toArray();
+					if (count($risk_sub_district) <= 0) {
+						Log::warning('risk_stay_outbreak_sub_district field not match - uid: '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$risk_sub_district = null;
 				}
@@ -220,6 +238,9 @@ class InvestController extends MasterController
 				/* treaf first district */
 				if (!empty($invest_pt[0]['treat_first_district']) || !is_null($invest_pt[0]['treat_first_district']) || $invest_pt[0]['treat_first_district'] != 0) {
 					$treat_first_district = District::where('district_id', '=', $invest_pt[0]['treat_first_district'])->get()->toArray();
+					if (count($treat_first_district) <= 0) {
+						Log::warning('treat_first_district field not match - uid: '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$treat_first_district = null;
 				}
@@ -227,6 +248,9 @@ class InvestController extends MasterController
 				/* treaf first sub district */
 				if (!empty($invest_pt[0]['treat_first_sub_district']) || !is_null($invest_pt[0]['treat_first_sub_district']) || $invest_pt[0]['treat_first_sub_district'] != 0) {
 					$treat_first_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['treat_first_sub_district'])->get()->toArray();
+					if (count($treat_first_sub_district) <= 0) {
+						Log::warning('treat_first_sub_district field not match - uid: '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$treat_first_sub_district = null;
 				}
@@ -234,6 +258,9 @@ class InvestController extends MasterController
 				/* treaf place district */
 				if (!empty($invest_pt[0]['treat_place_district']) || !is_null($invest_pt[0]['treat_place_district']) || $invest_pt[0]['treat_place_district'] != 0) {
 					$treat_place_district = District::where('district_id', '=', $invest_pt[0]['treat_place_district'])->get()->toArray();
+					if (count($treat_place_district) <= 0) {
+						Log::warning('treat_place_district field not match - uid: '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$treat_place_district = null;
 				}
@@ -241,6 +268,9 @@ class InvestController extends MasterController
 				/* treaf place sub district */
 				if (!empty($invest_pt[0]['treat_place_sub_district']) || !is_null($invest_pt[0]['treat_place_sub_district']) || $invest_pt[0]['treat_place_sub_district'] != 0) {
 					$treat_place_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['treat_place_sub_district'])->get()->toArray();
+					if (count($treat_place_sub_district) <= 0) {
+						Log::warning('treat_place_sub_district field not match - uid: '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$treat_place_sub_district = null;
 				}
@@ -248,6 +278,9 @@ class InvestController extends MasterController
 				/* patient_treat_status_refer_district */
 				if (!empty($invest_pt[0]['patient_treat_status_refer_district']) || !is_null($invest_pt[0]['patient_treat_status_refer_district']) || $invest_pt[0]['patient_treat_status_refer_district'] != 0) {
 					$patient_treat_status_refer_district = District::where('district_id', '=', $invest_pt[0]['patient_treat_status_refer_district'])->get()->toArray();
+					if (count($patient_treat_status_refer_district) <= 0) {
+						Log::warning('patient_treat_status_refer_district field not match - uid: '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$patient_treat_status_refer_district = null;
 				}
@@ -255,6 +288,9 @@ class InvestController extends MasterController
 				/* patient_treat_status_refer_sub_district */
 				if (!empty($invest_pt[0]['patient_treat_status_refer_sub_district']) || !is_null($invest_pt[0]['patient_treat_status_refer_sub_district']) || $invest_pt[0]['patient_treat_status_refer_sub_district'] != 0) {
 					$patient_treat_status_refer_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['patient_treat_status_refer_sub_district'])->get()->toArray();
+					if (count($patient_treat_status_refer_sub_district) <= 0) {
+						Log::warning('patient_treat_status_refer_sub_district field not match - uid: '.auth()->user()->id.' - pid: '.$request->id);
+					}
 				} else {
 					$patient_treat_status_refer_sub_district = null;
 				}
@@ -326,7 +362,8 @@ class InvestController extends MasterController
 				return redirect()->back()->with('error', 'ไม่พบข้อมูล');
 			}
 		} catch(\Exception $e) {
-			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).sprintf("%s  %s ", "pid: ", $request->id).$e->getMessage());
+			Log::warning('pid: '.$request->id);
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
 	}
 
