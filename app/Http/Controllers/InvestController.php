@@ -326,7 +326,7 @@ class InvestController extends MasterController
 				return redirect()->back()->with('error', 'ไม่พบข้อมูล');
 			}
 		} catch(\Exception $e) {
-			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).sprintf("%s  %s ", "pid: ", $request->id).$e->getMessage());
 		}
 	}
 
