@@ -14,10 +14,10 @@
 				<div class="form-group">
 					<label for="risk_type">ประเภทประวัติเสี่ยง</label>
 					<select name="risk_type" id="risk_type" data-live-search="true" class="form-control selectpicker show-tick">
-						@if (!empty(old('risk_type')) || !empty($invest_pt[0]['risk_type']))
+						@if ((!empty(old('risk_type'))) || (!is_null($invest_pt[0]['risk_type']) && !empty($invest_pt[0]['risk_type']) && $invest_pt[0]['risk_type'] != 0))
 							<option value="{{ old('risk_type') ?? $invest_pt[0]['risk_type'] }}" selected="selected">{{ $risk_type[old('risk_type')]['risk_name'] ?? $risk_type[$invest_pt[0]['risk_type']]['risk_name'] }}</option>
 						@endif
-						<option value="">-- โปรดเลือก --</option>
+						<option value="0">-- โปรดเลือก --</option>
 						@foreach($risk_type as $key => $val)
 							<option value="{{ $val['id'] }}">{{ $val['risk_name'] }}</option>
 						@endforeach
@@ -55,7 +55,7 @@
 				<div class="form-group">
 					<label for="country" class="text-info">ประเทศ</label>
 					<select name="riskStayOutbreakCountryInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-info" id="risk_stay_outbreak_country">
-						@if (!empty(old('riskStayOutbreakCountryInput')) || !empty($invest_pt[0]['risk_stay_outbreak_country']))
+						@if ((!empty(old('riskStayOutbreakCountryInput'))) || (!is_null($invest_pt[0]['risk_stay_outbreak_country']) && !empty($invest_pt[0]['risk_stay_outbreak_country']) && $invest_pt[0]['risk_stay_outbreak_country'] != 0))
 							<option value="{{ old('riskStayOutbreakCountryInput') ?? $invest_pt[0]['risk_stay_outbreak_country'] }}" selected="selected">{{ $globalCountry[$invest_pt[0]['risk_stay_outbreak_country']]['country_name'] }}</option>
 						@endif
 						<option value="0">-- เลือกประเทศ --</option>
@@ -69,7 +69,7 @@
 				<div class="form-group">
 					<label for="country" class="text-info">เมือง (กรณี ตปท.)</label>
 					<select name="riskStayOutbreakCityInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="select_risk_stay_outbreak_city">
-						@if (!empty($invest_pt[0]['risk_stay_outbreak_city']))
+						@if ((!empty(old('riskStayOutbreakCityInput'))) || (!is_null($invest_pt[0]['risk_stay_outbreak_city']) && !empty($invest_pt[0]['risk_stay_outbreak_city']) && $invest_pt[0]['risk_stay_outbreak_city'] != 0))
 							<option value="{{ $invest_pt[0]['risk_stay_outbreak_city'] }}" selected="selected">{{ $risk_stay_outbreak_city[0]['city_name'] }}</option>
 						@endif
 						<option value="0">-- โปรดเลือก --</option>
@@ -136,7 +136,7 @@
 				<div class="form-group">
 					<label for="province" class="text-info">จังหวัด (กรณี ประเทศไทย)</label>
 					<select name="riskStayOutbreakProvinceInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="risk_stay_outbreak_province">
-						@if (!empty(old('riskStayOutbreakProvinceInput')) || !empty($invest_pt[0]['risk_stay_outbreak_province']))
+						@if ((!empty(old('riskStayOutbreakProvinceInput'))) || (!is_null($invest_pt[0]['risk_stay_outbreak_province']) && !empty($invest_pt[0]['risk_stay_outbreak_province']) && $invest_pt[0]['risk_stay_outbreak_province'] != 0))
 							<option value="{{ old('riskStayOutbreakProvinceInput') ?? $invest_pt[0]['risk_stay_outbreak_province'] }}" selected="selected">{{ $provinces[old('riskStayOutbreakProvinceInput')]['province_name'] ?? $provinces[$invest_pt[0]['risk_stay_outbreak_province']]['province_name'] }}</option>
 						@endif
 						<option value="0">-- เลือกจังหวัด --</option>
@@ -150,7 +150,7 @@
 				<div class="form-group">
 					<label for="district" class="text-info">อำเภอ (กรณี ประเทศไทย)</label>
 					<select name="riskStayOutbreakDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="risk_stay_outbreak_district">
-						@if (!empty($invest_pt[0]['risk_stay_outbreak_district']))
+						@if (!is_null($invest_pt[0]['risk_stay_outbreak_district']) && !empty($invest_pt[0]['risk_stay_outbreak_district']) && $invest_pt[0]['risk_stay_outbreak_district'] != 0)
 							<option value="{{ $risk_district[0]['district_id'] }}" selected="selected">{{ $risk_district[0]['district_name'] }}</option>
 						@endif
 						<option value="0">-- โปรดเลือก --</option>
@@ -161,7 +161,7 @@
 				<div class="form-group">
 					<label for="subDistrict" class="text-info">ตำบล (กรณี ประเทศไทย)</label>
 					<select name="riskStayOutbreakSubDistrictInput" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-info" id="risk_stay_outbreak_sub_district">
-						@if (!empty($invest_pt[0]['risk_stay_outbreak_sub_district']))
+						@if (!is_null($invest_pt[0]['risk_stay_outbreak_sub_district']) && !empty($invest_pt[0]['risk_stay_outbreak_sub_district']) && $invest_pt[0]['risk_stay_outbreak_sub_district'] != 0)
 							<option value="{{ $risk_sub_district[0]['sub_district_id'] }}" selected="selected">{{ $risk_sub_district[0]['sub_district_name'] }}</option>
 						@endif
 						<option value="0">-- โปรดเลือก --</option>
