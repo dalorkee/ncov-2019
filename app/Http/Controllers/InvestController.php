@@ -290,7 +290,7 @@ class InvestController extends MasterController
 				}
 
 				/* treaf first sub district */
-				if (empty($invest_pt[0]['treat_first_sub_district']) && is_null($invest_pt[0]['treat_first_sub_district']) && $invest_pt[0]['treat_first_sub_district'] == '0') {
+				if (empty($invest_pt[0]['treat_first_sub_district']) || is_null($invest_pt[0]['treat_first_sub_district']) || $invest_pt[0]['treat_first_sub_district'] == '0') {
 					$treat_first_sub_district = null;
 				} else {
 					$treat_first_sub_district = SubDistrict::where('sub_district_id', '=', $invest_pt[0]['treat_first_sub_district'])->get()->toArray();
