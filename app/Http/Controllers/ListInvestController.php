@@ -41,30 +41,24 @@ class ListInvestController extends Controller
 		if ($user->hasPermissionTo('pui-delete')) {
 			$user_role = Session::get('user_role');
 			$dt = Carbon::today();
-			dd($dt);
-			$last_3_days = $dt->sub('3 days')->toDateString();
+			$start_date = $dt->sub('3 days')->toDateString();
+			$end_date = date('Y-m-d');
 			switch ($user_role) {
 				case 'root' :
 					$pt = InvestList::where('id', '=', $request->pid)->delete();
 					break;
 				default :
-					$created_at = InvestList::select('created_at')->where('id', '=', $request->pid)->get();
-					if (count($created_at) > 0) {
-						$exp_created_at = explode(" ", $created_at[0]->created_at);
-						$pt = InvestList::where('id', '=', $request->pid)
-							->where('entry_user', '=', $user->id)
-							->where('pt_status', '!=', 2)
-							->whereRaw("('".$exp_created_at[0]."' >= '".$last_3_days."')")
-							->delete();
-					} else {
-						$pt = 0;
-					}
+					$pt = InvestList::where('id', '=', $request->pid)
+						->where('entry_user', '=', $user->id)
+						->where('pt_status', '!=', '2')
+						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+						->delete();
 					break;
 			}
 			if ($pt == 1) {
 				return redirect()->back()->with('success', 'ข้อมูลรหัสที่ '.$request->pid.' ถูกลบออกจากระบบแล้ว');
 			} else {
-				return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->pid.' ไม่สามารถลบออกจากระบบได้');
+				return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->pid.' ไม่สามารถลบออกจากระบบได้ โปรดตรวจสอบเงื่อนไข');
 			}
 		} else {
 			return redirect()->back()->with('error', 'ท่านไม่มีสิทธิ์ลบข้อมูล !!');
