@@ -170,14 +170,6 @@ class ExportController extends MasterController
 
 			switch ($user_role) {
 				case 'root':
-
-				$total = Invest2::whereIn('pt_status', $pt_status)
-					->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
-					->whereNull('deleted_at')->toSql();
-					echo $total;
-					exit;
-
-
 					$total = Invest2::whereIn('pt_status', $pt_status)
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->count();
@@ -185,7 +177,7 @@ class ExportController extends MasterController
 				case 'ddc':
 					$total = Invest2::whereIn('pt_status', $pt_status)
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
-						->whereNull('deleted_at')->count();
+						->count();
 					break;
 				case 'dpc':
 					$prov_arr = parent::getProvCodeByRegion($user_region);
@@ -194,18 +186,18 @@ class ExportController extends MasterController
 						//->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
-						->whereNull('deleted_at')->count();
+						->count();
 					break;
 				case 'pho':
 					$total = Invest2::whereIn('pt_status', $pt_status)
 						//->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province ='".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province ='".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
-						->whereNull('deleted_at')->count();
+						->count();
 					break;
 				case 'hos':
 					$total = Invest2::whereIn('pt_status', $pt_status)
 						->whereRaw("(isolated_hosp_code = '".$user_hosp."' OR walkinplace_hosp_code = '".$user_hosp."' OR treat_first_hospital = '".$user_hosp."' OR treat_place_hospital = '".$user_hosp."' ) AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
-						->whereNull('deleted_at')->count();
+						->count();
 					break;
 				default:
 					return redirect()->route('logout');
@@ -222,7 +214,7 @@ class ExportController extends MasterController
 
 				/* create file */
 				(new FastExcel($this->dataGenerator($pt_status, $start_date, $end_date, $total)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation_arr, $pts, $riskType, $port_arr) {
-					if (!empty($x->nation) || $x->nation != 0 || !is_null($x->nation)) {
+					if (!empty($x->nation) && $x->nation != '0' && !is_null($x->nation)) {
 						if (array_key_exists($x->nation, $globalCountry)) {
 							$nation = $globalCountry[$x->nation]['country_name_th'];
 						} else {
@@ -233,7 +225,7 @@ class ExportController extends MasterController
 					}
 
 					/* occupation */
-					if (!empty($x->occupation) || $x->occupation != 0 || !is_null($x->occupation)) {
+					if (!empty($x->occupation) && $x->occupation != '0' && !is_null($x->occupation)) {
 						if (array_key_exists($x->occupation, $occupation_arr)) {
 							$occupation_name = $occupation_arr[$x->occupation]['occu_name_th'];
 						} else {
@@ -244,7 +236,7 @@ class ExportController extends MasterController
 					}
 
 					/* sick addr prov */
-					if (!empty($x->sick_province) || $x->sick_province != 0) {
+					if (!empty($x->sick_province) && $x->sick_province != '0' && !is_null($x->sick_province)) {
 						if (array_key_exists($x->sick_province, $provinces)) {
 							$sick_prov_name = $provinces[$x->sick_province]['province_name'];
 						} else {
@@ -255,9 +247,9 @@ class ExportController extends MasterController
 					}
 
 					/* sick addr dist */
-					if (!empty($x->sick_district) || $x->sick_district != 0) {
+					if (!empty($x->sick_district) && $x->sick_district != '0' && !is_null($x->sick_district)) {
 						$sick_dist = self::getDistirctNameTh($x->sick_district);
-						if (count($sick_dist) > 0) {
+						if (count($sick_dist) > 0 && !is_null($sick_dist)) {
 							$sick_dist_name = $sick_dist[0]['district_name'];
 						} else {
 							$sick_dist_name = NULL;
@@ -267,9 +259,9 @@ class ExportController extends MasterController
 					}
 
 					/* sick addr sub dist */
-					if (!empty($x->sick_sub_district) || $x->sick_sub_district != 0) {
+					if (!empty($x->sick_sub_district) && $x->sick_sub_district != '0' && !is_null($x->sick_sub_district)) {
 						$sick_sub_dist = self::getSubDistirctNameTh($x->sick_sub_district);
-						if (count($sick_sub_dist) > 0) {
+						if (count($sick_sub_dist) > 0 && !is_null($sick_sub_dist)) {
 							$sick_sub_dist_name = $sick_sub_dist[0]['sub_district_name'];
 						} else {
 							$sick_sub_dist_name = NULL;
@@ -279,7 +271,7 @@ class ExportController extends MasterController
 					}
 
 					/* sick first addr province */
-					if (!empty($x->sick_province_first) || $x->sick_province_first != 0) {
+					if (!empty($x->sick_province_first) && $x->sick_province_first != '0' && !is_null($x->sick_province_first)) {
 						if (array_key_exists($x->sick_province_first, $provinces)) {
 							$sick_prov_first = $provinces[$x->sick_province_first]['province_name'];
 						} else {
@@ -290,9 +282,9 @@ class ExportController extends MasterController
 					}
 
 					/* sick first addr dist */
-					if (!empty($x->sick_district_first) || $x->sick_district_first != 0) {
+					if (!empty($x->sick_district_first) && $x->sick_district_first != '0' && !is_null($x->sick_district_first)) {
 						$sick_dist_first = self::getDistirctNameTh($x->sick_district_first);
-						if (count($sick_dist_first) > 0) {
+						if (count($sick_dist_first) > 0 && !is_null($sick_dist_first)) {
 							$sick_dist_first_name = $sick_dist_first[0]['district_name'];
 						} else {
 							$sick_dist_first_name = NULL;
@@ -302,9 +294,9 @@ class ExportController extends MasterController
 					}
 
 					/* sick first addr sub dist */
-					if (!empty($x->sick_sub_district_first) || $x->sick_sub_district_first != 0) {
+					if (!empty($x->sick_sub_district_first) && $x->sick_sub_district_first != '0' && !is_null($x->sick_sub_district_first)) {
 						$sick_sub_dist_first = self::getSubDistirctNameTh($x->sick_sub_district_first);
-						if (count($sick_sub_dist_first) > 0) {
+						if (count($sick_sub_dist_first) > 0 && !is_null($sick_sub_dist_first)) {
 							$sick_sub_dist_name_first = $sick_sub_dist_first[0]['sub_district_name'];
 						} else {
 							$sick_sub_dist_name_first = NULL;
@@ -314,7 +306,7 @@ class ExportController extends MasterController
 					}
 
 					/* treat first addr  province */
-					if (!empty($x->treat_first_province) || $x->treat_first_province != 0) {
+					if (!empty($x->treat_first_province) && $x->treat_first_province != '0' && !is_null($x->treat_first_province)) {
 						if (array_key_exists($x->treat_first_province, $provinces)) {
 							$treat_first_prov = $provinces[$x->treat_first_province]['province_name'];
 						} else {
@@ -325,9 +317,9 @@ class ExportController extends MasterController
 					}
 
 					/* treat first addr dist */
-					if (!empty($x->treat_first_district) || $x->treat_first_district != 0) {
+					if (!empty($x->treat_first_district) && $x->treat_first_district != '0' && !is_null($x->treat_first_district)) {
 						$treat_first_dist = self::getDistirctNameTh($x->treat_first_district);
-						if (count($treat_first_dist) > 0) {
+						if (count($treat_first_dist) > 0 && !is_null($treat_first_dist)) {
 							$treat_first_dist_name = $treat_first_dist[0]['district_name'];
 						} else {
 							$treat_first_dist_name = NULL;
@@ -337,9 +329,9 @@ class ExportController extends MasterController
 					}
 
 					/* treat first addr sub dist */
-					if (!empty($x->treat_first_sub_district) || $x->treat_first_sub_district != 0) {
+					if (!empty($x->treat_first_sub_district) && $x->treat_first_sub_district != '0' && !is_null($x->treat_first_sub_district)) {
 						$treat_first_sub_dist = self::getSubDistirctNameTh($x->treat_first_sub_district);
-						if (count($treat_first_sub_dist) > 0) {
+						if (count($treat_first_sub_dist) > 0 && !is_null($treat_first_sub_dist)) {
 							$treat_first_sub_dist_name = $treat_first_sub_dist[0]['sub_district_name'];
 						} else {
 							$treat_first_sub_dist_name = NULL;
@@ -349,9 +341,9 @@ class ExportController extends MasterController
 					}
 
 					/* treat first addr hospital */
-					if (!empty($x->treat_first_hospital) || $x->treat_first_hospital != 0) {
+					if (!empty($x->treat_first_hospital) && $x->treat_first_hospital != '0' && !is_null($x->treat_first_hospital)) {
 						$treat_first_hosp = self::getHospitalNameTh($x->treat_first_hospital);
-						if (count($treat_first_hosp) > 0) {
+						if (count($treat_first_hosp) > 0 && !is_null($treat_first_hosp)) {
 							$treat_first_hosp_name = $treat_first_hosp[0]['hosp_name'];
 						} else {
 							$treat_first_hosp_name = NULL;
@@ -361,7 +353,7 @@ class ExportController extends MasterController
 					}
 
 					/* treat place province */
-					if (!empty($x->treat_place_province) || $x->treat_place_province != 0) {
+					if (!empty($x->treat_place_province) && $x->treat_place_province != '0' && !is_null($x->treat_place_province)) {
 						if (array_key_exists($x->treat_place_province, $provinces)) {
 							$treat_place_prov = $provinces[$x->treat_place_province]['province_name'];
 						} else {
@@ -372,9 +364,9 @@ class ExportController extends MasterController
 					}
 
 					/* treat place dist */
-					if (!empty($x->treat_place_district) || $x->treat_place_district != 0) {
+					if (!empty($x->treat_place_district) && $x->treat_place_district != '0' && !is_null($x->treat_place_district)) {
 						$treat_place_dist = self::getDistirctNameTh($x->treat_place_district);
-						if (count($treat_place_dist) > 0) {
+						if (count($treat_place_dist) > 0 && !is_null($treat_place_dist)) {
 							$treat_place_dist_name = $treat_place_dist[0]['district_name'];
 						} else {
 							$treat_place_dist_name = NULL;
@@ -384,9 +376,9 @@ class ExportController extends MasterController
 					}
 
 					/* treat place sub dist */
-					if (!empty($x->treat_place_sub_district) || $x->treat_place_sub_district != 0) {
+					if (!empty($x->treat_place_sub_district) && $x->treat_place_sub_district != '0' && !is_null($x->treat_place_sub_district)) {
 						$treat_place_sub_dist = self::getSubDistirctNameTh($x->treat_place_sub_district);
-						if (count($treat_place_sub_dist) > 0) {
+						if (count($treat_place_sub_dist) > 0 && !is_null($treat_place_sub_dist)) {
 							$treat_place_sub_dist_name = $treat_place_sub_dist[0]['sub_district_name'];
 						} else {
 							$treat_place_sub_dist_name = NULL;
@@ -396,9 +388,9 @@ class ExportController extends MasterController
 					}
 
 					/* treat place hospital */
-					if (!empty($x->treat_place_hospital) || $x->treat_place_hospital != 0) {
+					if (!empty($x->treat_place_hospital) && $x->treat_place_hospital != '0' && !is_null($x->treat_place_hospital)) {
 						$treat_place_hosp = self::getHospitalNameTh($x->treat_place_hospital);
-						if (count($treat_place_hosp)) {
+						if (count($treat_place_hosp) && !is_null($treat_place_hosp)) {
 							$treat_place_hosp_name = $treat_place_hosp[0]['hosp_name'];
 						} else {
 							$treat_place_hosp_name = NULL;
@@ -440,7 +432,7 @@ class ExportController extends MasterController
 					}
 
 					/* risk_stay_outbreak_country */
-					if (!empty($x->risk_stay_outbreak_country) || $x->risk_stay_outbreak_country != 0 || !is_null($x->risk_stay_outbreak_country)) {
+					if (!empty($x->risk_stay_outbreak_country) && $x->risk_stay_outbreak_country != '0' && !is_null($x->risk_stay_outbreak_country)) {
 						if (array_key_exists($x->risk_stay_outbreak_country, $globalCountry)) {
 							$risk_stay_outbreak_country = $globalCountry[$x->risk_stay_outbreak_country]['country_name_th'];
 						} else {
@@ -451,9 +443,9 @@ class ExportController extends MasterController
 					}
 
 					/* risk_stay_outbreak_city */
-					if (!empty($x->risk_stay_outbreak_city) || $x->risk_stay_outbreak_city != 0) {
+					if (!empty($x->risk_stay_outbreak_city) && $x->risk_stay_outbreak_city != '0' && !is_null($x->risk_stay_outbreak_city)) {
 						$risk_city = self::getCityName($x->risk_stay_outbreak_city);
-						if (count($risk_city) > 0) {
+						if (count($risk_city) > 0 && !is_null($risk_city)) {
 							$risk_city_name = $risk_city[0]['city_name'];
 						} else {
 							$risk_city_name = NULL;
@@ -463,7 +455,7 @@ class ExportController extends MasterController
 					}
 
 					/* risk_stay_outbreak_province */
-					if (!empty($x->risk_stay_outbreak_province) || $x->risk_stay_outbreak_province != 0) {
+					if (!empty($x->risk_stay_outbreak_province) && $x->risk_stay_outbreak_province != '0' && !is_null($x->risk_stay_outbreak_province)) {
 						if (array_key_exists($x->risk_stay_outbreak_province, $provinces)) {
 							$risk_stay_outbreak_prov = $provinces[$x->risk_stay_outbreak_province]['province_name'];
 						} else {
@@ -474,9 +466,9 @@ class ExportController extends MasterController
 					}
 
 					/* risk_stay_outbreak_district */
-					if (!empty($x->risk_stay_outbreak_district) || $x->risk_stay_outbreak_district != 0) {
+					if (!empty($x->risk_stay_outbreak_district) && $x->risk_stay_outbreak_district != '0' && !is_null($x->risk_stay_outbreak_district)) {
 						$risk_stay_outbreak_dist = self::getDistirctNameTh($x->risk_stay_outbreak_district);
-						if (count($risk_stay_outbreak_dist)) {
+						if (count($risk_stay_outbreak_dist) && !is_null($risk_stay_outbreak_dist)) {
 							$risk_stay_outbreak_dist_name = $risk_stay_outbreak_dist[0]['district_name'];
 						} else {
 							$risk_stay_outbreak_dist_name = NULL;
@@ -486,9 +478,9 @@ class ExportController extends MasterController
 					}
 
 					/* risk_stay_outbreak_sub_district */
-					if (!empty($x->risk_stay_outbreak_sub_district) || $x->risk_stay_outbreak_sub_district != 0) {
+					if (!empty($x->risk_stay_outbreak_sub_district) && $x->risk_stay_outbreak_sub_district != '0' && !is_null($x->risk_stay_outbreak_sub_district)) {
 						$risk_stay_outbreak_sub_dist = self::getSubDistirctNameTh($x->risk_stay_outbreak_sub_district);
-						if (count($risk_stay_outbreak_sub_dist) > 0) {
+						if (count($risk_stay_outbreak_sub_dist) > 0 && !is_null($risk_stay_outbreak_sub_dist)) {
 							$risk_stay_outbreak_sub_dist_name = $risk_stay_outbreak_sub_dist[0]['sub_district_name'];
 						} else {
 							$risk_stay_outbreak_sub_dist_name = NULL;
@@ -498,7 +490,7 @@ class ExportController extends MasterController
 					}
 
 					/* patient status */
-					if (!empty($x->pt_status) || $x->pt_status != 0 || !is_null($x->pt_status)) {
+					if (!empty($x->pt_status) && $x->pt_status != '0' && !is_null($x->pt_status)) {
 						if (array_key_exists($x->pt_status, $pts)) {
 							$pt_status_name = $pts[$x->pt_status];
 						} else {
@@ -509,7 +501,7 @@ class ExportController extends MasterController
 					}
 
 					/* risk type */
-					if (!empty($x->risk_type) || $x->risk_type != 0 || !is_null($x->risk_type)) {
+					if (!empty($x->risk_type) && $x->risk_type != '0' && !is_null($x->risk_type)) {
 						if (array_key_exists($x->risk_type, $riskType)) {
 							$risk_type_name = $riskType[$x->risk_type]['risk_name'];
 						} else {
@@ -521,9 +513,9 @@ class ExportController extends MasterController
 
 					/* patient treat status */
 					$ptTreatStatus = parent::selectStatus('pt_treat_status');
-					if (!empty($x->patient_treat_status) || $x->patient_treat_status != 0 || !is_null($x->patient_treat_status)) {
+					if (!empty($x->patient_treat_status) && $x->patient_treat_status != '0' && !is_null($x->patient_treat_status)) {
 						if (array_key_exists($x->patient_treat_status, $ptTreatStatus)) {
-							if ($x->patient_treat_status == 4) {
+							if ($x->patient_treat_status == '4') {
 								$patient_treat_status_name = $ptTreatStatus[$x->patient_treat_status] . $x->patient_treat_status_refer;
 							} else {
 								$patient_treat_status_name = $ptTreatStatus[$x->patient_treat_status];
@@ -536,7 +528,7 @@ class ExportController extends MasterController
 					}
 
 					/* created at */
-					if (!empty($x->created_at) || !is_null($x->created_at)) {
+					if (!empty($x->created_at) && !is_null($x->created_at)) {
 						$epd = explode(" ", $x->created_at);
 						$created_date_only = $epd[0];
 					} else {
@@ -544,9 +536,9 @@ class ExportController extends MasterController
 					}
 
 					/* walkin place hospital  */
-					if (!empty($x->walkinplace_hosp_code) || $x->walkinplace_hosp_code != 0) {
+					if (!empty($x->walkinplace_hosp_code) && $x->walkinplace_hosp_code != '0' && !is_null($x->walkinplace_hosp_code)) {
 						$walkin_place_hosp = self::getHospitalNameTh($x->walkinplace_hosp_code);
-						if (count($walkin_place_hosp) > 0) {
+						if (count($walkin_place_hosp) > 0 && !is_null($walkin_place_hosp)) {
 							$walkin_place_hosp_name = $walkin_place_hosp[0]['hosp_name'];
 						} else {
 							$walkin_place_hosp_name = NULL;
@@ -558,9 +550,8 @@ class ExportController extends MasterController
 					/* hosp type */
 					$walkin_place_hosp_type_name = parent::getHospitalType($x->walkinplace_hosp_code);
 
-
 					/* $walkinplace_hosp_province */
-					if (!empty($x->walkinplace_hosp_province) || $x->walkinplace_hosp_province != 0) {
+					if (!empty($x->walkinplace_hosp_province) && $x->walkinplace_hosp_province != '0' && !is_null($x->walkinplace_hosp_province)) {
 						if (array_key_exists($x->walkinplace_hosp_province, $provinces)) {
 							$walkinplace_hosp_province_name = $provinces[$x->walkinplace_hosp_province]['province_name'];
 						} else {
@@ -571,7 +562,7 @@ class ExportController extends MasterController
 					}
 
 					/* isolated_province */
-					if (!empty($x->isolated_province) || $x->isolated_province != 0) {
+					if (!empty($x->isolated_province) && $x->isolated_province != '0' && !is_null($x->isolated_province)) {
 						if (array_key_exists($x->isolated_province, $provinces)) {
 							$isolated_province_name = $provinces[$x->isolated_province]['province_name'];
 						} else {
@@ -582,9 +573,9 @@ class ExportController extends MasterController
 					}
 
 					/* Isolate hospital  */
-					if (!empty($x->isolated_hosp_code) || $x->isolated_hosp_code != 0) {
+					if (!empty($x->isolated_hosp_code) && $x->isolated_hosp_code != '0' && !is_null($x->isolated_hosp_code)) {
 						$isolatedHospCode = self::getHospitalNameTh($x->isolated_hosp_code);
-						if (count($isolatedHospCode) > 0) {
+						if (count($isolatedHospCode) > 0 && !is_null($isolatedHospCode)) {
 							$isolated_hosp_name = $isolatedHospCode[0]['hosp_name'];
 						} else {
 							$isolated_hosp_name = NULL;
@@ -594,7 +585,7 @@ class ExportController extends MasterController
 					}
 
 					/* travel from country */
-					if (!empty($x->travel_from_country) || $x->travel_from_country != 0 || !is_null($x->travel_from_country)) {
+					if (!empty($x->travel_from_country) && $x->travel_from_country != '0' && !is_null($x->travel_from_country)) {
 						if (array_key_exists($x->travel_from_country, $globalCountry)) {
 							$travel_from_country_name = $globalCountry[$x->travel_from_country]['country_name_th'];
 						} else {
@@ -605,9 +596,9 @@ class ExportController extends MasterController
 					}
 
 					/* travel from city */
-					if (!empty($x->travel_from_city) || $x->travel_from_city != 0 || !is_null($x->travel_from_city)) {
+					if (!empty($x->travel_from_city) && $x->travel_from_city != '0' && !is_null($x->travel_from_city)) {
 						$travelFromCity = self::getCityName($x->travel_from_city);
-						if (count($travelFromCity) > 0) {
+						if (count($travelFromCity) > 0 && !is_null($travelFromCity)) {
 							$travel_from_city_name = $travelFromCity[0]['city_name'];
 						} else {
 							$travel_from_city_name = NULL;
@@ -618,7 +609,7 @@ class ExportController extends MasterController
 
 					/* PUI type */
 					$pui_type_arr = parent::selectStatus('pui_type');
-					if (!empty($x->pui_type) || $x->pui_type != 0 || !is_null($x->pui_type)) {
+					if (!empty($x->pui_type) && $x->pui_type != '0' && !is_null($x->pui_type)) {
 						if (array_key_exists($x->pui_type, $pui_type_arr)) {
 							$pui_type_name = $pui_type_arr[$x->pui_type];
 						} else {
@@ -630,7 +621,7 @@ class ExportController extends MasterController
 
 					/* PUI type */
 					$news_st_arr = parent::selectStatus('news_st');
-					if (!empty($x->news_st) || $x->news_st != 0 || !is_null($x->news_st)) {
+					if (!empty($x->news_st) && $x->news_st != '0' && !is_null($x->news_st)) {
 						if (array_key_exists($x->news_st, $news_st_arr)) {
 							$news_st_name = $news_st_arr[$x->news_st];
 						} else {
@@ -642,7 +633,7 @@ class ExportController extends MasterController
 
 					/* distchart */
 					$disch_st_arr = parent::selectStatus('disch_st');
-					if (!empty($x->disch_st) || $x->disch_st != 0 || !is_null($x->disch_st)) {
+					if (!empty($x->disch_st) && $x->disch_st != '0' && !is_null($x->disch_st)) {
 						if (array_key_exists($x->disch_st, $disch_st_arr)) {
 							$disch_st_name = $disch_st_arr[$x->disch_st];
 						} else {
@@ -656,7 +647,7 @@ class ExportController extends MasterController
 					$coordinate_str = (string)$x->coordinator_tel;
 
 					/*port */
-					if (!empty($x->airports_code) || $x->airports_code != 0 || !is_null($x->airports_code)) {
+					if (!empty($x->airports_code) && $x->airports_code != '0' && !is_null($x->airports_code)) {
 						if (array_key_exists($x->airports_code, $port_arr)) {
 							$port_name = $port_arr[$x->airports_code]['port_name'];
 						} else {
@@ -668,7 +659,7 @@ class ExportController extends MasterController
 
 					/* screen pt */
 					$ref_screen_pt = parent::selectStatus('screen_pt');
-					if (!empty($x->screen_pt) || $x->screen_pt != 0 || !is_null($x->screen_pt)) {
+					if (!empty($x->screen_pt) && $x->screen_pt != '0' && !is_null($x->screen_pt)) {
 						$screen_pt_name = $ref_screen_pt[$x->screen_pt];
 					} else {
 						$screen_pt_name = NULL;

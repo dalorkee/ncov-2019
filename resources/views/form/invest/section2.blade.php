@@ -731,9 +731,9 @@
 										<option value="{{ old('lab_sars_cov2_no_1_result') ?? $invest_pt[0]['lab_sars_cov2_no_1_result'] }}" selected="selected">{{ $lab_status[old('lab_sars_cov2_no_1_result')] ?? $lab_status[$invest_pt[0]['lab_sars_cov2_no_1_result']] }}</option>
 									@endif
 									<option value="0">- โปรดเลือก -</option>
-									<option value="process">รอผล</option>
+									<option value="Process">รอผล</option>
 									<option value="Detected">Detected</option>
-									<option value="Not Detected">Not detected</option>
+									<option value="Not detected">Not detected</option>
 								</select>
 							</td>
 						</tr>
@@ -782,9 +782,9 @@
 										<option value="{{ old('lab_sars_cov2_no_2_result') ?? $invest_pt[0]['lab_sars_cov2_no_2_result'] }}" selected="selected">{{ $lab_status[old('lab_sars_cov2_no_2_result')] ?? $lab_status[$invest_pt[0]['lab_sars_cov2_no_2_result']] }}</option>
 									@endif
 									<option value="0">- โปรดเลือก -</option>
-									<option value="process">รอผล</option>
+									<option value="Process">รอผล</option>
 									<option value="Detected">Detected</option>
-									<option value="Not Detected">Not detected</option>
+									<option value="Not detected">Not detected</option>
 								</select>
 							</td>
 						</tr>

@@ -84,9 +84,9 @@ class MasterController extends Controller
 				"" => 'ไม่ระบุความเสี่ยง'
 			],
 			'lab_status' => [
-				'process' => 'รอผล',
+				'Process' => 'รอผล',
 				'Detected' => 'Detected',
-				'Not Detected' => 'Not Detected'
+				'Not detected' => 'Not Detected'
 			]
 
 		]);

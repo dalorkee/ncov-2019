@@ -41,6 +41,7 @@ class ListInvestController extends Controller
 		if ($user->hasPermissionTo('pui-delete')) {
 			$user_role = Session::get('user_role');
 			$dt = Carbon::today();
+			dd($dt);
 			$last_3_days = $dt->sub('3 days')->toDateString();
 			switch ($user_role) {
 				case 'root' :
