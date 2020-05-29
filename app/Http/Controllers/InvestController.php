@@ -710,6 +710,7 @@ class InvestController extends MasterController
 		try {
 			if (!empty($request->refer_province) && !empty($request->refer_district) && !empty($request->refer_hospital)) {
 				$today_now = date('Y-m-d H:i:s');
+				$today_date = date('Y-m-d');
 				$pt = Invest::find($request->refer_pid);
 
 				/* set current data */
@@ -741,7 +742,7 @@ class InvestController extends MasterController
 						'ch_status' => 4,
 						'cur_hosp' => $cur_hosp,
 						'refer_hosp' => $request->refer_hospital,
-						'refer_date' => $today_now,
+						'refer_date' => $today_date,
 						'ref_user_id' => Auth::user()->id,
 						'created_at' => $today_now
 					]);
