@@ -1158,8 +1158,8 @@ class ExportController extends MasterController
 		}
 	}
 
-	private function getDistirctNameTh($dist_code=0) {
-		if (!empty($dist_code) || $dist_code != 0 || !is_null($dist_code)) {
+	private function getDistirctNameTh($dist_code='0') {
+		if (!empty($dist_code) && $dist_code != '0' && !is_null($dist_code)) {
 			$dist_name = District2::select('district_name')
 				->where('district_id', '=', $dist_code)
 				->get()
@@ -1170,8 +1170,8 @@ class ExportController extends MasterController
 		return $dist_name;
 	}
 
-	private function getSubDistirctNameTh($sub_dist_code=0) {
-		if (!empty($sub_dist_code) || $sub_dist_code != 0 || !is_null($sub_dist_code)) {
+	private function getSubDistirctNameTh($sub_dist_code='0') {
+		if (!empty($sub_dist_code) && $sub_dist_code != '0' && !is_null($sub_dist_code)) {
 			$sub_dist_name = SubDistrict2::select('sub_district_name')
 			->where('sub_district_id', '=', $sub_dist_code)
 			->get()
@@ -1182,8 +1182,8 @@ class ExportController extends MasterController
 		return $sub_dist_name;
 	}
 
-	private function getHospitalNameTh($hosp_code=0) {
-		if (!empty($hosp_code) || $hosp_code != 0 || !is_null($hosp_code)) {
+	private function getHospitalNameTh($hosp_code='0') {
+		if (!empty($hosp_code) && $hosp_code != '0' && !is_null($hosp_code)) {
 			$hosp_name = Hospitals2::select('hosp_name')
 				->where('hospcode', '=', $hosp_code)
 				->get()
@@ -1194,8 +1194,8 @@ class ExportController extends MasterController
 		return $hosp_name;
 	}
 
-	private function getCityName($city_id=0) {
-		if (!empty($city_id) || $city_id != 0 || !is_null($city_id)) {
+	private function getCityName($city_id='0') {
+		if (!empty($city_id) && $city_id != '0' && !is_null($city_id)) {
 			$city_name = GlobalCity2::select('city_name')
 				->where('city_id', '=', $city_id)
 				->get()

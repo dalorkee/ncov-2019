@@ -57,6 +57,7 @@ class ListInvestController extends Controller
 					break;
 			}
 			if ($pt == 1) {
+				Log::notice('User:'.$user->id.' Deleted PID: '.$request->pid);
 				return redirect()->back()->with('success', 'ข้อมูลรหัสที่ '.$request->pid.' ถูกลบออกจากระบบแล้ว');
 			} else {
 				return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->pid.' ไม่สามารถลบออกจากระบบได้ โปรดตรวจสอบเงื่อนไข');

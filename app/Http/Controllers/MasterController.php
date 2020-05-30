@@ -127,8 +127,8 @@ class MasterController extends Controller
 		}
 	}
 
-	public function getHospitalType($hosp_code=0) {
-		if (!empty($hosp_code) || $hosp_code != 0 || !is_null($hosp_code)) {
+	public function getHospitalType($hosp_code='0') {
+		if (!empty($hosp_code) && $hosp_code != '0' && !is_null($hosp_code)) {
 			$hospType = Hospitals::select('hosp_type_code')->where('hospcode', '=', $hosp_code)->first();
 			if ($hospType != null) {
 				$hospType = $hospType->toArray();
@@ -201,5 +201,4 @@ class MasterController extends Controller
 		}
 		return $user_arr;
 	}
-
 }

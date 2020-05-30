@@ -574,7 +574,7 @@ class InvestController extends MasterController
 
 			/* set drug name to array */
 			$drugStr = NULL;
-			if (!is_null($request->covid19_drug_medicate_name) || $request->covid19_drug_medicate_name != "") {
+			if (!is_null($request->covid19_drug_medicate_name) && !empty($request->covid19_drug_medicate_name)) {
 				foreach ($request->covid19_drug_medicate_name as $key => $value) {
 					if (is_null($drugStr)) {
 						$drugStr = "";
@@ -592,7 +592,7 @@ class InvestController extends MasterController
 			$pt->patient_treat_status = $request->patientTreatStatus;
 
 			/* log refer && set treatplace match this */
-			if ($request->patientTreatStatus == 4 && !empty($request->patient_treat_status_refer_province) && !empty($request->patient_treat_status_refer_district) && !empty($request->patient_treat_status_refer)) {
+			if ($request->patientTreatStatus == '4' && !empty($request->patient_treat_status_refer_province) && !empty($request->patient_treat_status_refer_district) && !empty($request->patient_treat_status_refer)) {
 				/* check repeat log data */
 				$today_now = date('Y-m-d H:i:s');
 				$repeat_log = DB::table('log_refer')
@@ -746,6 +746,7 @@ class InvestController extends MasterController
 						'ref_user_id' => Auth::user()->id,
 						'created_at' => $today_now
 					]);
+					Log::notice('User: '.Auth::user()->id.' Refer PID:'.$request->refer_pid);
 					return redirect()->back()->with('success', 'ข้อมูลรหัสที่ '.$request->refer_pid.' บันทึกลงฐานข้อมูลสำเร็จแล้ว');
 				}
 			} else {
@@ -808,8 +809,8 @@ class InvestController extends MasterController
 		return $htm;
 	}
 
-	protected function getHospitalNameTh($hosp_code=0) {
-		if (!empty($hosp_code) || $hosp_code != 0 || !is_null($hosp_code)) {
+	protected function getHospitalNameTh($hosp_code='0') {
+		if (!empty($hosp_code) && $hosp_code != '0' && !is_null($hosp_code)) {
 			$hosp_name = Hospitals::select('hosp_name')
 				->where('hospcode', '=', $hosp_code)
 				->get()
@@ -820,8 +821,8 @@ class InvestController extends MasterController
 		return $hosp_name;
 	}
 
-	protected function getCityName($city_id=0) {
-		if (!empty($city_id) || $city_id != 0 || !is_null($city_id)) {
+	protected function getCityName($city_id='0') {
+		if (!empty($city_id) && $city_id != '0' && !is_null($city_id)) {
 			$city_name = GlobalCity::select('city_name')
 				->where('city_id', '=', $city_id)
 				->get()
@@ -848,8 +849,8 @@ class InvestController extends MasterController
 			->get();
 	}
 
-	protected function getDistirctNameTh($dist_code=0) {
-		if (!empty($dist_code) || $dist_code != 0 || !is_null($dist_code)) {
+	protected function getDistirctNameTh($dist_code='0') {
+		if (!empty($dist_code) && $dist_code != '0' && !is_null($dist_code)) {
 			$dist_name = District::select('district_name')
 				->where('district_id', '=', $dist_code)
 				->get()
@@ -860,8 +861,8 @@ class InvestController extends MasterController
 		return $dist_name;
 	}
 
-	protected function getSubDistirctNameTh($sub_dist_code=0) {
-		if (!empty($sub_dist_code) || $sub_dist_code != 0 || !is_null($sub_dist_code)) {
+	protected function getSubDistirctNameTh($sub_dist_code='0') {
+		if (!empty($sub_dist_code) && $sub_dist_code != '0' && !is_null($sub_dist_code)) {
 			$sub_dist_name = SubDistrict::select('sub_district_name')
 			->where('sub_district_id', '=', $sub_dist_code)
 			->get()
@@ -902,7 +903,7 @@ class InvestController extends MasterController
 	}
 
 	protected function convertDateToMySQL($date='00/00/0000') {
-		if (!is_null($date) || !empty($date)) {
+		if (!is_null($date) && !empty($date)) {
 			$ep = explode("/", $date);
 			$string = $ep[2]."-".$ep[1]."-".$ep[0];
 		} else {
@@ -912,7 +913,7 @@ class InvestController extends MasterController
 	}
 
 	protected function convertMySQLDateFormat($date='00-00-0000', $seperator="/") {
-		if (!is_null($date) || !empty($date)) {
+		if (!is_null($date) && !empty($date)) {
 			$ep = explode("-", $date);
 			$string = $ep[2].$seperator.$ep[1].$seperator.$ep[0];
 		} else {
