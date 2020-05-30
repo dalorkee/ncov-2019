@@ -42,7 +42,8 @@ class ListInvestController extends Controller
 			$user_role = Session::get('user_role');
 			$dt = Carbon::today();
 			$start_date = $dt->sub('3 days')->toDateString();
-			$end_date = date('Y-m-d');
+			$start_date = $start_date." 00:00:00";
+			$end_date = date('Y-m-d H:i:s');
 			switch ($user_role) {
 				case 'root' :
 					$pt = InvestList::where('id', '=', $request->pid)->delete();
@@ -51,7 +52,7 @@ class ListInvestController extends Controller
 					$pt = InvestList::where('id', '=', $request->pid)
 						->where('entry_user', '=', $user->id)
 						->where('pt_status', '!=', '2')
-						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+						->whereBetween('created_at', [$start_date, $end_date])
 						->delete();
 					break;
 			}
