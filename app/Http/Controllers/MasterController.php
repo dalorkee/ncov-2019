@@ -130,11 +130,11 @@ class MasterController extends Controller
 	public function getHospitalType($hosp_code='0') {
 		if (!empty($hosp_code) && $hosp_code != '0' && !is_null($hosp_code)) {
 			$hospType = Hospitals::select('hosp_type_code')->where('hospcode', '=', $hosp_code)->first();
-			if ($hospType != null) {
+			if (!is_null($hospType)) {
 				$hospType = $hospType->toArray();
-				$hosp_type = (int)$hospType['hosp_type_code'];
-				if ($hosp_type <= 18) {
-					if ($hosp_type == 15 || $hosp_type == 16) {
+				$hosp_type = $hospType['hosp_type_code'];
+				if ($hosp_type <= '18') {
+					if ($hosp_type == '15' || $hosp_type == '16') {
 						$hospTypeName = 'โรงพยาบาลเอกชน';
 					} else {
 						$hospTypeName = 'โรงพยาบาลรัฐ';
@@ -153,7 +153,7 @@ class MasterController extends Controller
 
 	protected function arrayToString($array=array()) {
 		$str = NULL;
-		if (count($array) > 0) {
+		if (is_array($array) && count($array) > 0) {
 			foreach ($array as $key => $value) {
 				if (is_null($str)) {
 					$str = "";

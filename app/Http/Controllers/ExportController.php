@@ -111,6 +111,7 @@ class ExportController extends MasterController
 					->where('file_name', $fileName)
 					->update(['export_amount' => $new_amount, 'last_export_date' => $now]);
 				$filePath = public_path('exports/'.$fileName);
+				Log::notice('User: '.auth()->user()->id.'Download file: '.$filePath);
 				return response()->download($filePath);
 			} else {
 				return '<div>File not found.</div>';
@@ -248,8 +249,8 @@ class ExportController extends MasterController
 
 					/* sick addr dist */
 					if (!empty($x->sick_district) && $x->sick_district != '0' && !is_null($x->sick_district)) {
-						$sick_dist = self::getDistirctNameTh($x->sick_district);
-						if (count($sick_dist) > 0 && !is_null($sick_dist)) {
+						$sick_dist = self::getDistirctNameTh($x->sick_district, $pid=$x->id);
+						if (is_array($sick_dist) && count($sick_dist) > 0) {
 							$sick_dist_name = $sick_dist[0]['district_name'];
 						} else {
 							$sick_dist_name = NULL;
@@ -260,8 +261,8 @@ class ExportController extends MasterController
 
 					/* sick addr sub dist */
 					if (!empty($x->sick_sub_district) && $x->sick_sub_district != '0' && !is_null($x->sick_sub_district)) {
-						$sick_sub_dist = self::getSubDistirctNameTh($x->sick_sub_district);
-						if (count($sick_sub_dist) > 0 && !is_null($sick_sub_dist)) {
+						$sick_sub_dist = self::getSubDistirctNameTh($x->sick_sub_district, $pid=$x->id);
+						if (is_array($sick_sub_dist) && count($sick_sub_dist) > 0) {
 							$sick_sub_dist_name = $sick_sub_dist[0]['sub_district_name'];
 						} else {
 							$sick_sub_dist_name = NULL;
@@ -283,8 +284,8 @@ class ExportController extends MasterController
 
 					/* sick first addr dist */
 					if (!empty($x->sick_district_first) && $x->sick_district_first != '0' && !is_null($x->sick_district_first)) {
-						$sick_dist_first = self::getDistirctNameTh($x->sick_district_first);
-						if (count($sick_dist_first) > 0 && !is_null($sick_dist_first)) {
+						$sick_dist_first = self::getDistirctNameTh($x->sick_district_first, $pid=$x->id);
+						if (is_array($sick_dist_first) && count($sick_dist_first) > 0) {
 							$sick_dist_first_name = $sick_dist_first[0]['district_name'];
 						} else {
 							$sick_dist_first_name = NULL;
@@ -295,8 +296,8 @@ class ExportController extends MasterController
 
 					/* sick first addr sub dist */
 					if (!empty($x->sick_sub_district_first) && $x->sick_sub_district_first != '0' && !is_null($x->sick_sub_district_first)) {
-						$sick_sub_dist_first = self::getSubDistirctNameTh($x->sick_sub_district_first);
-						if (count($sick_sub_dist_first) > 0 && !is_null($sick_sub_dist_first)) {
+						$sick_sub_dist_first = self::getSubDistirctNameTh($x->sick_sub_district_first, $pid=$x->id);
+						if (is_array($sick_sub_dist_first) && count($sick_sub_dist_first) > 0) {
 							$sick_sub_dist_name_first = $sick_sub_dist_first[0]['sub_district_name'];
 						} else {
 							$sick_sub_dist_name_first = NULL;
@@ -318,8 +319,8 @@ class ExportController extends MasterController
 
 					/* treat first addr dist */
 					if (!empty($x->treat_first_district) && $x->treat_first_district != '0' && !is_null($x->treat_first_district)) {
-						$treat_first_dist = self::getDistirctNameTh($x->treat_first_district);
-						if (count($treat_first_dist) > 0 && !is_null($treat_first_dist)) {
+						$treat_first_dist = self::getDistirctNameTh($x->treat_first_district, $pid=$x->id);
+						if (is_array($treat_first_dist) && count($treat_first_dist) > 0) {
 							$treat_first_dist_name = $treat_first_dist[0]['district_name'];
 						} else {
 							$treat_first_dist_name = NULL;
@@ -330,8 +331,8 @@ class ExportController extends MasterController
 
 					/* treat first addr sub dist */
 					if (!empty($x->treat_first_sub_district) && $x->treat_first_sub_district != '0' && !is_null($x->treat_first_sub_district)) {
-						$treat_first_sub_dist = self::getSubDistirctNameTh($x->treat_first_sub_district);
-						if (count($treat_first_sub_dist) > 0 && !is_null($treat_first_sub_dist)) {
+						$treat_first_sub_dist = self::getSubDistirctNameTh($x->treat_first_sub_district, $pid=$x->id);
+						if (is_array($treat_first_sub_dist) && count($treat_first_sub_dist) > 0) {
 							$treat_first_sub_dist_name = $treat_first_sub_dist[0]['sub_district_name'];
 						} else {
 							$treat_first_sub_dist_name = NULL;
@@ -342,8 +343,8 @@ class ExportController extends MasterController
 
 					/* treat first addr hospital */
 					if (!empty($x->treat_first_hospital) && $x->treat_first_hospital != '0' && !is_null($x->treat_first_hospital)) {
-						$treat_first_hosp = self::getHospitalNameTh($x->treat_first_hospital);
-						if (count($treat_first_hosp) > 0 && !is_null($treat_first_hosp)) {
+						$treat_first_hosp = self::getHospitalNameTh($x->treat_first_hospital, $pid=$x->id);
+						if (is_array($treat_first_hosp) && count($treat_first_hosp) > 0) {
 							$treat_first_hosp_name = $treat_first_hosp[0]['hosp_name'];
 						} else {
 							$treat_first_hosp_name = NULL;
@@ -365,8 +366,8 @@ class ExportController extends MasterController
 
 					/* treat place dist */
 					if (!empty($x->treat_place_district) && $x->treat_place_district != '0' && !is_null($x->treat_place_district)) {
-						$treat_place_dist = self::getDistirctNameTh($x->treat_place_district);
-						if (count($treat_place_dist) > 0 && !is_null($treat_place_dist)) {
+						$treat_place_dist = self::getDistirctNameTh($x->treat_place_district, $pid=$x->id);
+						if (is_array($treat_place_dist) && count($treat_place_dist) > 0) {
 							$treat_place_dist_name = $treat_place_dist[0]['district_name'];
 						} else {
 							$treat_place_dist_name = NULL;
@@ -377,8 +378,8 @@ class ExportController extends MasterController
 
 					/* treat place sub dist */
 					if (!empty($x->treat_place_sub_district) && $x->treat_place_sub_district != '0' && !is_null($x->treat_place_sub_district)) {
-						$treat_place_sub_dist = self::getSubDistirctNameTh($x->treat_place_sub_district);
-						if (count($treat_place_sub_dist) > 0 && !is_null($treat_place_sub_dist)) {
+						$treat_place_sub_dist = self::getSubDistirctNameTh($x->treat_place_sub_district, $pid=$x->id);
+						if (is_array($treat_place_sub_dist) && count($treat_place_sub_dist) > 0) {
 							$treat_place_sub_dist_name = $treat_place_sub_dist[0]['sub_district_name'];
 						} else {
 							$treat_place_sub_dist_name = NULL;
@@ -389,8 +390,8 @@ class ExportController extends MasterController
 
 					/* treat place hospital */
 					if (!empty($x->treat_place_hospital) && $x->treat_place_hospital != '0' && !is_null($x->treat_place_hospital)) {
-						$treat_place_hosp = self::getHospitalNameTh($x->treat_place_hospital);
-						if (count($treat_place_hosp) && !is_null($treat_place_hosp)) {
+						$treat_place_hosp = self::getHospitalNameTh($x->treat_place_hospital, $pid=$x->id);
+						if (is_array($treat_place_hosp) && count($treat_place_hosp) > 0) {
 							$treat_place_hosp_name = $treat_place_hosp[0]['hosp_name'];
 						} else {
 							$treat_place_hosp_name = NULL;
@@ -444,8 +445,8 @@ class ExportController extends MasterController
 
 					/* risk_stay_outbreak_city */
 					if (!empty($x->risk_stay_outbreak_city) && $x->risk_stay_outbreak_city != '0' && !is_null($x->risk_stay_outbreak_city)) {
-						$risk_city = self::getCityName($x->risk_stay_outbreak_city);
-						if (count($risk_city) > 0 && !is_null($risk_city)) {
+						$risk_city = self::getCityName($x->risk_stay_outbreak_city, $pid=$x->id);
+						if (is_array($risk_city) && count($risk_city) > 0) {
 							$risk_city_name = $risk_city[0]['city_name'];
 						} else {
 							$risk_city_name = NULL;
@@ -467,8 +468,8 @@ class ExportController extends MasterController
 
 					/* risk_stay_outbreak_district */
 					if (!empty($x->risk_stay_outbreak_district) && $x->risk_stay_outbreak_district != '0' && !is_null($x->risk_stay_outbreak_district)) {
-						$risk_stay_outbreak_dist = self::getDistirctNameTh($x->risk_stay_outbreak_district);
-						if (count($risk_stay_outbreak_dist) && !is_null($risk_stay_outbreak_dist)) {
+						$risk_stay_outbreak_dist = self::getDistirctNameTh($x->risk_stay_outbreak_district, $pid=$x->id);
+						if (is_array($risk_stay_outbreak_dist) && count($risk_stay_outbreak_dist) > 0) {
 							$risk_stay_outbreak_dist_name = $risk_stay_outbreak_dist[0]['district_name'];
 						} else {
 							$risk_stay_outbreak_dist_name = NULL;
@@ -479,8 +480,8 @@ class ExportController extends MasterController
 
 					/* risk_stay_outbreak_sub_district */
 					if (!empty($x->risk_stay_outbreak_sub_district) && $x->risk_stay_outbreak_sub_district != '0' && !is_null($x->risk_stay_outbreak_sub_district)) {
-						$risk_stay_outbreak_sub_dist = self::getSubDistirctNameTh($x->risk_stay_outbreak_sub_district);
-						if (count($risk_stay_outbreak_sub_dist) > 0 && !is_null($risk_stay_outbreak_sub_dist)) {
+						$risk_stay_outbreak_sub_dist = self::getSubDistirctNameTh($x->risk_stay_outbreak_sub_district, $pid=$x->id);
+						if (is_array($risk_stay_outbreak_sub_dist) && count($risk_stay_outbreak_sub_dist) > 0) {
 							$risk_stay_outbreak_sub_dist_name = $risk_stay_outbreak_sub_dist[0]['sub_district_name'];
 						} else {
 							$risk_stay_outbreak_sub_dist_name = NULL;
@@ -537,8 +538,8 @@ class ExportController extends MasterController
 
 					/* walkin place hospital  */
 					if (!empty($x->walkinplace_hosp_code) && $x->walkinplace_hosp_code != '0' && !is_null($x->walkinplace_hosp_code)) {
-						$walkin_place_hosp = self::getHospitalNameTh($x->walkinplace_hosp_code);
-						if (count($walkin_place_hosp) > 0 && !is_null($walkin_place_hosp)) {
+						$walkin_place_hosp = self::getHospitalNameTh($x->walkinplace_hosp_code, $pid=$x->id);
+						if (is_array($walkin_place_hosp) && count($walkin_place_hosp) > 0) {
 							$walkin_place_hosp_name = $walkin_place_hosp[0]['hosp_name'];
 						} else {
 							$walkin_place_hosp_name = NULL;
@@ -574,8 +575,8 @@ class ExportController extends MasterController
 
 					/* Isolate hospital  */
 					if (!empty($x->isolated_hosp_code) && $x->isolated_hosp_code != '0' && !is_null($x->isolated_hosp_code)) {
-						$isolatedHospCode = self::getHospitalNameTh($x->isolated_hosp_code);
-						if (count($isolatedHospCode) > 0 && !is_null($isolatedHospCode)) {
+						$isolatedHospCode = self::getHospitalNameTh($x->isolated_hosp_code, $pid=$x->id);
+						if (is_array($isolatedHospCode) && count($isolatedHospCode) > 0) {
 							$isolated_hosp_name = $isolatedHospCode[0]['hosp_name'];
 						} else {
 							$isolated_hosp_name = NULL;
@@ -597,8 +598,8 @@ class ExportController extends MasterController
 
 					/* travel from city */
 					if (!empty($x->travel_from_city) && $x->travel_from_city != '0' && !is_null($x->travel_from_city)) {
-						$travelFromCity = self::getCityName($x->travel_from_city);
-						if (count($travelFromCity) > 0 && !is_null($travelFromCity)) {
+						$travelFromCity = self::getCityName($x->travel_from_city, $pid=$x->id);
+						if (is_array($travelFromCity) && count($travelFromCity) > 0) {
 							$travel_from_city_name = $travelFromCity[0]['city_name'];
 						} else {
 							$travel_from_city_name = NULL;
@@ -1158,48 +1159,72 @@ class ExportController extends MasterController
 		}
 	}
 
-	private function getDistirctNameTh($dist_code='0') {
+	private function getDistirctNameTh($dist_code='0', $pid=null) {
 		if (!empty($dist_code) && $dist_code != '0' && !is_null($dist_code)) {
 			$dist_name = District2::select('district_name')
 				->where('district_id', '=', $dist_code)
 				->get()
 				->toArray();
+			if (is_array($dist_name) && count($dist_name) <= 0) {
+				$dist_name = null;
+				Log::warning('district_id '.$dist_code.' is not map. PID: '.$pid);
+			} else {
+				$dist_name = null;
+			}
 		} else {
 			$dist_name = null;
 		}
 		return $dist_name;
 	}
 
-	private function getSubDistirctNameTh($sub_dist_code='0') {
+	private function getSubDistirctNameTh($sub_dist_code='0', $pid=null) {
 		if (!empty($sub_dist_code) && $sub_dist_code != '0' && !is_null($sub_dist_code)) {
 			$sub_dist_name = SubDistrict2::select('sub_district_name')
 			->where('sub_district_id', '=', $sub_dist_code)
 			->get()
 			->toArray();
+			if (is_array($sub_dist_name) && count($sub_dist_name) <= 0) {
+				$sub_dist_name = null;
+				Log::warning('sub_district_id '.$sub_dist_code.' is not map. PID: '.$pid);
+			} else {
+				$sub_dist_name = null;
+			}
 		} else {
 			$sub_dist_name = null;
 		}
 		return $sub_dist_name;
 	}
 
-	private function getHospitalNameTh($hosp_code='0') {
+	private function getHospitalNameTh($hosp_code='0', $pid=null) {
 		if (!empty($hosp_code) && $hosp_code != '0' && !is_null($hosp_code)) {
 			$hosp_name = Hospitals2::select('hosp_name')
 				->where('hospcode', '=', $hosp_code)
 				->get()
 				->toArray();
+			if (is_array($hosp_name) && count($hosp_name) <= 0) {
+				$hosp_name = null;
+				Log::warning('hospcode '.$hosp_code.' is not map. PID: '.$pid);
+			} else {
+				$hosp_name = null;
+			}
 		} else {
 			$hosp_name = null;
 		}
 		return $hosp_name;
 	}
 
-	private function getCityName($city_id='0') {
+	private function getCityName($city_id='0', $pid=null) {
 		if (!empty($city_id) && $city_id != '0' && !is_null($city_id)) {
 			$city_name = GlobalCity2::select('city_name')
 				->where('city_id', '=', $city_id)
 				->get()
 				->toArray();
+			if (is_array($city_name) && count($city_name) <= 0) {
+				$city_name = null;
+				Log::warning('city_id '.$city_id.' is not map. PID: '.$pid);
+			} else {
+				$city_name = null;
+			}
 		} else {
 			$city_name = null;
 		}
