@@ -96,9 +96,7 @@ class ListInvestDataTable extends DataTable
 				$query->whereRaw('(CASE '.$nation.' ELSE "-" END) like ?', ["%{$keyword}%"]);
 			})
 			->editColumn('pt_status', function($pts) {
-				if (!isset($pts->pt_status) || empty($pts->pt_status)) {
-					$pts_rs = "-";
-				} else {
+				if (isset($pts->pt_status) && !empty($pts->pt_status) && !is_null($pts->pt_status)) {
 					switch (mb_strtolower($pts->pt_status)) {
 						case "pui (รอผลแลป)" :
 							$pts_rs = "<span class=\"badge badge-light font-1\">".$pts->pt_status."</span>";
@@ -119,6 +117,8 @@ class ListInvestDataTable extends DataTable
 							$pts_rs = $pts->pt_status;
 							break;
 					}
+				} else {
+					$pts_rs = "-";
 				}
 				return $pts_rs;
 			})
@@ -155,7 +155,7 @@ class ListInvestDataTable extends DataTable
 			})
 			*/
 			->editColumn('visit_number', function($vn) {
-				if (isset($vn->visit_number) || !empty($vn->visit_number) || !is_null($vn->visit_number)) {
+				if (isset($vn->visit_number) && !empty($vn->visit_number) && !is_null($vn->visit_number)) {
 					if ($vn->visit_number == 0) {
 						$vn_rs = "<span class=\"badge badge-custom-2\">Duplicate</span>";
 					} else {
@@ -166,8 +166,7 @@ class ListInvestDataTable extends DataTable
 				}
 				return $vn_rs;
 			})
-			->addColumn('action',
-				'<button class="context-nav btn btn-custom-1 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-angle-down"></i></button>')
+			->addColumn('action', '<button class="context-nav btn btn-custom-1 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-angle-down"></i></button>')
 			->rawColumns(['pt_status', 'disch_st', 'visit_number', 'action']);
 	}
 

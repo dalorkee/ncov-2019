@@ -203,7 +203,7 @@ class ListInvestController extends Controller
 		});
 		return "
 		<div class=\"modal-header\">
-			<h5 class=\"modal-title text-danger\"><i class=\" fas fa-ambulance\"></i> ส่งต่อผู้ป่วยรหัส: <span class=\"text-info\">".$request->id."</span></h5>
+			<h5 class=\"modal-title text-danger\"><i class=\"fas fa-ambulance\"></i> ส่งต่อผู้ป่วยรหัส: <span class=\"text-info\">".$request->id."</span></h5>
 			<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
 				<span aria-hidden=\"true\">&times;</span>
 			</button>

@@ -182,3 +182,5 @@ Route::group(['middleware' => ['auth']], function() {
 
 /* By Pass Login */
 Route::get('/auth', array('as' => 'check-auth', 'uses' => 'Auth\LoginController@get_check_auth'));
+
+Route::get('/file/list','FilesUploadController@index');

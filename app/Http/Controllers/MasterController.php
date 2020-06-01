@@ -88,7 +88,6 @@ class MasterController extends Controller
 				'Detected' => 'Detected',
 				'Not detected' => 'Not Detected'
 			]
-
 		]);
 		return $status;
 	}
@@ -125,6 +124,16 @@ class MasterController extends Controller
 		} else {
 			return $drug;
 		}
+	}
+
+	public function setFileUploadType() {
+		$file_type = array(
+			'invest' => 'ไฟล์สอบสวนโรค',
+			'x-ray' => 'ไฟล์ X-Ray',
+			'form' => 'แบบฟอร์ม',
+			'other' => 'ไฟล์อื่นๆ'
+		);
+		return $file_type;
 	}
 
 	public function getHospitalType($hosp_code='0') {

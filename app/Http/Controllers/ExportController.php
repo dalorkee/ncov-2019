@@ -1160,74 +1160,78 @@ class ExportController extends MasterController
 	}
 
 	private function getDistirctNameTh($dist_code='0', $pid=null) {
-		if (!empty($dist_code) && $dist_code != '0' && !is_null($dist_code)) {
-			$dist_name = District2::select('district_name')
-				->where('district_id', '=', $dist_code)
-				->get()
-				->toArray();
-			if (is_array($dist_name) && count($dist_name) <= 0) {
-				$dist_name = null;
-				Log::warning('district_id '.$dist_code.' is not map. PID: '.$pid);
+		try {
+			if (!empty($dist_code) && $dist_code != '0' && !is_null($dist_code)) {
+				$dist_name = District2::select('district_name')
+					->where('district_id', '=', $dist_code)
+					->get()
+					->toArray();
+				if ((is_array($dist_name) && count($dist_name) <= 0) || is_null($dist_name)) {
+					$dist_name = null;
+				}
 			} else {
 				$dist_name = null;
 			}
-		} else {
-			$dist_name = null;
+			return $dist_name;
+		} catch (Exception $e) {
+			Log::error($e->getMessage());
 		}
-		return $dist_name;
 	}
 
 	private function getSubDistirctNameTh($sub_dist_code='0', $pid=null) {
-		if (!empty($sub_dist_code) && $sub_dist_code != '0' && !is_null($sub_dist_code)) {
-			$sub_dist_name = SubDistrict2::select('sub_district_name')
-			->where('sub_district_id', '=', $sub_dist_code)
-			->get()
-			->toArray();
-			if (is_array($sub_dist_name) && count($sub_dist_name) <= 0) {
-				$sub_dist_name = null;
-				Log::warning('sub_district_id '.$sub_dist_code.' is not map. PID: '.$pid);
+		try {
+			if (!empty($sub_dist_code) && $sub_dist_code != '0' && !is_null($sub_dist_code)) {
+				$sub_dist_name = SubDistrict2::select('sub_district_name')
+				->where('sub_district_id', '=', $sub_dist_code)
+				->get()
+				->toArray();
+				if ((is_array($sub_dist_name) && count($sub_dist_name) <= 0) || is_null($sub_dist_name)) {
+					$sub_dist_name = null;
+				}
 			} else {
 				$sub_dist_name = null;
 			}
-		} else {
-			$sub_dist_name = null;
+			return $sub_dist_name;
+		} catch (Exception $e) {
+			Log::error($e->getMessage());
 		}
-		return $sub_dist_name;
 	}
 
 	private function getHospitalNameTh($hosp_code='0', $pid=null) {
-		if (!empty($hosp_code) && $hosp_code != '0' && !is_null($hosp_code)) {
-			$hosp_name = Hospitals2::select('hosp_name')
-				->where('hospcode', '=', $hosp_code)
-				->get()
-				->toArray();
-			if (is_array($hosp_name) && count($hosp_name) <= 0) {
-				$hosp_name = null;
-				Log::warning('hospcode '.$hosp_code.' is not map. PID: '.$pid);
+		try {
+			if (!empty($hosp_code) && $hosp_code != '0' && !is_null($hosp_code)) {
+				$hosp_name = Hospitals2::select('hosp_name')
+					->where('hospcode', '=', $hosp_code)
+					->get()
+					->toArray();
+				if ((is_array($hosp_name) && count($hosp_name) <= 0) || is_null($hosp_name)) {
+					$hosp_name = null;
+				}
 			} else {
 				$hosp_name = null;
 			}
-		} else {
-			$hosp_name = null;
+			return $hosp_name;
+		} catch (Exception $e) {
+			Log::error($e->getMessage());
 		}
-		return $hosp_name;
 	}
 
 	private function getCityName($city_id='0', $pid=null) {
-		if (!empty($city_id) && $city_id != '0' && !is_null($city_id)) {
-			$city_name = GlobalCity2::select('city_name')
-				->where('city_id', '=', $city_id)
-				->get()
-				->toArray();
-			if (is_array($city_name) && count($city_name) <= 0) {
-				$city_name = null;
-				Log::warning('city_id '.$city_id.' is not map. PID: '.$pid);
+		try {
+			if (!empty($city_id) && $city_id != '0' && !is_null($city_id)) {
+				$city_name = GlobalCity2::select('city_name')
+					->where('city_id', '=', $city_id)
+					->get()
+					->toArray();
+				if ((is_array($city_name) && count($city_name) <= 0) || is_null($city_name)) {
+					$city_name = null;
+				}
 			} else {
 				$city_name = null;
 			}
-		} else {
-			$city_name = null;
+			return $city_name;
+		} catch (Exception $e) {
+			Log::error($e->getMessage());
 		}
-		return $city_name;
 	}
 }
