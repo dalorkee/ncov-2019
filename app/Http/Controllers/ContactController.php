@@ -553,6 +553,7 @@ if(auth()->user()->id==Auth::user()->id){
 	public function editcontact(Request $req)
 	{
 		$pui_id=$req->pui_id;
+		// dd($pui_id);
 		$id=$req->id;
 		$contact_rid=$req->id;
 		$contact_id=$req->contact_id;
@@ -560,26 +561,26 @@ if(auth()->user()->id==Auth::user()->id){
 		$getdata_hsc_1=DB::table('tbl_contact_hsc')
 														->select('no_lab')
 														->where('contact_rid',$contact_rid)
-														->where('pui_id',$pui_id)
+														// ->where('pui_id',$pui_id)
 														->where('no_lab', '=' ,'1')
 														->get();
 		// dd (count($getdata_hsc_1));
 		$getdata_hsc_2=DB::table('tbl_contact_hsc')
 														->select('no_lab')
 														->where('contact_rid',$contact_rid)
-														->where('pui_id',$pui_id)
+														// ->where('pui_id',$pui_id)
 														->where('no_lab', '=' ,'2')
 														->get();
 		$getdata_hsc_3=DB::table('tbl_contact_hsc')
 														->select('no_lab')
 														->where('contact_rid',$contact_rid)
-														->where('pui_id',$pui_id)
+														// ->where('pui_id',$pui_id)
 														->where('no_lab', '=' ,'3')
 														->get();
 	  $getdata_followup_count=DB::table('tbl_followup')
 	  												->select('contact_rid')
 	  												->where('contact_rid',$contact_rid)
-	  												->where('pui_id',$pui_id)
+	  												// ->where('pui_id',$pui_id)
 	  												->where('followup_times', '=' ,'0')
 	  												->get();
 
@@ -595,24 +596,25 @@ if(auth()->user()->id==Auth::user()->id){
 		$getdata_hsc_contact1=DB::table('tbl_contact_hsc')
 														->select('*')
 														->where('contact_rid',$contact_rid)
-														->where('pui_id',$pui_id)
+														// ->where('pui_id',$pui_id)
 														->where('no_lab', '=' ,'1')
 														->get();
+														// dd($getdata_hsc_contact1);
 		$getdata_hsc_contact2=DB::table('tbl_contact_hsc')
 														->select('*')
 														->where('contact_rid',$contact_rid)
-														->where('pui_id',$pui_id)
+														// ->where('pui_id',$pui_id)
 														->where('no_lab', '=' ,'2')
 														->get();
 		$getdata_hsc_contact3=DB::table('tbl_contact_hsc')
 														->select('*')
 														->where('contact_rid',$contact_rid)
-														->where('pui_id',$pui_id)
+														// ->where('pui_id',$pui_id)
 														->where('no_lab', '=' ,'3')
 														->get();
 		$getdata_fucontact=DB::table('tbl_followup')
 													->select('*')
-													->where('pui_id', $pui_id)
+													// ->where('pui_id', $pui_id)
 													->where('contact_rid',$contact_rid)
 													->where('followup_times','=',"0")
 													->get();
@@ -2144,7 +2146,8 @@ public function contact_type(){
 			'1'=>'จบการติดตาม',
 			'2'=>'ยังต้องติดตาม',
 			'0'=>'',
-			''=>''
+			''=>'',
+			null=>''
 			);
 		// dd($list_sym_cough);
 		return $arr_status_followup;
