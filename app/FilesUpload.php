@@ -11,6 +11,5 @@ class FilesUpload extends Model
 
 	protected $table = 'files_upload';
 	protected $primaryKey = 'id';
-	public $fillable = ['id','file_name'];
-	protected $dates = ['deleted_at'];
+	protected $fillable = ['id','file_name'];
 }

@@ -156,8 +156,12 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/invest/ept', 'ListInvestController@exportToExcel');
 	*/
 
-	/* destroy */
 	Route::resource('item', 'InvestController');
+	Route::get('/file/{id}', 'FilesUploadController@index')->name('file.list');
+	Route::post('/file/store', 'FilesUploadController@store')->name('file.store');
+	Route::get('/file/download/{id}', 'FilesUploadController@download')->name('file.download');
+	Route::post('/file/delete', 'FilesUploadController@softDeleteFileUpload')->name('file.delete');
+	Route::get('/pjx10', 'InvestController@migrateFileUpload')->name('pjx10');
 });
 
 /* DashBoardGraph */
@@ -182,5 +186,3 @@ Route::group(['middleware' => ['auth']], function() {
 
 /* By Pass Login */
 Route::get('/auth', array('as' => 'check-auth', 'uses' => 'Auth\LoginController@get_check_auth'));
-
-Route::get('/file/list','FilesUploadController@index');

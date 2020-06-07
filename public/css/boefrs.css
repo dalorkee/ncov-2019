@@ -365,6 +365,21 @@ a.link-color-white:hover {
   color: #721C24;
 }
 
+.badge-custom-6 {
+  background-color: #e15c39;
+  color: #ffffff;
+}
+
+.badge-custom-7 {
+  background-color: #4E8CF1;
+  color: #ffffff;
+}
+
+.badge-custom-8 {
+  background-color: #FD78F8;
+  color: #8442CB;
+}
+
 .font-0875 {
   font-size: 0.875em !important;
 }

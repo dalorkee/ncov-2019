@@ -8,6 +8,8 @@ use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Services\DataTable;
 use App\Http\Controllers\MasterController;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class ListFilesUploadDataTable extends DataTable
 {
@@ -23,8 +25,17 @@ class ListFilesUploadDataTable extends DataTable
 			->eloquent($query)
 			->editColumn('file_upload_type', function($file_type) use ($file_type_arr) {
 				switch ($file_type->file_upload_type) {
-					case 'invest' :
-						$file_type_rs = '<span class="badge badge-custom-2 font-1">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+					case 'invest':
+						$file_type_rs = '<span class="badge badge-custom-2">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+						break;
+					case 'x-ray':
+						$file_type_rs = '<span class="badge badge-info">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+						break;
+					case 'form':
+						$file_type_rs = '<span class="badge badge-primary">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+						break;
+					case 'other':
+						$file_type_rs = '<span class="badge badge-secondary">'.$file_type_arr[$file_type->file_upload_type].'</span>';
 						break;
 					default :
 						$file_type_rs = '-';
@@ -32,12 +43,13 @@ class ListFilesUploadDataTable extends DataTable
 				}
 				return $file_type_rs;
 			})
-			->addColumn('action', '<button class="context-nav btn btn-custom-1 btn-sm" data-satid="x" data-id="y">Manage <i class="fas fa-angle-down"></i></button>')
+			->addColumn('action', '<button class="context-nav btn btn-custom-1 btn-sm" data-id="{{ $id }}">Manage <i class="fas fa-angle-down"></i></button>')
 			->rawColumns(['file_upload_type', 'action']);
 	}
 
 	public function query(FilesUpload $model) {
-		return $model->newQuery()->orderBy('id', 'ASC');
+		$id = $this->id;
+		return $model->newQuery()->where('ref_pt_id', '=', $id)->whereNull('deleted_at')->orderBy('id', 'ASC');
 	}
 
 	public function html() {
@@ -67,9 +79,12 @@ class ListFilesUploadDataTable extends DataTable
 	protected function getColumns() {
 		return [
 			Column::make('id')->title('รหัส'),
-			Column::make('file_name')->title('ชื่อไฟล์'),
 			Column::make('file_upload_type')->title('ประเภท'),
+			Column::make('file_name')->title('ชื่อไฟล์'),
 			Column::make('file_detail')->title('รายละเอียด'),
+			Column::make('file_size')->title('ขนาด/B'),
+			Column::make('created_at')->title('วันที่สร้าง'),
+			Column::make('export_amount')->title('ดาวน์โหลด'),
 			Column::computed('action')
 				->exportable(false)
 				->printable(false)

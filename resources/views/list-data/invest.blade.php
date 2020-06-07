@@ -145,10 +145,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	?>
 	<script>
 	$(document).ready(function() {
-		$.ajaxSetup({
-			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-		});
-		/* context nav */
+		$.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
 		$.contextMenu({
 			selector: '.context-nav',
 			trigger: 'left',
@@ -217,6 +214,10 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 							//let x = $('#del_id').val();
 							$('.delete-context').modal('show');
 						break;
+					case 'files':
+						let furl = '{{ route("file.list", ":id") }}';
+						furl = furl.replace(':id', id);
+						window.location.replace(furl);
 					default:
 						break;
 				}
@@ -229,11 +230,13 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				"labResultColab": {name: "ดูผลแลป", icon: "fas fa-external-link-alt", className: 'link-colab'},
 				"labResult": {name: "ดูผลแลป (ก่อนวันที่ 23 พ.ค. 63)", icon: "fas fa-flask"},
 				"sep2": "---------",
-				"contact": {name: "ผู้สัมผัส", icon: "fas fa-handshake"},
+				"files": {name: "ไฟล์อับโหลด", icon: "fas fa-file"},
 				"sep3": "---------",
+				"contact": {name: "ผู้สัมผัส", icon: "fas fa-handshake"},
+				"sep4": "---------",
 				"edit": {name: "แก้ไขข้อมูล (Invest Form:2)", icon: "fas fa-edit"},
 				"delete": {name: "ลบข้อมูล", icon: "fas fa-trash-alt"},
-				"sep4": "---------",
+				"sep5": "---------",
 				"quit": {name: "ปิด", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
 			}
 		});

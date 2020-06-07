@@ -33,6 +33,7 @@ use App\Port;
 use Illuminate\Support\Facades\Log;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Carbon\Carbon;
+use App\FilesUpload;
 
 
 class InvestController extends MasterController
@@ -340,6 +341,7 @@ class InvestController extends MasterController
 				}
 
 				/* invest attach file */
+				/*
 				if (empty($invest_pt[0]['invest_file']) || is_null($invest_pt[0]['invest_file']) || $invest_pt[0]['invest_file'] == '0') {
 					$invest_file_size = null;
 				} else {
@@ -350,9 +352,9 @@ class InvestController extends MasterController
 						$invest_file_size = null;
 					}
 				}
-
+				*/
 				/* x-ray invest attach file */
-				if (empty($invest_pt[0]['lab_cxr1_file']) || is_null($invest_pt[0]['lab_cxr1_file']) || $invest_pt[0]['lab_cxr1_file'] == '0') {
+				/*if (empty($invest_pt[0]['lab_cxr1_file']) || is_null($invest_pt[0]['lab_cxr1_file']) || $invest_pt[0]['lab_cxr1_file'] == '0') {
 					$xray_file_size = null;
 				} else {
 					if (Storage::disk('invest')->exists($invest_pt[0]['lab_cxr1_file'])) {
@@ -362,6 +364,7 @@ class InvestController extends MasterController
 						$xray_file_size = null;
 					}
 				}
+				*/
 
 				/* get last log refer */
 				return view('form.invest.index',
@@ -394,8 +397,8 @@ class InvestController extends MasterController
 						'covid19_drug_medicate_name' => $covid19_drug_medicate_name,
 						'drug_result' => $drug_result,
 						'risk_type' => $risk_type,
-						'invest_file_size' => $invest_file_size,
-						'xray_file_size' => $xray_file_size,
+						//'invest_file_size' => $invest_file_size,
+						//'xray_file_size' => $xray_file_size,
 						'refer_district' => $patient_treat_status_refer_district,
 						'refer_sub_district' => $patient_treat_status_refer_sub_district,
 						'lab_status' => $lab_status
@@ -532,6 +535,7 @@ class InvestController extends MasterController
 			$pt->lab_cxr1_result = $request->labCxr1Result;
 			$pt->lab_cxr1_detail = $request->labCxr1Detail;
 
+			/*
 			if (Input::hasFile('labCxr1File')) {
 				$lab_file1_new_name = 'cxr1_file_cid'.$request->id;
 				$lab_file1_extension = Input::file('labCxr1File')->getClientOriginalExtension();
@@ -539,6 +543,7 @@ class InvestController extends MasterController
 				$pt->lab_cxr1_file = $fileName1;
 				Storage::disk('invest')->put($fileName1, File::get(Input::file('labCxr1File')));
 			}
+			*/
 
 			$pt->lab_cbc_date = $this->convertDateToMySQL($request->labCbcDate);
 			$pt->lab_cbc_hb = $request->labCbcHb;
@@ -671,6 +676,7 @@ class InvestController extends MasterController
 			$pt->entry_user_last_update = auth()->user()->id;
 			$pt->invest_note = $request->invest_note;
 
+			/*
 			if (Input::hasFile('invest_file')) {
 				$inv_file_new_name = 'inv_file_cid'.$request->id;
 				$inv_file_extension = Input::file('invest_file')->getClientOriginalExtension();
@@ -678,6 +684,7 @@ class InvestController extends MasterController
 				$pt->invest_file = $inv_file_name;
 				Storage::disk('invest')->put($inv_file_name, File::get(Input::file('invest_file')));
 			}
+			*/
 
 			/* save activity */
 			for ($i=1; $i<=10; $i++) {
@@ -920,5 +927,61 @@ class InvestController extends MasterController
 			$string = NULL;
 		}
 		return $string;
+	}
+
+	public function migrateFileUpload() {
+		$files = Invest::select('id', 'sat_id', 'entry_user', 'lab_cxr1_file', 'invest_file', 'created_at')
+			->whereNotNull('lab_cxr1_file')
+			->orWhereNotNull('invest_file')
+			->get()
+			->toArray();
+		foreach ($files as $key => $value) {
+			if (!is_null($value['lab_cxr1_file']) && !empty($value['lab_cxr1_file'])) {
+				if (Storage::disk('invest')->exists($value['lab_cxr1_file'])) {
+					$cxr_size = Storage::disk('invest')->size($value['lab_cxr1_file']);
+					$size = ($cxr_size/1024);
+					$cxr_mime = Storage::disk('invest')->mimeType($value['lab_cxr1_file']);
+				} else {
+					$size = null;
+					$cxr_mime = null;
+				}
+				echo $size.' '.$cxr_mime;
+
+				exit;
+				$f = new FilesUpload;
+				$f->ref_user_id = $value['entry_user'];
+				$f->ref_pt_id = $value['id'];
+				$f->ref_pt_sat_id = $value['sat_id'];
+				$f->file_name = $value['lab_cxr1_file'];
+				$f->file_mime = $cxr_mime;
+				$f->file_path = '/invest';
+				$f->file_size = $size;
+				$f->created_at = $value['created_at'];
+				$f->save();
+			}
+
+			if (!is_null($value['invest_file']) && !empty($value['invest_file'])) {
+				if (Storage::disk('invest')->exists($value['invest_file'])) {
+					$inv_size = Storage::disk('invest')->size($value['invest_file']);
+					$size = ($inv_size/1024);
+					$inv_mime = Storage::disk('invest')->mimeType($value['invest_file']);
+				} else {
+					$size = null;
+					$inv_mime = null;
+				}
+
+				$f1 = new FilesUpload;
+				$f1->ref_user_id = $value['entry_user'];
+				$f1->ref_pt_id = $value['id'];
+				$f1->ref_pt_sat_id = $value['sat_id'];
+				$f1->file_name = $value['invest_file'];
+				$f1->file_mime = $inv_mime;
+				$f1->file_path = '/invest';
+				$f1->file_size = $size;
+				$f1->created_at = $value['created_at'];
+				$f1->save();
+			}
+		}
+		echo 'Done';
 	}
 }

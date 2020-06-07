@@ -52,6 +52,15 @@ class ListInvestDataTable extends DataTable
 		return $str;
 	}
 
+	private function caseScreenPt() {
+		$status = $this->status();
+		$str = "";
+		foreach ($status['screen_pt'] as $key => $value) {
+			$str .= "WHEN screen_pt = \"".$key."\" THEN \"".$value."\" ";
+		}
+		return $str;
+	}
+
 	private function caseNation() {
 		$query_globalcountry = GlobalCountry::all()->toArray();
 		$str = "";
@@ -73,6 +82,7 @@ class ListInvestDataTable extends DataTable
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
 		$dcs = $this->caseDischSt();
+		$screen = $this->caseScreenPt();
 		$nation = $this->caseNation();
 
 		return datatables()
@@ -92,26 +102,32 @@ class ListInvestDataTable extends DataTable
 			->filterColumn('disch_st', function($query, $keyword) use ($dcs) {
 				$query->whereRaw('(CASE '.$dcs.' ELSE "-" END) like ?', ["%{$keyword}%"]);
 			})
+			->filterColumn('screen_pt', function($query, $keyword) use ($screen) {
+				$query->whereRaw('(CASE '.$screen.' ELSE "-" END) like ?', ["%{$keyword}%"]);
+			})
 			->filterColumn('nation', function($query, $keyword) use ($nation) {
 				$query->whereRaw('(CASE '.$nation.' ELSE "-" END) like ?', ["%{$keyword}%"]);
+			})
+			->editColumn('news_st', function($ns) {
+				return "<span class=\"badge badge-light\">".$ns->news_st."</span>";
 			})
 			->editColumn('pt_status', function($pts) {
 				if (isset($pts->pt_status) && !empty($pts->pt_status) && !is_null($pts->pt_status)) {
 					switch (mb_strtolower($pts->pt_status)) {
 						case "pui (รอผลแลป)" :
-							$pts_rs = "<span class=\"badge badge-light font-1\">".$pts->pt_status."</span>";
+							$pts_rs = "<span class=\"badge badge-custom-7\">".$pts->pt_status."</span>";
 							break;
 						case "confirmed (ผลแลปยืนยัน)" :
-							$pts_rs = "<span class=\"badge badge-danger font-1\">".$pts->pt_status."</span>";
+							$pts_rs = "<span class=\"badge badge-danger\">".$pts->pt_status."</span>";
 							break;
 						case "probable" :
-							$pts_rs = "<span class=\"badge badge-warning font-1\">".$pts->pt_status."</span>";
+							$pts_rs = "<span class=\"badge badge-warning\">".$pts->pt_status."</span>";
 							break;
 						case "suspected" :
-							$pts_rs = "<span class=\"badge badge-custom-1 font-1\">".$pts->pt_status."</span>";
+							$pts_rs = "<span class=\"badge badge-custom-1\">".$pts->pt_status."</span>";
 							break;
 						case "excluded (ผลแลปเป็นลบ)" :
-							$pts_rs = "<span class=\"badge badge-success font-1\">".$pts->pt_status."</span>";
+							$pts_rs = "<span class=\"badge badge-success\">".$pts->pt_status."</span>";
 							break;
 						default :
 							$pts_rs = $pts->pt_status;
@@ -125,19 +141,19 @@ class ListInvestDataTable extends DataTable
 			->editColumn('disch_st', function($disc) {
 				switch ($disc->disch_st) {
 					case "Admitted" :
-						$pts_rs = '<span class="badge badge-custom-2 font-1">'.$disc->disch_st.'</span>';
+						$pts_rs = '<span class="badge badge-custom-2">'.$disc->disch_st.'</span>';
 						break;
 					case "Recovered" :
-						$pts_rs = '<span class="badge badge-success font-1">'.$disc->disch_st.'</span>';
+						$pts_rs = '<span class="badge badge-success">'.$disc->disch_st.'</span>';
 						break;
 					case "Death" :
-						$pts_rs = '<span class="badge badge-secondary font-1">'.$disc->disch_st.'</span>';
+						$pts_rs = '<span class="badge badge-secondary">'.$disc->disch_st.'</span>';
 						break;
 					case "Self quarantine":
-						$pts_rs = '<span class="badge badge-custom-5 font-1">'.$disc->disch_st.'</span>';
+						$pts_rs = '<span class="badge badge-custom-5">'.$disc->disch_st.'</span>';
 						break;
 					default:
-						$pts_rs = '<span class="badge badge-light font-1">'.$disc->disch_st.'</span>';
+						$pts_rs = '<span class="badge badge-light">'.$disc->disch_st.'</span>';
 						break;
 				}
 				return $pts_rs;
@@ -167,7 +183,7 @@ class ListInvestDataTable extends DataTable
 				return $vn_rs;
 			})
 			->addColumn('action', '<button class="context-nav btn btn-custom-1 btn-sm" data-satid="{{ $sat_id }}" data-id="{{ $id }}">Manage <i class="fas fa-angle-down"></i></button>')
-			->rawColumns(['pt_status', 'disch_st', 'visit_number', 'action']);
+			->rawColumns(['pt_status', 'news_st', 'disch_st', 'visit_number', 'action']);
 	}
 
 	public function query(InvestList $model) {
@@ -180,6 +196,7 @@ class ListInvestDataTable extends DataTable
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
 		$dcs = $this->caseDischSt();
+		$screen = $this->caseScreenPt();
 		$nation = $this->caseNation();
 
 		switch ($user_role) {
@@ -192,7 +209,7 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-					//'sex',
+					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					//'inv',
 					'visit_number')
@@ -207,7 +224,7 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-					//'sex',
+					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					//'inv',
 					'visit_number')
@@ -224,7 +241,7 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-					//'sex',
+					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					//'inv',
 					'visit_number')
@@ -241,7 +258,7 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-					//'sex',
+					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					//'inv',
 					'visit_number')
@@ -259,7 +276,7 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$pts.' ELSE "-" END) AS pt_status'),
 					\DB::raw('(CASE '.$ns.' ELSE "-" END) AS news_st'),
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
-					//'sex',
+					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					//'inv',
 					'visit_number')
@@ -321,7 +338,7 @@ class ListInvestDataTable extends DataTable
 			Column::make('pt_status')->title('สถานะ'),
 			Column::make('news_st')->title('แถลงข่าว'),
 			Column::make('disch_st')->title('Discharge'),
-			//Column::make('sex')->title('เพศ'),
+			Column::make('screen_pt')->title('ประเภทผู้ป่วย'),
 			Column::make('nation')->title('สัญชาติ'),
 			//Column::make('inv')->title('สอบสวนโรค'),
 			Column::make('visit_number')->title('ครั้งที่รักษา'),

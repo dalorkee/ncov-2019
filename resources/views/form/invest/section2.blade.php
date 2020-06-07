@@ -6,6 +6,19 @@
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
+					<label for="ScreenPatient" class="text-danger">ประเภทผู้ป่วย</label>
+					<select name="screen_pt" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="screen_pt">
+						<option value="0">-- เลือกประเภทผู้ป่วย --</option>
+
+							<option value=""></option>
+
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+				<div class="form-group">
 					<label for="sickFirstDate" class="text-danger">วันที่เริ่มป่วย</label>
 					<div class="input-group date">
 						<div class="input-group">
@@ -478,9 +491,10 @@
 					</div>
 				</div>
 			</div>
+			<!--
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 				<div class="form-group">
-					<label for="fileInput" class="text-danger">อับโหลดภาพเอ็กเรย์</label>
+					<label for="fileInput" class="text-danger">อับโหลดภาพเอ็กเรย์ (ใช้เมนูอับโหลดไฟล์)</label>
 					<div class="input-group">
 						<div class="custom-file">
 							<input type="file" name="labCxr1File" class="custom-file-input" id="lab_cxr1_file">
@@ -489,24 +503,26 @@
 					</div>
 				</div>
 			</div>
-			@if (!is_null($invest_pt[0]['lab_cxr1_file']))
+
+			if (!is_null($invest_pt[0]['lab_cxr1_file']))
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="alert alert-primary" role="alert">
 						<h5 class="alert-heading">ไฟล์แนบของคุณ</h5>
 						<ul style="list-style-type:none;">
-							<li><span class="span-80">ชื่อไฟล์:</span> {{ $invest_pt[0]['lab_cxr1_file'] }}</li>
-							<li><span class="span-80">ขนาด:</span> {{ number_format($xray_file_size, 2, '.', '') }} KB</li>
-							<li><span class="span-80">ดาวน์โหลด:</span><a href="{{ route('invest.downloadXrayFile', [$invest_pt[0]['id']]) }}">คลิกที่นี่</a></li>
+							<li><span class="span-80">ชื่อไฟล์:</span> { $invest_pt[0]['lab_cxr1_file'] }}</li>
+							<li><span class="span-80">ขนาด:</span> { number_format($xray_file_size, 2, '.', '') }} KB</li>
+							<li><span class="span-80">ดาวน์โหลด:</span><a href="{ route('invest.downloadXrayFile', [$invest_pt[0]['id']]) }}">คลิกที่นี่</a></li>
 						</ul>
 					</div>
 				</div>
-			@else
+			else
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="alert alert-warning" role="alert">
 						<h5 class="alert-heading">ยังไม่มีไฟล์แนบ</h5>
 					</div>
 				</div>
-			@endif
+			endif
+			-->
 		</div>
 	</section>
 	<section class="card-body border-top">

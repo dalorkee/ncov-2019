@@ -90,14 +90,6 @@
 							<h5 class="card-subtitle">COVID-19 Version 1.20</h5>
 						</div>
 					</div>
-					@if(Session::has('success'))
-						<div class="alert alert-success">
-							<i class="fas fa-check-circle"></i> {{ Session::get('success') }}
-							@php
-								Session::forget('success');
-							@endphp
-						</div>
-					@endif
 					@if (count($errors) > 0)
 						<div class = "alert alert-danger" style="margin-left:15px;">
 							<h4 class="alert-heading"><i class=" fas fa-times-circle text-danger"></i> Error!</h4>

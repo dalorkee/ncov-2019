@@ -60,6 +60,10 @@ return [
 			'driver' => 'local',
 			'root' => public_path(). '/exports',
 		],
+		'upload' => [
+			'driver' => 'local',
+			'root' => public_path(). '/files/upload',
+		],
 		'tmp' => [
 			'driver' => 'local',
 			'root' => public_path(). '/tmp',
