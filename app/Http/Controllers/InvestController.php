@@ -954,6 +954,7 @@ class InvestController extends MasterController
 				$f->file_mime = $cxr_mime;
 				$f->file_path = '/invest';
 				$f->file_size = $size;
+				$f->file_upload_type = 'x-ray';
 				$f->created_at = $value['created_at'];
 				$f->save();
 			}
@@ -976,6 +977,7 @@ class InvestController extends MasterController
 				$f1->file_mime = $inv_mime;
 				$f1->file_path = '/invest';
 				$f1->file_size = $size;
+				$f1->file_upload_type = 'invest';
 				$f1->created_at = $value['created_at'];
 				$f1->save();
 			}
