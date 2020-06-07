@@ -945,9 +945,7 @@ class InvestController extends MasterController
 					$size = null;
 					$cxr_mime = null;
 				}
-				echo $size.' '.$cxr_mime;
 
-				exit;
 				$f = new FilesUpload;
 				$f->ref_user_id = $value['entry_user'];
 				$f->ref_pt_id = $value['id'];
