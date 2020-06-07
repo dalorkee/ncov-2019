@@ -3,6 +3,7 @@
 		<h1 class="card-title m-b-0 m-t-0 text-danger">2. ข้อมูลทางคลินิก</h1>
 	</hgroup>
 	<section class="card-body">
+		<!--
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
@@ -16,6 +17,7 @@
 				</div>
 			</div>
 		</div>
+		-->
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
