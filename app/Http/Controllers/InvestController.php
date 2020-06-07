@@ -930,6 +930,8 @@ class InvestController extends MasterController
 	}
 
 	public function migrateFileUpload() {
+		echo 'for pj only';
+		exit;
 		$files = Invest::select('id', 'sat_id', 'entry_user', 'lab_cxr1_file', 'invest_file', 'created_at')
 			->whereNotNull('lab_cxr1_file')
 			->orWhereNotNull('invest_file')
