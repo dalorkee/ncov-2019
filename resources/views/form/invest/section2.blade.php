@@ -3,21 +3,22 @@
 		<h1 class="card-title m-b-0 m-t-0 text-danger">2. ข้อมูลทางคลินิก</h1>
 	</hgroup>
 	<section class="card-body">
-		<!--
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
 					<label for="ScreenPatient" class="text-danger">ประเภทผู้ป่วย</label>
 					<select name="screen_pt" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="screen_pt">
+						@if (!empty(old('screen_pt')) || (!is_null($invest_pt[0]['screen_pt']) && !empty($invest_pt[0]['screen_pt']) && $invest_pt[0]['screen_pt'] != '0'))
+							<option value="{{ old('screen_pt') ?? $invest_pt[0]['screen_pt'] }}" selected="selected">{{ $screen_pt[old('screen_pt')] ?? $screen_pt[$invest_pt[0]['screen_pt']] }}</option>
+						@endif
 						<option value="0">-- เลือกประเภทผู้ป่วย --</option>
-
-							<option value=""></option>
-
+						@foreach ($screen_pt as $key => $value)
+							<option value="{{ $key }}">{{ $value }}</option>
+						@endforeach
 					</select>
 				</div>
 			</div>
 		</div>
-		-->
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
@@ -39,11 +40,11 @@
 				<div class="form-group">
 					<label for="provinceSickFirst" class="text-danger">จังหวัดที่เริ่มป่วย</label>
 					<select name="sick_province_first" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="select_sick_province_first">
-						@if ((!empty(old('sick_province_first'))) ||  (!is_null($invest_pt[0]['sick_province_first']) && !empty($invest_pt[0]['sick_province_first']) && $invest_pt[0]['sick_province_first'] != '0'))
+						@if (!empty(old('sick_province_first')) ||  (!is_null($invest_pt[0]['sick_province_first']) && !empty($invest_pt[0]['sick_province_first']) && $invest_pt[0]['sick_province_first'] != '0'))
 							<option value="{{ old('sick_province_first') ?? $invest_pt[0]['sick_province_first'] }}" selected="selected">{{ $provinces[old('sick_province_first')]['province_name'] ?? $provinces[$invest_pt[0]['sick_province_first']]['province_name'] }}</option>
 						@endif
 						<option value="0">-- เลือกจังหวัด --</option>
-						@foreach($provinces as $key => $val)
+						@foreach ($provinces as $key => $val)
 							<option value="{{ $val['province_id'] }}" @if ($invest_pt[0]['sick_province_first'] == $val['province_id']) selected @endif>{{ $val['province_name'] }}</option>
 						@endforeach
 					</select>

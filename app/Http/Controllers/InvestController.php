@@ -123,6 +123,7 @@ class InvestController extends MasterController
 			$ref_specimen = Specimen::select('id', 'name_en')->where('specimen_status', '=', 1)->get()->keyBy('id')->toArray();
 			$risk_type = RiskType::all()->keyBy('id')->toArray();
 			$lab_status = parent::selectStatus('lab_status');
+			$screen_pt = parent::selectStatus('screen_pt');
 
 			/* patient data */
 			$invest_pt = Invest::where('id', '=', $request->id)->get()->toArray();
@@ -401,7 +402,8 @@ class InvestController extends MasterController
 						//'xray_file_size' => $xray_file_size,
 						'refer_district' => $patient_treat_status_refer_district,
 						'refer_sub_district' => $patient_treat_status_refer_sub_district,
-						'lab_status' => $lab_status
+						'lab_status' => $lab_status,
+						'screen_pt' => $screen_pt
 					]
 				);
 			} else {
@@ -504,6 +506,7 @@ class InvestController extends MasterController
 			$pt->data3_3chk_pregnant = $request->data3_3chk_pregnant;
 			$pt->data3_3chk_cancer = $request->data3_3chk_cancer;
 			$pt->data3_3chk_cancer_name = $request->data3_3chk_cancer_name;
+			$pt->screen_pt = $request->screen_pt;
 
 			$pt->data3_1date_sickdate = $this->convertDateToMySQL($request->data3_1date_sickdate);
 			$pt->sick_province_first = ($request->sick_province_first != '0') ? $request->sick_province_first : NULL;
