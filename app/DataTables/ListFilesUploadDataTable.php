@@ -25,14 +25,29 @@ class ListFilesUploadDataTable extends DataTable
 			->eloquent($query)
 			->editColumn('file_upload_type', function($file_type) use ($file_type_arr) {
 				switch ($file_type->file_upload_type) {
-					case 'invest':
-						$file_type_rs = '<span class="badge badge-custom-2">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+					case 'preliminary-report':
+						$file_type_rs = '<span class="badge badge-custom-1">'.$file_type_arr[$file_type->file_upload_type].'</span>';
 						break;
-					case 'x-ray':
-						$file_type_rs = '<span class="badge badge-info">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+					case 'file-executive-sumary':
+						$file_type_rs = '<span class="badge badge-danger">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+						break;
+					case 'coronavirus-form-1':
+						$file_type_rs = '<span class="badge badge-custom-3">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+						break;
+					case 'coronavirus-form-2':
+						$file_type_rs = '<span class="badge badge-custom-3">'.$file_type_arr[$file_type->file_upload_type].'</span>';
 						break;
 					case 'form':
-						$file_type_rs = '<span class="badge badge-primary">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+						$file_type_rs = '<span class="badge badge-custom-3">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+						break;
+					case 'invest':
+						$file_type_rs = '<span class="badge badge-custom-4">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+						break;
+					case 'x-ray':
+						$file_type_rs = '<span class="badge badge-custom-5">'.$file_type_arr[$file_type->file_upload_type].'</span>';
+						break;
+					case 'lab-sar-cov-2':
+						$file_type_rs = '<span class="badge badge-info">'.$file_type_arr[$file_type->file_upload_type].'</span>';
 						break;
 					case 'other':
 						$file_type_rs = '<span class="badge badge-secondary">'.$file_type_arr[$file_type->file_upload_type].'</span>';

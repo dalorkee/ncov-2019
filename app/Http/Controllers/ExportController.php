@@ -668,6 +668,7 @@ class ExportController extends MasterController
 
 					return [
 						'ID' => $x->id,
+						'Event_Id' => $x->event_id,
 						'SAT_Code' => $x->sat_id,
 						'ID Card' => $x->card_id,
 						'Passport' => $x->passport,
@@ -888,6 +889,7 @@ class ExportController extends MasterController
 
 			$fields = array(
 				'id',
+				'event_id',
 				'sat_id',
 				'card_id',
 				'passport',

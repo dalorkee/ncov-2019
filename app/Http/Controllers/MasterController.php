@@ -128,9 +128,14 @@ class MasterController extends Controller
 
 	public function setFileUploadType() {
 		$file_type = array(
+			'preliminary-report' => 'รายงานเบื้องต้น',
+			'file-executive-sumary' => 'รายงานผู้บริหารฉบับเต็ม',
+			'coronavirus-form-1'=> 'Corona virus form 1',
+			'coronavirus-form-2' => 'Corona virus form 2',
+			'form' => 'แบบฟอร์ม',
 			'invest' => 'ไฟล์สอบสวนโรค',
 			'x-ray' => 'ไฟล์ X-Ray',
-			'form' => 'แบบฟอร์ม',
+			'lab-sar-cov-2' => 'Lab SAR-COV 2',
 			'other' => 'ไฟล์อื่นๆ'
 		);
 		return $file_type;
