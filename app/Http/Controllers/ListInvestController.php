@@ -71,11 +71,19 @@ class ListInvestController extends Controller
 		$pst = InvestList::select('id', 'sat_id', 'pt_status', 'news_st', 'disch_st')
 			->where('id', '=', $request->id)
 			->first();
+
 		$master = new MasterController;
 		$status = $master->getStatus();
 
 		/* pt status */
-		$pt_status = (!empty($pst['pt_status'])) ? $status['pt_status'][$pst['pt_status']] : "-";
+		//$pt_status = (!empty($pst['pt_status'])) ? $status['pt_status'][$pst['pt_status']] : "-";
+		if (is_null($pst['pt_status']) || empty($pst['pt_status']) || $pst['pt_status'] == '0') {
+			$pt_status = "-";
+		} else {
+			$pt_status = $status['pt_status'][$pst['pt_status']];
+		}
+
+		/* jump pt status key 3 & 4 */
 		$pt_status_opt = "";
 		foreach ($status['pt_status'] as $key => $val) {
 			if ($key == '3' || $key =='4') {
@@ -86,14 +94,26 @@ class ListInvestController extends Controller
 		}
 
 		/* news status */
-		$news_st = (!empty($pst['news_st'])) ? $status['news_st'][$pst['news_st']] : "-";
+		//$news_st = (!empty($pst['news_st'])) ? $status['news_st'][$pst['news_st']] : "-";
+		if (is_null($pst['news_st']) || empty($pst['news_st']) || $pst['news_st'] == '0') {
+			$news_st = "-";
+		} else {
+			$news_st = $status['news_st'][$pst['news_st']];
+		}
+
 		$news_st_opt = "";
 		foreach ($status['news_st'] as $key => $val) {
 			$news_st_opt .= "<option value=\"".$key."\">".$val."</option>";
 		}
 
 		/* dischart status */
-		$disch_st = (!empty($pst['disch_st'])) ? $status['disch_st'][$pst['disch_st']] : "-";
+		//$disch_st = (!empty($pst['disch_st'])) ? $status['disch_st'][$pst['disch_st']] : "-";
+		if (is_null($pst['disch_st']) || empty($pst['disch_st']) || $pst['disch_st'] == '0') {
+			$disch_st = "-";
+		} else {
+			$disch_st = $status['disch_st'][$pst['disch_st']];
+		}
+
 		$disch_st_opt = "";
 		foreach ($status['disch_st'] as $key => $val) {
 			$disch_st_opt .= "<option value=\"".$key."\">".$val."</option>";
