@@ -13,4 +13,10 @@ class InvestList extends Model
 	protected $primaryKey = 'id';
 	public $timestamps = true;
 
+	protected $fillable = [
+		'created_at',
+		'updated_at',
+		'deleted_at'
+	];
+
 }
