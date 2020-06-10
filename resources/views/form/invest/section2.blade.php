@@ -8,7 +8,7 @@
 				<div class="form-group">
 					<label for="ScreenPatient" class="text-danger">ประเภทผู้ป่วย</label>
 					<select name="screen_pt" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="screen_pt">
-						@if (!empty(old('screen_pt')) || (!is_null($invest_pt[0]['screen_pt']) && !empty($invest_pt[0]['screen_pt']) && $invest_pt[0]['screen_pt'] != '0'))
+						@if ((!empty(old('screen_pt')) || !is_null($invest_pt[0]['screen_pt'])) && !empty($invest_pt[0]['screen_pt']) && $invest_pt[0]['screen_pt'] != '0')
 							<option value="{{ old('screen_pt') ?? $invest_pt[0]['screen_pt'] }}" selected="selected">{{ $screen_pt[old('screen_pt')] ?? $screen_pt[$invest_pt[0]['screen_pt']] }}</option>
 						@endif
 						<option value="0">-- เลือกประเภทผู้ป่วย --</option>
@@ -40,7 +40,7 @@
 				<div class="form-group">
 					<label for="provinceSickFirst" class="text-danger">จังหวัดที่เริ่มป่วย</label>
 					<select name="sick_province_first" class="form-control selectpicker show-tick" data-live-search="true" data-style="btn-outline-danger" id="select_sick_province_first">
-						@if (!empty(old('sick_province_first')) ||  (!is_null($invest_pt[0]['sick_province_first']) && !empty($invest_pt[0]['sick_province_first']) && $invest_pt[0]['sick_province_first'] != '0'))
+						@if ((!empty(old('sick_province_first')) || !is_null($invest_pt[0]['sick_province_first'])) && !empty($invest_pt[0]['sick_province_first']) && $invest_pt[0]['sick_province_first'] != '0')
 							<option value="{{ old('sick_province_first') ?? $invest_pt[0]['sick_province_first'] }}" selected="selected">{{ $provinces[old('sick_province_first')]['province_name'] ?? $provinces[$invest_pt[0]['sick_province_first']]['province_name'] }}</option>
 						@endif
 						<option value="0">-- เลือกจังหวัด --</option>
@@ -96,7 +96,7 @@
 				<div class="form-group">
 					<label for="provinceFirst" class="text-cyan">จังหวัดที่เข้ารักษาครั้งแรก</label>
 					<select name="treatFirstProvinceInput" class="form-control selectpicker show-tick text-info" data-live-search="true" data-style="btn btn-outline-cyan" id="treat_first_province">
-						@if ((!empty(old('treatFirstProvinceInput'))) || (!is_null($invest_pt[0]['treat_first_province']) && !empty($invest_pt[0]['treat_first_province']) && $invest_pt[0]['treat_first_province'] != '0'))
+						@if ((!empty(old('treatFirstProvinceInput')) || !is_null($invest_pt[0]['treat_first_province'])) && !empty($invest_pt[0]['treat_first_province']) && $invest_pt[0]['treat_first_province'] != '0')
 							<option value="{{ old('treatFirstProvinceInput') ?? $invest_pt[0]['treat_first_province'] }}" selected="selected">{{ $provinces[old('treatFirstProvinceInput')]['province_name'] ?? $provinces[$invest_pt[0]['treat_first_province']]['province_name'] }}</option>
 						@endif
 						<option value="0">-- เลือกจังหวัด --</option>
@@ -150,7 +150,7 @@
 				<div class="form-group">
 					<label for="country" class="text-success">จังหวัดที่รักษาปัจจุบัน</label>
 					<select name="treatPlaceProvinceInput" class="form-control selectpicker show-tick text-info" data-live-search="true" data-style="btn btn-outline-success" id="treat_place_province">
-						@if ((!empty(old('treatPlaceProvinceInput'))) || (!is_null($invest_pt[0]['treat_place_province']) && !empty($invest_pt[0]['treat_place_province']) && $invest_pt[0]['treat_place_province'] != '0'))
+						@if ((!empty(old('treatPlaceProvinceInput')) || !is_null($invest_pt[0]['treat_place_province'])) && !empty($invest_pt[0]['treat_place_province']) && $invest_pt[0]['treat_place_province'] != '0')
 							<option value="{{ old('treatPlaceProvinceInput') ?? $invest_pt[0]['treat_place_province'] }}" selected="selected">{{ $provinces[old('treatPlaceProvinceInput')]['province_name'] ?? $provinces[$invest_pt[0]['treat_place_province']]['province_name'] }}</option>
 						@endif
 						<option value="0">-- เลือกจังหวัด --</option>
@@ -229,7 +229,7 @@
 								<div class="form-group">
 									<label for="referProvince" class="text-danger">จังหวัดที่ส่งต่อไปรักษา</label>
 									<select name="patient_treat_status_refer_province" class="form-control selectpicker show-tick" data-live-search="true" id="patient_treat_status_refer_province">
-										@if ((!empty(old('patient_treat_status_refer_province'))) || (!is_null($invest_pt[0]['patient_treat_status_refer_province']) && !empty($invest_pt[0]['patient_treat_status_refer_province']) && $invest_pt[0]['patient_treat_status_refer_province'] != '0'))
+										@if ((!empty(old('patient_treat_status_refer_province')) || !is_null($invest_pt[0]['patient_treat_status_refer_province'])) && !empty($invest_pt[0]['patient_treat_status_refer_province']) && $invest_pt[0]['patient_treat_status_refer_province'] != '0')
 											<option value="{{ old('patient_treat_status_refer_province') ?? $invest_pt[0]['patient_treat_status_refer_province'] }}" selected="selected">{{ $provinces[old('patient_treat_status_refer_province')]['province_name'] ?? $provinces[$invest_pt[0]['patient_treat_status_refer_province']]['province_name'] }}</option>
 										@endif
 										<option value="0">-- เลือกจังหวัด --</option>
@@ -722,7 +722,7 @@
 							</td>
 							<td>
 								<select name="lab_sars_cov2_no_1_specimen" class="form-control selectpicker show-tick text-info" data-live-search="true">
-									@if ((!empty(old('lab_sars_cov2_no_1_specimen'))) || (!is_null($invest_pt[0]['lab_sars_cov2_no_1_specimen']) && !empty($invest_pt[0]['lab_sars_cov2_no_1_specimen']) && $invest_pt[0]['lab_sars_cov2_no_1_specimen'] != '0'))
+									@if ((!empty(old('lab_sars_cov2_no_1_specimen')) || !is_null($invest_pt[0]['lab_sars_cov2_no_1_specimen'])) && !empty($invest_pt[0]['lab_sars_cov2_no_1_specimen']) && $invest_pt[0]['lab_sars_cov2_no_1_specimen'] != '0')
 										<option value="{{ old('lab_sars_cov2_no_1_specimen') ?? $invest_pt[0]['lab_sars_cov2_no_1_specimen'] }}" selected="selected">{{ $ref_specimen[old('lab_sars_cov2_no_1_specimen')]['name_en'] ?? $ref_specimen[$invest_pt[0]['lab_sars_cov2_no_1_specimen']]['name_en'] }}</option>
 									@endif
 									<option value="0">- โปรดเลือก -</option>
@@ -734,7 +734,7 @@
 							<td>
 								<div class="form-group">
 									<select name="lab_sars_cov2_no_1_lab" class="form-control selectpicker show-tick text-info" data-live-search="true">
-										@if ((!empty(old('lab_sars_cov2_no_1_lab'))) || !is_null($invest_pt[0]['lab_sars_cov2_no_1_lab']) && !empty($invest_pt[0]['lab_sars_cov2_no_1_lab']) && $invest_pt[0]['lab_sars_cov2_no_1_lab'] != '0'))
+										@if ((!empty(old('lab_sars_cov2_no_1_lab')) || !is_null($invest_pt[0]['lab_sars_cov2_no_1_lab'])) && !empty($invest_pt[0]['lab_sars_cov2_no_1_lab']) && $invest_pt[0]['lab_sars_cov2_no_1_lab'] != '0')
 											<option value="{{ old('lab_sars_cov2_no_1_lab') ?? $invest_pt[0]['lab_sars_cov2_no_1_lab'] }}" selected="selected">{{ $lab_station[old('lab_sars_cov2_no_1_lab')]['th_name'] ?? $lab_station[$invest_pt[0]['lab_sars_cov2_no_1_lab']]['th_name'] }}</option>
 										@endif
 										<option value="0">- โปรดเลือก -</option>
@@ -746,7 +746,7 @@
 							</td>
 							<td>
 								<select name="lab_sars_cov2_no_1_result" class="form-control selectpicker show-tick text-info" data-live-search="true">
-									@if ((!empty(old('lab_sars_cov2_no_1_result'))) || (!is_null($invest_pt[0]['lab_sars_cov2_no_1_result']) && !empty($invest_pt[0]['lab_sars_cov2_no_1_result']) && $invest_pt[0]['lab_sars_cov2_no_1_result']) != '0')
+									@if ((!empty(old('lab_sars_cov2_no_1_result')) || !is_null($invest_pt[0]['lab_sars_cov2_no_1_result'])) && !empty($invest_pt[0]['lab_sars_cov2_no_1_result']) && $invest_pt[0]['lab_sars_cov2_no_1_result'] != '0')
 										<option value="{{ old('lab_sars_cov2_no_1_result') ?? $invest_pt[0]['lab_sars_cov2_no_1_result'] }}" selected="selected">{{ $lab_status[old('lab_sars_cov2_no_1_result')] ?? $lab_status[$invest_pt[0]['lab_sars_cov2_no_1_result']] }}</option>
 									@endif
 									<option value="0">- โปรดเลือก -</option>
@@ -773,7 +773,7 @@
 							</td>
 							<td>
 								<select name="lab_sars_cov2_no_2_specimen" class="form-control selectpicker show-tick text-info" data-live-search="true">
-									@if ((!empty(old('lab_sars_cov2_no_2_specimen'))) || (!is_null($invest_pt[0]['lab_sars_cov2_no_2_specimen']) && !empty($invest_pt[0]['lab_sars_cov2_no_2_specimen']) && $invest_pt[0]['lab_sars_cov2_no_2_specimen'] != '0'))
+									@if ((!empty(old('lab_sars_cov2_no_2_specimen')) || !is_null($invest_pt[0]['lab_sars_cov2_no_2_specimen'])) && !empty($invest_pt[0]['lab_sars_cov2_no_2_specimen']) && $invest_pt[0]['lab_sars_cov2_no_2_specimen'] != '0')
 										<option value="{{ old('lab_sars_cov2_no_2_specimen') ?? $invest_pt[0]['lab_sars_cov2_no_2_specimen'] }}" selected="selected">{{ $ref_specimen[old('lab_sars_cov2_no_2_specimen')]['name_en'] ?? $ref_specimen[$invest_pt[0]['lab_sars_cov2_no_2_specimen']]['name_en'] }}</option>
 									@endif
 									<option value="0">- โปรดเลือก -</option>
@@ -785,7 +785,7 @@
 							<td>
 								<div class="form-group">
 									<select name="lab_sars_cov2_no_2_lab" class="form-control selectpicker show-tick text-info" data-live-search="true">
-										@if ((!empty(old('lab_sars_cov2_no_2_lab'))) || (!is_null($invest_pt[0]['lab_sars_cov2_no_2_lab']) && !empty($invest_pt[0]['lab_sars_cov2_no_2_lab']) && $invest_pt[0]['lab_sars_cov2_no_2_lab'] != '0'))
+										@if ((!empty(old('lab_sars_cov2_no_2_lab')) || !is_null($invest_pt[0]['lab_sars_cov2_no_2_lab'])) && !empty($invest_pt[0]['lab_sars_cov2_no_2_lab']) && $invest_pt[0]['lab_sars_cov2_no_2_lab'] != '0')
 											<option value="{{ old('lab_sars_cov2_no_2_lab') ?? $invest_pt[0]['lab_sars_cov2_no_2_lab'] }}" selected="selected">{{ $lab_station[old('lab_sars_cov2_no_2_lab')]['th_name'] ?? $lab_station[$invest_pt[0]['lab_sars_cov2_no_2_lab']]['th_name'] }}</option>
 										@endif
 										<option value="0">- โปรดเลือก -</option>
@@ -797,7 +797,7 @@
 							</td>
 							<td>
 								<select name="lab_sars_cov2_no_2_result" class="form-control selectpicker show-tick text-info" data-live-search="true">
-									@if ((!empty(old('lab_sars_cov2_no_2_result'))) || (!is_null($invest_pt[0]['lab_sars_cov2_no_2_result']) && !empty($invest_pt[0]['lab_sars_cov2_no_2_result']) && $invest_pt[0]['lab_sars_cov2_no_2_result'] != '0'))
+									@if ((!empty(old('lab_sars_cov2_no_2_result')) || !is_null($invest_pt[0]['lab_sars_cov2_no_2_result'])) && !empty($invest_pt[0]['lab_sars_cov2_no_2_result']) && $invest_pt[0]['lab_sars_cov2_no_2_result'] != '0')
 										<option value="{{ old('lab_sars_cov2_no_2_result') ?? $invest_pt[0]['lab_sars_cov2_no_2_result'] }}" selected="selected">{{ $lab_status[old('lab_sars_cov2_no_2_result')] ?? $lab_status[$invest_pt[0]['lab_sars_cov2_no_2_result']] }}</option>
 									@endif
 									<option value="0">- โปรดเลือก -</option>

@@ -52,6 +52,7 @@ class MasterController extends Controller
 				6 => 'Sentinel Surveillance',
 				7 => 'คัดกรอกก่อนทำหัตถการ',
 				8 => 'PUI Walkin มาที่ รพ.',
+				9 => 'IHR',
 				99 => 'อื่นๆ'
 			],
 			'arrfollowup_address' => [
