@@ -341,6 +341,7 @@ class ListInvestController extends Controller
 			$patientPassport = self::addHyphen($data[0]->passport);
 			$patientMobile = self::addHyphen($data[0]->mobile);
 			$hospcode = self::addHyphen(auth()->user()->hospcode);
+			//$send_url = Helper::url_query('https://apiservice.ddc.moph.go.th/ddc-ilab/Send-CoLab', [
 			$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
 			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
 				'UserName'=> auth()->user()->username,
@@ -400,6 +401,7 @@ class ListInvestController extends Controller
 			$patientPassport = self::addHyphen($data[0]->passport);
 			$patientMobile = self::addHyphen($data[0]->mobile);
 			$hospcode = self::addHyphen(auth()->user()->hospcode);
+			//$send_url = Helper::url_query('https://apiservice.ddc.moph.go.th/ddc-ilab/Send-CoLab', [
 			$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
 			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
 				'UserName'=> auth()->user()->username,

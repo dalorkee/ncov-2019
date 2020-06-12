@@ -419,6 +419,7 @@ class InvestController extends MasterController
 		$request->validate([
 			'idcardInput' => 'nullable|numeric|digits:13',
 			'passportInput' => 'nullable|max:40',
+			'hn' => 'nullable|max:30',
 			'firstNameInput' => 'max:50',
 			'lastNameInput' => 'max:100',
 			'ageYearInput' => 'nullable|numeric|max:120',
@@ -476,6 +477,7 @@ class InvestController extends MasterController
 			$pt = Invest::find($request->id);
 			$pt->card_id = $request->idcardInput;
 			$pt->passport = $request->passportInput;
+			$pt->hn = $request->hn;
 			$pt->title_name = ($request->titleName != '0') ? $request->titleName : NULL;
 			$pt->first_name = $request->firstNameInput;
 			$pt->last_name = $request->lastNameInput;

@@ -7,7 +7,7 @@
 				<div class="form-row">
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
-							<label for="idcard" class="text-primary">เลขบัตรประจำตัวประชาชน *</label>
+							<label for="idcard" class="text-primary">เลขบัตรประจำตัวประชาชน&nbsp;&#42;</label>
 							<div class="input-group">
 								<div class="input-group-append">
 									<span class="input-group-text text-primary"><i class="far fa-id-card"></i></span>
@@ -18,12 +18,23 @@
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 						<div class="form-group">
-							<label for="passport" class="text-primary">พาสปอร์ต *</label>
+							<label for="passport" class="text-primary">พาสปอร์ต&nbsp;&#42;</label>
 							<div class="input-group">
 								<div class="input-group-append">
 									<span class="input-group-text text-primary"><i class="fas fa-globe"></i></span>
 								</div>
-								<input type="text" name="passportInput" value="{{ old('passportInput') ?? $invest_pt[0]['passport'] }}" class="form-control text-info font-weight-bold font-fira" id="passportInput" id="passport">
+								<input type="text" name="passportInput" value="{{ old('passportInput') ?? $invest_pt[0]['passport'] }}" class="form-control text-info font-weight-bold font-fira" id="passport">
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+						<div class="form-group">
+							<label for="hn" class="text-primary">HN&nbsp;&#42;</label>
+							<div class="input-group">
+								<div class="input-group-append">
+									<span class="input-group-text text-primary"><i class="fas fa-h-square"></i></span>
+								</div>
+								<input type="text" name="hn" value="{{ old('hn') ?? $invest_pt[0]['hn'] }}" class="form-control text-info font-weight-bold font-fira" id="hn">
 							</div>
 						</div>
 					</div>
