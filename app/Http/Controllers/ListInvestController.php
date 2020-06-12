@@ -379,6 +379,8 @@ class ListInvestController extends Controller
 				$inv->colab_send = 'Y';
 				$inv->save();
 
+				/* write to log msg */
+				Log::notice('User: '.Auth::user()->id.' sent patient id '.$request->id.' to COLAB');
 			} else {
 				$send_url = 0;
 			}
