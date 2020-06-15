@@ -9,6 +9,7 @@ use App\DataTables\ListInvestDataTable;
 use App\InvestList;
 use App\Hospitals;
 use App\Provinces;
+use App\CriterionFail;
 use App\Http\Controllers\MasterController;
 use App\Exports\InvestExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -37,33 +38,44 @@ class ListInvestController extends Controller
 	}
 
 	public function softDeleteInvest(Request $request) {
-		$user = auth()->user();
-		if ($user->hasPermissionTo('pui-delete')) {
-			$user_role = Session::get('user_role');
-			$dt = Carbon::today();
-			$start_date = $dt->sub('3 days')->toDateString();
-			$start_date = $start_date." 00:00:00";
-			$end_date = date('Y-m-d H:i:s');
-			switch ($user_role) {
-				case 'root' :
-					$pt = InvestList::where('id', '=', $request->pid)->delete();
-					break;
-				default :
-					$pt = InvestList::where('id', '=', $request->pid)
-						->where('entry_user', '=', $user->id)
-						->where('pt_status', '!=', '2')
-						->whereBetween('created_at', [$start_date, $end_date])
-						->delete();
-					break;
-			}
-			if ($pt == 1) {
-				Log::notice('User:'.$user->id.' Deleted PID: '.$request->pid);
-				return redirect()->back()->with('success', 'ข้อมูลรหัสที่ '.$request->pid.' ถูกลบออกจากระบบแล้ว');
+		try {
+			$user = auth()->user();
+			if ($user->hasPermissionTo('pui-delete')) {
+				$user_role = Session::get('user_role');
+				$dt = Carbon::today();
+				$start_date = $dt->sub('3 days')->toDateString();
+				$start_date = $start_date." 00:00:00";
+				$end_date = date('Y-m-d H:i:s');
+
+				/* select data for prepare to update criterionfail tbl */
+				$inv = InvestList::select('id', 'sat_id', DB::raw('DATE(created_at) AS inv_date_create'))->where('id', $request->pid)->get()->toArray();
+				switch ($user_role) {
+					case 'root' :
+						$pt = InvestList::where('id', '=', $request->pid)->delete();
+						break;
+					default :
+						$pt = InvestList::where('id', '=', $request->pid)
+							->where('entry_user', '=', $user->id)
+							->where('pt_status', '!=', '2')
+							->whereBetween('created_at', [$start_date, $end_date])
+							->delete();
+						break;
+				}
+				if ($pt == 1) {
+					$ct = DB::table("criterion_fail")
+						->where("sat_id", $inv[0]['sat_id'])
+						->whereDate('date_create', '=', $inv[0]['inv_date_create'])
+						->update(["delete_at" => '2020-06-15 10:10:33']);
+					Log::notice('User:'.$user->id.' Deleted PID: '.$request->pid);
+					return redirect()->back()->with('success', 'ข้อมูลรหัสที่ '.$request->pid.' ถูกลบออกจากระบบแล้ว');
+				} else {
+					return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->pid.' ไม่สามารถลบออกจากระบบได้ โปรดตรวจสอบเงื่อนไข');
+				}
 			} else {
-				return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->pid.' ไม่สามารถลบออกจากระบบได้ โปรดตรวจสอบเงื่อนไข');
+				return redirect()->back()->with('error', 'ท่านไม่มีสิทธิ์ลบข้อมูล !!');
 			}
-		} else {
-			return redirect()->back()->with('error', 'ท่านไม่มีสิทธิ์ลบข้อมูล !!');
+		} catch (Exception $e) {
+			Log::error($e->getMessage());
 		}
 	}
 

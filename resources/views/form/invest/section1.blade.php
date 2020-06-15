@@ -103,7 +103,7 @@
 						<div class="form-group">
 							<label for="nationality">สัญชาติ</label>
 							<select name="nationalityInput" class="form-control selectpicker show-tick" id="select_nationality">
-								@if ((!empty(old('nationalityInput'))) || (!is_null($invest_pt[0]['nation']) && !empty($invest_pt[0]['nation']) && $invest_pt[0]['nation'] != 0))
+								@if ((!empty(old('nationalityInput'))) || (!is_null($invest_pt[0]['nation']) && !empty($invest_pt[0]['nation']) && $invest_pt[0]['nation'] != '0'))
 									<option value="{{ old('nationalityInput') ?? $invest_pt[0]['nation'] }}" selected="selected">{{ $globalCountry[old('nationalityInput')]['country_name'] ?? $globalCountry[$invest_pt[0]['nation']]['country_name'] }}</option>
 								@endif
 								<option value="0">-- โปรดเลือก --</option>
