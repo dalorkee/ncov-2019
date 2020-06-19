@@ -116,7 +116,6 @@ class ConfirmFormController extends Controller
 					'ch_date' => date('Y-m-d H:i:s'),
 					'ref_user_id' => auth()->user()->id
 				]);
-				//return redirect()->route('list-data.invest');
 				return redirect()->back()->with('success', 'เปลี่ยนสถานะข้อมูลสำเร็จแล้ว');
 			}
 		} catch(\Exception $e) {
@@ -125,8 +124,143 @@ class ConfirmFormController extends Controller
 		}
 	}
 
-	public function create(Request $request)
-	{
+	public function changePtStatus(Request $request) {
+		try {
+			$pt = InvestList::find($request->id);
+			$cur_pt_status = $pt->pt_status;
+
+			$user_role = Session::get('user_role');
+			switch ($user_role) {
+				case 'root':
+					$pt->pt_status = $request->pt_status;
+					$ch_pt_status = $request->pt_status;
+					break;
+				case 'ddc':
+					if ($cur_pt_status == 2) {
+						$pt->pt_status = $cur_pt_status;
+						$ch_pt_status = $cur_pt_status;
+					} else {
+						$pt->pt_status = $request->pt_status;
+						$ch_pt_status = $request->pt_status;
+					}
+					break;
+				default:
+					if ($cur_pt_status == 2) {
+						$pt->pt_status = $cur_pt_status;
+						$ch_pt_status = $cur_pt_status;
+					} else {
+						$pt->pt_status = $request->pt_status;
+						$ch_pt_status = $request->pt_status;
+					}
+					break;
+			}
+
+			if (is_null($request->pt_type) || empty($request->pt_type) || $request->pt_type == '0') {
+				$pt->type_nature = null;
+			} else {
+				$pt->type_nature = $request->pt_type;
+			}
+
+			$pt->updated_at = date('Y-m-d H:i:s');
+			$pt_saved = $pt->save();
+
+			/* log change status */
+			if ($pt_saved) {
+				DB::table('log_ch_status')->insert([
+					'ref_pt_id' => $request->id,
+					'cur_pt_status' => $cur_pt_status,
+					'ch_pt_status' => $ch_pt_status,
+					'ch_date' => date('Y-m-d H:i:s'),
+					'ref_user_id' => auth()->user()->id
+				]);
+				Log::notice('User: '.auth()->user()->id.' Change patient status '.$cur_pt_status.' to '.$ch_pt_status);
+				return redirect()->back()->with('success', 'ข้อมูลรหัส: '.$request->id.' ถูกเปลี่ยนสถานะผู้ป่วยแล้ว');
+			}
+		} catch(\Exception $e) {
+			Log::error($e->getMessage());
+			return redirect()->back()->with('error', 'ไม่สามารถเปลี่ยนสถานะข้อมูล โปรดตรวจสอบ');
+		}
+	}
+
+	public function changeNewsStatus(Request $request) {
+		try {
+			$pt = InvestList::find($request->id);
+			$cur_news_st = $pt->news_st;
+
+			$user_role = Session::get('user_role');
+			switch ($user_role) {
+				case 'root':
+					$pt->news_st = $request->news_status;
+					$ch_news_st = $request->news_status;
+					break;
+				case 'ddc':
+					$pt->news_st = $request->news_status;
+					$ch_news_st = $request->news_status;
+					break;
+				default:
+					return redirect()->back()->with('error', 'ไม่มีสิทธิ์เปลี่ยนสถานะข้อมูล โปรดติดต่อผู้ดูแลระบบ');
+					break;
+			}
+
+			if (!isset($request->orderNo) || empty($request->orderNo) || is_null($request->orderNo) || $request->orderNo <= 0) {
+				$pt->order_pt = null;
+			} else {
+				$pt->order_pt = $request->orderNo;
+			}
+
+			if (!isset($request->orderDate) || empty($request->orderDate) || is_null($request->orderDate) || $request->orderDate <= 0) {
+				$pt->news_dt = null;
+			} else {
+				$pt->news_dt = self::convertDateToMySQL($request->orderDate);
+			}
+
+			$pt->updated_at = date('Y-m-d H:i:s');
+			$pt_saved = $pt->save();
+
+			if ($pt_saved) {
+				DB::table('log_ch_status')->insert([
+					'ref_pt_id' => $request->id,
+					'cur_news_st' => $cur_news_st,
+					'ch_news_st' => $ch_news_st,
+					'ch_date' => date('Y-m-d H:i:s'),
+					'ref_user_id' => auth()->user()->id
+				]);
+				Log::notice('User: '.auth()->user()->id.' Change News status '.$cur_news_st.' to '.$ch_news_st);
+				return redirect()->back()->with('success', 'ข้อมูลรหัส: '.$request->id.' ถูกเปลี่ยนสถานะการแถลงข่าวแล้ว');
+			}
+		} catch(\Exception $e) {
+			Log::error($e->getMessage());
+			return redirect()->back()->with('error', 'ไม่สามารถเปลี่ยนสถานะข้อมูล โปรดตรวจสอบ');
+		}
+	}
+
+	public function changeDcStatus(Request $request) {
+		try {
+			$pt = InvestList::find($request->id);
+			$cur_disch_st = $pt->disch_st;
+			$pt->disch_st = $request->disch_st;
+			$pt->updated_at = date('Y-m-d H:i:s');
+			$pt_saved = $pt->save();
+			if ($pt_saved) {
+				DB::table('log_ch_status')->insert([
+					'ref_pt_id' => $request->id,
+					'cur_disch_st' => $cur_disch_st,
+					'ch_disch_st' => $request->disch_st,
+					'ch_date' => date('Y-m-d H:i:s'),
+					'ref_user_id' => auth()->user()->id
+				]);
+				Log::notice('User: '.auth()->user()->id.' Change Discharge status '.$cur_disch_st.' to '.$request->disch_st);
+				return redirect()->back()->with('success', 'ข้อมูลรหัส: '.$request->id.' ถูกเปลี่ยนสถานะ Discharge แล้ว');
+			}
+		} catch(\Exception $e) {
+			Log::error($e->getMessage());
+			return redirect()->back()->with('error', 'ไม่สามารถเปลี่ยนสถานะข้อมูล โปรดตรวจสอบ');
+		}
+	}
+
+
+
+	public function create(Request $request) {
 		$titleName = TitleName::all()->keyBy('id')->toArray();
 		$provinces = Provinces::all()->sortBy('province_name')->keyBy('province_id')->toArray();
 		$occupation = Occupation::all()->keyBy('id')->toArray();

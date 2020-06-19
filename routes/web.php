@@ -24,6 +24,9 @@ Route::get('/getHospByProv', '\App\Http\Controllers\Auth\RegisterController@getH
 //Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('chConfirmStatus', 'ConfirmFormController@changeStatus')->name('chConfirmStatus');
 Route::post('chConfirmStatusServerSide', 'ConfirmFormController@changeStatusSeverSide')->name('chConfirmStatusServerSide');
+Route::post('changePtStatus', 'ConfirmFormController@changePtStatus')->name('changePtStatus');
+Route::post('changeNewsStatus', 'ConfirmFormController@changeNewsStatus')->name('changeNewsStatus');
+Route::post('changeDcStatus', 'ConfirmFormController@changeDcStatus')->name('changeDcStatus');
 Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
 Route::get('/screen-pui', array('as' => 'screenpui.create', 'uses' => 'ScreenPUIController@create'));
 Route::post('/screen-pui', array('as' => 'screenpui.store', 'uses' => 'ScreenPUIController@store'));
@@ -118,6 +121,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 	/* moaal change status on context menu */
 	Route::post('ch-status', 'ListInvestController@chStatus')->name('ch-status');
+	Route::post('chPtStatus', 'ListInvestController@chPtStatus')->name('chPtStatus');
+	Route::post('chNewsStatus', 'ListInvestController@chNewsStatus')->name('chNewsStatus');
+	Route::post('chDcStatus', 'ListInvestController@chDcStatus')->name('chDcStatus');
 	/* modal refer out */
 	Route::post('refer', 'ListInvestController@referOut')->name('refer');
 	/* modal delete on context menu */

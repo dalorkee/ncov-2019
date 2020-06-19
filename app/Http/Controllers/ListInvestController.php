@@ -106,7 +106,6 @@ class ListInvestController extends Controller
 		}
 
 		/* news status */
-		//$news_st = (!empty($pst['news_st'])) ? $status['news_st'][$pst['news_st']] : "-";
 		if (is_null($pst['news_st']) || empty($pst['news_st']) || $pst['news_st'] == '0') {
 			$news_st = "-";
 		} else {
@@ -119,7 +118,6 @@ class ListInvestController extends Controller
 		}
 
 		/* dischart status */
-		//$disch_st = (!empty($pst['disch_st'])) ? $status['disch_st'][$pst['disch_st']] : "-";
 		if (is_null($pst['disch_st']) || empty($pst['disch_st']) || $pst['disch_st'] == '0') {
 			$disch_st = "-";
 		} else {
@@ -212,6 +210,283 @@ class ListInvestController extends Controller
 			});
 		</script>";
 	}
+
+	public function chPtStatus(Request $request) {
+		$pst = InvestList::select('id', 'sat_id', 'pt_status', 'type_nature')->where('id', '=', $request->id)->first();
+
+		$master = new MasterController;
+		$status = $master->getStatus();
+
+		if (is_null($pst['pt_status']) || empty($pst['pt_status']) || $pst['pt_status'] == '0') {
+			$pt_status = null;
+		} else {
+			$pt_status = $status['pt_status'][$pst['pt_status']];
+		}
+
+		/* continue status key 3 & 4 */
+		$pt_status_opt = "";
+		foreach ($status['pt_status'] as $key => $val) {
+			if ($key == '3' || $key =='4') {
+				continue;
+			} else {
+				$pt_status_opt .= "<option value=\"".$key."\">".$val."</option>";
+			}
+		}
+
+		/* type nature */
+		$ref_type_nature = $status['type_nature'];
+		if (is_null($pst['type_nature']) || empty($pst['type_nature']) || $pst['type_nature'] == '0') {
+			$type_nature = null;
+		} else {
+			$type_nature = "<option value=\"".$pst['type_nature']."\">".$ref_type_nature[$pst['type_nature']]."</option>";
+		}
+
+		$type_nature_opt = "";
+		foreach ($ref_type_nature as $key => $val) {
+			$type_nature_opt .= "<option value=\"".$key."\">".$val."</option>";
+		}
+
+		/* check pt_status for disible select */
+		$user_role = Session::get('user_role');
+		switch ($user_role) {
+			case 'root':
+				$pt_status_disabled = null;
+				$warning_pt_status_text = null;
+				break;
+			default:
+				if ($pst['pt_status'] == '2') {
+					$pt_status_disabled = 'disabled';
+					$warning_pt_status_text = 'Confirmed ไม่สามารถเปลี่ยนสถานะได้แล้ว';
+				} else {
+					$pt_status_disabled = null;
+					$warning_pt_status_text = null;
+				}
+				break;
+		}
+
+		$htm = "
+		<div class=\"modal-header\">
+			<h5 class=\"modal-title text-color-custom-6\" id=\"statusModalLabel".$pst['id']."\"><i class=\" fas fa-check-circle\"></i> เปลี่ยนสถานะผู้ป่วย รหัส: ".$pst['id']."</h5>
+			<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
+				<span aria-hidden=\"true\">&times;</span>
+			</button>
+		</div>
+		<div class=\"modal-body\">
+			<div class=\"form-row\">
+				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
+					<div class=\"form-group\">
+						<label for=\"patient\" class=\"text-info font-16\">สถานะผู้ป่วย <span class=\"badge badge-pill badge-danger\">".$warning_pt_status_text."</label>
+						<input type=\"hidden\" name=\"id\" value=\"".$pst['id']."\">
+						<select name=\"pt_status\" class=\"form-control selectpicker show-tick\" id=\"pt_status".$pst['id']."\" ".$pt_status_disabled.">";
+							if (!is_null($pt_status)) {
+								$htm .= "<option value=\"".$pst['pt_status']."\" selected=\"selected\">".$pt_status."</option>";
+							}
+						$htm .= "
+							<option value=\"0\">-- โปรดเลือก --</option>"
+							.$pt_status_opt.
+						"</select>
+						<input type=\"hidden\" name=\"pt_status_hidden\" value=\"".$pst['pt_status']."\">
+					</div>
+				</div>
+				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
+					<div class=\"form-group\">
+						<label for=\"patientType\" class=\"text-info font-16\">ประเภทผู้ป่วย</label>
+						<select name=\"pt_type\" class=\"form-control show-tick pt_type\" id=\"pt_type".$pst['id']."\">"
+							.$type_nature.
+							"<option value=\"0\">โปรดเลือก</option>"
+							.$type_nature_opt.
+						"</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class=\"modal-footer\">
+			<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">ยกเลิก</button>
+			<input type=\"submit\" class=\"btn btn-custom-3\" value=\"เปลี่ยนทันที\">
+		</div>
+		<script>
+			$(document).ready(function() {
+				$('.selectpicker').selectpicker();
+				$('.pt_type').selectpicker();
+				/*
+				$('#pt_status".$pst['id']."').on('change', function() {
+					var pst_id = $('#pt_status".$pst['id']."').val();
+					if (pst_id == '2') {
+						$('.pt_type').prop('disabled', false).selectpicker('refresh');
+					} else {
+						$('.pt_type').prop('disabled', true).selectpicker('refresh');
+					}
+				});
+				*/
+			});
+		</script>";
+		return $htm;
+	}
+
+	public function chNewsStatus(Request $request) {
+		$pst = InvestList::select('id', 'sat_id', 'news_st', 'order_pt', 'news_dt')->where('id', '=', $request->id)->first();
+
+		$master = new MasterController;
+		$status = $master->getStatus();
+
+		if (is_null($pst['news_st']) || empty($pst['news_st']) || $pst['news_st'] == '0') {
+			$news_st = null;
+		} else {
+			$news_st = $status['news_st'][$pst['news_st']];
+		}
+
+		$news_st_opt = "";
+		foreach ($status['news_st'] as $key => $val) {
+			$news_st_opt .= "<option value=\"".$key."\">".$val."</option>";
+		}
+
+		if (is_null($pst['news_dt']) || empty($pst['news_dt'])) {
+			$news_dt = null;
+		} else {
+			$news_dt = self::convertMySQLDateFormat($pst['news_dt']);
+		}
+
+		$user_role = Session::get('user_role');
+		if ($user_role == 'root' || $user_role == 'ddc') {
+			$news_st_disabled = null;
+			$warning_news_st_text = null;
+		} else {
+			$news_st_disabled = 'disabled';
+			$warning_news_st_text = 'เปลี่ยนสถานะได้เฉพาะผู้ได้รับมอบหมายเท่านั้น';
+		}
+
+		$htm = "
+		<div class=\"modal-header\">
+			<h5 class=\"modal-title text-color-custom-6\" id=\"statusModalLabel".$pst['id']."\"><i class=\" fas fa-check-circle\"></i> เปลี่ยนสถานะการแถลงข่าว รหัส: ".$pst['id']."</h5>
+			<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
+				<span aria-hidden=\"true\">&times;</span>
+			</button>
+		</div>
+		<div class=\"modal-body\">
+			<div class=\"form-row\">
+				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
+					<div class=\"form-group\">
+						<label for=\"news\" class=\"text-info font-16\">สถานะการแถลงข่าว <span class=\"badge badge-pill badge-danger\">".$warning_news_st_text."</label>
+						<input type=\"hidden\" name=\"id\" value=\"".$pst['id']."\">
+						<select name=\"news_status\" class=\"form-control selectpicker show-tick\" id=\"news_st".$pst['id']."\" ".$news_st_disabled.">";
+						if (!is_null($news_st)) {
+							$htm .= "<option value=\"".$pst['news_st']."\" selected=\"selected>\">".$news_st."</option>";
+						}
+						$htm .= "
+							<option value=\"\">-- โปรดเลือก --</option>"
+							.$news_st_opt.
+						"</select>
+					</div>
+				</div>
+				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
+					<div class=\"form-group\">
+						<label for=\"orderNo\" class=\"text-info font-16\">ลำดับที่ประกาศข่าว <span class=\"badge badge-warning badge-pill\">เฉพาะผลแลปยืนยัน</span></label>
+						<input type=\"number\" name=\"orderNo\" class=\"form-control order-no\" id=\"order_no".$pst['id']."\" min=\"1\" value=\"".$pst['order_pt']."\" disabled>
+					</div>
+				</div>
+				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
+					<div class=\"form-group\">
+						<label for=\"orderDate\" class=\"text-info font-16\">วันที่ประกาศข่าว <span class=\"badge badge-warning badge-pill\">เฉพาะผลแลปยืนยัน</span></label>
+						<div class=\"input-group\">
+							<div class=\"input-group-append\">
+								<span class=\"input-group-text\"><i class=\"mdi mdi-calendar\"></i></span>
+							</div>
+							<input type=\"text\" name=\"orderDate\" data-provide=\"datepicker\" class=\"form-control order-date\" id=\"order_date\" value=\"".$news_dt."\" readonly disabled>
+							<div class=\"input-group-append\">
+								<button type=\"button\" class=\"input-group-text text-danger\" id=\"cls_order_date\"><i class=\"fas fa-times\"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class=\"modal-footer\">
+			<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">ยกเลิก</button>
+			<input type=\"submit\" class=\"btn btn-danger\" value=\"เปลี่ยนทันที\">
+		</div>
+		<script>
+			$(document).ready(function() {
+				$('.selectpicker').selectpicker();
+				$('#cls_order_date').click(function() {
+					$('#order_date').val('');
+				});
+				$('#order_date').datepicker({
+					format: 'dd/mm/yyyy',
+					todayHighlight: true,
+					todayBtn: true,
+					autoclose: true
+				});
+
+				$('#news_st".$pst['id']."').on('change', function() {
+					let news_id = $('#news_st".$pst['id']."').val();
+					if (news_id == '1') {
+						$('.order-no').prop('disabled', false).selectpicker('refresh');
+						$('.order-date').prop('disabled', false);
+					} else {
+						$('#order_no".$pst['id']."').val('');
+						$('#order_date').val('');
+						$('.order-no').prop('disabled', true).selectpicker('refresh');
+						$('.order-date').prop('disabled', true);
+					}
+				});
+			});
+		</script>";
+		return $htm;
+	}
+
+	public function chDcStatus(Request $request) {
+		$pst = InvestList::select('id', 'sat_id', 'disch_st')->where('id', '=', $request->id)->first();
+		$master = new MasterController;
+		$status = $master->getStatus();
+
+		if (is_null($pst['disch_st']) || empty($pst['disch_st']) || $pst['disch_st'] == '0') {
+			$disch_st = null;
+		} else {
+			$disch_st = $status['disch_st'][$pst['disch_st']];
+		}
+
+		$disch_st_opt = "";
+		foreach ($status['disch_st'] as $key => $val) {
+			$disch_st_opt .= "<option value=\"".$key."\">".$val."</option>";
+		}
+
+		$htm = "
+		<div class=\"modal-header\">
+			<h5 class=\"modal-title text-color-custom-6\" id=\"statusModalLabel".$pst['id']."\"><i class=\" fas fa-check-circle\"></i> เปลี่ยนสถานะ รหัส: ".$pst['id']."</h5>
+			<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
+				<span aria-hidden=\"true\">&times;</span>
+			</button>
+		</div>
+		<div class=\"modal-body\">
+			<div class=\"form-row\">
+				<div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12\">
+					<div class=\"form-group\">
+						<label for=\"discharge font-16\" class=\"text-info\">Discharge</label>
+						<input type=\"hidden\" name=\"id\" value=\"".$pst['id']."\">
+						<select name=\"disch_st\" class=\"form-control selectpicker show-tick\" id=\"disch_st".$pst['id']."\">";
+							if (!is_null($disch_st)) {
+								$htm .= "<option value=\"".$pst['disch_st']."\" selected=\"selected\">".$disch_st."</option>";
+							}
+							$htm .= "<option value=\"\">-- โปรดเลือก --</option>"
+							.$disch_st_opt.
+						"</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class=\"modal-footer\">
+			<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">ยกเลิก</button>
+			<input type=\"submit\" class=\"btn btn-danger\" value=\"เปลี่ยนทันที\">
+		</div>
+		<script>
+			$(document).ready(function() {
+				$('.selectpicker').selectpicker();
+			});
+		</script>";
+	return $htm;
+	}
+
 
 	public function referOut(Request $request) {
 		/* get hospital data */
@@ -445,6 +720,16 @@ class ListInvestController extends Controller
 			$str = "-";
 		}
 		return $str;
+	}
+
+	private function convertMySQLDateFormat($date='0000-00-00', $seperator="/") {
+		if (!is_null($date) || !empty($date)) {
+			$ep = explode("-", $date);
+			$string = $ep[2].$seperator.$ep[1].$seperator.$ep[0];
+		} else {
+			$string = null;
+		}
+		return $string;
 	}
 
 }

@@ -624,7 +624,7 @@ class InvestController extends MasterController
 					$pt->treat_place_province = ($request->patient_treat_status_refer_province != '0') ? $request->patient_treat_status_refer_province : NULL;
 					$pt->treat_place_district = ($request->patient_treat_status_refer_district != '0') ? $request->patient_treat_status_refer_district : NULL;
 					$pt->treat_place_sub_district = ($request->patient_treat_status_refer_sub_district != '0') ? $request->patient_treat_status_refer_sub_district : NULL;
-					$pt->treat_place_hospital = ($request->patient_treat_status_refer != 0) ? $request->patient_treat_status_refer : NULL;
+					$pt->treat_place_hospital = ($request->patient_treat_status_refer != '0') ? $request->patient_treat_status_refer : NULL;
 				}
 			} else {
 				$pt->treat_place_province = ($request->treatPlaceProvinceInput != '0') ? $request->treatPlaceProvinceInput : NULL;

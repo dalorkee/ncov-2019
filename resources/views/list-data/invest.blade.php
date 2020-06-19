@@ -1,6 +1,7 @@
 @extends('layouts.index')
 @section('custom-style')
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
+	<link rel="stylesheet" href="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+	<link rel="stylesheet" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
 	<link rel="stylesheet" href="{{ URL::asset('assets/libs/jquery-contextmenu/dist/jquery.contextMenu.min.css') }}">
 	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/datatables-1.10.20/css/jquery.dataTables.min.css') }}">
 	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/Buttons-1.6.1/css/buttons.dataTables.min.css') }}">
@@ -76,12 +77,34 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 		</div>
 	@endif
 	<!-- Modal change status-->
-	<div class="modal fade" id="chstatus" tabindex="-1" role="dialog" aria-labelledby="changeStatus" aria-hidden="true" style="font-family:'sukhumvit'">
+	<div class="modal fade" id="status_modal" tabindex="-1" role="dialog" aria-labelledby="changeStatus" aria-hidden="true" style="font-family:'sukhumvit'">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form name="chStatusFrm" action="{{ route('chConfirmStatusServerSide') }}" method="POST">
+				<form name="chStatusFrm" method="POST" action="{{ route('changePtStatus') }}">
 					{{ csrf_field() }}
-					<div id="ajax-status"></div>
+					<div id="status_res"></div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Modal change news status-->
+	<div class="modal fade" id="news_modal" tabindex="-1" role="dialog" aria-labelledby="changeNewsStatus" aria-hidden="true" style="font-family:'sukhumvit'">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form name="chNewsStatusFrm" method="POST" action="{{ route('changeNewsStatus') }}">
+					{{ csrf_field() }}
+					<div id="news_res"></div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Modal change discharge status-->
+	<div class="modal fade" id="dc_modal" tabindex="-1" role="dialog" aria-labelledby="changeDcStatus" aria-hidden="true" style="font-family:'sukhumvit'">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form name="chNewsStatusFrm" method="POST" action="{{ route('changeDcStatus') }}">
+					{{ csrf_field() }}
+					<div id="dc_res"></div>
 				</form>
 			</div>
 		</div>
@@ -133,6 +156,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/datatables-1.10.20/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/Buttons-1.6.1/js/dataTables.buttons.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/js/dataTables.responsive.min.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 	<script src="{{ URL::asset('vendor/datatables/buttons.server-side.js') }}"></script>
 	{{ $dataTable->scripts() }}
 	<?php
@@ -154,15 +178,45 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				var id = $(this).data('id');
 				var satid = $(this).data('satid');
 				switch (key) {
-					case 'chStatus':
+					case 'chPtStatus':
 						$.ajax({
 							method: 'POST',
-							url: '{{ route('ch-status') }}',
+							url: '{{ route('chPtStatus') }}',
 							data: {id:id},
 							dataType: 'HTML',
 							success: function(data) {
-								$('#ajax-status').html(data);
-								$('#chstatus').modal('show');
+								$('#status_res').html(data);
+								$('#status_modal').modal('show');
+							},
+							error: function(data, status, error) {
+								alert(error);
+							}
+						});
+						break;
+					case 'chNewsStatus':
+						$.ajax({
+							method: 'POST',
+							url: '{{ route('chNewsStatus') }}',
+							data: {id:id},
+							dataType: 'HTML',
+							success: function(data) {
+								$('#news_res').html(data);
+								$('#news_modal').modal('show');
+							},
+							error: function(data, status, error) {
+								alert(error);
+							}
+						});
+						break;
+					case 'chDcStatus':
+						$.ajax({
+							method: 'POST',
+							url: '{{ route('chDcStatus') }}',
+							data: {id:id},
+							dataType: 'HTML',
+							success: function(data) {
+								$('#dc_res').html(data);
+								$('#dc_modal').modal('show');
 							},
 							error: function(data, status, error) {
 								alert(error);
@@ -224,9 +278,11 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				}
 			},
 			items: {
-				"chStatus": {name: "เปลี่ยนสถานะ", icon: "fas fa-check-circle"},
-				"refer": {name: "ส่งต่อผู้ป่วย", icon: "fas fa-ambulance"},
+				"chPtStatus": {name: "เปลี่ยนสถานะผู้ป่วย", icon: "fas fa-check-circle"},
+				"chNewsStatus": {name: "เปลี่ยนสถานะการแถลงข่าว", icon: "fas fa-microphone"},
+				"chDcStatus": {name: "เปลี่ยนสถานะ Discharge", icon: "fas fa-diagnoses"},
 				"sep1": "---------",
+				"refer": {name: "ส่งต่อผู้ป่วย", icon: "fas fa-ambulance"},
 				"labSendColab": {name: "ส่งแลป", icon: "fas fa-external-link-alt", className: 'link-colab'},
 				"labResultColab": {name: "ดูผลแลป", icon: "fas fa-external-link-alt", className: 'link-colab'},
 				"labResult": {name: "ดูผลแลป (ก่อนวันที่ 23 พ.ค. 63)", icon: "fas fa-flask"},

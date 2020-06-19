@@ -88,6 +88,10 @@ class MasterController extends Controller
 				'Process' => 'รอผล',
 				'Detected' => 'Detected',
 				'Not detected' => 'Not Detected'
+			],
+			'type_nature' => [
+				'1' => 'Local',
+				'2' => 'Import'
 			]
 		]);
 		return $status;
