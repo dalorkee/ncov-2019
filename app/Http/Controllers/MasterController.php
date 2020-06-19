@@ -92,6 +92,13 @@ class MasterController extends Controller
 			'type_nature' => [
 				'1' => 'Local',
 				'2' => 'Import'
+			],
+			'health_coverage' => [
+				'0100' => 'หลักประกันสุขภาพ',
+				'1100' => 'ข้าราชการประจำ',
+				'4200' => 'กองทุนประกันสังคม',
+				'8400' => 'บุคคลที่มีสิทธิต่างด้าว ชำระเงินเอง',
+				'9999' => 'อื่นๆ'
 			]
 		]);
 		return $status;

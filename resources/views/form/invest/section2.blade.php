@@ -78,6 +78,20 @@
 		<div class="form-row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 				<div class="form-group">
+					<label for="healthCoverage" class="text-cyan">ประเภทการรักษา</label>
+					<select name="health_coverage" class="form-control selectpicker show-tick text-info" data-style="btn btn-outline-cyan" id="health_coverage">
+						@if ((!empty(old('health_coverage')) || !is_null($invest_pt[0]['health_coverage'])) && !empty($invest_pt[0]['health_coverage']) && $invest_pt[0]['health_coverage'] != '0')
+							<option value="{{ old('health_coverage') ?? $invest_pt[0]['health_coverage'] }}" selected="selected">{{ $healthCoverage[old('health_coverage')]?? $healthCoverage[$invest_pt[0]['health_coverage']] }}</option>
+						@endif
+						<option value="0">-- เลือกประเภท --</option>
+							@foreach($healthCoverage as $key=>$val)
+								<option value="{{ $key }}">{{ $val }}</option>
+							@endforeach
+					</select>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+				<div class="form-group">
 					<label for="date" class="text-cyan">วันที่เข้ารักษาครั้งแรก</label>
 					<div class="input-group date">
 						<div class="input-group-append">

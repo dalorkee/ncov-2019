@@ -124,6 +124,7 @@ class InvestController extends MasterController
 			$risk_type = RiskType::all()->keyBy('id')->toArray();
 			$lab_status = parent::selectStatus('lab_status');
 			$screen_pt = parent::selectStatus('screen_pt');
+			$healthCoverage = parent::selectStatus('health_coverage');
 
 			/* patient data */
 			$invest_pt = Invest::where('id', '=', $request->id)->get()->toArray();
@@ -378,6 +379,7 @@ class InvestController extends MasterController
 						'treat_first_hospital' => $treat_first_hospital,
 						'treat_place_hospital' => $treat_place_hospital,
 						'patient_treat_status_refer' => $patient_treat_status_refer,
+						'healthCoverage' => $healthCoverage,
 						'data' => $data,
 						'titleName' => $titleName,
 						'provinces' => $provinces,
@@ -514,6 +516,7 @@ class InvestController extends MasterController
 			$pt->sick_province_first = ($request->sick_province_first != '0') ? $request->sick_province_first : NULL;
 			$pt->sick_district_first = ($request->sick_district_first != '0') ? $request->sick_district_first : NULL;
 			$pt->sick_sub_district_first = ($request->sick_sub_district_first != '0') ? $request->sick_sub_district_first : NULL;
+			$pt->health_coverage = ($request->health_coverage != '0') ? $request->health_coverage : NULL;
 			$pt->treat_first_date = $this->convertDateToMySQL($request->treat_first_date);
 			$pt->treat_first_province = ($request->treatFirstProvinceInput != '0') ? $request->treatFirstProvinceInput : NULL;
 			$pt->treat_first_district = ($request->treatFirstDistrictInput != '0') ? $request->treatFirstDistrictInput : NULL;
