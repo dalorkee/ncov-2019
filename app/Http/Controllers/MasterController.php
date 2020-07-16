@@ -47,12 +47,15 @@ class MasterController extends Controller
 				1 => 'คัดกรองที่สนามบิน',
 				2 => 'PUI Walkin มาที่ รพ.',
 				3 => 'ผู้สัมผัส',
-				4 => 'ผู้ถูกกักกัน',
+				4 => 'State Quarantine (SQ)',
 				5 => 'Active Case Finding',
 				6 => 'Sentinel Surveillance',
 				7 => 'คัดกรอกก่อนทำหัตถการ',
 				8 => 'PUI Walkin มาที่ รพ.',
 				9 => 'IHR',
+				10 => 'Local Quarantine (LQ)',
+				11 => 'Organizational Quarantine (OQ)',
+				12 => 'Asymptomatic Infection Finding (AIF)',
 				99 => 'อื่นๆ'
 			],
 			'arrfollowup_address' => [
