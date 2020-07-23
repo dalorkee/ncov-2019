@@ -636,7 +636,7 @@ class ListInvestController extends Controller
 				'LastName' => $lastname,
 				'Email' => $email,
 				'UserMobile' => $userMobile,
-				'UserPosition' => '-',
+				'UserPosition' => 'executive',
 				'ScreenType' => 'detail',
 				'DDCPatientID' => $data[0]->id,
 				'PatientDDCType' => '1',
