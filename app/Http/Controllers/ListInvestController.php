@@ -642,7 +642,7 @@ class ListInvestController extends Controller
 			$patientMobile = self::addHyphen($data[0]->mobile);
 			$hospcode = self::addHyphen(auth()->user()->hospcode);
 			$data = json_encode([
-				'UserName'=> 'satsurat84',
+				'UserName'=> $username,
 				'FirstName' => $firstname,
 				'LastName' => $lastname,
 				'Email' => $email,
@@ -717,7 +717,7 @@ class ListInvestController extends Controller
 			$patientMobile = self::addHyphen($data[0]->mobile);
 			$hospcode = self::addHyphen(auth()->user()->hospcode);
 			$data = json_encode([
-				'UserName'=> 'satsurat84',
+				'UserName'=> $username,
 				'FirstName' => $firstname,
 				'LastName' => $lastname,
 				'Email' => $email,
