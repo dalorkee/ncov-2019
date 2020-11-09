@@ -29,7 +29,8 @@
         "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
         "yajra/laravel-datatables": "1.5",
         "yajra/laravel-datatables-fractal": "^1.5",
-        "yajra/laravel-datatables-oracle": "^9.8"
+        "yajra/laravel-datatables-oracle": "^9.8",
+		"guzzlehttp/guzzle": "^6.5"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
