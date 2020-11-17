@@ -1,7 +1,7 @@
 @extends('layouts.index')
 @section('custom-style')
 	<link rel="stylesheet" href="{{ URL::asset('assets/libs/jquery-contextmenu/dist/jquery.contextMenu.min.css') }}">
-	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/datatables-1.10.20/css/jquery.dataTables.min.css') }}">
+	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/DataTables-1.10.20/css/jquery.dataTables.min.css') }}">
 	<link rel='stylesheet' href="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/css/responsive.dataTables.min.css') }}">
 	<link rel="stylesheet" href="{{ URL::asset('assets/libs/select2-4.0.13/dist/css/select2.min.css') }}">
 @endsection
@@ -70,7 +70,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 @section('bottom-script')
 	<script src="{{ URL::asset('assets/libs/jquery-contextmenu/dist/jquery.contextMenu.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/libs/jquery-contextmenu/dist/jquery.ui.position.min.js') }}"></script>
-	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/datatables-1.10.20/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/DataTables-1.10.20/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ URL::asset('assets/libs/datatables-1.10.20/Responsive-2.2.3/js/dataTables.responsive.min.js') }}"></script>
 	<script src="{{ URL::asset('vendor/datatables/buttons.server-side.js') }}"></script>
 	{{ $dataTable->scripts() }}
