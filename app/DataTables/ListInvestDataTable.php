@@ -70,6 +70,15 @@ class ListInvestDataTable extends DataTable
 		return $str;
 	}
 
+	private function caseTreatFirstProvince() {
+		$query_prov = Provinces::select('province_id', 'province_name')->get()->toArray();
+		$str = "";
+		foreach ($query_prov as $key => $value) {
+			$str .= "WHEN treat_first_province = \"".$value['province_id']."\" THEN \"".$value['province_name']."\" ";
+		}
+		return $str;
+	}
+
 	private function getProvCodeByRegion($region=0) {
 		$prov_code = Provinces::select('province_id')
 			->where('zone_id', '=', $region)
@@ -79,6 +88,7 @@ class ListInvestDataTable extends DataTable
 	}
 
 	public function dataTable($query) {
+		$tfp = $this->caseTreatFirstProvince();
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
 		$dcs = $this->caseDischSt();
@@ -107,6 +117,9 @@ class ListInvestDataTable extends DataTable
 			})
 			->filterColumn('nation', function($query, $keyword) use ($nation) {
 				$query->whereRaw('(CASE '.$nation.' ELSE "-" END) like ?', ["%{$keyword}%"]);
+			})
+			->filterColumn('treat_first_province', function($query, $keyword) use ($tfp) {
+				$query->whereRaw('(CASE '.$tfp.' ELSE "-" END) like ?', ["%{$keyword}%"]);
 			})
 			->editColumn('news_st', function($ns) {
 				return "<span class=\"badge badge-light\">".$ns->news_st."</span>";
@@ -192,7 +205,7 @@ class ListInvestDataTable extends DataTable
 		$user_prov = auth()->user()->prov_code;
 		$user_region = auth()->user()->region;
 
-
+		$tfp = $this->caseTreatFirstProvince();
 		$pts = $this->casePtStatus();
 		$ns = $this->caseNewsSt();
 		$dcs = $this->caseDischSt();
@@ -211,7 +224,7 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
 					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-					//'inv',
+					\DB::raw('(CASE '.$tfp.' ELSE "-" END) AS treat_first_province'),
 					'visit_number')
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
@@ -226,7 +239,7 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
 					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-					//'inv',
+					\DB::raw('(CASE '.$tfp.' ELSE "-" END) AS treat_first_province'),
 					'visit_number')
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
@@ -243,7 +256,7 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
 					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-					//'inv',
+					\DB::raw('(CASE '.$tfp.' ELSE "-" END) AS treat_first_province'),
 					'visit_number')
 					//->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 					->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
@@ -260,7 +273,7 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
 					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-					//'inv',
+					\DB::raw('(CASE '.$tfp.' ELSE "-" END) AS treat_first_province'),
 					'visit_number')
 					//->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
 					->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
@@ -278,7 +291,7 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$dcs.' ELSE "-" END) AS disch_st'),
 					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
-					//'inv',
+					\DB::raw('(CASE '.$tfp.' ELSE "-" END) AS treat_first_province'),
 					'visit_number')
 					->whereRaw('(isolated_hosp_code = '.$user_hosp.' OR walkinplace_hosp_code = '.$user_hosp.' OR treat_first_hospital = '.$user_hosp. ' OR treat_place_hospital = '.$user_hosp.')')
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
@@ -340,7 +353,7 @@ class ListInvestDataTable extends DataTable
 			Column::make('disch_st')->title('Discharge'),
 			Column::make('screen_pt')->title('ประเภทผู้ป่วย'),
 			Column::make('nation')->title('สัญชาติ'),
-			//Column::make('inv')->title('สอบสวนโรค'),
+			Column::make('treat_first_province')->title('จังหวัดที่รักษาครั้งแรก'),
 			Column::make('visit_number')->title('ครั้งที่รักษา'),
 			Column::computed('action')
 				->exportable(false)

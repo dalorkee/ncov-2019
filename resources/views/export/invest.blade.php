@@ -41,18 +41,18 @@
 </div>
 <div class="container-fluid">
 	@include('flash::message')
-	<article class="card" style="border:2px dashed #eee">
+	<article class="card" style="border:2px solid #eee">
 		<section class="card-body">
 			<form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<!--<form action="export.search" method="POST" enctype="multipart/form-data" class="form-horizontal">-->
 				{{ csrf_field() }}
 				{{ method_field('POST') }}
 				<div class="form-row">
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 						<div class="form-group">
 							<label for="patient_status">สถานะผู้ป่วย</label>
 							<select name="pt_status" class="form-control selectpicker show-tick" id="pt_status">
-								<option value="all">-- All --</option>
+								<option value="all">-- ทั้งหมด  --</option>
 								@foreach ($pt_status as $key => $value)
 									<option value="{{ $key }}">{{ $value }}</option>
 								@endforeach
@@ -61,18 +61,35 @@
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 						<div class="form-group">
-							<label for="date">เลือกช่วงเวลาที่ต้องการส่งออกข้อมูล (ไม่ควรเกิน 7 วัน/ครั้ง)</label>
+							<label for="date">จังหวัด</label>
+							<select name="pt_province" class="form-control selectpicker show-tick" id="pt_province">
+								<option value="all">-- ทั้งหมด --</option>
+								@foreach ($provinces as $key => $value)
+									<option value="{{ $key }}">{{ $value['province_name'] }}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="form-group">
+							<label for="date">ช่วงเวลาที่ต้องการ (ไม่ควรเกิน 7 วัน/ครั้ง)</label>
 							<div class="input-group date" data-provide="datepicker" id="breathing_tube_date">
 								<div class="input-group-append">
 									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
 								</div>
 								<input type="text" name="date_range" id="export_date" class="form-control" style="cursor: pointer;" readonly>
+								<!--
 								<div class="input-group-append">
 									<button type="button" class="btn btn-outline btn-primary" id="export_btn">ค้นหา</button>
 								</div>
+							-->
 							</div>
 						</div>
 					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="form-group">
+							<button type="button" class="btn btn-outline btn-primary" id="export_btn">ค้นหาข้อมูล</button>
+						</div>
 				</div>
 			</form>
 			<div class="form-row">
@@ -106,7 +123,7 @@
 		</section>
 		<section class="card border-top">
 			<div class="card-body">
-				<h4 class="card-title m-t-0 m-b-0">Recent Exports</h4>
+				<h4 class="card-title m-t-0 m-b-0"><i class="fas fa-search"></i> ค้นหาล่าสุด</h4>
 			</div>
 			<div class="comment-widgets scrollable">
 				@if (!is_null($recent_export_tasks))
@@ -211,10 +228,11 @@ $(document).ready(function() {
 			$('.dl-section').hide();
 			var date_range = $('#export_date').val();
 			var pt_status = $('#pt_status').val();
+			var pt_province = $('#pt_province').val();
 			$.ajax({
 				method: 'POST',
 				url: "{{ route('export.search') }}",
-				data: {date_range:date_range, pt_status:pt_status},
+				data: {date_range:date_range, pt_status:pt_status, pt_province:pt_province},
 				dataType: "HTML",
 				success: function(response) {
 					$('.loader').hide();

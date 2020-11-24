@@ -42,10 +42,13 @@ class ExportController extends MasterController
 		$fileName = self::setExportFileName();
 		$pt_status = parent::selectStatus('pt_status');
 		$recentExportTasks = $this->exportRecentByUser();
+		$provinces = Provinces2::all()->sortBy('province_name')->keyBy('province_id')->toArray();
+
 		return view('export.invest',
 			[
 				'pt_status' => $pt_status,
-				'recent_export_tasks' => $recentExportTasks
+				'recent_export_tasks' => $recentExportTasks,
+				'provinces' => $provinces
 			]
 		);
 	}
@@ -149,10 +152,19 @@ class ExportController extends MasterController
 			/* set default data */
 			$pts = parent::selectStatus('pt_status');
 			$fileName = self::setExportFileName();
+
+			/* get pt_status */
 			if ($request->pt_status == 'all') {
 				$pt_status = array_keys($pts);
 			} else {
 				$pt_status = array($request->pt_status);
+			}
+
+			/* get province */
+			if ($request->pt_province == 'all') {
+				$pt_province = null;
+			} else {
+				$pt_province = $request->pt_province;
 			}
 
 			/* date range */
@@ -171,14 +183,28 @@ class ExportController extends MasterController
 
 			switch ($user_role) {
 				case 'root':
-					$total = Invest2::whereIn('pt_status', $pt_status)
-						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+					if (is_null($pt_province)) {
+						$total = Invest2::whereIn('pt_status', $pt_status)
+							->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' and '".$end_date."')")
+							->count();
+					} else {
+						$total = Invest2::whereIn('pt_status', $pt_status)
+						->whereRaw("(isolated_province = ".$pt_province." or walkinplace_hosp_province = ".$pt_province." or sick_province_first = ".$pt_province." or treat_place_province = ".$pt_province.")")
+						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' and '".$end_date."')")
 						->count();
+					}
 					break;
 				case 'ddc':
-					$total = Invest2::whereIn('pt_status', $pt_status)
-						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
-						->count();
+					if (is_null($pt_province)) {
+						$total = Invest2::whereIn('pt_status', $pt_status)
+							->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+							->count();
+					} else {
+						$total = Invest2::whereIn('pt_status', $pt_status)
+							->whereRaw("(isolated_province = ".$pt_province." or walkinplace_hosp_province = ".$pt_province." or sick_province_first = ".$pt_province." or treat_place_province = ".$pt_province.")")
+							->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+							->count();
+					}
 					break;
 				case 'dpc':
 					$prov_arr = parent::getProvCodeByRegion($user_region);
@@ -214,7 +240,7 @@ class ExportController extends MasterController
 				$port_arr = Port2::all()->keyBy('port_id')->toArray();
 
 				/* create file */
-				(new FastExcel($this->dataGenerator($pt_status, $start_date, $end_date, $total)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation_arr, $pts, $riskType, $port_arr) {
+				(new FastExcel($this->dataGenerator($pt_status, $start_date, $end_date, $total, $pt_province)))->export('exports/'.$fileName, function($x) use ($globalCountry, $provinces, $occupation_arr, $pts, $riskType, $port_arr) {
 					if (!empty($x->nation) && $x->nation != '0' && !is_null($x->nation)) {
 						if (array_key_exists($x->nation, $globalCountry)) {
 							$nation = $globalCountry[$x->nation]['country_name_th'];
@@ -880,7 +906,7 @@ class ExportController extends MasterController
 		}
 	}
 
-	public function dataGenerator($pt_status, $start_date, $end_date, $total) {
+	public function dataGenerator($pt_status, $start_date, $end_date, $total, $pt_province) {
 		try {
 			$user_role = Session::get('user_role');
 			$user_hosp = auth()->user()->hospcode;
@@ -1062,44 +1088,48 @@ class ExportController extends MasterController
 			);
 			switch ($user_role) {
 				case 'root':
-					//$i = 1;
-					foreach (Invest2::select($fields)
-						->whereIn('pt_status', $pt_status)
-						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
-						->whereNull('deleted_at')
-						->cursor() as $data) {
+					if (is_null($pt_province)) {
+						foreach (Invest2::select($fields)
+							->whereIn('pt_status', $pt_status)
+							->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+							->whereNull('deleted_at')
+							->cursor() as $data) {
 							yield $data;
-					/*		$arr_content = array();
-							$percent = intval($i/$total * 100);
-							$arr_content['percent'] = $percent;
-							$arr_content['message'] = $i . " row(s) processed.";
-							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
-							$i++;
-							usleep(300000);
-					*/
+						}
+					} else {
+						foreach (Invest2::select($fields)
+							->whereIn('pt_status', $pt_status)
+							->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+							->whereRaw("(isolated_province = ".$pt_province." or walkinplace_hosp_province = ".$pt_province." or sick_province_first = ".$pt_province." or treat_place_province = ".$pt_province.")")
+							->whereNull('deleted_at')
+							->cursor() as $data) {
+							yield $data;
+						}
 					}
 					break;
 				case 'ddc':
-					//$i = 1;
-					foreach (Invest2::select($fields)
-						->whereIn('pt_status', $pt_status)
-						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
-						->whereNull('deleted_at')
-						->cursor() as $data) {
+					if (is_null($pt_province)) {
+						foreach (Invest2::select($fields)
+							->whereIn('pt_status', $pt_status)
+							->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+							->whereNull('deleted_at')
+							->cursor() as $data) {
 							yield $data;
-							/*$arr_content = array();
-							$percent = intval($i/$total * 100);
-							$arr_content['percent'] = $percent;
-							$arr_content['message'] = $i . " row(s) processed.";
-							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
-							$i++;
-							usleep(300000);*/
+						}
+					} else {
+						foreach (Invest2::select($fields)
+							->whereIn('pt_status', $pt_status)
+							->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
+							->whereRaw("(isolated_province = ".$pt_province." or walkinplace_hosp_province = ".$pt_province." or sick_province_first = ".$pt_province." or treat_place_province = ".$pt_province.")")
+							->whereNull('deleted_at')
+							->cursor() as $data) {
+							yield $data;
+						}
 					}
 					break;
 				case 'dpc':
 					$prov_arr = parent::getProvCodeByRegion($user_region);
 					$prov_str = parent::arrayToString($prov_arr);
-					//$i = 1;
 					foreach (Invest2::select($fields)
 						->whereIn('pt_status', $pt_status)
 						//->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
@@ -1107,49 +1137,26 @@ class ExportController extends MasterController
 						->whereRaw("(DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
-							yield $data;
-							/*$arr_content = array();
-							$percent = intval($i/$total * 100);
-							$arr_content['percent'] = $percent;
-							$arr_content['message'] = $i . " row(s) processed.";
-							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
-							$i++;
-							usleep(300000);*/
+						yield $data;
 					}
 					break;
 				case 'pho':
-					//$i = 1;
 					foreach (Invest2::select($fields)
 						->whereIn('pt_status', $pt_status)
 						//->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereRaw("(isolated_province = '".$user_prov."' OR walkinplace_hosp_province = '".$user_prov."' OR sick_province_first = '".$user_prov."' OR treat_place_province = '".$user_prov."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
-							yield $data;
-							/*$arr_content = array();
-							$percent = intval($i/$total * 100);
-							$arr_content['percent'] = $percent;
-							$arr_content['message'] = $i . " row(s) processed.";
-							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
-							$i++;
-							usleep(300000);*/
+						yield $data;
 					}
 					break;
 				case 'hos':
-					//$i = 1;
 					foreach (Invest2::select($fields)
 						->whereIn("pt_status", $pt_status)
 						->whereRaw("(isolated_hosp_code = '".$user_hosp."' OR walkinplace_hosp_code = '".$user_hosp."' OR treat_first_hospital = '".$user_hosp."' OR treat_place_hospital = '".$user_hosp."') AND (DATE(created_at) BETWEEN '".$start_date."' AND '".$end_date."')")
 						->whereNull('deleted_at')
 						->cursor() as $data) {
-							yield $data;
-							/*$arr_content = array();
-							$percent = intval($i/$total * 100);
-							$arr_content['percent'] = $percent;
-							$arr_content['message'] = $i . " row(s) processed.";
-							file_put_contents(public_path("tmp/" . Session::getId() . ".txt"), json_encode($arr_content));
-							$i++;
-							usleep(300000);*/
+						yield $data;
 					}
 					break;
 				default:
