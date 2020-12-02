@@ -1,12 +1,19 @@
 <?php
 namespace App\Http\Controllers;
-use Session;
-use DB;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use App\DataTables\ListContactDataTable;
 use App\ContactList;
 use App\FollowContactLists;
 use App\Http\Controllers\MasterController;
+use Maatwebsite\Excel\Facades\Excel;
+use Session, Helper, DB, Log;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Redirect;
 
 class ListContactController extends Controller
 {
@@ -27,7 +34,6 @@ class ListContactController extends Controller
 													->get();
 			// dd($data_contact);
 			$firstname = self::addHyphen(auth()->user()->name);
-
 			$lastname = self::addHyphen(auth()->user()->lname);
 			$email = self::addHyphen(auth()->user()->email);
 			$userMobile = self::addHyphen(auth()->user()->tel);
@@ -37,8 +43,7 @@ class ListContactController extends Controller
 			$patientPassport = self::addHyphen($data_contact[0]->passport_contact);
 			$patientMobile = self::addHyphen($data_contact[0]->phone_contact);
 			$hospcode = self::addHyphen(auth()->user()->hospcode);
-			$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
-			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
+			$data = json_encode([
 				'UserName'=> auth()->user()->username,
 				'FirstName' => $firstname,
 				'LastName' => $lastname,
@@ -55,33 +60,60 @@ class ListContactController extends Controller
 				'PatientMobile' => $patientMobile,
 				'HospitalCode' => $hospcode
 			]);
+			$client = new \GuzzleHttp\Client([
+				'headers' => ['Content-Type' => 'application/json'],
+				'verify' => false
+			]);
+			$response = $client->post('https://apiservice.ddc.moph.go.th/ddc-ilab/api/v1/Colab/PostLabData', ['body' => $data]);
+			$response = json_decode($response->getBody(), true);
+			if ($response) {
+				if ($response['ResultCode'] == '20000' && $response['DeveloperMessage'] == 'Success') {
+					/* log to db */
+					$today = date('Y-m-d H:i:s');
+					DB::table('log_colab')->insert([
+						'ref_pt_id' => $request->id,
+						'sat_id' => $ddcPatientId,
+						'send_method' => 'API',
+						'send_url' => 'https://apiservice.ddc.moph.go.th/ddc-ilab/api/v1/Colab/PostLabData',
+						'send_date' => $today,
+						'ref_user_id' => Auth::user()->id,
+						'created_at' => $today
+					]);
+					$contact = ContactList::find($request->id);
+					$contact->colab_send = 'Y';
+					$contact->save();
+					/* write to log msg */
+					Log::notice('ผู้ใช้: '.Auth::user()->id.' ส่งข้อมูลรหัสที่ '.$request->id.' ไปยัง COLAB');
+					/* redirect to colab url */
+					self::redirectToUrl($response['RedirectUri']);
+			// $send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
+			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
+
 
 			/* log to sent */
-			if (count($data_contact) > 0) {
-				$today = date('Y-m-d H:i:s');
-				DB::table('log_colab')->insert([
-					'ref_pt_id' => $request->id,
-					'sat_id' => $data_contact[0]->sat_id,
-					'send_method' => 'GET',
-					'send_url' => $send_url,
-					'send_date' => $today,
-					'ref_user_id' => Auth::user()->id,
-					'created_at' => $today
-				]);
+			// if (count($data_contact) > 0) {
+			// 	$today = date('Y-m-d H:i:s');
+			// 	DB::table('log_colab')->insert([
+			// 		'ref_pt_id' => $request->id,
+			// 		'sat_id' => $data_contact[0]->sat_id,
+			// 		'send_method' => 'GET',
+			// 		'send_url' => $send_url,
+			// 		'send_date' => $today,
+			// 		'ref_user_id' => Auth::user()->id,
+			// 		'created_at' => $today
+			// 	]);
 
 				/* update invest pt after sent */
-				$inv = $data_contact::find($request->id);
-				$inv->colab_send = 'Y';
-				$inv->save();
-
 			} else {
-				$send_url = 0;
+				return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->id.' ไม่สามารถส่งไปยังระบบ COLAB ได้');
 			}
-			return redirect($send_url);
-		} catch(\Exception $e) {
-			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
+		} else {
+			return redirect()->back()->with('error', 'ระบบ COLAB ไม่ตอบสนอง โปรดตรวจสอบ');
 		}
+	} catch(\Exception $e) {
+		Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 	}
+}
 
 	public function colabResult(Request $request) {
 		try {
@@ -101,7 +133,7 @@ class ListContactController extends Controller
 			$patientMobile = self::addHyphen($data_contact[0]->phone_contact);
 			$hospcode = self::addHyphen(auth()->user()->hospcode);
 			//$send_url = Helper::url_query('https://apiservice.ddc.moph.go.th/ddc-ilab/Send-CoLab', [
-			$send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
+			$data = json_encode([
 			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
 			'UserName'=> auth()->user()->username,
 			'FirstName' => $firstname,
@@ -119,11 +151,28 @@ class ListContactController extends Controller
 			'PatientMobile' => $patientMobile,
 			'HospitalCode' => $hospcode
 		]);
-		return redirect($send_url);
+		$client = new \GuzzleHttp\Client([
+			'headers' => ['Content-Type' => 'application/json'],
+			'verify' => false
+		]);
+		$response = $client->post('https://apiservice.ddc.moph.go.th/ddc-ilab/api/v1/Colab/ViewLabData', ['body' => $data]);
+		$response = json_decode($response->getBody(), true);
+		if ($response) {
+			if ($response['ResultCode'] == '20000' && $response['DeveloperMessage'] == 'Success') {
+				/* write to log msg */
+				Log::notice('ผู้ใช้: '.Auth::user()->id.' เรียกดูข้อมูลรหัส '.$request->id.' จากระบบ COLAB');
+				self::redirectToUrl($response['RedirectUri']);
+			} else {
+				return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->id.' ไม่สามารถเรียกดูจากระบบ COLAB');
+			}
+		} else {
+			return redirect()->back()->with('error', 'ระบบ COLAB ไม่ตอบสนอง โปรดตรวจสอบ');
+		}
 	} catch(\Exception $e) {
 		Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 	}
-}
+	}
+
 
 	private function addHyphen($str) {
 		if (empty($str) || is_null($str) || (strlen($str) <= 0) || $str == "") {
