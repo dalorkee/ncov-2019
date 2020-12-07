@@ -29,7 +29,7 @@ class ListContactController extends Controller
 	}
 	public function colabSend(Request $request) {
 		try {
-			$data_contact = ContactList::select('id', 'sat_id', 'card_id', 'passport', 'mobile', 'pt_status')
+			$data_contact = ContactList::select('id','sat_id', 'contact_id', 'card_id', 'passport', 'mobile', 'pt_status')
 													->where('id', '=', $request->id)
 													->get();
 			// dd($data_contact);
@@ -38,7 +38,7 @@ class ListContactController extends Controller
 			$email = self::addHyphen(auth()->user()->email);
 			$userMobile = self::addHyphen(auth()->user()->tel);
 			$patientHN =  self::addHyphen($data_contact[0]->hn);
-			$patientSatCode = self::addHyphen($data_contact[0]->sat_id);
+			$patientSatCode = self::addHyphen($data_contact[0]->contact_id);
 			$patientCID = self::addHyphen($data_contact[0]->contact_cid);
 			$patientPassport = self::addHyphen($data_contact[0]->passport_contact);
 			$patientMobile = self::addHyphen($data_contact[0]->phone_contact);
@@ -117,7 +117,7 @@ class ListContactController extends Controller
 
 	public function colabResult(Request $request) {
 		try {
-			$data_contact = ContactList::select('id', 'sat_id', 'card_id', 'passport', 'mobile', 'pt_status')
+			$data_contact = ContactList::select('id', 'sat_id','contact_id', 'card_id', 'passport', 'mobile', 'pt_status')
 													->where('id', '=', $request->id)
 													->get();
 			// dd($data_contact);
@@ -127,7 +127,7 @@ class ListContactController extends Controller
 			$email = self::addHyphen(auth()->user()->email);
 			$userMobile = self::addHyphen(auth()->user()->tel);
 			$patientHN =  self::addHyphen($data_contact[0]->hn);
-			$patientSatCode = self::addHyphen($data_contact[0]->sat_id);
+			$patientSatCode = self::addHyphen($data_contact[0]->contact_id);
 			$patientCID = self::addHyphen($data_contact[0]->contact_cid);
 			$patientPassport = self::addHyphen($data_contact[0]->passport_contact);
 			$patientMobile = self::addHyphen($data_contact[0]->phone_contact);
