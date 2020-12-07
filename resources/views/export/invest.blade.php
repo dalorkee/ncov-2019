@@ -252,7 +252,7 @@ $(document).ready(function() {
 	});
 
 	var currentdate = new Date();
-	var startDate =  (currentdate.getMonth()+1) + "/" + (currentdate.getDate()-7) +  "/" + currentdate.getFullYear();
+	var startDate = moment().subtract(7, 'days').format("MM/DD/YYYY")
 	var endDate =  (currentdate.getMonth()+1) + "/" +  currentdate.getDate() + "/" + currentdate.getFullYear();
 
 	/* date range */
@@ -278,6 +278,13 @@ $(document).ready(function() {
 		console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
 	});
 });
+function Last7Days() {
+	daysAgo = {}
+	for(var i=1; i<=7; i++) {
+		daysAgo[i] = moment().subtract(i, 'days').format("DD MM YYYY")
+	}
+	return daysAgo
+}
 </script>
 <script>
 	$('[data-toggle="tooltip"]').tooltip();
