@@ -177,9 +177,9 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 			items: {
 				"chStatus": {name: "Change status", icon: "fas fa-check-circle"},
 				"sep1": "---------",
-				"labSendColab": {name: "ส่งแลป", icon: "fas fa-external-link-alt", className: 'link-colab'},
+				// "labSendColab": {name: "ส่งแลป", icon: "fas fa-external-link-alt", className: 'link-colab'},
 				// "labGen": {name: "Generate lab", icon: "fas fa-barcode"},
-				"labResult": {name: "Lab result", icon: "fas fa-flask"},
+				// "labResult": {name: "Lab result", icon: "fas fa-flask"},
 				// "contact": {name: "Contact", icon: "fas fa-handshake"},
 				"sep2": "---------",
 				"edit": {name: "Edit", icon: "fas fa-edit"},
