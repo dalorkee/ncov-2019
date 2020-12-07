@@ -69,6 +69,9 @@ Route::get('/puifollowtable', 'ContactController@puifollowtable')->name('puifoll
 Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
 	Route::get('/contact/list', 'ListContactController@index')->name('list-data.contact');
 	Route::post('ch-status-con', 'ListContactController@chStatus')->name('ch-status-con');
+	Route::get('/colab/send/{id}', 'ListContactController@colabSend')->name('colab.send');
+	Route::get('/colab/result/{id}', 'ListContactController@colabResult')->name('colab.result');
+
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
 Route::get('/allcontacttable', 'ContactController@allcontacttable')->name('allcontacttable');
 // Route::get('/editcontact/pui_id/{pui_id}/contact_rid/{contact_rid}', 'ContactController@editcontact')->name('editcontact');

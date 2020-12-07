@@ -138,22 +138,20 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						});
 						break;
 
-				case 'labSendColab':
-					//window.open('<php echo $url_gen_lab;>&idx=' + satid, '_blank');
-					let labSendUrl = '{{ route('colab.send', ':id') }}';
-					labSendUrl = labSendUrl.replace(':id', id);
-					window.open(labSendUrl, '_blank');
-					break;
-				case 'labResultColab':
-					let labResultUrl = '{{ route('colab.result', ':id') }}';
-					labResultUrl = labResultUrl.replace(':id', id);
-					window.open(labResultUrl, '_blank');
-					break;
-					// case 'contact':
-					// 	let cturl = '{{ route("contacttable", ":id") }}';
-					// 	cturl = cturl.replace(':id', id);
-					// 	window.location.replace(cturl);
-					// 	break;
+						case 'labSendColab':
+							//window.open('<php echo $url_gen_lab;>&idx=' + satid, '_blank');
+							let labSendUrl = '{{ route('colab.send', ':id') }}';
+							labSendUrl = labSendUrl.replace(':id', id);
+							window.open(labSendUrl, '_blank');
+							break;
+						case 'labResultColab':
+							let labResultUrl = '{{ route('colab.result', ':id') }}';
+							labResultUrl = labResultUrl.replace(':id', id);
+							window.open(labResultUrl, '_blank');
+							break;
+						case 'labResult':
+							window.open('<?php echo $url_lab_result; ?>&idx=' + contact_id, '_blank');
+							break;
 					case 'edit':
 						let scurl = '{{ route("editcontact",":id") }}';
 						scurl = scurl.replace(':id', id);
