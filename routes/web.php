@@ -14,6 +14,7 @@ Route::prefix('uac')->group(function () {
 /* Home */
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/test', 'TestController@index');
 
 /* register */
 Route::get('/register', '\App\Http\Controllers\Auth\RegisterController@index')->name('register');

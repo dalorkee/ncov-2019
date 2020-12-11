@@ -52,9 +52,19 @@ return [
 			'url' => env('APP_URL').'/storage',
 			'visibility' => 'public',
 		],
+		/*
 		'invest' => [
 			'driver' => 'local',
 			'root' => public_path(). '/files/invest',
+		],
+		*/
+		'invest' => [
+			'driver' => 'sftp',
+			'host' => '203.157.41.104',
+			'username' => 'ddccovid',
+			'password' => 'wxw;w,jCje',
+			'port' => 22,
+			'root' => '/covid19/files/invest',
 		],
 		'export' => [
 			'driver' => 'local',
@@ -75,6 +85,44 @@ return [
 			'region' => env('AWS_DEFAULT_REGION'),
 			'bucket' => env('AWS_BUCKET'),
 			'url' => env('AWS_URL'),
+		],
+		'smb' => [
+			'driver'    => 'smb',
+			'host'      => '\\203.157.41.104\covid19',
+			'username'  => 'covid19',
+			'password'  => 'F8;bf19',
+			'workgroup' => 'workgroup', // OR DOMAIN
+			'path'      => 'home/covid/covid19',
+		],
+
+		'ftp' => [
+			'driver'   => 'ftp',
+			'host'     => '203.157.41.104',
+			'username' => 'ddccovid',
+			'password' => 'wxw;w,jCje',
+			// Optional FTP Settings...
+			// 'port'     => 21,
+			// 'root'     => '',
+			// 'passive'  => true,
+			// 'ssl'      => true,
+			// 'timeout'  => 30,
+		],
+		'sftp' => [
+			'driver'        => 'sftp',
+			'host'          => '203.157.41.104',
+			'username'      => 'ddccovid',
+			'password'      => 'wxw;w,jCje',
+			// Optional SFTP Settings
+			// 'privateKey'    => 'path/to/or/contents/of/privatekey',
+			'port'          => 22,
+			'root'          => '/covid19',
+			// 'timeout'       => 30,
+			// 'directoryPerm' => 0755,
+			// 'permPublic'    => 0644,
+			// 'permPrivate'   => 0600,
+		],
+		'vfs' => [
+			'driver' => 'vfs',
 		],
 	],
 ];
