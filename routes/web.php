@@ -152,7 +152,7 @@ Route::group(['middleware' => ['auth']], function() {
 	});
 	Route::get('/getFile/{file}', 'InvestController@downloadFile');
 	Route::get('/checker/{file}', 'ExportController@checkerFile')->name('checker');
-	Route::get('/export', 'ExportController@exportPage')->name('export-page');
+	Route::get('/export/data', 'ExportController@exportPage')->name('export.data');
 	Route::post('export', 'ExportController@exportFastExcel')->name('export.search');
 	Route::get('/export/{file_name}', 'ExportController@downloadFile')->name('export.file');
 
