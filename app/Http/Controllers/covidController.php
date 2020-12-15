@@ -8,33 +8,16 @@ use DB;
 
 class covidController extends Controller
 {
-
-
 	public function index(Request $request) {
 		$eventAgg = $this->eventsAggregate();
 		$caseData = $this->getCaseData();
-
-		return view(
-			'maps.circle',
-			[
-				'eventAgg'=>$eventAgg,
-				'caseData'=>$caseData
-			]
-		);
+		return view('maps.circle', ['eventAgg'=>$eventAgg, 'caseData'=>$caseData]);
 	}
 
 	public function clusters(Request $request) {
-
 		$eventAgg = $this->eventsAggregate();
 		$caseData = $this->getCaseData();
-
-		return view(
-			'maps.doughnut',
-			[
-				'eventAgg'=>$eventAgg,
-				'caseData'=>$caseData
-			]
-		);
+		return view('maps.doughnut', ['eventAgg'=>$eventAgg, 'caseData'=>$caseData]);
 	}
 
 	protected function getCaseData() {
@@ -79,6 +62,4 @@ class covidController extends Controller
 		}
 		return $result;
 	}
-
-
 }

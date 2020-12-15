@@ -1,6 +1,6 @@
 @extends('layouts.index')
 @section('internal-style')
-	{{ Html::style('https://api.tiles.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css') }}
+	<link type="text/css" href="{{ URL::asset('assets/libs/mapbox-gl-js/v1.8.1/mapbox-gl.css') }}" rel="stylesheet">
 	<style>
 		.mapboxgl-popup {
 			max-width: 400px;
@@ -47,7 +47,7 @@
 @endsection
 @section('bottom-script')
 	<!-- PAGE PLUGINS -->
-	{{ Html::script("https://api.tiles.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js") }}
+	<script src="{{ URL::asset('assets/libs/mapbox-gl-js/v1.8.1/mapbox-gl.js') }}"></script>
 	<script>
 		$(function () {
 			/* Date range picker */
