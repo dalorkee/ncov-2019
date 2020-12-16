@@ -7,21 +7,23 @@ use Fideloper\Proxy\TrustProxies as Middleware;
 
 class TrustProxies extends Middleware
 {
-    /**
-     * The trusted proxies for this application.
-     *
-     * @var array|string
-     */
-    //protected $proxies; df pj
+	/**
+	* The trusted proxies for this application.
+	*
+	* @var array|string
+	*/
+
+	protected $proxies;
+	/*
 	protected $proxies = [
 		'192.168.100.114',:
 		'192.168.100.115',
 	];
-
-    /**
-     * The headers that should be used to detect proxies.
-     *
-     * @var int
-     */
-    protected $headers = Request::HEADER_X_FORWARDED_ALL;
+	*/
+	/**
+	* The headers that should be used to detect proxies.
+	*
+	* @var int
+	*/
+	protected $headers = Request::HEADER_X_FORWARDED_ALL;
 }
