@@ -38,7 +38,7 @@ class LoginController extends Controller {
 				return redirect('/login');
 			} else {
 				Auth::login($user);
-				return redirect('/');
+				return redirect('home');
 			}
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
