@@ -18,3 +18,4 @@ npm-debug.log
 yarn-error.log
 composer.lock
 /database
+/config/session.php
