@@ -155,7 +155,7 @@ return [
     */
 
     'domain' => env('SESSION_DOMAIN', null),
-	//'domain' => env('SESSION_DOMAIN', 'http://203.157.41.155'),
+	//'domain' => env('SESSION_DOMAIN', 'http://203.157.41.155'),่่่่
 
     /*
     |--------------------------------------------------------------------------
