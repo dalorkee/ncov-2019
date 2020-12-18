@@ -14,7 +14,7 @@ Route::prefix('uac')->group(function () {
 /* Home */
 Route::group(['middleware' => ['auth']], function() {
 	Route::get('/', 'HomeController@index');
-	Route::get('/home', 'HomeController@index')->name('home');
+	//Route::get('/home', 'HomeController@index')->name('home');
 });
 
 Route::get('/test', 'TestController@index');
