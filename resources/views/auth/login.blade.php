@@ -39,7 +39,7 @@
 			</div>
 			<!-- Form -->
 			<form method="POST" action="{{ route('login') }}" class="form-horizontal m-t-20" id="loginform">
-				<input type="hidden" name="_token" value="{{ csrf_token() }}">
+				{{ csrf_field() }}
 				<div class="row p-b-30">
 					<div class="col-12">
 						<div class="input-group mb-3">
