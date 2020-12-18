@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Redirector;
 use Illuminate\Http\Request;
 use App\User;
 use Carbon\Carbon;
@@ -15,7 +16,7 @@ use Validator, DB, Log, Session;
 class LoginController extends Controller {
 	use AuthenticatesUsers;
 
-	protected $redirectTo = '/';
+	protected $redirectTo = '/home';
 	protected $username = 'username';
 
 	public function __construct() {
@@ -39,7 +40,7 @@ class LoginController extends Controller {
 				return redirect('/login');
 			} else {
 				Auth::login($user);
-				return redirect('/');
+				return redirect()->route('home');
 			}
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
