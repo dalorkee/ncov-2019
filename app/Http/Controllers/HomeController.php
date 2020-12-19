@@ -18,6 +18,8 @@ class HomeController extends Controller
 	}
 
 	public function index() {
+		echo 'ok home';
+		exit;
 		$roleArr = auth()->user()->getRoleNames()->toArray();
 		if (count($roleArr) > 0) {
 			$user_role = $roleArr[0];
