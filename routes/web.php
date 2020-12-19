@@ -198,12 +198,10 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/pjx', function() {
 		return view('export.invest');
 	});
-
-	Route::get('/testConn', function() {
-		return view('test.pj2');
-	});
-
 });
+Route::get('/testConn', function() {
+	return view('test.pj2');
+})->name('testConn');
 
 /* By Pass Login */
 Route::get('/auth', array('as' => 'check-auth', 'uses' => 'Auth\LoginController@get_check_auth'));

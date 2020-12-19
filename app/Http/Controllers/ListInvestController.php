@@ -26,8 +26,11 @@ class ListInvestController extends Controller
 		$this->middleware(['role:root|ddc|dpc|pho|hos']);
 	}
 
-	public function index(ListInvestDataTable $dataTable) {
+	/*public function index(ListInvestDataTable $dataTable) {
 		return $dataTable->render('list-data.invest');
+	}*/
+	public function index() {
+		return redirect()->route('testConn');
 	}
 
 	public function export() {

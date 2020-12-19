@@ -200,6 +200,8 @@ class ListInvestDataTable extends DataTable
 	}
 
 	public function query(InvestList $model) {
+		echo 'isad jet';
+		exit;
 		$user_role = Session::get('user_role');
 		$user_hosp = auth()->user()->hospcode;
 		$user_prov = auth()->user()->prov_code;
@@ -297,6 +299,7 @@ class ListInvestDataTable extends DataTable
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			default:
+
 				return redirect()->route('logout');
 				break;
 		}

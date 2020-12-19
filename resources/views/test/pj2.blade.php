@@ -1,3 +1,4 @@
+<?php echo 'test der ja'; exit; ?>
 <!DOCTYPE html>
 <html>
 <head>
