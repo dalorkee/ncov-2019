@@ -18,8 +18,6 @@ class HomeController extends Controller
 	}
 
 	public function index() {
-		echo 'ok home';
-		exit;
 		$roleArr = auth()->user()->getRoleNames()->toArray();
 		if (count($roleArr) > 0) {
 			$user_role = $roleArr[0];
@@ -27,6 +25,8 @@ class HomeController extends Controller
 			$user = auth()->user();
 			switch ($user_role) {
 				case "root":
+				echo 'hi root';
+				exit;
 					$user->syncPermissions([
 						'permission-edit',
 						'permission-delete',
@@ -42,6 +42,8 @@ class HomeController extends Controller
 					return redirect()->route('list-data.invest');
 					break;
 				case "ddc":
+				echo 'hi ddc';
+				exit;
 					$user->syncPermissions([
 						'new-pui-create',
 						'pui-delete',
@@ -81,10 +83,14 @@ class HomeController extends Controller
 					return abort(404);
 					break;
 				default:
+				echo 'i jet';
+				exit;
 					return redirect()->route('logout');
 					break;
 			}
 		} else {
+			echo 'bag see da';
+			exit;
 			return redirect()->route('logout');
 		}
 	}
