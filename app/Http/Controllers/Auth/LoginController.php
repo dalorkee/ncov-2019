@@ -40,7 +40,7 @@ class LoginController extends Controller {
 				return redirect('/login');
 			} else {
 				Auth::login($user);
-				return redirect()->route('login');
+				return redirect()->route('home');
 			}
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
