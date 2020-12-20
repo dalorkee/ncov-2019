@@ -297,8 +297,7 @@ class ListInvestDataTable extends DataTable
 					->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			default:
-				//return redirect()->route('logout');
-				return redirect()->route('testConn');
+				return redirect()->route('logout');
 				break;
 		}
 		return $invest;

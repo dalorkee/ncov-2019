@@ -63,7 +63,7 @@ return [
 			'host' => '203.157.41.104',
 			'username' => 'ddccovid',
 			'password' => 'wxw;w,jCje',
-			'port' => 22,
+			'port' => 21,
 			'root' => '/covid19/files/invest',
 		],
 		'export' => [
