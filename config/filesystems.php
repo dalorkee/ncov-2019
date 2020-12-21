@@ -64,7 +64,7 @@ return [
 			'username' => 'sftp_covid19',
 			'password' => 'wxw;w,jCje',
 			'port' => 22,
-			'root' => '/public/files/invest',
+			'root' => '/sftp_covid19/public/files/invest',
 		],
 		'export' => [
 			'driver' => 'local',
