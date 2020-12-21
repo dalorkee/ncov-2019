@@ -64,7 +64,7 @@ return [
 			'username' => 'sftp_covid19',
 			'password' => 'wxw;w,jCje',
 			'port' => 22,
-			'root' => '/public/files/invest',
+			'root' => '/home/sftp_covid19/public/files/invest',
 		],
 		'export' => [
 			'driver' => 'local',
@@ -115,7 +115,7 @@ return [
 			// Optional SFTP Settings
 			// 'privateKey'    => 'path/to/or/contents/of/privatekey',
 			'port'          => 22,
-			'root'          => '/covid19',
+			'root'          => '/public/files/invest',
 			// 'timeout'       => 30,
 			// 'directoryPerm' => 0755,
 			// 'permPublic'    => 0644,
