@@ -61,10 +61,10 @@ return [
 		'invest' => [
 			'driver' => 'sftp',
 			'host' => '203.157.41.104',
-			'username' => 'ddccovid',
+			'username' => 'sftp_covid19',
 			'password' => 'wxw;w,jCje',
-			'port' => 21,
-			'root' => '/covid19/files/invest',
+			'port' => 22,
+			'root' => '/sftp_covid19/public/files/invest',
 		],
 		'export' => [
 			'driver' => 'local',
