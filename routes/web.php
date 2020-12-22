@@ -1,7 +1,6 @@
 <?php
 /* auth */
 Auth::routes();
-
 /* Role & Permission Manage */
 Route::prefix('uac')->group(function () {
 	Route::group(['middleware' => ['auth']], function() {
@@ -10,21 +9,17 @@ Route::prefix('uac')->group(function () {
 		Route::resource('users', 'UserController');
 	});
 });
-
 /* Home */
 Route::get('/', function() {
 	return view('auth.login');
 });
-
 Route::get('/login', function() {
 	return view('auth.login');
 })->name('login');
-
 Route::group(['middleware' => ['auth']], function() {
 	//Route::get('/', 'HomeController@index');
 	Route::get('/home', 'HomeController@index')->name('home');
 });
-
 Route::get('/test', 'TestController@index');
 
 /* register */
@@ -47,12 +42,6 @@ Route::post('/screen-pui/update/', array('as' => 'screenpui.update', 'uses' => '
 Route::get('/del-screen-pui/{id}', array('as' => 'screenpui.delete', 'uses' => 'ScreenPUIController@destroy'));
 Route::post('/ListHosp', array('as' => 'screenpui.fetchHos', 'uses' => 'ScreenPUIController@Sat_FetcHos'));
 Route::get('/sat-delete/{id}', array('as' => 'screenpui.satdel', 'uses' => 'ScreenPUIController@Delete_Sat'));
-// Route::get('/hos-test', function () {
-// 	return view('hospital.screenhos');
-// });
-/* state quarantine */
-//Route::get('/List-State-Quarantine', array('as' => 'list.state_quarantine', 'uses' => 'StateQuarantineController@index'));
-
 Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
 Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
 //Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
@@ -105,7 +94,7 @@ Route::post('/allcontactstupdate', 'ContactController@allcontactstupdate')->name
 
 route::get('contactexport/id/{id}', 'ExportContactController@export')->name('contactexport');
 
-// excel download
+/* excel download */
 route::post('satexport', 'ExportSATController@satexport')->name('satexport');
 
 //Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
@@ -170,19 +159,18 @@ Route::group(['middleware' => ['auth']], function() {
 	/* log */
 	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-	/*
-	Route::get('/einvest', function(App\Exports\InvestExport $export) {
-		return $export->download('inv.xlsx');
-	});
-	Route::get('/invest/ept', 'ListInvestController@exportToExcel');
-	*/
-
+	/* files upload */
 	Route::resource('item', 'InvestController');
 	Route::get('/file/{id}', 'FilesUploadController@index')->name('file.list');
 	Route::post('/file/store', 'FilesUploadController@store')->name('file.store');
 	Route::get('/file/download/{id}', 'FilesUploadController@download')->name('file.download');
 	Route::post('/file/delete', 'FilesUploadController@softDeleteFileUpload')->name('file.delete');
 	Route::get('/pjx10', 'InvestController@migrateFileUpload')->name('pjx10');
+
+	/* risk place */
+	Route::get('/risk/place', function() {
+		return view('external.riskPlace');
+	})->name('risk.place');
 });
 
 /* DashBoardGraph */
@@ -193,7 +181,6 @@ Route::prefix('dashboardgraph')->group(function () {
 });
 
 Route::resource('hospital', 'HospitalController');
-
 Route::group(['middleware' => ['auth']], function() {
 	Route::get('/pjx', function() {
 		return view('export.invest');
