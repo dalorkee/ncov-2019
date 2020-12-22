@@ -3,7 +3,7 @@ $ts = time();
 $signature = "bd6efdd618ef8e481ba2e247b10735b801fbdefe";
 $uid = Auth::user()->id;
 $sig = sha1($uid.$ts.$signature);
-$url_to_voravit = "http://192.168.100.114/screentoken.php?uid=".$uid."&ts=".$ts."&sig=".$sig;
+$url_to_voravit = "http://192.168.100.114/screen/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig;
 $url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig=".$sig;
 ?>
 <aside class="left-sidebar" data-sidebarbg="skin5">
