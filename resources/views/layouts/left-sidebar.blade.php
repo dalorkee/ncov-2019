@@ -3,7 +3,7 @@ $ts = time();
 $signature = "bd6efdd618ef8e481ba2e247b10735b801fbdefe";
 $uid = Auth::user()->id;
 $sig = sha1($uid.$ts.$signature);
-$url_to_voravit = "http://192.168.100.114/screen/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig;
+$url_to_voravit = "screen/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig;
 $url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig=".$sig;
 ?>
 <aside class="left-sidebar" data-sidebarbg="skin5">
@@ -15,7 +15,7 @@ $url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig="
 						@role('root|ddc|dpc|pho|hos')
 						<li class="sidebar-item"><a href="{{ route('list-data.invest') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> List PUI</span></a></li>
 						@endrole
-						<li class="sidebar-item"><a href="{{ $url_to_voravit }}" target="_blank" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> PUI Screen</span></a></li>
+						<li class="sidebar-item"><a href="{{ URL::to("screen/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig) }}" target="_blank" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> PUI Screen</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('list-data.contact') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> Contact</span></a></li>
 						<li class="sidebar-item"><a href="{{ $url_to_ddc_ilab }}" target="_blank" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> DDC iLab</span></a></li>
 						@role('root|ddc')
