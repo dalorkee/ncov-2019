@@ -46,7 +46,7 @@ class HomeController extends Controller
 						'pui-create',
 						'pui-edit'
 					]);
-					return redirect()->route('list-data.invest');
+					return redirect()->route('main');
 					break;
 				case "dpc":
 					$user->syncPermissions([
@@ -55,7 +55,7 @@ class HomeController extends Controller
 						'pui-create',
 						'pui-edit'
 					]);
-					return redirect()->route('list-data.invest');
+					return redirect()->route('main');
 					break;
 				case "pho":
 					$user->syncPermissions([
@@ -64,7 +64,7 @@ class HomeController extends Controller
 						'pui-create',
 						'pui-edit'
 					]);
-					return redirect()->route('list-data.invest');
+					return redirect()->route('main');
 					break;
 				case "hos":
 					$user->syncPermissions([
@@ -73,7 +73,7 @@ class HomeController extends Controller
 						'pui-create',
 						'pui-edit'
 					]);
-					return redirect()->route('list-data.invest');
+					return redirect()->route('main');
 					break;
 				case "lab":
 					return abort(404);
