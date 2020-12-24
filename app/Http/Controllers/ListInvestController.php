@@ -641,6 +641,27 @@ class ListInvestController extends Controller
 			$patientPassport = self::addHyphen($data[0]->passport);
 			$patientMobile = self::addHyphen($data[0]->mobile);
 			$hospcode = self::addHyphen(auth()->user()->hospcode);
+
+			/* send by get */
+			$colab_send_url = "https://co-lab.moph.go.th/COLAB/Callback.aspx?UserName=$username&FirstName=$firstname&LastName=$lastname&Email=$email&UserMobile=$userMobile&UserPosition=$userPosition&ScreenType=$screenType&DDCPatientID=$ddcPatientId&PatientDDCType=$patientDDCType&PatientHN=$patientHN&PatientSatCode=$patientSatCode&PatientCID=$patientCID&PatientPassport=$patientPassport&PatientMobile=$patientMobile&HospitalCode=$hospcode";
+			$today = date('Y-m-d H:i:s');
+			DB::table('log_colab')->insert([
+				'ref_pt_id' => $request->id,
+				'sat_id' => $ddcPatientId,
+				'send_method' => 'API',
+				'send_url' => $colab_send_url,
+				'send_date' => $today,
+				'ref_user_id' => Auth::user()->id,
+				'created_at' => $today
+			]);
+			$inv = InvestList::find($request->id);
+			$inv->colab_send = 'Y';
+			$inv->save();
+			Log::notice('ผู้ใช้: '.Auth::user()->id.' ส่งข้อมูลรหัสที่ '.$request->id.' ไปยัง COLAB');
+			self::redirectToUrl($colab_send_url);
+
+			/* for api */
+			/*
 			$data = json_encode([
 				'UserName'=> $username,
 				'FirstName' => $firstname,
@@ -668,7 +689,7 @@ class ListInvestController extends Controller
 			$response = json_decode($response->getBody(), true);
 			if ($response) {
 				if ($response['ResultCode'] == '20000' && $response['DeveloperMessage'] == 'Success') {
-					/* log to db */
+
 					$today = date('Y-m-d H:i:s');
 					DB::table('log_colab')->insert([
 						'ref_pt_id' => $request->id,
@@ -679,13 +700,13 @@ class ListInvestController extends Controller
 						'ref_user_id' => Auth::user()->id,
 						'created_at' => $today
 					]);
-					/* update invest pt after sent */
+
 					$inv = InvestList::find($request->id);
 					$inv->colab_send = 'Y';
 					$inv->save();
-					/* write to log msg */
+
 					Log::notice('ผู้ใช้: '.Auth::user()->id.' ส่งข้อมูลรหัสที่ '.$request->id.' ไปยัง COLAB');
-					/* redirect to colab url */
+
 					self::redirectToUrl($response['RedirectUri']);
 				} else {
 					return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->id.' ไม่สามารถส่งไปยังระบบ COLAB ได้');
@@ -693,6 +714,7 @@ class ListInvestController extends Controller
 			} else {
 				return redirect()->back()->with('error', 'ระบบ COLAB ไม่ตอบสนอง โปรดตรวจสอบ');
 			}
+			*/
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
@@ -707,7 +729,7 @@ class ListInvestController extends Controller
 			$email = self::addHyphen(auth()->user()->email);
 			$userMobile = self::addHyphen(auth()->user()->tel);
 			$userPosition = self::addHyphen(auth()->user()->position);
-			$screenType = 'detail'; // for send
+			$screenType = 'query'; // for send
 			$ddcPatientId = $data[0]->id;
 			$patientDDCType = '1';
 			$patientHN =  self::addHyphen($data[0]->hn);
@@ -716,6 +738,15 @@ class ListInvestController extends Controller
 			$patientPassport = self::addHyphen($data[0]->passport);
 			$patientMobile = self::addHyphen($data[0]->mobile);
 			$hospcode = self::addHyphen(auth()->user()->hospcode);
+
+			$colab_receive_url = "https://co-lab.moph.go.th/COLAB/Callback.aspx?UserName=$username&FirstName=$firstname&LastName=$lastname&Email=$email&UserMobile=$userMobile&UserPosition=$userPosition&ScreenType=$screenType&DDCPatientID=$ddcPatientId&PatientDDCType=$patientDDCType&PatientHN=$patientHN&PatientSatCode=$patientSatCode&PatientCID=$patientCID&PatientPassport=$patientPassport&PatientMobile=$patientMobile&HospitalCode=$hospcode";
+			//echo $colab_receive_url;
+			//exit;
+			Log::notice('ผู้ใช้: '.Auth::user()->id.' เรียกดูข้อมูลรหัส '.$request->id.' จากระบบ COLAB');
+			self::redirectToUrl($colab_receive_url);
+
+			/* for api */
+			/*
 			$data = json_encode([
 				'UserName'=> $username,
 				'FirstName' => $firstname,
@@ -737,12 +768,10 @@ class ListInvestController extends Controller
 				'headers' => ['Content-Type' => 'application/json'],
 				'verify' => false
 			]);
-
 			$response = $client->post('https://apiservice.ddc.moph.go.th/ddc-ilab/api/v1/Colab/ViewLabData', ['body' => $data]);
 			$response = json_decode($response->getBody(), true);
 			if ($response) {
 				if ($response['ResultCode'] == '20000' && $response['DeveloperMessage'] == 'Success') {
-					/* write to log msg */
 					Log::notice('ผู้ใช้: '.Auth::user()->id.' เรียกดูข้อมูลรหัส '.$request->id.' จากระบบ COLAB');
 					self::redirectToUrl($response['RedirectUri']);
 				} else {
@@ -751,6 +780,7 @@ class ListInvestController extends Controller
 			} else {
 				return redirect()->back()->with('error', 'ระบบ COLAB ไม่ตอบสนอง โปรดตรวจสอบ');
 			}
+			*/
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
