@@ -52,12 +52,10 @@ return [
 			'url' => env('APP_URL').'/storage',
 			'visibility' => 'public',
 		],
-		/*
-		'invest' => [
+		'json' => [
 			'driver' => 'local',
-			'root' => public_path(). '/files/invest',
+			'root' => public_path(). '/json',
 		],
-		*/
 		'invest' => [
 			'driver' => 'sftp',
 			'host' => '203.157.41.104',

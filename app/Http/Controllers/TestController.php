@@ -4,17 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Test;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Traits\ProvinceTrait;
 
 class TestController extends Controller
 {
+	use ProvinceTrait;
 
 	public function index() {
-		if (Storage::disk('sftp')->exists('pj.txt')) {
-			echo 'ok';
-		} else {
-			echo 'nok';
-		}
+		self::getProvince();
 	}
 
 	public function create() {

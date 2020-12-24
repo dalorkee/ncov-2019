@@ -37,7 +37,7 @@ class HomeController extends Controller
 						'pui-create',
 						'pui-edit'
 					]);
-					return redirect()->route('list-data.invest');
+					return redirect()->route('main');
 					break;
 				case "ddc":
 					$user->syncPermissions([
@@ -85,5 +85,9 @@ class HomeController extends Controller
 		} else {
 			return redirect()->route('logout');
 		}
+	}
+
+	public function mainPage() {
+		return view('home');
 	}
 }

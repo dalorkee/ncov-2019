@@ -13,9 +13,10 @@ $url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig="
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-align-center"></i><span class="hide-menu">Manage data </span></a>
 					<ul aria-expanded="false" class="collapse first-level">
 						@role('root|ddc|dpc|pho|hos')
-						<li class="sidebar-item"><a href="{{ route('list-data.invest') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> List PUI</span></a></li>
-						@endrole
+						<li class="sidebar-item"><a href="{{ route('main') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> Home</span></a></li>
 						<li class="sidebar-item"><a href="{{ URL::to("screen/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig) }}" target="_blank" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> PUI Screen</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('list-data.invest') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> PUI List</span></a></li>
+						@endrole
 						<li class="sidebar-item"><a href="{{ route('list-data.contact') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> Contact</span></a></li>
 						<li class="sidebar-item"><a href="{{ $url_to_ddc_ilab }}" target="_blank" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> DDC iLab</span></a></li>
 						@role('root|ddc')
@@ -24,7 +25,7 @@ $url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig="
 					</ul>
 				</li>
 				@role('root|ddc|hos|dpc|pho')
-				<li class="sidebar-item"> <a href="{{ route('risk.place') }}" class="sidebar-link waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="far fa-bell"></i>Risk place</a>
+				<li class="sidebar-item"> <a href="{{ route('risk.place') }}" class="sidebar-link waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="far fa-bell"></i><span class="hide-menu">Risk place</span></a>
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-download"></i><span class="hide-menu">Export </span></a>
 					<ul aria-expanded="false" class="collapse first-level">
 						<li class="sidebar-item"><a href="{{ route('export.data') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> PUI</span></a></li>
