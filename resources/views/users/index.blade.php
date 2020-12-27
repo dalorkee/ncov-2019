@@ -23,7 +23,7 @@
 					<div class="d-md-flex align-items-center" style="border-bottom:1px solid #EAEAEA">
 						<div>
 							<h4 class="card-title">บริหารจัดการผู้ใช้งานระบบ</h4>
-							<h5 class="card-subtitle">ID Flu-BOE</h5>
+							<h5 class="card-subtitle">DDC Covid-19</h5>
 						</div>
 					</div>
 					<div class="my-4">

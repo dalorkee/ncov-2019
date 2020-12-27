@@ -54,6 +54,10 @@ Route::get('/satt/list', 'InvestListController@satListData')->name('satList');
 Route::resource('investList', 'InvestListController');
 
 /* fetch district, fetch sub-district */
+/* json */
+Route::post('prov/dist', 'BoundaryController@renderDistrictToHtmlSelect')->name('render.district');
+
+/* db */
 Route::post('country/city', 'ConfirmFormController@cityFetch')->name('cityFetch');
 Route::post('province/district', 'ConfirmFormController@districtFetch')->name('districtFetch');
 Route::post('province/district/sub-district', 'ConfirmFormController@subDistrictFetch')->name('subDistrictFetch');
@@ -177,12 +181,14 @@ Route::group(['middleware' => ['auth']], function() {
 });
 
 /* DashBoardGraph */
+/*
 Route::prefix('dashboardgraph')->group(function () {
 	Route::group(['middleware' => ['auth']], function() {
 		Route::get('/', array('as' => 'dashboardgraph.index', 'uses' => 'DashboardGraphController@index'));
 	});
 });
 
+*/
 Route::resource('hospital', 'HospitalController');
 Route::group(['middleware' => ['auth']], function() {
 	Route::get('/pjx', function() {

@@ -23,7 +23,7 @@
 					<div class="d-md-flex align-items-center" style="border-bottom:1px solid #EAEAEA">
 						<div>
 							<h4 class="card-title">บริหารจัดการผู้ใช้งานระบบ</h4>
-							<h5 class="card-subtitle">ID Flu-BOE</h5>
+							<h5 class="card-subtitle">DDC Covid-19</h5>
 						</div>
 					</div>
 					<div class="row my-4">
@@ -36,7 +36,7 @@
 						<div class="col-xs-12 col-sm-12 col-md-12">
 							<div class="form-group"><strong>Roles:</strong>
 								@if(!empty($user->getRoleNames()))
-									@foreach($user->getRoleNames() as $v) 
+									@foreach($user->getRoleNames() as $v)
 										<span class="badge badge-success">{{ $v }}</span>
 									@endforeach
 								@endif

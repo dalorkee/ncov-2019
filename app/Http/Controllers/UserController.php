@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use App\User;
-use DB;
-use Hash;
+use App\Traits\BoundaryTrait;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
+	use BoundaryTrait;
+
 	protected $hospcode;
 	public function __construct() {
 		$this->middleware('auth');
@@ -31,10 +34,9 @@ class UserController extends Controller
 	}
 
 	public function create() {
-		echo "Comming soon";
-		exit;
+		$provinces = self::getProvince();
 		$roles = Role::pluck('name', 'name')->all();
-		return view('users.create', compact('roles'));
+		return view('users.create', compact('roles', 'provinces'));
 	}
 
 	public function store(Request $request) {
