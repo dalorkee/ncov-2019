@@ -15,17 +15,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class UserController extends Controller
 {
 	use BoundaryTrait;
-
 	protected $hospcode;
+
 	public function __construct() {
 		$this->middleware('auth');
 		$this->middleware('onlyOneUser');
-	}
-
-	public function download(Request $request)
-	{
-		(new UsersExport)->store('users.csv', 'excel');
-		return 'Export started!';
 	}
 
 	public function index(Request $request) {
@@ -41,15 +35,27 @@ class UserController extends Controller
 
 	public function store(Request $request) {
 		$this->validate($request, [
+			'title_name' => 'required',
 			'name' => 'required',
+			'lname' => 'required',
 			'email' => 'required|email|unique:users,email',
-			'password' => 'required|same:confirm-password',
+			'tel' => 'required',
+			'card_id' => 'required',
+			'prov_code' => 'required',
+			'hospcode' => 'required',
+			'username' => 'required',
+			'password' => 'required|same:confirm_password',
 			'roles' => 'required'
 		]);
 
 		$input = $request->all();
-
-		$input['password'] = Hash::make($input['password']);
+		$input['wposi'] = '';
+		$input['dtnow'] = date('Y-m-d H:i:s');
+		$input['prefix_sat_id'] = $input['hospcode'];
+		$input['ampur_code'] = substr($input['ampur_code'], 2, 4);
+		$input['tambol_code'] = substr($input['tambol_code'], 4, 6);
+		//$input['password'] = Hash::make($input['password']);
+		$input['password'] = md5($input['password']);
 		$user = User::create($input);
 		$user->assignRole($request->input('roles'));
 		return redirect()->route('users.index')->with('success', 'User created successfully');
@@ -99,8 +105,12 @@ class UserController extends Controller
 		return redirect()->route('users.index')->with('success', 'User deleted successfully');
 	}
 
-	public function ajaxGetHospByProv(Request $request)
-	{
+	public function download(Request $request) {
+		(new UsersExport)->store('users.csv', 'excel');
+		return 'Export started!';
+	}
+
+	public function ajaxGetHospByProv(Request $request) {
 		$this->result = parent::hospitalByProv($request->prov_id);
 		$htm = "<option value=\"0\">-- โปรดเลือก --</option>\n";
 		foreach($this->result as $key=>$value) {

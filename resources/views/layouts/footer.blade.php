@@ -3,7 +3,7 @@
 <!-- ============================================================== -->
 <footer class="footer text-center">
 	<div>กรมควบคุมโรค [COVID-19]</div>
-	<div>All Rights Reserved. <a href="https://talekteam.io">Talek team</a></div>
+	<div>All Rights Reserved. <a href="https://ddc.moph.go.th">DDC MOPH</a></div>
 </footer>
 <!-- ============================================================== -->
 <!-- End footer -->

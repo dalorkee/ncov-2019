@@ -2,7 +2,7 @@
 /* auth */
 Auth::routes();
 /* Role & Permission Manage */
-Route::prefix('uac')->group(function () {
+Route::prefix('uacl')->group(function () {
 	Route::group(['middleware' => ['auth']], function() {
 		Route::resource('roles', 'RoleController');
 		Route::resource('permissions', 'PermissionController');
@@ -56,6 +56,8 @@ Route::resource('investList', 'InvestListController');
 /* fetch district, fetch sub-district */
 /* json */
 Route::post('prov/dist', 'BoundaryController@renderDistrictToHtmlSelect')->name('render.district');
+Route::post('prov/hosp', 'BoundaryController@renderHospToHtmlSelect')->name('render.hosp');
+Route::post('prov/dist/sub-dist', 'BoundaryController@renderSubDistrictToHtmlSelect')->name('render.sub.district');
 
 /* db */
 Route::post('country/city', 'ConfirmFormController@cityFetch')->name('cityFetch');

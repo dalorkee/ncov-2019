@@ -3,7 +3,13 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('custom-style')
-<link rel="stylesheet" href="{{ URL::asset('assets/libs/select2/dist/css/select2.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
+<style>
+	label>span {
+		padding-left: 10px;
+		color: red;
+	}
+</style>
 @endsection
 @section('contents')
 <div class="page-breadcrumb bg-light">
@@ -47,48 +53,55 @@
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label for="title_name">คำนำหน้าชื่อ</label>
-										<input type="text" name="title_name" class="form-control other-title-name" placeholder="Title">
+										<label for="title_name">คำนำหน้าชื่อ<span>*</span></label>
+										<select name="title_name" id="title_name" class="form-control selectpicker show-tick">
+											<option value="">-- โปรดเลือก --</option>
+											<option value="1">นาย</option>
+											<option value="2">นาง</option>
+											<option value="3">นางสาว</option>
+											<option value="4">ด.ช.</option>
+											<option value="5">ด.ญ.</option>
+										</select>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label for="first_name">ชื่อจริง:</label>
+										<label for="first_name">ชื่อจริง:<span>*</span></label>
 										<input type="text" name="name" class="form-control" placeholder="Name">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label for="last_name">นามสกุล:</label>
-										<input type="text" name="lastname" class="form-control" placeholder="Lastname">
+										<label for="last_name">นามสกุล:<span>*</span></label>
+										<input type="text" name="lname" class="form-control" placeholder="Lastname">
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label for="email">อีเมล์:</label>
+										<label for="email">อีเมล์:<span>*</span></label>
 										<input type="email" name="email" class="form-control" placeholder="Email">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label for="mobile">โทรศัพท์:</label>
-										<input type="text" name="tel" class="form-control" placeholder="Mobile">
+										<label for="mobile">โทรศัพท์:<span>*</span></label>
+										<input type="text" name="tel" id="tel" class="form-control" placeholder="Mobile">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label for="idcard">เลขบัตร ปชช:</label>
-										{!! Form::text('card_id', null, array('placeholder' => 'Position','class' => 'form-control')) !!}
+										<label for="idcard">เลขบัตร ปชช:<span>*</span></label>
+										<input type="text" name="card_id" id="card_id" class="form-control" placeholder="ID Card">
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label for="province">จังหวัด</label>
-										<select name="prov_code" id="prov_code" class="form-control">
+										<label for="province">จังหวัด<span>*</span></label>
+										<select name="prov_code" id="prov_code" class="form-control selectpicker show-tick" data-live-search="true">
 											<option value="">-- เลือกจังหวัด --</optin>
 												@foreach ($provinces as $key => $value)
 													<option value="{{ $key }}">{{ $value['province_name'] }}</option>
@@ -99,7 +112,7 @@
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label for="district">อำเภอ:</label>
-										<select name="ampur_code" id="ampur_code" class="form-control">
+										<select name="ampur_code" id="ampur_code" class="form-control selectpicker show-tick" data-live-search="true">
 											<option value="">-- เลือกอำเภอ --</optin>
 										</select>
 									</div>
@@ -107,30 +120,17 @@
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label for="sub_district">ตำบล:</label>
-										<select name="tambol_code" id="tambol_code" class="form-control">
+										<select name="tambol_code" id="tambol_code" class="form-control selectpicker show-tick" data-live-search="true">
 											<option value="">-- เลือกตำบล --</optin>
 										</select>
 									</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 									<div class="form-group">
-										<label for="user_type">ประเภทผู้ใช้</label>
-										<select name="user_type" id="user_type" class="form-control">
-											<option value="">-- เลือกประเภทผู้ใช้ --</option>
-											<option value="1">กรมควบคุมโรค</option>
-											<option value="2">สำนักงานป้องกันควบคุมโรค</option>
-											<option value="3">สำนักงานสาธารณสุขจังหวัด</option>
-											<option value="4">โรงพยาบาล</option>
-											<option value="5">ห้องปฏบัติการ (Lab)</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
-									<div class="form-group">
-										<label for="hospcode">หน่วยงาน:</label>
-										<select name="hospcode" id="hospcode" class="form-control">
+										<label for="hospcode">หน่วยงาน:<span>*</span></label>
+										<select name="hospcode" id="hospcode" class="form-control selectpicker show-tick" data-live-search="true">
 											<option value="">-- เลือกหน่วยงาน --</option>
 										</select>
 									</div>
@@ -139,35 +139,53 @@
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label>ชื่อผู้ใช้:</label>
-										{!! Form::password('username', array('placeholder' => 'Username','class' => 'form-control')) !!}
+										<label>ชื่อผู้ใช้:<span>*</span></label>
+										<input type="text" name="username" id="username" class="form-control" placeholder="Username">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label>รหัสผ่าน:</label>
-										{!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+										<label>รหัสผ่าน:<span>*</span></label>
+										<input type="password" name="password" id="password" class="form-control" placeholder="Password">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label>ยืนยันรหัสผ่าน:</label>
-										{!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+										<label>ยืนยันรหัสผ่าน:<span>*</span></label>
+										<input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm Password" >
 									</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label>สิทธิ์ผู้ใช้:</label>
-										{!! Form::select('roles[]', $roles, [], array('class' => 'form-control role', 'multiple')) !!}
+										<label for="usergroup">กลุ่มผู้ใช้:<span>*</span></label>
+										<select name="usergroup" id="usergroup" class="form-control selectpicker show-tick" data-style="btn btn-warning">
+											<option value="">-- เลือกกลุ่ม --</option>
+											<option value="1">กรมควบคุมโรค</option>
+											<option value="2">Laboratory (LAB)</option>
+											<option value="3">สคร.</option>
+											<option value="7">โรงพยาบาล</option>
+											<option value="8">สสจ.</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+									<div class="form-group">
+										<label>สิทธิ์ผู้ใช้:<span>*</span></label>
+										<select name="roles" id="roles" class="form-control selectpicker show-tick" data-style="btn btn-danger">
+											<option value="">-- โปรดเลือก --</option>
+											@foreach ($roles as $val)
+												<option value="{{ $val }}">{{ $val }}</option>
+											@endforeach
+										</select>
 									</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
+								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3 m-t-40">
 									<div class="form-group">
-										<button type="submit" class="btn btn-primary">บันทึกข้อมูล</button>
+										<input type="submit" value="บันทึกข้อมูล" class="btn btn-primary">
 									</div>
 								</div>
 							</div>
@@ -180,6 +198,7 @@
 </div>
 @endsection
 @section('bottom-script')
+<script src="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js') }}"></script>
 <script>
 $(document).ready(function() {
 	$.ajaxSetup({
@@ -190,6 +209,7 @@ $(document).ready(function() {
 	$('#prov_code').change(function() {
 		if ($(this).val() != "0") {
 			var id = $(this).val();
+			var idx = $(this).val();
 			$.ajax({
 				method: "POST",
 				url: "{{ route('render.district') }}",
@@ -197,15 +217,55 @@ $(document).ready(function() {
 				data: {id:id},
 				success: function(response) {
 					$('#ampur_code').html(response);
+					$('#ampur_code').selectpicker("refresh");
+					$('#tambol_code').html('<option value="">-- โปรดเลือก --</option>');
+					$('#tambol_code').selectpicker("refresh");
+					$.ajax({
+						method: "POST",
+						url: "{{ route('render.hosp') }}",
+						dataType: "HTML",
+						data: {idx:idx},
+						success: function(res) {
+							$('#hospcode').html(res);
+							$('#hospcode').selectpicker("refresh");
+						},
+						error: function(xhr, status, error){
+							alert('Error code: ' + xhr.status + error);
+						}
+					});
+				},
+				error: function(jqXhr, textStatus, errorMessage){
+					alert('Error code: ' + jqXhr.status + errorMessage);
+				}
+			});
+
+		} else {
+			$('#ampur_code').html('<option value="">-- โปรดเลือก --</option>');
+			$('#tambol_code').html('<option value="">-- โปรดเลือก --</option>');
+			$('#hospcode').html('<option value="">-- โปรดเลือก --</option>');
+		}
+	});
+	$('#ampur_code').change(function() {
+		if ($(this).val() != "0") {
+			var id = $(this).val();
+			$.ajax({
+				method: "POST",
+				url: "{{ route('render.sub.district') }}",
+				dataType: "HTML",
+				data: {id:id},
+				success: function(response) {
+					$('#tambol_code').html(response);
+					$('#tambol_code').selectpicker("refresh");
 				},
 				error: function(jqXhr, textStatus, errorMessage){
 					alert('Error code: ' + jqXhr.status + errorMessage);
 				}
 			});
 		} else {
-			$('#ampur_code').html('<option value="0">-- โปรดเลือก --</option>');
+			$('#tambol_code').html('<option value="">-- โปรดเลือก --</option>');
 		}
 	});
+
 });
 </script>
 @endsection

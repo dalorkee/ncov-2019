@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Session;
 use App\User;
+use App\Invest;
 
 class HomeController extends Controller
 {
@@ -88,6 +89,22 @@ class HomeController extends Controller
 	}
 
 	public function mainPage() {
-		return view('home');
+		$total = Invest::whereNull('deleted_at')->count();
+		$today = Invest::whereRaw('DATE(created_at) = CURDATE()')->whereNull('deleted_at')->count();
+		$confirmed = Invest::where('pt_status', 2)->whereNull('deleted_at')->count();
+		$confirmed_pc = ($confirmed/$total)*100;
+		$excluded = Invest::whereIn('pt_status', [4, 5])->whereNull('deleted_at')->count();
+		$excluded_pc = ($excluded/$total)*100;
+		$pui = Invest::whereIn('pt_status', [1, 3])->whereNull('deleted_at')->count();
+		$pui_pc = ($pui/$total)*100;
+		$data['total'] = $total;
+		$data['today'] = $today;
+		$data['confirmed'] = $confirmed;
+		$data['confirmed_pc'] = $confirmed_pc;
+		$data['excluded'] = $excluded;
+		$data['excluded_pc'] = $excluded_pc;
+		$data['pui'] = $pui;
+		$data['pui_pc'] = $pui_pc;
+		return view('home', compact('data'));
 	}
 }

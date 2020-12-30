@@ -40,7 +40,7 @@
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="{{ route('main') }}">Home</a></li>
+						<li class="breadcrumb-item"><a href="{{ route('main') }}">Dashboard</a></li>
 					</ol>
 				</nav>
 			</div>
@@ -55,13 +55,13 @@
 					<div class="row align-items-center m-b-30">
 						<div class="col">
 							<h6 class="m-b-5 text-white">Total</h6>
-							<h3 class="m-b-0 f-w-700 text-white">615,830</h3>
+							<h3 class="m-b-0 f-w-700 text-white">{{ number_format($data['total']) }}</h3>
 						</div>
 						<div class="col-auto">
 							<i class="fas fa-database text-c-blue f-18"></i>
 						</div>
 					</div>
-					<p class="m-b-0 text-white"><span class="label label-primary m-r-10">+12</span>Today</p>
+					<p class="m-b-0 text-white"><span class="label label-primary m-r-10">+{{ number_format($data['today']) }}</span>Today</p>
 				</div>
 			</div>
 		</div>
@@ -71,13 +71,13 @@
 					<div class="row align-items-center m-b-30">
 						<div class="col">
 							<h6 class="m-b-5 text-white">Confirmed</h6>
-								<h3 class="m-b-0 f-w-700 text-white">12,783</h3>
+								<h3 class="m-b-0 f-w-700 text-white">{{ number_format($data['confirmed']) }}</h3>
 						</div>
 						<div class="col-auto">
 							<i class="fas fas fa-user text-c-red f-18"></i>
 						</div>
 					</div>
-					<p class="m-b-0 text-white"><span class="label label-danger m-r-10">+11%</span>From Previous Month</p>
+					<p class="m-b-0 text-white"><span class="label label-danger m-r-10">{{ number_format($data['confirmed_pc'], 2) }}%</span></p>
 				</div>
 			</div>
 		</div>
@@ -87,13 +87,13 @@
 					<div class="row align-items-center m-b-30">
 						<div class="col">
 							<h6 class="m-b-5 text-white">Excluded</h6>
-							<h3 class="m-b-0 f-w-700 text-white">6,780</h3>
+							<h3 class="m-b-0 f-w-700 text-white">{{ number_format($data['excluded']) }}</h3>
 						</div>
 						<div class="col-auto">
 							<i class="fas fas fa-user text-c-green f-18"></i>
 						</div>
 					</div>
-					<p class="m-b-0 text-white"><span class="label label-success m-r-10">+52%</span>From Previous Month</p>
+					<p class="m-b-0 text-white"><span class="label label-success m-r-10">{{ number_format($data['excluded_pc'], 2) }}%</span></p>
 				</div>
 			</div>
 		</div>
@@ -103,13 +103,13 @@
 					<div class="row align-items-center m-b-30">
 						<div class="col">
 							<h6 class="m-b-5 text-white">PUI</h6>
-							<h3 class="m-b-0 f-w-700 text-white">6,784</h3>
+							<h3 class="m-b-0 f-w-700 text-white">{{ number_format($data['pui']) }}</h3>
 						</div>
 						<div class="col-auto">
 							<i class="fas fas fa-user text-c-yellow f-18"></i>
 						</div>
 					</div>
-					<p class="m-b-0 text-white"><span class="label label-warning m-r-10">+52%</span>From Previous Month</p>
+					<p class="m-b-0 text-white"><span class="label label-warning m-r-10">{{ number_format($data['pui_pc'], 2) }}%</span></p>
 				</div>
 			</div>
 		</div>
