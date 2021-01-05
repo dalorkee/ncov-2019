@@ -42,12 +42,14 @@ $url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig="
 					</ul>
 				</li>
 				@endrole
-				@role('root')
+				@role('root|ddc|hos|dpc|pho|lab')
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-account-settings-variant"></i><span class="hide-menu">Users </span></a>
 					<ul aria-expanded="false" class="collapse first-level">
-						<li class="sidebar-item"><a href="{{ route('users.index') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> List Users</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('users.index') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> Users List</span></a></li>
+						@role('root')
 						<li class="sidebar-item"><a href="{{ route('roles.index') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> Role List</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('permissions.index') }}" class="sidebar-link"><i class="mdi mdi-chevron-double-right"></i><span class="hide-menu"> Permission List</span></a></li>
+						@endrole
 					</ul>
 				</li>
 				@endrole

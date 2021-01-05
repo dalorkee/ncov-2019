@@ -8,17 +8,20 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Html\Editor\Editor;
 use App\Http\Controllers\MasterController;
-use App\GlobalCountry;
-use Session;
-use DB;
-use App\Provinces;
-use Barryvdh\DomPDF\PDF;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Barryvdh\DomPDF\PDF;
+//use App\GlobalCountry;
 use App\User;
+use App\Provinces;
+use App\Traits\BoundaryTrait;
 
 class ListInvestDataTable extends DataTable
 {
+	use BoundaryTrait;
+
 	private function status() {
 		$master = new MasterController;
 		$status = $master->getStatus();
@@ -62,7 +65,7 @@ class ListInvestDataTable extends DataTable
 	}
 
 	private function caseNation() {
-		$query_globalcountry = GlobalCountry::all()->toArray();
+		$query_globalcountry = self::getGlobalCountry();
 		$str = "";
 		foreach ($query_globalcountry as $key => $value) {
 			$str .= "WHEN nation = \"".$value['country_id']."\" THEN \"".$value['country_name']."\" ";
@@ -71,7 +74,8 @@ class ListInvestDataTable extends DataTable
 	}
 
 	private function caseTreatFirstProvince() {
-		$query_prov = Provinces::select('province_id', 'province_name')->get()->toArray();
+		//$query_prov = Provinces::select('province_id', 'province_name')->get()->toArray();
+		$query_prov = self::getProvince();
 		$str = "";
 		foreach ($query_prov as $key => $value) {
 			$str .= "WHEN treat_first_province = \"".$value['province_id']."\" THEN \"".$value['province_name']."\" ";
@@ -79,6 +83,8 @@ class ListInvestDataTable extends DataTable
 		return $str;
 	}
 
+/*
+	use json instead this
 	private function getProvCodeByRegion($region=0) {
 		$prov_code = Provinces::select('province_id')
 			->where('zone_id', '=', $region)
@@ -86,6 +92,7 @@ class ListInvestDataTable extends DataTable
 		$prov_code_list = $prov_code->keys()->all();
 		return $prov_code_list;
 	}
+*/
 
 	public function dataTable($query) {
 		$tfp = $this->caseTreatFirstProvince();
@@ -260,7 +267,8 @@ class ListInvestDataTable extends DataTable
 					'visit_number')
 					//->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
 					->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
-					->whereNull('deleted_at')->orderBy('id', 'DESC');
+					//->whereNull('deleted_at')
+					->orderBy('id', 'DESC');
 					break;
 			case 'pho':
 				$invest = InvestList::select(

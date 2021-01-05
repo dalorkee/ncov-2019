@@ -190,6 +190,8 @@ return [
 		/* file system other */
 		//Danhunsaker\Laravel\Flysystem\FlysystemOtherServiceProvider::class,
 		//'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
+
+		Barryvdh\Debugbar\ServiceProvider::class,
 	],
 
     /*
@@ -247,6 +249,7 @@ return [
 		'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 		'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
 		'Helper' => App\Helpers\Helper::class,
+		'Debugbar' => Barryvdh\Debugbar\Facade::class,
 	],
 
 ];

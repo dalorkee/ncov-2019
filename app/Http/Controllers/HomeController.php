@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
-use Session;
+use Illuminate\Support\Facades\Session;
 use App\User;
-use App\Invest;
+use App\Traits\BoundaryTrait;
 
 class HomeController extends Controller
 {
+	use BoundaryTrait;
+
 	public function __construct() {
 		$this->middleware('auth');
 		$this->middleware('onlyOneUser');

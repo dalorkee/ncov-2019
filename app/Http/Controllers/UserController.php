@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 use App\User;
 use App\Traits\BoundaryTrait;
 use App\Exports\UsersExport;
@@ -20,45 +22,78 @@ class UserController extends Controller
 	public function __construct() {
 		$this->middleware('auth');
 		$this->middleware('onlyOneUser');
+		$this->middleware(['role:root|ddc|dpc|pho|hos']);
 	}
 
 	public function index(Request $request) {
-		$data = User::orderBy('id', 'ASC')->paginate(15);
+		$user = Auth::user();
+		$user_role = $user->roles->pluck('name')->all();
+		$user_hosp = $user->hospcode;
+		if ($user_role[0] == 'root') {
+			$data = User::orderBy('id', 'ASC')->paginate(15);
+		} else {
+			$data = User::where('hospcode', $user_hosp)->orderBy('id', 'ASC')->paginate(15);
+		}
 		return view('users.index', compact('data'))->with('i', ($request->input('page', 1) - 1) * 15);
 	}
 
 	public function create() {
 		$provinces = self::getProvince();
-		$roles = Role::pluck('name', 'name')->all();
+		$user = Auth::user();
+		$user_role = $user->roles->pluck('name')->all();
+		if ($user_role[0] == 'root') {
+			$roles = Role::pluck('name', 'name')->all();
+		} else {
+			$roles = array($user_role[0] => $user_role[0]);
+		}
 		return view('users.create', compact('roles', 'provinces'));
 	}
 
 	public function store(Request $request) {
-		$this->validate($request, [
-			'title_name' => 'required',
-			'name' => 'required',
-			'lname' => 'required',
-			'email' => 'required|email|unique:users,email',
-			'tel' => 'required',
-			'card_id' => 'required',
-			'prov_code' => 'required',
-			'hospcode' => 'required',
-			'username' => 'required',
-			'password' => 'required|same:confirm_password',
-			'roles' => 'required'
-		]);
+		try {
+			$this->validate($request, [
+				'title_name' => 'required',
+				'name' => 'required',
+				'lname' => 'required',
+				'email' => 'required|email|unique:users,email',
+				'tel' => 'required',
+				'usergroup' => 'required',
+				'card_id' => 'required',
+				'prov_code' => 'required',
+				'hospcode' => 'required',
+				'username' => 'required',
+				'password' => 'required|same:confirm_password',
+				'roles' => 'required'
+			]);
 
-		$input = $request->all();
-		$input['wposi'] = '';
-		$input['dtnow'] = date('Y-m-d H:i:s');
-		$input['prefix_sat_id'] = $input['hospcode'];
-		$input['ampur_code'] = substr($input['ampur_code'], 2, 4);
-		$input['tambol_code'] = substr($input['tambol_code'], 4, 6);
-		//$input['password'] = Hash::make($input['password']);
-		$input['password'] = md5($input['password']);
-		$user = User::create($input);
-		$user->assignRole($request->input('roles'));
-		return redirect()->route('users.index')->with('success', 'User created successfully');
+			$input = $request->all();
+			$input['wposi'] = '';
+			$input['dtnow'] = date('Y-m-d H:i:s');
+			$input['prefix_sat_id'] = $input['hospcode'];
+			$input['ampur_code'] = substr($input['ampur_code'], 2, 4);
+			$input['tambol_code'] = substr($input['tambol_code'], 4, 6);
+			//$input['password'] = Hash::make($input['password']);
+			$input['password'] = md5($input['password']);
+			$user = User::create($input);
+			$user->assignRole($request->input('roles'));
+
+			/* set user data to log_user table */
+			if ($user) {
+				$now = date('Y-m-d H:i:s');
+				DB::table('log_users')->insert([
+					'user_id' => $user->id,
+					'username' => $user->username,
+					'create_by_user' => Auth::user()->username,
+					'user_group' => $user->usergroup,
+					'user_permission' => $request->input('roles'),
+					'created_at' => $now
+				]);
+				Log::notice('ผู้ใช้: '.Auth::user()->username.' สร้างผู้ใช้ '.$user->username);
+			}
+			return redirect()->route('users.index')->with('success', 'User created successfully');
+		} catch (Exception $e) {
+
+		}
 	}
 
 	public function show($id) {

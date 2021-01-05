@@ -3,13 +3,43 @@ namespace App\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Provinces;
 
 trait BoundaryTrait {
+	public function getGlobalCountry(): array {
+		try {
+			if (Storage::disk('json')->exists('ref_global_country.json')) {
+				$data = json_decode(Storage::disk('json')->get('ref_global_country.json'), true);
+				return $data;
+			} else {
+				return array();
+			}
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+	}
+
 	public function getProvince(): array {
 		try {
 			if (Storage::disk('json')->exists('ref_province.json')) {
 				$data = json_decode(Storage::disk('json')->get('ref_province.json'), true);
 				return $data;
+			} else {
+				return array();
+			}
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+	}
+
+	public function getProvCodeByRegion($region=4) {
+		try {
+			if (Storage::disk('json')->exists('ref_province.json')) {
+				$data = json_decode(Storage::disk('json')->get('ref_province.json'), true);
+				$data = collect($data);
+				$data = $data->where('zone_id', $region);
+				$result = $data->pluck('province_id')->toArray();
+				return $result;
 			} else {
 				return array();
 			}
@@ -103,6 +133,15 @@ trait BoundaryTrait {
 			echo $e->getMessage();
 		}
 	}
+
+	/* for generate json only  */
+
+	/*
+	public function dbToJson() {
+		$data = GlobalCountry::all()->keyBy('country_id')->toJson();
+		Storage::disk('json')->put('ref_global_country.json', $data);
+	}
+	*/
 
 	/*
 	public function queryToJson() {
