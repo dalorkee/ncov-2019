@@ -1,4 +1,4 @@
-@extends('layouts.index')
+   @extends('layouts.index')
 @section('contents')
 <div class="page-breadcrumb bg-light">
 	<div class="row">
@@ -27,11 +27,16 @@
 						</div>
 					</div>
 					<div class="my-4">
-						<a class="btn btn-success" href="{{ route('users.create') }}"> สร้างผู้ใช้ใหม่</a>
+						<a class="btn btn-info" href="{{ route('users.create') }}"><i class="fas fa-user-plus"></i> สร้างผู้ใช้ใหม่ <span class="text-warning">[สร้างผู้ใช้ได้อีก {!! $chkCreateUserAmount !!}]</span></a>
+
 					</div>
-					@if ($message = Session::get('success'))
+					@if (Session::get('success'))
 						<div class="alert alert-success">
-							<p>{{ $message }}</p>
+							<p>{{ Session::get('success') }}</p>
+						</div>
+					@elseif (Session::get('error'))
+						<div class="alert alert-danger">
+							<p>{{ Session::get('error') }}</p>
 						</div>
 					@endif
 					<table class="table table-hover">
@@ -48,36 +53,40 @@
 						</thead>
 						<tfoot></tfoot>
 						<tbody>
-							@foreach ($data as $key => $user)
-								<tr>
-									<td>{{ ++$i }}</td>
-									<td>{{ $user->username }}</td>
-									<td>{{ $user->name.' '.$user->lname }}</td>
-									<td>{{ $user->email }}</td>
-									<td>{{ $user->hospcode }}</td>
-									<td>
-										@if(!empty($user->getRoleNames()))
-											@foreach($user->getRoleNames() as $v)
-												<label class="badge badge-success">{{ $v }}</label>
-											@endforeach
-										@endif
-									</td>
-									<td>
-										<a class="btn btn-warning btn-sm" href="{{ route('users.show',$user->id) }}">Show</a>
-										@role('root')
-										<a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
-										@endrole
-										{!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-										@role('root')
-										{!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-										@endrole
-										{!! Form::close() !!}
-									</td>
-								</tr>
-							@endforeach
+							@if (count($data) > 0)
+								@foreach ($data as $key => $user)
+									<tr>
+										<td>{{ ++$i }}</td>
+										<td>{{ $user->username }}</td>
+										<td>{{ $user->name.' '.$user->lname }}</td>
+										<td>{{ $user->email }}</td>
+										<td>{{ $user->hospcode }}</td>
+										<td>
+											@if(!empty($user->getRoleNames()))
+												@foreach($user->getRoleNames() as $v)
+													<label class="badge badge-success">{{ $v }}</label>
+												@endforeach
+											@endif
+										</td>
+										<td>
+											<a class="btn btn-warning btn-sm" href="{{ route('users.show',$user->id) }}">Show</a>
+											@role('root')
+											<a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
+											@endrole
+											{!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
+											@role('root')
+											{!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+											@endrole
+											{!! Form::close() !!}
+										</td>
+									</tr>
+								@endforeach
+							@endif
 						</tbody>
 					</table>
-					{!! $data->render() !!}
+					@if (count($data) > 0)
+						{!! $data->render() !!}
+					@endif
 				</div>
 			</div>
 		</div>

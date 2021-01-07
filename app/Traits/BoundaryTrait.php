@@ -3,7 +3,7 @@ namespace App\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Provinces;
+use App\Hospitals;
 
 trait BoundaryTrait {
 	public function getGlobalCountry(): array {
@@ -27,6 +27,18 @@ trait BoundaryTrait {
 			} else {
 				return array();
 			}
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+	}
+
+	public function getMinProvince(): array {
+		try {
+			$provinces = self::getProvince();
+			foreach ($provinces as $key => $val) {
+				$minProvince[$key] = $val['province_name'];
+			}
+			return $minProvince;
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
@@ -132,6 +144,17 @@ trait BoundaryTrait {
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
+	}
+
+	public function getHospDetailByHospCode($hospcode=0): object {
+		$result = Hospitals::where('hospcode', (int)$hospcode)->first();
+		return $result;
+	}
+
+	public function getHospNameByHospCode($hospcode=0): array {
+		$hosp = Hospitals::select('hospcode', 'hosp_name')->where('hospcode', (int)$hospcode)->first()->toArray();
+		$result[$hosp['hospcode']] = $hosp['hosp_name'];
+		return $result;
 	}
 
 	/* for generate json only  */

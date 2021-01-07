@@ -34,7 +34,7 @@ class ExportContactbyDayController extends Controller
 
       // return $data;
 
-          return Excel::download(new ContactExportbyDay($data), 'ContactExportbyDay.xlsx');
+          return Excel::download(new ContactExportbyDay($data), 'ContactExportbyDay.xls');
     }
 
     protected function convertDateToMySQL($date='00/00/0000') {

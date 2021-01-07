@@ -28,13 +28,22 @@
 					</div>
 					<div class="row my-4">
 						<div class="col-xs-12 col-sm-12 col-md-12">
-							<div class="form-group"><strong>Name:</strong> {{ $user->name }}</div>
+							<div class="form-group"><strong class="text-info">ชื่อ-สกุล:</strong> {{ $user->name.' '.$user->lname }}</div>
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-12">
-							<div class="form-group"><strong>Email:</strong> {{ $user->email }}</div>
+							<div class="form-group"><strong class="text-info">ชื่อผู้ใช้:</strong> {{ $user->username }}</div>
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-12">
-							<div class="form-group"><strong>Roles:</strong>
+							<div class="form-group"><strong class="text-info">อีเมล์:</strong> {{ $user->email }}</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="form-group"><strong class="text-info">หน่วยงาน:</strong> {{ $user_hosp_name[(int)$user->hospcode] }}</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="form-group"><strong class="text-info">กลุ่มผู้ใช้:</strong> {{ $user_group[$user->usergroup] }}</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="form-group"><strong class="text-info">สิทธิ์ผู้ใช้:</strong>
 								@if(!empty($user->getRoleNames()))
 									@foreach($user->getRoleNames() as $v)
 										<span class="badge badge-success">{{ $v }}</span>

@@ -102,9 +102,9 @@
 									<div class="form-group">
 										<label for="province">จังหวัด<span>*</span></label>
 										<select name="prov_code" id="prov_code" class="form-control selectpicker show-tick" data-live-search="true">
-											<option value="">-- เลือกจังหวัด --</optin>
+											<option value="">-- เลือกจังหวัด --</option>
 												@foreach ($provinces as $key => $value)
-													<option value="{{ $key }}">{{ $value['province_name'] }}</option>
+													<option value="{{ $key }}">{{ $value }}</option>
 												@endforeach
 										</select>
 									</div>
@@ -113,7 +113,7 @@
 									<div class="form-group">
 										<label for="district">อำเภอ:</label>
 										<select name="ampur_code" id="ampur_code" class="form-control selectpicker show-tick" data-live-search="true">
-											<option value="">-- เลือกอำเภอ --</optin>
+											<option value="">-- เลือกอำเภอ --</option>
 										</select>
 									</div>
 								</div>
@@ -121,7 +121,7 @@
 									<div class="form-group">
 										<label for="sub_district">ตำบล:</label>
 										<select name="tambol_code" id="tambol_code" class="form-control selectpicker show-tick" data-live-search="true">
-											<option value="">-- เลือกตำบล --</optin>
+											<option value="">-- เลือกตำบล --</option>
 										</select>
 									</div>
 								</div>
@@ -145,7 +145,7 @@
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label>รหัสผ่าน:<span>*</span></label>
+										<label>รหัสผ่าน:<span>* (อย่างน้อย 6 ตัวอักษร)</span></label>
 										<input type="password" name="password" id="password" class="form-control" placeholder="Password">
 									</div>
 								</div>
@@ -161,7 +161,7 @@
 									<div class="form-group">
 										<label for="usergroup">กลุ่มผู้ใช้:<span>*</span></label>
 										<select name="usergroup" id="usergroup" class="form-control selectpicker show-tick">
-											@role('root')
+											@role('root|ddc')
 											<option value="">-- เลือกกลุ่ม --</option>
 											<option value="1">กรมควบคุมโรค</option>
 											<option value="3">สคร.</option>
@@ -169,14 +169,14 @@
 											<option value="7">โรงพยาบาล</option>
 											<option value="2">Laboratory (LAB)</option>
 											@endrole
-											@role('ddc')
-											<option value="1">กรมควบคุมโรค</option>
-											@endrole
 											@role('dpc')
 											<option value="3">สคร.</option>
+											<option value="8">สสจ.</option>
+											<option value="7">โรงพยาบาล</option>
 											@endrole
 											@role('pho')
 											<option value="8">สสจ.</option>
+											<option value="7">โรงพยาบาล</option>
 											@endrole
 											@role('hos')
 											<option value="7">โรงพยาบาล</option>

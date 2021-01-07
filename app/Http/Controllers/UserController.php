@@ -11,94 +11,147 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use App\User;
 use App\Traits\BoundaryTrait;
+use App\Traits\UserTrait;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
 	use BoundaryTrait;
+	use UserTrait;
+
 	protected $hospcode;
 
 	public function __construct() {
 		$this->middleware('auth');
 		$this->middleware('onlyOneUser');
-		$this->middleware(['role:root|ddc|dpc|pho|hos']);
+		$this->middleware(['role:root|ddc|dpc|pho|hos|lab']);
 	}
 
 	public function index(Request $request) {
 		$user = Auth::user();
 		$user_role = $user->roles->pluck('name')->all();
 		$user_hosp = $user->hospcode;
+
 		if ($user_role[0] == 'root') {
+			$chkCreateUserAmount = '&infin;';
 			$data = User::orderBy('id', 'ASC')->paginate(15);
 		} else {
-			$data = User::where('hospcode', $user_hosp)->orderBy('id', 'ASC')->paginate(15);
+			$chkCreateUserAmount = self::checkCreateRemaining($user->username);
+			$log_user_id = DB::table('log_users')
+				->select('user_id')
+				->where('create_by_user', $user->username)
+				->get()
+				->toArray();
+			if (count($log_user_id) > 0) {
+				foreach ($log_user_id as $key => $val) {
+					$log_user_id_arr[] = $val->user_id;
+				}
+				$data = User::where('hospcode', '=', (int)$user_hosp)
+					->orWhere(function($w) use ($log_user_id_arr) {
+						$w->whereIn('id', $log_user_id_arr);
+					})
+					->orderBy('id', 'ASC')
+					->paginate(15);
+			} else {
+				$data = User::where('hospcode', '=', (int)$user_hosp)->orderBy('id', 'ASC')->paginate(15);
+			}
 		}
-		return view('users.index', compact('data'))->with('i', ($request->input('page', 1) - 1) * 15);
+		return view('users.index', compact('data', 'chkCreateUserAmount'))->with('i', ($request->input('page', 1) - 1) * 15);
 	}
 
 	public function create() {
-		$provinces = self::getProvince();
 		$user = Auth::user();
 		$user_role = $user->roles->pluck('name')->all();
-		if ($user_role[0] == 'root') {
-			$roles = Role::pluck('name', 'name')->all();
+		$chkCreateUserAmount = self::checkCreateRemaining($user->username);
+		if ($chkCreateUserAmount > 0 || $user_role[0] == 'root') {
+			$provinces = self::getMinProvince();
+			asort($provinces);
+			$roles = Role::pluck('name', 'name');
+			switch ($user_role[0]) {
+				case 'root':
+					$roles = $roles->all();
+					break;
+				case 'ddc':
+					$roles = $roles->only('ddc', 'dpc', 'pho`', 'hos', 'lab')->all();
+					break;
+				case 'dpc':
+					$roles = $roles->only('dpc', 'pho', 'hos', 'lab')->all();
+					break;
+				case 'pho':
+					$roles = $roles->only('pho', 'hos')->all();
+					break;
+				case 'hos':
+					$roles = $roles = $roles->only('hos')->all();
+					break;
+				case 'lab':
+					$roles = $roles = $roles->only('lab')->all();
+					break;
+				default:
+					return redirect()->route('logout');
+					break;
+			}
+			return view('users.create', compact('roles', 'provinces'));
 		} else {
-			$roles = array($user_role[0] => $user_role[0]);
+			return redirect()->route('users.index')->with('error', 'ไมีมีสิทธิ์สร้างผู้ใช้ หรือสร้างผู้ใช้ครบตามสิทธ์แล้ว !!');
 		}
-		return view('users.create', compact('roles', 'provinces'));
 	}
 
 	public function store(Request $request) {
 		try {
 			$this->validate($request, [
 				'title_name' => 'required',
-				'name' => 'required',
-				'lname' => 'required',
-				'email' => 'required|email|unique:users,email',
-				'tel' => 'required',
+				'name' => 'required|max:30',
+				'lname' => 'required|max:60',
+				'email' => 'required|email|unique:users,email|max:60',
+				'tel' => 'required|max:10',
 				'usergroup' => 'required',
-				'card_id' => 'required',
+				'card_id' => 'required|max:13',
 				'prov_code' => 'required',
 				'hospcode' => 'required',
-				'username' => 'required',
-				'password' => 'required|same:confirm_password',
+				'username' => 'required|max:30',
+				'password' => 'required|same:confirm_password|min:6|max:30',
 				'roles' => 'required'
 			]);
-
 			$input = $request->all();
-			$input['wposi'] = '';
-			$input['dtnow'] = date('Y-m-d H:i:s');
-			$input['prefix_sat_id'] = $input['hospcode'];
-			$input['ampur_code'] = substr($input['ampur_code'], 2, 4);
-			$input['tambol_code'] = substr($input['tambol_code'], 4, 6);
-			//$input['password'] = Hash::make($input['password']);
-			$input['password'] = md5($input['password']);
-			$user = User::create($input);
-			$user->assignRole($request->input('roles'));
+			if (self::checkRepeatUsername($input['username'])) {
+				return redirect()->route('users.index')->with('error', 'ชือผู้ใช้ '.$input['username'].' มีอยู่ในระบบแล้ว !!');
+			} else {
+				$input['wposi'] = '';
+				$input['dtnow'] = date('Y-m-d H:i:s');
+				$input['prefix_sat_id'] = $input['hospcode'];
+				$input['ampur_code'] = substr($input['ampur_code'], 2, 4);
+				$input['tambol_code'] = substr($input['tambol_code'], 4, 6);
+				//$input['password'] = Hash::make($input['password']);
+				$input['password'] = md5($input['password']);
+				$user = User::create($input);
+				$user->assignRole($request->input('roles'));
 
-			/* set user data to log_user table */
-			if ($user) {
-				$now = date('Y-m-d H:i:s');
-				DB::table('log_users')->insert([
-					'user_id' => $user->id,
-					'username' => $user->username,
-					'create_by_user' => Auth::user()->username,
-					'user_group' => $user->usergroup,
-					'user_permission' => $request->input('roles'),
-					'created_at' => $now
-				]);
-				Log::notice('ผู้ใช้: '.Auth::user()->username.' สร้างผู้ใช้ '.$user->username);
+				/* set user data to log_user table */
+				if ($user) {
+					$now = date('Y-m-d H:i:s');
+					DB::table('log_users')->insert([
+						'user_id' => $user->id,
+						'username' => $user->username,
+						'create_by_user' => Auth::user()->username,
+						'user_group' => $user->usergroup,
+						'user_permission' => $request->input('roles'),
+						'created_at' => $now
+					]);
+					Log::notice('ผู้ใช้: '.Auth::user()->username.' สร้างผู้ใช้ '.$user->username);
+				}
+				return redirect()->route('users.index')->with('success', 'User created successfully');
 			}
-			return redirect()->route('users.index')->with('success', 'User created successfully');
 		} catch (Exception $e) {
-
+			echo $e->getMessage();
 		}
 	}
 
 	public function show($id) {
 		$user = User::find($id);
-		return view('users.show', compact('user'));
+		$user_hosp_name = self::getHospNameByHospCode($user->hospcode);
+		$user_group = self::userGroup();
+		return view('users.show', compact('user', 'user_hosp_name', 'user_group'));
 	}
 
 	public function edit($id) {
@@ -172,5 +225,25 @@ class UserController extends Controller
 			array_push($user_arr, $val['id']);
 		}
 		return $user_arr;
+	}
+
+	private function checkRepeatUsername($str=null): bool {
+		$user = User::select('id')->where('username', $str)->get()->toArray();
+		if (count($user) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private function checkCreateRemaining($username=null): ?string {
+		$count = DB::table('log_users')->where('create_by_user', $username)->count();
+		$limit = 6;
+		if ($count == $limit) {
+			$result = 0;
+		} else {
+			$result = ($limit-$count);
+		}
+		return $result;
 	}
 }
