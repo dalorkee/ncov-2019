@@ -29,7 +29,7 @@
 		Session::forget('error');
 	@endphp
 @endif
-<div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-white-1">
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-white-1" style="margin-top: -50px;">
 	<div class="auth-box">
 			<div class="text-center"><img src="{{ URL::asset('assets/images/logo-ddc.png') }}" alt="logo"></div>
 		<div id="loginform">
