@@ -1,16 +1,11 @@
-<!-- ============================================================== -->
-<!-- Topbar header - style you can find in pages.scss -->
-<!-- ============================================================== -->
 <header class="topbar" data-navbarbg="skin5">
 	<nav class="navbar top-navbar navbar-expand-md navbar-dark">
 		<div class="navbar-header" data-logobg="skin5">
 			<a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
 			<a class="navbar-brand" href="#">
-				<!-- Logo icon -->
 				<b class="logo-icon p-l-10">
 					<img src="{{ URL::asset('assets/images/small-moph-logo.png') }}" alt="BOE" class="light-logo" style="width:95%;">
 				</b>
-				<!-- Logo text -->
 				<span class="logo-text text-white">COVID-19</span>
 			</a>
 			<a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="ti-more"></i></a>
@@ -24,9 +19,6 @@
 					</form>
 				</li>
 			</ul>
-			<!-- ============================================================== -->
-			<!-- Right side toggle and nav items -->
-			<!-- ============================================================== -->
 			<ul class="navbar-nav float-right">
 				<li class="nav-item"><a class="nav-link">{{ auth()->user()->name }}&nbsp;[@if(session()->has('user_role')) {{ Session::get('user_role') }} @endif]</a></li>
 				<li class="nav-item dropdown">
@@ -37,7 +29,6 @@
 						<ul class="list-style-none">
 							<li>
 								<div class="">
-									 <!-- Message -->
 									<a href="javascript:void(0)" class="link border-top">
 										<div class="d-flex no-block align-items-center p-10">
 											<span class="btn btn-success btn-circle"><i class="mdi mdi-account"></i></span>
@@ -47,7 +38,6 @@
 											</div>
 										</div>
 									</a>
-									<!-- Message -->
 									<a href="javascript:void(0)" class="link border-top">
 										<div class="d-flex no-block align-items-center p-10">
 											<span class="btn btn-info btn-circle"><i class="fas fa-map-pin"></i></span>
@@ -75,6 +65,3 @@
 		</div>
 	</nav>
 </header>
-<!-- ============================================================== -->
-<!-- End Topbar header -->
-<!-- ============================================================== -->

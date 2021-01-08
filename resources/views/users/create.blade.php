@@ -161,45 +161,34 @@
 									<div class="form-group">
 										<label for="usergroup">กลุ่มผู้ใช้:<span>*</span></label>
 										<select name="usergroup" id="usergroup" class="form-control selectpicker show-tick">
-											@role('root|ddc')
-											<option value="">-- เลือกกลุ่ม --</option>
-											<option value="1">กรมควบคุมโรค</option>
-											<option value="3">สคร.</option>
-											<option value="8">สสจ.</option>
-											<option value="7">โรงพยาบาล</option>
-											<option value="2">Laboratory (LAB)</option>
-											@endrole
-											@role('dpc')
-											<option value="3">สคร.</option>
-											<option value="8">สสจ.</option>
-											<option value="7">โรงพยาบาล</option>
-											@endrole
-											@role('pho')
-											<option value="8">สสจ.</option>
-											<option value="7">โรงพยาบาล</option>
-											@endrole
-											@role('hos')
-											<option value="7">โรงพยาบาล</option>
-											@endrole
-											@role('lab')
-											<option value="2">Laboratory (LAB)</option>
-											@endrole
-										</select>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-									<div class="form-group">
-										<label>สิทธิ์ผู้ใช้:<span>*</span></label>
-										<select name="roles" id="roles" class="form-control selectpicker show-tick">
 											@role('root')
-											<option value="">-- โปรดเลือก --</option>
+											<option value="">-- เลือกกลุ่ม --</option>
+											<option value="-1">ผู้ดูแลระบบ</option>
 											@endrole
-											@foreach ($roles as $val)
-												<option value="{{ $val }}">{{ $val }}</option>
+											@foreach ($user_group as $key => $val)
+												<option value="{{ $key }}">{{ $val }}</option>
 											@endforeach
 										</select>
 									</div>
 								</div>
+								@can('user-create')
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+									<div class="form-group">
+										<label>สิทธิ์ผู้ใช้:<span>*</span></label>
+										<select name="permission" id="permission" class="form-control selectpicker show-tick">
+											@role('root')
+												<option value="">-- โปรดเลือก --</option>
+												@foreach ($permissions as $key => $permission)
+													<option value="{{ $permission->name }}">{{ $permission->name }}</option>
+												@endforeach
+											@endrole
+											@role('ddc|ppc|pho|hos|lab')
+												<option value="11">user-create</option>
+											@endrole
+										</select>
+									</div>
+								</div>
+								@endcan
 							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3 m-t-40">
@@ -284,7 +273,6 @@ $(document).ready(function() {
 			$('#tambol_code').html('<option value="">-- โปรดเลือก --</option>');
 		}
 	});
-
 });
 </script>
 @endsection

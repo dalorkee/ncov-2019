@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 use App\User;
 use App\Traits\BoundaryTrait;
@@ -28,32 +29,51 @@ class UserController extends Controller
 		$this->middleware(['role:root|ddc|dpc|pho|hos|lab']);
 	}
 
+	public function search(Request $request) {
+		$input = $request->all();
+		$str = trim($input['usr_search']);
+		if (!is_null($str) || !empty($str) || $str != "") {
+			$user = Auth::user();
+			$user_hosp = $user->hospcode;
+			if ($user->hasRole('root')) {
+				$chkCreateUserAmount = '&infin;';
+				$data = User::where('username', 'like', '%'.$str.'%')->orderBy('id', 'ASC')->paginate(15);
+				return view('users.index', compact('data', 'chkCreateUserAmount'))->with('i', ($request->input('page', 1) - 1) * 15);
+			} else {
+
+			}
+		}
+	}
+
 	public function index(Request $request) {
 		$user = Auth::user();
-		$user_role = $user->roles->pluck('name')->all();
 		$user_hosp = $user->hospcode;
-
-		if ($user_role[0] == 'root') {
+		if ($user->hasRole('root')) {
 			$chkCreateUserAmount = '&infin;';
 			$data = User::orderBy('id', 'ASC')->paginate(15);
 		} else {
-			$chkCreateUserAmount = self::checkCreateRemaining($user->username);
-			$log_user_id = DB::table('log_users')
-				->select('user_id')
-				->where('create_by_user', $user->username)
-				->get()
-				->toArray();
-			if (count($log_user_id) > 0) {
-				foreach ($log_user_id as $key => $val) {
-					$log_user_id_arr[] = $val->user_id;
+			if ($user->hasPermissionTo('user-create')) {
+				$chkCreateUserAmount = self::checkCreateRemaining($user->username);
+				$log_user_id = DB::table('log_users')
+					->select('user_id')
+					->where('create_by_user', $user->username)
+					->get()
+					->toArray();
+				if (count($log_user_id) > 0) {
+					foreach ($log_user_id as $key => $val) {
+						$log_user_id_arr[] = $val->user_id;
+					}
+					$data = User::where('hospcode', '=', (int)$user_hosp)
+						->orWhere(function($w) use ($log_user_id_arr) {
+							$w->whereIn('id', $log_user_id_arr);
+						})
+						->orderBy('id', 'ASC')
+						->paginate(15);
+				} else {
+					$data = User::where('hospcode', '=', (int)$user_hosp)->orderBy('id', 'ASC')->paginate(15);
 				}
-				$data = User::where('hospcode', '=', (int)$user_hosp)
-					->orWhere(function($w) use ($log_user_id_arr) {
-						$w->whereIn('id', $log_user_id_arr);
-					})
-					->orderBy('id', 'ASC')
-					->paginate(15);
 			} else {
+				$chkCreateUserAmount = 'forbidden';
 				$data = User::where('hospcode', '=', (int)$user_hosp)->orderBy('id', 'ASC')->paginate(15);
 			}
 		}
@@ -64,34 +84,39 @@ class UserController extends Controller
 		$user = Auth::user();
 		$user_role = $user->roles->pluck('name')->all();
 		$chkCreateUserAmount = self::checkCreateRemaining($user->username);
-		if ($chkCreateUserAmount > 0 || $user_role[0] == 'root') {
+		if ($chkCreateUserAmount > 0 || $user->hasRole('root')) {
 			$provinces = self::getMinProvince();
 			asort($provinces);
-			$roles = Role::pluck('name', 'name');
+			$user_group = self::userGroup();
+			$permissions = Permission::all();
 			switch ($user_role[0]) {
 				case 'root':
-					$roles = $roles->all();
 					break;
 				case 'ddc':
-					$roles = $roles->only('ddc', 'dpc', 'pho`', 'hos', 'lab')->all();
 					break;
 				case 'dpc':
-					$roles = $roles->only('dpc', 'pho', 'hos', 'lab')->all();
+					unset($user_group[1]);
 					break;
 				case 'pho':
-					$roles = $roles->only('pho', 'hos')->all();
+					unset($user_group[1]);
+					unset($user_group[3]);
 					break;
 				case 'hos':
-					$roles = $roles = $roles->only('hos')->all();
+					unset($user_group[1]);
+					unset($user_group[3]);
+					unset($user_group[8]);
 					break;
 				case 'lab':
-					$roles = $roles = $roles->only('lab')->all();
+					unset($user_group[1]);
+					unset($user_group[3]);
+					unset($user_group[8]);
+					unset($user_group[7]);
 					break;
 				default:
 					return redirect()->route('logout');
 					break;
 			}
-			return view('users.create', compact('roles', 'provinces'));
+			return view('users.create', compact('provinces', 'user_group', 'permissions'));
 		} else {
 			return redirect()->route('users.index')->with('error', 'ไมีมีสิทธิ์สร้างผู้ใช้ หรือสร้างผู้ใช้ครบตามสิทธ์แล้ว !!');
 		}
@@ -117,6 +142,11 @@ class UserController extends Controller
 			if (self::checkRepeatUsername($input['username'])) {
 				return redirect()->route('users.index')->with('error', 'ชือผู้ใช้ '.$input['username'].' มีอยู่ในระบบแล้ว !!');
 			} else {
+				$user = Auth::user();
+				$user_role = $user->roles->pluck('name')->all();
+				if ($user_role[0] == 'root') {
+					$user->givePermissionTo('user-create');
+				}
 				$input['wposi'] = '';
 				$input['dtnow'] = date('Y-m-d H:i:s');
 				$input['prefix_sat_id'] = $input['hospcode'];
@@ -127,7 +157,7 @@ class UserController extends Controller
 				$user = User::create($input);
 				$user->assignRole($request->input('roles'));
 
-				/* set user data to log_user table */
+				/* save user data to log_user table */
 				if ($user) {
 					$now = date('Y-m-d H:i:s');
 					DB::table('log_users')->insert([

@@ -12,9 +12,11 @@ use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Validator, DB, Log, Session;
+use App\Traits\BoundaryTrait;
 
 class LoginController extends Controller {
 	use AuthenticatesUsers;
+	use BoundaryTrait;
 
 	protected $redirectTo = '/home';
 	protected $username = 'username';
@@ -33,14 +35,17 @@ class LoginController extends Controller {
 	public function login(Request $request) {
 		try {
 			$user = User::where('username', $request->username)->where('password', md5($request->password))->first();
-			if (is_null($user)) {
+			if (is_null($user) || empty($user) || $user == '') {
 				$message = "ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน";
 				flash()->overlay($message, 'Message From System');
-				//return redirect('/login')->with('message','ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน');
 				return redirect('/login');
 			} else {
 				Auth::login($user);
-				return redirect()->route('home');
+				if (Auth::check()) {
+					return redirect('home');
+				} else {
+					return redirect('/logout');
+				}
 			}
 		} catch(\Exception $e) {
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());

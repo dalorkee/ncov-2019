@@ -7,6 +7,7 @@ Route::prefix('uacl')->group(function () {
 		Route::resource('roles', 'RoleController');
 		Route::resource('permissions', 'PermissionController');
 		Route::resource('users', 'UserController');
+		Route::get('/search', 'UserController@search')->name('user.search');
 	});
 });
 /* Home */

@@ -250,6 +250,7 @@ return [
 		'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
 		'Helper' => App\Helpers\Helper::class,
 		'Debugbar' => Barryvdh\Debugbar\Facade::class,
+		'Input' => Illuminate\Support\Facades\Input::class,
 	],
 
 ];

@@ -8,7 +8,6 @@
 	<meta name="description" content="COVID-19">
 	<meta name="author" content="Talek team">
 	@yield('meta-token')
-	<!-- Favicon icon -->
 	<link rel="icon" type="image/png" sizes="16x16" href="{{ URL::asset('assets/images/small-moph-logo.png') }}">
 	<title>COVID-19</title>
 	@include('layouts.main-top-script')
