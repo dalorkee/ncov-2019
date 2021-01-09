@@ -122,7 +122,6 @@ class ListContactController extends Controller
 													->get();
 			// dd($data_contact);
 			$firstname = self::addHyphen(auth()->user()->name);
-
 			$lastname = self::addHyphen(auth()->user()->lname);
 			$email = self::addHyphen(auth()->user()->email);
 			$userMobile = self::addHyphen(auth()->user()->tel);
@@ -143,7 +142,7 @@ class ListContactController extends Controller
 			'UserPosition' => '-',
 			'ScreenType' => 'detail',
 			'DDCPatientID' => $data[0]->id,
-			'PatientDDCType' => '1',
+			'PatientDDCType' => '3',
 			'PatientHN' =>  '-',
 			'PatientSatCode' => $patientSatCode,
 			'PatientCID' => $patientCID,

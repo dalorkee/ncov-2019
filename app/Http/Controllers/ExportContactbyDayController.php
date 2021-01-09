@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
+use auth;
+use Carbon\Carbon;
 use App\Exports\ContactExportbyDay;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -31,10 +33,34 @@ class ExportContactbyDayController extends Controller
         'created_date1'=>$created_date1,
         'created_date2'=>$created_date2,
       );
-
+        $user_id = Auth::user()->id;
+        $dategenerate = Carbon::now()->timestamp;
+        $export_amount = Carbon::now();
+        $expire_date = $export_amount->copy()->addDays(5);
+        $start_date = $created_date2;
+        $end_date =$created_date2;
+        // echo "$end_date\n";
+        // exit;
       // return $data;
 
-          return Excel::download(new ContactExportbyDay($data), 'ContactExportbyDay.xls');
+      $storefile = Excel::store(new ContactExportbyDay($data), 'ContactExportbyDay'.$user_id.$dategenerate.'.xls','export' );
+      if ($storefile) {
+        $res1	= DB::table('log_contact_export')->insert([
+          'ref_user_id' => $user_id,
+          'file_name' => 'ContactExportbyDay'.$user_id.$dategenerate.'',
+          'file_imme_type' => '.xls',
+          'start_date' => $start_date,
+          'end_date' => $end_date,
+          // 'export_amount' => $export_amount,
+          'expire_date' => $expire_date
+        ]);
+        // return Excel::download(new ContactExportbyDay($data), 'ContactExportbyDay'.$user_id.$dategenerate.'.csv');
+           return redirect()->route('allcontactexport');
+        // return response()->download(public_path('export\ContactExportbyDay'.$user_id.$dategenerate.'.xls'));
+      }else {
+        echo "เกิดข้อผิดพลาด";
+      }
+          // return Excel::download(new ContactExportbyDay($data), 'ContactExportbyDay'.$user_id.$dategenerate.'.csv');
     }
 
     protected function convertDateToMySQL($date='00/00/0000') {

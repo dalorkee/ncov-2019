@@ -3,18 +3,23 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
+use Storage;
 use App\GlobalCountry;
 use App\InvestList;
 use App\RiskType;
 use App\Exports\ContactExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Carbon\Carbon;
 class ExportContactController extends MasterController
 {
   public function allcontactexport(Request $req)
   {
-
- $uid = auth()->user()->id;
+    $dt = carbon::now();
+    $del_to_this_date = $dt->subDay(3)->toDateString();
+    self::deleteExpireFiles($del_to_this_date);
+    // dd($del_to_this_date);
+    $uid = auth()->user()->id;
     $datenow = date('Y-m-d');
     $arr = parent::getStatus();
     $arr_hos = $this->arr_hos();
@@ -35,6 +40,19 @@ class ExportContactController extends MasterController
     foreach($risk_type as $val_risk_type){
       $arr_risk_type[$val_risk_type['id']] = $val_risk_type['risk_name'];
     }
+    $count_file_by_user = DB::table('log_contact_export')
+             ->select(DB::raw('count(*) as user_count'))
+             ->where('ref_user_id', '=', $uid)
+             ->get();
+    $listfile = DB::table('log_contact_export')
+            ->select(
+                    'file_name',
+                    'created_at',
+                    'file_imme_type'
+                    )
+            ->where('ref_user_id', '=', $uid)
+            ->get();
+    // dd($count_file_by_user);
      return view('export.allcontactexport',compact(
        'arr',
        'arr_hos',
@@ -51,7 +69,9 @@ class ExportContactController extends MasterController
       'arr_hostype_th',
       'arr_risk_type',
       'arrdistrict',
-      'arrsub_district'
+      'arrsub_district',
+      'count_file_by_user',
+      'listfile'
      ));
  }
 
@@ -62,7 +82,27 @@ class ExportContactController extends MasterController
         // return (new $querytable)->download('invoices.xlsx');
           return Excel::download(new ContactExport($id), 'contactbysatid.xlsx');
     }
-
+    private function DeleteExpireFiles($delete_date) {
+      // dd($datenow);
+  		$tasks = DB::table('log_contact_export')
+               ->select('id', 'file_name')->whereRaw("(DATE(created_at) < '".$delete_date."')")->get();
+                 // dd($tasks);
+  		if (count($tasks) > 0) {
+  			$tasks->each(function($item, $key) {
+          // dd($item->file_name);
+  				// if (Storage::disk('export')->exists($item->file_name)){
+          //    dd("hello");
+  					Storage::disk('export')->delete($item->file_name);
+            $del1=DB::table('log_contact_export')
+            ->where('file_name', $item->file_name)
+            ->delete();
+            DB::table('log_contact_export');
+  				// }else {
+          //   dd("hell");
+          // }
+  			});
+  		}
+  	}
 
     protected function convertDateToMySQL($date='00/00/0000') {
       if (!is_null($date) || !empty($date)) {

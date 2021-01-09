@@ -134,6 +134,39 @@ input.valid, textarea.valid{
         <button type="submit" class="btn btn-success">ค้นหาข้อมูล</button>
       </div>
       </form>
+		</br>
+			<div class="form-group row">
+				<div class="col-sm-4">
+						<label for=""><h3>ค้นหาล่าสุด</h3></label>
+						<div class="col-md-8">
+					@if ($count_file_by_user =! '0')
+						@foreach ($listfile as $row)
+							<div class="d-flex flex-row comment-row m-t-0 ">
+								<div class="p-2"><h1 class="error-title text-danger"></h1></div>
+								<div class="comment-text w-100">
+									{{-- <h6 class="font-medium text-primary"> {{$row->created_at}}</h6> --}}
+									{{-- <span class="m-b-2 d-block">ดาวน์โหลดไปแล้ว: {{ $value['export_amount'] }} ครั้ง</span> --}}
+									{{-- <span class="m-b-2 d-block">ขนาด: {{ $value['file_size'] }} KB</span> --}}
+									{{-- <span class="m-b-10 d-block">สร้างไฟล์เมื่อ:  {{$row->created_at}}</span> --}}
+									<div class="comment-footer">
+										 <a href="{{ URL::to( '/exports/'. $row->file_name.$row->file_imme_type)  }}" title="Export" class="btn btn-cyan btn-sm btn-rounded waves-effect waves-light">ดาวน์โหลดไฟล์ที่ค้นหาเมื่อ {{$row->created_at}}</a>
+										{{-- <a href="{{ URL::to( '/exports/'. $row->file_name)  }}" title="Export" class="btn btn-cyan btn-sm btn-rounded waves-effect waves-light">
+											ดาวน์โหลด</a> --}}
+									</div>
+								</div>
+							</div>
+						</br>
+							{{-- <a href="{{ URL::to( '/exports/'. $row->file_name)  }}" title="Export" class="btn btn-cyan btn-sm btn-rounded waves-effect waves-light">ดาวน์โหลดไฟล์ที่ค้นหาเมื่อ {{$row->created_at}}</a> --}}
+						{{-- <a class="btn btn-info" target="_blank" href="{{ URL::to( '/exports/'. $row->file_name)  }}">ดาวน์โหลดไฟล์ที่ค้นหาเมื่อ {{$row->created_at}}</br></a> --}}
+						@endforeach
+					@else
+					@endif
+						</div>
+				</div>
+				{{-- <div class="col-sm-6">
+				<input type="text" class="form-control" name="notify_date_end" data-provide="datepicke" id="datefollow"  placeholder="วันที่รับแจ้งสิ้นสุด" autocomplete="off" required>
+				</div> --}}
+			</div>
       </div>
     </div>
   </div>
