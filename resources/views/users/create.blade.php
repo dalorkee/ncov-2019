@@ -171,24 +171,21 @@
 										</select>
 									</div>
 								</div>
-								@can('user-create')
+								@role('root')
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label>สิทธิ์ผู้ใช้:<span>*</span></label>
-										<select name="permission" id="permission" class="form-control selectpicker show-tick">
-											@role('root')
-												<option value="">-- โปรดเลือก --</option>
-												@foreach ($permissions as $key => $permission)
-													<option value="{{ $permission->name }}">{{ $permission->name }}</option>
-												@endforeach
-											@endrole
-											@role('ddc|ppc|pho|hos|lab')
-												<option value="11">user-create</option>
-											@endrole
+										<label for="user-permissions">สิทธิ์สร้างผู้ใช้:</label>
+										<select name="create_user_permission" id="create_user_permission" class="form-control selectpicker show-tick">
+											<option value="n">-- เลือกสิทธิ์ --</option>
+											<option value="y">Y</option>
+											<option value="n">N</option>
 										</select>
 									</div>
 								</div>
-								@endcan
+								@endrole
+								@role('ddc|dpc|pho|hos|lab')
+								<input type="hidden" name="create_user_permission" value="n">
+								@endrole
 							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3 m-t-40">

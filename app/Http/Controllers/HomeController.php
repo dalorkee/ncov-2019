@@ -38,7 +38,10 @@ class HomeController extends Controller
 						'new-pui-create',
 						'pui-delete',
 						'pui-create',
-						'pui-edit'
+						'pui-edit',
+						'user-create',
+						'user-edit',
+						'user-delete'
 					]);
 					return redirect()->route('main');
 					break;

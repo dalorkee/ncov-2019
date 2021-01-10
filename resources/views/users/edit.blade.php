@@ -1,4 +1,16 @@
 @extends('layouts.index')
+@section('meta-token')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+@section('custom-style')
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
+<style>
+	label>span {
+		padding-left: 10px;
+		color: red;
+	}
+</style>
+@endsection
 @section('contents')
 <div class="page-breadcrumb bg-light">
 	<div class="row">
@@ -15,22 +27,6 @@
 		</div>
 	</div>
 </div>
-@section('contents')
-<div class="page-breadcrumb bg-light">
-	<div class="row">
-		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title"><span style="display:none;">Create user</span></h4>
-			<div class="ml-auto text-right">
-				<nav aria-label="breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="{{ route('users.index') }}">User</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Create</li>
-					</ol>
-				</nav>
-			</div>
-		</div>
-	</div>
-</div>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
@@ -38,7 +34,7 @@
 				<div class="card-body">
 					<div class="d-md-flex align-items-center" style="border-bottom:1px solid #EAEAEA">
 						<div>
-							<h4 class="card-title">เพิ่มผู้ใช้ใหม่</h4>
+							<h4 class="card-title">แก้ไขข้อมูลผู้ใช้</h4>
 							<h5 class="card-subtitle">DDC Covid-19</h5>
 						</div>
 					</div>
@@ -53,31 +49,32 @@
 								</ul>
 							</div>
 						@endif
-						{!! Form::open(array('route'=>'users.store', 'method'=>'POST', 'class'=>'mt-4 mb-3')) !!}
+						{!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label for="title_name">คำนำหน้าชื่อ<span>*</span></label>
 										<select name="title_name" id="title_name" class="form-control selectpicker show-tick">
+											@if ((!is_null($user->title_name)) && !empty($user->title_name) && $user->title_name != '')
+												<option value="{{ $user->title_name }}" selected="selected">{{ $titleName[$user->title_name] }}</option>
+											@endif
 											<option value="">-- โปรดเลือก --</option>
-											<option value="1">นาย</option>
-											<option value="2">นาง</option>
-											<option value="3">นางสาว</option>
-											<option value="4">ด.ช.</option>
-											<option value="5">ด.ญ.</option>
+											@foreach ($titleName as $key => $val)
+												<option value="{{ $key }}">{{ $val }}</option>
+											@endforeach
 										</select>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label for="first_name">ชื่อจริง:<span>*</span></label>
-										<input type="text" name="name" class="form-control" placeholder="Name">
+										<input type="text" name="name" value="{{ $user->name }}" class="form-control" placeholder="Name">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label for="last_name">นามสกุล:<span>*</span></label>
-										<input type="text" name="lname" class="form-control" placeholder="Lastname">
+										<input type="text" name="lname" value="{{ $user->lname }}" class="form-control" placeholder="Lastname">
 									</div>
 								</div>
 							</div>
@@ -85,19 +82,19 @@
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label for="email">อีเมล์:<span>*</span></label>
-										<input type="email" name="email" class="form-control" placeholder="Email">
+										<input type="email" name="email" value="{{ $user->email }}" class="form-control" placeholder="Email" disabled>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label for="mobile">โทรศัพท์:<span>*</span></label>
-										<input type="text" name="tel" id="tel" class="form-control" placeholder="Mobile">
+										<input type="text" name="tel" id="tel" value="{{ $user->tel }}" class="form-control" placeholder="Mobile">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label for="idcard">เลขบัตร ปชช:<span>*</span></label>
-										<input type="text" name="card_id" id="card_id" class="form-control" placeholder="ID Card">
+										<input type="text" name="card_id" id="card_id" value="{{ $user->card_id }}" class="form-control" placeholder="ID Card">
 									</div>
 								</div>
 							</div>
@@ -106,6 +103,9 @@
 									<div class="form-group">
 										<label for="province">จังหวัด<span>*</span></label>
 										<select name="prov_code" id="prov_code" class="form-control selectpicker show-tick" data-live-search="true">
+											@if ((!is_null($user->prov_code) && !empty($user->prov_code) && $user->prov_code != ''))
+												<option value="{{ $user->prov_code }}" selected="selected">{{ $provinces[$user->prov_code] }}</option>
+											@endif
 											<option value="">-- เลือกจังหวัด --</option>
 												@foreach ($provinces as $key => $value)
 													<option value="{{ $key }}">{{ $value }}</option>
@@ -117,6 +117,9 @@
 									<div class="form-group">
 										<label for="district">อำเภอ:</label>
 										<select name="ampur_code" id="ampur_code" class="form-control selectpicker show-tick" data-live-search="true">
+											@if (!is_null($user_dist))
+												<option value="{{ $user_dist[0]['district_id'] }}" selected="selected">{{ $user_dist[0]['district_name'] }}</option>
+											@endif
 											<option value="">-- เลือกอำเภอ --</option>
 										</select>
 									</div>
@@ -125,6 +128,9 @@
 									<div class="form-group">
 										<label for="sub_district">ตำบล:</label>
 										<select name="tambol_code" id="tambol_code" class="form-control selectpicker show-tick" data-live-search="true">
+											@if (!is_null($user_sub_dist))
+												<option value="{{ $user_sub_dist[0]['sub_district_id'] }}" selected="selected">{{ $user_sub_dist[0]['sub_district_name'] }}</option>
+											@endif
 											<option value="">-- เลือกตำบล --</option>
 										</select>
 									</div>
@@ -135,6 +141,9 @@
 									<div class="form-group">
 										<label for="hospcode">หน่วยงาน:<span>*</span></label>
 										<select name="hospcode" id="hospcode" class="form-control selectpicker show-tick" data-live-search="true">
+											@if (!is_null($user_hosp))
+												<option value="{{ key($user_hosp) }}" selected="selected">{{ $user_hosp[key($user_hosp)] }}</option>
+											@endif
 											<option value="">-- เลือกหน่วยงาน --</option>
 										</select>
 									</div>
@@ -144,7 +153,7 @@
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label>ชื่อผู้ใช้:<span>*</span></label>
-										<input type="text" name="username" id="username" class="form-control" placeholder="Username">
+										<input type="text" name="username" id="username" value="{{ $user->username }}" class="form-control" disabled>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
@@ -165,34 +174,31 @@
 									<div class="form-group">
 										<label for="usergroup">กลุ่มผู้ใช้:<span>*</span></label>
 										<select name="usergroup" id="usergroup" class="form-control selectpicker show-tick">
-											@role('root')
+											@if (!is_null($user->usergroup) && !empty($user->usergroup) && $user->usergroup != '')
+												<option value="{{ $user->usergroup }}" selected="selected">{{ $user_group[$user->usergroup] }}</option>
+											@endif
 											<option value="">-- เลือกกลุ่ม --</option>
-											<option value="-1">ผู้ดูแลระบบ</option>
-											@endrole
 											@foreach ($user_group as $key => $val)
 												<option value="{{ $key }}">{{ $val }}</option>
 											@endforeach
 										</select>
 									</div>
 								</div>
-								@can('user-create')
+								@role('root')
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 									<div class="form-group">
-										<label>สิทธิ์ผู้ใช้:<span>*</span></label>
-										<select name="permission" id="permission" class="form-control selectpicker show-tick">
-											@role('root')
-												<option value="">-- โปรดเลือก --</option>
-												@foreach ($permissions as $key => $permission)
-													<option value="{{ $permission->name }}">{{ $permission->name }}</option>
-												@endforeach
-											@endrole
-											@role('ddc|ppc|pho|hos|lab')
-												<option value="11">user-create</option>
-											@endrole
+										<label>สิทธิ์สร้างผู้ใช้:</label>
+										<select name="create_user_permission" id="create_user_permission" class="form-control selectpicker show-tick">
+											@if (!is_null($user->create_user_permission) && !empty($user->create_user_permission) && $user->create_user_permission != '')
+												<option value="{{ $user->create_user_permission }}" selected="selected">{{ strtoupper($user->create_user_permission) }}</option>
+											@endif
+											<option value="n">-- เลือกสิทธิ์ --</option>
+											<option value="y">Y</option>
+											<option value="n">N</option>
 										</select>
 									</div>
 								</div>
-								@endcan
+								@endrole
 							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3 m-t-40">
@@ -279,3 +285,4 @@ $(document).ready(function() {
 	});
 });
 </script>
+@endsection

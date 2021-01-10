@@ -14,5 +14,16 @@ trait UserTrait {
 		);
 		return $userGroup;
 	}
+
+	public function userTitleName(): array {
+		$titleName = array(
+			1 => 'นาย',
+			2 => 'นาง',
+			3 => 'นางสาว',
+			4 => 'ด.ช.',
+			5 => 'ด.ญ.'
+		);
+		return $titleName;
+	}
 }
 ?>

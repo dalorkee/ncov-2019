@@ -4,9 +4,11 @@ namespace App\Traits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Hospitals;
+use App\District;
+use App\SubDistrict;
 
 trait BoundaryTrait {
-	public function getGlobalCountry(): array {
+	public function getGlobalCountry() : array {
 		try {
 			if (Storage::disk('json')->exists('ref_global_country.json')) {
 				$data = json_decode(Storage::disk('json')->get('ref_global_country.json'), true);
@@ -19,7 +21,7 @@ trait BoundaryTrait {
 		}
 	}
 
-	public function getProvince(): array {
+	public function getProvince() : array {
 		try {
 			if (Storage::disk('json')->exists('ref_province.json')) {
 				$data = json_decode(Storage::disk('json')->get('ref_province.json'), true);
@@ -32,7 +34,7 @@ trait BoundaryTrait {
 		}
 	}
 
-	public function getMinProvince(): array {
+	public function getMinProvince() : array {
 		try {
 			$provinces = self::getProvince();
 			foreach ($provinces as $key => $val) {
@@ -60,7 +62,7 @@ trait BoundaryTrait {
 		}
 	}
 
-	public function getDistrictByProvince($prov_id): object {
+	public function getDistrictByProvince($prov_id) : object {
 		try {
 			if (Storage::disk('json')->exists('ref_district.json')) {
 				$data = json_decode(Storage::disk('json')->get('ref_district.json'), true);
@@ -76,7 +78,7 @@ trait BoundaryTrait {
 		}
 	}
 
-	public function renderDistrictToHtmlSelect(Request $request): string {
+	public function renderDistrictToHtmlSelect(Request $request) : string {
 		try {
 			$district = self::getDistrictByProvince($request->id);
 			$htm = "<option value=\"\">-- โปรดเลือก --</option>";
@@ -89,7 +91,7 @@ trait BoundaryTrait {
 		}
 	}
 
-	public function getSubDistrictByDistrict($district_id): object {
+	public function getSubDistrictByDistrict($district_id) : object {
 		try {
 			if (Storage::disk('json')->exists('ref_sub_district.json')) {
 				$data = json_decode(Storage::disk('json')->get('ref_sub_district.json'), true);
@@ -105,7 +107,7 @@ trait BoundaryTrait {
 		}
 	}
 
-	public function renderSubDistrictToHtmlSelect(Request $request): string {
+	public function renderSubDistrictToHtmlSelect(Request $request) : string {
 		try {
 			$sub_district = self::getSubDistrictByDistrict($request->id);
 			$htm = "<option value=\"\">-- โปรดเลือก --</option>";
@@ -118,7 +120,7 @@ trait BoundaryTrait {
 		}
 	}
 
-	public function getHospByProvince($prov_id): object {
+	public function getHospByProvince($prov_id) : object {
 		try {
 			$json_file_name = 'hosp_prov_'.$prov_id.'.json';
 			if (Storage::disk('json')->exists($json_file_name)) {
@@ -133,7 +135,7 @@ trait BoundaryTrait {
 		}
 	}
 
-	public function renderHospToHtmlSelect(Request $request): string {
+	public function renderHospToHtmlSelect(Request $request) : string {
 		try {
 			$hosp = self::getHospByProvince($request->idx);
 			$htm = "<option value=\"\">-- โปรดเลือก --</option>";
@@ -146,12 +148,27 @@ trait BoundaryTrait {
 		}
 	}
 
-	public function getHospDetailByHospCode($hospcode=0): object {
+	public function getHospDetailByHospCode($hospcode=0) : ?object {
 		$result = Hospitals::where('hospcode', (int)$hospcode)->first();
 		return $result;
 	}
 
-	public function getHospNameByHospCode($hospcode=0): array {
+	public function getDistrictDetailByDistrictId($dist_id=0) : ?object {
+		$result = District::where('district_id', (int)$dist_id)->get();
+		return $result;
+	}
+
+	public function getSubDistrictDetailBySubDistrictId($sub_dist_id=0) : ?object {
+		$result = SubDistrict::where('sub_district_id', (int)$sub_dist_id)->get();
+		return $result;
+	}
+
+	public function getHospitalDetailByHospCode($hospcode=0) : ?object {
+		$hosp = Hospitals::where('hospcode', (int)$hospcode)->get();
+		return $hosp;
+	}
+
+	public function getHospNameByHospCode($hospcode=0) : array {
 		$hosp = Hospitals::select('hospcode', 'hosp_name')->where('hospcode', (int)$hospcode)->first()->toArray();
 		$result[$hosp['hospcode']] = $hosp['hosp_name'];
 		return $result;
