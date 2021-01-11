@@ -29,52 +29,29 @@ class UserController extends Controller
 		$this->middleware(['role:root|ddc|dpc|pho|hos|lab']);
 	}
 
-	public function search(Request $request) {
-		$input = $request->all();
-		$str = trim($input['usr_search']);
-		if (!is_null($str) || !empty($str) || $str != "") {
-			$user = Auth::user();
-			$user_hosp = $user->hospcode;
-			if ($user->hasRole('root')) {
-				$chkCreateUserAmount = '&infin;';
-				$data = User::where('username', 'like', '%'.$str.'%')->orderBy('id', 'ASC')->paginate(15);
-				return view('users.index', compact('data', 'chkCreateUserAmount'))->with('i', ($request->input('page', 1) - 1) * 15);
-			} else {
-				return redirec()->route('logout');
-			}
-		}
-	}
-
 	public function index(Request $request) {
 		$user = Auth::user();
-		$user_hosp = $user->hospcode;
-		if ($user->hasRole('root')) {
+		$direct_username = self::directAllowCreateNewUserTo();
+		if ($user->hasRole('root') || in_array($user->username, $direct_username)) {
 			$chkCreateUserAmount = '&infin;';
 			$data = User::orderBy('id', 'ASC')->paginate(15);
 		} else {
 			$chkCreateUserAmount = self::checkCreateRemaining($user->username);
-			if ($user->create_user_permission == 'y' && $chkCreateUserAmount > 0 ) {
-				$log_user_id = DB::table('log_users')
-					->select('user_id')
-					->where('create_by_user', $user->username)
-					->get()
-					->toArray();
+			if ($user->create_user_permission == 'y' && $chkCreateUserAmount > 0) {
+				$log_user_id = DB::table('log_users')->select('user_id')->where('create_by_user', $user->username)->get()->toArray();
 				if (count($log_user_id) > 0) {
 					foreach ($log_user_id as $key => $val) {
 						$log_user_id_arr[] = $val->user_id;
 					}
-					$data = User::where('hospcode', '=', (int)$user_hosp)
+					$data = User::where('hospcode', '=', $user->hospcode)
 						->orWhere(function($w) use ($log_user_id_arr) {
 							$w->whereIn('id', $log_user_id_arr);
-						})
-						->orderBy('id', 'ASC')
-						->paginate(15);
+						})->orderBy('id', 'ASC')->paginate(15);
 				} else {
-					$data = User::where('hospcode', '=', (int)$user_hosp)->orderBy('id', 'ASC')->paginate(15);
+					$data = User::where('hospcode', '=', $user->hospcode)->orderBy('id', 'ASC')->paginate(15);
 				}
 			} else {
-				$chkCreateUserAmount = 'forbidden';
-				$data = User::where('hospcode', '=', (int)$user_hosp)->orderBy('id', 'ASC')->paginate(15);
+				$data = User::where('hospcode', '=', $user->hospcode)->orderBy('id', 'ASC')->paginate(15);
 			}
 		}
 		return view('users.index', compact('data', 'chkCreateUserAmount'))->with('i', ($request->input('page', 1) - 1) * 15);
@@ -142,57 +119,40 @@ class UserController extends Controller
 				return redirect()->route('users.index')->with('error', 'ชือผู้ใช้ '.$input['username'].' มีอยู่ในระบบแล้ว !!');
 			} else {
 				$user = Auth::user();
-				$user_role = $user->roles->pluck('name')->all();
-				if ($user_role[0] == 'root') {
-					$user->givePermissionTo('user-create');
-				}
 				$input['wposi'] = '';
 				$input['dtnow'] = date('Y-m-d H:i:s');
 				$input['prefix_sat_id'] = $input['hospcode'];
-				$input['ampur_code'] = substr($input['ampur_code'], 2, 4);
-				$input['tambol_code'] = substr($input['tambol_code'], 4, 6);
+				if (!is_null($input['ampur_code']) && !empty($input['ampur_code']) && $input['ampur_code'] != "") {
+					$input['ampur_code'] = substr($input['ampur_code'], 2, 4);
+				} else {
+					$input['ampur_code'] = null;
+				}
+				if (!is_null($input['tambol_code']) && !empty($input['tambol_code']) && $input['tambol_code'] != "") {
+					$input['tambol_code'] = substr($input['tambol_code'], 4, 6);
+				} else {
+					$input['tambol_code'] = null;
+				}
 				//$input['password'] = Hash::make($input['password']);
 				$input['password'] = md5($input['password']);
-				$user = User::create($input);
+				$new_user = User::create($input);
 
 				/* assign role */
-				switch ($input['usergroup']) {
-					case '-1':
-						$assign_role = 'root';
-						break;
-					case '1':
-						$assign_role = 'ddc';
-						break;
-					case '3':
-						$assign_role = 'dpc';
-						break;
-					case '8':
-						$assign_role = 'pho';
-						break;
-					case '7':
-						$assign_role = 'hos';
-						break;
-					case '2':
-						$assign_role = 'hos';
-						break;
-					default:
-						return redirect('logout');
-						break;
-				}
-				$user->assignRole($assign_role);
+				$map_usergroup_to_role = self::mapUserGroupToUserRole();
+				$assign_role = $map_usergroup_to_role[(int)$input['usergroup']];
+				$new_user->assignRole($assign_role);
 
 				/* save user data to log_user table */
-				if ($user) {
+				if ($new_user) {
 					$now = date('Y-m-d H:i:s');
 					DB::table('log_users')->insert([
-						'user_id' => $user->id,
-						'username' => $user->username,
-						'create_by_user' => Auth::user()->username,
-						'user_group' => $user->usergroup,
-						'user_permission' => $request->input('roles'),
+						'user_id' => $new_user->id,
+						'username' => $new_user->username,
+						'create_by_user' => $user->username,
+						'user_group' => $new_user->usergroup,
+						'user_role' => $assign_role,
 						'created_at' => $now
 					]);
-					Log::notice('ผู้ใช้: '.Auth::user()->username.' สร้างผู้ใช้ '.$user->username);
+					Log::notice('ผู้ใช้: '.$user->username.' สร้างผู้ใช้ '.$new_user->username);
 				}
 				return redirect()->route('users.index')->with('success', 'User created successfully');
 			}
@@ -210,79 +170,111 @@ class UserController extends Controller
 
 	public function edit($id) {
 		$user = User::find($id);
-		$user_role_arr = $user->roles->pluck('name')->all();
-		$titleName = self::userTitleName();
-		$provinces = self::getMinProvince();
-		asort($provinces);
-		$user_dist = self::getDistrictDetailByDistrictId($user->prov_code.$user->ampur_code)->toArray();
-		$user_dist = (count($user_dist) > 0) ? $user_dist : null;
-		$user_sub_dist = self::getSubDistrictDetailBySubDistrictId($user->prov_code.$user->ampur_code.$user->tambol_code)->toArray();
-		$user_sub_dist = (count($user_sub_dist) > 0) ? $user_sub_dist : null;
-		$user_hosp = self::getHospNameByHospCode($user->hospcode);
-		$user_hosp = (count($user_hosp) > 0) ? $user_hosp : null;
-		$user_group = self::userGroup();
-		$permissions = Permission::all();
+		/* check user group */
+		if (!is_null($user->usergroup) && !empty($user->usergroup) && $user->usergroup != "") {
+			$user_role_arr = $user->roles->pluck('name')->all();
+			if (count($user_role_arr) <= 0) {
+				/* assign role to new_user */
+				$map_usergroup_to_role = self::mapUserGroupToUserRole();
+				$assign_role = $map_usergroup_to_role[(int)$user->usergroup];
+				$user->assignRole($assign_role);
+			}
 
-		switch ($user_role_arr[0]) {
-			case 'root':
-				break;
-			case 'ddc':
-				break;
-			case 'dpc':
-				unset($user_group[1]);
-				break;
-			case 'pho':
-				unset($user_group[1]);
-				unset($user_group[3]);
-				break;
-			case 'hos':
-				unset($user_group[1]);
-				unset($user_group[3]);
-				unset($user_group[8]);
-				break;
-			case 'lab':
-				unset($user_group[1]);
-				unset($user_group[3]);
-				unset($user_group[8]);
-				unset($user_group[7]);
-				break;
-			default:
-				return redirect()->route('logout');
-				break;
+			$titleName = self::userTitleName();
+			$provinces = self::getMinProvince();
+			asort($provinces);
+
+			$user_dist = self::getDistrictDetailByDistrictId($user->prov_code.$user->ampur_code)->toArray();
+			$user_dist = (count($user_dist) > 0) ? $user_dist : null;
+
+			$user_sub_dist = self::getSubDistrictDetailBySubDistrictId($user->prov_code.$user->ampur_code.$user->tambol_code)->toArray();
+			$user_sub_dist = (count($user_sub_dist) > 0) ? $user_sub_dist : null;
+
+			$user_hosp = self::getHospNameByHospCode($user->hospcode);
+			$user_hosp = (count($user_hosp) > 0) ? $user_hosp : null;
+
+			$user_group = self::userGroup();
+
+			$auth_user = Auth::user();
+			$auth_user_role_arr = $auth_user->roles->pluck('name')->all();
+			switch ($auth_user_role_arr[0]) {
+				case 'root':
+					break;
+				case 'ddc':
+					break;
+				case 'dpc':
+					unset($user_group[1]);
+					break;
+				case 'pho':
+					unset($user_group[1]);
+					unset($user_group[3]);
+					break;
+				case 'hos':
+					unset($user_group[1]);
+					unset($user_group[3]);
+					unset($user_group[8]);
+					break;
+				case 'lab':
+					unset($user_group[1]);
+					unset($user_group[3]);
+					unset($user_group[8]);
+					unset($user_group[7]);
+					break;
+				default:
+					return redirect()->route('logout');
+					break;
+			}
+			return view('users.edit', compact('user', 'user_dist', 'user_sub_dist', 'titleName', 'provinces', 'user_hosp', 'user_group'));
 		}
-		return view('users.edit', compact('user', 'user_dist', 'user_sub_dist', 'titleName', 'provinces', 'user_hosp', 'user_group', 'permissions'));
-			// return view('users.create', compact('provinces', 'user_group', 'permissions'));
-		/*
-		$roles = Role::pluck('name', 'name')->all();
-		$userRole = $user->roles->pluck('name', 'name')->all();
-		return view('users.edit', compact('user', 'roles', 'userRole'));
-		*/
 	}
 
 	public function update(Request $request, $id) {
-		$this->validate($request, [
-			'name' => 'required',
-			'lname' => 'required',
-			'password' => 'same:confirm-password',
-			'email' => 'required|email|unique:users,email,'.$id,
-			'roles' => 'required'
-		]);
+		try {
+			$this->validate($request, [
+				'title_name' => 'required',
+				'name' => 'required|max:30',
+				'lname' => 'required|max:60',
+				'tel' => 'required|max:10',
+				'card_id' => 'required|max:13',
+				'prov_code' => 'required',
+				'hospcode' => 'required',
+				'username' => 'required|max:30',
+				'password' => 'same:confirm_password|max:30',
+				'usergroup' => 'required',
+				'create_user_permission' => 'required'
+			]);
 
-		$input = $request->all();
-		if (!empty($input['password'])) {
-			/* $input['password'] = Hash::make($input['password']); */
-			$md5pwd = md5($input['password']);
-			$input['password'] = $md5pwd;
-		} else {
-			$input = array_except($input, array('password'));
+			$input = $request->all();
+			$input['prefix_sat_id'] = $input['hospcode'];
+			if (!is_null($input['ampur_code']) && !empty($input['ampur_code']) && $input['ampur_code'] != "") {
+				$input['ampur_code'] = substr($input['ampur_code'], 2, 4);
+			} else {
+				$input['ampur_code'] = null;
+			}
+			if (!is_null($input['tambol_code']) && !empty($input['tambol_code']) && $input['tambol_code'] != "") {
+				$input['tambol_code'] = substr($input['tambol_code'], 4, 6);
+			} else {
+				$input['tambol_code'] = null;
+			}
+			if (!empty($input['password'])) {
+				$md5pwd = md5($input['password']); /* $input['password'] = Hash::make($input['password']); */
+				$input['password'] = $md5pwd;
+			} else {
+				$input = array_except($input, array('password'));
+			}
+
+			$user = User::find($id);
+			$user->update($input);
+
+			/*
+			DB::table('model_has_roles')->where('model_id',$id)->delete();
+			$user->assignRole($request->input('roles'));
+			*/
+
+			return redirect()->route('users.index')->with('success', 'User updated successfully');
+		} catch (Exception $e) {
+			echo $e->getMessage();
 		}
-
-		$user = User::find($id);
-		$user->update($input);
-		DB::table('model_has_roles')->where('model_id',$id)->delete();
-		$user->assignRole($request->input('roles'));
-
-		return redirect()->route('users.index')->with('success', 'User updated successfully');
 	}
 
 	public function destroy($id) {
@@ -293,6 +285,22 @@ class UserController extends Controller
 	public function download(Request $request) {
 		(new UsersExport)->store('users.csv', 'excel');
 		return 'Export started!';
+	}
+
+	public function search(Request $request) {
+		$input = $request->all();
+		$str = trim($input['usr_search']);
+		if (!is_null($str) || !empty($str) || $str != "") {
+			$user = Auth::user();
+			$user_hosp = $user->hospcode;
+			if ($user->hasRole('root')) {
+				$chkCreateUserAmount = '&infin;';
+				$data = User::where('username', 'like', '%'.$str.'%')->orderBy('id', 'ASC')->paginate(15);
+				return view('users.index', compact('data', 'chkCreateUserAmount'))->with('i', ($request->input('page', 1) - 1) * 15);
+			} else {
+				return redirect()->route('logout');
+			}
+		}
 	}
 
 /*

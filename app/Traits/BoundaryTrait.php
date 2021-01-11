@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Hospitals;
 use App\District;
 use App\SubDistrict;
+use App\Provinces;
 
 trait BoundaryTrait {
 	public function getGlobalCountry() : array {
@@ -185,11 +186,11 @@ trait BoundaryTrait {
 
 	/*
 	public function queryToJson() {
-		$x = Hospitals::select('prov_code')->get()->keyBy('prov_code')->toArray();
+		$x = Provinces::select('province_id')->get()->keyBy('province_id')->toArray();
 		foreach ($x as $key => $value) {
-			$y = Hospitals::select('hospcode', 'hosp_name', 'hosp_type_code', 'status_code', 'prov_code', 'ampur_code', 'tambol_code', 'phone', 'region')->where('prov_code', $key)->get()->toJson();
-			$n = 'hosp_prov_'.$key.'.json';
-			Storage::disk('json')->put($n, $y);
+			$data = Hospitals::select('hospcode', 'hosp_name', 'hosp_type_code', 'status_code', 'prov_code', 'ampur_code', 'tambol_code', 'phone', 'region')->where('prov_code', $key)->get()->toJson();
+			$filename = 'hosp_prov_'.$key.'.json';
+			Storage::disk('json')->put($filename, $data);
 		}
 	}
 	*/

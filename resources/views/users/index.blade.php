@@ -35,12 +35,12 @@
 							<p>{{ Session::get('error') }}</p>
 						</div>
 					@endif
-					@if ($chkCreateUserAmount != 'forbidden')
-						<div class="row mt-2 mb-2">
-							<div class="col-lg-8">
+					@if ((auth()->user()->hasRole('root')) || ($chkCreateUserAmount > 0 && auth()->user()->create_user_permission == 'y'))
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7 col-xl-8  mt-2 mb-2">
 								<a class="btn btn-info" href="{{ route('users.create') }}"><i class="fas fa-user-plus"></i> สร้างผู้ใช้ใหม่ <span class="badge text-danger">สร้างผู้ใช้ได้อีก {!! $chkCreateUserAmount !!}</span></a>
 							</div>
-							<div class="col-lg-4">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4  mt-2 mb-2">
 								<form action="{{ route('user.search') }}" method="GET" class="form-inline">
 									<input type="text" name="usr_search" class="form-control" placeholder="ค้นหาชื่อผู้ใช้" style="height: 45px;">
 									<div class="input-group-append">
@@ -49,9 +49,24 @@
 								</form>
 							</div>
 						</div>
+					@else
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7 col-xl-8  mt-2 mb-2">
+								<button class="btn btn-danger">ไม่มีสิทธิ์สร้างผู้ใช้ / สิทธิ์สร้างผู้ใช้ครบตามจำนวนแล้ว</button>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4  mt-2 mb-2">
+								<form action="{{ route('user.search') }}" method="GET" class="form-inline">
+									<input type="text" name="usr_search" class="form-control" placeholder="ค้นหาชื่อผู้ใช้" style="height: 45px;">
+									<div class="input-group-append">
+										<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>
+
 					@endif
 
-					<table class="table table-hover">
+					<table class="table table-hover responsive">
 						<thead class="text-primary">
 							<tr>
 								<th>รหัส</th>
@@ -59,7 +74,7 @@
 								<th>ชื่อ-สกุล</th>
 								<th>อีเมล์</th>
 								<th>รหัสหน่วยงาน</th>
-								<th>สิทธิ์ผู้ใช้</th>
+								<th>Role</th>
 								<th>#</th>
 							</tr>
 						</thead>
@@ -78,22 +93,24 @@
 												@foreach($user->getRoleNames() as $v)
 													@if ($v == 'root')
 														<label class="badge badge-danger">{{ $v }}</label>
+													@elseif ($v == 'pho')
+														<label class="badge badge-warning">{{ $v }}</label>
 													@else
-													<label class="badge badge-success">{{ $v }}</label>
+														<label class="badge badge-success">{{ $v }}</label>
 													@endif
 												@endforeach
 											@endif
 										</td>
 										<td>
-											<a class="btn btn-info btn-sm" href="{{ route('users.show',$user->id) }}">Show</a>
+											<a class="btn btn-info btn-sm" href="{{ route('users.show', $user->id) }}">Show</a>
+											@if (auth()->user()->create_user_permission == 'y')
+												<a class="btn btn-warning btn-sm" href="{{ route('users.edit', $user->id) }}">Edit</a>
+											@endif
 											@role('root')
-											<a class="btn btn-warning btn-sm" href="{{ route('users.edit',$user->id) }}">Edit</a>
+												{!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
+												{!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+												{!! Form::close() !!}
 											@endrole
-											{!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-											@role('root')
-											{!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
-											@endrole
-											{!! Form::close() !!}
 										</td>
 									</tr>
 								@endforeach

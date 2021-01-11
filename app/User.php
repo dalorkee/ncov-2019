@@ -41,7 +41,8 @@ class User extends Authenticatable
 		'position',
 		'card_id',
 		'hospname',
-		'chk_regis'
+		'chk_regis',
+		'create_user_permission'
 	];
 
 	/**

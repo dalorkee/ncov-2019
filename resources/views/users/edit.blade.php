@@ -82,7 +82,7 @@
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label for="email">อีเมล์:<span>*</span></label>
-										<input type="email" name="email" value="{{ $user->email }}" class="form-control" placeholder="Email" disabled>
+										<input type="email" name="email" value="{{ $user->email }}" class="form-control" placeholder="Email" readonly>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
@@ -153,7 +153,7 @@
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label>ชื่อผู้ใช้:<span>*</span></label>
-										<input type="text" name="username" id="username" value="{{ $user->username }}" class="form-control" disabled>
+										<input type="text" name="username" id="username" value="{{ $user->username }}" class="form-control" readonly>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
@@ -174,7 +174,7 @@
 									<div class="form-group">
 										<label for="usergroup">กลุ่มผู้ใช้:<span>*</span></label>
 										<select name="usergroup" id="usergroup" class="form-control selectpicker show-tick">
-											@if (!is_null($user->usergroup) && !empty($user->usergroup) && $user->usergroup != '')
+											@if (!is_null($user->usergroup) && !empty($user->usergroup) && $user->usergroup != "")
 												<option value="{{ $user->usergroup }}" selected="selected">{{ $user_group[$user->usergroup] }}</option>
 											@endif
 											<option value="">-- เลือกกลุ่ม --</option>
@@ -184,7 +184,6 @@
 										</select>
 									</div>
 								</div>
-								@role('root')
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
 									<div class="form-group">
 										<label>สิทธิ์สร้างผู้ใช้:</label>
@@ -192,18 +191,22 @@
 											@if (!is_null($user->create_user_permission) && !empty($user->create_user_permission) && $user->create_user_permission != '')
 												<option value="{{ $user->create_user_permission }}" selected="selected">{{ strtoupper($user->create_user_permission) }}</option>
 											@endif
-											<option value="n">-- เลือกสิทธิ์ --</option>
-											<option value="y">Y</option>
-											<option value="n">N</option>
+											@if (auth()->user()->hasRole('root'))
+												<option value="n">-- เลือกสิทธิ์ --</option>
+												<option value="y">Y</option>
+												<option value="n">N</option>
+											@else
+												<option value="n">N</option>
+											@endif
 										</select>
 									</div>
 								</div>
-								@endrole
 							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3 m-t-40">
 									<div class="form-group">
-										<input type="submit" value="บันทึกข้อมูล" class="btn btn-primary">
+										<input type="submit" value="แก้ไขข้อมูล" class="btn btn-danger">
+										<a href="{{ route('users.index') }}" class="btn btn-info">ยกเลิก</a>
 									</div>
 								</div>
 							</div>
