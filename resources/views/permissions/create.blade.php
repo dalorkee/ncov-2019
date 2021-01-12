@@ -1,5 +1,8 @@
 @extends('layouts.index')
 @section('custom-style')
+<link type="text/css" href="{{ URL::asset('admindek/css/style.css') }}" rel="stylesheet" >
+@endsection
+@section('custom-style')
 <!-- <link rel="stylesheet" href="{{ URL::asset('assets/libs/select2/dist/css/select2.min.css') }}"> -->
 @endsection
 @section('contents')
@@ -11,7 +14,7 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="{{ route('users.index') }}">Permission</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Create</li>
+						<li class="breadcrumb-item active" aria-current="page"><a href="#">Create</a></li>
 					</ol>
 				</nav>
 			</div>

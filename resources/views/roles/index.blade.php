@@ -1,5 +1,8 @@
 @extends('layouts.index')
 @section('custom-style')
+<link type="text/css" href="{{ URL::asset('admindek/css/style.css') }}" rel="stylesheet" >
+@endsection
+@section('custom-style')
 <style>
 	input:-moz-read-only { /* For Firefox */
 		background-color: #fafafa !important;
@@ -27,7 +30,7 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="{{ route('roles.index') }}">Roles</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Manage</li>
+						<li class="breadcrumb-item active" aria-current="page"><a href="#">Manage</a></li>
 					</ol>
 				</nav>
 			</div>

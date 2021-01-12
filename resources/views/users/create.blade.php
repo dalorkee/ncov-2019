@@ -1,4 +1,7 @@
 @extends('layouts.index')
+@section('custom-style')
+<link type="text/css" href="{{ URL::asset('admindek/css/style.css') }}" rel="stylesheet" >
+@endsection
 @section('meta-token')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
@@ -20,7 +23,7 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="{{ route('users.index') }}">User</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Create</li>
+						<li class="breadcrumb-item active" aria-current="page"><a href="#">Create</a></li>
 					</ol>
 				</nav>
 			</div>

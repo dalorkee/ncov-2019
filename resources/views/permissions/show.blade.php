@@ -1,4 +1,7 @@
 @extends('layouts.index')
+@section('custom-style')
+<link type="text/css" href="{{ URL::asset('admindek/css/style.css') }}" rel="stylesheet" >
+@endsection
 @section('contents')
 <div class="page-breadcrumb bg-light">
 	<div class="row">
@@ -8,7 +11,7 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="{{ route('users.index') }}">User</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Manage</li>
+						<li class="breadcrumb-item active" aria-current="page"><a href="#">Manage</a></li>
 					</ol>
 				</nav>
 			</div>
@@ -36,7 +39,7 @@
 						<div class="col-xs-12 col-sm-12 col-md-12">
 							<div class="form-group"><strong>Roles:</strong>
 								@if(!empty($user->getRoleNames()))
-									@foreach($user->getRoleNames() as $v) 
+									@foreach($user->getRoleNames() as $v)
 										<span class="badge badge-success">{{ $v }}</span>
 									@endforeach
 								@endif
