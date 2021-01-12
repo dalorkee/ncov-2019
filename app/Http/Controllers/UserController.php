@@ -57,6 +57,38 @@ class UserController extends Controller
 		return view('users.index', compact('data', 'chkCreateUserAmount'))->with('i', ($request->input('page', 1) - 1) * 15);
 	}
 
+	public function search(Request $request) {
+		try {
+			$input = $request->all();
+			$str = trim($input['usr_search']);
+			if (strlen($str) > 0) {
+				$user = Auth::user();
+				$direct_username = self::directAllowCreateNewUserTo();
+				if ($user->hasRole('root') || in_array($user->username, $direct_username)) {
+					$chkCreateUserAmount = '&infin;';
+					$data = User::where('username', 'like', '%'.$str.'%')->orderBy('id', 'ASC')->paginate(15);
+				} else {
+					$chkCreateUserAmount = self::checkCreateRemaining($user->username);
+					$log_user_id = DB::table('log_users')->select('user_id')->where('create_by_user', $user->username)->get()->toArray();
+					if (count($log_user_id) > 0) {
+						foreach ($log_user_id as $key => $val) {
+							$log_user_id_arr[] = $val->user_id;
+						}
+						$log_user_id_arr[] = $user->id;
+					} else {
+						$log_user_id_arr[] = $user->id;
+					}
+					$data = User::where('username', 'like', '%'.$str.'%')->whereIn('id', $log_user_id_arr)->orderBy('id', 'ASC')->paginate(15);
+				}
+				return view('users.index', compact('data', 'chkCreateUserAmount'))->with('i', ($request->input('page', 1) - 1) * 15);
+			} else {
+				return redirect()->route('users.index')->with('error', 'โปรดกรอกข้อมูลที่ต้องการค้นหา!!');
+			}
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+	}
+
 	public function create() {
 		$user = Auth::user();
 		$chkCreateUserAmount = self::checkCreateRemaining($user->username);
@@ -94,7 +126,7 @@ class UserController extends Controller
 			}
 			return view('users.create', compact('provinces', 'user_group', 'user'));
 		} else {
-			return redirect()->route('users.index')->with('error', 'ไมีมีสิทธิ์สร้างผู้ใช้ หรือสร้างผู้ใช้ครบตามสิทธ์แล้ว !!');
+			return redirect()->route('users.index')->with('error', 'ไม่มีสิทธิ์สร้างผู้ใช้ หรือสร้างผู้ใช้ครบตามสิทธ์แล้ว !!');
 		}
 	}
 
@@ -285,22 +317,6 @@ class UserController extends Controller
 	public function download(Request $request) {
 		(new UsersExport)->store('users.csv', 'excel');
 		return 'Export started!';
-	}
-
-	public function search(Request $request) {
-		$input = $request->all();
-		$str = trim($input['usr_search']);
-		if (!is_null($str) || !empty($str) || $str != "") {
-			$user = Auth::user();
-			$user_hosp = $user->hospcode;
-			if ($user->hasRole('root')) {
-				$chkCreateUserAmount = '&infin;';
-				$data = User::where('username', 'like', '%'.$str.'%')->orderBy('id', 'ASC')->paginate(15);
-				return view('users.index', compact('data', 'chkCreateUserAmount'))->with('i', ($request->input('page', 1) - 1) * 15);
-			} else {
-				return redirect()->route('logout');
-			}
-		}
 	}
 
 /*
