@@ -1,16 +1,20 @@
 @extends('layouts.index')
-@section('custom-style')
-<link type="text/css" href="{{ URL::asset('admindek/css/style.css') }}" rel="stylesheet" >
-@endsection
 @section('meta-token')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('custom-style')
-<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}">
+<link type="text/css" href="{{ URL::asset('admindek/css/style.css') }}" rel="stylesheet">
+<link type="text/css" href="{{ URL::asset('assets/libs/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 <style>
 	label>span {
 		padding-left: 10px;
 		color: red;
+	}
+	input[type=text],
+	input[type=email],
+	input[type=password],
+	input[type=number] {
+		height: 45px;
 	}
 </style>
 @endsection

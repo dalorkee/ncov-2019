@@ -30,31 +30,35 @@ class UserController extends Controller
 	}
 
 	public function index(Request $request) {
-		$user = Auth::user();
-		$direct_username = self::directAllowCreateNewUserTo();
-		if ($user->hasRole('root') || in_array($user->username, $direct_username)) {
-			$chkCreateUserAmount = '&infin;';
-			$data = User::orderBy('id', 'ASC')->paginate(15);
-		} else {
-			$chkCreateUserAmount = self::checkCreateRemaining($user->username);
-			if ($user->create_user_permission == 'y' && $chkCreateUserAmount > 0) {
-				$log_user_id = DB::table('log_users')->select('user_id')->where('create_by_user', $user->username)->get()->toArray();
-				if (count($log_user_id) > 0) {
-					foreach ($log_user_id as $key => $val) {
-						$log_user_id_arr[] = $val->user_id;
+		try {
+			$user = Auth::user();
+			$direct_username = self::directAllowCreateNewUserTo();
+			if ($user->hasRole('root') || in_array($user->username, $direct_username)) {
+				$chkCreateUserAmount = '&infin;';
+				$data = User::orderBy('id', 'ASC')->paginate(15);
+			} else {
+				$chkCreateUserAmount = self::checkCreateRemaining($user->username);
+				if ($user->create_user_permission == 'y' && $chkCreateUserAmount > 0) {
+					$log_user_id = DB::table('log_users')->select('user_id')->where('create_by_user', $user->username)->get()->toArray();
+					if (count($log_user_id) > 0) {
+						foreach ($log_user_id as $key => $val) {
+							$log_user_id_arr[] = $val->user_id;
+						}
+						$data = User::where('hospcode', '=', $user->hospcode)
+							->orWhere(function($w) use ($log_user_id_arr) {
+								$w->whereIn('id', $log_user_id_arr);
+							})->orderBy('id', 'ASC')->paginate(15);
+					} else {
+						$data = User::where('hospcode', '=', $user->hospcode)->orderBy('id', 'ASC')->paginate(15);
 					}
-					$data = User::where('hospcode', '=', $user->hospcode)
-						->orWhere(function($w) use ($log_user_id_arr) {
-							$w->whereIn('id', $log_user_id_arr);
-						})->orderBy('id', 'ASC')->paginate(15);
 				} else {
 					$data = User::where('hospcode', '=', $user->hospcode)->orderBy('id', 'ASC')->paginate(15);
 				}
-			} else {
-				$data = User::where('hospcode', '=', $user->hospcode)->orderBy('id', 'ASC')->paginate(15);
 			}
+			return view('users.index', compact('data', 'chkCreateUserAmount'))->with('i', ($request->input('page', 1) - 1) * 15);
+		} catch (Exception $e) {
+			Log::error($e->getMessage());
 		}
-		return view('users.index', compact('data', 'chkCreateUserAmount'))->with('i', ($request->input('page', 1) - 1) * 15);
 	}
 
 	public function search(Request $request) {
@@ -85,7 +89,7 @@ class UserController extends Controller
 				return redirect()->route('users.index')->with('error', 'โปรดกรอกข้อมูลที่ต้องการค้นหา!!');
 			}
 		} catch (Exception $e) {
-			echo $e->getMessage();
+			Log::error($e->getMessage());
 		}
 	}
 
@@ -189,7 +193,7 @@ class UserController extends Controller
 				return redirect()->route('users.index')->with('success', 'User created successfully');
 			}
 		} catch (Exception $e) {
-			echo $e->getMessage();
+			Log::error($e->getMessage());
 		}
 	}
 
@@ -201,62 +205,65 @@ class UserController extends Controller
 	}
 
 	public function edit($id) {
-		$user = User::find($id);
-		/* check user group */
-		if (!is_null($user->usergroup) && !empty($user->usergroup) && $user->usergroup != "") {
-			$user_role_arr = $user->roles->pluck('name')->all();
-			if (count($user_role_arr) <= 0) {
-				/* assign role to new_user */
-				$map_usergroup_to_role = self::mapUserGroupToUserRole();
-				$assign_role = $map_usergroup_to_role[(int)$user->usergroup];
-				$user->assignRole($assign_role);
+		try {
+			$user = User::find($id);
+			if (!is_null($user->usergroup) && !empty($user->usergroup) && $user->usergroup != "") {
+				$user_role_arr = $user->roles->pluck('name')->all();
+				if (count($user_role_arr) <= 0) {
+					/* assign role to new_user */
+					$map_usergroup_to_role = self::mapUserGroupToUserRole();
+					$assign_role = $map_usergroup_to_role[(int)$user->usergroup];
+					$user->assignRole($assign_role);
+				}
+
+				$titleName = self::userTitleName();
+				$provinces = self::getMinProvince();
+				asort($provinces);
+
+				$user_dist = self::getDistrictDetailByDistrictId($user->prov_code.$user->ampur_code)->toArray();
+				$user_dist = (count($user_dist) > 0) ? $user_dist : null;
+
+				$user_sub_dist = self::getSubDistrictDetailBySubDistrictId($user->prov_code.$user->ampur_code.$user->tambol_code)->toArray();
+				$user_sub_dist = (count($user_sub_dist) > 0) ? $user_sub_dist : null;
+
+				$user_hosp = self::getHospNameByHospCode($user->hospcode);
+				$user_hosp = (count($user_hosp) > 0) ? $user_hosp : null;
+
+				$user_group = self::userGroup();
+
+				$auth_user = Auth::user();
+				$auth_user_role_arr = $auth_user->roles->pluck('name')->all();
+				switch ($auth_user_role_arr[0]) {
+					case 'root':
+						break;
+					case 'ddc':
+						break;
+					case 'dpc':
+						unset($user_group[1]);
+						break;
+					case 'pho':
+						unset($user_group[1]);
+						unset($user_group[3]);
+						break;
+					case 'hos':
+						unset($user_group[1]);
+						unset($user_group[3]);
+						unset($user_group[8]);
+						break;
+					case 'lab':
+						unset($user_group[1]);
+						unset($user_group[3]);
+						unset($user_group[8]);
+						unset($user_group[7]);
+						break;
+					default:
+						return redirect()->route('logout');
+						break;
+				}
+				return view('users.edit', compact('user', 'user_dist', 'user_sub_dist', 'titleName', 'provinces', 'user_hosp', 'user_group'));
 			}
-
-			$titleName = self::userTitleName();
-			$provinces = self::getMinProvince();
-			asort($provinces);
-
-			$user_dist = self::getDistrictDetailByDistrictId($user->prov_code.$user->ampur_code)->toArray();
-			$user_dist = (count($user_dist) > 0) ? $user_dist : null;
-
-			$user_sub_dist = self::getSubDistrictDetailBySubDistrictId($user->prov_code.$user->ampur_code.$user->tambol_code)->toArray();
-			$user_sub_dist = (count($user_sub_dist) > 0) ? $user_sub_dist : null;
-
-			$user_hosp = self::getHospNameByHospCode($user->hospcode);
-			$user_hosp = (count($user_hosp) > 0) ? $user_hosp : null;
-
-			$user_group = self::userGroup();
-
-			$auth_user = Auth::user();
-			$auth_user_role_arr = $auth_user->roles->pluck('name')->all();
-			switch ($auth_user_role_arr[0]) {
-				case 'root':
-					break;
-				case 'ddc':
-					break;
-				case 'dpc':
-					unset($user_group[1]);
-					break;
-				case 'pho':
-					unset($user_group[1]);
-					unset($user_group[3]);
-					break;
-				case 'hos':
-					unset($user_group[1]);
-					unset($user_group[3]);
-					unset($user_group[8]);
-					break;
-				case 'lab':
-					unset($user_group[1]);
-					unset($user_group[3]);
-					unset($user_group[8]);
-					unset($user_group[7]);
-					break;
-				default:
-					return redirect()->route('logout');
-					break;
-			}
-			return view('users.edit', compact('user', 'user_dist', 'user_sub_dist', 'titleName', 'provinces', 'user_hosp', 'user_group'));
+		} catch (Exception $e) {
+			Log::error($e->getMessage());
 		}
 	}
 
@@ -295,8 +302,10 @@ class UserController extends Controller
 				$input = array_except($input, array('password'));
 			}
 
+			$auth_user = Auth::user();
 			$user = User::find($id);
 			$user->update($input);
+			Log::notice('ผู้ใช้: '.$auth_user->username.' สร้างผู้ใช้ '.$user->username);
 
 			/*
 			DB::table('model_has_roles')->where('model_id',$id)->delete();
@@ -305,7 +314,7 @@ class UserController extends Controller
 
 			return redirect()->route('users.index')->with('success', 'User updated successfully');
 		} catch (Exception $e) {
-			echo $e->getMessage();
+			Log::error($e->getMessage());
 		}
 	}
 
