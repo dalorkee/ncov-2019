@@ -43,7 +43,8 @@ class ListContactController extends Controller
 			$patientPassport = self::addHyphen($data_contact[0]->passport_contact);
 			$patientMobile = self::addHyphen($data_contact[0]->phone_contact);
 			$hospcode = self::addHyphen(auth()->user()->hospcode);
-			// dd( auth()->user()->username);
+			// dd();
+				// dd($patientMobile,$patientPassport,$patientCID,$patientSatCode,$patientSatCode,$patientHN );
 			$data = json_encode([
 				'UserName'=> auth()->user()->username,
 				'FirstName' => $firstname,
@@ -52,7 +53,7 @@ class ListContactController extends Controller
 				'UserMobile' => $userMobile,
 				'UserPosition' => '-',
 				'ScreenType' => 'detail',
-				'DDCPatientID' => $data[0]->id,
+				'DDCPatientID' => $id,
 				'PatientDDCType' => '3',
 				'PatientHN' =>  '-',
 				'PatientSatCode' => $patientSatCode,
@@ -61,6 +62,7 @@ class ListContactController extends Controller
 				'PatientMobile' => $patientMobile,
 				'HospitalCode' => $hospcode
 			]);
+			 dd($data);
 			$client = new \GuzzleHttp\Client([
 				'headers' => ['Content-Type' => 'application/json'],
 				'verify' => false
@@ -121,7 +123,7 @@ class ListContactController extends Controller
 			$data_contact = ContactList::select('id', 'sat_id','contact_id', 'card_id', 'passport', 'mobile', 'pt_status')
 													->where('id', '=', $request->id)
 													->get();
-			dd($data_contact);
+			// dd($data_contact);
 			$firstname = self::addHyphen(auth()->user()->name);
 			$lastname = self::addHyphen(auth()->user()->lname);
 			$email = self::addHyphen(auth()->user()->email);
