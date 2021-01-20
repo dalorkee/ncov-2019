@@ -3,10 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ContactList extends Model
 {
-  protected $table = 'tbl_contact';
-  public $timestamps = true;
+	use SoftDeletes;
 
+  protected $table = 'tbl_contact';
+  protected $primaryKey = 'id';
+  public $timestamps = true;
+  
+  protected $fillable = [
+    'id',
+    'colab_send'
+	];
 }
