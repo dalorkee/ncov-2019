@@ -14,6 +14,7 @@ use Session, Helper, DB, Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Redirect;
+// use Auth;
 
 class ListContactController extends Controller
 {
@@ -29,10 +30,10 @@ class ListContactController extends Controller
 	}
 	public function colabSend(Request $request) {
 		try {
-			$data_contact = ContactList::select('id','sat_id', 'contact_id', 'card_id', 'passport', 'mobile', 'pt_status')
-													->where('id', '=', $request->id)
+			$id=$request->id;
+			$data_contact = ContactList::select('id', 'contact_id', 'contact_cid', 'passport_contact', 'phone_contact', 'pt_status')
+													->where('id', $id)
 													->get();
-			// dd($data_contact);
 			$firstname = self::addHyphen(auth()->user()->name);
 			$lastname = self::addHyphen(auth()->user()->lname);
 			$email = self::addHyphen(auth()->user()->email);
@@ -43,6 +44,10 @@ class ListContactController extends Controller
 			$patientPassport = self::addHyphen($data_contact[0]->passport_contact);
 			$patientMobile = self::addHyphen($data_contact[0]->phone_contact);
 			$hospcode = self::addHyphen(auth()->user()->hospcode);
+			$ddcPatientId = $id;
+			// dd();
+			// dd(auth()->user()->id);
+				// dd($patientMobile,$patientPassport,$patientCID,$patientSatCode,$patientSatCode,$patientHN );
 			$data = json_encode([
 				'UserName'=> auth()->user()->username,
 				'FirstName' => $firstname,
@@ -51,7 +56,7 @@ class ListContactController extends Controller
 				'UserMobile' => $userMobile,
 				'UserPosition' => '-',
 				'ScreenType' => 'detail',
-				'DDCPatientID' => $data[0]->id,
+				'DDCPatientID' => $ddcPatientId,
 				'PatientDDCType' => '3',
 				'PatientHN' =>  '-',
 				'PatientSatCode' => $patientSatCode,
@@ -60,18 +65,21 @@ class ListContactController extends Controller
 				'PatientMobile' => $patientMobile,
 				'HospitalCode' => $hospcode
 			]);
+
 			$client = new \GuzzleHttp\Client([
 				'headers' => ['Content-Type' => 'application/json'],
 				'verify' => false
 			]);
 			$response = $client->post('https://apiservice.ddc.moph.go.th/ddc-ilab/api/v1/Colab/PostLabData', ['body' => $data]);
 			$response = json_decode($response->getBody(), true);
+			 // dd($response);
 			if ($response) {
 				if ($response['ResultCode'] == '20000' && $response['DeveloperMessage'] == 'Success') {
+
 					/* log to db */
 					$today = date('Y-m-d H:i:s');
 					DB::table('log_colab')->insert([
-						'ref_pt_id' => $request->id,
+						'ref_pt_id' => $id,
 						'sat_id' => $ddcPatientId,
 						'send_method' => 'API',
 						'send_url' => 'https://apiservice.ddc.moph.go.th/ddc-ilab/api/v1/Colab/PostLabData',
@@ -79,42 +87,28 @@ class ListContactController extends Controller
 						'ref_user_id' => Auth::user()->id,
 						'created_at' => $today
 					]);
-					$contact = ContactList::find($request->id);
-					$contact->colab_send = 'Y';
-					$contact->save();
+					$contact = DB::table('tbl_contact')
+										->select('id')
+										->where('id', $id)
+										->update(['colab_send' => "Y"]);
+					// $contact->colab_send = 'Y';
+					// $contact->update();
+					// dd("success");
 					/* write to log msg */
-					Log::notice('ผู้ใช้: '.Auth::user()->id.' ส่งข้อมูลรหัสที่ '.$request->id.' ไปยัง COLAB');
-					/* redirect to colab url */
+					Log::notice('ผู้ใช้: '.Auth::user()->id.' ส่งข้อมูลรหัสที่ '.$id.' ไปยัง COLAB');
+					// $x = Log::notice('ผู้ใช้: '.Auth::user()->id.' ส่งข้อมูลรหัสที่ '.$id.' ไปยัง COLAB');
+					// dd($x);
 					self::redirectToUrl($response['RedirectUri']);
-			// $send_url = Helper::url_query('https://co-lab.moph.go.th/COLAB/Callback.aspx', [
-			//$send_url = Helper::url_query('https://apps.boe.moph.go.th/test/pj.php', [
-
-
-			/* log to sent */
-			// if (count($data_contact) > 0) {
-			// 	$today = date('Y-m-d H:i:s');
-			// 	DB::table('log_colab')->insert([
-			// 		'ref_pt_id' => $request->id,
-			// 		'sat_id' => $data_contact[0]->sat_id,
-			// 		'send_method' => 'GET',
-			// 		'send_url' => $send_url,
-			// 		'send_date' => $today,
-			// 		'ref_user_id' => Auth::user()->id,
-			// 		'created_at' => $today
-			// 	]);
-
-				/* update invest pt after sent */
+				} else {
+					return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$id.' ไม่สามารถส่งไปยังระบบ COLAB ได้');
+				}
 			} else {
-				return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->id.' ไม่สามารถส่งไปยังระบบ COLAB ได้');
+				return redirect()->back()->with('error', 'ระบบ COLAB ไม่ตอบสนอง โปรดตรวจสอบ');
 			}
-		} else {
-			return redirect()->back()->with('error', 'ระบบ COLAB ไม่ตอบสนอง โปรดตรวจสอบ');
+		} catch(\Exception $e) {
+			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
-	} catch(\Exception $e) {
-		Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 	}
-}
-
 	public function colabResult(Request $request) {
 		try {
 			$data_contact = ContactList::select('id', 'sat_id','contact_id', 'card_id', 'passport', 'mobile', 'pt_status')
@@ -341,5 +335,7 @@ class ListContactController extends Controller
 		</div>"
 		;
 	}
-
+	protected function redirectToUrl($url) {
+		echo "<script>window.location.replace('".$url."');</script>";
+	}
 }

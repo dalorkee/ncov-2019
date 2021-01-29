@@ -151,7 +151,7 @@ Route::get('/puifollowtable', 'ContactController@puifollowtable')->name('puifoll
 Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
 Route::get('/contact/list', 'ListContactController@index')->name('list-data.contact');
 Route::post('ch-status-con', 'ListContactController@chStatus')->name('ch-status-con');
-Route::get('/colab/send/{id}', 'ListContactController@colabSend')->name('colab.send');
+Route::get('/colab/sendcontact/{id}', 'ListContactController@colabSend')->name('colab.sendcontact');
 Route::get('/colab/result/{id}', 'ListContactController@colabResult')->name('colab.result');
 
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
@@ -173,9 +173,9 @@ Route::post('/contactedit', 'ContactController@contactedit')->name('contactedit'
 Route::post('/contact_st_update', 'ContactController@contactstupdate')->name('contact_st_update');
 Route::post('/allcontactstupdate', 'ContactController@allcontactstupdate')->name('allcontactstupdate');
 
-route::get('contactexport/id/{id}', 'ExportContactController@export')->name('contactexport');
+Route::get('contactexport/id/{id}', 'ExportContactController@export')->name('contactexport');
 
 /* excel download */
-route::post('satexport', 'ExportSATController@satexport')->name('satexport');
+Route::post('satexport', 'ExportSATController@satexport')->name('satexport');
 Route::get('/allcontactexport', 'ExportContactController@allcontactexport')->name('allcontactexport');
 Route::post('/exportcontactbyday', 'ExportContactbyDayController@exportcontactbyday')->name('exportcontactbyday');

@@ -140,7 +140,7 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 
 						case 'labSendColab':
 							//window.open('<php echo $url_gen_lab;>&idx=' + satid, '_blank');
-							let labSendUrl = '{{ route('colab.send', ':id') }}';
+							let labSendUrl = '{{ route('colab.sendcontact', ':id') }}';
 							labSendUrl = labSendUrl.replace(':id', id);
 							window.open(labSendUrl, '_blank');
 							break;
