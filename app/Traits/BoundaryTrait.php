@@ -3,10 +3,10 @@ namespace App\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Hospitals;
+use App\Provinces;
 use App\District;
 use App\SubDistrict;
-use App\Provinces;
+use App\Hospitals;
 
 trait BoundaryTrait {
 	public function getGlobalCountry() : array {
@@ -173,6 +173,16 @@ trait BoundaryTrait {
 		$hosp = Hospitals::select('hospcode', 'hosp_name')->where('hospcode', (int)$hospcode)->first()->toArray();
 		$result[$hosp['hospcode']] = $hosp['hosp_name'];
 		return $result;
+	}
+
+	public function getProvinceZoneId() : array {
+		return Provinces::select('province_id', 'zone_id')->get()->keyBy('province_id')->toArray();
+	}
+
+	public function getZoneIdFromProvince($prov_id=null) : ?string {
+		$model_instance = Provinces::select('zone_id')->where('province_id', '=', $prov_id)->first();
+		$zone_id = $model_instance->zone_id;
+		return $zone_id;
 	}
 
 	/* for generate json only  */

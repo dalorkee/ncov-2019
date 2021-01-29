@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3.15",
+        "algolia/algoliasearch-client-php": "^2.7",
         "barryvdh/laravel-debugbar": "3.2.5",
         "barryvdh/laravel-snappy": "^0.4.7",
         "caouecs/laravel-lang": "~4.0",
@@ -19,6 +20,7 @@
         "laracasts/flash": "^3.1",
         "laravel-orion/laravel-orion": "^1.0@dev",
         "laravel/framework": "5.8.*",
+        "laravel/scout": "^6.0.0",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "~5.0",
         "larsjanssen6/underconstruction": "^5.1",
@@ -31,6 +33,7 @@
         "robgridley/flysystem-smb": "^1.0",
         "simplesoftwareio/simple-qrcode": "^2.0",
         "spatie/laravel-permission": "^3.0",
+        "spatie/laravel-searchable": "^1.9",
         "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
         "yajra/laravel-datatables": "1.5",
         "yajra/laravel-datatables-fractal": "^1.5",

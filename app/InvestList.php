@@ -14,6 +14,7 @@ class InvestList extends Model
 	public $timestamps = true;
 
 	protected $fillable = [
+		'sat_id',
 		'created_at',
 		'updated_at',
 		'deleted_at'

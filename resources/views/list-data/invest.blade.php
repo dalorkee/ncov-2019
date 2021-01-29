@@ -31,15 +31,15 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 </style>
 @endsection
 @section('top-script')
-	<script src="{{ URL::asset('assets/libs/select2-4.0.13/dist/js/select2.min.js') }}"></script>
-	<script>
-	$(document).ready(function() {
-		$('#chstatus .myselect').select2({
-			placeholder: 'Select a State',
-			allowClear: true
-		});
+<script src="{{ URL::asset('assets/libs/select2-4.0.13/dist/js/select2.min.js') }}"></script>
+<script>
+$(document).ready(function() {
+	$('#chstatus .myselect').select2({
+		placeholder: 'Select a State',
+		allowClear: true
 	});
-	</script>
+});
+</script>
 @endsection
 @section('meta-token')
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -161,12 +161,14 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 	<script src="{{ URL::asset('vendor/datatables/buttons.server-side.js') }}"></script>
 	{{ $dataTable->scripts() }}
 	<?php
+	/*
 	$ts = time();
 	$signature = "bd6efdd618ef8e481ba2e247b10735b801fbdefe";
 	$uid = Auth::user()->id;
 	$sig = sha1($uid.$ts.$signature);
 	$url_gen_lab = "http://viral.ddc.moph.go.th/viral/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig."&typelab=1";
 	$url_lab_result = "http://viral.ddc.moph.go.th/viral/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig."&typelab=2";
+	*/
 	?>
 	<script>
 	$(document).ready(function() {
@@ -251,9 +253,11 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						labResultUrl = labResultUrl.replace(':id', id);
 						window.open(labResultUrl, '_blank');
 						break;
+					/*
 					case 'labResult':
-						window.open('<?php echo $url_lab_result; ?>&idx=' + satid, '_blank');
+						window.open('<php echo $url_lab_result; ?>&idx=' + satid, '_blank');
 						break;
+					*/
 					case 'contact':
 						let cturl = '{{ route("contacttable", ":id") }}';
 						cturl = cturl.replace(':id', id);
@@ -266,7 +270,6 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 						break;
 					case 'delete':
 							$('#del_id').val(id);
-							//let x = $('#del_id').val();
 							$('.delete-context').modal('show');
 						break;
 					case 'files':
@@ -284,11 +287,11 @@ table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
 				"chDcStatus": {name: "เปลี่ยนสถานะ Discharge", icon: "fas fa-diagnoses"},
 				"sep1": "---------",
 				"refer": {name: "ส่งต่อผู้ป่วย", icon: "fas fa-ambulance"},
-				"labSendColab": {name: "ส่งแลป", icon: "fas fa-external-link-alt", className: 'link-colab'},
-				"labResultColab": {name: "ดูผลแลป", icon: "fas fa-external-link-alt", className: 'link-colab'},
-				"labResult": {name: "ดูผลแลป (ก่อนวันที่ 23 พ.ค. 63)", icon: "fas fa-flask"},
+				"labSendColab": {name: "ส่งแลป (Colab)", icon: "fas fa-link", className: 'link-colab'},
+				"labResultColab": {name: "ดูผลแลป (Colab)", icon: "fas fa-flask", className: 'link-colab'},
+				/*"labResult": {name: "ดูผลแลป (ก่อนวันที่ 23 พ.ค. 63)", icon: "fas fa-flask"},*/
 				"sep2": "---------",
-				"files": {name: "ไฟล์อับโหลด", icon: "fas fa-file"},
+				"files": {name: "ไฟล์อับโหลด", icon: "fas fa-upload"},
 				"sep3": "---------",
 				"contact": {name: "ผู้สัมผัส", icon: "fas fa-handshake"},
 				"sep4": "---------",

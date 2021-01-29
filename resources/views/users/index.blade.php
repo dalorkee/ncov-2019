@@ -44,7 +44,7 @@
 								<a class="btn btn-info" href="{{ route('users.create') }}"><i class="fas fa-user-plus"></i> สร้างผู้ใช้ใหม่ <span class="badge text-danger">สร้างผู้ใช้ได้อีก {!! $chkCreateUserAmount !!}</span></a>
 							</div>
 							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4  mt-2 mb-2">
-								<form action="{{ route('user.search') }}" method="GET" class="form-inline">
+								<form action="{{ route('users.index') }}" method="GET" class="form-inline">
 									<input type="text" name="usr_search" class="form-control" placeholder="ค้นหาชื่อผู้ใช้" style="height: 45px;">
 									<div class="input-group-append">
 										<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
@@ -58,7 +58,7 @@
 								<button class="btn btn-danger">ไม่มีสิทธิ์สร้างผู้ใช้ / สิทธิ์สร้างผู้ใช้ครบตามจำนวนแล้ว</button>
 							</div>
 							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4  mt-2 mb-2">
-								<form action="{{ route('user.search') }}" method="GET" class="form-inline">
+								<form action="{{ route('users.index') }}" method="GET" class="form-inline">
 									<input type="text" name="usr_search" class="form-control" placeholder="ค้นหาชื่อผู้ใช้" style="height: 45px;">
 									<div class="input-group-append">
 										<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
@@ -68,58 +68,59 @@
 						</div>
 
 					@endif
-
-					<table class="table table-hover responsive">
-						<thead class="text-primary">
-							<tr>
-								<th>รหัส</th>
-								<th>ชื่อผู้ใช้</th>
-								<th>ชื่อ-สกุล</th>
-								<th>อีเมล์</th>
-								<th>รหัสหน่วยงาน</th>
-								<th>Role</th>
-								<th>#</th>
-							</tr>
-						</thead>
-						<tfoot></tfoot>
-						<tbody>
-							@if (count($data) > 0)
-								@foreach ($data as $key => $user)
-									<tr>
-										<td>{{ ++$i }}</td>
-										<td>{{ $user->username }}</td>
-										<td>{{ $user->name.' '.$user->lname }}</td>
-										<td>{{ $user->email }}</td>
-										<td>{{ $user->hospcode }}</td>
-										<td>
-											@if(!empty($user->getRoleNames()))
-												@foreach($user->getRoleNames() as $v)
-													@if ($v == 'root')
-														<label class="badge badge-danger">{{ $v }}</label>
-													@elseif ($v == 'pho')
-														<label class="badge badge-warning">{{ $v }}</label>
-													@else
-														<label class="badge badge-success">{{ $v }}</label>
-													@endif
-												@endforeach
-											@endif
-										</td>
-										<td>
-											<a class="btn btn-info btn-sm" href="{{ route('users.show', $user->id) }}">Show</a>
-											@if (auth()->user()->create_user_permission == 'y')
-												<a class="btn btn-warning btn-sm" href="{{ route('users.edit', $user->id) }}">Edit</a>
-											@endif
-											@role('root')
-												{!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-												{!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
-												{!! Form::close() !!}
-											@endrole
-										</td>
-									</tr>
-								@endforeach
-							@endif
-						</tbody>
-					</table>
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<thead class="text-primary">
+								<tr>
+									<th>รหัส</th>
+									<th>ชื่อผู้ใช้</th>
+									<th>ชื่อ-สกุล</th>
+									<th>อีเมล์</th>
+									<th>รหัสหน่วยงาน</th>
+									<th>Role</th>
+									<th>#</th>
+								</tr>
+							</thead>
+							<tfoot></tfoot>
+							<tbody>
+								@if (count($data) > 0)
+									@foreach ($data as $key => $user)
+										<tr>
+											<td>{{ ++$i }}</td>
+											<td>{{ $user->username }}</td>
+											<td>{{ $user->name.' '.$user->lname }}</td>
+											<td>{{ $user->email }}</td>
+											<td>{{ $user->hospcode }}</td>
+											<td>
+												@if(!empty($user->getRoleNames()))
+													@foreach($user->getRoleNames() as $v)
+														@if ($v == 'root')
+															<label class="badge badge-danger">{{ $v }}</label>
+														@elseif ($v == 'pho')
+															<label class="badge badge-warning">{{ $v }}</label>
+														@else
+															<label class="badge badge-success">{{ $v }}</label>
+														@endif
+													@endforeach
+												@endif
+											</td>
+											<td>
+												<a class="btn btn-info btn-sm" href="{{ route('users.show', $user->id) }}">Show</a>
+												@if (auth()->user()->create_user_permission == 'y')
+													<a class="btn btn-warning btn-sm" href="{{ route('users.edit', $user->id) }}">Edit</a>
+												@endif
+												@role('root')
+													{!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
+													{!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+													{!! Form::close() !!}
+												@endrole
+											</td>
+										</tr>
+									@endforeach
+								@endif
+							</tbody>
+						</table>
+					</div>
 					@if (count($data) > 0)
 						{!! $data->render() !!}
 					@endif

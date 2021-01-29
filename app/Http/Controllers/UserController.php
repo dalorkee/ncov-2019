@@ -33,9 +33,15 @@ class UserController extends Controller
 		try {
 			$user = Auth::user();
 			$direct_username = self::directAllowCreateNewUserTo();
+			$search =  $request->input('usr_search');
 			if ($user->hasRole('root') || in_array($user->username, $direct_username)) {
 				$chkCreateUserAmount = '&infin;';
-				$data = User::orderBy('id', 'ASC')->paginate(15);
+				if (strlen($search) <= 0) {
+					$data = User::orderBy('id', 'ASC')->paginate(15);
+				} else {
+					$data = User::where('username', 'like', '%'.$search.'%')->orderBy('id', 'ASC')->paginate(2);
+					$data->appends(['usr_search' => $search]);
+				}
 			} else {
 				$chkCreateUserAmount = self::checkCreateRemaining($user->username);
 				if ($user->create_user_permission == 'y' && $chkCreateUserAmount > 0) {
@@ -44,15 +50,33 @@ class UserController extends Controller
 						foreach ($log_user_id as $key => $val) {
 							$log_user_id_arr[] = $val->user_id;
 						}
-						$data = User::where('hospcode', '=', $user->hospcode)
+						if (strlen($search) <= 0) {
+							$data = User::where('hospcode', '=', $user->hospcode)
 							->orWhere(function($w) use ($log_user_id_arr) {
 								$w->whereIn('id', $log_user_id_arr);
 							})->orderBy('id', 'ASC')->paginate(15);
+						} else {
+							$data = User::where('hospcode', '=', $user->hospcode)
+							->orWhere(function($w) use ($log_user_id_arr) {
+								$w->whereIn('id', $log_user_id_arr);
+							})->where('username', 'like', '%'.$search.'%')->orderBy('id', 'ASC')->paginate(15);
+							$data->appends(['usr_search' => $search]);
+						}
 					} else {
-						$data = User::where('hospcode', '=', $user->hospcode)->orderBy('id', 'ASC')->paginate(15);
+						if (strlen($search) <= 0) {
+							$data = User::where('hospcode', '=', $user->hospcode)->orderBy('id', 'ASC')->paginate(15);
+						} else {
+							$data = User::where('hospcode', '=', $user->hospcode)->where('username', 'like', '%'.$search.'%')->orderBy('id', 'ASC')->paginate(15);
+							$data->appends(['usr_search' => $search]);
+						}
 					}
 				} else {
-					$data = User::where('hospcode', '=', $user->hospcode)->orderBy('id', 'ASC')->paginate(15);
+					if (strlen($search) <= 0) {
+						$data = User::where('hospcode', '=', $user->hospcode)->orderBy('id', 'ASC')->paginate(15);
+					} else {
+						$data = User::where('hospcode', '=', $user->hospcode)->where('username', 'like', '%'.$search.'%')->orderBy('id', 'ASC')->paginate(15);
+						$data->appends(['usr_search' => $search]);
+					}
 				}
 			}
 			return view('users.index', compact('data', 'chkCreateUserAmount'))->with('i', ($request->input('page', 1) - 1) * 15);
@@ -60,7 +84,7 @@ class UserController extends Controller
 			Log::error($e->getMessage());
 		}
 	}
-
+/*
 	public function search(Request $request) {
 		try {
 			$input = $request->all();
@@ -92,7 +116,7 @@ class UserController extends Controller
 			Log::error($e->getMessage());
 		}
 	}
-
+*/
 	public function create() {
 		$user = Auth::user();
 		$chkCreateUserAmount = self::checkCreateRemaining($user->username);

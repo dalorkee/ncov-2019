@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Barryvdh\DomPDF\PDF;
-//use App\GlobalCountry;
 use App\User;
-use App\Provinces;
 use App\Traits\BoundaryTrait;
 
 class ListInvestDataTable extends DataTable
@@ -232,8 +230,8 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					\DB::raw('(CASE '.$tfp.' ELSE "-" END) AS treat_first_province'),
-					'visit_number')
-					->whereNull('deleted_at')->orderBy('id', 'DESC');
+					'visit_number')->orderBy('id', 'DESC');
+					//->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'ddc':
 				$invest = InvestList::select(
@@ -247,8 +245,8 @@ class ListInvestDataTable extends DataTable
 					\DB::raw('(CASE '.$screen.' ELSE "-" END) AS screen_pt'),
 					\DB::raw('(CASE '.$nation.' ELSE "-" END) AS nation'),
 					\DB::raw('(CASE '.$tfp.' ELSE "-" END) AS treat_first_province'),
-					'visit_number')
-					->whereNull('deleted_at')->orderBy('id', 'DESC');
+					'visit_number')->orderBy('id', 'DESC');
+					//->whereNull('deleted_at')->orderBy('id', 'DESC');
 					break;
 			case 'dpc':
 				$prov_arr = self::getProvCodeByRegion($user_region);

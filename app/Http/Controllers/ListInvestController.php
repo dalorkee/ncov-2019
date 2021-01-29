@@ -30,6 +30,13 @@ class ListInvestController extends Controller
 		return $dataTable->render('list-data.invest');
 	}
 
+	public function search(Request $request) {
+	$searchResults = (new Search())
+		->registerModel(InvestList::class, 'name')
+		->perform($request->input('query'));
+		return view('search', compact('searchResults'));
+	}
+
 	public function export() {
 		return Excel::download(new InvestExport, 'invest.csv');
 	}

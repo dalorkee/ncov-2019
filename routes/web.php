@@ -1,7 +1,30 @@
 <?php
-/* auth */
 Auth::routes();
-/* Role & Permission Manage */
+
+Route::get('/', function() {
+	return view('auth.login');
+});
+Route::get('/login', function() {
+	return view('auth.login');
+})->name('login');
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+/* By Pass Login */
+Route::get('/auth', array('as' => 'check-auth', 'uses' => 'Auth\LoginController@get_check_auth'));
+
+/* under construction */
+Route::group(['middleware' => 'under-construction'], function () {
+	Route::get('/live-site', function() {
+		echo 'content!';
+	})->name('live-site');
+});
+
+/* register */
+Route::get('/test', 'TestController@index');
+Route::get('/register', '\App\Http\Controllers\Auth\RegisterController@index')->name('register');
+Route::post('register', '\App\Http\Controllers\Auth\RegisterController@register')->name('register');
+Route::get('/getHospByProv', '\App\Http\Controllers\Auth\RegisterController@getHospByProv')->name('getHospByProv');
+
+
 Route::prefix('uacl')->group(function () {
 	Route::group(['middleware' => ['auth']], function() {
 		Route::resource('roles', 'RoleController');
@@ -10,120 +33,31 @@ Route::prefix('uacl')->group(function () {
 		Route::get('/search', 'UserController@search')->name('user.search');
 	});
 });
-/* Home */
-Route::get('/', function() {
-	return view('auth.login');
-});
-Route::get('/login', function() {
-	return view('auth.login');
-})->name('login');
 
 Route::group(['middleware' => ['auth']], function() {
-	//Route::get('/', 'HomeController@index');
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/main', 'HomeController@mainPage')->name('main');
 	Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-});
 
-Route::get('/test', 'TestController@index');
 
-/* register */
-Route::get('/register', '\App\Http\Controllers\Auth\RegisterController@index')->name('register');
-Route::post('register', '\App\Http\Controllers\Auth\RegisterController@register')->name('register');
-Route::get('/getHospByProv', '\App\Http\Controllers\Auth\RegisterController@getHospByProv')->name('getHospByProv');
+	//Route::resource('investSearch', 'InvestSearchController');
+	Route::get('/invest/search', 'InvestSearchController@index')->name('invest.search');
 
-/* Form */
-//Route::get('/confirmForm', 'ConfirmFormController@create')->name('confirmForm');
-Route::post('chConfirmStatus', 'ConfirmFormController@changeStatus')->name('chConfirmStatus');
-Route::post('chConfirmStatusServerSide', 'ConfirmFormController@changeStatusSeverSide')->name('chConfirmStatusServerSide');
-Route::post('changePtStatus', 'ConfirmFormController@changePtStatus')->name('changePtStatus');
-Route::post('changeNewsStatus', 'ConfirmFormController@changeNewsStatus')->name('changeNewsStatus');
-Route::post('changeDcStatus', 'ConfirmFormController@changeDcStatus')->name('changeDcStatus');
-Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
-Route::get('/screen-pui', array('as' => 'screenpui.create', 'uses' => 'ScreenPUIController@create'));
-Route::post('/screen-pui', array('as' => 'screenpui.store', 'uses' => 'ScreenPUIController@store'));
-Route::get('/screen-pui/edit/{id}', array('as' => 'screenpui.edit', 'uses' => 'ScreenPUIController@edit'));
-Route::post('/screen-pui/update/', array('as' => 'screenpui.update', 'uses' => 'ScreenPUIController@update'));
-Route::get('/del-screen-pui/{id}', array('as' => 'screenpui.delete', 'uses' => 'ScreenPUIController@destroy'));
-Route::post('/ListHosp', array('as' => 'screenpui.fetchHos', 'uses' => 'ScreenPUIController@Sat_FetcHos'));
-Route::get('/sat-delete/{id}', array('as' => 'screenpui.satdel', 'uses' => 'ScreenPUIController@Delete_Sat'));
-Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
-Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
-//Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
+	/* fetch district, fetch sub-district */
+	/* *** json *** */
+	Route::post('prov/dist', 'BoundaryController@renderDistrictToHtmlSelect')->name('render.district');
+	Route::post('prov/hosp', 'BoundaryController@renderHospToHtmlSelect')->name('render.hosp');
+	Route::post('prov/dist/sub-dist', 'BoundaryController@renderSubDistrictToHtmlSelect')->name('render.sub.district');
+	/* *** db *** */
+	Route::post('country/city', 'ConfirmFormController@cityFetch')->name('cityFetch');
+	Route::post('province/district', 'ConfirmFormController@districtFetch')->name('districtFetch');
+	Route::post('province/district/sub-district', 'ConfirmFormController@subDistrictFetch')->name('subDistrictFetch');
+	Route::post('hospitalFetch', 'InvestController@hospitalFetch')->name('hospitalFetch');
+	Route::post('hospital/fetch/hospital', 'InvestController@hospitalFetchByDistrict2Digit')->name('hospitalFetchByDistrict2Digit');
+	Route::post('hospital/refer/store', 'InvestController@storeReferOut')->name('store.refer');
 
-/*List the data older version */
-Route::get('/satt/list', 'InvestListController@satListData')->name('satList');
-Route::resource('investList', 'InvestListController');
+	Route::resource('hospital', 'HospitalController');
 
-/* fetch district, fetch sub-district */
-/* json */
-Route::post('prov/dist', 'BoundaryController@renderDistrictToHtmlSelect')->name('render.district');
-Route::post('prov/hosp', 'BoundaryController@renderHospToHtmlSelect')->name('render.hosp');
-Route::post('prov/dist/sub-dist', 'BoundaryController@renderSubDistrictToHtmlSelect')->name('render.sub.district');
-
-/* db */
-Route::post('country/city', 'ConfirmFormController@cityFetch')->name('cityFetch');
-Route::post('province/district', 'ConfirmFormController@districtFetch')->name('districtFetch');
-Route::post('province/district/sub-district', 'ConfirmFormController@subDistrictFetch')->name('subDistrictFetch');
-Route::post('hospitalFetch', 'InvestController@hospitalFetch')->name('hospitalFetch');
-Route::post('hospital/fetch/hospital', 'InvestController@hospitalFetchByDistrict2Digit')->name('hospitalFetchByDistrict2Digit');
-Route::post('hospital/refer/store', 'InvestController@storeReferOut')->name('store.refer');
-
-/* Contact */
-Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
-Route::get('/detailcontact/contact_id/{contact_id}', 'ContactController@detailcontact')->name('detailcontact');
-Route::get('/contacttable/id/{id}', 'ContactController@contacttable')->name('contacttable');
-Route::get('/deletecontact/id/{id}', 'ContactController@deletecontact')->name('deletecontact');
-Route::get('/followuptablespui/typid/{typid}/id/{id}', 'ContactController@followuptablespui')->name('followuptablespui');
-Route::get('/followuptablescon/typid/{typid}/id/{id}', 'ContactController@followuptablescon')->name('followuptablescon');
-
-Route::get('/puifollowtable', 'ContactController@puifollowtable')->name('puifollowtable');
-Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
-Route::get('/contact/list', 'ListContactController@index')->name('list-data.contact');
-Route::post('ch-status-con', 'ListContactController@chStatus')->name('ch-status-con');
-Route::get('/colab/send/{id}', 'ListContactController@colabSend')->name('colab.send');
-Route::get('/colab/result/{id}', 'ListContactController@colabResult')->name('colab.result');
-
-Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
-Route::get('/allcontacttable', 'ContactController@allcontacttable')->name('allcontacttable');
-// Route::get('/editcontact/pui_id/{pui_id}/contact_rid/{contact_rid}', 'ContactController@editcontact')->name('editcontact');
-Route::get('/editcontact/id/{id}', 'ContactController@editcontact')->name('editcontact');
-Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetch');
-Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
-Route::post('/addcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
-Route::get('/followup/typid/{typid}/id/{id}', 'ContactController@followup')->name('followup');
-
-Route::get('/addfollowuppui/typid/{typid}/id/{id}', 'ContactController@addfollowuppui')->name('addfollowuppui');
-Route::get('/addfollowupcon/typid/{typid}/id/{id}', 'ContactController@addfollowupcon')->name('addfollowupcon');
-
-Route::post('/followup/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
-Route::post('/followupinsert', 'ContactController@followupinsert')->name('followupinsert');
-Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
-Route::post('/contactedit', 'ContactController@contactedit')->name('contactedit');
-Route::post('/contact_st_update', 'ContactController@contactstupdate')->name('contact_st_update');
-Route::post('/allcontactstupdate', 'ContactController@allcontactstupdate')->name('allcontactstupdate');
-
-route::get('contactexport/id/{id}', 'ExportContactController@export')->name('contactexport');
-
-/* excel download */
-route::post('satexport', 'ExportSATController@satexport')->name('satexport');
-
-//Route::get('/allexport', 'ExportExcelController@alltableexport')->name('allexport');
-Route::get('/allcontactexport', 'ExportContactController@allcontactexport')->name('allcontactexport');
-
-Route::post('/exportcontactbyday', 'ExportContactbyDayController@exportcontactbyday')->name('exportcontactbyday');
-/* Logout */
-Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
-
-/* Route to under construction page */
-Route::group(['middleware' => 'under-construction'], function () {
-	Route::get('/live-site', function() {
-		echo 'content!';
-	})->name('live-site');
-});
-
-/* list-data => datatable */
-Route::group(['middleware' => ['auth']], function() {
 	/* screen url */
 	Route::get('/pui/screen', function () {
 		$url = 'http://viral.ddc.moph.go.th/viral/screen-hosp/index.php';
@@ -182,26 +116,66 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/risk/place', function() {
 		return view('external.riskPlace');
 	})->name('risk.place');
+
+	/*List the data older version */
+	/*Route::get('/satt/list', 'InvestListController@satListData')->name('satList');
+	Route::resource('investList', 'InvestListController');*/
 });
 
-/* DashBoardGraph */
-/*
-Route::prefix('dashboardgraph')->group(function () {
-	Route::group(['middleware' => ['auth']], function() {
-		Route::get('/', array('as' => 'dashboardgraph.index', 'uses' => 'DashboardGraphController@index'));
-	});
-});
+/* Form */
+Route::post('chConfirmStatus', 'ConfirmFormController@changeStatus')->name('chConfirmStatus');
+Route::post('chConfirmStatusServerSide', 'ConfirmFormController@changeStatusSeverSide')->name('chConfirmStatusServerSide');
+Route::post('changePtStatus', 'ConfirmFormController@changePtStatus')->name('changePtStatus');
+Route::post('changeNewsStatus', 'ConfirmFormController@changeNewsStatus')->name('changeNewsStatus');
+Route::post('changeDcStatus', 'ConfirmFormController@changeDcStatus')->name('changeDcStatus');
+Route::get('/verifyForm', 'VerifyFormController@create')->name('verifyForm');
+Route::get('/screen-pui', array('as' => 'screenpui.create', 'uses' => 'ScreenPUIController@create'));
+Route::post('/screen-pui', array('as' => 'screenpui.store', 'uses' => 'ScreenPUIController@store'));
+Route::get('/screen-pui/edit/{id}', array('as' => 'screenpui.edit', 'uses' => 'ScreenPUIController@edit'));
+Route::post('/screen-pui/update/', array('as' => 'screenpui.update', 'uses' => 'ScreenPUIController@update'));
+Route::get('/del-screen-pui/{id}', array('as' => 'screenpui.delete', 'uses' => 'ScreenPUIController@destroy'));
+Route::post('/ListHosp', array('as' => 'screenpui.fetchHos', 'uses' => 'ScreenPUIController@Sat_FetcHos'));
+Route::get('/sat-delete/{id}', array('as' => 'screenpui.satdel', 'uses' => 'ScreenPUIController@Delete_Sat'));
+Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmForm');
+Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
 
-*/
-Route::resource('hospital', 'HospitalController');
-Route::group(['middleware' => ['auth']], function() {
-	Route::get('/pjx', function() {
-		return view('export.invest');
-	});
-});
-Route::get('/testConn', function() {
-	return view('test.pj2');
-})->name('testConn');
+/* Contact */
+Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
+Route::get('/detailcontact/contact_id/{contact_id}', 'ContactController@detailcontact')->name('detailcontact');
+Route::get('/contacttable/id/{id}', 'ContactController@contacttable')->name('contacttable');
+Route::get('/deletecontact/id/{id}', 'ContactController@deletecontact')->name('deletecontact');
+Route::get('/followuptablespui/typid/{typid}/id/{id}', 'ContactController@followuptablespui')->name('followuptablespui');
+Route::get('/followuptablescon/typid/{typid}/id/{id}', 'ContactController@followuptablescon')->name('followuptablescon');
 
-/* By Pass Login */
-Route::get('/auth', array('as' => 'check-auth', 'uses' => 'Auth\LoginController@get_check_auth'));
+Route::get('/puifollowtable', 'ContactController@puifollowtable')->name('puifollowtable');
+Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name('contactfollowtable');
+Route::get('/contact/list', 'ListContactController@index')->name('list-data.contact');
+Route::post('ch-status-con', 'ListContactController@chStatus')->name('ch-status-con');
+Route::get('/colab/send/{id}', 'ListContactController@colabSend')->name('colab.send');
+Route::get('/colab/result/{id}', 'ListContactController@colabResult')->name('colab.result');
+
+Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
+Route::get('/allcontacttable', 'ContactController@allcontacttable')->name('allcontacttable');
+// Route::get('/editcontact/pui_id/{pui_id}/contact_rid/{contact_rid}', 'ContactController@editcontact')->name('editcontact');
+Route::get('/editcontact/id/{id}', 'ContactController@editcontact')->name('editcontact');
+Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetch');
+Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
+Route::post('/addcontact/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
+Route::get('/followup/typid/{typid}/id/{id}', 'ContactController@followup')->name('followup');
+
+Route::get('/addfollowuppui/typid/{typid}/id/{id}', 'ContactController@addfollowuppui')->name('addfollowuppui');
+Route::get('/addfollowupcon/typid/{typid}/id/{id}', 'ContactController@addfollowupcon')->name('addfollowupcon');
+
+Route::post('/followup/fetchos', 'ContactController@fetchos')->name('dropdown.fetchos');
+Route::post('/followupinsert', 'ContactController@followupinsert')->name('followupinsert');
+Route::post('/contactinsert', 'ContactController@contactinsert')->name('contactinsert');
+Route::post('/contactedit', 'ContactController@contactedit')->name('contactedit');
+Route::post('/contact_st_update', 'ContactController@contactstupdate')->name('contact_st_update');
+Route::post('/allcontactstupdate', 'ContactController@allcontactstupdate')->name('allcontactstupdate');
+
+route::get('contactexport/id/{id}', 'ExportContactController@export')->name('contactexport');
+
+/* excel download */
+route::post('satexport', 'ExportSATController@satexport')->name('satexport');
+Route::get('/allcontactexport', 'ExportContactController@allcontactexport')->name('allcontactexport');
+Route::post('/exportcontactbyday', 'ExportContactbyDayController@exportcontactbyday')->name('exportcontactbyday');

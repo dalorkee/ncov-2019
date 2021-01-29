@@ -2,11 +2,12 @@
 	<nav class="navbar top-navbar navbar-expand-md navbar-dark">
 		<div class="navbar-header" data-logobg="skin5">
 			<a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
-			<a class="navbar-brand" href="#">
+			<a class="navbar-brand" href="#" style="position:relative;">
 				<b class="logo-icon p-l-10">
 					<img src="{{ URL::asset('assets/images/small-moph-logo.png') }}" alt="BOE" class="light-logo" style="width:95%;">
 				</b>
 				<span class="logo-text text-white">COVID-19</span>
+				<span class="logo-text font-fira" style="position:absolute;top:18px;left:76px;font-size:10px;color:#b0b0b0;">V 1.0.1</span>
 			</a>
 			<a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="ti-more"></i></a>
 		</div>
