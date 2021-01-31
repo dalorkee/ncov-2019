@@ -152,7 +152,6 @@ Route::get('/contactfollowtable', 'ContactController@contactfollowtable')->name(
 Route::get('/contact/list', 'ListContactController@index')->name('list-data.contact');
 Route::post('ch-status-con', 'ListContactController@chStatus')->name('ch-status-con');
 Route::get('/colab/sendcontact/{id}', 'ListContactController@colabSend')->name('colab.sendcontact');
-Route::get('/colab/result/{id}', 'ListContactController@colabResult')->name('colab.result');
 
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
 Route::get('/allcontacttable', 'ContactController@allcontacttable')->name('allcontacttable');
