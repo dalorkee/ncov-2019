@@ -236,7 +236,7 @@ class ListContactDataTable  extends DataTable
 			// ->where('pt_status',"!=" , "2")
 			// ->where('pt_status','!=',"2")
 			->whereNull('deleted_at')
-			->orderBy('id');
+			->orderByDesc('id');
 			break;
 			case 'ddc':
 				$contact = ContactList::select(
@@ -255,7 +255,7 @@ class ListContactDataTable  extends DataTable
 					)
 					// ->where('pt_status',"!=" , "2")
 					->whereNull('deleted_at')
-					->orderBy('id');
+					->orderByDesc('id');
 
 					break;
 					case 'dpc':
@@ -276,7 +276,7 @@ class ListContactDataTable  extends DataTable
 							// ->where('pt_status',"!=" , "2")
 							// ->wherein('province',$uid_chosbyregion)
 							->whereNull('deleted_at')
-							->orderBy('id');
+							->orderByDesc('id');
 
 							break;
 							case 'pho':
@@ -296,11 +296,11 @@ class ListContactDataTable  extends DataTable
 									)
 									->where('province', $user_prov)
 									->whereNull('deleted_at')
-									->orderBy('id');
+									->orderByDesc('id');
 
 									break;
 
-									
+
 									case 'hos':
 										$contact = ContactList::select(
 											'id',
@@ -318,7 +318,7 @@ class ListContactDataTable  extends DataTable
 											)
 											->where('province', $user_prov)
 											->whereNull('deleted_at')
-											->orderBy('id');
+											->orderByDesc('id');
 
 											break;
 			default:
