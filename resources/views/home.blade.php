@@ -71,6 +71,14 @@
 										<a href="#!">Fixed bug Colab ไม่สามารถดูผลการส่งได้</a>
 									</div>
 								</div>
+								<div class="row m-b-30 align-items-center">
+									<div class="col-auto p-r-0">
+										<span class="badge badge-warning">E</span>
+									</div>
+									<div class="col">
+										<a href="#!">เรียงลำดับ Contact List จากลำดับหลังสุดนำมาแสดงผลก่อน</a>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="card feed-card font-fira">
