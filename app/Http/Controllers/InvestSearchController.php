@@ -38,7 +38,7 @@ class InvestSearchController extends Controller
 					if (strlen($search) <= 0) {
 						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->orderBy('id', 'ASC')->paginate(15);
 					} else {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')->orderBy('id', 'ASC')->paginate(15);
+						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')->orderBy('id', 'DESC')->paginate(15);
 						$data->appends(['str_search' => $search]);
 					}
 					break;
@@ -46,7 +46,7 @@ class InvestSearchController extends Controller
 					if (strlen($search) <= 0) {
 						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->orderBy('id', 'ASC')->paginate(15);
 					} else {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')->orderBy('id', 'ASC')->paginate(15);
+						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')->orderBy('id', 'DESC')->paginate(15);
 						$data->appends(['str_search' => $search]);
 					}
 					break;
@@ -56,11 +56,11 @@ class InvestSearchController extends Controller
 					if (strlen($search) <= 0) {
 						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')
 						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
-						->orderBy('id', 'ASC')->paginate(15);
+						->orderBy('id', 'DESC')->paginate(15);
 					} else {
 						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')
 						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
-						->orderBy('id', 'ASC')->paginate(15);
+						->orderBy('id', 'DESC')->paginate(15);
 						$data->appends(['str_search' => $search]);
 					}
 					break;
@@ -68,11 +68,11 @@ class InvestSearchController extends Controller
 					if (strlen($search) <= 0) {
 						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')
 						->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
-						->orderBy('id', 'ASC')->paginate(15);
+						->orderBy('id', 'DESC')->paginate(15);
 					} else {
 						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')
 						->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
-						->orderBy('id', 'ASC')->paginate(15);
+						->orderBy('id', 'DESC')->paginate(15);
 						$data->appends(['str_search' => $search]);
 					}
 					break;
@@ -80,11 +80,11 @@ class InvestSearchController extends Controller
 					if (strlen($search) <= 0) {
 						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')
 						->whereRaw('(isolated_hosp_code = '.$user_hosp.' OR walkinplace_hosp_code = '.$user_hosp.' OR treat_first_hospital = '.$user_hosp. ' OR treat_place_hospital = '.$user_hosp.')')
-						->orderBy('id', 'ASC')->paginate(15);
+						->orderBy('id', 'DESC')->paginate(15);
 					} else {
 						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')
 						->whereRaw('(isolated_hosp_code = '.$user_hosp.' OR walkinplace_hosp_code = '.$user_hosp.' OR treat_first_hospital = '.$user_hosp. ' OR treat_place_hospital = '.$user_hosp.')')
-						->orderBy('id', 'ASC')->paginate(15);
+						->orderBy('id', 'DESC')->paginate(15);
 						$data->appends(['str_search' => $search]);
 					}
 					break;
