@@ -36,7 +36,7 @@ class InvestSearchController extends Controller
 			switch ($user_role[0]) {
 				case 'root':
 					if (strlen($search) <= 0) {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->orderBy('id', 'ASC')->paginate(15);
+						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->orderBy('id', 'DESC')->paginate(15);
 					} else {
 						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')->orderBy('id', 'DESC')->paginate(15);
 						$data->appends(['str_search' => $search]);
@@ -44,7 +44,7 @@ class InvestSearchController extends Controller
 					break;
 				case 'ddc':
 					if (strlen($search) <= 0) {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->orderBy('id', 'ASC')->paginate(15);
+						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->orderBy('id', 'DESC')->paginate(15);
 					} else {
 						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')->orderBy('id', 'DESC')->paginate(15);
 						$data->appends(['str_search' => $search]);
