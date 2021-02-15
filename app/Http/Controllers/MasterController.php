@@ -50,7 +50,7 @@ class MasterController extends Controller
 				4 => 'State Quarantine (SQ)',
 				5 => 'Active Case Finding',
 				6 => 'Sentinel Surveillance',
-				7 => 'คัดกรอกก่อนทำหัตถการ',
+				7 => 'คัดกรองก่อนทำหัตถการ',
 				8 => 'PUI Walkin มาที่ รพ.',
 				9 => 'IHR',
 				10 => 'Local Quarantine (LQ)',
