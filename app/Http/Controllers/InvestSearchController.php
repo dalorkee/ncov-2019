@@ -32,68 +32,86 @@ class InvestSearchController extends Controller
 			$user_prov = $user->prov_code;
 			$user_zone_id = self::getZoneIdFromProvince($user->prov_code);
 			$user_role = $user->roles->pluck('name')->all();
-			$search =  $request->input('str_search');
-			switch ($user_role[0]) {
-				case 'root':
-					if (strlen($search) <= 0) {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->orderBy('id', 'DESC')->paginate(15);
-					} else {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')->orderBy('id', 'DESC')->paginate(15);
-						$data->appends(['str_search' => $search]);
+
+			$condition_method =  $request->condition_method ?? '0';
+			$search =  $request->str_search ?? null;
+
+			if ($condition_method == '0') {
+				switch ($user_role[0]) {
+					case 'root':
+					case 'ddc':
+						$data = InvestSearch::select('id', 'sat_id', 'passport', 'first_name', 'mid_name', 'last_name')->orderBy('id', 'DESC')->paginate(15);
+						break;
+					case 'dpc':
+						$prov_arr = self::getProvCodeByRegion($user_zone_id);
+						$prov_str = self::arrayToString($prov_arr);
+						$data = InvestSearch::select('id', 'sat_id', 'passport', 'first_name', 'mid_name', 'last_name')
+							->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
+							->orderBy('id', 'DESC')->paginate(15);
+						break;
+					case 'pho':
+						$data = InvestSearch::select('id', 'sat_id', 'passport', 'first_name', 'mid_name', 'last_name')
+							->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
+							->orderBy('id', 'DESC')->paginate(15);
+						break;
+					case 'hos':
+						$data = InvestSearch::select('id', 'passport', 'sat_id', 'first_name', 'mid_name', 'last_name')
+							->whereRaw('(isolated_hosp_code = '.$user_hosp.' OR walkinplace_hosp_code = '.$user_hosp.' OR treat_first_hospital = '.$user_hosp. ' OR treat_place_hospital = '.$user_hosp.')')
+							->orderBy('id', 'DESC')->paginate(15);
+						break;
+					default:
+						return redirect()->route('logout');
+						break;
+				}
+				return view('list-data.search', compact('data'))->with('i', ($request->input('page', 1) - 1) * 10);
+			} elseif ($condition_method == '1' || $condition_method == '2') {
+				if (strlen($search) <= 0) {
+					return redirect()->back()->with('warning', 'โปรดกรอกข้อความที่ต้องการค้นหา');
+				} else {
+					switch ($condition_method) {
+						case '1':
+							$field_name = 'sat_id';
+							break;
+						case '2':
+							$field_name = 'passport';
+							break;
+						default:
+							return redirect()->route('logout');
+							break;
 					}
-					break;
-				case 'ddc':
-					if (strlen($search) <= 0) {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->orderBy('id', 'DESC')->paginate(15);
-					} else {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')->orderBy('id', 'DESC')->paginate(15);
-						$data->appends(['str_search' => $search]);
+					switch ($user_role[0]) {
+						case 'root':
+						case 'ddc':
+							$data = InvestSearch::select('id', 'sat_id', 'passport', 'first_name', 'mid_name', 'last_name')->where($field_name, 'like', '%'.$search.'%')->orderBy('id', 'DESC')->paginate(15);
+							$data->appends(['str_search' => $search]);
+							break;
+						case 'dpc':
+							$prov_arr = self::getProvCodeByRegion($user_zone_id);
+							$prov_str = self::arrayToString($prov_arr);
+							$data = InvestSearch::select('id', 'sat_id', 'passport', 'first_name', 'mid_name', 'last_name')->where($field_name, 'like', '%'.$search.'%')
+								->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
+								->orderBy('id', 'DESC')->paginate(15);
+							$data->appends(['str_search' => $search]);
+							break;
+						case 'pho':
+							$data = InvestSearch::select('id', 'sat_id', 'passport', 'first_name', 'mid_name', 'last_name')->where($field_name, 'like', '%'.$search.'%')
+								->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
+								->orderBy('id', 'DESC')->paginate(15);
+							$data->appends(['str_search' => $search]);
+							break;
+						case 'hos':
+							$data = InvestSearch::select('id', 'sat_id', 'passport', 'first_name', 'mid_name', 'last_name')->where($field_name, 'like', '%'.$search.'%')
+								->whereRaw('(isolated_hosp_code = '.$user_hosp.' OR walkinplace_hosp_code = '.$user_hosp.' OR treat_first_hospital = '.$user_hosp. ' OR treat_place_hospital = '.$user_hosp.')')
+								->orderBy('id', 'DESC')->paginate(15);
+							$data->appends(['str_search' => $search]);
+							break;
+						default:
+							return redirect()->route('logout');
+							break;
 					}
-					break;
-				case 'dpc':
-					$prov_arr = self::getProvCodeByRegion($user_zone_id);
-					$prov_str = self::arrayToString($prov_arr);
-					if (strlen($search) <= 0) {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')
-						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
-						->orderBy('id', 'DESC')->paginate(15);
-					} else {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')
-						->whereRaw("(isolated_province IN(".$prov_str.") OR walkinplace_hosp_province IN(".$prov_str.") OR sick_province_first IN(".$prov_str.") OR treat_place_province IN(".$prov_str."))")
-						->orderBy('id', 'DESC')->paginate(15);
-						$data->appends(['str_search' => $search]);
-					}
-					break;
-				case 'pho':
-					if (strlen($search) <= 0) {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')
-						->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
-						->orderBy('id', 'DESC')->paginate(15);
-					} else {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')
-						->whereRaw('(isolated_province = '.$user_prov.' OR walkinplace_hosp_province = '.$user_prov.' OR sick_province_first = '.$user_prov.' OR treat_place_province = '.$user_prov.')')
-						->orderBy('id', 'DESC')->paginate(15);
-						$data->appends(['str_search' => $search]);
-					}
-					break;
-				case 'hos':
-					if (strlen($search) <= 0) {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')
-						->whereRaw('(isolated_hosp_code = '.$user_hosp.' OR walkinplace_hosp_code = '.$user_hosp.' OR treat_first_hospital = '.$user_hosp. ' OR treat_place_hospital = '.$user_hosp.')')
-						->orderBy('id', 'DESC')->paginate(15);
-					} else {
-						$data = InvestSearch::select('id', 'sat_id', 'first_name', 'mid_name', 'last_name')->where('sat_id', 'like', '%'.$search.'%')
-						->whereRaw('(isolated_hosp_code = '.$user_hosp.' OR walkinplace_hosp_code = '.$user_hosp.' OR treat_first_hospital = '.$user_hosp. ' OR treat_place_hospital = '.$user_hosp.')')
-						->orderBy('id', 'DESC')->paginate(15);
-						$data->appends(['str_search' => $search]);
-					}
-					break;
-				default:
-					return redirect()->route('/logout');
-					break;
+					return view('list-data.search', compact('data'))->with('i', ($request->input('page', 1) - 1) * 10);
+				}
 			}
-			//return View('list-data.search')->with('data', $data);
-			return view('list-data.search', compact('data'))->with('i', ($request->input('page', 1) - 1) * 10);
 		} catch (Exception $e) {
 			Log::error($e->getMessage());
 		}

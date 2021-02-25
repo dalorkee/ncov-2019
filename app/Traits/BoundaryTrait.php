@@ -198,11 +198,16 @@ trait BoundaryTrait {
 	public function queryToJson() {
 		$x = Provinces::select('province_id')->get()->keyBy('province_id')->toArray();
 		foreach ($x as $key => $value) {
-			$data = Hospitals::select('hospcode', 'hosp_name', 'hosp_type_code', 'status_code', 'prov_code', 'ampur_code', 'tambol_code', 'phone', 'region')->where('prov_code', $key)->get()->toJson();
+			$data = Hospitals::select('hospcode', 'hosp_name', 'hosp_type_code', 'status_code', 'prov_code', 'ampur_code', 'tambol_code', 'phone', 'region')
+				->where('prov_code', $key)
+				->whereNotIn('hosp_type_code', ['03', '16', '18'])
+				->get()
+				->toJson();
 			$filename = 'hosp_prov_'.$key.'.json';
 			Storage::disk('json')->put($filename, $data);
 		}
 	}
 	*/
+
 }
 ?>
