@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('admindek/css/waves.min.css') }}" media="all">
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('admindek/css/feather.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('admindek/css/style.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('admindek/css/sweetalert.css') }}">
 @endsection
 @section('contents')
 <div class="page-breadcrumb bg-light">
@@ -199,10 +200,35 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal hide fade in" id="notic" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-danger">
+					<h4 class="modal-title"><i class="fa fa-exclamation-triangle"></i> ประกาศ</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>เนื่องจากระบบ COLAB อยู่ระหว่างการเปลี่ยน Version อาจทำให้การส่งข้อมูลทางห้องปฏิบัติการ (Lab) จากระบบ DDC Covid-19 ไปยังระบบ COLAB มีอุปสรรคได้</p>
+					<p class="text-danger">*** ถ้ามีข้อสงสัยในการส่งข้อมูล โปรดติดต่อทีมงาน COLAB</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">ปิด</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 @endsection
 @section('bottom-script')
 <script type="text/javascript" src="{{ URL::asset('admindek/js/waves.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('admindek/js/accordion.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('admindek/js/script.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('admindek/js/sweetalert.min.js') }}"></script>
+<script type="text/javascript">
+	$(window).on('load', function() {
+		$('#notic').modal('show');
+	});
+</script>
 @endsection
