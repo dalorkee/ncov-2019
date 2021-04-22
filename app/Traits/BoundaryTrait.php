@@ -215,8 +215,8 @@ trait BoundaryTrait {
 			->whereNotIn('hosp_type_code', ['03', '16', '18'])
 			->get()
 			->toJson();
-		$filename = 'hosp_prov_'.$prov_id.'.json';
-		Storage::disk('json')->put($filename, $data);
+			$filename = 'hosp_prov_'.$prov_id.'.json';
+			Storage::disk('json')->put($filename, $data);
 	}
 */
 }
