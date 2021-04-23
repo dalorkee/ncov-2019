@@ -194,7 +194,7 @@ trait BoundaryTrait {
 	}
 	*/
 
-
+/*
 	public function queryToJson() {
 		$x = Provinces::select('province_id')->get()->keyBy('province_id')->toArray();
 		foreach ($x as $key => $value) {
@@ -207,7 +207,7 @@ trait BoundaryTrait {
 			Storage::disk('json')->put($filename, $data);
 		}
 	}
-
+*/
 /*
 	public function queryHospToJsonByProv($prov_id=null) {
 		$data = Hospitals::select('hospcode', 'hosp_name', 'hosp_type_code', 'status_code', 'prov_code', 'ampur_code', 'tambol_code', 'phone', 'region')

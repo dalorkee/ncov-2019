@@ -31,8 +31,8 @@ class UserController extends Controller
 
 	public function index(Request $request) {
 		try {
-			$this->queryToJson();
-			exit;
+			//$this->queryToJson();
+			//exit;
 			$user = Auth::user();
 			$direct_username = self::directAllowCreateNewUserTo();
 			$search =  $request->input('usr_search');
