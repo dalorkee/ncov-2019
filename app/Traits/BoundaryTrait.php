@@ -200,7 +200,7 @@ trait BoundaryTrait {
 		foreach ($x as $key => $value) {
 			$data = Hospitals::select('hospcode', 'hosp_name', 'hosp_type_code', 'status_code', 'prov_code', 'ampur_code', 'tambol_code', 'phone', 'region')
 				->where('prov_code', $key)
-				->whereNotIn('hosp_type_code', ['03', '16', '18'])
+				->whereNotIn('hosp_type_code', ['03', '18'])
 				->get()
 				->toJson();
 			$filename = 'hosp_prov_'.$key.'.json';
