@@ -44,6 +44,40 @@
 
 						<div class="card feed-card font-fira">
 							<div class="card-header">
+								<h5 class="font-fira">APRIL 26, 2021</h5>
+								<div class="card-header-right">
+									<ul class="list-unstyled card-option">
+										<li class="first-opt"><i class="feather icon-chevron-left open-card-option"></i></li>
+										<li><i class="feather icon-maximize full-card"></i></li>
+										<li><i class="feather icon-minus minimize-card"></i></li>
+										<li><i class="feather icon-refresh-cw reload-card"></i></li>
+										<li><i class="feather icon-trash close-card"></i></li>
+										<li><i class="feather icon-chevron-left open-card-option"></i></li>
+									</ul>
+								</div>
+							</div>
+							<div class="card-block font-fira">
+								<div class="row m-b-30 align-items-center">
+									<div class="col-auto p-r-0">
+										<span class="badge badge-success">N</span>
+									</div>
+									<div class="col">
+										<a href="#!">เพิ่มเมนูหลัก (Mange) สำหรับ Admin</a>
+									</div>
+								</div>
+								<div class="row m-b-30 align-items-center">
+									<div class="col-auto p-r-0">
+										<span class="badge badge-success">N</span>
+									</div>
+									<div class="col">
+										<a href="#!">เพิ่มหน้าสำหรับเพิ่มโรงพยาบาลใหม่ ในกรณีที่ยังไม่มีโรงพยาบาลในฐานข้อมูล DDC Covid</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="card feed-card font-fira">
+							<div class="card-header">
 								<h5 class="font-fira">FEBRUARY 25, 2021</h5>
 								<div class="card-header-right">
 									<ul class="list-unstyled card-option">

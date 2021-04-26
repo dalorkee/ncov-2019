@@ -31,12 +31,12 @@ $(document).ready(function() {
 <div class="page-breadcrumb bg-light">
 	<div class="row">
 		<div class="col-12 d-flex no-block align-items-center">
-			<h4 class="page-title"><span style="display:none;">Invest Search</span></h4>
+			<h4 class="page-title"><span style="display:none;">เพิ่มโรงพยาบาลใหม่</span></h4>
 			<div class="ml-auto text-right">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Data</a></li>
-						<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('list-data.invest') }}">Search</a></li>
+						<li class="breadcrumb-item"><a href="#">Create</a></li>
+						<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.createHospToJsonFrm') }}">Hospital</a></li>
 					</ol>
 				</nav>
 			</div>
@@ -90,7 +90,7 @@ $(document).ready(function() {
 				<div class="form-group">
 					<label>&nbsp;</label>
 					<div class="input-group">
-						<button type="submit" class="btn btn-primary">Create JSON</button>
+						<button type="submit" class="btn btn-primary">Create New Hospital</button>
 					</div>
 				</div>
 			</div>
