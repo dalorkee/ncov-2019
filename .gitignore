@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /public/files
+/public/json
 /public/exports
 /public/tmp
 /storage/*.key

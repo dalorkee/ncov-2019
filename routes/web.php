@@ -36,9 +36,10 @@ Route::prefix('uacl')->group(function () {
 
 Route::group(['middleware' => ['auth']], function() {
 	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/admin/hosp/to/json', 'AdminController@createHospToJsonFrm')->name('admin.createHospToJsonFrm');
+	Route::post('/admin/create/hosp/to/json', 'AdminController@createHospToJson')->name('admin.createHospToJson');
 	Route::get('/main', 'HomeController@mainPage')->name('main');
 	Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-
 
 	//Route::resource('investSearch', 'InvestSearchController');
 	Route::get('/invest/search', 'InvestSearchController@index')->name('invest.search');
@@ -56,7 +57,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::post('hospital/fetch/hospital', 'InvestController@hospitalFetchByDistrict2Digit')->name('hospitalFetchByDistrict2Digit');
 	Route::post('hospital/refer/store', 'InvestController@storeReferOut')->name('store.refer');
 
-	Route::resource('hospital', 'HospitalController');
+
 
 	/* screen url */
 	Route::get('/pui/screen', function () {

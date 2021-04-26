@@ -38,8 +38,8 @@ $url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig="
 				@role('root|ddc')
 				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(1)" aria-expanded="false"><i class="far fa-map"></i><span class="hide-menu">&nbsp;&nbsp;Maps </span></a>
 					<ul aria-expanded="false" class="collapse first-level">
-						<li class="sidebar-item"><a href="{{ route('maps.circle') }}" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> Circle</span></a></li>
-						<li class="sidebar-item"><a href="{{ route('maps.doughnut') }}" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> Doughnut</span></a></li>
+						<li class="sidebar-item"><a href="'maps.circle'" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> Circle</span></a></li>
+						<li class="sidebar-item"><a href="'maps.doughnut'" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> Doughnut</span></a></li>
 					</ul>
 				</li>
 				@endrole
@@ -51,6 +51,13 @@ $url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig="
 						<li class="sidebar-item"><a href="{{ route('roles.index') }}" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> Role List</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('permissions.index') }}" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> Permission List</span></a></li>
 						@endrole
+					</ul>
+				</li>
+				@endrole
+				@role('root|ddc')
+				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(1)" aria-expanded="false"><i class="far fa-map"></i><span class="hide-menu">&nbsp;&nbsp;Manage </span></a>
+					<ul aria-expanded="false" class="collapse first-level">
+						<li class="sidebar-item"><a href="{{ route('admin.createHospToJsonFrm') }}" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> New Hosp</span></a></li>
 					</ul>
 				</li>
 				@endrole

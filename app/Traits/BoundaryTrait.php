@@ -208,14 +208,18 @@ trait BoundaryTrait {
 		}
 	}
 */
-	public function queryHospToJsonByProv($prov_id=null) {
-		$data = Hospitals::select('hospcode', 'hosp_name', 'hosp_type_code', 'status_code', 'prov_code', 'ampur_code', 'tambol_code', 'phone', 'region')
-			->where('prov_code', $prov_id)
-			->whereNotIn('hosp_type_code', ['03', '18'])
-			->get()
-			->toJson();
+	public function queryHospToJsonByProv($prov_id=0) {
+		try {
+			$data = Hospitals::select('hospcode', 'hosp_name', 'hosp_type_code', 'status_code', 'prov_code', 'ampur_code', 'tambol_code', 'phone', 'region')
+				->where('prov_code', $prov_id)
+				->whereNotIn('hosp_type_code', ['03', '18'])
+				->get()
+				->toJson();
 			$filename = 'hosp_prov_'.$prov_id.'.json';
-			Storage::disk('json')->put($filename, $data);
+			return Storage::disk('json')->put($filename, $data);
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
 	}
 }
 ?>
