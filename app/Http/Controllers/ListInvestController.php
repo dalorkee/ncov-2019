@@ -632,6 +632,8 @@ class ListInvestController extends Controller
 
 	public function colabSend(Request $request) {
 		try {
+			return redirect('/logout');
+			exit;
 			$data = InvestList::select('id', 'sat_id', 'card_id', 'passport', 'hn', 'mobile', 'pt_status')->where('id', '=', $request->id)->get();
 			$username = self::addHyphen(auth()->user()->username);
 			$firstname = self::addHyphen(auth()->user()->name);
@@ -723,6 +725,8 @@ class ListInvestController extends Controller
 
 	public function colabResult(Request $request) {
 		try {
+			return redirect('/logout');
+			exit;
 			$data = InvestList::select('id', 'sat_id', 'card_id', 'passport', 'hn', 'mobile', 'pt_status')->where('id', '=', $request->id)->get();
 			$username = self::addHyphen(auth()->user()->username);
 			$firstname = self::addHyphen(auth()->user()->name);

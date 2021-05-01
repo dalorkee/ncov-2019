@@ -44,6 +44,40 @@
 
 						<div class="card feed-card font-fira">
 							<div class="card-header">
+								<h5 class="font-fira">MAY 01, 2021</h5>
+								<div class="card-header-right">
+									<ul class="list-unstyled card-option">
+										<li class="first-opt"><i class="feather icon-chevron-left open-card-option"></i></li>
+										<li><i class="feather icon-maximize full-card"></i></li>
+										<li><i class="feather icon-minus minimize-card"></i></li>
+										<li><i class="feather icon-refresh-cw reload-card"></i></li>
+										<li><i class="feather icon-trash close-card"></i></li>
+										<li><i class="feather icon-chevron-left open-card-option"></i></li>
+									</ul>
+								</div>
+							</div>
+							<div class="card-block font-fira">
+								<div class="row m-b-30 align-items-center">
+									<div class="col-auto p-r-0">
+										<span class="badge badge-warning">E</span>
+									</div>
+									<div class="col">
+										<a href="#!">ยกเลิกการส่งข้อมูลไปยังระบบ COLAB Version 1.0</a>
+									</div>
+								</div>
+								<div class="row m-b-30 align-items-center">
+									<div class="col-auto p-r-0">
+										<span class="badge badge-warning">E</span>
+									</div>
+									<div class="col">
+										<a href="#!">ยกเลิกการดูข้อมูลจากระบบ COLAB Version 1.0</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="card feed-card font-fira">
+							<div class="card-header">
 								<h5 class="font-fira">APRIL 26, 2021</h5>
 								<div class="card-header-right">
 									<ul class="list-unstyled card-option">
@@ -244,8 +278,14 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>เนื่องจากระบบ COLAB อยู่ระหว่างการเปลี่ยน Version อาจทำให้การส่งข้อมูลทางห้องปฏิบัติการ (Lab) จากระบบ DDC Covid-19 ไปยังระบบ COLAB มีอุปสรรคได้</p>
-					<p class="text-danger">*** ถ้ามีข้อสงสัยในการส่งข้อมูล โปรดติดต่อทีมงาน COLAB</p>
+					<div class="border-bottom">
+						<p>แจ้งปิดปรับปรุงระบบ DDC Covid-19 ตั้งแต่วันที่ 1 พฤษภาคม 2564 เวลา 23.00 น. - 02 พฤษภาคม 2564 10.00 น.</span></p>
+						<p class="text-primary">*** ขออภัยในความไม่สะดวก</p>
+					</div>
+					<div style="margin-top: 10px;">
+						<p>เนื่องจากระบบ COLAB อยู่ระหว่างการเปลี่ยน Version ระบบ DDC COVID-19 <span class="text-danger">ขอยกเลิกบริการส่งข้อมูลทางห้องปฏิบัติการ (Lab) จากระบบ DDC Covid-19 ไปยังระบบ COLAB ตั้งแต่วันที่ 1 พฤษภาคม 2564 เป็นต้นไป</span></p>
+						<p class="text-primary">*** ถ้ามีข้อสงสัยในการส่งข้อมูล โปรดติดต่อทีมงาน COLAB</p>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-danger waves-effect " data-dismiss="modal">ปิด</button>

@@ -177,16 +177,18 @@ $(document).ready(function() {
 			var id = $(this).data('id');
 			var satid = $(this).data('satid');
 			switch (key) {
+				/*
 				case 'labSendColab':
-					let labSendUrl = '{{ route('colab.send', ':id') }}';
+					let labSendUrl = '{ route('colab.send', ':id') }}';
 					labSendUrl = labSendUrl.replace(':id', id);
 					window.open(labSendUrl, '_self');
 					break;
 				case 'labResultColab':
-					let labResultUrl = '{{ route('colab.result', ':id') }}';
+					let labResultUrl = '{ route('colab.result', ':id') }}';
 					labResultUrl = labResultUrl.replace(':id', id);
 					window.open(labResultUrl, '_self');
 					break;
+				*/
 				case 'edit':
 					let cfurl = '{{ route("invest.create", ":id") }}';
 					cfurl = cfurl.replace(':id', id);
@@ -208,9 +210,11 @@ $(document).ready(function() {
 		items: {
 			"edit": {name: "แก้ไขข้อมูล (Invest Form:2)", icon: "fas fa-edit"},
 			"sep1": "---------",
+			/*
 			"labSendColab": {name: "ส่งแลป (Colab)", icon: "fas fa-link", className: 'link-colab'},
 			"labResultColab": {name: "ดูผลแลป (Colab)", icon: "fas fa-flask", className: 'link-colab'},
 			"sep2": "---------",
+			*/
 			"files": {name: "ไฟล์อับโหลด", icon: "fas fa-upload"},
 			"sep3": "---------",
 			"delete": {name: "ลบข้อมูล", icon: "fas fa-trash-alt", className: 'text-danger'},

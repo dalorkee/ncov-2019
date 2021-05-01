@@ -242,27 +242,30 @@ $(document).ready(function() {
 							}
 						});
 						break;
+					/*
 					case 'labSendColab':
-						//window.open('<php echo $url_gen_lab;>&idx=' + satid, '_blank');
-						let labSendUrl = '{{ route('colab.send', ':id') }}';
+						let labSendUrl = '{ route('colab.send', ':id') }}';
 						labSendUrl = labSendUrl.replace(':id', id);
 						window.open(labSendUrl, '_blank');
 						break;
 					case 'labResultColab':
-						let labResultUrl = '{{ route('colab.result', ':id') }}';
+						let labResultUrl = '{ route('colab.result', ':id') }}';
 						labResultUrl = labResultUrl.replace(':id', id);
 						window.open(labResultUrl, '_blank');
 						break;
+					*/
 					/*
 					case 'labResult':
 						window.open('<php echo $url_lab_result; ?>&idx=' + satid, '_blank');
 						break;
 					*/
+					/*
 					case 'contact':
-						let cturl = '{{ route("contacttable", ":id") }}';
+						let cturl = '{ route("contacttable", ":id") }}';
 						cturl = cturl.replace(':id', id);
 						window.location.replace(cturl);
 						break;
+					*/
 					case 'edit':
 						let cfurl = '{{ route("invest.create", ":id") }}';
 						cfurl = cfurl.replace(':id', id);
@@ -287,13 +290,15 @@ $(document).ready(function() {
 				"chDcStatus": {name: "เปลี่ยนสถานะ Discharge", icon: "fas fa-diagnoses"},
 				"sep1": "---------",
 				"refer": {name: "ส่งต่อผู้ป่วย", icon: "fas fa-ambulance"},
+				/*
 				"labSendColab": {name: "ส่งแลป (Colab)", icon: "fas fa-link", className: 'link-colab'},
 				"labResultColab": {name: "ดูผลแลป (Colab)", icon: "fas fa-flask", className: 'link-colab'},
-				/*"labResult": {name: "ดูผลแลป (ก่อนวันที่ 23 พ.ค. 63)", icon: "fas fa-flask"},*/
+				labResult": {name: "ดูผลแลป (ก่อนวันที่ 23 พ.ค. 63)", icon: "fas fa-flask"},
+				*/
 				"sep2": "---------",
 				"files": {name: "ไฟล์อับโหลด", icon: "fas fa-upload"},
-				"sep3": "---------",
-				"contact": {name: "ผู้สัมผัส", icon: "fas fa-handshake"},
+				/*"sep3": "---------",
+				"contact": {name: "ผู้สัมผัส", icon: "fas fa-handshake"},*/
 				"sep4": "---------",
 				"edit": {name: "แก้ไขข้อมูล (Invest Form:2)", icon: "fas fa-edit"},
 				"delete": {name: "ลบข้อมูล", icon: "fas fa-trash-alt"},

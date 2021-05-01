@@ -57,8 +57,6 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::post('hospital/fetch/hospital', 'InvestController@hospitalFetchByDistrict2Digit')->name('hospitalFetchByDistrict2Digit');
 	Route::post('hospital/refer/store', 'InvestController@storeReferOut')->name('store.refer');
 
-
-
 	/* screen url */
 	Route::get('/pui/screen', function () {
 		$url = 'http://viral.ddc.moph.go.th/viral/screen-hosp/index.php';
@@ -141,6 +139,7 @@ Route::get('/confirmForm/{id}', 'ConfirmFormController@create')->name('confirmFo
 Route::post('confirmCase', 'ConfirmFormController@addConfirmCase')->name('confirmCase');
 
 /* Contact */
+
 Route::get('/allcasecontacttable', 'ContactController@allcasecontacttable')->name('allcasecontacttable');
 Route::get('/detailcontact/contact_id/{contact_id}', 'ContactController@detailcontact')->name('detailcontact');
 Route::get('/contacttable/id/{id}', 'ContactController@contacttable')->name('contacttable');
@@ -156,7 +155,6 @@ Route::get('/colab/sendcontact/{id}', 'ListContactController@colabSend')->name('
 
 Route::get('/addcontact/id/{id}', 'ContactController@addcontact')->name('addcontact');
 Route::get('/allcontacttable', 'ContactController@allcontacttable')->name('allcontacttable');
-// Route::get('/editcontact/pui_id/{pui_id}/contact_rid/{contact_rid}', 'ContactController@editcontact')->name('editcontact');
 Route::get('/editcontact/id/{id}', 'ContactController@editcontact')->name('editcontact');
 Route::post('/addcontact/fetch', 'ContactController@fetch')->name('dropdown.fetch');
 Route::post('/addcontact/fetchD', 'ContactController@fetchD')->name('dropdown.fetchD');
