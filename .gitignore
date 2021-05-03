@@ -10,6 +10,7 @@
 /public/.htaccess
 .htaccess
 .env
+.evn*
 .env.backup
 .env.example
 .phpunit.result.cache

@@ -279,8 +279,8 @@
 				</div>
 				<div class="modal-body">
 					<div class="border-bottom">
-						<p>แจ้งปิดปรับปรุงระบบ DDC Covid-19 ตั้งแต่วันที่ 1 พฤษภาคม 2564 เวลา 23.00 น. - 02 พฤษภาคม 2564 10.00 น.</span></p>
-						<p class="text-primary">*** ขออภัยในความไม่สะดวก</p>
+						<p class="alert alert-danger">เนื่องจากมีการย้ายระบบฐานข้อมูล DDC Covid-19 ไปยังระบบ Server ใหม่ อาจจะพบปัญหาในการใช้งานได้
+						*** ขออภัยในความไม่สะดวก</p>
 					</div>
 					<div style="margin-top: 10px;">
 						<p>เนื่องจากระบบ COLAB อยู่ระหว่างการเปลี่ยน Version ระบบ DDC COVID-19 <span class="text-danger">ขอยกเลิกบริการส่งข้อมูลทางห้องปฏิบัติการ (Lab) จากระบบ DDC Covid-19 ไปยังระบบ COLAB ตั้งแต่วันที่ 1 พฤษภาคม 2564 เป็นต้นไป</span></p>
