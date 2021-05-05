@@ -60,7 +60,7 @@ class ListInvestController extends Controller
 					/* select data for prepare to update criterionfail tbl */
 					$inv = InvestList::select('id', 'sat_id', DB::raw('DATE(created_at) AS inv_date_create'))->where('id', $request->pid)->get()->toArray();
 					switch ($user_role) {
-						case 'roott' :
+						case 'root' :
 							$pt = InvestList::where('id', '=', $request->pid)->delete();
 							break;
 						default :
