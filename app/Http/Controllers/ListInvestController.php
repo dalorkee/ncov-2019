@@ -54,22 +54,25 @@ class ListInvestController extends Controller
 				if (count($inv_id_trigger) == 0) {
 					$user_role = Session::get('user_role');
 					$dt = Carbon::today();
-					$start_date = $dt->sub('3 days')->toDateString();
-					$start_date = $start_date." 00:00:00";
-					$end_date = date('Y-m-d H:i:s');
+					$start_date = $dt->addDays(-3)->toDateString();
+					$end_date = $dt->toDateString();
 
 					/* select data for prepare to update criterionfail tbl */
 					$inv = InvestList::select('id', 'sat_id', DB::raw('DATE(created_at) AS inv_date_create'))->where('id', $request->pid)->get()->toArray();
 					switch ($user_role) {
-						case 'root' :
+						case 'roott' :
 							$pt = InvestList::where('id', '=', $request->pid)->delete();
 							break;
 						default :
-							$pt = InvestList::where('id', '=', $request->pid)
+							$pt_chk = InvestList::select('id')->where('id', '=', $request->pid)
 								->where('entry_user', '=', $user->id)
 								->where('pt_status', '!=', '2')
-								->whereBetween('created_at', [$start_date, $end_date])
-								->delete();
+								->whereBetween('created_at', [$start_date, $end_date])->get();
+								if ($pt_chk->isNotEmpty()) {
+									$pt = InvestList::find($pt_chk[0]->id)->delete();
+								} else {
+									$pt = 0;
+								}
 							break;
 					}
 					if ($pt == 1) {
@@ -81,7 +84,7 @@ class ListInvestController extends Controller
 						Log::notice('User:'.$user->id.' Deleted PID: '.$request->pid);
 						return redirect()->back()->with('success', 'ข้อมูลรหัสที่ '.$request->pid.' ถูกลบออกจากระบบแล้ว');
 					} else {
-						return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->pid.' ไม่สามารถลบออกจากระบบได้ โปรดตรวจสอบเงื่อนไข');
+						return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->pid.' ไม่สามารถลบออกจากระบบได้ โปรดตรวจสอบเงื่อนไขการลบหรือสิทธิ์ผู้ใช้');
 					}
 				} else {
 					return redirect()->back()->with('error', 'ข้อมูลรหัสที่ '.$request->pid.' ไม่สามารถลบออกจากระบบได้ เนื่องจากมีข้อมูลตัวอย่างส่งตรวจแล้ว');

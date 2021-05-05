@@ -20,4 +20,6 @@ class InvestList extends Model
 		'deleted_at'
 	];
 
+	protected $dates = ['deleted_at'];
+
 }
