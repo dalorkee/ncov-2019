@@ -62,38 +62,41 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xl-3 col-md-6">
-			<div class="card prod-p-card card-blue">
-				<div class="card-body">
-					<div class="row align-items-center m-b-30">
-						<div class="col">
-							<h6 class="m-b-5 text-white">Total</h6>
-							<h3 class="m-b-0 f-w-700 text-white">{{ number_format($data['total']) }}</h3>
-						</div>
-						<div class="col-auto">
-							<i class="fas fa-database text-c-blue f-18"></i>
-						</div>
-					</div>
-					<p class="m-b-0 text-white"><span class="label label-primary m-r-10">+{{ number_format($data['today']) }}</span>Today</p>
-				</div>
-			</div>
+            <a href="{{ route('vaccineReport') }}">
+                <div class="card prod-p-card card-blue">
+                    <div class="card-body">
+                        <div class="row align-items-center m-b-30">
+                            <div class="col">
+                                {{-- <h6 class="m-b-5 text-white">วัคซีน</h6> --}}
+                                <h3 class="m-b-0 f-w-700 text-white">วัคซีน</h3>
+                                {{-- <h3 class="m-b-0 f-w-700 text-white">{{ number_format($data['total']) }}</h3> --}}
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-database text-c-blue f-18"></i>
+                            </div>
+                        </div>
+                        {{-- <p class="m-b-0 text-white"><span class="label label-primary m-r-10">+{{ number_format($data['today']) }}</span>Today</p> --}}
+                    </div>
+                </div>
+            </a>
 		</div>
 		<div class="col-xl-3 col-md-6">
 			<div class="card prod-p-card card-red">
 				<div class="card-body">
 					<div class="row align-items-center m-b-30">
 						<div class="col">
-							<h6 class="m-b-5 text-white">Confirmed</h6>
-								<h3 class="m-b-0 f-w-700 text-white">{{ number_format($data['confirmed']) }}</h3>
+                            <h3 class="m-b-0 f-w-700 text-white">สถานการณ์โรค</h3>
+							<h6 class="m-b-5 text-white">กำลังปรับปรุง</h6>
 						</div>
 						<div class="col-auto">
-							<i class="fas fas fa-user text-c-red f-18"></i>
+							{{-- <i class="fas fas fa-user text-c-red f-18"></i> --}}
 						</div>
 					</div>
-					<p class="m-b-0 text-white"><span class="label label-danger m-r-10">{{ number_format($data['confirmed_pc'], 2) }}%</span></p>
+					{{-- <p class="m-b-0 text-white"><span class="label label-danger m-r-10">{{ number_format($data['confirmed_pc'], 2) }}%</span></p> --}}
 				</div>
 			</div>
 		</div>
-		<div class="col-xl-3 col-md-6">
+		{{-- <div class="col-xl-3 col-md-6">
 			<div class="card prod-p-card card-yellow">
 				<div class="card-body">
 					<div class="row align-items-center m-b-30">
@@ -124,9 +127,9 @@
 					<p class="m-b-0 text-white"><span class="label label-success m-r-10">{{ number_format($data['excluded_pc'], 2) }}%</span></p>
 				</div>
 			</div>
-		</div>
+		</div> --}}
 	</div>
-	<div class="row">
+	{{-- <div class="row">
 		<div class="col-xl-12">
 			<div class="card proj-progress-card">
 				<div class="card-block">
@@ -163,7 +166,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --}}
 	<!--
 	<div class="row">
 		<div class="col-md-12 col-xl-8">
