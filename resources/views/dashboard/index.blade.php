@@ -60,9 +60,11 @@
 	</div>
 </div>
 <div class="container-fluid">
+	<p>Under Construction.</p>
+	<!--
 	<div class="row">
 		<div class="col-xl-3 col-md-6">
-            <a href="{{ route('vaccineReport') }}">
+            <a href="{ route('vaccineReport') }}">
                 <div class="card prod-p-card card-blue">
                     <div class="card-body">
                         <div class="row align-items-center m-b-30">
@@ -96,6 +98,7 @@
 				</div>
 			</div>
 		</div>
+
 		{{-- <div class="col-xl-3 col-md-6">
 			<div class="card prod-p-card card-yellow">
 				<div class="card-body">
@@ -167,6 +170,7 @@
 			</div>
 		</div>
 	</div> --}}
+-->
 	<!--
 	<div class="row">
 		<div class="col-md-12 col-xl-8">
@@ -185,11 +189,13 @@
 @endsection
 @section('bottom-script')
 <?php
+/*
 	$ts = time();
 	$signature = "bd6efdd618ef8e481ba2e247b10735b801fbdefe";
 	$uid = Auth::user()->id;
 	$sig = sha1($uid.$ts.$signature);
 	$url_gen_lab = "http://viral.ddc.moph.go.th/viral/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig."&typelab=1";
 	$url_lab_result = "http://viral.ddc.moph.go.th/viral/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig."&typelab=2";
+	*/
 ?>
 @endsection
