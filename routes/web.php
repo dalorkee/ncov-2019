@@ -1,4 +1,7 @@
 <?php
+
+use App\Http\Controllers\Aefi\DashboardController;
+
 Auth::routes();
 
 Route::get('/', function() {
@@ -40,6 +43,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::post('/admin/create/hosp/to/json', 'AdminController@createHospToJson')->name('admin.createHospToJson');
 	Route::get('/main', 'HomeController@mainPage')->name('main');
 	Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+    Route::get('/VaccineReport', function() {
+        return view('dashboard.vaccine');
+    })->name('vaccineReport');
 
 	//Route::resource('investSearch', 'InvestSearchController');
 	Route::get('/invest/search', 'InvestSearchController@index')->name('invest.search');
