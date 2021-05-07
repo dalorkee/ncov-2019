@@ -10,6 +10,8 @@ use App\Invest;
 class DashboardController extends Controller
 {
 	public function index() {
+		return view('dashboard.index');
+		exit;
 		/* main dshb */
 		$total = Invest::whereNull('deleted_at')->count();
 		$today = Invest::whereRaw('DATE(created_at) = CURDATE()')->whereNull('deleted_at')->count();
