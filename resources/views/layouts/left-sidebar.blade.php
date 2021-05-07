@@ -11,7 +11,7 @@ $url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig="
 		<nav class="sidebar-nav">
 			<ul id="sidebarnav" class="p-t-30">
 				<li class="sidebar-item"><a href="{{ route('main') }}" class="sidebar-link waves-effect waves-dark"><i class="fas fa-home"></i><span class="hide-menu">&nbsp;&nbsp;Home</span></a></li>
-				<li class="sidebar-item"><a href="{{ route('dashboard') }}" class="sidebar-link waves-effect waves-dark"><i class="fas fa-chart-pie"></i><span class="hide-menu">&nbsp;&nbsp;Dashboard</span></a></li>
+				<li class="sidebar-item"><a href="{{ route('live-site') }}" class="sidebar-link waves-effect waves-dark"><i class="fas fa-chart-pie"></i><span class="hide-menu">&nbsp;&nbsp;Dashboard</span></a></li>
 				<li class="sidebar-item"> <a href="javascript:void(0)" class="sidebar-link has-arrow waves-effect waves-dark" aria-expanded="false"><i class="fas fa-expand"></i><span class="hide-menu">&nbsp;&nbsp;PUI </span></a>
 					<ul aria-expanded="false" class="collapse first-level">
 						<li class="sidebar-item"><a href="{{ URL::to("screen/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig) }}" target="_blank" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> PUI Screen</span></a></li>
