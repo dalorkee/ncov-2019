@@ -60,13 +60,15 @@ class LoginController extends Controller {
 			} else {
 				$err_msg = null;
 			}
-			$permission = Permission::all()->pluck('name')->toArray();
+			//$permission = Permission::all()->pluck('name')->toArray();
+
 			/* revoke all permission */
 			$user = Auth::user();
-			foreach ($permission as $key => $value) {
-				if ($user->hasPermissionTo($value)) {
-					$user->revokePermissionTo($value);
-				}
+			$user_permission = $user->getAllPermissions();
+			foreach ($user_permission as $key => $value) {
+				//if ($user->hasPermissionTo($value)) {
+					$user->revokePermissionTo($value->name);
+				//}
 			}
 			Auth::logout();
 			Session::flush();
