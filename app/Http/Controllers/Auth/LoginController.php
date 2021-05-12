@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Http\Request;
 use App\User;
 use Carbon\Carbon;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Validator, DB, Log, Session;
 use App\Traits\BoundaryTrait;
 
@@ -25,26 +26,33 @@ class LoginController extends Controller {
 		$this->middleware('guest')->except('logout');
 	}
 
-	public function username()
-	{
+	public function username() {
 		return 'username';
+	}
+
+	public function loginForm() {
+		return view('auth.login');
 	}
 
 	/* *** *** *** */
 	/* Note *** Using md5() over bcrypt() is not recommended. *** */
 	public function login(Request $request) {
 		try {
-			$user = User::where('username', $request->username)->where('password', md5($request->password))->first();
-			if (is_null($user) || empty($user) || $user == '') {
-				$message = "ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้งานหรีอรหัสผ่าน";
-				flash()->overlay($message, 'Message From System');
-				return redirect('/login');
+			$pdo = \DB::connection()->getPDO();
+			if (!$pdo) {
+				Log::error('ไม่สามารถเชื่อมต่อฐานข้อมูล');
+				return redirect('login')->with('error', 'ไม่สามารถเชื่อมต่อฐานข้อมูลได้ โปรดติดต่อผู้ดูแลระบบฯ');
 			} else {
-				Auth::login($user);
-				if (Auth::check()) {
-					return redirect('home');
+				$user = User::where('username', $request->username)->where('password', md5($request->password))->first();
+				if (!is_null($user)) {
+					Auth::login($user);
+					if (Auth::check()) {
+						return redirect('home');
+					} else {
+						return redirect('logout');
+					}
 				} else {
-					return redirect('/logout');
+					return redirect('login')->with('error', 'Username หรือ Password ไม่ถูกต้อง');
 				}
 			}
 		} catch(\Exception $e) {
@@ -54,26 +62,20 @@ class LoginController extends Controller {
 
 	public function logout(Request $request) {
 		try {
-			/* check session return from app or not */
 			if (Session::has('error')) {
 				$err_msg = Session::get('error');
 			} else {
 				$err_msg = null;
 			}
-			//$permission = Permission::all()->pluck('name')->toArray();
-
-			/* revoke all permission */
-			$user = Auth::user();
-			$user_permission = $user->getAllPermissions();
-			foreach ($user_permission as $key => $value) {
-				//if ($user->hasPermissionTo($value)) {
+			if (Auth::check()) {
+				$user = Auth::user();
+				$user_permission = $user->getAllPermissions();
+				foreach ($user_permission as $key => $value) {
 					$user->revokePermissionTo($value->name);
-				//}
+				}
 			}
 			Auth::logout();
 			Session::flush();
-
-			/* redirect with error or not */
 			if (!is_null($err_msg)) {
 				return redirect('/login')->with('error', $err_msg);
 			} else {

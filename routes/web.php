@@ -7,9 +7,7 @@ Auth::routes();
 Route::get('/', function() {
 	return view('auth.login');
 });
-Route::get('/login', function() {
-	return view('auth.login');
-})->name('login');
+Route::get('/login', '\App\Http\Controllers\Auth\LoginController@loginForm')->name('login');
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 /* By Pass Login */
 Route::get('/auth', array('as' => 'check-auth', 'uses' => 'Auth\LoginController@get_check_auth'));
