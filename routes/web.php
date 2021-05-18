@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Aefi\DashboardController;
+//use App\Http\Controllers\Aefi\DashboardController;
 
 Auth::routes();
 
@@ -181,3 +181,9 @@ Route::get('contactexport/id/{id}', 'ExportContactController@export')->name('con
 Route::post('satexport', 'ExportSATController@satexport')->name('satexport');
 Route::get('/allcontactexport', 'ExportContactController@allcontactexport')->name('allcontactexport');
 Route::post('/exportcontactbyday', 'ExportContactbyDayController@exportcontactbyday')->name('exportcontactbyday');
+
+/*screen*/
+Route::group(['middleware' => ['auth']], function() { 
+	//Route::get('screen', 'screenController@satexport')->name('screenCase');
+	Route::resource('screen','screenController');
+});
