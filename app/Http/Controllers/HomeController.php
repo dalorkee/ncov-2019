@@ -26,6 +26,9 @@ class HomeController extends Controller
 			$user_role = $roleArr[0];
 			Session::put('user_role', $roleArr[0]);
 			$user = auth()->user();
+			$user_permission = $user->getAllPermissions()->each(function($item, $key) use ($user) {
+				$user->revokePermissionTo($item->name);
+			});
 			switch ($user_role) {
 				case "root":
 					$user->syncPermissions([
