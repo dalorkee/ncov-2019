@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
-use Illuminate\Http\Request;
-use App\User;
 use Carbon\Carbon;
 use Validator, DB, Log, Session;
+use App\User;
 use App\Traits\BoundaryTrait;
 
 class LoginController extends Controller {
@@ -62,17 +62,16 @@ class LoginController extends Controller {
 
 	public function logout(Request $request) {
 		try {
-			if (Session::has('error')) {
-				$err_msg = Session::get('error');
-			} else {
-				$err_msg = null;
-			}
+			(Session::has('error')) ? $err_msg = Session::get('error') : $err_msg = null;
 			if (Auth::check()) {
 				$user = Auth::user();
-				$user_permission = $user->getAllPermissions();
-				foreach ($user_permission as $key => $value) {
-					$user->revokePermissionTo($value->name);
-				}
+				$this_permissions = DB::table('model_has_permissions')->select('permission_id')->where('model_id', $user->id)->get();
+				$permissions = $user->getAllPermissions();
+				$permissions->each(function($item, $key) use ($this_permissions, $user) {
+					if ($this_permissions->where('permission_id', $item->id)) {
+						$user->revokePermissionTo($item->name);
+					}
+				});
 			}
 			Auth::logout();
 			Session::flush();
@@ -88,97 +87,64 @@ class LoginController extends Controller {
 
 	public function get_check_auth(Request $request) {
 		$rules = [
-				'userid'=>'required',
-				'ts'=>'required|digits_between:10,15',
-				'sig'=>'required'
+			'userid'=>'required',
+			'ts'=>'required|digits_between:10,15',
+			'sig'=>'required'
 		];
 
 		$validator = Validator::make($request->all(), $rules);
+		if ($validator->fails()) {
+			$error = [];
+			$error["status"]    = "error";
+			$error["message"]   = "error_require_data";
+			return response()->json($error,200);
+		}
 
-					if ($validator->fails()) {
-							$error = [];
-							$error["status"]    = "error";
-							$error["message"]   = "error_require_data";
-							//$error["hospital"]  = [];
+		$signature = "bd6efdd618ef8e481ba2e247b10735b801fbdefe";
+		$user = $request->input('userid');
+		$ts = $request->input('ts');
+		$sig = $request->input('sig');
 
-							return response()->json($error,200);
-					}
+		$to = Carbon::createFromTimestamp($ts);
+		$from = Carbon::createFromFormat('Y-m-d H:i:s', date("Y-m-d H:i:s"));
+		$diff_in_minutes = $to->diffInMinutes($from);
 
-				$signature = "bd6efdd618ef8e481ba2e247b10735b801fbdefe";
-				$user = $request->input('userid');
-				$ts = $request->input('ts');
-				$sig = $request->input('sig');
+		if ($diff_in_minutes>60) {
+			$message = "รหัสหมดอายุ (Token Expire) กรุณา Refresh หน้า Login ( http://viral.ddc.moph.go.th/ ) อีกครั้ง";
+			return response()->view('errors.auth_key',[
+				"message" => $message
+			]);
+		}
 
-				$to = Carbon::createFromTimestamp($ts);
-				$from = Carbon::createFromFormat('Y-m-d H:i:s', date("Y-m-d H:i:s"));
-				$diff_in_minutes = $to->diffInMinutes($from);
-
-				// check timestamp expire
-				if($diff_in_minutes>60) {
-						// $error = [];
-						// $error["status"]    = "error";
-						// $error["message"]   = "error_time_expire";
-						//return response()->json($error,200);
-						$message = "รหัสหมดอายุ (Token Expire) กรุณา Refresh หน้า Login ( http://viral.ddc.moph.go.th/viral/main/index.php ) อีกครั้ง";
-						return response()->view('errors.auth_key',[
-							"message" => $message
-						]);
-				}
-
-				// check signature
-				$signatureMD5 = sha1($user.$ts.$signature);
-
-				//dd($user,$ts,$signature,$signatureMD5,$sig);
-
-				if($sig!=$signatureMD5) {
-						// $error = [];
-						// $error["status"]    = "error";
-						// $error["message"]   = "error_signature";
-						// return response()->json($error,200);
-						$message = "รหัสไม่ถูกต้อง(Token Invalid)";
-						return response()->view('errors.auth_key',[
-							"message" => $message
-						]);
-				}
-				// AUTH with user & redirect to page.
-				//check username_ad in MysqlDB
-				$findUser = User::where('id',trim($user))->get()->first();
-				//dd($findUser);
-				if(!is_null($findUser)){
-					if(Auth::loginUsingId($findUser->id)){
-						$data = [
-							'user_id' => trim($findUser->id),
-							'ip_addr' => request()->ip(),
-							'created_at' => Carbon::now()->toDateTimeString(),
-						];
-						//dd($data);
-						DB::table('log_bypass_auth')->insert($data);
-						//$line_notify_token = "1ATz8CaB3sG9NIKo7RNO39vyuMG5Ze2Orq6GWGiRabW";
-						//$response = "มีคุณ ".$findUser->name." ".$findUser->lname." สิทธิ์ ".$findUser->wposi."เข้าใช้งานระบบ ByPassAuthen ที่ IP ".request()->ip();
-						//$this->line_notify($line_notify_token,$response);
-						//Auth successful here
-						return redirect('/');
-					}else{
-						//Auth failed
-						// $error = [];
-						// $error["status"]    = "error";
-						// $error["message"]   = "error_userID_not_found";
-						// return response()->json($error,200);
-						$message = "ไม่พบ User ในระบบฐานข้้อมูล !";
-						return response()->view('errors.auth_key',[
-							"message" => $message
-						]);
-					}
-				}else{
-					// $error = [];
-					// $error["status"]    = "error";
-					// $error["message"]   = "error_username_ad_not_found";
-					// return response()->json($error,200);
-					$message = "ไม่พบชื่อผู้ใช้งาน ".$user." ในระบบฐานข้้อมูล GISTDA-HR !";
-					return response()->view('errors.auth_key',[
-						"message" => $message
-					]);
-				}
+		$signatureMD5 = sha1($user.$ts.$signature);
+		if ($sig!=$signatureMD5) {
+			$message = "รหัสไม่ถูกต้อง(Token Invalid)";
+			return response()->view('errors.auth_key', [
+				"message" => $message
+			]);
+		}
+		$findUser = User::where('id',trim($user))->get()->first();
+		if (!is_null($findUser)) {
+			if (Auth::loginUsingId($findUser->id)) {
+				$data = [
+					'user_id' => trim($findUser->id),
+					'ip_addr' => request()->ip(),
+					'created_at' => Carbon::now()->toDateTimeString(),
+				];
+				DB::table('log_bypass_auth')->insert($data);
+				return redirect('/');
+			} else {
+				$message = "ไม่พบ User ในระบบฐานข้้อมูล !";
+				return response()->view('errors.auth_key',[
+					"message" => $message
+				]);
+			}
+		} else {
+			$message = "ไม่พบชื่อผู้ใช้งาน ".$user." ในระบบฐานข้้อมูล GISTDA-HR !";
+			return response()->view('errors.auth_key',[
+				"message" => $message
+			]);
+		}
 	}
 
 	public function line_notify($Token, $message) {
@@ -187,7 +153,6 @@ class LoginController extends Controller {
 		date_default_timezone_set("Asia/Bangkok");
 		$chOne = curl_init();
 		curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
-		// SSL USE
 		curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
 		//POST
@@ -198,12 +163,10 @@ class LoginController extends Controller {
 			curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
 			curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
 			$result = curl_exec( $chOne );
-			//Check error
 			if(curl_error($chOne)) {
 				echo 'error:' . curl_error($chOne);
 			} else {
 				$result_ = json_decode($result, true);
-				//echo "status : ".$result_['status']; echo "message : ". $result_['message'];
 				echo $result_['message'];
 			}
 			curl_close( $chOne );

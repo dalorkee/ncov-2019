@@ -105,9 +105,5 @@
 </div>
 @endsection
 @section('bottom-script')
-	<script type="text/javascript">
-    $(window).on('load',function(){
-        $('#error_modal').modal('show');
-    });
-</script>
+<script type="text/javascript">$(window).on('load',function(){$('#error_modal').modal('show');});</script>
 @endsection

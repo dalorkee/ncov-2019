@@ -16,8 +16,7 @@ class DdcAuthen
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
-    {
+	 public function handle($request, Closure $next) {
 		if ($request->idx) {
 			$chk_ddc_user = DdcAuth::where('id', '=', $request->idx)->get()->toArray();
 			if (count($chk_ddc_user) > 0) {
@@ -25,12 +24,10 @@ class DdcAuthen
 				$request->session()->put('ddc_user', $ddc_user);
 				return $next($request);
 			} else {
-				//return Redirect::to('http://viral.local/');
-				return Redirect::to('http://viral.ddc.moph.go.th/viral/index.php');
 			}
+			return Redirect::to('http://viral.ddc.moph.go.th/ncov-2019/login');
 		} else {
-			//return Redirect::to('http://viral.local/');
-			return Redirect::to('http://viral.ddc.moph.go.th/viral/index.php');
+			return Redirect::to('http://viral.ddc.moph.go.th/ncov-2019/login');
 		}
-    }
+	}
 }
