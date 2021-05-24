@@ -23,8 +23,9 @@ $url_to_ddc_ilab = "https://ddc-ilab.invitrace.app?uid=".$uid."&ts=".$ts."&sig="
 						<li class="sidebar-item"><a href="{{ URL::to("screen/token.php?uid=".$uid."&ts=".$ts."&sig=".$sig) }}" target="_blank" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> PUI Screen</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('list-data.invest') }}" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> PUI List (Full)</span></a></li>
 						<li class="sidebar-item"><a href="{{ route('invest.search') }}" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> PUI List (Min)</span></a></li>
+						<li class="sidebar-item"><a href="{{ route('lstCaseConfirmed') }}" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> PUI Confirmed</span></a></li>-->
 						@role('root|ddc')
-						<li class="sidebar-item"><a href="{{ route('list-data.sat') }}" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> PUI For SAT</span></a></li>
+						<!--<li class="sidebar-item"><a href="" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> PUI For SAT</span></a></li>-->
 						@endrole
 						<li class="sidebar-item"><a href="{{ route('list-data.contact') }}" class="sidebar-link"><i class="mdi mdi-radiobox-marked"></i><span class="hide-menu"> Contact</span></a></li>
 					</ul>

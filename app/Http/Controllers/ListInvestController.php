@@ -31,9 +31,7 @@ class ListInvestController extends Controller
 	}
 
 	public function search(Request $request) {
-	$searchResults = (new Search())
-		->registerModel(InvestList::class, 'name')
-		->perform($request->input('query'));
+		$searchResults = (new Search())->registerModel(InvestList::class, 'name')->perform($request->input('query'));
 		return view('search', compact('searchResults'));
 	}
 
