@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -11,7 +10,8 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Carbon\Carbon;
-use Validator, DB, Log, Session;
+use Illuminate\Support\Facades\DB;
+use Validator, Log, Session;
 use App\User;
 use App\Traits\BoundaryTrait;
 
@@ -65,10 +65,11 @@ class LoginController extends Controller {
 			(Session::has('error')) ? $err_msg = Session::get('error') : $err_msg = null;
 			if (Auth::check()) {
 				$user = Auth::user();
-				$this_permissions = DB::table('model_has_permissions')->select('permission_id')->where('model_id', $user->id)->get();
-				$permissions = $user->getAllPermissions();
-				$permissions->each(function($item, $key) use ($this_permissions, $user) {
-					if ($this_permissions->where('permission_id', $item->id)) {
+				$user_permissions = $user->permissions;
+				$db_permissions = Permission::all()->keyBy('id');
+				$db_permissions->each(function($item, $key) use ($user, $user_permissions) {
+					$x = $user_permissions->where('id', $item->id);
+					if ($x->count() > 0) {
 						$user->revokePermissionTo($item->name);
 					}
 				});
@@ -81,6 +82,7 @@ class LoginController extends Controller {
 				return redirect('/login');
 			}
 		} catch(\Exception $e) {
+			Log::error('Login Error Na ja');
 			Log::error(sprintf("%s - line %d - ", __FILE__, __LINE__).$e->getMessage());
 		}
 	}

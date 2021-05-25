@@ -22,82 +22,90 @@ class HomeController extends Controller
 	}
 
 	public function index() {
-		$roleArr = auth()->user()->getRoleNames()->toArray();
-		if (count($roleArr) > 0) {
-			$user_role = $roleArr[0];
-			Session::put('user_role', $roleArr[0]);
-			$user = Auth::user();
-			$this_permissions = DB::table('model_has_permissions')->select('permission_id')->where('model_id', $user->id)->get();
-			$permissions = $user->getAllPermissions();
-			$permissions->each(function($item, $key) use ($this_permissions, $user) {
-				if ($this_permissions->where('permission_id', $item->id)) {
-					$user->revokePermissionTo($item->name);
+		try {
+			//DB::beginTransaction();
+			$roleArr = auth()->user()->getRoleNames()->toArray();
+			if (count($roleArr) > 0) {
+				$user_role = $roleArr[0];
+				Session::put('user_role', $roleArr[0]);
+				$user = Auth::user();
+				$user_permissions = $user->permissions;
+				$db_permissions = Permission::all()->keyBy('id');
+				$db_permissions->each(function($item, $key) use ($user, $user_permissions) {
+					$x = $user_permissions->where('id', $item->id);
+					if ($x->count() > 0) {
+						$user->revokePermissionTo($item->name);
+					}
+				});
+				switch ($user_role) {
+					case "root":
+						$user->syncPermissions([
+							'permission-edit',
+							'permission-delete',
+							'permission-create',
+							'role-create',
+							'role-edit',
+							'role-delete',
+							'new-pui-create',
+							'pui-delete',
+							'pui-create',
+							'pui-edit',
+							'user-create',
+							'user-edit',
+							'user-delete'
+						]);
+						return redirect()->route('main');
+						break;
+					case "ddc":
+						$user->syncPermissions([
+							'new-pui-create',
+							'pui-delete',
+							'pui-create',
+							'pui-edit'
+						]);
+						return redirect()->route('main');
+						break;
+					case "dpc":
+						$user->syncPermissions([
+							'new-pui-create',
+							'pui-delete',
+							'pui-create',
+							'pui-edit'
+						]);
+						return redirect()->route('main');
+						break;
+					case "pho":
+						$user->syncPermissions([
+							'new-pui-create',
+							'pui-delete',
+							'pui-create',
+							'pui-edit'
+						]);
+						return redirect()->route('main');
+						break;
+					case "hos":
+						$user->syncPermissions([
+							'new-pui-create',
+							'pui-delete',
+							'pui-create',
+							'pui-edit'
+						]);
+						return redirect()->route('main');
+						break;
+					case "lab":
+						return abort(404);
+						break;
+					default:
+						return redirect()->route('logout');
+						break;
 				}
-			});
-			switch ($user_role) {
-				case "root":
-					$user->syncPermissions([
-						'permission-edit',
-						'permission-delete',
-						'permission-create',
-						'role-create',
-						'role-edit',
-						'role-delete',
-						'new-pui-create',
-						'pui-delete',
-						'pui-create',
-						'pui-edit',
-						'user-create',
-						'user-edit',
-						'user-delete'
-					]);
-					return redirect()->route('main');
-					break;
-				case "ddc":
-					$user->syncPermissions([
-						'new-pui-create',
-						'pui-delete',
-						'pui-create',
-						'pui-edit'
-					]);
-					return redirect()->route('main');
-					break;
-				case "dpc":
-					$user->syncPermissions([
-						'new-pui-create',
-						'pui-delete',
-						'pui-create',
-						'pui-edit'
-					]);
-					return redirect()->route('main');
-					break;
-				case "pho":
-					$user->syncPermissions([
-						'new-pui-create',
-						'pui-delete',
-						'pui-create',
-						'pui-edit'
-					]);
-					return redirect()->route('main');
-					break;
-				case "hos":
-					$user->syncPermissions([
-						'new-pui-create',
-						'pui-delete',
-						'pui-create',
-						'pui-edit'
-					]);
-					return redirect()->route('main');
-					break;
-				case "lab":
-					return abort(404);
-					break;
-				default:
-					return redirect()->route('logout');
-					break;
+				//DB::commit();
+			} else {
+				return redirect()->route('logout');
 			}
-		} else {
-			return redirect()->route('logout');
+		} catch (\Exception $e) {
+			Log::error($e->getMessage());
+			//DB::rollBack();
 		}
 	}
 
