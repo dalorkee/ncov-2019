@@ -111,17 +111,17 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="card-body">	
-					<label class="card-title">ข้อมูลบุคคล</label>							
+					<label class="card-title text-info">ข้อมูลบุคคล</label>							
 					<div class="row mb-3">
 						<div class="col-lg-6">										
 							<div class="form-group">
-								<label for="hue-demo">เลขบัตรประชาชน</label>
+								<label for="hue-demo" class="text-info">เลขบัตรประชาชน</label>
 								<input type="text" class="form-control" id="card_id" name="card_id" maxlength="13" pattern="[0-9]{13}">
 							</div>                                        
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="hue-demo">Passport</label>
+								<label for="hue-demo" class="text-info">Passport</label>
 								<input type="text" class="form-control" id="passport" name="passport">
 							</div>
 						</div>
@@ -129,13 +129,13 @@
 					<div class="row mb-3">
 						<div class="col-lg-6">										
 							<div class="form-group">
-								<label for="hue-demo">ชื่อ <span class="badge badge-danger">(ไม่ต้องมีคำนำหน้า)</span></label>
+								<label for="hue-demo" class="text-info">ชื่อ <span class="badge badge-danger">(ไม่ต้องมีคำนำหน้า)</span></label>
 								<input type="text" class="form-control" id="first_name" name="first_name" required>
 							</div>                                        
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="hue-demo">นามสกุล</label>
+								<label for="hue-demo" class="text-info">นามสกุล</label>
 								<input type="text" class="form-control" id="last_name" name="last_name">
 							</div>
 						</div>
@@ -143,13 +143,13 @@
 					<div class="row mb-3">
 						<div class="col-lg-6">										
 							<div class="form-group">
-								<label for="hue-demo">อักษรภาษาอังกฤษตัวแรกของ ชื่อ</label>
+								<label for="hue-demo" class="text-info">อักษรภาษาอังกฤษตัวแรกของ ชื่อ</label>
 								<input type="text" class="form-control" id="first_name" name="fname_prefix" maxlength="1" placeholder="" pattern="[a-zA-Z]{1}" required>
 							</div>                                        
 						</div>
 						<div class="col-lg-6">										
 							<div class="form-group">
-								<label for="hue-demo">อักษรภาษาอังกฤษตัวแรกของ นามสกุล</label>
+								<label for="hue-demo" class="text-info">อักษรภาษาอังกฤษตัวแรกของ นามสกุล</label>
 								<input type="text" class="form-control" id="first_name" name="lname_prefix" maxlength="1" placeholder="" pattern="[a-zA-Z]{1}" required>
 							</div>                                        
 						</div>
@@ -157,7 +157,7 @@
 					<div class="row mb-3">
 						<div class="col-lg-6">										
 							<div class="form-group">
-								<label for="hue-demo">เพศ</label>
+								<label for="hue-demo" class="text-info">เพศ</label>
 								<div class="custom-control custom-radio">
 									<input type="radio" class="custom-control-input" id="sexm" name="sex" value="ชาย" required>
 									<label class="custom-control-label" for="sexm">ชาย</label>
@@ -170,7 +170,7 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="hue-demo">อายุ</label>
+								<label for="hue-demo" class="text-info">อายุ</label>
 								<input type="text" class="form-control" id="age" name="age" maxlength="3" pattern="[0-9]{1,}">
 							</div>
 						</div>
@@ -178,7 +178,7 @@
 					<div class="row mb-3">
 						<div class="col-lg-6">										
 							<div class="form-group">
-								<label for="hue-demo">สัญชาติ</label>
+								<label for="hue-demo" class="text-info">สัญชาติ</label>
 								<select class="select2 form-control custom-select" name="nation" required>
 									<option value="">เลือกสัญชาติ</option>
 									<option value="1">1</option>
@@ -187,7 +187,7 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="hue-demo">เบอร์โทร</label>
+								<label for="hue-demo" class="text-info">เบอร์โทร</label>
 								<input type="text" class="form-control" id="mobile" placeholder="0909998888" name="mobile" maxlength="10" pattern="[0-9]{9,}">
 							</div>
 						</div>
@@ -195,7 +195,7 @@
 					<div class="row mb-3">
 						<div class="col-lg-6">										
 							<div class="form-group">
-   								<label for="hue-demo">อาชีพ</label>
+   								<label for="hue-demo" class="text-info">อาชีพ</label>
     							<select class="select2 form-control custom-select" name="occupation">
    									<option value="">เลือกอาชีพ</option>
 									<option value="1">1</option>
@@ -204,7 +204,7 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="hue-demo">ระบุอาชีพอื่นๆ</label>
+								<label for="hue-demo" class="text-info">ระบุอาชีพอื่นๆ</label>
 								<input type="text" class="form-control" id="occupation_oth" name="occupation_oth">
 							</div>
 						</div>
@@ -212,13 +212,13 @@
 					<div class="row mb-3">
 						<div class="col-lg-6">										
 							<div class="form-group">
-								<label for="hue-demo">ที่อยู่</label>										
+								<label for="hue-demo" class="text-info">ที่อยู่</label>										
 								<textarea class="form-control" placeholder="บ้านเลขที่/ถนน/ซอย/ตีก/อาคาร/เลขที่ห้องชุด" name="cur_house_no"></textarea>											
 							</div>                                        
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="hue-demo">หมู่ที่</label>
+								<label for="hue-demo" class="text-info">หมู่ที่</label>
 								<input type="text" class="form-control" id="cur_village_no" name="cur_village_no" maxlength="2" pattern="[0-9]{1,}">
 							</div>
 						</div>
@@ -226,7 +226,7 @@
 					<div class="row mb-3">
 						<div class="col-lg-4">
 							<div class="form-group">
-								<label for="hue-demo">จังหวัด</label>
+								<label for="hue-demo" class="text-info">จังหวัด</label>
 								<select class="select2 form-control custom-select" name="cur_province"  id="cur_province">
 									<option value="">เลือกจังหวัด</option>
 									<option value="1"></option>
@@ -235,7 +235,7 @@
 						</div>
 						<div class="col-lg-4">
 							<div class="form-group">
-								<label for="hue-demo">อำเภอ</label>
+								<label for="hue-demo" class="text-info">อำเภอ</label>
 								<select class="select2 form-control custom-select" name="cur_district"  id="cur_district">
 									<option value="">เลือกอำเภอ</option>
                                     <option value="1"></option>
@@ -244,7 +244,7 @@
 						</div>
 						<div class="col-lg-4">
 							<div class="form-group">
-								<label for="hue-demo">ตำบล</label>
+								<label for="hue-demo" class="text-info">ตำบล</label>
 								<select class="select2 form-control custom-select" name="cur_sub_district"  id="cur_sub_district">
 									<option value="">เลือกตำบล</option>
                                     <option value="1"></option>
@@ -254,7 +254,7 @@
 					</div>
 					<div class="row mb-3">
 						<div class="col-lg-12">
-							<label for="hue-demo">โรคประจำตัว</label>
+							<label for="hue-demo" class="text-info">โรคประจำตัว</label>
 							<div class="custom-control custom-checkbox mr-sm-2">
 								<input type="checkbox" class="custom-control-input" id="data3_3chk" name="data3_3chk" value="y">
 								<label class="custom-control-label" for="data3_3chk">มี</label>
@@ -325,7 +325,7 @@
 					</div>
 					<div class="row mb-3">
 						<div class="col-lg-12">
-							<label for="hue-demo">การตั้งครรภ์</label>
+							<label for="hue-demo" class="text-info">การตั้งครรภ์</label>
 							<div class="custom-control custom-checkbox mr-sm-2">
 								<input type="checkbox" class="custom-control-input" id="data3_3chk_pregnant" name="data3_3chk_pregnant" value="y">
 								<label class="custom-control-label" for="data3_3chk_pregnant">ตั้งครรภ์</label>
@@ -348,7 +348,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="form-group row">
-						<label class="col-md-3">อาการป่วย</label>
+						<label class="col-md-3 text-danger">อาการป่วย</label>
 						<div class="col-md-9">
 							<div class="custom-control custom-checkbox mr-sm-2">
 								<input type="checkbox" class="custom-control-input" id="fever_history" name="fever_history" value="y">
@@ -377,7 +377,7 @@
 						</div>
 					</div>
                     <div class="form-group row">
-						<label class="col-md-3 m-t-15">วันที่เริ่มป่วย</label>
+						<label class="col-md-3 m-t-15 text-danger">วันที่เริ่มป่วย</label>
 						<div class="col-md-9">
                             <div class="input-group">
 								<input type="text" class="form-control mydatepicker" placeholder="yyyy-mm-dd" name="data3_1date_sickdate">
@@ -388,7 +388,7 @@
 						</div>
 					</div>
                     <div class="form-group row">
-						<label class="col-md-3 m-t-15">จังหวัดสถานที่รักษา</label>
+						<label class="col-md-3 m-t-15 text-danger">จังหวัดสถานที่รักษา</label>
 						<div class="col-md-9">
                             <select class="select2 form-control custom-select" name="treat_place_province" id="treat_place_province">
 								<option value="">เลือกจังหวัด</option>
@@ -397,7 +397,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-md-3 m-t-15">สถานที่รักษา</label>
+						<label class="col-md-3 m-t-15 text-danger">สถานที่รักษา</label>
 						<div class="col-md-9">
                             <select class="select2 form-control custom-select" name="treat_place_hospital" id="treat_place_hospital">
 								<option value="">เลือกสถานพยาบาล</option>
@@ -407,19 +407,19 @@
 					</div>
 
                     <div class="form-group row">
-						<label class="col-md-3 m-t-15">ที่อยู่ขณะป่วย</label>
+						<label class="col-md-3 m-t-15 text-danger">ที่อยู่ขณะป่วย</label>
 						<div class="col-md-9">
                             <textarea class="form-control" placeholder="บ้านเลขที่/ถนน/ซอย/ตีก/อาคาร/เลขที่ห้องชุด" name="sick_house_no"></textarea>
 						</div>
 					</div>
                     <div class="form-group row">
-						<label class="col-md-3 m-t-15">หมู่ที่</label>
+						<label class="col-md-3 m-t-15 text-danger">หมู่ที่</label>
 						<div class="col-md-9">
                             <input type="text" class="form-control" id="fname" name="sick_village_no" maxlength="2" pattern="[0-9]{1,}">
 						</div>
 					</div>
                     <div class="form-group row">
-						<label class="col-md-3 m-t-15">จังหวัด</label>
+						<label class="col-md-3 m-t-15 text-danger">จังหวัด</label>
 						<div class="col-md-9">
                             <select class="select2 form-control custom-select" name="sick_province"  id="sick_province">
 								<option value="">เลือกจังหวัด</option>
@@ -428,7 +428,7 @@
 						</div>
 					</div>
                     <div class="form-group row">
-						<label class="col-md-3 m-t-15">อำเภอ</label>
+						<label class="col-md-3 m-t-15 text-danger">อำเภอ</label>
 						<div class="col-md-9">
                             <select class="select2 form-control custom-select" name="sick_district"  id="sick_district">
 								<option value="">เลือกอำเภอ</option>
@@ -437,7 +437,7 @@
 						</div>
 					</div>
                     <div class="form-group row">
-						<label class="col-md-3 m-t-15">ตำบล</label>
+						<label class="col-md-3 m-t-15 text-danger">ตำบล</label>
 						<div class="col-md-9">
                             <select class="select2 form-control custom-select" name="sick_sub_district"  id="sick_sub_district">
 								<option value="">เลือกตำบล</option>
@@ -452,7 +452,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="form-group row">
-						<label class="col-md-3">ประวัติเสี่ยง</label>
+						<label class="col-md-3 text-danger">ประวัติเสี่ยง</label>
 						<div class="col-md-9">
 							<div class="custom-control custom-checkbox mr-sm-2">
 								<input type="checkbox" class="custom-control-input" id="risk_stay_outbreak_chk" name="risk_stay_outbreak_chk" value="y">
@@ -477,7 +477,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-md-3 m-t-15">ประเทศที่เดินทาง</label>
+						<label class="col-md-3 m-t-15 text-danger">ประเทศที่เดินทาง</label>
 						<div class="col-md-9">
 							<select class="select2 form-control custom-select" name="risk_stay_outbreak_country"  id="risk_stay_outbreak_country">
 								<option value="">เลือกประเทศ</option>
@@ -486,7 +486,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-md-3 m-t-15">จังหวัด</label>
+						<label class="col-md-3 m-t-15 text-danger">จังหวัด</label>
 						<div class="col-md-9">
 							<select class="select2 form-control custom-select" name="risk_province" id="risk_province">
 								<option value="">เลือกจังหวัด</option>                                                                                                                                                                         
@@ -495,7 +495,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-md-3 m-t-15">อำเภอ</label>
+						<label class="col-md-3 m-t-15 text-danger">อำเภอ</label>
 						<div class="col-md-9">
 							<select class="select2 form-control custom-select" name="risk_district"  id="risk_district">
 								<option value="">เลือกอำเภอ</option>
@@ -504,7 +504,7 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-md-3 m-t-15">ตำบล</label>
+						<label class="col-md-3 m-t-15 text-danger">ตำบล</label>
 						<div class="col-md-9">
 							<select class="select2 form-control custom-select" name="risk_sub_district"  id="risk_sub_district">
 								<option value="">เลือกตำบล</option>
@@ -524,13 +524,13 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="card-body">
-					<label class="card-title">ผลตรวจทางห้องปฏิบัติการ</label>																			
+					<label class="card-title text-success">ผลตรวจทางห้องปฏิบัติการ</label>																			
 					<div class="row mb-3">
 						<div class="col-lg-4">
-							<label class="m-t-15">ผลตรวจทางห้องปฏิบัติการ <span class="badge badge-primary"> ครั้งที่1</span></label>	
+							<label class="m-t-15 text-success">ผลตรวจทางห้องปฏิบัติการ <span class="badge badge-primary"> ครั้งที่1</span></label>	
 						</div>
 						<div class="col-lg-4">
-							<label for="hue-demo">วันที่เก็บตัวอย่าง</label>
+							<label for="hue-demo" class="text-success">วันที่เก็บตัวอย่าง</label>
 							<div class="input-group">
 								<input type="text" class="form-control mydatepicker" placeholder="yyyy-mm-dd" name="lab_sars_cov2_no_1_date">
 								<div class="input-group-append">
@@ -539,7 +539,7 @@
 							</div>
 						</div>
 						<div class="col-lg-4">
-							<label for="hue-demo">ชนิดตัวอย่าง</label>			
+							<label for="hue-demo" class="text-success">ชนิดตัวอย่าง</label>			
 							<select class="select2 form-control custom-select" name="lab_sars_cov2_no_1_specimen">
 								<option value="">เลือกชนิดตัวอย่าง</option>
 								<option value="1">1</option>
@@ -548,14 +548,14 @@
 					</div>
 					<div class="row mb-3">
 						<div class="col-lg-8">
-							<label for="hue-demo">สถานที่ส่งตรวจ</label>	
+							<label for="hue-demo" class="text-success">สถานที่ส่งตรวจ</label>	
 							<select class="select2 form-control custom-select" name="lab_sars_cov2_no_1_lab">
 								<option value="">เลือกสถานที่ตรวจ</option>
 								<option value="1">1</option>
 							</select>
 						</div>
 						<div class="col-lg-4">
-							<label for="hue-demo">วันที่ออกผลการตรวจ</label>	
+							<label for="hue-demo" class="text-success">วันที่ออกผลการตรวจ</label>	
 							<div class="input-group">
 								<input type="text" class="form-control mydatepicker" placeholder="yyyy-mm-dd" name="lab_sars_cov2_no_1_result_date">
 								<div class="input-group-append">
@@ -576,7 +576,7 @@
 				<div class="card-body">
 					<div class="row mb-3">
     					<div class="col-lg-6">
-							<label class="card-title">การคัดกรอง</label>
+							<label class="card-title text-success">การคัดกรอง</label>
     						<select class="select2 form-control custom-select" name="screen_pt">
 								<option value="">เลือกการคัดกรอง</option>
 								<option value="1">สนามบิน</option>
