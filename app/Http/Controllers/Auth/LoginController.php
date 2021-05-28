@@ -66,13 +66,11 @@ class LoginController extends Controller {
 			if (Auth::check()) {
 				$user = Auth::user();
 				$user_permissions = $user->permissions;
-				$db_permissions = Permission::all()->keyBy('id');
-				$db_permissions->each(function($item, $key) use ($user, $user_permissions) {
-					$x = $user_permissions->where('id', $item->id);
-					if ($x->count() > 0) {
-						$user->revokePermissionTo($item->name);
+				if ($user_permissions->count() > 0) {
+					foreach ($user_permissions as $key => $val) {
+						$user->revokePermissionTo($val->name);
 					}
-				});
+				}
 			}
 			Auth::logout();
 			Session::flush();

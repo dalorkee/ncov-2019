@@ -29,17 +29,14 @@ class HomeController extends Controller
 				$user_role = $roleArr[0];
 				Session::put('user_role', $roleArr[0]);
 				$user_permissions = $user->permissions;
-				$db_permissions = Permission::all()->keyBy('id');
-				$db_permissions->each(function($item, $key) use ($user, $user_permissions) {
-					$x = $user_permissions->where('id', $item->id);
-					if ($x->count() > 0) {
-						$user->revokePermissionTo($item->name);
+				if ($user_permissions->count() > 0) {
+					foreach ($user_permissions as $key => $val) {
+						$user->revokePermissionTo($val->name);
 					}
-				});
+				}
 				//\DB::beginTransaction();
 				switch ($user_role) {
 					case "root":
-					/*
 						$user->syncPermissions([
 							'permission-edit',
 							'permission-delete',
@@ -55,21 +52,18 @@ class HomeController extends Controller
 							'user-edit',
 							'user-delete'
 						]);
-						*/
 						return redirect()->route('main');
 						break;
 					case "ddc":
 					case "dpc":
 					case "pho":
 					case "hos":
-					/*
 						$user->syncPermissions([
 							'new-pui-create',
 							'pui-delete',
 							'pui-create',
 							'pui-edit'
 						]);
-						*/
 						return redirect()->route('main');
 						break;
 					case "lab":
